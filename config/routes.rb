@@ -125,7 +125,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :our_resources, only: [:index]
+  resources :learning_paths, concerns: :activities
 
   get 'elearning_materials' => 'materials#index', defaults: { 'resource_type' => 'e-learning' }
 
