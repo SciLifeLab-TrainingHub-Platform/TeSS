@@ -115,17 +115,25 @@ to acquire the desired knowledge and skills on a subject by the end of the pathw
     end
   end
 
+<<<<<<< HEAD
   def keywords_and_topics(resource, limit: nil)
+=======
+  def keywords_and_topics(resource)
+>>>>>>> 081f25f9... Create basic learning path model
     tags = []
 
     [:scientific_topic_names, :operation_names, :keywords].each do |field|
       tags |= resource.send(field) if resource.respond_to?(field)
     end
 
+<<<<<<< HEAD
     tags = tags.first(limit) if limit
 
     tags.map do |tag|
       content_tag(:span, tag, class: 'label label-info')
     end.join(' ').html_safe
+=======
+    tags.join(', ')
+>>>>>>> 081f25f9... Create basic learning path model
   end
 end

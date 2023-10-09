@@ -15,7 +15,10 @@ class LearningPathsController < ApplicationController
   end
 
   def show
+<<<<<<< HEAD
     authorize @learning_path
+=======
+>>>>>>> 081f25f9... Create basic learning path model
     # @bioschemas = @learning_path.to_bioschemas
     respond_to do |format|
       format.html
@@ -99,6 +102,7 @@ class LearningPathsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def learning_path_params
+<<<<<<< HEAD
     params.require(:learning_path).permit(:id, :title, :description, :licence, :doi,
                                           :content_provider_id, :difficulty_level, :status,
                                           :prerequisites, :syllabus, :learning_objectives,
@@ -107,6 +111,15 @@ class LearningPathsController < ApplicationController
                                           { scientific_topic_names: [] }, { scientific_topic_uris: [] },
                                           { node_ids: [] }, { node_names: [] },
                                           { topic_links_attributes: [:id, :topic_id, :order, :_destroy] }, :public)
+=======
+    params.require(:learning_path).permit(:id, :title, :description, :licence,
+                                     :content_provider_id, :difficulty_level, :status,
+                                     :prerequisites, :syllabus, :learning_objectives,
+                                     { contributors: [] }, { authors: [] }, { target_audience: [] },
+                                     { keywords: [] },
+                                     { scientific_topic_names: [] }, { scientific_topic_uris: [] },
+                                     { node_ids: [] }, { node_names: [] })
+>>>>>>> 081f25f9... Create basic learning path model
   end
 
 end

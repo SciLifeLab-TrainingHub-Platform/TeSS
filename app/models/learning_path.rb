@@ -8,7 +8,10 @@ class LearningPath < ApplicationRecord
   include HasFriendlyId
   include HasDifficultyLevel
   include HasSuggestions
+<<<<<<< HEAD
   include Collaboratable
+=======
+>>>>>>> 081f25f9... Create basic learning path model
 
   if TeSS::Config.solr_enabled
     # :nocov:
@@ -43,7 +46,10 @@ class LearningPath < ApplicationRecord
       string :node, multiple: true do
         self.associated_nodes.pluck(:name)
       end
+<<<<<<< HEAD
       boolean :public
+=======
+>>>>>>> 081f25f9... Create basic learning path model
       time :updated_at
       time :created_at
       boolean :failing do
@@ -53,7 +59,10 @@ class LearningPath < ApplicationRecord
         user.username if user
       end
       integer :user_id # Used for shadowbans
+<<<<<<< HEAD
       integer :collaborator_ids, multiple: true
+=======
+>>>>>>> 081f25f9... Create basic learning path model
       string :status do
         MaterialStatusDictionary.instance.lookup_value(self.status, 'title')
       end
@@ -67,6 +76,7 @@ class LearningPath < ApplicationRecord
   # has_ontology_terms(:operations, branch: OBO_EDAM.operations)
 
   has_many :stars,  as: :resource, dependent: :destroy
+<<<<<<< HEAD
   has_many :topic_links, -> { order(:order) }, class_name: 'LearningPathTopicLink', dependent: :destroy
   has_many :topics, through: :topic_links, class_name: 'LearningPathTopic'
   has_many :topics_materials, through: :topics, source: :materials, class_name: 'Material'
@@ -74,13 +84,20 @@ class LearningPath < ApplicationRecord
 
   after_validation :normalize_order
 
+=======
+  auto_strip_attributes :title, :description, squish: false
+
+>>>>>>> 081f25f9... Create basic learning path model
   validates :title, :description, presence: true
 
   clean_array_fields(:keywords, :contributors, :authors, :target_audience)
   update_suggestions(:keywords, :contributors, :authors, :target_audience)
 
+<<<<<<< HEAD
   accepts_nested_attributes_for :topic_links, allow_destroy: true
 
+=======
+>>>>>>> 081f25f9... Create basic learning path model
   def description= desc
     super(Rails::Html::FullSanitizer.new.sanitize(desc))
   end
@@ -99,6 +116,7 @@ class LearningPath < ApplicationRecord
 
     field_list
   end
+<<<<<<< HEAD
 
   def self.visible_by(user)
     if user&.is_admin?
@@ -122,4 +140,6 @@ class LearningPath < ApplicationRecord
       topic.order = (i += 1)
     end
   end
+=======
+>>>>>>> 081f25f9... Create basic learning path model
 end
