@@ -134,6 +134,7 @@ header-container {
   bottom: 0;
 }
 
+//index page
 .welcome-text {
   background-color: $secondary-color;
   margin-top: -53px;
@@ -153,13 +154,13 @@ header-container {
 }
 
 
+// Resources page
 text-boxes-container {
   display: inline-flex;
  // flex-direction: row; /* Horizontal layout */
 }
 
 .text-box {
- // flex: 1; /* Each text box takes equal width */
   padding: 20px; /* Add spacing between text boxes */
   border: 1px solid #ccc; /* Optional: Add borders for separation */
   margin: 5px; /* Optional: Add margin around each text box */
@@ -200,6 +201,52 @@ text-boxes-container {
 .icon-circle img {
   width: 40px; /* Adjust the width of the icon as needed */
   height: 40px; /* Adjust the height of the icon as needed */
+}
+
+// Guides
+.guide-box {
+  border: 1px solid  #4C979F;
+  margin: 5px; /* Add margin around each text box */
+  height: 300px;
+  font-size: 27px;
+  color: black;
+  border-radius: 25px;
+  box-shadow: 0px 0px 10px 0px rgba(#4C979F, 0.5);
+}
+
+#guide-type {
+  position: absolute;
+  bottom: 0;
+  left: 50%; /* Position at the horizontal center */
+  transform: translateX(-50%); /* Center the text horizontally */
+  font-size: 17px;
+}
+
+// Training community
+.community-box {
+  border: 1px solid  #4C979F;
+  margin-left: 80px;
+  margin-right: 80px;
+  height: 200px;
+  font-size: 27px;
+  color: black;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(#4C979F, 0.5);
+}
+
+.community-box img {
+  max-width: 100%;
+  max-height: 100%;
+  position: relative;
+  left: 20px;
+  top: 20px;
+}
+
+.community-box p {
+  position: relative;
+  right: -200px; 
+  top: -130px;
+  
 }
 
 
