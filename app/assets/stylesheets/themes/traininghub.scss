@@ -224,29 +224,13 @@ text-boxes-container {
 
 // Training community
 .community-box {
+  width: 80%;
+  margin: 0 auto; /* Center the box */
+  padding: 20px;
+  margin-top: 20px;
   border: 1px solid  #4C979F;
-  margin-left: 80px;
-  margin-right: 80px;
-  height: 200px;
-  font-size: 27px;
-  color: black;
   border-radius: 5px;
   box-shadow: 0px 0px 10px 0px rgba(#4C979F, 0.5);
-}
-
-.community-box img {
-  max-width: 100%;
-  max-height: 100%;
-  position: relative;
-  left: 20px;
-  top: 20px;
-}
-
-.community-box p {
-  position: relative;
-  right: -200px; 
-  top: -130px;
-  
 }
 
 
