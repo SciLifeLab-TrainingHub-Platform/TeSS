@@ -290,6 +290,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_26_090005) do
     t.string "keywords", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "difficulty_level", default: "notspecified"
   end
 
   create_table "learning_paths", force: :cascade do |t|
