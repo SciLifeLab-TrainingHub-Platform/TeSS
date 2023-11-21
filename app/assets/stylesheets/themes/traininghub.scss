@@ -233,6 +233,36 @@ text-boxes-container {
   box-shadow: 0px 0px 10px 0px rgba(#4C979F, 0.5);
 }
 
+// About page
+.image-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.image-header {
+  font-size: 20px;
+  margin-bottom: 5px;
+  text-align: left;
+  border-bottom: 2px solid black; /* Add a border under the header */
+  padding-bottom: 5px;
+}
+
+.image-text {
+  background-color: #4C979F; /* Background color */
+  padding: 10px;
+  text-align: center;
+
+  h4 {
+    color: black;
+    margin-bottom: 0px;
+  }
+}
+
 
 // Breadcrumb
 $breadcrumb-bg: transparent;
