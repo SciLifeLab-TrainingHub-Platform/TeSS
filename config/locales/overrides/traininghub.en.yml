@@ -562,10 +562,10 @@ en:
       TeSS has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No. <a href="https://cordis.europa.eu/project/rcn/198519_en.html", target="_blank">676559</a>.
   guides:
     webinar:
-      name: 'Asynchronous Webinar Development Guide'
-      type: 'creation guide'
-      image: 'scilifelab/guides/asynchpreview.png'
-      url: 'https://zenodo.org/records/10082795'
+      name: 'Recorded Webinar and Lecture Guides'
+      type: 'guide collection'
+      image: 'scilifelab/guides/TH-asynchguide-image.png'
+      url: 'https://10.17044/scilifelab.24512674'
     LPs:
       name: 'Developing Learning Paths'
       type: 'video presentation'
@@ -587,7 +587,7 @@ en:
       image: 'scilifelab/guides/masteryrubric.png'
       url: 'https://f1000research.com/documents/11-743'
     coursedesign:
-      name: 'Course Design Cosiderations for Trainers'
+      name: 'Course Design Considerations for Trainers'
       type: 'creation guide'
       image: 'scilifelab/guides/masteryrubric.png'
       url: 'https://f1000research.com/documents/9-1377'
