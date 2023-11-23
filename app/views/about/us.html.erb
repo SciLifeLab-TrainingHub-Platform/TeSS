@@ -98,13 +98,73 @@
       <!-- Our funding and research -->
       <div id="funding" class="even-about-block">
         <h3><%== t "us.keys.funding" %></h3>
-        <%== t 'us.funding' %>
+        <p>
+          <br>
+          The Training Hub is committed to best practices in training to support the 
+          continuous upskilling of the life science community in Sweden. We participate 
+          in securing funding and research to support this goal.<br><br>
+          Our funding and research highlights:
+        </p>
+          <%= link_to "https://doi.org/10.1371/journal.pone.0293879", target: "_blank", rel: "noopener noreferrer" do %>
+            <div class="research-box">
+              <div class="row">
+                <!-- Image Section -->
+                <div class="col-md-1">
+                  <%= image_tag(asset_path("scilifelab/shelficon.png"), alt: 'guide', size: '60x80') %>
+                </div>
+                <!-- Text Section -->
+                <div class="col-md-11">
+                  <b>An international consensus on effective, inclusive, and career-spanning short-format training in 
+                    the life sciences and beyond - Co-author Jessica Lindvall.
+                  </b>
+                  <p>PLoS ONE, 2023</p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <%= link_to "https://www.scilifelab.se/news/major-vr-grants-to-scilifelab-for-accessibility-to-infrastructure/", target: "_blank", rel: "noopener noreferrer" do %>
+            <div class="research-box">
+              <div class="row">
+                <!-- Image Section -->
+                <div class="col-md-1">
+                  <%= image_tag(asset_path("scilifelab/trophyicon.png"), alt: 'guide', size: '60x80') %>
+                </div>
+                <!-- Text Section -->
+                <div class="col-md-11">
+                  <b>
+                    VR grant awarded to SciLifeLab Training Hub
+                  </b>
+                  <p>See the press release for details</p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <%= link_to "https://doi.org/10.1371/journal.pone.0225256", target: "_blank", rel: "noopener noreferrer" do %>
+            <div class="research-box">
+              <div class="row">
+                <!-- Image Section -->
+                <div class="col-md-1">
+                  <%= image_tag(asset_path("scilifelab/shelficon.png"), alt: 'guide', size: '60x80') %>
+                </div>
+                <!-- Text Section -->
+                <div class="col-md-11">
+                  <b>The Mastery Rubric for Bioinformatics: A tool to support design and evaluation 
+                    of career-spanning education and training - Co-author Jessica Lindvall.
+                  </b>
+                  <p>PLoS ONE, 2020</p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
       </div>
 
       <!-- Our mission -->
       <div id="mission" class="odd-about-block">
         <h3><%== t "us.keys.mission" %></h3>
-        <%= image_tag(asset_path("scilifelab/BioVis-scaled-cut.jpg"), alt: 'mision', height: '230px') %>
+        <%= image_tag(asset_path("scilifelab/BioVis-scaled-overlay.jpg"), alt: 'mision', height: '230px') %>
         <p>
           <br>
           The Training Hub was established at SciLifeLab in 2023 to support, consolidate, and enable 
@@ -152,7 +212,7 @@
 
             Training Hub Fika - drop in and borrow a training officer's brain (coming 2024)
           </p>
-          <%= image_tag(asset_path("scilifelab/Navet2-scaled-cut.jpg"), alt: 'mision', height: '230px', class: 'image-tag') %>
+          <%= image_tag(asset_path("scilifelab/Navet2-scaled-overlay.jpg"), alt: 'mision', height: '220px', class: 'image-tag') %>
           
         </p>
       </div>
