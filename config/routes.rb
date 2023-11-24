@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   #get 'static/home'
   get 'about' => 'about#us', as: 'about'
   get 'about/registering' => 'about#registering', as: 'registering_resources'
-  get 'about/developers' => 'about#developers', as: 'developers'
+  #get 'about/developers' => 'about#developers', as: 'developers'
   get 'about/us' => 'about#us', as: 'us'
 
   # Add resource page
