@@ -208,7 +208,9 @@
             Subscribe to our 
             <%= link_to "newsletter", "https://forms.gle/d3mHw2TGaQLFxS7c7", target: "_blank", rel: "noopener noreferrer" %>
             <br>
-            Connect with us at traininghub@scilifelab.se<br><br>
+            Connect with us at
+            <%= mail_to(TeSS::Config.contact_email) %>
+            <br><br>
 
             Training Hub Fika - drop in and borrow a training officer's brain (coming 2024)
           </p>

@@ -62,7 +62,9 @@
   <div class="row">
   <br>
     <div class="col-md-12">
-    <p style="text-align: center;">Can't find what you're looking for? Connect with us at training@scilifelab.se</p>
+    <p style="text-align: center;">Can't find what you're looking for? Connect with us at 
+      <%= mail_to(TeSS::Config.contact_email) %>
+    </p>
     </div>
   </div>
 
