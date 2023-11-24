@@ -29,6 +29,8 @@
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <%# User Options -%>
+
+        <!--
         <ul class="user-options nav navbar-nav navbar-right">
           <% if user_signed_in? %>
             <%= render partial: 'layouts/user_menu' %>
@@ -36,13 +38,13 @@
             <%= render partial: 'layouts/login_menu' %>
           <% end %>
         </ul>
+        -->
 
         <%# Menu -%>
         <%
           tabs = [
             { feature: 'about', link: about_path },
             { feature: 'events', link: events_path },
-            { feature: 'materials', link: materials_path },
             { feature: 'elearning_materials', link: elearning_materials_path },
             { feature: 'workflows', link: workflows_path },
             { feature: 'collections', link: collections_path },

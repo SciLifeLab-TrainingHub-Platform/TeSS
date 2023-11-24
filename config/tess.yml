@@ -39,7 +39,7 @@ default: &default
     # The order in which the tabs appear (if feature enabled)
     tab_order: ['home', 'about', 'events', 'material', 'our_resources']
     # The tabs that should be collapsed under the "Directory" tab. Can be left blank to hide it.
-    directory_tabs: [] # ['trainers', 'content_providers', 'nodes']
+    directory_tabs: [events, our_resources] # ['trainers', 'content_providers', 'nodes']
     n_provider_ids: 5
     about_us_tab_order: ['team', 'funding', 'mission', 'involved'] # tab order for about page navbar
   mailer:
@@ -58,7 +58,7 @@ default: &default
     elearning_materials: false
     events: true
     invitation: false
-    materials: true
+    materials: false
     nodes: false
     collections: false
     content_providers: false
