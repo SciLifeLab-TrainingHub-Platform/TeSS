@@ -38,3 +38,6 @@ vendor/bundle
 config/ontologies/*.cache
 
 tess.crontab
+
+# Mac files
+**/.DS_Store
