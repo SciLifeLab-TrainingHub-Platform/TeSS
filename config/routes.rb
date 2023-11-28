@@ -12,11 +12,18 @@ Rails.application.routes.draw do
   get 'edam/operations' => 'edam#operations'
 
   #get 'static/home'
-  get 'about' => 'about#tess', as: 'about'
+  get 'about' => 'about#us', as: 'about'
   get 'about/registering' => 'about#registering', as: 'registering_resources'
   get 'about/learning_paths' => 'about#learning_paths', as: 'registering_learning_paths'
-  get 'about/developers' => 'about#developers', as: 'developers'
+  #get 'about/developers' => 'about#developers', as: 'developers'
   get 'about/us' => 'about#us', as: 'us'
+
+  # Add resource page
+  get 'our_resources' => 'our_resources#our_resources', as: 'our_resources'
+  get 'our_resources/guides' => 'our_resources#guides', as: 'guides'
+  get 'our_resources/pedagogic_support' => 'our_resources#pedagogic_support', as: 'pedagogic'
+  get 'our_resources/trainer_community' => 'our_resources#trainer_community', as: 'community'
+  get 'our_resources/fair_training' => 'our_resources#fair_training', as: 'fair'
 
   get 'privacy' => 'static#privacy', as: 'privacy'
 
@@ -119,6 +126,7 @@ Rails.application.routes.draw do
 
   resources :learning_paths, concerns: %i[collaboratable activities]
   resources :learning_path_topics, concerns: %i[collaboratable activities]
+  resources :our_resources, only: [:index]
 
   resources :communities, only: [:show]
 

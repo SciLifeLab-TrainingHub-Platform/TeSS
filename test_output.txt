@@ -1,0 +1,42 @@
+
+# Running tests with run options --seed 2118:
+
+..................................................................................................2024-09-16T08:07:58.450Z pid=16 tid=5hc INFO: Sidekiq 7.1.4 connecting to Redis with options {:size=>10, :pool_name=>"internal", :url=>"redis://redis:6379/0"}
+....................................................................................................................................................................................................S.................SS.....S....S..........................................................................................................................................................................................................................................F
+Failure:
+DeviseMailerTest#test_mailer_headers_are_applied_to_emails_from_devise [/code/test/integration/devise_mailer_test.rb:15]
+Minitest::Assertion: 1 emails expected, but 0 were sent.
+Expected: 1
+  Actual: 0
+..........................................................................................E
+Error:
+TessDevise::RegistrationsControllerTest#test_should_not_register_user_when_no_consent_given:
+NoMethodError: undefined method `errors' for nil:NilClass
+    test/controllers/tess_devise/registrations_controller_test.rb:68:in `block in <class:RegistrationsControllerTest>'
+.F
+Failure:
+TessDevise::RegistrationsControllerTest#test_should_register_user [/code/test/controllers/tess_devise/registrations_controller_test.rb:13]
+Minitest::Assertion: "User.count" didn't change by 1.
+Expected: 21
+  Actual: 20
+.......................................................................................................................................................................................................................................................................................................................................................................................................................................S...............S......S....S..S...........
+
+Finished tests in 100.401282s, 11.1453 tests/s, 56.3937 assertions/s.
+
+
+Slowest tests:
+
+20.086100s test_includes_valid_Content-Security-Policy_header#HeaderTest
+3.375173s test_can_ingest_events_from_surf#SurfIngestorTest
+2.971367s test_should_show_calendar_events#EventsControllerTest
+2.043693s test_ingest_bioschemas_from_a_sitemap#BioschemasIngestorTest
+1.836607s test_can_ingest_events_from_uu#UuIngestorTest
+1.353766s test_can_ingest_events_from_rug_in_various_timezones#RugIngestorTest
+1.294134s test_can_ingest_events_from_maastricht#MaastrichtIngestorTest
+1.243365s test_should_show_event_counts_in_counter_blocks#StaticControllerTest
+1.213289s test_check_user_has_role_scraper_user#ScraperTest
+1.110334s test_test_willma_scrape#LlmServiceTest
+
+1119 tests, 5662 assertions, 2 failures, 1 errors, 10 skips
+Coverage report generated for Minitest to /code/coverage. 17246 / 18010 LOC (95.76%) covered.
+Lcov style coverage report generated for Minitest to /code/coverage/lcov/code.lcov
