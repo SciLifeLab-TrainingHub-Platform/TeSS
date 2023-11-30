@@ -170,6 +170,10 @@ text-boxes-container {
   background-color: $primary-color;
 }
 
+.text-box-narrow {
+  height: 200px;
+}
+
 .white-box {
   position: absolute;
   bottom: 35px;
@@ -187,6 +191,28 @@ text-boxes-container {
   margin-left: 10px;
 }
 
+.green-box {
+  margin-left: -20px;
+  height: 50px; /* Adjust the height as needed */
+  background-color: #4C979F;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin-bottom: 40px;
+}
+
+.green-box h3 {
+  margin-right: 20px;
+  color: white;
+}
+
+.course-box {
+  text-align: right;
+  margin-left: 20%;
+  margin-right: 10%;
+  margin-top: 4%;
+}
+
 .icon-circle {
   width: 70px; /* Adjust the size of the circle */
   height: 70px; /* Adjust the size of the circle */
@@ -201,6 +227,10 @@ text-boxes-container {
 .icon-circle img {
   width: 40px; /* Adjust the width of the icon as needed */
   height: 40px; /* Adjust the height of the icon as needed */
+}
+
+.purple {
+  background-color: $secondary-color;
 }
 
 // Guides
