@@ -4,12 +4,13 @@ on:
   push: 
     branches:
       - develop
+      - harshita_docker_image
   pull_request:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
+  IMAGE_NAME: ${{ github.repository }}-app
+  NAMESPACE: scilifelab-traininghub-platform
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
@@ -42,7 +43,6 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-
     - name: Build and push Docker image
       uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
       with:
@@ -50,8 +50,6 @@ jobs:
         push: true
         file: ./Dockerfile-dev
         target: development
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: ghcr.io/scilifelab-traininghub-platform/tess-app:dev
         labels: ${{ steps.meta.outputs.labels }}
-  
-  
   
