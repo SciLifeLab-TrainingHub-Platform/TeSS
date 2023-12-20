@@ -43,9 +43,9 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       
-    - name: Get current date
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+    # - name: Get current date
+    #   id: date
+    #   run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
     - name: Build and push Docker image
       uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
@@ -54,6 +54,6 @@ jobs:
         push: true
         file: ./Dockerfile-dev
         target: development
-        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:${{ steps.date.outputs.date }}
+        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:latest
         labels: ${{ steps.meta.outputs.labels }}
   
