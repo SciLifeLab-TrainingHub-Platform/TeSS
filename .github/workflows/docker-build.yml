@@ -4,8 +4,6 @@ on:
   push: 
     branches:
       - develop
-      - harshita_docker_image
-  pull_request:
 
 env:
   REGISTRY: ghcr.io
