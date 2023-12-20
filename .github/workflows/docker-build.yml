@@ -50,6 +50,6 @@ jobs:
         push: true
         file: ./Dockerfile-dev
         target: development
-        tags: ghcr.io/scilifelab-traininghub-platform/tess-app:dev
+        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:$(date +%s)
         labels: ${{ steps.meta.outputs.labels }}
   
