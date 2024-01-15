@@ -56,7 +56,7 @@
             <div class="col-md-3">
               <div class="image-container">
                 <div class="image-header">Head of Training</div>
-                  <%= image_tag(asset_path("scilifelab/staff/Jessica_Lindvall_chair-300x300.jpg"), alt: 'staff') %>
+                  <%= image_tag(asset_path("scilifelab/staff/jessica-resize.png"), alt: 'staff') %>
                   <div class="image-text">
                     <h4>Jessica Lindvall</h4><br>
                     jessica.lindvall@scilifelab.se<br>
@@ -81,7 +81,7 @@
             <!-- Systems Developer -->
             <div class="col-md-3">
               <div class="image-container">
-                <div class="image-header">Systems Developer</div>
+                <div class="image-header">System Developer</div>
                   <%= image_tag(asset_path("scilifelab/staff/harshita-resize.png"), alt: 'staff') %>
                   <div class="image-text">
                     <h4>Harshita Gupta</h4><br>
@@ -94,41 +94,41 @@
           </div>
           <div class="row">
             <!-- Training Officers -->
-            <div class="col-md-12">
-              <div class="image-header">Scientific Training Officers</div>
-            </div>
             <div class="col-md-3">
               <div class="image-container">
-                <%= image_tag(asset_path("scilifelab/staff/cat-resize.png"), alt: 'staff') %>
-                <div class="image-text">
-                  <h4>Cat Halthur</h4> <br>
-                  cat.halthur@scilifelab.se<br>
-                  Stockholm University <br>
-                  SciLifeLab Lund
-                </div>
+                <div class="image-header">Scientific Training Officer</div>
+                  <%= image_tag(asset_path("scilifelab/staff/cat-resize.png"), alt: 'staff') %>
+                  <div class="image-text">
+                    <h4>Cat Halthur</h4> <br>
+                    cat.halthur@scilifelab.se<br>
+                    Stockholm University <br>
+                    SciLifeLab Lund
+                  </div>
               </div>
             </div>
             <!-- Image 2 -->
             <div class="col-md-3">
               <div class="image-container">
-                <%= image_tag(asset_path("scilifelab/staff/kristen-resize.png"), alt: 'staff') %>
-                <div class="image-text">
-                  <h4>Kristen Schroeder</h4> <br>
-                  kristen.schroeder@scilifelab.se<br>
-                  Stockholm University <br>
-                  SciLifeLab Solna
-                </div>
+                <div class="image-header">Scientific Training Officer</div>
+                  <%= image_tag(asset_path("scilifelab/staff/kristen-resize.png"), alt: 'staff') %>
+                  <div class="image-text">
+                    <h4>Kristen Schroeder</h4> <br>
+                    kristen.schroeder@scilifelab.se<br>
+                    Stockholm University <br>
+                    SciLifeLab Solna
+                  </div>
               </div>
             </div>
             <!-- Image 3 -->
             <div class="col-md-3">
               <div class="image-container">
-                <%= image_tag(asset_path("scilifelab/staff/jill-resize.png"), alt: 'staff') %>
-                <div class="image-text">
-                  <h4>Jill Jaworski</h4> <br>
-                  jillian.jaworski@scilifelab.se<br>
-                  Stockholm University <br>
-                  SciLifeLab Lund
+                <div class="image-header">Scientific Training Officer</div>
+                  <%= image_tag(asset_path("scilifelab/staff/jill-resize.png"), alt: 'staff') %>
+                  <div class="image-text">
+                    <h4>Jill Jaworski</h4> <br>
+                    jillian.jaworski@scilifelab.se<br>
+                    Stockholm University <br>
+                    SciLifeLab Lund
                 </div>
               </div>
             </div>
@@ -141,10 +141,10 @@
         <h3><%== t "us.keys.funding" %></h3>
         <p>
           <br>
-          The Training Hub is committed to best practices in training to support the 
-          continuous upskilling of the life science community in Sweden. We participate 
-          in securing funding and research to support this goal.<br><br>
-          Our funding and research highlights:
+          The Training Hub is committed to best practices in training to support the continuous 
+          upskilling of the life science community in Sweden. We participate in securing funding, 
+          publishing papers,  and contributing in science that  supports this goal.<br><br>
+          Highlights of our work:
         </p>
           <%= link_to "https://doi.org/10.1371/journal.pone.0293879", target: "_blank", rel: "noopener noreferrer" do %>
             <div class="research-box">
@@ -164,19 +164,20 @@
             </div>
           <% end %>
 
-          <%= link_to "https://www.scilifelab.se/news/major-vr-grants-to-scilifelab-for-accessibility-to-infrastructure/", target: "_blank", rel: "noopener noreferrer" do %>
+          <%= link_to "https://www.ntnu.edu/documents/1308247420/0/CDIO+2023+Proceedings.pdf#page=484", target: "_blank", rel: "noopener noreferrer" do %>
             <div class="research-box">
               <div class="row">
                 <!-- Image Section -->
                 <div class="col-md-1">
-                  <%= image_tag(asset_path("scilifelab/trophyicon.png"), alt: 'guide', size: '60x80') %>
+                  <%= image_tag(asset_path("scilifelab/shelficon.png"), alt: 'guide', size: '60x80') %>
                 </div>
                 <!-- Text Section -->
                 <div class="col-md-11">
                   <b>
-                    VR grant awarded to SciLifeLab Training Hub
+                    Python in a week — Conceptual tests for learning and course development
+                    - Co-author Nina Norgren.
                   </b>
-                  <p>See the press release for details</p>
+                  <p>Proceedings of the 19th International CDIO Conference, Trondheim, Norway, 2023</p>
                 </div>
               </div>
             </div>
@@ -199,6 +200,13 @@
               </div>
             </div>
           <% end %>
+
+          <br>
+          <p>
+            Work at the Training Hub is enabled by support from SciLifeLab, the SciLifeLab & 
+            Wallenberg National Program for Data-Driven Life Science (DDLS program), and 
+            Vetenskapsrådet (grant 2022-06051).
+          </p>
 
       </div>
 
