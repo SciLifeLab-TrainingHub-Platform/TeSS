@@ -9,18 +9,15 @@
   <div id="content">
     <h2><%=t("features.events.long")%></h2>
     <% content_for :buttons do %>
-      <!-- Subscribe button -->
-      <% if TeSS::Config.feature['subscription'] %>
-        <%= render partial: 'subscriptions/subscribe_button', locals: { type: Event.name } %>
-      <% end %>
-      <!-- Register button -->
+      <!-- Register button
       <%= link_to new_event_path, class: 'btn btn-primary' do %>
         <%= t('register.buttons.events') %>
       <% end %>
-      <!-- Info -->
+       Info 
       <%= info_button("What are events in #{TeSS::Config.site['title_short']}?", hide_text: true) do %>
         <%= render_markdown(events_info) %>
       <% end %>
+      -->
     <% end %>
     <% content_for :display_options do %>
       <ul class="nav nav-xs nav-pills index-display-options">
