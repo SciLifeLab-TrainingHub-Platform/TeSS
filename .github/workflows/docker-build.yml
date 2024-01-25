@@ -4,6 +4,7 @@ on:
   push: 
     branches:
       - develop
+      - harshita_latestcodetest
 
 env:
   REGISTRY: ghcr.io
