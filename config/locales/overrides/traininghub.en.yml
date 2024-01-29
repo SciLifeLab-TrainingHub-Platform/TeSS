@@ -332,22 +332,30 @@ en:
             <li><strong>RSS feed</strong> - View new events in an RSS reader.</li>
           </ul>
   privacy:
+    information: |
+      SciLifeLab operates the SciLifeLab Training Portal at training.scilifelab.se, which provides the <b>Service</b>.<br><br>
+      This page is used to inform website visitors regarding our personal data processing policy. If you choose to use our <b>Service</b>, then your personal data will be processed in accordance with this policy.<br><br>
+      The personal information that we collect is used for providing and improving the <b>Service</b>. We will not use or share your information with anyone except as described in this policy. All collected personal information will be processed for research purposes, i.e. using the lawful basis of public interest and in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016, the General Data Protection Regulation.
     registration: |
-      <p>When you register with TeSS we ask for a username, password and email address.</p>
+      <p>When you register with the <b>Service</b> we ask for a username, password and email address.</p>
       <ul>
       <li>Your username is used for authentication and attribution. This information is publicly visible, e.g. when a user views a resource you have created.</li>
       <li>Your password is stored as a cryptographically-secure hash and is not publicly visible.</li>
       <li>Your email address is used to confirm your identity and for use when requesting your password to be reset. This email address is not publicly visible, but you may specify an additional public email address (see below).</li>
       </ul>
-    personal: "You may additionally provide a profile, containing your name, a public email address, website link and avatar. This information is publicly available to all users."
-    resources: "The details of any training materials and events that you register will be publicly visible and searchable. Any workflows and packages created can be opted to be made private, in which case only you, any collaborators you specify, and the TeSS administrators will be able to view and search for them."
-    server: "When you browse TeSS, the server automatically records logs of which pages you access, when you accessed them, and your IP address. These logs are used to fix errors and are not shared with any third parties. Sensitive information (such as passwords) is automatically stripped out."
-    cookies: TeSS makes use of "strictly necessary cookies" for the site to function. These cookies are needed to establish your "session" with TeSS, which allows functionality such as user log-in, and secures against Cross Site Request Forgery (CSRF) attacks.
-    analytics: "TeSS uses Google Analytics to track how users are discovering TeSS and interacting with the service. The information gathered includes which pages you visited, which search terms lead you to TeSS and information about your web browser. No personally identifiable information is sent to Google."
-    retention: "Your information will be retained by TeSS until you choose to remove it, you delete your account, or the TeSS service ceases to exist."
-    code: "TeSS adheres to the <a href='https://wiki.refeds.org/display/CODE/Code+of+Conduct+for+Service+Providers'> GÉANT Data Protection Code of Conduct for Service Providers in EU/EEA </a>"
-    controller: "The data controller for TeSS is The University of Manchester."
-    post: "<strong>The TeSS Team</strong><br/>Room 1.17 c/o School of Computer Science,<br/>Kilburn Building,<br/>Oxford Road,<br/>Manchester,<br/>M13 9PL"
+    personal: |
+      You may additionally provide a profile, containing your name, a public email address, website link and avatar. This information is publicly available to all users.<br><br>
+      The following parties will have access to processing the personal data provided through the website: SciLifeLab Data Centre, Uppsala University, Kungliga Tekniska högskolan (KTH), Stockholm University, Umeå University. 
+    resources: "The details of any training materials and events that you register will be publicly visible and searchable. Any workflows and packages created can be opted to be made private, in which case only you, any collaborators you specify, and the <b>Service</b> administrators will be able to view and search for them."
+    server: "When you browse the <b>Service</b>, the server automatically records logs of which pages you access, when you accessed them, and your IP address. These logs are used to fix errors and are not shared with any third parties. Sensitive information (such as passwords) is automatically stripped out."
+    cookies: The <b>Service</b> makes use of "strictly necessary cookies" for the site to function. These cookies are needed to establish your "session" with the <b>Service</b>, which allows functionality such as user log-in, and secures against Cross Site Request Forgery (CSRF) attacks.
+    analytics: "TeSS uses Google Analytics to track how users are discovering the portal and interacting with the <b>Service</b>. The information gathered includes which pages you visited, which search terms lead you to the <b>Service</b> and information about your web browser. No personally identifiable information is sent to Google."
+    retention: "Your information will be retained by the <b>Service</b> until you choose to remove it, you delete your account, the <b>Service</b> ceases to exist, or when stipulated by the archival rules for the university as a government authority. If you want to update or remove your personal data, please contact SciLifeLab Training Hub at Stockholm University using traininghub@scilifelab.se."
+    code: ""
+    controller: ""
+    post: ""
+    sites: "Our <b>Service</b> may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the privacy policy of these websites. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party sites or services."
+    changes: "We may update our privacy policy from time to time. Thus, we advise you to review this page periodically for any changes. We will notify you of any changes by posting the new privacy policy on this page. These changes posted on this page are effective immediately."
   providers:
     info: >
       Content providers are entities (such as academic institutions, non-profit organisations, portals etc.) that
