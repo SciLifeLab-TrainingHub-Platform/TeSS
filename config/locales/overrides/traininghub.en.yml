@@ -531,33 +531,33 @@ en:
     eu_funding: >
       TeSS has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No. <a href="https://cordis.europa.eu/project/rcn/198519_en.html", target="_blank">676559</a>.
   guides:
+    videoproduction:
+      name: 'Video Training Production Guides'
+      type: 'resource collection'
+      image: 'scilifelab/guides/TH-videoguide-image.png'
+      url: 'https://doi.org/10.17044/scilifelab.24599835'
     webinar:
       name: 'Recorded Webinar and Lecture Guides'
-      type: 'guide collection'
-      image: 'scilifelab/guides/TH-asynchguide-image.png'
-      url: 'https://doi.org/10.17044/scilifelab.24512674.v1'
+      type: 'resource collection'
+      image: 'scilifelab/guides/TH-asynchguide-image-update.png'
+      url: 'https://doi.org/10.17044/scilifelab.24512674'
+    rubric:
+      name: 'Mastery Rubric for Bioinformatics'
+      type: 'training framework'
+      image: 'scilifelab/guides/masteryrubric.png'
+      url: 'https://f1000research.com/documents/11-743'
+    coursedesign:
+      name: 'Course Design Considerations'
+      type: 'creation guide'
+      image: 'scilifelab/guides/masteryrubric.png'
+      url: 'https://f1000research.com/documents/9-1377'
     LPs:
       name: 'Developing Learning Paths'
       type: 'video presentation'
       image: 'scilifelab/guides/learningpaths.png'
       url: 'https://zenodo.org/records/10082795'
-    videoproduction:
-      name: 'Manual for Producing Video Training'
-      type: 'technical guide'
-      image: 'scilifelab/guides/asynchpreview.png'
-      url: 'https://zenodo.org/records/10082795'
     bicycle:
       name: 'Bicycle Principles for Short Form Training'
       type: 'training framework'
-      image: 'scilifelab/guides/bike-graphic.png'
+      image: 'scilifelab/guides/bicycle-graphic.png'
       url: 'https://www.bikeprinciples.org/'
-    rubric:
-      name: 'Mastery Rubric for Bioinformatics Training'
-      type: 'training framework'
-      image: 'scilifelab/guides/masteryrubric.png'
-      url: 'https://f1000research.com/documents/11-743'
-    coursedesign:
-      name: 'Course Design Considerations for Trainers'
-      type: 'creation guide'
-      image: 'scilifelab/guides/masteryrubric.png'
-      url: 'https://f1000research.com/documents/9-1377'
