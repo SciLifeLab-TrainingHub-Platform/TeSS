@@ -19,7 +19,7 @@ default: &default
     title: 'SciLifeLab Training Portal'
     title_short: SciLifeLab Training
     favicon: scilifelab/SciLifeLab_symbol_green.png
-    logo: scilifelab/SciLifeLab_symbol_NEG.png
+    logo: scilifelab/SciLifeLab_Logotype_NEG.png
     logo_alt: 'Training Hub Portal'
     logo_open_graph: ''
     logo_email: ''
