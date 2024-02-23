@@ -4,6 +4,7 @@ on:
   push: 
     branches:
       - develop
+      - harshita_changeImage
 
 env:
   REGISTRY: ghcr.io
@@ -52,6 +53,6 @@ jobs:
         push: true
         file: ./Dockerfile-dev
         target: development
-        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:latest
+        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:v1
         labels: ${{ steps.meta.outputs.labels }}
   
