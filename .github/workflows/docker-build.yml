@@ -4,6 +4,7 @@ on:
   push: 
     branches:
       - develop
+      
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-app
@@ -50,7 +51,7 @@ jobs:
         context: .
         push: true
         file: ./Dockerfile-dev
-        target: production
-        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:test
+        target: development
+        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:v1
         labels: ${{ steps.meta.outputs.labels }}
   
