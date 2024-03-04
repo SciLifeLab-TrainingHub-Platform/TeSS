@@ -1,104 +1,112 @@
 <div class="container mt-4">
-  <h3 style="text-align: Left;"> <%= image_tag(asset_path("scilifelab/supporticon-black.png"), alt: "community", size: "50x50") %> Pedagogic support</h3>
+  <h3 style="text-align: Left;"> <%= image_tag(asset_path("scilifelab/supporticon-black.png"), alt: "community", height: '50px') %> Support</h3>
   <br>
   <p>
-    The SciLifeLab Training Hub provides assistance in training co-creation and delivery to ensure 
+    The SciLifeLab Training Hub provides support in training co-creation and delivery to ensure 
     knowledge transfer at SciLifeLab is engaging, effective, Open and FAIR, and creates 
-    sustainable and  lasting learning.
+    sustainable and lasting learning.
   </p>
-  <p>
-    Connect with us if you are planning a course, looking to upskill your user or stakeholder 
-    groups, interested in partnerships or external collaboration! We can assist with the following:
-  </p>
-  <br>
 </div>
 
 <div class="container">
+<div class="row">
+<div class="col-md-8">
+<br>
+<h4 style="text-align: Center;">
+The Training Life Cycle
+</h4>
+<div class="special-box d-flex flex-column p-3">
+<div class="p-2 border align-self-start">
+
+<%= image_tag(asset_path("scilifelab/trainingcycle.png"), alt: 'training cycle', width: '600px') %>
+</div>
+</div>
+</div>
+<div class="col-md-4">
   <br>
-  <div class="col-md-4 mb-5">
-    <div class="support-box text-center d-flex flex-column p-3">
-      <%= image_tag(asset_path("scilifelab/magnifyingglass.png"), alt: 'icon', height: '40px') %>
-      <h5 style="color:black;">
-        Needs assessment & training program development
-      </h5>
-      <p style="font-size:15px;">
-        We offer assessments for determining skills gaps and help develop 
-        training programs that enable team science.
-      </p>
-    </div>
-  </div>
-
-  <div class="col-md-4 mb-5">
-    <div class="support-box text-center d-flex flex-column p-3">
-      <%= image_tag(asset_path("scilifelab/learning.png"), alt: 'icon', height: '40px') %>
-      <h5 style="color:black;">
-        Career development & lifelong learning initiatives
-      </h5>
-      <p style="font-size:15px;">
-        We can co-create skills workshops  and learning paths so  you and  your 
-        team stay competitive with the pace of technology- and data-driven life science.
-      </p>
-    </div>
-  </div>
-
-  <div class="col-md-4 mb-5">
-    <div class="support-box text-center d-flex flex-column p-3">
-      <%= image_tag(asset_path("scilifelab/lightbulb.png"), alt: 'icon', height: '40px') %>
-      <h5 style="color:black;">
-        Engagement & catalytic learning
-      </h5>
-      <p style="font-size:15px;">
-        We offer strategies for ensuring your knowledge is getting across to your 
-        learners and igniting further exploration, tailored around your expertise.
-      </p>
-    </div>
-  </div>
-
-  <div class="col-md-4 mb-5">
-    <div class="support-box text-center d-flex flex-column p-3">
-      <%= image_tag(asset_path("scilifelab/bestpractice.png"), alt: 'icon', height: '40px') %>
-      <h5 style="color:black;">
-        Pedagogic best practices
-      </h5>
-      <p style="font-size:15px;">
-        We advise on  frameworks and best practices that are supported by 
-        current research from  the field of teaching. 
-      </p>
-    </div>
-  </div>
-
-  <div class="col-md-4 mb-5">
+<h4 style="text-align: Center;">Support areas:</h4>
+  <div class="col-md-12 mb-2">
     <div class="support-box text-center d-flex flex-column p-3">
       <%= image_tag(asset_path("scilifelab/collaboration.png"), alt: 'icon', height: '40px') %>
       <h5 style="color:black;">
-        Collaborative learning & learning culture
+        Sustainable national delivery
       </h5>
       <p style="font-size:15px;">
-        We provide advice and training for creating a culture of learning and 
-        collaboration  in your team or organization.
+        We offer assistance with digitizing your current training offering and helping your existing material grow to reach life science professionals across Sweden - sustainably.
+
       </p>
     </div>
   </div>
 
-  <div class="col-md-4 mb-5">
+  <div class="col-md-12 mb-2">
+    <div class="support-box text-center d-flex flex-column p-3">
+      <%= image_tag(asset_path("scilifelab/learning.png"), alt: 'icon', height: '40px') %>
+      <h5 style="color:black;">
+        Training development
+      </h5>
+      <p style="font-size:15px;">
+        We offer support in the entire training life cycle to effectively ensure your team, users, or students stay competitive with the pace of technology- and data-driven life science.<br>
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-12 mb-2">
     <div class="support-box text-center d-flex flex-column p-3">
       <%= image_tag(asset_path("scilifelab/tools.png"), alt: 'icon', height: '40px') %>
       <h5 style="color:black;">
         Tools & technical support
       </h5>
       <p style="font-size:15px;">
-        Access to our suite of educational tools, platforms, and technology 
-        for setting up and delivering training.
+        We can support your access to our suite of educational tools, platforms, and technology for setting up and delivering training.<br><br>
       </p>
     </div>
   </div>
+</div>
+</div>
 
   <div class="row text-center">
     <br>
-    <p>Need help? Have an idea? Connect at <%= mail_to(TeSS::Config.contact_email) %>
+    <h5>Need support? <br>Have an idea but not sure where to start? <br> Book a consultation with us below to discuss training - from upskilling user groups to course evaluations:
+    </h5>
+<br>
+<!-- Cal inline embed code begins -->
+<center><div style="width:75%;height:50%;overflow:scroll" id="my-cal-inline"></div>
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init",  {origin:"https://cal.com"});
+
+  Cal("inline", {
+	elementOrSelector:"#my-cal-inline",
+	calLink: "scilifelab-traininghub/support-consult",
+	layout: "month_view"
+  });
+
+  Cal("ui", {"theme":"light","styles":{"branding":{"brandColor":"#a7c947"}},"hideEventTypeDetails":false,"layout":"month_view"});
+  </script><center>
+  <!-- Cal inline embed code ends -->
     </p>
   </div>
 
-</div>
+<h4 style="text-align: Center;">
+Frequently Asked Questions: 
+</h4>
+<div class="row">
+<div class="col-md-12 mb-2">
+<button data-toggle="collapse" data-target="#FAQ1" type="button" class="btn btn-primary btn-block">How many support hours can I ask for?</button>
 
+<div id="FAQ1" class="collapse">
+<p>You can ask for a Goldilocks amount of support hours. Not too few, not too many. Just right!</p>
+</div></div>
+<br>
+<div class="col-md-12 mb-2">
+<button data-toggle="collapse" data-target="#FAQ2" type="button" class="btn btn-primary btn-block">Can I apply for support if I am not affiliated with SciLifeLab?</button>
+
+<div id="FAQ2" class="collapse">
+<p>You can, but we will say no.</p>
+</div></div>
+
+
+</div>
+</div>
+</div>
 
