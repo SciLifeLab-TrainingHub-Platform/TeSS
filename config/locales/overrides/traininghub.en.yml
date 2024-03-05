@@ -504,7 +504,7 @@ en:
       bad_source_save: 'Source save failed with: %{error_message}'
       not_source_enabled: 'Source not enabled.'
   cookies:
-    notice: TeSS makes use of some necessary cookies to provide its core functionality.
+    notice: SciLifeLab Training Portal makes use of some necessary cookies to provide its core functionality.
     google_analytics: Additionally, we make use of Google Analytics to discover how people are using TeSS in order to help us improve the service. To opt out of this, choose the "Allow necessary cookies" option.
     necessary_cookies_btn: Only allow necessary cookies
     all_cookies_btn: Allow all cookies
