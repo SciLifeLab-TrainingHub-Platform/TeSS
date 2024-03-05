@@ -58,10 +58,10 @@ default: &default
     elearning_materials: false
     events: true
     invitation: false
-    materials: false
+    materials: true
     nodes: false
     collections: false
-    content_providers: false
+    content_providers: true
     subscription: false
     registration: true
     trainers: false
