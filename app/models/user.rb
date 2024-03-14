@@ -320,7 +320,8 @@ class User < ApplicationRecord
     if image.present?
       image.url(**image_params)
     else
-      gravatar_url(**gravatar_params)
+      # gravatar_url(**gravatar_params)
+      ActionController::Base.helpers.asset_path('scilifelab/SciLifeLab_symbol_NEG.png')
     end
   end
 
