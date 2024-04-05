@@ -363,6 +363,28 @@ text-boxes-container {
   }
 }
 
+// Materials
+.materials-purple {
+  background-color: #FFFFFF;
+  h3 {
+    color: $secondary-color;
+  }
+  h2 {
+    color: $secondary-color;
+  }
+  h4 {
+    color: $secondary-color;
+  }
+}
+.materials-infobox {
+    background-color: $secondary-color;
+    color: white;
+  
+    a {
+      color: white;
+    }
+  }
+
 // Breadcrumb
 $breadcrumb-bg: transparent;
 $breadcrumb-separator: "/";

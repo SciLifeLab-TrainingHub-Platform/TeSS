@@ -1,3 +1,9 @@
+<div class="row materials-infobox p-3">
+   Materials are self-paced training - websites, tutorials, and exercises with added description and metadata. 
+   This section is ideal for supplemental or preliminary training for target audiences, for example user training for gaining access 
+   to a system, or introduction to standards for registering medical devices in Sweden. 
+</div>
+<div class="container-fluid materials-purple">
 <div class="wrapper">
   <% if TeSS::Config.solr_enabled %>
     <div id="sidebar" class="popout-sidebar">
@@ -7,11 +13,11 @@
   <% end %>
 
   <div id="content">
-    <h2><%=t("features.materials.long")%></h2>
+    <h2 class="text-secondary"><%=t("features.materials.long")%></h2>
 
     <% content_for :buttons do %>
       <!-- Register button -->
-      <%= link_to new_material_path, class: 'btn btn-primary' do %>
+      <%= link_to new_material_path, class: 'btn btn-secondary' do %>
         Register training material
       <% end %>
       <!-- Info -->
@@ -28,4 +34,5 @@
 
     <%= render partial: 'search/common/pagination_bar', locals: { resources: @materials } %>
   </div>
+</div>
 </div>
