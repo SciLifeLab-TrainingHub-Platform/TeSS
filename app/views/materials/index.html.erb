@@ -3,7 +3,8 @@
    This section is ideal for supplemental or preliminary training for target audiences, for example user training for gaining access 
    to a system, or introduction to standards for registering medical devices in Sweden. 
 </div>
-<div class="container-fluid materials-purple">
+<div class="row materials-purple">
+<div class="container-fluid">
 <div class="wrapper">
   <% if TeSS::Config.solr_enabled %>
     <div id="sidebar" class="popout-sidebar">
@@ -30,9 +31,10 @@
                                                                 resource_type: Material,
                                                                 show_subscription_button: true } %>
 
-    <%= render partial: 'common/masonry_grid', locals: { objects: @materials } %>
+    <%= render partial: 'common/masonry_grid_mat', locals: { objects: @materials } %>
 
     <%= render partial: 'search/common/pagination_bar', locals: { resources: @materials } %>
   </div>
+</div>
 </div>
 </div>

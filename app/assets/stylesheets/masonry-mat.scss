@@ -1,5 +1,5 @@
 // ######## Media-bricks modified from CKAN
-.media-grid {
+.media-grid-mat {
   margin: 0 0 15px 0;
   list-style: none;
   *zoom: 1;
@@ -7,18 +7,18 @@
   padding-left: 0;
 }
 
-.media-grid:before,
-.media-grid:after {
+.media-grid-mat:before,
+.media-grid-mat:after {
   display: table;
   content: "";
   line-height: 0;
 }
 
-.media-grid:after {
+.media-grid-mat:after {
   clear: both;
 }
 
-.media-item {
+.media-item-mat {
   position: relative;
   float: left;
   min-width: 150px;
@@ -34,21 +34,22 @@
   }
 
   background-color: white;
+  border-radius: 8px;
 }
 
-.media-item.long {
+.media-item-mat.long {
   width: 100%;
 }
 
-.media-item span.count {
+.media-item-mat span.count {
   color: #999;
 }
 
-.media-item .media-image {
+.media-item-mat .media-image {
   margin-bottom: 5px;
 }
 
-.media-item .media-edit {
+.media-item-mat .media-edit {
   opacity: 0;
   position: absolute;
   right: 15px;
@@ -59,17 +60,17 @@
   transition: opacity 0.2s ease-in;
 }
 
-.media-item:hover {
+.media-item-mat:hover {
   z-index: 1;
 }
 
-.media-item:hover .media-edit {
+.media-item-mat:hover .media-edit {
   opacity: 1;
 }
 
-.link-overlay {
+.link-overlay-mat {
   text-decoration: none;
-  color: $gray-darker;
+  color: palevioletred;
   @include floating-card;
   border-radius: 8px;
   padding: $item-padding-base;
@@ -78,9 +79,9 @@
 
   &:hover, &:focus {
     text-decoration: none;
-    color: $gray-darker;
-    background-color: #c0d6d8;
-    border: 1px solid #c0d6d8;
+    color: #a7c947;
+    background-color: #a7c947;
+    border: 1px solid #a7c947;
     box-shadow: none;
   }
 
@@ -126,12 +127,12 @@
   }
 }
 
-li.media-item {
+li.media-item-mat {
   list-style-type: none;
 }
 
-.masonry-brick {
-  .masonry-brick-heading {
+.masonry-brick-mat {
+  .masonry-brick-heading-mat {
     display: block;
     padding: 5px 0;
     font-weight: 700;
