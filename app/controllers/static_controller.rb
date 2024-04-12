@@ -26,6 +26,14 @@ class StaticController < ApplicationController
     @container_class = 'showcase-container container-fluid'
   end
 
+    @events = set_upcoming_events
+    @materials = set_latest_materials
+  end
+
+  def showcase
+    @container_class = 'showcase-container container-fluid'
+  end
+
   def set_upcoming_events
     n_events = TeSS::Config.site.dig('home_page', 'upcoming_events')
     return [] unless n_events
@@ -37,11 +45,6 @@ class StaticController < ApplicationController
       sort_by: 'early',
       per_page: n_events
     ).results
-    @materials = set_latest_materials
-  end
-
-  def showcase
-    @container_class = 'showcase-container container-fluid'
   end
 
   def set_latest_materials
