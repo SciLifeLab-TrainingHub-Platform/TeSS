@@ -72,11 +72,6 @@ class StaticController < ApplicationController
       sort_by: 'early',
       per_page: n_events
     ).results
-    @materials = set_latest_materials
-  end
-
-  def showcase
-    @container_class = 'showcase-container container-fluid'
   end
 
   def set_latest_materials
