@@ -1,8 +1,8 @@
-<li class="masonry-brick media-item long">
-  <%= link_to material, class: 'link-overlay' do %>
+<li class="masonry-brick-mat media-item-mat long">
+  <%= link_to material, class: 'link-overlay-mat' do %>
     <%= item_order_badge(collection_item) if defined? collection_item %>
 
-    <div class="masonry-brick-heading">
+    <div class="masonry-brick-heading-mat">
       <div class="masonry-icons">
         <% if current_user&.is_admin? %>
           <%= missing_icon(material) %>
