@@ -19,6 +19,7 @@ class StaticController < ApplicationController
     end
 
     @resources = @resources.sort_by(&:created_at).reverse
+<<<<<<< HEAD
 
     @content_providers = set_content_providers
     @featured_trainer = set_featured_trainer
@@ -26,16 +27,28 @@ class StaticController < ApplicationController
     @materials = set_latest_materials
     @count_strings = set_count_strings
   end
+=======
+>>>>>>> 2eb80b81... Merging elixir updates from TeSS (#51)
 
-  def showcase
-    @container_class = 'showcase-container container-fluid'
-  end
+    @events = []
+    n_events = TeSS::Config.site.dig('home_page', 'upcoming_events')
+    return unless n_events
 
+<<<<<<< HEAD
   def set_featured_trainer
     return nil unless TeSS::Config.site.dig('home_page', 'featured_trainer')
 
     srand(Date.today.beginning_of_day.to_i)
     Trainer.order(:id).sample(1)
+=======
+    @events += Event.search_and_filter(
+      nil,
+      '',
+      { 'start' => "#{Date.tomorrow.beginning_of_day}/" },
+      sort_by: 'early',
+      per_page: n_events
+    ).results
+>>>>>>> 2eb80b81... Merging elixir updates from TeSS (#51)
   end
 
   def set_content_providers

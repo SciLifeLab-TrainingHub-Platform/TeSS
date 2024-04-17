@@ -229,6 +229,7 @@ class StaticControllerTest < ActionController::TestCase
       end
     end
   end
+<<<<<<< HEAD
 
   test 'should show latest materials' do
     my_materials = [materials(:good_material), materials(:interpro)]
@@ -281,4 +282,6 @@ class StaticControllerTest < ActionController::TestCase
       assert_select 'section#content_providers_grid li.provider-grid-tile', count: 2
     end
   end
+=======
+>>>>>>> 2eb80b81... Merging elixir updates from TeSS (#51)
 end

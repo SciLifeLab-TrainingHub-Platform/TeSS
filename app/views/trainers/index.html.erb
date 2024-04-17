@@ -10,7 +10,11 @@
     <h2><%=t("features.trainers.long")%></h2>
     <% content_for :buttons do %>
       <!-- Register button -->
+<<<<<<< HEAD
       <%= edit_button(current_user, text: t('register.buttons.trainers'), anchor: 'trainer_details') if current_user && policy(current_user).update? && TeSS::Config.feature['trainers'] %>
+=======
+      <%= edit_button(current_user, text: 'Register as trainer') if current_user && policy(current_user).update? %>
+>>>>>>> 2eb80b81... Merging elixir updates from TeSS (#51)
       <!-- Info -->
       <%= info_button("What are trainers in #{TeSS::Config.site['title_short']}?", hide_text: true) do %>
         <%= render_markdown(TrainersHelper::TRAINERS_INFO) %>
