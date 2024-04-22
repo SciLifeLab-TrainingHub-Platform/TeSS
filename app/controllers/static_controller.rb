@@ -19,7 +19,6 @@ class StaticController < ApplicationController
     end
 
     @resources = @resources.sort_by(&:created_at).reverse
-<<<<<<< HEAD
 
     @content_providers = set_content_providers
     @featured_trainer = set_featured_trainer
@@ -27,13 +26,20 @@ class StaticController < ApplicationController
     @materials = set_latest_materials
     @count_strings = set_count_strings
   end
-=======
->>>>>>> 2eb80b81... Merging elixir updates from TeSS (#51)
 
-    @events = []
+    @events = set_upcoming_events
+    @featured_trainer = set_featured_trainer
+  end
+
+  def showcase
+    @container_class = 'showcase-container container-fluid'
+  end
+
+  def set_upcoming_events
     n_events = TeSS::Config.site.dig('home_page', 'upcoming_events')
-    return unless n_events
+    return [] unless n_events
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   def set_featured_trainer
     return nil unless TeSS::Config.site.dig('home_page', 'featured_trainer')
@@ -42,6 +48,9 @@ class StaticController < ApplicationController
     Trainer.order(:id).sample(1)
 =======
     @events += Event.search_and_filter(
+=======
+    Event.search_and_filter(
+>>>>>>> 663453f6... optional daily featured trainer on home page
       nil,
       '',
       { 'start' => "#{Date.tomorrow.beginning_of_day}/" },
@@ -58,6 +67,7 @@ class StaticController < ApplicationController
       .sample(24)
   end
 
+<<<<<<< HEAD
   def set_latest_materials
     n_materials = TeSS::Config.site.dig('home_page', 'latest_materials')
     return [] unless n_materials
@@ -69,6 +79,13 @@ class StaticController < ApplicationController
       sort_by: 'new',
       per_page: 10 * n_materials
     )&.results&.group_by(&:content_provider_id)&.map { |_p_id, p_materials| p_materials&.first }&.first(n_materials)
+=======
+  def set_featured_trainer
+    return nil unless TeSS::Config.site.dig('home_page', 'featured_trainer')
+
+    srand(Date.today.beginning_of_day.to_i)
+    Trainer.order(:id).sample
+>>>>>>> 663453f6... optional daily featured trainer on home page
   end
 
   def set_upcoming_events
