@@ -230,6 +230,7 @@ class StaticControllerTest < ActionController::TestCase
     end
   end
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   test 'should show latest materials' do
     my_materials = [materials(:good_material), materials(:interpro)]
@@ -244,6 +245,11 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show featured trainer' do
+=======
+
+  test 'should show featured trainer' do
+    my_profiles = [profiles(:trainer_one_profile), profiles(:trainer_two_profile)]
+>>>>>>> 9e4e034e... fix test
     with_settings({ site: { home_page: { featured_trainer: true } } }) do
       get :home
       assert_select 'section#featured_trainer', count: 1
@@ -251,6 +257,7 @@ class StaticControllerTest < ActionController::TestCase
       assert_select 'section#featured_trainer li', count: 1
     end
   end
+<<<<<<< HEAD
 
   test 'should show event counts in counter blocks' do
     params = events(:one).attributes.symbolize_keys
@@ -284,4 +291,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 =======
 >>>>>>> 2eb80b81... Merging elixir updates from TeSS (#51)
+=======
+>>>>>>> 9e4e034e... fix test
 end

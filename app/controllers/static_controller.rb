@@ -84,8 +84,12 @@ class StaticController < ApplicationController
     return nil unless TeSS::Config.site.dig('home_page', 'featured_trainer')
 
     srand(Date.today.beginning_of_day.to_i)
+<<<<<<< HEAD
     Trainer.order(:id).sample
 >>>>>>> 663453f6... optional daily featured trainer on home page
+=======
+    Trainer.order(:id).sample(1)
+>>>>>>> 9e4e034e... fix test
   end
 
   def set_upcoming_events
