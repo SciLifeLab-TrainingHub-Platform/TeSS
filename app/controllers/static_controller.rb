@@ -149,6 +149,7 @@ class StaticController < ApplicationController
     catalogue_count_strings = {}
     return catalogue_count_strings unless TeSS::Config.site.dig('home_page', 'catalogue_counts')
 
+<<<<<<< HEAD
     total_events = Event.pluck(:end).select { |x| x >= Time.zone.now }.count
     total_events = "#{total_events.round(-2).to_f / 1000}k" if total_events > 100
     last_month_events = Event.pluck(:created_at).select { |x| x >= Time.zone.now - 1.month }.count
@@ -157,6 +158,14 @@ class StaticController < ApplicationController
     catalogue_count_strings['workflows'] = t('home.catalogue.workflows_count', total_workflows: Workflow.all.count)
     catalogue_count_strings['content_providers'] = t('home.catalogue.content_providers_count', total_content_providers: ContentProvider.all.count)
     catalogue_count_strings['trainers'] = t('home.catalogue.trainers_count', total_trainers: Trainer.all.count)
+=======
+    catalogue_count_strings['events'] = Event.where.not(end: nil).where('events.end > ?', Time.zone.now).count
+    catalogue_count_strings['last_month_events'] = Event.where('events.created_at > ?', 1.month.ago).count
+    catalogue_count_strings['materials'] = Material.all.count
+    catalogue_count_strings['workflows'] = Workflow.all.count
+    catalogue_count_strings['content_providers'] = ContentProvider.all.count
+    catalogue_count_strings['trainers'] = Trainer.all.count
+>>>>>>> 4c671724... counter blocks with logos
     catalogue_count_strings
   end
 end
