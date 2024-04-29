@@ -51,6 +51,11 @@
     <% end %>
   </div>
 </section>
+<%
+=begin%>
+ <%= render partial: 'static/home/welcome_text' 
+<%
+=end%>
 
 <%= render partial: 'static/home/counters' if TeSS::Config.site.dig('home_page', 'counters') %>
 
