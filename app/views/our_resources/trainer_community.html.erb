@@ -5,33 +5,36 @@
   to foster knowledge transfer and networking amongst experts at SciLifeLab.</p>
 </div>
 
-<!-- Content Box -->
-<div class="community-box">
-  <div class="row">
-    <!-- Image Section -->
+
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+  <div class="col-md-12 mb-2">
+    <div class="support-box text-left d-flex flex-column p-3">
+    <div class="row">
     <div class="col-md-2">
-      <%= image_tag(asset_path("scilifelab/traininghub-bookshelf.png"), alt: 'guide', size: '80x100') %>
+      <%= image_tag(asset_path("scilifelab/fika-snap.png"), alt: 'TH fika', width: '80px') %>
     </div>
-    <!-- Text Section -->
     <div class="col-md-10">
+      <h5 style="color:black;">
       <b>SciLifeLab Training Hub Drop-in Fika</b>
       <br>
       <ul>
-        <li> Join us every other week online or in person at Campus Solna  for information as well as  feedback on training and learning </li>
-        <li> Ask about effective seminars, teaching short form courses, training formats, and more! </li>
+        <li> Join us <%= link_to "Thursday afternoons at 3pm", "https://www.scilifelab.se/organizer/training-hub/", target: "_blank", rel: "noopener noreferrer" %> for discussions on training and learning </li>
+        <li> Watch presentations from <%= link_to "previous Fika discussions on YouTube", "https://www.youtube.com/watch?v=4oquXWFSYSE&list=PL1nnHOyxN_WeCYjyo0Fkc11mTumm72Ozo", target: "_blank", rel: "noopener noreferrer" %>! </li>
       </ul>
+      </h5>
     </div>
-  </div>
-</div>
+    </div>
+    </div>
 
-<div class="community-box">
+  <div class="support-box text-left d-flex flex-column p-3">
   <div class="row">
-    <!-- Image Section -->
     <div class="col-md-2">
       <%= image_tag(asset_path("scilifelab/ELIXIRcommunities.png"), alt: 'guide', size: '80x100') %>
     </div>
-    <!-- Text Section -->
     <div class="col-md-10">
+    <h5 style="color:black;">
       <b>External Focus Groups and Communities</b>
       <br>
       <ul>
@@ -49,10 +52,11 @@
           for an international community of short-format trainers
         </li>
       </ul>
+      </h5>
     </div>
-  </div>
-</div>
-
+    </div>
+    </div>
+    </div>
 
 <div class="row text-center">
 <br>
@@ -60,5 +64,20 @@
 <%= link_to "Training Hub Newsletter", "https://forms.gle/d3mHw2TGaQLFxS7c7", target: "_blank", rel: "noopener noreferrer" %>
 !</p>
 </div>
+</div>
+
+<div class="col-md-4">
+<%= image_tag(asset_path("scilifelab/OL-catteaching.jpg"), alt: 'organizational learning', width: '350px') %>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
 
 
