@@ -20,6 +20,8 @@ class StaticController < ApplicationController
 
     @resources = @resources.sort_by(&:created_at).reverse
 
+    @content_providers = set_content_providers
+    @featured_trainer = set_featured_trainer
     @events = set_upcoming_events
     @materials = set_latest_materials
     @catalogue_count_strings = set_catalogue_count_strings
@@ -49,17 +51,11 @@ class StaticController < ApplicationController
     Trainer.order(:id).sample(1)
   end
 
-  def set_upcoming_events
-    n_events = TeSS::Config.site.dig('home_page', 'upcoming_events')
-    return [] unless n_events
-
-    Event.search_and_filter(
-      nil,
-      '',
-      { 'start' => "#{Date.tomorrow.beginning_of_day}/" },
-      sort_by: 'early',
-      per_page: n_events
-    ).results
+  def set_content_providers
+    ContentProvider
+      .from_verified_users
+      .where.not(image_file_size: nil)
+      .sample(24)
   end
 
   def set_latest_materials
