@@ -93,17 +93,11 @@ class StaticController < ApplicationController
 >>>>>>> 9e4e034e... fix test
   end
 
-  def set_upcoming_events
-    n_events = TeSS::Config.site.dig('home_page', 'upcoming_events')
-    return [] unless n_events
-
-    Event.search_and_filter(
-      nil,
-      '',
-      { 'start' => "#{Date.tomorrow.beginning_of_day}/" },
-      sort_by: 'early',
-      per_page: n_events
-    ).results
+  def set_content_providers
+    ContentProvider
+      .from_verified_users
+      .where.not(image_file_size: nil)
+      .sample(24)
   end
 
   def set_latest_materials
