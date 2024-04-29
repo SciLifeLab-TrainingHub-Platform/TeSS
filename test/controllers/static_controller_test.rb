@@ -306,8 +306,29 @@ class StaticControllerTest < ActionController::TestCase
 >>>>>>> 4c671724... counter blocks with logos
     end
   end
+<<<<<<< HEAD
 =======
 >>>>>>> 2eb80b81... Merging elixir updates from TeSS (#51)
 =======
 >>>>>>> 9e4e034e... fix test
+=======
+
+  test 'should show provider grid' do
+    mock_images
+    ContentProvider.destroy_all
+    regular = users(:regular_user)
+    unverified = users(:unverified_user)
+    regular_provider = regular.content_providers.create!(title: 'Regular Provider',
+                                                         image_url: 'http://example.com/goblet.png',
+                                                         url: 'https://providers.com/p1')
+    another_provider = regular.content_providers.create!(title: 'Another Regular Provider',
+                                                         image_url: 'http://example.com/goblet.png',
+                                                         url: 'https://providers.com/p3')
+    with_settings({ site: { home_page: { provider_grid: true } } }) do
+      get :home
+      assert_select 'section#content_providers_grid', count: 1
+      assert_select 'section#content_providers_grid li.provider-grid-tile', count: 2
+    end
+  end
+>>>>>>> 68567e4b... test for provider grid
 end
