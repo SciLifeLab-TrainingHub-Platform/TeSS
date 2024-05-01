@@ -139,6 +139,7 @@ class StaticController < ApplicationController
     ).results.group_by(&:content_provider_id).map { |_p_id, p_events| p_events.first }.first(n_events)
   end
 
+<<<<<<< HEAD
   def set_catalogue_count_strings
     catalogue_count_strings = {}
     return catalogue_count_strings unless TeSS::Config.site.dig('home_page', 'catalogue_counts')
@@ -161,5 +162,18 @@ class StaticController < ApplicationController
     catalogue_count_strings['trainers'] = Trainer.all.count
 >>>>>>> 4c671724... counter blocks with logos
     catalogue_count_strings
+=======
+  def set_count_strings
+    count_strings = {}
+    return count_strings unless TeSS::Config.site.dig('home_page', 'counters')
+
+    count_strings['events'] = Event.where.not(end: nil).where('events.end > ?', Time.zone.now).count
+    count_strings['last_month_events'] = Event.where('events.created_at > ?', 1.month.ago).count
+    count_strings['materials'] = Material.all.count
+    count_strings['workflows'] = Workflow.all.count
+    count_strings['content_providers'] = ContentProvider.all.count
+    count_strings['trainers'] = Trainer.all.count
+    count_strings
+>>>>>>> 7bf45f42... remove counters from catalogue blocks
   end
 end

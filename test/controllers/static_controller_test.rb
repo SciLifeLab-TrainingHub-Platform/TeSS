@@ -259,6 +259,7 @@ class StaticControllerTest < ActionController::TestCase
   end
 <<<<<<< HEAD
 
+<<<<<<< HEAD
   test 'should show event counts in counter blocks' do
     params = events(:one).attributes.symbolize_keys
     params.delete(:id)
@@ -293,6 +294,8 @@ class StaticControllerTest < ActionController::TestCase
     end
   end
 
+=======
+>>>>>>> 7bf45f42... remove counters from catalogue blocks
   test 'should show event counts in counter blocks' do
     params = events(:one).attributes.symbolize_keys
     params.delete(:id)
@@ -300,7 +303,7 @@ class StaticControllerTest < ActionController::TestCase
     111.times do |i|
       Event.create(params.merge(url: "#{params[:url]}##{i}"))
     end
-    with_settings({ site: { home_page: { counters: true, catalogue_counts: true } } }) do
+    with_settings({ site: { home_page: { counters: true } } }) do
       get :home
       assert_select 'div#resource_count', text: '112', count: 1
 >>>>>>> 4c671724... counter blocks with logos
