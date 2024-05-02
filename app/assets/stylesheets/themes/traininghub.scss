@@ -137,20 +137,28 @@ header-container {
 //index page
 .welcome-text {
   background-color: $secondary-color;
+  color: white;
   margin-top: -53px;
-  height: 80px;
+  // height: auto;
   width: 100vw; 
   margin-left: calc((-100vw + 100%) / 2);
   margin-right: calc((-100vw + 100%) / 2);
-  margin-bottom: 150px;;
+  margin-bottom: 100px;;
 
   h3 {
-    margin-top: 0px;
-    color: white;
+  margin: 10px 0;
+  color: white;
   }
-  h2 {
-    font-weight: lighter;
-  }
+}
+  
+
+.welcome-subtitle {
+  font-weight: lighter;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  text-align: center; 
 }
 
 
