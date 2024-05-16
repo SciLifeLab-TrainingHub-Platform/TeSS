@@ -4,6 +4,7 @@ on:
   push: 
     branches:
       - develop
+      - harshita_modify_Dockerfile-dev
       
 env:
   REGISTRY: ghcr.io

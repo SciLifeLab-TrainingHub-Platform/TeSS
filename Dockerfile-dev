@@ -61,6 +61,7 @@ EXPOSE 3000
 # Development stage
 FROM base AS development
 
+RUN bundle exec rake assets:precompile 
 # Command to start the Rails server in development mode
 CMD bundle exec rails server -b 0.0.0.0
 
