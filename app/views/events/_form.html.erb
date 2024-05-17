@@ -27,7 +27,7 @@
   <%= f.input :title, as: :string, field_lock: true, input_html: { title: t('events.hints.title') } %>
 
   <!-- Field: Sub-title -->
-  <%= f.input :subtitle, field_lock: true, input_html: { title: t('events.hints.subtitle') } %>
+  <%#= f.input :subtitle, field_lock: true, input_html: { title: t('events.hints.subtitle') } %>
 
   <!-- Field: URL -->
   <%= render partial: 'common/url_checker',
@@ -38,17 +38,17 @@
               field_lock: true %>
 
   <!-- Field: Start -->
-  <%= f.input :start, as: :datetime_picker, field_lock: true, input_html: { title: t('events.hints.start') } %>
+  <%= f.input :start, as: :date_picker, field_lock: true, input_html: { title: t('events.hints.start') } %>
 
   <!-- Field: End -->
-  <%= f.input :end, as: :datetime_picker, field_lock: true, input_html: { title: t('events.hints.end') } %>
+  <%= f.input :end, as: :date_picker, field_lock: true, input_html: { title: t('events.hints.end') } %>
 
   <!-- Field: Timezone -->
   <%= f.input :timezone, as: :time_zone, field_lock: true, priority: priority_time_zones,
               input_html: { class: 'js-select2', title: t('events.hints.timezone') } %>
 
   <!-- Field: Duration -->
-  <%= f.input :duration, as: :string, input_html: { title: t('events.hints.duration') } %>
+  <%#= f.input :duration, as: :string, input_html: { title: t('events.hints.duration') } %>
 
   <!-- Field: Prerequisites -->
   <%= f.input :prerequisites, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites') } %>
@@ -63,14 +63,11 @@
   </div>
 
   <!-- Field: Eligibility -->
-  <%= f.dropdown :eligibility,
+  <%# f.dropdown :eligibility,
                  options: EligibilityDictionary.instance.options_for_select,
                  label: 'Eligibility',
                  errors: @event.errors[:eligibility],
                  title: t('events.hints.eligibility') %>
-
-  <!-- Field: Organiser -->
-  <%= f.input :organizer, field_lock: true, label: 'Organiser', input_html: { title: t('events.hints.organizer') } %>
 
   <!-- Field: Contact -->
   <%= f.input :contact, input_html: { rows: '5', title: t('events.hints.contact') }, field_lock: true %>
@@ -104,10 +101,10 @@
   <% end %>
 
   <!-- Operations: check disabled -->
-  <% if !TeSS::Config.feature['disabled'].include? 'operations' %>
-    <%= f.autocompleter :operations, url: edam_operations_path, template: 'autocompleter/term',
+  <%# if !TeSS::Config.feature['disabled'].include? 'operations' %>
+    <%# f.autocompleter :operations, url: edam_operations_path, template: 'autocompleter/term',
                         id_field: :uri, label_field: :preferred_label %>
-  <% end %>
+  <%# end %>
 
   <!-- Field: Capacity -->
   <%= f.input :capacity, as: :integer, field_lock: true,
@@ -121,7 +118,7 @@
   <%= f.input :tech_requirements, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.requirements') } %>
 
   <!-- Field: Credit or Recognition -->
-  <%= f.input :recognition, as: :string, field_lock: true, label: 'Credit or Recognition of Attendance',
+  <%# f.input :recognition, as: :string, field_lock: true, label: 'Credit or Recognition of Attendance',
               input_html: { title: t('events.hints.recognition') } %>
 
   <!-- Field: External Resources -->
@@ -137,7 +134,7 @@
   </div>
 
   <!-- Field: Content Provider -->
-  <%= f.input :content_provider_id, label: 'Content provider (where the event metadata is obtained from)',
+  <%= f.input :content_provider_id, label: 'Content provider (Training Organizer)',
               collection: current_user.get_editable_providers, label_method: :title, value_method: :id, include_blank: true,
               field_lock: true %>
 
@@ -153,9 +150,9 @@
   <% end %>
 
   <!-- Sponsors: check disabled -->
-  <% if !TeSS::Config.feature['disabled'].include? 'sponsors' %>
-    <%= f.multi_input :sponsors, errors: @event.errors[:sponsors], hint: t('events.hints.sponsors') %>
-  <% end %>
+  <%# if !TeSS::Config.feature['disabled'].include? 'sponsors' %>
+    <%# f.multi_input :sponsors, errors: @event.errors[:sponsors], hint: t('events.hints.sponsors') %>
+  <%# end %>
 
   <div class="form-group">
     <%= f.submit (f.object.new_record? ? "Add" : "Update") + " event", :class => 'btn btn-primary' %>

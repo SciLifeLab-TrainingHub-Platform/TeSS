@@ -1,30 +1,45 @@
 <div class="form-group">
   <label>Address</label>
   <% if Rails.application.secrets.google_maps_api_key.present? &&
-        !TeSS::Config.feature['disabled'].include?('address_finder') %>
+    !TeSS::Config.feature['disabled'].include?('address_finder') %>
     <input id="map-search" class="map-control form-control" type="text" placeholder="Start typing an address..."
            title="<%== t 'events.hints.address' %>">
     <%= content_tag(:div, id: 'google-map-form', data: {
-        'map-latitude': f.object.latitude || TeSS::Config.gmaps['center']['latitude'],
-        'map-longitude': f.object.longitude || TeSS::Config.gmaps['center']['longitude'],
-        'map-zoom': f.object.latitude.blank? || f.object.longitude.blank? ? TeSS::Config.gmaps['zoom']['latitude'] : TeSS::Config.gmaps['zoom']['longitude'],
-        'map-show-marker': !(f.object.new_record? || f.object.online? || f.object.latitude.blank? || f.object.longitude.blank?)
+      'map-latitude': f.object.latitude || TeSS::Config.gmaps['center']['latitude'],
+      'map-longitude': f.object.longitude || TeSS::Config.gmaps['center']['longitude'],
+      'map-zoom': f.object.latitude.blank? || f.object.longitude.blank? ? TeSS::Config.gmaps['zoom']['latitude'] : TeSS::Config.gmaps['zoom']['longitude'],
+      'map-show-marker': !(f.object.new_record? || f.object.online? || f.object.latitude.blank? || f.object.longitude.blank?)
     }) do %>
-    Loading map...
+      Loading map...
     <% end %>
   <% end %>
 </div>
 
 <div class="manual-address-fields">
-  <%= f.input :venue, field_lock: true %>
+  <!-- Field: venues -->
+  <div class="field">
+    <%= f.label :venue_ids, "Venues", class: 'control-label'%><%= f.field_lock(:venue_ids) %> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_venue_collapse"><small>Add new venue</small></a>
+    <%= f.collection_select :venue_ids, @venues, :id, :name, { prompt: "Select a Venue" }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |venue| %>
+      <option value="<%= venue.id %>" <%= 'selected="selected"' if @event_venue_ids.include?(venue.id) %>>
+        <%= venue.name %>
+      </option>
+    <% end %>
+  </div>
+
+  <div id="new_venue_collapse" class="collapse">
+    <%= f.input :new_venues, placeholder: "Enter new venues separated by commas", field_lock: true %>
+    <br>
+  </div>
+
+
   <%= f.input :city, field_lock: true, required: true %>
   <!-- County: check disabled -->
-  <% if !TeSS::Config.feature['disabled'].include? 'county' %>
-    <%= f.input :county, field_lock: true %>
-  <% end %>
+  <%# if !TeSS::Config.feature['disabled'].include? 'county' %>
+    <%#= f.input :county, field_lock: true %>
+  <%# end %>
   <% alpha2 = @event.nil? ? '' : country_alpha2_by_name(@event.country) %>
-  <%= f.input :country, priority: priority_countries, field_lock: true, required: true, selected: alpha2 %>
-  <%= f.input :postcode, field_lock: true %>
+  <%= f.input :country, priority: priority_countries, field_lock: true, required: true, selected: "SE" %>
+  <%#= f.input :postcode, field_lock: true %>
   <%= f.hidden_field :latitude %>
   <%= f.hidden_field :longitude %>
 </div>

@@ -28,7 +28,7 @@ module EventsHelper
     if event.online?
       location = 'Online'
     else
-      location = [event.venue, event.city, event.country].join(', ')
+      location = [event.city, event.country].join(', ')
     end
 
     event_params = {

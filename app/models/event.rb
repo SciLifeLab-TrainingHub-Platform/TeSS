@@ -32,8 +32,6 @@ class Event < ApplicationRecord
       text :title
       text :keywords
       text :url
-      text :organizer
-      text :venue
       text :city
       text :country
       boolean :visible
@@ -54,9 +52,7 @@ class Event < ApplicationRecord
       end
       # other fields
       string :title
-      string :organizer
       string :sponsors, multiple: true
-      string :venue
       string :city
       string :country
       string :event_types, multiple: true do
@@ -106,6 +102,7 @@ class Event < ApplicationRecord
     # :nocov:
   end
 
+  attr_accessor :new_venues
   enum presence: { onsite: 0, online: 1, hybrid: 2 }
 
   belongs_to :user
@@ -116,6 +113,8 @@ class Event < ApplicationRecord
   has_many :event_materials, dependent: :destroy
   has_many :materials, through: :event_materials
   has_many :widget_logs, as: :resource
+  has_many :events_venues
+  has_many :venues, through: :events_venues
 
   has_ontology_terms(:scientific_topics, branch: OBO_EDAM.topics)
   has_ontology_terms(:operations, branch: OBO_EDAM.operations)
@@ -144,7 +143,7 @@ class Event < ApplicationRecord
   # These fields should not been shown to users unless they have sufficient privileges
   SENSITIVE_FIELDS = %i[funding attendee_count applicant_count trainer_count feedback notes]
 
-  ADDRESS_FIELDS = %i[venue city county country postcode]
+  ADDRESS_FIELDS = %i[city county country postcode]
 
   COUNTRY_SYNONYMS = JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'country_synonyms.json')))
 
@@ -189,7 +188,7 @@ class Event < ApplicationRecord
 
   def self.facet_fields
     field_list = %w[ content_provider keywords scientific_topics operations tools fields online event_types
-                     start venue city country organizer sponsors target_audience eligibility user node collections ]
+                     start city country sponsors target_audience eligibility user node collections ]
 
     field_list.delete('operations') if TeSS::Config.feature['disabled'].include? 'operations'
     field_list.delete('scientific_topics') if TeSS::Config.feature['disabled'].include? 'topics'
@@ -203,15 +202,9 @@ class Event < ApplicationRecord
   end
 
   def to_csv_event
-    organizer = if self.organizer.instance_of?(String)
-                  self.organizer.tr(',', ' ')
-                elsif self.organizer.instance_of?(Array)
-                  self.organizer.join(' | ').gsub(',', ' and ')
-                end
     cp = content_provider.title unless content_provider.nil?
 
     [title.tr(',', ' '),
-     organizer,
      start.strftime('%d %b %Y'),
      self.end.strftime('%d %b %Y'),
      cp]
@@ -237,7 +230,7 @@ class Event < ApplicationRecord
       end
       ical_event.summary = title
       ical_event.description = description
-      ical_event.location = venue unless venue.blank?
+      # ical_event.location = venue unless venue.blank?
       ical_event.url = url
     end
   end
