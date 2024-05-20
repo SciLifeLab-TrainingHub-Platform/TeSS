@@ -207,6 +207,7 @@ class EventsController < ApplicationController
   def destroy
     authorize @event
     @event.create_activity :destroy, owner: current_user
+    @event.venues.clear
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
