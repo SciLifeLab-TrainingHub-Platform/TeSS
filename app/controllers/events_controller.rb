@@ -157,7 +157,7 @@ class EventsController < ApplicationController
 
     # Create new venues if provided
     if params[:event][:new_venues].present?
-      new_venue_names = params[:event][:new_venues].split(',')
+      new_venue_names = params[:event][:new_venues].split(',').map(&:strip)
       new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
       @event.venues << new_venues
     end
@@ -182,7 +182,7 @@ class EventsController < ApplicationController
 
     # Create new venues if provided
     if params[:event][:new_venues].present?
-      new_venue_names = params[:event][:new_venues].split(',')
+      new_venue_names = params[:event][:new_venues].split(',').map(&:strip)
       new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
       venue_ids += new_venues.map(&:id)
     end
