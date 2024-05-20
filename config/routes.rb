@@ -126,7 +126,10 @@ Rails.application.routes.draw do
   end
 
   resources :our_resources, only: [:index]
-
+  #upstream repo change for learning path routes
+  resources :learning_paths, concerns: %i[collaboratable activities]
+  resources :learning_path_topics, concerns: %i[collaboratable activities]
+  #
   get 'elearning_materials' => 'materials#index', defaults: { 'resource_type' => 'e-learning' }
 
   get 'invitees' => 'users#invitees'
