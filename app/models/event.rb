@@ -426,7 +426,7 @@ class Event < ApplicationRecord
     external_resources.each do |er|
       c.external_resources.build(url: er.url, title: er.title)
     end
-    %i[materials scientific_topics operations nodes].each do |field|
+    %i[materials scientific_topics operations nodes venues].each do |field|
       c.send("#{field}=", send(field))
     end
 

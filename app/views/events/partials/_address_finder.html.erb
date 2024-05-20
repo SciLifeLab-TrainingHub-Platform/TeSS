@@ -20,7 +20,7 @@
   <div class="field">
     <%= f.label :venue_ids, "Venues", class: 'control-label'%><%= f.field_lock(:venue_ids) %> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_venue_collapse"><small>Add new venue</small></a>
     <%= f.collection_select :venue_ids, @venues, :id, :name, { prompt: "Select a Venue" }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |venue| %>
-      <option value="<%= venue.id %>" <%= 'selected="selected"' if @event_venue_ids.include?(venue.id) %>>
+      <option value="<%= venue.id %>" <%= 'selected="selected"' if @selected_venue_ids.include?(venue.id) %>>
         <%= venue.name %>
       </option>
     <% end %>

@@ -96,6 +96,7 @@ class EventsController < ApplicationController
   def clone
     authorize @event
     @event = @event.duplicate
+    @venues = Venue.all
     render :new
   end
 
