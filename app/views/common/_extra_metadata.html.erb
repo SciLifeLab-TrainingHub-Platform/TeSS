@@ -22,7 +22,7 @@
 <% end -%>
 
 <% if resource.is_a?(Event) %>
-  <%= display_attribute(resource, :venues) { |venues| venues.pluck(:name).join(', ') } %>
+  <%= display_attribute(resource, :venue) %>
   <%= display_attribute(resource, :city) %>
   <%= display_attribute(resource, :county) %>
   <%= display_attribute(resource, :country) %>

@@ -143,7 +143,7 @@ class Event < ApplicationRecord
   # These fields should not been shown to users unless they have sufficient privileges
   SENSITIVE_FIELDS = %i[funding attendee_count applicant_count trainer_count feedback notes]
 
-  ADDRESS_FIELDS = %i[city county country postcode]
+  ADDRESS_FIELDS = %i[venue city county country postcode]
 
   COUNTRY_SYNONYMS = JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'country_synonyms.json')))
 
@@ -230,7 +230,7 @@ class Event < ApplicationRecord
       end
       ical_event.summary = title
       ical_event.description = description
-      # ical_event.location = venue unless venue.blank?
+      ical_event.location = venue unless venue.blank?
       ical_event.url = url
     end
   end
@@ -437,6 +437,10 @@ class Event < ApplicationRecord
     value = :online if value.is_a?(TrueClass) || value == '1' || value == 1 || value == 'true'
     value = :onsite if value.is_a?(FalseClass) || value == '0' || value == 0 || value == 'false'
     self.presence = value
+  end
+
+  def venue
+    venues.pluck(:name).join(', ')
   end
 
   private

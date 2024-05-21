@@ -7,7 +7,7 @@ class EventSerializer < ApplicationSerializer
 
              :organizer, :sponsors, :contact, :host_institutions,
 
-             :online, :presence, :city, :county, :country, :postcode, :latitude, :longitude,
+             :online, :presence, :venue, :city, :county, :country, :postcode, :latitude, :longitude,
 
              :capacity, :cost_basis, :cost_value, :cost_currency,
 

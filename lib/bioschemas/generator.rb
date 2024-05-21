@@ -91,7 +91,7 @@ module Bioschemas
         '@type' => 'Place',
         'address' => {
           '@type' => 'PostalAddress',
-          'streetAddress' => event.venues.pluck(:name).join(', '),
+          'streetAddress' => event.venue,
           'addressLocality' => event.city,
           'addressRegion' => event.county,
           'addressCountry' => event.country,

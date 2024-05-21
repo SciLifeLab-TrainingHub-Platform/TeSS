@@ -28,8 +28,7 @@ module EventsHelper
     if event.online?
       location = 'Online'
     else
-      venue_names = event.venues.pluck(:name).join(', ')
-      location = [venue_names, event.city, event.country].join(', ')
+      location = [event.venue, event.city, event.country].join(', ')
     end
 
     event_params = {
