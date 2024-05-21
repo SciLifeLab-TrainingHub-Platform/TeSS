@@ -4,7 +4,7 @@ on:
   push: 
     branches:
       - develop
-
+      - harshita_fix_hosts
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-app
@@ -51,7 +51,7 @@ jobs:
         context: .
         push: true
         file: ./Dockerfile-dev
-        target: development
-        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:latest
+        target: production
+        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-preprod:v1.0.0
         labels: ${{ steps.meta.outputs.labels }}
   
