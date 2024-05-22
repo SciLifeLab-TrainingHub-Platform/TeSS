@@ -113,7 +113,7 @@ class Event < ApplicationRecord
   has_many :event_materials, dependent: :destroy
   has_many :materials, through: :event_materials
   has_many :widget_logs, as: :resource
-  has_many :events_venues
+  has_many :events_venues, dependent: :destroy
   has_many :venues, through: :events_venues
 
   has_ontology_terms(:scientific_topics, branch: OBO_EDAM.topics)

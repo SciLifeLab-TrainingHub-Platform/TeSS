@@ -98,7 +98,7 @@ module EventsHelper
   end
 
   def csv_column_names
-    return %w(Title Organizer Start End ContentProvider)
+    return %w(Title Start End ContentProvider)
   end
 
   def csv_from_collection(events)

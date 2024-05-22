@@ -90,6 +90,7 @@ class EventsController < ApplicationController
                        end: DateTime.now.change(hour: 17),
                        timezone: 'Stockholm')
     @venues = Venue.all
+    @selected_venue_ids = []
   end
 
   # GET /events/1/clone
@@ -151,14 +152,18 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     authorize Event
+
     @event = Event.new(event_params)
     @event.user = current_user
-    venue_ids = params[:event][:venue_ids].reject(&:blank?)
-    @event.venues << Venue.find(venue_ids) if venue_ids.present?
+
+    # Handle existing venue IDs
+    if params[:event][:venue_ids].present?
+      params[:event][:venue_ids] = params[:event][:venue_ids].reject(&:blank?)
+    end
 
     # Create new venues if provided
     if params[:event][:new_venues].present?
-      new_venue_names = params[:event][:new_venues].split('-').map(&:strip)
+      new_venue_names = params[:event][:new_venues].split('-').map(&:strip).reject(&:empty?)
       new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
       @event.venues << new_venues
     end
@@ -183,7 +188,7 @@ class EventsController < ApplicationController
 
     # Create new venues if provided
     if params[:event][:new_venues].present?
-      new_venue_names = params[:event][:new_venues].split('-').map(&:strip)
+      new_venue_names = params[:event][:new_venues].split('-').map(&:strip).reject(&:empty?)
       new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
       venue_ids += new_venues.map(&:id)
     end
