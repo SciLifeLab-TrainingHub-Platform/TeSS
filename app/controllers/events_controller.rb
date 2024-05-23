@@ -161,19 +161,20 @@ class EventsController < ApplicationController
       params[:event][:venue_ids] = params[:event][:venue_ids].reject(&:blank?)
     end
 
-    # Create new venues if provided
-    if params[:event][:new_venues].present?
-      new_venue_names = params[:event][:new_venues].split('-').map(&:strip).reject(&:empty?)
-      new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
-      @event.venues << new_venues
-    end
-
     respond_to do |format|
       if @event.save
+        # Create new venues if provided
+        if params[:event][:new_venues].present?
+          new_venue_names = params[:event][:new_venues].split(';').map(&:strip).reject(&:empty?)
+          new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
+          @event.venues << new_venues
+        end
+
         @event.create_activity :create, owner: current_user
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
+        @venues = Venue.all
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -184,23 +185,25 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     authorize @event
-    venue_ids = params[:event][:venue_ids] || []
-
-    # Create new venues if provided
-    if params[:event][:new_venues].present?
-      new_venue_names = params[:event][:new_venues].split('-').map(&:strip).reject(&:empty?)
-      new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
-      venue_ids += new_venues.map(&:id)
+    # Handle existing venue IDs
+    if params[:event][:venue_ids].present?
+      params[:event][:venue_ids] = params[:event][:venue_ids].reject(&:blank?)
     end
-    # Updating event_params with the combined venue IDs new and old
-    params[:event][:venue_ids] = venue_ids
 
     respond_to do |format|
       if @event.update(event_params)
+        # Create new venues if provided
+        if params[:event][:new_venues].present?
+          new_venue_names = params[:event][:new_venues].split(';').map(&:strip).reject(&:empty?)
+          new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
+          @event.venues << new_venues
+        end
+
         @event.create_activity(:update, owner: current_user) if @event.log_update_activity?
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
+        @venues = Venue.all
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
