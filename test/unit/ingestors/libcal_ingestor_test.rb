@@ -49,7 +49,6 @@ class LibcalIngestorTest < ActiveSupport::TestCase
     assert_equal new_url, event.url
 
     # check other fields
-    assert_equal 'Rick Vermunt', event.organizer
     assert_equal Time.zone.parse('Mon, 10 Jan 2022 13:00:00.000000000 UTC +00:00'), event.start
     assert_equal Time.zone.parse('Mon, 10 Jan 2022 15:00:00.000000000 UTC +00:00'), event.end
     assert_equal '', event.venue

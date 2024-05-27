@@ -5,13 +5,11 @@ one:
   title: "event one"
   subtitle: MyString
   url: http://example.com/cool-event
-  organizer: MyString
   description: MyText
   event_types: ["workshops_and_courses"]
   start: 2015-11-23 10:16:33
   end: 2015-11-23 10:16:33
   sponsors: ["MyString"]
-  venue: MyText
   city: MyString
   county: MyString
   country: MyString
@@ -34,14 +32,12 @@ two:
   title: "event two"
   subtitle: MyString
   url: http://example.com/a-different-event
-  organizer: MyString
   description: MyText
   event_types: ["meetings_and_conferences"]
   duration: '23:59'
   start: 2015-11-23 00:00:00
   end: 2015-11-24 00:00:00
   sponsors: ["MyString"]
-  venue: MyText
   city: MyString
   county: MyString
   country: MyString
@@ -112,12 +108,10 @@ scraper_user_event:
   eligibility: [ registration_of_interest ]
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
-  venue: MyHall
   city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
-  organizer: AnOrganizer
-
+  
 event_with_external_resource:
   title: External Resource Event
   url: http://myurl.com
@@ -130,12 +124,10 @@ event_with_external_resource:
   eligibility: [ registration_of_interest ]
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
-  venue: MyHall
   city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
-  organizer: AnOrganizer
-
+  
 event_with_no_start:
   title: No Start Time
   url: http://myurl.com
@@ -147,12 +139,10 @@ event_with_no_start:
   contact: MyContact
   eligibility: [ registration_of_interest ]
   end: 2016-12-12 12:00:00
-  venue: MyHall
   city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
-  organizer: AnOrganizer
-
+  
 event_with_no_end:
   title: No End Time
   url: http://myurl.com
@@ -164,12 +154,10 @@ event_with_no_end:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  venue: MyHall
   city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
-  organizer: AnOrganizer
-
+  
 online_event_with_no_end:
   title: No End Time
   url: http://myurl.com
@@ -182,12 +170,10 @@ online_event_with_no_end:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  venue: MyHall
   city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
-  organizer: AnOrganizer
-
+  
 organisation_event:
   title: Fun Training Day
   url: http://content-provider.org/event
@@ -200,12 +186,10 @@ organisation_event:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  venue: MyHall
   city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
-  organizer: AnOrganizer
-
+  
 portal_event:
   presence: 0
   title: Awesome Training Day
@@ -219,12 +203,10 @@ portal_event:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  venue: "Birmingham City Hall"
   city: "Birmingham"
   country: "United Kingdom"
   postcode: "B1 1BB"
-  organizer: AnOrganizer
-
+  
 dodgy_country_event:
   title: Fun Training Day
   url: http://content-provider.org/event
@@ -238,11 +220,9 @@ dodgy_country_event:
   timezone: London
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  venue: MyHall
   city: Somewhere Awesome
   postcode: 1010
-  organizer: AnOrganizer
-
+  
 no_description_event:
   title: All you need to know is in the title
   url: http://content-provider.org/no-desc-event
@@ -254,12 +234,10 @@ no_description_event:
   timezone: Australia/Melbourne
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  venue: MyHall
   city: Melbourne
   country: Australia
   postcode: 3000
-  organizer: AnOrganizer
-
+  
 event_with_report:
   title: This event happened
   url: http://content-provider.org/event-with-report
@@ -274,12 +252,10 @@ event_with_report:
   timezone: Australia/Sydney
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  venue: MyHall
   city: Sydney
   country: AU
   postcode: 1000
-  organizer: AnOrganizer
-
+  
 another_event_with_report:
   title: This event happened
   url: http://content-provider.org/another-event-with-report
@@ -292,24 +268,20 @@ another_event_with_report:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  venue: MyHall
   city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
-  organizer: AnOrganizer
-
+  
 shadowbanned_event:
   external_id: MyString1
   title: PredConf 2018
   subtitle: MyString
   url: http://example.com/predconf
-  organizer: MyString
   description: MyText
   event_types: ["workshops_and_courses"]
   start: 2018-11-23 10:16:33
   end: 2018-11-23 10:16:33
   sponsors: ["MyString"]
-  venue: MyText
   city: MyString
   county: MyString
   country: MyString
@@ -335,7 +307,6 @@ failing_event:
   timezone: GMT
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  venue: Kilburn Building
   city: Manchester
   county: Greater Manchester
   country: United Kingdom
@@ -348,7 +319,6 @@ kilburn:
   event_types: ["meetings_and_conferences"]
   start: 2019-11-23 00:00:00
   end: 2019-11-24 00:00:00
-  venue: Kilburn Building
   city: Manchester
   county: Greater Manchester
   country: United Kingdom
@@ -358,20 +328,17 @@ kilburn:
   timezone: Europe/London
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  organizer: "The Organizer"
 
 calendar_event:
   title: "calendar event"
   subtitle: "an event to test calendar exports"
   url: http://microsoft.com
-  organizer: MyString
   description: MyText
   event_types: ["meetings_and_conferences"]
   duration: '01:45'
   start: 2021-09-20 23:15:00
   end: 2021-09-21 01:00:00
   sponsors: ["MyString"]
-  venue: 100, Lygon Street
   city: Carlton
   country: Australia
   postcode: 3010
@@ -386,14 +353,12 @@ training_event:
   title: "calendar event"
   subtitle: "an event to test calendar exports"
   url: http://microsoft.com
-  organizer: EventsCo
   description: MyText
   event_types: ["meetings_and_conferences"]
   duration: '01:45'
   start: 2021-09-20 23:15:00
   end: 2021-09-21 01:00:00
   sponsors: ["FundingCorp"]
-  venue: 100, Lygon Street
   city: Carlton
   country: Australia
   postcode: 3010
@@ -411,14 +376,12 @@ ical_event_1:
   title: P'Con - Embracing new solutions for in-situ visualisation
   url: 'https://pawsey.org.au/event/pcon-embracing-new-solutions-for-in-situ-visualisation/'
   subtitle: "an event to test calendar ingestion"
-  organizer: MyString
   description: MyText
   event_types: ["meetings_and_conferences"]
   duration: '01:45'
   start: 2021-12-08 12:30:00 +0800
   end: 2021-12-08 13:30:00 +0800
   sponsors: ["MyString"]
-  venue: 100, Lygon Street
   city: Carlton
   country: Australia
   postcode: 3010
@@ -434,14 +397,12 @@ ical_event_2:
   title: "PaCER Seminar: Computational Fluid Dynamics"
   url: 'https://pawsey.org.au/event/pacer-seminar-computational-fluid-dynamics/'
   subtitle: "an event to test calendar ingestion"
-  organizer: MyString
   description: MyText
   event_types: ["meetings_and_conferences"]
   duration: '01:45'
   start: 2022-06-15 10:00:00 +0800
   end: 2022-06-15 12:00:00 +0800
   sponsors: ["MyString"]
-  venue: 100, Lygon Street
   city: Carlton
   country: Australia
   postcode: 3010
@@ -457,13 +418,11 @@ course_event:
   title: Summer Course on Learning Stuff
   subtitle: Expand your horizons
   url: http://example.com/cool-course-summer
-  organizer: CourseCo
   description: Learn lots of stuff!
   event_types: [ "workshops_and_courses" ]
   start: 2015-08-23 10:16:33
   end: 2015-08-24 18:07:46
   sponsors: ['Amazon', 'GitHub', 'Google']
-  venue: Kilburn Building
   city: Manchester
   county: Greater Manchester
   country: United Kingdom

@@ -150,6 +150,8 @@ class Event < ApplicationRecord
   NOMINATIM_DELAY = 1.minute
   NOMINATIM_MAX_ATTEMPTS = 3
 
+  VENUE_NAME_SEPARATOR = ';'.freeze
+
   def description=(desc)
     super(Rails::Html::FullSanitizer.new.sanitize(desc))
   end
@@ -441,6 +443,18 @@ class Event < ApplicationRecord
 
   def venue
     venues.pluck(:name).join(', ')
+  end
+
+  def venue=(venue_string)
+    # If venue_string is not nil or empty, modify the venues association
+    if venue_string.present?
+      venue_names = venue_string.split(VENUE_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
+      existing_venues = self.venues
+      new_venues = venue_names.map do |name|
+        Venue.find_or_create_by(name: name)
+      end
+      self.venues = (existing_venues + new_venues).uniq
+    end
   end
 
   private

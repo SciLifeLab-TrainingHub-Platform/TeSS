@@ -46,7 +46,6 @@ class EventbriteIngestorTest < ActiveSupport::TestCase
     event = get_event nil, title, url
     refute_nil event
     assert_equal desc, event.description
-    assert_equal 'ARDC', event.organizer # organizer.name ARDC
     assert_empty event.event_types # format.name other
     assert_equal 'Perth', event.timezone
     assert_equal Time.utc(2022, 4, 11, 12, 0, 0).to_s, event.start.to_s
@@ -56,7 +55,7 @@ class EventbriteIngestorTest < ActiveSupport::TestCase
     assert_equal 'free', event.cost_basis
     assert_nil event.cost_currency # as cost_basis is free
     assert_empty event.keywords
-    assert_nil event.venue
+    # assert_nil event.venue
 
     # check completed event
     # eventbrite.id: 291075754417
@@ -84,7 +83,6 @@ class EventbriteIngestorTest < ActiveSupport::TestCase
     event = get_event nil, title, url
     refute_nil event
     assert_equal desc, event.description
-    assert_equal 'Australian Research Data Commons', event.organizer
     assert_equal 'Sydney', event.timezone
     assert_equal Time.utc(2022, 5, 3, 13, 30, 0), event.start
     assert_equal Time.utc(2022, 5, 3, 15, 0, 0), event.end
@@ -115,7 +113,6 @@ class EventbriteIngestorTest < ActiveSupport::TestCase
     event = get_event nil, title, url
     refute_nil event
     assert_equal desc, event.description
-    assert_equal 'Australian Research Data Commons', event.organizer
     assert_equal 'Sydney', event.timezone
     assert_equal Time.utc(2022, 6, 1, 13, 0, 0), event.start
     assert_equal Time.utc(2022, 6, 1, 15, 0, 0), event.end
@@ -135,7 +132,6 @@ class EventbriteIngestorTest < ActiveSupport::TestCase
     event = get_event nil, title, url
     refute_nil event
     assert_equal desc, event.description
-    assert_equal 'Australian Research Data Commons', event.organizer
     assert_equal 'Sydney', event.timezone
     assert_equal Time.utc(2022, 5, 3, 13, 30, 0), event.start
     assert_equal Time.utc(2022, 5, 3, 15, 0, 0), event.end

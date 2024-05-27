@@ -165,9 +165,7 @@ class EventsController < ApplicationController
       if @event.save
         # Create new venues if provided
         if params[:event][:new_venues].present?
-          new_venue_names = params[:event][:new_venues].split(';').map(&:strip).reject(&:empty?)
-          new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
-          @event.venues << new_venues
+          @event.venue = params[:event][:new_venues]
         end
 
         @event.create_activity :create, owner: current_user
@@ -194,9 +192,7 @@ class EventsController < ApplicationController
       if @event.update(event_params)
         # Create new venues if provided
         if params[:event][:new_venues].present?
-          new_venue_names = params[:event][:new_venues].split(';').map(&:strip).reject(&:empty?)
-          new_venues = new_venue_names.map { |name| Venue.create(name: name.strip) }
-          @event.venues << new_venues
+          @event.venue = params[:event][:new_venues]
         end
 
         @event.create_activity(:update, owner: current_user) if @event.log_update_activity?

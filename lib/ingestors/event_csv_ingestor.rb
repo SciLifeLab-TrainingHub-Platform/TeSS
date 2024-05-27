@@ -31,7 +31,6 @@ module Ingestors
           event.end = get_column row, 'End'
           event.timezone = get_column row, 'Timezone'
           event.contact = get_column row, 'Contact'
-          event.organizer = get_column row, 'Organizer'
           event.eligibility = process_array row, 'Eligibility'
           event.host_institutions = process_array row, 'Host Institutions'
           event.online = get_column row, 'Online'

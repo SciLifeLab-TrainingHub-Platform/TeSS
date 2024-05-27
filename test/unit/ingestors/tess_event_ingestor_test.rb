@@ -50,7 +50,6 @@ class TessEventIngestorTest < ActiveSupport::TestCase
     assert_equal 'Another Portal Provider', event.content_provider.title
     assert_equal 'UTC', event.timezone
     assert_equal 'Melissa Burke (melissa@biocommons.org.au)', event.contact
-    assert_equal 'Australian BioCommons', event.organizer
     assert_equal 1, event.eligibility.size, 'event eligibility size not matched!'
     assert event.eligibility.include?('registration_of_interest')
     assert_equal 1, event.host_institutions.size
