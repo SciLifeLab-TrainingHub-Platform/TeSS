@@ -27,7 +27,7 @@ jobs:
     - name: Determine the environment
       id: determine-env
       run: |
-        if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/release-candidate-* ]]; then
+        if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/harshita_feature-* ]]; then
           echo "ENVIRONMENT=dev" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.DEV_BASE_URL }}" >> $GITHUB_ENV
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
