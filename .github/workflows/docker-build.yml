@@ -3,8 +3,7 @@ name: Docker development build
 on: 
   push: 
     branches:
-      - develop
-      - harshita_feature-test#24
+      - release-candidate-test
       
 env:
   REGISTRY: ghcr.io
