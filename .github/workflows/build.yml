@@ -51,7 +51,7 @@ jobs:
     - name: Build Docker image
       run: |
         IMAGE_TAG=$(date +%Y%m%d%H%M%S)
-        docker build -t ghcr.io/${{ env.NAMESPACE }}/${{ REPO_NAME }}-app-${{ env.ENVIRONMENT }}:$IMAGE_TAG .
+        docker build -t ghcr.io/${{ env.NAMESPACE }}/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:$IMAGE_TAG .
         echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
     - name: Log in to the container registry
@@ -63,4 +63,4 @@ jobs:
 
     - name: Push Docker image to GitHub Container Registry
       run: |
-        docker push ghcr.io/${{ env.NAMESPACE }}/${{ REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+        docker push ghcr.io/${{ env.NAMESPACE }}/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
