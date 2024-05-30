@@ -18,6 +18,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     
     permissions:
       contents: read
@@ -26,6 +27,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+
 
     - name: Setup
       run: | 
@@ -76,3 +78,4 @@ jobs:
     - name: Push Docker image to GitHub Container Registry
       run: |
         docker push ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+
