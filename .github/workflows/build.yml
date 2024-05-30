@@ -65,7 +65,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t ghcr.io/${{ env.REPO_NAME }}-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }} -f Dockerfile-dev --target ${{ env.DOCKER_TARGET }} .
+        docker build -t ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }} -f Dockerfile-dev --target ${{ env.DOCKER_TARGET }} .
 
     - name: Log in to the container registry
       uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -76,4 +76,4 @@ jobs:
 
     - name: Push Docker image to GitHub Container Registry
       run: |
-        docker push ghcr.io/${{ env.REPO_NAME }}-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+        docker push ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
