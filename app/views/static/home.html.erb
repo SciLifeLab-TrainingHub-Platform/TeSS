@@ -48,6 +48,10 @@
     <% end %>
   </div>
 </section>
+<!-- These are incoming change fro upstream repo for welcome page
+<%= render partial: 'static/home/welcome' %>
+
+<%= render partial: 'static/home/counters' if TeSS::Config.site.dig('home_page', 'counters') %> -->
 
 <%= render partial: 'static/home/counters' if TeSS::Config.site.dig('home_page', 'counters') %>
 

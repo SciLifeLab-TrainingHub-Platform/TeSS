@@ -20,6 +20,9 @@
       <!-- Register button -->
       <%= link_to new_material_path, class: 'btn btn-secondary' do %>
         Register training material
+      <!-- These are incoming change from upstream repo for materials button
+      <%= link_to new_material_path, class: 'btn btn-primary' do %>
+        <%= t('register.buttons.materials') %> -->
       <% end %>
       <!-- Info -->
       <%= info_button("What are materials in #{TeSS::Config.site['title_short']}?", hide_text: true) do %>

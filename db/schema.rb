@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_26_090005) do
+
+ActiveRecord::Schema[7.0].define(version: 2024_05_14_135555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -145,6 +146,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_26_090005) do
     t.bigint "image_file_size"
     t.datetime "image_updated_at"
     t.string "contact"
+    t.boolean "send_event_curation_email", default: false
     t.index ["node_id"], name: "index_content_providers_on_node_id"
     t.index ["slug"], name: "index_content_providers_on_slug", unique: true
     t.index ["user_id"], name: "index_content_providers_on_user_id"
@@ -181,12 +183,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_26_090005) do
     t.string "title"
     t.string "subtitle"
     t.string "url"
-    t.string "organizer"
     t.text "description"
     t.datetime "start"
     t.datetime "end"
     t.string "sponsors", default: [], array: true
-    t.text "venue"
     t.string "city"
     t.string "county"
     t.string "country"
@@ -230,6 +230,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_26_090005) do
     t.index ["presence"], name: "index_events_on_presence"
     t.index ["slug"], name: "index_events_on_slug", unique: true
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "events_venues", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "venue_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_events_venues_on_event_id"
+    t.index ["venue_id"], name: "index_events_venues_on_venue_id"
   end
 
   create_table "external_resources", force: :cascade do |t|
@@ -557,6 +566,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_26_090005) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "venues", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "widget_logs", force: :cascade do |t|
     t.string "widget_name"
     t.string "action"
@@ -601,9 +616,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_26_090005) do
   add_foreign_key "event_materials", "events"
   add_foreign_key "event_materials", "materials"
   add_foreign_key "events", "users"
+  add_foreign_key "events_venues", "events"
+  add_foreign_key "events_venues", "venues"
   add_foreign_key "learning_path_topic_links", "learning_paths"
   add_foreign_key "learning_paths", "content_providers"
   add_foreign_key "learning_paths", "users"
+
   add_foreign_key "materials", "content_providers"
   add_foreign_key "materials", "users"
   add_foreign_key "node_links", "nodes"
