@@ -3,7 +3,7 @@ name: Docker development build
 on: 
   push: 
     branches:
-      - develop
+      - release-candidate-test
       
 env:
   REGISTRY: ghcr.io
@@ -52,6 +52,6 @@ jobs:
         push: true
         file: ./Dockerfile-dev
         target: development
-        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:v1
+        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:test
         labels: ${{ steps.meta.outputs.labels }}
   
