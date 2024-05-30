@@ -60,6 +60,7 @@ en:
       event:
         county: Region
         presence:
+          one: 'Presence'
           online: Online
           onsite: Face-to-face
           hybrid: Hybrid
