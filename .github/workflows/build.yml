@@ -3,6 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
+      - harshita_feature-test#24
       - release-candidate-*
   create:
     tags:
@@ -18,23 +19,38 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
+    permissions:
+      contents: read
+      packages: write
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Setup
+      run: | 
+        cp env.sample .env
+        cp config/secrets.example.yml config/secrets.yml
+
     - name: Determine the environment
       id: determine-env
       run: |
-        if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/release-candidate-* ]]; then
+        if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/harshita_feature-* ]]; then
           echo "ENVIRONMENT=dev" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.DEV_BASE_URL }}" >> $GITHUB_ENV
+          echo "DOCKER_TARGET=development" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
           echo "ENVIRONMENT=preprod" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.PREPROD_BASE_URL }}" >> $GITHUB_ENV
+          echo "DOCKER_TARGET=production" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
         elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "published" ]]; then
           echo "ENVIRONMENT=prod" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.PROD_BASE_URL }}" >> $GITHUB_ENV
+          echo "DOCKER_TARGET=production" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
         fi
 
     - name: Change base_url in config/tess.yml
@@ -44,14 +60,12 @@ jobs:
     - name: Set lowercase repository name
       id: lowercase-repo
       run: |
-        REPO_NAME=$(echo "${GITHUB_REPOSITORY}" | awk -F/ '{print tolower($2)}')
+        REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
         echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
 
     - name: Build Docker image
       run: |
-        IMAGE_TAG=$(date +%Y%m%d%H%M%S)
-        docker build -t ghcr.io/${{ env.NAMESPACE }}/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:$IMAGE_TAG .
-        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+        docker build -t ghcr.io/${{ env.REPO_NAME }}-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }} -f Dockerfile-dev --target ${{ env.DOCKER_TARGET }} .
 
     - name: Log in to the container registry
       uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -62,4 +76,4 @@ jobs:
 
     - name: Push Docker image to GitHub Container Registry
       run: |
-        docker push ghcr.io/${{ env.NAMESPACE }}/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+        docker push ghcr.io/${{ env.REPO_NAME }}-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
