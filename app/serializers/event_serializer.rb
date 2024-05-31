@@ -5,7 +5,7 @@ class EventSerializer < ApplicationSerializer
 
              :start, :end, :duration, :timezone,
 
-             :organizer, :sponsors, :contact, :host_institutions,
+             :sponsors, :contact, :host_institutions,
 
              :online, :presence, :venue, :city, :county, :country, :postcode, :latitude, :longitude,
 
