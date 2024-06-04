@@ -18,7 +18,7 @@ class EventsControllerTest < ActionController::TestCase
     @failing_event = events(:failing_event)
     @failing_event.title = 'Fail!'
     @monitor = @failing_event.create_link_monitor(url: @failing_event.url, code: 404, fail_count: 5)
-    @mandatory_fields = { online: true, start: @event.start, end: @event.end, organizer: @event.organizer,
+    @mandatory_fields = { online: true, start: @event.start, end: @event.end,
                           host_institutions: @event.host_institutions, timezone: @event.timezone,
                           contact: @event.contact, eligibility: @event.eligibility }
   end
@@ -734,7 +734,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 'text/csv; charset=utf-8', @response.content_type
     csv_events = CSV.parse(@response.body)
-    assert_equal csv_events.first, %w[Title Organizer Start End ContentProvider]
+    assert_equal csv_events.first, %w[Title Start End ContentProvider]
   end
 
   test 'should provide an RSS file' do
