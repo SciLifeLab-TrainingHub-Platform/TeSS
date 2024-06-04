@@ -33,8 +33,6 @@ class Event < ApplicationRecord
       text :title
       text :keywords
       text :url
-      text :organizer
-      text :venue
       text :city
       text :country
       boolean :visible
@@ -55,9 +53,7 @@ class Event < ApplicationRecord
       end
       # other fields
       string :title
-      string :organizer
       string :sponsors, multiple: true
-      string :venue
       string :city
       string :country
       string :event_types, multiple: true do
@@ -107,6 +103,7 @@ class Event < ApplicationRecord
     # :nocov:
   end
 
+  attr_accessor :new_venues
   enum presence: { onsite: 0, online: 1, hybrid: 2 }
 
   belongs_to :user
@@ -119,6 +116,8 @@ class Event < ApplicationRecord
   has_many :event_materials, dependent: :destroy
   has_many :materials, through: :event_materials
   has_many :widget_logs, as: :resource
+  has_many :event_venues, dependent: :destroy
+  has_many :venues, through: :event_venues
 
   has_ontology_terms(:scientific_topics, branch: OBO_EDAM.topics)
   has_ontology_terms(:operations, branch: OBO_EDAM.operations)
@@ -153,6 +152,7 @@ class Event < ApplicationRecord
 
   NOMINATIM_DELAY = 1.minute
   NOMINATIM_MAX_ATTEMPTS = 3
+  VENUE_NAME_SEPARATOR = ';'.freeze
 
   def description=(desc)
     super(Rails::Html::FullSanitizer.new.sanitize(desc))
@@ -192,7 +192,7 @@ class Event < ApplicationRecord
 
   def self.facet_fields
     field_list = %w[ content_provider keywords scientific_topics operations tools fields online event_types
-                     start venue city country organizer sponsors target_audience eligibility language
+                     start venue city country sponsors target_audience eligibility language
                      user node collections ]
 
     field_list.delete('operations') if TeSS::Config.feature['disabled'].include? 'operations'
@@ -207,15 +207,9 @@ class Event < ApplicationRecord
   end
 
   def to_csv_event
-    organizer = if self.organizer.instance_of?(String)
-                  self.organizer.tr(',', ' ')
-                elsif self.organizer.instance_of?(Array)
-                  self.organizer.join(' | ').gsub(',', ' and ')
-                end
     cp = content_provider.title unless content_provider.nil?
 
     [title.tr(',', ' '),
-     organizer,
      start.strftime('%d %b %Y'),
      self.end.strftime('%d %b %Y'),
      cp]
@@ -450,7 +444,7 @@ class Event < ApplicationRecord
     external_resources.each do |er|
       c.external_resources.build(url: er.url, title: er.title)
     end
-    %i[materials scientific_topics operations nodes].each do |field|
+    %i[materials scientific_topics operations nodes venues].each do |field|
       c.send("#{field}=", send(field))
     end
 
@@ -461,6 +455,23 @@ class Event < ApplicationRecord
     value = :online if value.is_a?(TrueClass) || value == '1' || value == 1 || value == 'true'
     value = :onsite if value.is_a?(FalseClass) || value == '0' || value == 0 || value == 'false'
     self.presence = value
+  end
+
+
+  def venue
+    venues.pluck(:name).join(', ')
+  end
+
+  def venue=(venue_string)
+    # If venue_string is not nil or empty, modify the venues association
+    if venue_string.present?
+      venue_names = venue_string.split(VENUE_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
+      existing_venues = self.venues
+      new_venues = venue_names.map do |name|
+        Venue.find_or_create_by(name: name)
+      end
+      self.venues = (existing_venues + new_venues).uniq
+    end
   end
 
   private
