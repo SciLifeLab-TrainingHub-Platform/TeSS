@@ -457,7 +457,11 @@ class ContentProvidersControllerTest < ActionController::TestCase
   test 'show consistent count on content provider page' do
     sign_in users(:admin)
 
-    @content_provider.events.delete_all
+    # Ensure events and their associated events_venues are deleted
+    @content_provider.events.each do |event|
+      event.destroy
+    end
+
     # make sure this content provider has events in the past, future and without date
     good_user = users(:admin)
     past_event = good_user.events.build(title: 'past',

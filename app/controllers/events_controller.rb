@@ -87,19 +87,25 @@ class EventsController < ApplicationController
   def new
     authorize Event
     @event = Event.new(start: DateTime.now.change(hour: 9),
-                       end: DateTime.now.change(hour: 17))
+                       end: DateTime.now.change(hour: 17),
+                       timezone: 'Stockholm')
+    @venues = Venue.all
+    @selected_venue_ids = []
   end
 
   # GET /events/1/clone
   def clone
     authorize @event
     @event = @event.duplicate
+    @venues = Venue.all
     render :new
   end
 
   # GET /events/1/edit
   def edit
     authorize @event
+    @venues = Venue.all
+    @selected_venue_ids = @event.venues.pluck(:id)
   end
 
   # GET /events/1/report
@@ -149,12 +155,22 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     @event.user = current_user
 
+    # Handle existing venue IDs
+    if params[:event][:venue_ids].present?
+      params[:event][:venue_ids] = params[:event][:venue_ids].reject(&:blank?)
+    end
+
     respond_to do |format|
       if @event.save
+        # Create new venues if provided
+        if params[:event][:new_venues].present?
+          @event.venue = params[:event][:new_venues]
+        end
         @event.create_activity :create, owner: current_user
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
+        @venues = Venue.all
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -165,12 +181,21 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     authorize @event
+    # Handle existing venue IDs
+    if params[:event][:venue_ids].present?
+      params[:event][:venue_ids] = params[:event][:venue_ids].reject(&:blank?)
+    end
     respond_to do |format|
       if @event.update(event_params)
+        # Create new venues if provided
+        if params[:event][:new_venues].present?
+          @event.venue = params[:event][:new_venues]
+        end
         @event.create_activity(:update, owner: current_user) if @event.log_update_activity?
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
+        @venues = Venue.all
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -182,6 +207,7 @@ class EventsController < ApplicationController
   def destroy
     authorize @event
     @event.create_activity :destroy, owner: current_user
+    @event.venues.clear
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
@@ -225,11 +251,11 @@ class EventsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def event_params
-    params.require(:event).permit(:external_id, :title, :subtitle, :url, :organizer, :last_scraped, :scraper_record,
+    params.require(:event).permit(:external_id, :title, :subtitle, :url, :last_scraped, :scraper_record,
                                   :description, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
                                   { operation_names: [] }, { operation_uris: [] }, { event_types: [] },
                                   { keywords: [] }, { fields: [] }, :start, :end, :duration, { sponsors: [] },
-                                  :online, :venue, :city, :county, :country, :postcode, :latitude, :longitude,
+                                  :online, {:venue_ids => [] }, :new_venues, :city, :county, :country, :postcode, :latitude, :longitude,
                                   :timezone, :content_provider_id, { collection_ids: [] }, { node_ids: [] },
                                   { node_names: [] }, { target_audience: [] }, { eligibility: [] }, :visible,
                                   { host_institutions: [] }, :capacity, :contact, :recognition, :learning_objectives,

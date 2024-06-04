@@ -49,7 +49,6 @@ module Ingestors
         event.keywords = item['tags'].map{ |t| t['tag'] }
         event.description = convert_description item['description']
         event.timezone = 'Amsterdam'
-        event.organizer = 'University of Twente'
         event.source = 'University of Twente'
         add_event(event)
       rescue Exception => e
