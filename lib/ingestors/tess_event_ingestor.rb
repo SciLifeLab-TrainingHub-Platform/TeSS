@@ -44,7 +44,6 @@ module Ingestors
           event.end = attr['end']
           event.timezone = 'UTC'
           event.contact = attr['contact']
-          event.organizer = attr['organizer']
           event.online = attr['online']
           event.city = attr['city']
           event.country = attr['country']

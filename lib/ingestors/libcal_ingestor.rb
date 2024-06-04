@@ -39,7 +39,6 @@ module Ingestors
           attr = item
           event.title = attr.fetch('title', '')
           event.url = attr.fetch('url', '')&.strip
-          event.organizer = attr.fetch('org', '')
           event.description = convert_description attr.fetch('description', '')
           event.start = attr.fetch('startdt', '')
           event.end = attr.fetch('enddt', '')

@@ -81,7 +81,7 @@ class CuratorControllerTest < ActionController::TestCase
     assert_not_includes assigns(:users), new_user
 
     e = new_user.events.create!(title: 'Spam event', url: 'http://cool-event.pancakes', start: 10.days.from_now,
-                                description: "test event", organizer: "test organizer", end: 11.days.from_now,
+                                description: "test event", end: 11.days.from_now,
                                 eligibility: [ 'registration_of_interest' ], host_institutions: [ "MIT" ],
                                 contact: "me", online: true, timezone: 'UTC'
                                 )
@@ -133,7 +133,7 @@ class CuratorControllerTest < ActionController::TestCase
     node = nil
     4.times do |i|
       e = new_user.events.create!(title: "Spam event #{i}", url: "http://cool-event.pancakes/#{i}", start: 10.days.from_now,
-                                  description: "test event", organizer: "test organizer", end: 11.days.from_now,
+                                  description: "test event", end: 11.days.from_now,
                                   eligibility: [ 'registration_of_interest' ], host_institutions: [ "MIT" ],
                                   contact: "me", online: true, timezone: 'UTC')
       e.create_activity(:create, owner: new_user)

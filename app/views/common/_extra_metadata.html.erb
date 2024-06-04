@@ -32,7 +32,6 @@
   <%= display_attribute(resource, :learning_objectives, markdown: true) %>
   <%= display_attribute(resource, :eligibility) { |e| EligibilityDictionary.instance.lookup_value(e, 'title') } %>
 
-  <%= display_attribute(resource, :organizer) %>
   <%= display_attribute(resource, :host_institutions) { |values| values.join(', ') } %>
   <%= display_attribute(resource, :fields) { |values| values.join(', ') } %>
 

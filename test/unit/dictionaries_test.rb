@@ -74,9 +74,6 @@ class DictionariesTest < ActiveSupport::TestCase
     assert_nil dic.lookup(key), "#{key}: invalid key was found?"
     key = 'free'
     assert_not_nil dic.lookup(key), "#{key}: key not found"
-    key = 'hosts'
-    assert_not_nil dic.lookup(key), "#{key}: key not found"
-    assert_equal 'Cost to non-members', dic.lookup(key)['title'], "#{key}: title not matched"
     key = 'charge'
     assert_not_nil dic.lookup(key), "#{key}: key not found"
     assert_equal 'This event has an associated charge for participants.', dic.lookup(key)['description'],

@@ -84,10 +84,6 @@ module Ingestors
                                  true
                                end
 
-                # organizer
-                organizer = get_eventbrite_organizer item['organizer_id']
-                event.organizer = organizer['name'] unless organizer.nil?
-
                 # address fields
                 venue = get_eventbrite_venue item['venue_id']
                 unless venue.nil? or venue['address'].nil?
@@ -281,19 +277,19 @@ module Ingestors
       subcategories
     end
 
-    def get_eventbrite_organizer(id)
-      # abort on bad input
-      return nil if id.nil? or id == 'null'
-
-      # initialize cache
-      @eventbrite_objects[:organizers] = {} if @eventbrite_objects[:organizers].nil?
-
-      # not in cache
-      populate_eventbrite_organizer id unless @eventbrite_objects[:organizers].keys.include? id
-
-      # return from cache
-      @eventbrite_objects[:organizers][id]
-    end
+    # def get_eventbrite_organizer(id)
+    #   # abort on bad input
+    #   return nil if id.nil? or id == 'null'
+    #
+    #   # initialize cache
+    #   @eventbrite_objects[:organizers] = {} if @eventbrite_objects[:organizers].nil?
+    #
+    #   # not in cache
+    #   populate_eventbrite_organizer id unless @eventbrite_objects[:organizers].keys.include? id
+    #
+    #   # return from cache
+    #   @eventbrite_objects[:organizers][id]
+    # end
 
     def populate_eventbrite_organizer(id)
       # get from query and add to cache if found

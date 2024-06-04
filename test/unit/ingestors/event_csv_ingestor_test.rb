@@ -65,7 +65,6 @@ class EventCsvIngestorTest < ActiveSupport::TestCase
     assert_equal DateTime.new(2022, 3, 3, 15, 30, 0), event.end
     assert_equal 'Sydney', event.timezone
     assert_equal 'training.nci@anu.edu.au', event.contact
-    assert_equal 'NCI', event.organizer
     check_array event.eligibility, ['by_invitation'], ['open_to_all']
     check_array event.host_institutions, ['NCI'], ['Intersect']
     refute event.online?
