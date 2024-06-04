@@ -4,7 +4,7 @@ require 'sidekiq/testing'
 class EventTest < ActiveSupport::TestCase
   setup do
     @event = events(:one)
-    @mandatory = { start: @event.start, end: @event.end, organizer: @event.organizer,
+    @mandatory = { start: @event.start, end: @event.end,
                    timezone: @event.timezone, contact: @event.contact, eligibility: @event.eligibility,
                    host_institutions: @event.host_institutions }
   end
