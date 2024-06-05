@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - rc-*
-      - harshita_feature-automate-imagetag
   create:
     tags:
       - 'rc-v*'
@@ -38,7 +37,7 @@ jobs:
     - name: Determine the environment
       id: determine-env
       run: |
-        if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/harshita_feature-automate-imagetag ]]; then
+        if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
           echo "ENVIRONMENT=dev" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.DEV_BASE_URL }}" >> $GITHUB_ENV
           echo "DOCKER_TARGET=development" >> $GITHUB_ENV
