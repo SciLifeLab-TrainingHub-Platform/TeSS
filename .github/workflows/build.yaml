@@ -1,0 +1,104 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - rc-*
+  create:
+    tags:
+      - 'rc-v*'
+  release:
+    types: [published]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}-app
+  NAMESPACE: scilifelab-traininghub-platform
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup
+      run: | 
+        cp env.sample .env
+        cp config/secrets.example.yml config/secrets.yml
+
+    - name: Determine the environment
+      id: determine-env
+      run: |
+        if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
+          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+          echo "VARIABLE_VALUE=${{ secrets.DEV_BASE_URL }}" >> $GITHUB_ENV
+          echo "DOCKER_TARGET=development" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+        elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
+          echo "ENVIRONMENT=preprod" >> $GITHUB_ENV
+          echo "VARIABLE_VALUE=${{ secrets.PREPROD_BASE_URL }}" >> $GITHUB_ENV
+          echo "DOCKER_TARGET=production" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
+        elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "published" ]]; then
+          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
+          echo "VARIABLE_VALUE=${{ secrets.PROD_BASE_URL }}" >> $GITHUB_ENV
+          echo "DOCKER_TARGET=production" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+        fi
+    - name: Set output values
+      id: set-env
+      run: |
+        echo "ENVIRONMENT=${{ env.ENVIRONMENT }}" >> $GITHUB_ENV
+        echo "IMAGE_TAG=${{ env.IMAGE_TAG }}" >> $GITHUB_ENV
+        echo "::set-output name=ENVIRONMENT::${{ env.ENVIRONMENT }}"
+        echo "::set-output name=IMAGE_TAG::${{ env.IMAGE_TAG }}"
+
+    - name: Change base_url in config/tess.yml
+      run: |
+        sed -i 's|base_url: .*|base_url: '${{ env.VARIABLE_VALUE }}'|' config/tess.yml
+
+    - name: Set lowercase repository name
+      id: lowercase-repo
+      run: |
+        REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+        echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+
+    - name: Log in to the container registry
+      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      with:
+        images: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        file: ./Dockerfile-dev
+        target: ${{ env.DOCKER_TARGET }}
+        tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+        labels: ${{ steps.meta.outputs.labels }}
+    
+    - name: Post to a Slack channel
+      id: slack
+      uses: slackapi/slack-github-action@v1.26.0
+      with:
+        channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+        slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
