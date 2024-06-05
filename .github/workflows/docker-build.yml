@@ -51,6 +51,6 @@ jobs:
         push: true
         file: ./Dockerfile-dev
         target: production
-        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-preprod:v1.0.0
+        tags: ghcr.io/scilifelab-traininghub-platform/tess-app-dev:test
         labels: ${{ steps.meta.outputs.labels }}
   
