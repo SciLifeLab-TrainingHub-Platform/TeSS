@@ -4,7 +4,6 @@ on:
   push: 
     branches:
       - develop
-      - harshita_fix_hosts
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-app
