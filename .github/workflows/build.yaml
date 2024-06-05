@@ -91,7 +91,7 @@ jobs:
         push: true
         file: ./Dockerfile-dev
         target: ${{ env.DOCKER_TARGET }}
-        tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}, ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ github.ref_name }}
+        tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
         labels: ${{ steps.meta.outputs.labels }}
     
     - name: Post to a Slack channel
