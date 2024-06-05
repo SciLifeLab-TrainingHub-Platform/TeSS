@@ -23,6 +23,7 @@ class Event < ApplicationRecord
   before_validation :presence_default
   before_save :check_country_name # :set_default_times
   before_save :geocoding_cache_lookup, if: :address_will_change?
+  before_save :set_end_time_to_end_of_day, if: :end?
   after_save :enqueue_geocoding_worker, if: :address_changed?
 
   if TeSS::Config.solr_enabled
@@ -355,6 +356,15 @@ class Event < ApplicationRecord
     # return true to enable error messages
     true
   end
+
+  def set_end_time_to_end_of_day
+    if self.end.present?
+      if self.end.hour == 0 && self.end.min == 0 && self.end.sec == 0
+        self.end = self.end.to_datetime.end_of_day
+      end
+    end
+  end
+  
 
   # Check the external Geocoder API (currently Nominatim) for coordinates
   def geocoding_api_lookup

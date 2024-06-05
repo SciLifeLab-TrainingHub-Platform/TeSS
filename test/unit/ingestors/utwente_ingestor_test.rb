@@ -51,7 +51,7 @@ class UtwenteIngestorTest < ActiveSupport::TestCase
     # check other fields
     assert_equal 'Amsterdam', event.timezone
     assert_equal Time.zone.parse('Thu, 09 Nov 2023 00:00:00 +0000'), event.start
-    assert_equal Time.zone.parse('Thu, 09 Nov 2023 00:00:00 +0000'), event.end
+    assert_equal Time.zone.parse('Thu, 09 Nov 2023 23:59:59.999999000 +0000'), event.end
     assert_equal 'Waaier', event.venue
   end
 end

@@ -135,7 +135,7 @@ module EventsHelper
   DATE_STRF = '%-e %B %Y'
   TIME_STRF = '%H:%M'
 
-  def neatly_printed_date_range(start, finish = nil)
+  def neatly_printed_date_range(start, finish = nil, display_time = true)
     if start.blank?
       if finish.blank?
         return 'No date given'
@@ -162,10 +162,12 @@ module EventsHelper
         # Don't show time component if they are set to midnight since that is the default if no time specified.
         # Revisit this decision if any events start occurring at midnight (timezone issue?)!
 
-        show_time = (start.hour != 0 || start.min != 0) || (finish.present? && (finish.hour != 0 || finish.min != 0))
-        if show_time
-          out << " @ #{start.strftime(TIME_STRF)}"
-          out << " - #{finish.strftime(TIME_STRF)}" if finish && (finish.hour != start.hour || finish.min != start.min)
+        if not display_time
+          show_time = (start.hour != 0 || start.min != 0) || (finish.present? && (finish.hour != 0 || finish.min != 0))
+          if show_time
+            out << " @ #{start.strftime(TIME_STRF)}"
+            out << " - #{finish.strftime(TIME_STRF)}" if finish && (finish.hour != start.hour || finish.min != start.min)
+          end
         end
         out
       elsif differing.any?

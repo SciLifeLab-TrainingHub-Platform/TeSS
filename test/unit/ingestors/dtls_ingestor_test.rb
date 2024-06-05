@@ -54,6 +54,6 @@ class DtlsIngestorTest < ActiveSupport::TestCase
     assert_equal 'Wageningen Campus', event.city
     assert_equal 'Netherlands', event.country
     assert_equal Time.zone.parse('Mon, 13 Feb 2023 00:00:00.000000000 UTC +00:00'), event.start
-    assert_equal Time.zone.parse('Fri, 17 Feb 2023 00:00:00.000000000 UTC +00:00'), event.end
+    assert_equal Time.zone.parse('Fri, 17 Feb 2023 23:59:59.999999000 UTC +00:00'), event.end
   end
 end
