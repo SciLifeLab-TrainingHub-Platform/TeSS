@@ -40,20 +40,22 @@ jobs:
         if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
           echo "ENVIRONMENT=dev" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.DEV_BASE_URL }}" >> $GITHUB_ENV
+          echo "SENDER_EMAIL=${{ secrets.DEV_SENDER_EMAIL }}" >> $GITHUB_ENV
+          echo "DELIVERY_METHOD=${{ secrets.DEV_DELIVERY_METHOD }}" >> $GITHUB_ENV
           echo "DOCKER_TARGET=development" >> $GITHUB_ENV
           echo "IMAGE_TAG=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
           echo "ENVIRONMENT=preprod" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.PREPROD_BASE_URL }}" >> $GITHUB_ENV
-          echo "SENDER_EMAIL=${{ secrets.SENDER_EMAIL }}" >> $GITHUB_ENV
-          echo "DELIVERY_METHOD=${{ secrets.DELIVERY_METHOD }}" >> $GITHUB_ENV
+          echo "SENDER_EMAIL=${{ secrets.PROD_SENDER_EMAIL }}" >> $GITHUB_ENV
+          echo "DELIVERY_METHOD=${{ secrets.PROD_DELIVERY_METHOD }}" >> $GITHUB_ENV
           echo "DOCKER_TARGET=production" >> $GITHUB_ENV
           echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
         elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "published" ]]; then
           echo "ENVIRONMENT=prod" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.PROD_BASE_URL }}" >> $GITHUB_ENV
-          echo "SENDER_EMAIL=${{ secrets.SENDER_EMAIL }}" >> $GITHUB_ENV
-          echo "DELIVERY_METHOD=${{ secrets.DELIVERY_METHOD }}" >> $GITHUB_ENV
+          echo "SENDER_EMAIL=${{ secrets.PROD_SENDER_EMAIL }}" >> $GITHUB_ENV
+          echo "DELIVERY_METHOD=${{ secrets.PROD_DELIVERY_METHOD }}" >> $GITHUB_ENV
           echo "DOCKER_TARGET=production" >> $GITHUB_ENV
           echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
         fi
