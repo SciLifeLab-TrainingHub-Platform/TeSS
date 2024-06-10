@@ -45,11 +45,15 @@ jobs:
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
           echo "ENVIRONMENT=preprod" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.PREPROD_BASE_URL }}" >> $GITHUB_ENV
+          echo "SENDER_EMAIL=${{ secrets.SENDER_EMAIL }}" >> $GITHUB_ENV
+          echo "DELIVERY_METHOD=${{ secrets.DELIVERY_METHOD }}" >> $GITHUB_ENV
           echo "DOCKER_TARGET=production" >> $GITHUB_ENV
           echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
         elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "published" ]]; then
           echo "ENVIRONMENT=prod" >> $GITHUB_ENV
           echo "VARIABLE_VALUE=${{ secrets.PROD_BASE_URL }}" >> $GITHUB_ENV
+          echo "SENDER_EMAIL=${{ secrets.SENDER_EMAIL }}" >> $GITHUB_ENV
+          echo "DELIVERY_METHOD=${{ secrets.DELIVERY_METHOD }}" >> $GITHUB_ENV
           echo "DOCKER_TARGET=production" >> $GITHUB_ENV
           echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
         fi
@@ -64,6 +68,8 @@ jobs:
     - name: Change base_url in config/tess.yml
       run: |
         sed -i 's|base_url: .*|base_url: '${{ env.VARIABLE_VALUE }}'|' config/tess.yml
+        sed -i 's|sender_email: .*|sender_email: '${{ env.SENDER_EMAIL }}'|' config/tess.yml
+        sed -i 's|delivery_method: .*|delivery_method: '${{ env.DELIVERY_METHOD }}'|' config/tess.yml
 
     - name: Set lowercase repository name
       id: lowercase-repo
