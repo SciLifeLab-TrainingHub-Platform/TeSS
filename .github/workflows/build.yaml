@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - rc-*
-      - harshita_modify-workflow
   create:
     tags:
       - 'rc-v*'
@@ -80,7 +79,7 @@ jobs:
         ENVIRONMENT="dev"  # Default to dev
         if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
           ENVIRONMENT=${{ github.event.inputs.environment }}
-        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/harshita_modify-workflow ]]; then
+        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
           ENVIRONMENT="dev"
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
           ENVIRONMENT="preprod"
@@ -95,14 +94,6 @@ jobs:
         DOCKER_TARGET=$(echo $ENV_CONFIG | jq -r --arg env "$ENVIRONMENT" '.[$env].DOCKER_TARGET')
         IMAGE_TAG=$(echo $ENV_CONFIG | jq -r --arg env "$ENVIRONMENT" '.[$env].IMAGE_TAG')
 
-        # Print the values
-        echo "VARIABLE_VALUE: $VARIABLE_VALUE"
-        echo "SENDER_EMAIL: $SENDER_EMAIL"
-        echo "DELIVERY_METHOD: $DELIVERY_METHOD"
-        echo "DOCKER_TARGET: $DOCKER_TARGET"
-        echo "IMAGE_TAG: $IMAGE_TAG"
-        echo "ENVIRONMENT: $ENVIRONMENT"
-
         # Set environment variables
         echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
         echo "VARIABLE_VALUE=$VARIABLE_VALUE" >> $GITHUB_ENV
@@ -111,55 +102,46 @@ jobs:
         echo "DOCKER_TARGET=$DOCKER_TARGET" >> $GITHUB_ENV
         echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
-      
-    - name: Set output values
-      id: set-env
+    - name: Change env values in config/tess.yml
       run: |
-        echo "ENVIRONMENT=${{ env.ENVIRONMENT }}" >> $GITHUB_ENV
-        echo "IMAGE_TAG=${{ env.IMAGE_TAG }}" >> $GITHUB_ENV
-        echo "::set-output name=ENVIRONMENT::${{ env.ENVIRONMENT }}"
-        echo "::set-output name=IMAGE_TAG::${{ env.IMAGE_TAG }}"
+        sed -i 's|base_url: .*|base_url: '${{ env.VARIABLE_VALUE }}'|' config/tess.yml
+        sed -i 's|sender_email: .*|sender_email: '${{ env.SENDER_EMAIL }}'|' config/tess.yml
+        sed -i 's|delivery_method: .*|delivery_method: '${{ env.DELIVERY_METHOD }}'|' config/tess.yml
 
-    # - name: Change base_url in config/tess.yml
-    #   run: |
-    #     sed -i 's|base_url: .*|base_url: '${{ env.VARIABLE_VALUE }}'|' config/tess.yml
-    #     sed -i 's|sender_email: .*|sender_email: '${{ env.SENDER_EMAIL }}'|' config/tess.yml
-    #     sed -i 's|delivery_method: .*|delivery_method: '${{ env.DELIVERY_METHOD }}'|' config/tess.yml
+    - name: Set lowercase repository name
+      id: lowercase-repo
+      run: |
+        REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+        echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
 
-    # - name: Set lowercase repository name
-    #   id: lowercase-repo
-    #   run: |
-    #     REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-    #     echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+    - name: Log in to the container registry
+      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
-    # - name: Log in to the container registry
-    #   uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-    #   with:
-    #     registry: ${{ env.REGISTRY }}
-    #     username: ${{ github.actor }}
-    #     password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      with:
+        images: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}
 
-    # - name: Extract metadata (tags, labels) for Docker
-    #   id: meta
-    #   uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-    #   with:
-    #     images: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}
-
-    # - name: Build and push Docker image
-    #   uses: docker/build-push-action@v5
-    #   with:
-    #     context: .
-    #     push: true
-    #     file: ./Dockerfile-dev
-    #     target: ${{ env.DOCKER_TARGET }}
-    #     tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
-    #     labels: ${{ steps.meta.outputs.labels }}
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        file: ./Dockerfile-dev
+        target: ${{ env.DOCKER_TARGET }}
+        tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+        labels: ${{ steps.meta.outputs.labels }}
     
-    # - name: Post to a Slack channel
-    #   id: slack
-    #   uses: slackapi/slack-github-action@v1.26.0
-    #   with:
-    #     channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-    #     slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-    #   env:
-    #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+    - name: Post to a Slack channel
+      id: slack
+      uses: slackapi/slack-github-action@v1.26.0
+      with:
+        channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+        slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
