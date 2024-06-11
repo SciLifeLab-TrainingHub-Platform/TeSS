@@ -4,11 +4,12 @@ on:
   push:
     branches:
       - rc-*
+      - harshita_modify-workflow
   create:
     tags:
       - 'rc-v*'
   release:
-    types: [published]
+    types: [published,edited]
 
   workflow_dispatch:
     inputs:
@@ -50,15 +51,14 @@ jobs:
     - name: Determine the environment
       id: determine-env
       run: |
-        echo "{}" > env_config.json
-        # Define the environment configuration JSON
-        echo '{
+        # Define the environment configuration JSON directly in a variable
+        ENV_CONFIG='{
           "dev": {
             "VARIABLE_VALUE": "${{ secrets.DEV_BASE_URL }}",
             "SENDER_EMAIL": "${{ secrets.DEV_SENDER_EMAIL }}",
             "DELIVERY_METHOD": "${{ secrets.DEV_DELIVERY_METHOD }}",
             "DOCKER_TARGET": "development",
-            "IMAGE_TAG": "$(date +%Y%m%d%H%M%S)"
+            "IMAGE_TAG": "'"$CURRENT_DATE"'"
           },
           "preprod": {
             "VARIABLE_VALUE": "${{ secrets.PREPROD_BASE_URL }}",
@@ -74,26 +74,26 @@ jobs:
             "DOCKER_TARGET": "production",
             "IMAGE_TAG": "${{ github.event.release.tag_name }}"
           }
-        }' > env_config.json
-        
-        # Determine environment based on event
+        }'
+
+        # Determine the environment based on the event
+        ENVIRONMENT="dev"  # Default to dev
         if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
           ENVIRONMENT=${{ github.event.inputs.environment }}
-        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
+        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/harshita_modify-workflow ]]; then
           ENVIRONMENT="dev"
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
           ENVIRONMENT="preprod"
         elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "published" ]]; then
           ENVIRONMENT="prod"
         fi
-        
-        # Load environment configuration
-        CONFIG=$(cat env_config.json | jq -r --arg env "$ENVIRONMENT" '.[$env]')
-        VARIABLE_VALUE=$(echo $CONFIG | jq -r '.VARIABLE_VALUE')
-        SENDER_EMAIL=$(echo $CONFIG | jq -r '.SENDER_EMAIL')
-        DELIVERY_METHOD=$(echo $CONFIG | jq -r '.DELIVERY_METHOD')
-        DOCKER_TARGET=$(echo $CONFIG | jq -r '.DOCKER_TARGET')
-        IMAGE_TAG=$(echo $CONFIG | jq -r '.IMAGE_TAG' | eval)
+
+        # Use jq to extract the required values
+        VARIABLE_VALUE=$(echo $ENV_CONFIG | jq -r --arg env "$ENVIRONMENT" '.[$env].VARIABLE_VALUE')
+        SENDER_EMAIL=$(echo $ENV_CONFIG | jq -r --arg env "$ENVIRONMENT" '.[$env].SENDER_EMAIL')
+        DELIVERY_METHOD=$(echo $ENV_CONFIG | jq -r --arg env "$ENVIRONMENT" '.[$env].DELIVERY_METHOD')
+        DOCKER_TARGET=$(echo $ENV_CONFIG | jq -r --arg env "$ENVIRONMENT" '.[$env].DOCKER_TARGET')
+        IMAGE_TAG=$(echo $ENV_CONFIG | jq -r --arg env "$ENVIRONMENT" '.[$env].IMAGE_TAG')
 
         # Set environment variables
         echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
@@ -102,16 +102,8 @@ jobs:
         echo "DELIVERY_METHOD=$DELIVERY_METHOD" >> $GITHUB_ENV
         echo "DOCKER_TARGET=$DOCKER_TARGET" >> $GITHUB_ENV
         echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
-      
-    - name: Set output values
-      id: set-env
-      run: |
-        echo "ENVIRONMENT=${{ env.ENVIRONMENT }}" >> $GITHUB_ENV
-        echo "IMAGE_TAG=${{ env.IMAGE_TAG }}" >> $GITHUB_ENV
-        echo "::set-output name=ENVIRONMENT::${{ env.ENVIRONMENT }}"
-        echo "::set-output name=IMAGE_TAG::${{ env.IMAGE_TAG }}"
 
-    - name: Change base_url in config/tess.yml
+    - name: Change env values in config/tess.yml
       run: |
         sed -i 's|base_url: .*|base_url: '${{ env.VARIABLE_VALUE }}'|' config/tess.yml
         sed -i 's|sender_email: .*|sender_email: '${{ env.SENDER_EMAIL }}'|' config/tess.yml
