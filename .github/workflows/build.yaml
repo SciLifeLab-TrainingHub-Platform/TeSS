@@ -58,7 +58,7 @@ jobs:
             "SENDER_EMAIL": "${{ secrets.DEV_SENDER_EMAIL }}",
             "DELIVERY_METHOD": "${{ secrets.DEV_DELIVERY_METHOD }}",
             "DOCKER_TARGET": "development",
-            "IMAGE_TAG": "$(date +'%Y-%m-%d-%H-%M-%S')"
+            "IMAGE_TAG": "'"$CURRENT_DATE"'"
           },
           "preprod": {
             "VARIABLE_VALUE": "${{ secrets.PREPROD_BASE_URL }}",
