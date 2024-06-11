@@ -101,6 +101,7 @@ jobs:
         echo "DELIVERY_METHOD: $DELIVERY_METHOD"
         echo "DOCKER_TARGET: $DOCKER_TARGET"
         echo "IMAGE_TAG: $IMAGE_TAG"
+        echo "ENVIRONMENT: $ENVIRONMENT"
 
         # Set environment variables
         echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
