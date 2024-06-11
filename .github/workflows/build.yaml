@@ -11,6 +11,19 @@ on:
     types: [published]
 
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        type: choice
+        options:
+          - dev
+          - preprod
+          - prod
+        required: true
+      tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
 
 permissions:
   contents: read
@@ -37,28 +50,59 @@ jobs:
     - name: Determine the environment
       id: determine-env
       run: |
-        if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
-          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
-          echo "VARIABLE_VALUE=${{ secrets.DEV_BASE_URL }}" >> $GITHUB_ENV
-          echo "SENDER_EMAIL=${{ secrets.DEV_SENDER_EMAIL }}" >> $GITHUB_ENV
-          echo "DELIVERY_METHOD=${{ secrets.DEV_DELIVERY_METHOD }}" >> $GITHUB_ENV
-          echo "DOCKER_TARGET=development" >> $GITHUB_ENV
-          echo "IMAGE_TAG=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+        echo "{}" > env_config.json
+        # Define the environment configuration JSON
+        echo '{
+          "dev": {
+            "VARIABLE_VALUE": "${{ secrets.DEV_BASE_URL }}",
+            "SENDER_EMAIL": "${{ secrets.DEV_SENDER_EMAIL }}",
+            "DELIVERY_METHOD": "${{ secrets.DEV_DELIVERY_METHOD }}",
+            "DOCKER_TARGET": "development",
+            "IMAGE_TAG": "$(date +%Y%m%d%H%M%S)"
+          },
+          "preprod": {
+            "VARIABLE_VALUE": "${{ secrets.PREPROD_BASE_URL }}",
+            "SENDER_EMAIL": "${{ secrets.PREPROD_SENDER_EMAIL }}",
+            "DELIVERY_METHOD": "${{ secrets.PREPROD_DELIVERY_METHOD }}",
+            "DOCKER_TARGET": "production",
+            "IMAGE_TAG": "${{ github.ref_name }}"
+          },
+          "prod": {
+            "VARIABLE_VALUE": "${{ secrets.PROD_BASE_URL }}",
+            "SENDER_EMAIL": "${{ secrets.PROD_SENDER_EMAIL }}",
+            "DELIVERY_METHOD": "${{ secrets.PROD_DELIVERY_METHOD }}",
+            "DOCKER_TARGET": "production",
+            "IMAGE_TAG": "${{ github.event.release.tag_name }}"
+          }
+        }' > env_config.json
+        
+        # Determine environment based on event
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          ENVIRONMENT=${{ github.event.inputs.environment }}
+        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
+          ENVIRONMENT="dev"
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
-          echo "ENVIRONMENT=preprod" >> $GITHUB_ENV
-          echo "VARIABLE_VALUE=${{ secrets.PREPROD_BASE_URL }}" >> $GITHUB_ENV
-          echo "SENDER_EMAIL=${{ secrets.PROD_SENDER_EMAIL }}" >> $GITHUB_ENV
-          echo "DELIVERY_METHOD=${{ secrets.PROD_DELIVERY_METHOD }}" >> $GITHUB_ENV
-          echo "DOCKER_TARGET=production" >> $GITHUB_ENV
-          echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
+          ENVIRONMENT="preprod"
         elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "published" ]]; then
-          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
-          echo "VARIABLE_VALUE=${{ secrets.PROD_BASE_URL }}" >> $GITHUB_ENV
-          echo "SENDER_EMAIL=${{ secrets.PROD_SENDER_EMAIL }}" >> $GITHUB_ENV
-          echo "DELIVERY_METHOD=${{ secrets.PROD_DELIVERY_METHOD }}" >> $GITHUB_ENV
-          echo "DOCKER_TARGET=production" >> $GITHUB_ENV
-          echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          ENVIRONMENT="prod"
         fi
+        
+        # Load environment configuration
+        CONFIG=$(cat env_config.json | jq -r --arg env "$ENVIRONMENT" '.[$env]')
+        VARIABLE_VALUE=$(echo $CONFIG | jq -r '.VARIABLE_VALUE')
+        SENDER_EMAIL=$(echo $CONFIG | jq -r '.SENDER_EMAIL')
+        DELIVERY_METHOD=$(echo $CONFIG | jq -r '.DELIVERY_METHOD')
+        DOCKER_TARGET=$(echo $CONFIG | jq -r '.DOCKER_TARGET')
+        IMAGE_TAG=$(echo $CONFIG | jq -r '.IMAGE_TAG' | eval)
+
+        # Set environment variables
+        echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
+        echo "VARIABLE_VALUE=$VARIABLE_VALUE" >> $GITHUB_ENV
+        echo "SENDER_EMAIL=$SENDER_EMAIL" >> $GITHUB_ENV
+        echo "DELIVERY_METHOD=$DELIVERY_METHOD" >> $GITHUB_ENV
+        echo "DOCKER_TARGET=$DOCKER_TARGET" >> $GITHUB_ENV
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+      
     - name: Set output values
       id: set-env
       run: |
