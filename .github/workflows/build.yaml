@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - rc-*
-      - harshita_modify-workflow
   create:
     tags:
       - 'rc-v*'
@@ -58,7 +57,7 @@ jobs:
             "SENDER_EMAIL": "${{ secrets.DEV_SENDER_EMAIL }}",
             "DELIVERY_METHOD": "${{ secrets.DEV_DELIVERY_METHOD }}",
             "DOCKER_TARGET": "development",
-            "IMAGE_TAG": "'"$CURRENT_DATE"'"
+            "IMAGE_TAG": "$(date +'%Y-%m-%d-%H-%M-%S')"
           },
           "preprod": {
             "VARIABLE_VALUE": "${{ secrets.PREPROD_BASE_URL }}",
@@ -80,7 +79,7 @@ jobs:
         ENVIRONMENT="dev"  # Default to dev
         if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
           ENVIRONMENT=${{ github.event.inputs.environment }}
-        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/harshita_modify-workflow ]]; then
+        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
           ENVIRONMENT="dev"
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
           ENVIRONMENT="preprod"
