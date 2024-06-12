@@ -328,7 +328,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_18_100022) do
     t.index ["user_id"], name: "index_learning_paths_on_user_id"
   end
 
-  create_table "link_monitors", id: :serial, force: :cascade do |t|
+  create_table "link_monitors", force: :cascade do |t|
     t.string "url"
     t.integer "code"
     t.datetime "failed_at", precision: nil
