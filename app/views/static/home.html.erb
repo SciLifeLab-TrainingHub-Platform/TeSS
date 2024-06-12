@@ -22,7 +22,11 @@
 }
 </script>
 
-<%= render partial: 'static/home/welcome' %>
+<%
+=begin%>
+ <%= render partial: 'static/home/welcome' %> 
+<%
+=end%>
 
 <section>
   <%# Welcome text %>
@@ -49,6 +53,7 @@
     <% end %>
   </div>
 </section>
+<%= render partial: 'static/home/counters' if TeSS::Config.site.dig('home_page', 'counters') %>
 
 <%= render partial: 'static/home/catalogue_blocks' if TeSS::Config.site.dig('home_page', 'catalogue_blocks') %>
 
@@ -61,5 +66,7 @@
 <%= render partial: 'static/home/promo_blocks' if TeSS::Config.site.dig('home_page', 'promo_blocks') %>
 
 <%= render partial: 'static/home/upcoming_events' if @events.present? %>
+
+<%= render partial: 'static/home/latest_materials' if @materials.present? %>
 
 <%= render partial: 'static/home/featured_trainer'  if TeSS::Config.site.dig('home_page', 'featured_trainer') %>
