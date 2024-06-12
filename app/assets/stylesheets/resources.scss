@@ -11,6 +11,11 @@
 
   h4 {
     font-weight: bold;
+    font-size: 25px;
+  }
+
+  p {
+    font-size: 18px;
   }
 
   a:hover {
@@ -20,11 +25,11 @@
   .resources_main_card {
     display: flex;
     flex-direction: column;
-  }
-
-  @media screen and (max-width: 992px) {
-    .resources_main_card {
-      flex-direction: row;
+    @media screen and (max-width: 992px) {
+        flex-direction: row;
+    }
+    @media screen and (max-width: 520px) {
+        flex-direction: column;
     }
   }
 
@@ -52,8 +57,22 @@
   }
 
   .resources_main_image {
-    max-width: 200px;
+    max-width: 220px;
     margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+
+
+    @media screen and (max-width: 992px){
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    @media screen and (max-width: 520px) {
+      margin: 30px;
+      top: auto;
+      transform: none;
+    }
   }
 }
 
