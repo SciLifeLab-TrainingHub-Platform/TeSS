@@ -17,14 +17,33 @@
     color: black;
   }
 
+  .resources_main_card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (max-width: 992px) {
+    .resources_main_card {
+      flex-direction: row;
+    }
+  }
+
+  .resources_main_card-header, .resources_main_card-body {
+    flex: 1;
+  }
+
   .resources_training, .resources_support, .resources_community {
     background-repeat: no-repeat;
     background-size: 98% 98%;
-    height: 530px;
+    height: auto;
 
     @media screen and (min-width: 992px) {
-      height: 530px;
+          height: 530px;
     }
+    @media screen and (max-width: 992px) {
+          padding: 15px;
+    }
+
   }
 
   .resources_main_icon {
