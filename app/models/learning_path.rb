@@ -8,10 +8,7 @@ class LearningPath < ApplicationRecord
   include HasFriendlyId
   include HasDifficultyLevel
   include HasSuggestions
-<<<<<<< HEAD
   include Collaboratable
-=======
->>>>>>> 081f25f9... Create basic learning path model
 
   if TeSS::Config.solr_enabled
     # :nocov:
@@ -46,10 +43,7 @@ class LearningPath < ApplicationRecord
       string :node, multiple: true do
         self.associated_nodes.pluck(:name)
       end
-<<<<<<< HEAD
       boolean :public
-=======
->>>>>>> 081f25f9... Create basic learning path model
       time :updated_at
       time :created_at
       boolean :failing do
@@ -60,9 +54,13 @@ class LearningPath < ApplicationRecord
       end
       integer :user_id # Used for shadowbans
 <<<<<<< HEAD
+<<<<<<< HEAD
       integer :collaborator_ids, multiple: true
 =======
 >>>>>>> 081f25f9... Create basic learning path model
+=======
+      integer :collaborator_ids, multiple: true
+>>>>>>> 914fd5e0... Merge branch ElixirTess-Master 'D240612' (#125)
       string :status do
         MaterialStatusDictionary.instance.lookup_value(self.status, 'title')
       end

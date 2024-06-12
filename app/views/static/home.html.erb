@@ -82,6 +82,7 @@
     <% end %>
   </div>
 </section>
+<%= render partial: 'static/home/counters' if TeSS::Config.site.dig('home_page', 'counters') %>
 
 <%= render partial: 'static/home/catalogue_blocks' if TeSS::Config.site.dig('home_page', 'catalogue_blocks') %>
 
@@ -103,6 +104,8 @@
 =======
 >>>>>>> 2eb80b81... Merging elixir updates from TeSS (#51)
 =======
+
+<%= render partial: 'static/home/latest_materials' if @materials.present? %>
 
 <%= render partial: 'static/home/featured_trainer'  if TeSS::Config.site.dig('home_page', 'featured_trainer') %>
 >>>>>>> 663453f6... optional daily featured trainer on home page
