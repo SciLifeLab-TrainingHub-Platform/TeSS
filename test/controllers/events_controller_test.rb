@@ -740,7 +740,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 'text/csv; charset=utf-8', @response.content_type
     csv_events = CSV.parse(@response.body)
-    assert_equal csv_events.first, %w[Title Start End ContentProvider]
+    assert_equal csv_events.first, %w[Title Organizer Start End ContentProvider]
   end
 
   test 'should provide an RSS file' do

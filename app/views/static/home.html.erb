@@ -28,8 +28,6 @@
 <%
 =end%>
 
-<%= render partial: 'static/home/counters' if TeSS::Config.site.dig('home_page', 'counters') %>
-
 <section>
   <%# Welcome text %>
   <div class="welcome-text">
@@ -77,6 +75,7 @@
     <% end %>
   </div>
 </section>
+<%= render partial: 'static/home/counters' if TeSS::Config.site.dig('home_page', 'counters') %>
 
 <%= render partial: 'static/home/catalogue_blocks' if TeSS::Config.site.dig('home_page', 'catalogue_blocks') %>
 
