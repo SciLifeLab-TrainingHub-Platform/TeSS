@@ -145,7 +145,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_100723) do
     t.bigint "image_file_size"
     t.datetime "image_updated_at"
     t.string "contact"
-    t.boolean "send_event_curation_email", default: false
+    t.string "event_curation_email"
     t.index ["node_id"], name: "index_content_providers_on_node_id"
     t.index ["slug"], name: "index_content_providers_on_slug", unique: true
     t.index ["user_id"], name: "index_content_providers_on_user_id"
@@ -326,7 +326,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_100723) do
     t.index ["user_id"], name: "index_learning_paths_on_user_id"
   end
 
-  create_table "link_monitors", id: :serial, force: :cascade do |t|
+  create_table "link_monitors", force: :cascade do |t|
     t.string "url"
     t.integer "code"
     t.datetime "failed_at", precision: nil

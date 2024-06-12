@@ -89,8 +89,8 @@ class CurationMailerTest < ActionMailer::TestCase
     end
 
     assert_equal [TeSS::Config.sender_email], email.from
-    assert_equal [@content_provider.user.email], email.to
-    assert_equal "#{TeSS::Config.site['title_short']} events require approval", email.subject
+    assert_equal [@content_provider.event_curation_email], email.to
+    assert_equal "Last week's events on #{TeSS::Config.site['title_short']}", email.subject
 
     text_body = email.text_part.body.to_s
     html_body = email.html_part.body.to_s
@@ -107,11 +107,28 @@ class CurationMailerTest < ActionMailer::TestCase
     end
   end
 
+  test 'text events approval no events' do
+    @content_provider = content_providers(:goblet)
+    email = CurationMailer.events_require_approval(@content_provider, Time.zone.now)
+
+    assert_emails 1 do
+      email.deliver_now
+    end
+
+    assert_equal [TeSS::Config.sender_email], email.from
+    assert_equal [@content_provider.event_curation_email], email.to
+    assert_equal "Last week's events on #{TeSS::Config.site['title_short']}", email.subject
+
+    [email.text_part, email.html_part].each do |part|
+      assert part.body.to_s.include?('There were no new events this week.')
+    end
+  end
+
   test 'text events approval no mail if disabled' do
     @content_provider = content_providers(:goblet)
     @events = [events(:one), events(:scraper_user_event)]
-    [[false, 0], [true, 1]].each do |val, count|
-      @content_provider.send_event_curation_email = val
+    [[nil, 0], [@content_provider.event_curation_email, 1]].each do |val, count|
+      @content_provider.event_curation_email = val
       email = CurationMailer.events_require_approval(@content_provider, @events.pluck(:created_at).min - 1.week)
 
       assert_emails count do
