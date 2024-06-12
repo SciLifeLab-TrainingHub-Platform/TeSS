@@ -1,57 +1,71 @@
+<div class="resource_parent">
+  <div class="row resources_main">
+    <%= link_to guides_path do %>
+      <div class="col-sm-4 resources_training">
+        <div class="card text-center">
+          <div class="card-header ">
+            <%= image_tag(asset_path("scilifelab/circle-infra.png"), alt: 'infra', class: 'resources_main_icon') %>
+            <h4>Training Assets</h4>
+            <p>
+              Find tools and guides for creating and delivering training.<br>
+            </p>
+          </div>
+          <div class="card-body">
+            <%= image_tag(asset_path("scilifelab/wordcloud.png"), alt: 'wordcloud', class: 'resources_main_image') %>
+          </div>
+        </div>
+      </div>
+    <% end %>
 
-<div class="row bg-warning">
+    <%= link_to pedagogic_path do %>
+      <div class="col-sm-4 resources_support">
+        <div class="card text-center">
+          <div class="card-header ">
+            <%= image_tag(asset_path("scilifelab/circle-support.png"), alt: 'support', class: 'resources_main_icon') %>
+            <h4>Support</h4>
+            <p>
+              Get tailored developmental support for creating high quality training.<br>
+            </p>
+          </div>
+          <div class="card-body">
+            <%= image_tag(asset_path("scilifelab/trainingcycle-only.png"), alt: 'cycle', class: 'resources_main_image') %>
+          </div>
+        </div>
+      </div>
+    <% end %>
 
-<%= link_to guides_path do %>
-<div class="col-sm-4">
-<div class="card text-center">
-<div class="card-header"><br><%= image_tag(asset_path("scilifelab/circle-infra.png"), alt: 'infra', width: '100px') %></div>
-  <div class="card-body"><h3>Training Assets</h3></div>
-  Find tools and guides for creating and delivering training.<br>
-  <%= image_tag(asset_path("scilifelab/wordcloud.png"), alt: 'wordcloud', width:'200px') %>
-</div>
-</div>
-<% end %>
+    <%= link_to community_path do %>
+      <div class="col-sm-4 resources_community">
+        <div class="card text-center">
+          <div class="card-header ">
+            <%= image_tag(asset_path("scilifelab/circle-community.png"), alt: 'community', class: 'resources_main_icon') %>
+            <h4>Community & Courses</h4>
+            <p>
+              Level up your skills as an instructor and connect with other experts.<br>
+            </p>
+          </div>
+          <div class="card-body">
+            <%= image_tag(asset_path("scilifelab/community-chat.png"), alt: 'chat', class: 'resources_main_image') %>
+          </div>
 
-<%= link_to pedagogic_path do %>
-<div class="col-sm-4">
-<div class="card text-center">
-<div class="card-header"><br><%= image_tag(asset_path("scilifelab/circle-support.png"), alt: 'support', width: '100px') %></div>
-  <div class="card-body"><h3>Support</h3></div>
-  Get tailored developmental support for creating high quality training.<br>
-  <%= image_tag(asset_path("scilifelab/trainingcycle-only.png"), alt: 'cycle', width:'200px') %>
-</div>
-</div>
-<% end %>
-
-<%= link_to community_path do %>
-<div class="col-sm-4">
-<div class="card text-center">
-<div class="card-header"><br><%= image_tag(asset_path("scilifelab/circle-community.png"), alt: 'community', width: '100px') %></div>
-  <div class="card-body"><h3>Community & Courses</h3></div>
- Level up your skills as an instructor and connect with other experts.<br>
- <%= image_tag(asset_path("scilifelab/community-chat.png"), alt: 'chat', width:'200px') %>
-</div>
-</div>
-</div>
-<% end %>
-
-<br>
-<div class="row p-3 bg-danger">
-<div class="col-md-4">
-<h5>In 2023, SciLifeLab delivered over 140 courses to more than 3000 participants. 
-<br><br>
-Our mission is to support instructors with professional development in educational science, 
-as well as in design and development of courses. Channelling these though our technical infrastructure, 
-we bring SciLifeLab training to a national audience at the highest level of excellence.
-</div></h5>
-
-<div class="col-md-8 text-center">
-<%= image_tag(asset_path("scilifelab/coursesbylocation.png"), alt: 'graph', width:'600px') %>
-</div>
+        </div>
+      </div>
+    <% end %>
   </div>
-  </div>
-  
 
+  <div class="row p-3 resources_secondary">
+    <div class="col-md-4">
+      <p>
+        In 2023, SciLifeLab delivered over 140 courses to more than 3000 participants.
+        <br>
+        <br>
+        Our mission is to support instructors with professional development in educational science, as well as in design and development of courses. Channelling these through our technical infrastructure, we bring SciLifeLab training to a national audience at the highest level of excellence.
+      </p>
+    </div>
+
+    <div class="col-md-8">
+      <%= image_tag(asset_path("scilifelab/coursesbylocation.png"), alt: 'graph', class: 'resources_secondary_image') %>
+    </div>
   </div>
 
 </div>

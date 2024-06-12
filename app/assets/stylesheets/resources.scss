@@ -1,0 +1,65 @@
+@import "bootstrap/mixins";
+
+.resource_parent {
+  margin: 10px;
+}
+
+.resources_main {
+  background-color: $primary-color;
+  padding-top: 6px;
+  padding-left: 6px;
+
+  h4 {
+    font-weight: bold;
+  }
+
+  a:hover {
+    color: black;
+  }
+
+  .resources_training, .resources_support, .resources_community {
+    background-repeat: no-repeat;
+    background-size: 98% 98%;
+    height: 530px;
+
+    @media screen and (min-width: 992px) {
+      height: 530px;
+    }
+  }
+
+  .resources_main_icon {
+    max-width: 100px;
+    margin: 20px 10px 15px;
+  }
+
+  .resources_main_image {
+    max-width: 200px;
+    margin-top: 30px;
+  }
+}
+
+.resources_training {
+  background-image: image-url('scilifelab/infra-background.png');
+}
+
+.resources_support {
+  background-image: image-url('scilifelab/support-background.png');
+}
+
+.resources_community {
+  background-image: image-url('scilifelab/communitybkgrnd.png');
+}
+
+.resources_secondary {
+  margin-top: 20px;
+
+  background-color: #678597 ;
+  p {
+    font-size: 2.5rem;
+  }
+
+  .resources_secondary_image {
+    width: 100%;
+    height: 560px;
+  }
+}
