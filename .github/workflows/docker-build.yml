@@ -4,6 +4,7 @@ on:
   push: 
     branches:
       - develop
+      - harshita_modify_dev_host
       
 env:
   REGISTRY: ghcr.io
