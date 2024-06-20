@@ -109,3 +109,13 @@
   display: block;
 }
 
+#trainer_community_accordion {
+
+  .panel-heading {
+    background-color: #a8c946;
+  }
+  .panel-heading:has(+ .panel-collapse.collapse.in) {
+    color: #FFFFFF;
+    background-color: #481d51;
+  }
+}
