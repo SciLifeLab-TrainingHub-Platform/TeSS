@@ -27,9 +27,9 @@ class StaticController < ApplicationController
     @count_strings = set_count_strings
   end
 
-  def showcase
-    @container_class = 'showcase-container container-fluid'
-  end
+    @events = []
+    n_events = TeSS::Config.site.dig('home_page', 'upcoming_events')
+    return unless n_events
 
   def set_featured_trainer
     return nil unless TeSS::Config.site.dig('home_page', 'featured_trainer')
