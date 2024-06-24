@@ -162,7 +162,7 @@ module EventsHelper
         # Don't show time component if they are set to midnight since that is the default if no time specified.
         # Revisit this decision if any events start occurring at midnight (timezone issue?)!
 
-        if not display_time
+        if display_time
           show_time = (start.hour != 0 || start.min != 0) || (finish.present? && (finish.hour != 0 || finish.min != 0))
           if show_time
             out << " @ #{start.strftime(TIME_STRF)}"
