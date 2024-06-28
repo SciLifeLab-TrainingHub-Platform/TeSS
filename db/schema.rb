@@ -36,7 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_100723) do
     t.bigint "user_id"
     t.string "name"
     t.jsonb "properties"
-    t.datetime "time", precision: nil
+    t.datetime "time"
     t.index ["name", "time"], name: "index_ahoy_events_on_name_and_time"
     t.index ["properties"], name: "index_ahoy_events_on_properties", opclass: :jsonb_path_ops, using: :gin
     t.index ["user_id"], name: "index_ahoy_events_on_user_id"
@@ -68,7 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_100723) do
     t.string "app_version"
     t.string "os_version"
     t.string "platform"
-    t.datetime "started_at", precision: nil
+    t.datetime "started_at"
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
   end
@@ -326,14 +326,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_100723) do
     t.index ["user_id"], name: "index_learning_paths_on_user_id"
   end
 
-  create_table "link_monitors", id: :serial, force: :cascade do |t|
+  create_table "link_monitors", force: :cascade do |t|
     t.string "url"
     t.integer "code"
-    t.datetime "failed_at", precision: nil
-    t.datetime "last_failed_at", precision: nil
+    t.datetime "failed_at"
+    t.datetime "last_failed_at"
     t.integer "fail_count"
-    t.string "lcheck_type"
     t.integer "lcheck_id"
+    t.string "lcheck_type"
     t.index ["lcheck_type", "lcheck_id"], name: "index_link_monitors_on_lcheck_type_and_lcheck_id"
   end
 
@@ -455,8 +455,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_100723) do
   create_table "sources", force: :cascade do |t|
     t.bigint "content_provider_id"
     t.bigint "user_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "finished_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "finished_at"
     t.string "url"
     t.string "method"
     t.integer "records_read"
@@ -468,7 +468,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_100723) do
     t.boolean "enabled"
     t.string "token"
     t.integer "approval_status"
-    t.datetime "updated_at", precision: nil
+    t.datetime "updated_at"
     t.index ["content_provider_id"], name: "index_sources_on_content_provider_id"
     t.index ["user_id"], name: "index_sources_on_user_id"
   end
@@ -539,9 +539,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_100723) do
     t.string "uid"
     t.string "identity_url"
     t.string "invitation_token"
-    t.datetime "invitation_created_at", precision: nil
-    t.datetime "invitation_sent_at", precision: nil
-    t.datetime "invitation_accepted_at", precision: nil
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
     t.integer "invitation_limit"
     t.string "invited_by_type"
     t.bigint "invited_by_id"
@@ -550,14 +550,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_100723) do
     t.string "image_file_name"
     t.string "image_content_type"
     t.bigint "image_file_size"
-    t.datetime "image_updated_at", precision: nil
+    t.datetime "image_updated_at"
     t.index ["authentication_token"], name: "index_users_on_authentication_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_url"], name: "index_users_on_identity_url", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
-    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["slug"], name: "index_users_on_slug", unique: true

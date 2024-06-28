@@ -4,9 +4,9 @@
   margin: 10px;
 
   .resources_main {
-    background-color: $primary-color;
-    padding-top: 6px;
-    padding-left: 6px;
+    background-color: #4c979f;
+    padding-top: 16px;
+    padding-bottom: 16px;
 
     h4 {
       font-weight: bold;
@@ -15,20 +15,19 @@
 
     p {
       font-size: 18px;
+      color: #491f53;
     }
 
-    a:hover {
-      color: black;
-    }
 
     .resources_main_card-header, .resources_main_card-body {
       flex: 1;
     }
 
     .resources_training, .resources_support, .resources_community {
-      background-repeat: no-repeat;
-      background-size: 98% 98%;
+      background-repeat: repeat;
+      background-size: 110%;
       height: auto;
+      background-position: center top;
 
       @media screen and (min-width: 767px) {
         height: 560px;
@@ -67,7 +66,7 @@
   .resources_secondary {
     margin-top: 20px;
 
-    background-color: #a5cbcf ;
+    background-color: #79b1b7 ;
     p {
       font-size: 2.5rem;
     }
