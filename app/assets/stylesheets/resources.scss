@@ -98,6 +98,12 @@
   }
   .panel-heading:has(+ .panel-collapse.collapse.in) {
     color: #FFFFFF;
-    background-color: #481d51;
+    background-color: #481d53;
   }
+}
+
+.btn.btn-large {
+  text-align: left;
+  font-size: larger;
+  color: #491f53;
 }
