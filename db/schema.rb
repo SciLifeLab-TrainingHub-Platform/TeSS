@@ -242,6 +242,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_18_100022) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+  create_table "events_venues", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "venue_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_events_venues_on_event_id"
+    t.index ["venue_id"], name: "index_events_venues_on_venue_id"
+  end
+
   create_table "external_resources", force: :cascade do |t|
     t.integer "source_id"
     t.text "url"
