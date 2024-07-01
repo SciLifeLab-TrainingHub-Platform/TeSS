@@ -1,7 +1,7 @@
 <div class="resource_parent">
   <div class="row resources_main">
-  <%= link_to guides_path do %>
-    <div class="col-md-4 p-8">
+    <%= link_to guides_path, style: 'text-decoration: none;' do  %>
+      <div class="col-md-4 p-6 mb-4">
         <div class="resources_main_card text-center resources_training">
           <div class="resources_main_card-header">
             <%= image_tag(asset_path("scilifelab/circle-infra.png"), alt: 'infra', class: 'resources_main_icon') %>
@@ -15,10 +15,10 @@
           </div>
         </div>
       </div>
-      <% end %>
+    <% end %>
 
-    <%= link_to pedagogic_path do %>
-    <div class="col-md-4 p-8">  
+    <%= link_to pedagogic_path, style: 'text-decoration: none;' do  %>
+      <div class="col-md-4 p-6 mb-4">
         <div class="resources_main_card text-center resources_support">
           <div class="resources_main_card-header ">
             <%= image_tag(asset_path("scilifelab/circle-support.png"), alt: 'support', class: 'resources_main_icon') %>
@@ -31,11 +31,11 @@
             <%= image_tag(asset_path("scilifelab/trainingcycle-only.png"), alt: 'cycle', class: 'resources_main_image') %>
           </div>
         </div>
-    </div>
+      </div>
     <% end %>
 
-    <%= link_to community_path do %>
-    <div class="col-md-4 p-8">
+    <%= link_to community_path, style: 'text-decoration: none;' do  %>
+      <div class="col-md-4 p-6 mb-4">
         <div class="resources_main_card text-center resources_community">
           <div class="resources_main_card-header ">
             <%= image_tag(asset_path("scilifelab/circle-community.png"), alt: 'community', class: 'resources_main_icon') %>
@@ -48,25 +48,27 @@
             <%= image_tag(asset_path("scilifelab/community-chat.png"), alt: 'chat', class: 'resources_main_image') %>
           </div>
         </div>
-    </div>
-  </div>
-  <% end %>
+      </div>
+      </div>
+    <% end %>
 
-  <div class="row p-3 resources_secondary">
-    <div class="col-lg-5 p-4">
-      <p>
-        In 2023, SciLifeLab delivered over 140 courses to more than 3000 participants.
-        <br>
-        <br>
-        Our mission is to support instructors with professional development in educational science, as well as in design
-        and development of courses. Channelling these through our technical infrastructure, we bring SciLifeLab training
-        to a national audience at the highest level of excellence.
-      </p>
+    <div class="row p-3 resources_secondary">
+      <div class="col-lg-5 p-4">
+        <p>
+          In 2023, SciLifeLab delivered over 140 courses to more than 3000 participants.
+          <br>
+          <br>
+          Our mission is to support instructors with professional development in educational science, as well as in
+          design
+          and development of courses. Channelling these through our technical infrastructure, we bring SciLifeLab
+          training
+          to a national audience at the highest level of excellence.
+        </p>
+      </div>
+
+      <div class="col-lg-7 p-4 text-right">
+        <%= image_tag(asset_path("scilifelab/coursesbylocation.png"), alt: 'graph', class: 'resources_secondary_image') %>
+      </div>
     </div>
 
-    <div class="col-lg-7 p-4 text-right">
-      <%= image_tag(asset_path("scilifelab/coursesbylocation.png"), alt: 'graph', class: 'resources_secondary_image') %>
     </div>
-  </div>
-
-</div>
