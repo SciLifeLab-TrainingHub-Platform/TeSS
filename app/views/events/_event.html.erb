@@ -32,7 +32,7 @@
           <%= elixir_node_icon %>
         <% end -%>
 
-        <p><%= neatly_printed_date_range(event.start, event.end) %></p>
+        <p><%= neatly_printed_date_range(event.start, event.end, false) %></p>
 
         <% if event.onsite? %>
           <% location = [event.city, event.country].reject { |field_value| field_value.blank? }.join(", ") %>
