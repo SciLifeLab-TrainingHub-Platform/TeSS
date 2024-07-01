@@ -1,20 +1,34 @@
 <div class="container mt-4">
   <h3 style="text-align: Left;"> <%= image_tag(asset_path("scilifelab/supporticon-black.png"), alt: "community", height: '50px') %> Support</h3>
-  <br>
-  <p>
-    The SciLifeLab Training Hub provides support in training co-creation and delivery to ensure 
-    knowledge transfer at SciLifeLab is engaging, effective, Open and FAIR, and creates 
-    sustainable and lasting learning.
-  </p>
-</div>
-
-<div class="container">
-<div class="row">
-<div class="col-md-8">
+  </div>
+  <div class="container">
+  <div class="row">
+   <h4> Have an idea but not sure where to start?</h4> 
+   Book a consultation with us below to discuss training - from upskilling user groups to course evaluations. 
+    The SciLifeLab Training Hub provides support in training co-creation and delivery to ensure knowledge transfer at SciLifeLab is engaging, effective, Open and FAIR, and creates sustainable and lasting learning. <br>
 <br>
-<h4 style="text-align: Center;">
-The Training Life Cycle
-</h4>
+<!-- Cal inline embed code begins -->
+<center><div style="width:75%;height:50%;overflow:scroll" id="my-cal-inline"></div>
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init",  {origin:"https://cal.com"});
+
+  Cal("inline", {
+	elementOrSelector:"#my-cal-inline",
+	calLink: "scilifelab-traininghub/support-consult",
+	layout: "month_view"
+  });
+
+  Cal("ui", {"theme":"light","styles":{"branding":{"brandColor":"#a7c947"}},"hideEventTypeDetails":false,"layout":"month_view"});
+  </script><center>
+  <!-- Cal inline embed code ends -->
+    </p>
+  </div>
+
+
+<div class="row">
+<h4> We support the entire training life cycle:</h4>
+<div class="col-md-8">
 <div class="special-box d-flex flex-column p-3">
 <div class="p-2 border align-self-start">
 
@@ -23,8 +37,6 @@ The Training Life Cycle
 </div>
 </div>
 <div class="col-md-4">
-  <br>
-<h4 style="text-align: Center;">Support areas:</h4>
   <div class="col-md-12 mb-2">
     <div class="support-box text-center d-flex flex-column p-3">
       <%= image_tag(asset_path("scilifelab/collaboration.png"), alt: 'icon', height: '40px') %>
@@ -64,30 +76,8 @@ The Training Life Cycle
 </div>
 </div>
 
-  <div class="row text-center">
-    <br>
-    <h5>Need support? <br>Have an idea but not sure where to start? <br> Book a consultation with us below to discuss training - from upskilling user groups to course evaluations:
-    </h5>
 <br>
-<!-- Cal inline embed code begins -->
-<center><div style="width:75%;height:50%;overflow:scroll" id="my-cal-inline"></div>
-<script type="text/javascript">
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-Cal("init",  {origin:"https://cal.com"});
-
-  Cal("inline", {
-	elementOrSelector:"#my-cal-inline",
-	calLink: "scilifelab-traininghub/support-consult",
-	layout: "month_view"
-  });
-
-  Cal("ui", {"theme":"light","styles":{"branding":{"brandColor":"#a7c947"}},"hideEventTypeDetails":false,"layout":"month_view"});
-  </script><center>
-  <!-- Cal inline embed code ends -->
-    </p>
-  </div>
-
-<h4 style="text-align: Center;">
+<h4>
 Frequently Asked Questions: 
 </h4>
 <div class="row">

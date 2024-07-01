@@ -1,30 +1,30 @@
+<h3 style="text-align: left;">
+  <%= image_tag(asset_path("scilifelab/guidesicon-black.png"), alt: "guides", height: "40px") %>
+  Training Assets
+</h3>
+
+
 <!-- Main Content -->
 <div class="wrapper">
   <% guides = t('guides').with_indifferent_access %>
-
   <%= render partial: 'guide_sidebar', locals: { show: 'us', guides: guides } %>
 
   <div class="container">
     <div class="content">
-      <h3 style="text-align: left;">
-        <%= image_tag(asset_path("scilifelab/guidesicon-black.png"), alt: "guides", size: "40x40") %>
-        Training Assets
-      </h3>
-      <br>
       <% first_category_key = guides.keys.first %>
       <% guides.each do |category_key, category| %>
-        <div id="<%= category_key %>" class="guide_page_category <%= 'active' if category_key == first_category_key  %>">
+        <div id="<%= category_key %>" class="guide_page_category <%= 'active' if category_key == first_category_key %>">
           <h4><%= category['name'] %></h4>
           <p><%= category['description'] %></p>
           <br>
-          <div class="row">
+          <div class="resources_training_items">
             <% category['elements'].each do |elements_key, elements| %>
               <%= link_to elements['url'], target: '_blank' do %>
-                <div class="col-md-3 mb-5">
+                <div class="mb-5">
                   <div class="guide-box text-center d-flex flex-column p-3">
                     <p style="font-size:20px;"><b><%= elements['name'] %></b></p>
-                    <%= image_tag(asset_path(elements['image']), alt: 'guide', size: '140x140') %>
-                    <p id="guide-type" class="mt-auto"><%= elements['type'] %></p>
+                    <%= image_tag(asset_path(elements['image']), alt: 'guide', height: '140px') %><br><br>
+                    <p id="guide-type"><%= elements['type'] %></p>
                   </div>
                 </div>
               <% end %>

@@ -547,7 +547,16 @@ en:
           url: 'https://doi.org/10.17044/scilifelab.24512674'
     course_tools:
       name: 'Course Tools'
-      description: 'Course tools are systems, apps, and resources that the Training Hub and Data Centre make available for development of SciLifeLab courses.'
+      description: 'Course tools are systems, apps, and resources that the Training Hub and other SciLifeLab entities make available for development of SciLifeLab courses.'
+      elements:
+        certificateapp:
+          name: 'Course certificate app'
+          type: 'application'
+          image: 'scilifelab/fairicon-black.png'
+          url: 'https://certificate.serve.scilifelab.se/app/certificate'
+    guidelines:
+      name: 'Guidelines'
+      description: 'Guidelines are frameworks that align with SciLifeLabs commitment to Open science and FAIR training.'
       elements:
         rubric:
           name: 'Mastery Rubric for Bioinformatics'
@@ -559,10 +568,6 @@ en:
           type: 'creation guide'
           image: 'scilifelab/guides/masteryrubric.png'
           url: 'https://f1000research.com/documents/9-1377'
-    guidelines:
-      name: 'Guidelines'
-      description: 'Guidelines are frameworks that align with SciLifeLab’s commitment to Open science and FAIR training.'
-      elements:
         LPs:
           name: 'Developing Learning Paths'
           type: 'video presentation'
