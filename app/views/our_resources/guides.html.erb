@@ -1,7 +1,6 @@
-
 <h3 style="text-align: left;">
-<%= image_tag(asset_path("scilifelab/guidesicon-black.png"), alt: "guides", height: "40px") %>
-Training Assets
+  <%= image_tag(asset_path("scilifelab/guidesicon-black.png"), alt: "guides", height: "40px") %>
+  Training Assets
 </h3>
 
 
@@ -14,14 +13,14 @@ Training Assets
     <div class="content">
       <% first_category_key = guides.keys.first %>
       <% guides.each do |category_key, category| %>
-        <div id="<%= category_key %>" class="guide_page_category <%= 'active' if category_key == first_category_key  %>">
+        <div id="<%= category_key %>" class="guide_page_category <%= 'active' if category_key == first_category_key %>">
           <h4><%= category['name'] %></h4>
           <p><%= category['description'] %></p>
           <br>
-          <div class="row">
+          <div class="resources_training_items">
             <% category['elements'].each do |elements_key, elements| %>
               <%= link_to elements['url'], target: '_blank' do %>
-                <div class="col-lg-3 mb-5">
+                <div class="mb-5">
                   <div class="guide-box text-center d-flex flex-column p-3">
                     <p style="font-size:20px;"><b><%= elements['name'] %></b></p>
                     <%= image_tag(asset_path(elements['image']), alt: 'guide', height: '140px') %><br><br>

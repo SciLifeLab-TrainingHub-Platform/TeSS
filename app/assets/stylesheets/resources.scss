@@ -107,3 +107,8 @@
   font-size: larger;
   color: #491f53;
 }
+
+.resources_training_items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 250px));
+}
