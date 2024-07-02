@@ -553,7 +553,7 @@ en:
           name: 'Course certificate app'
           type: 'application'
           image: 'scilifelab/fairicon-black.png'
-          url: 'https://certificate.serve.scilifelab.se/app/certificate'
+          url: 'https://training-certificate.serve.scilifelab.se/app/training-certificate'
     guidelines:
       name: 'Guidelines'
       description: 'Guidelines are frameworks that align with SciLifeLabs commitment to Open science and FAIR training.'
