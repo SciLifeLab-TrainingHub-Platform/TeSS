@@ -4,9 +4,9 @@
   margin: 10px;
 
   .resources_main {
-    background-color: $primary-color;
-    padding-top: 6px;
-    padding-left: 6px;
+    background-color: #4c979f;
+    padding-top: 16px;
+    padding-bottom: 16px;
 
     h4 {
       font-weight: bold;
@@ -15,20 +15,19 @@
 
     p {
       font-size: 18px;
+      color: #491f53;
     }
 
-    a:hover {
-      color: black;
-    }
 
     .resources_main_card-header, .resources_main_card-body {
       flex: 1;
     }
 
     .resources_training, .resources_support, .resources_community {
-      background-repeat: no-repeat;
-      background-size: 98% 98%;
+      background-repeat: repeat;
+      background-size: 110%;
       height: auto;
+      background-position: center top;
 
       @media screen and (min-width: 767px) {
         height: 560px;
@@ -67,13 +66,14 @@
   .resources_secondary {
     margin-top: 20px;
 
-    background-color: #a5cbcf ;
+    background-color: #A6cbcf;
     p {
       font-size: 2.5rem;
+      color: #491f53;
     }
 
     .resources_secondary_image {
-      width: 100%;
+      width: 90%;
       height: auto;
       aspect-ratio: auto;
     }
@@ -98,6 +98,17 @@
   }
   .panel-heading:has(+ .panel-collapse.collapse.in) {
     color: #FFFFFF;
-    background-color: #481d51;
+    background-color: #481d53;
   }
+}
+
+.btn.btn-large {
+  text-align: left;
+  font-size: larger;
+  color: #491f53;
+}
+
+.resources_training_items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 250px));
 }

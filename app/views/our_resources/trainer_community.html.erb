@@ -1,61 +1,42 @@
 <div class="container mt-4">
-  <h3 style="text-align: Left;"> <%= image_tag(asset_path("scilifelab/transfericon-black.png"), alt: "community", size: "45x45") %>
-    Training Community</h3>
+  <h3 style="text-align: Left;"> <%= image_tag(asset_path("scilifelab/transfericon-black.png"), alt: "community", width: "45") %>
+    Courses & Community</h3>
 
 </div>
-
 
 <div class="container">
   <div class="row">
     <div class="col-md-8">
       <div class="col-md-12 mb-2">
-
+<h4>Training Hub Courses</h4>
         <p>The Training Hub has developed and co-created courses that specifically help the
           community of experts in our ecosystem to effectively deliver their knowledge and foster an
           environment of continuous learning!
         </p>
-
-        <!-- bootstrap accordion-->
-        <div class="panel-group" id="trainer_community_accordion">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#trainer_community_accordion" href="#trainer_community_accordion_collapse1">Train the Trainer – quick-start teaching and learning best practices</a>
-              </h4>
-            </div>
-            <div id="trainer_community_accordion_collapse1" class="panel-collapse collapse in">
-              <div class="panel-body">
-                Train the Trainer is a course in foundational pedagogics for life scientists and allied professionals. Check out the <a href="https://www.scilifelab.se/event/scilifelab-train-the-trainer-course/" target="_blank"> course website</a>, next offering announced soon!
-              </div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#trainer_community_accordion" href="#trainer_community_accordion_collapse2">Organizational Learning – how learning and memory works in teams</a>
-              </h4>
-            </div>
-            <div id="trainer_community_accordion_collapse2" class="panel-collapse collapse">
-              <div class="panel-body">
-                Organizational Learning is a course on developing learning at the institutional level. Check out the <a href="https://www.scilifelab.se/event/organisational-learning/" target="_blank"> course website</a>, next offering announced soon!.
-              </div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#trainer_community_accordion" href="#trainer_community_accordion_collapse3">FAIR Material by Design – create learning designed for Open science</a>
-              </h4>
-            </div>
-            <div id="trainer_community_accordion_collapse3" class="panel-collapse collapse">
-              <div class="panel-body">FAIR Training by Design are community standards that training activities at SciLifeLab should meet in order to ensure quality, sustainable training within the ecosystem. Please see the <%= link_to 'fair page', fair_path, target: '_blank' %> to learn more.</div>
-            </div>
-          </div>
+        <div class="row">
+        <div class="col-md-12 mb-2">
+        <button data-toggle="collapse" data-target="#TtT" type="button" class="btn btn-large btn-primary btn-block">Train-the-Trainer - quick-start teaching and learning best practices</button>
+        <div id="TtT" class="collapse">
+        <p><blockquote class="blockquote">Train-the-Trainer is a course in foundational pedagogics for life scientists and allied professionals, developed by ELIXIR-GOBLET. Check out the <a href="https://www.scilifelab.se/event/scilifelab-train-the-trainer-course/" target="_blank"> course website</a>, next offering announced soon!</p></blockquote>
+        </div></div>
+        
+        <br>
+        <div class="col-md-12 mb-2">
+        <button data-toggle="collapse" data-target="#OrgLearn" type="button" class="btn btn-large btn-primary btn-block">Organizational Learning - how learning and memory work in teams</button>
+        <div id="OrgLearn" class="collapse">
+        <p><blockquote class="blockquote">Introduction to Organizational Learning was developed at the SciLifeLab Training Hub in 2023. Check out the course website for more information, next offering announced soon!</p></blockquote>
+        </div></div>
+        
+        <br>
+        <div class="col-md-12 mb-2">
+        <button data-toggle="collapse" data-target="#FAIR" type="button" class="btn btn-large btn-primary btn-block">Training Material made FAIR by Design - create sustainable, Open training</button>
+        
+        <div id="FAIR" class="collapse">
+        <p><blockquote class="blockquote">An interactive course on creating findable, accessible, interoperable, and reusable training materials, created in partnership with VIB and NBIS.<br> See the <a href="https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-Material-By-Design/">course website</a> for more information, or <a href="https://training.scilifelab.se/events/fair-training-material-by-design">register here</a>!</p></blockquote>
+        </div></div>
         </div>
-
-        <!-- end bootstrap accordion-->
-
-
+        <br>
+<h4>Community Initiatives</h4>
         <div class="support-box text-left d-flex flex-column p-3">
           <div class="row">
             <div class="col-md-2">
@@ -66,14 +47,12 @@
                 <b>SciLifeLab Training Hub Drop-in Fika</b>
                 <br>
                 <ul>
-                  <li> Join
-                    us <%= link_to "Thursday afternoons at 3pm", "https://www.scilifelab.se/organizer/training-hub/", target: "_blank", rel: "noopener noreferrer" %>
-                    for discussions on training and learning
-                  </li>
                   <li> Watch presentations
                     from <%= link_to "previous Fika discussions on YouTube", "https://www.youtube.com/watch?v=4oquXWFSYSE&list=PL1nnHOyxN_WeCYjyo0Fkc11mTumm72Ozo", target: "_blank", rel: "noopener noreferrer" %>
                     !
                   </li>
+                  <li>Next season of Training Hub Fikas will be announced in Fall 2024.
+                </li>
                 </ul>
               </h5>
             </div>
