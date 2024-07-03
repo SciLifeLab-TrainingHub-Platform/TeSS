@@ -81,7 +81,7 @@ jobs:
         ENVIRONMENT="dev"  # Default to dev
         if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
           ENVIRONMENT=${{ github.event.inputs.environment }}
-        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/harshita_modify-action-dev-tag]]; then
+        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/harshita_modify-action-dev-tag ]]; then
           ENVIRONMENT="dev"
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
           ENVIRONMENT="preprod"
