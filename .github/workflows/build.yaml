@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - rc-*
+      - harshita_modify-action-dev-tag
   create:
     tags:
       - 'rc-v*'
@@ -80,7 +81,7 @@ jobs:
         ENVIRONMENT="dev"  # Default to dev
         if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
           ENVIRONMENT=${{ github.event.inputs.environment }}
-        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
+        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/harshita_modify-action-dev-tag]]; then
           ENVIRONMENT="dev"
         elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
           ENVIRONMENT="preprod"
@@ -135,7 +136,9 @@ jobs:
         push: true
         file: ./Dockerfile-dev
         target: ${{ env.DOCKER_TARGET }}
-        tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+        tags: | 
+              ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+              ${{ env.ENVIRONMENT == 'dev' && 'ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ github.ref_name }}' || '' }}
         labels: ${{ steps.meta.outputs.labels }}
     
     - name: Post to a Slack channel
