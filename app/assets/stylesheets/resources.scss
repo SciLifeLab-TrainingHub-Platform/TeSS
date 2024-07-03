@@ -1,0 +1,114 @@
+@import "bootstrap/mixins";
+
+.resource_parent {
+  margin: 10px;
+
+  .resources_main {
+    background-color: #4c979f;
+    padding-top: 16px;
+    padding-bottom: 16px;
+
+    h4 {
+      font-weight: bold;
+      font-size: 25px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #491f53;
+    }
+
+
+    .resources_main_card-header, .resources_main_card-body {
+      flex: 1;
+    }
+
+    .resources_training, .resources_support, .resources_community {
+      background-repeat: repeat;
+      background-size: 110%;
+      height: auto;
+      background-position: center top;
+
+      @media screen and (min-width: 767px) {
+        height: 560px;
+      }
+      @media screen and (max-width: 767px) {
+        padding: 25px;
+      }
+
+    }
+
+    .resources_main_icon {
+      max-width: 100px;
+      margin: 20px 10px 15px;
+    }
+
+    .resources_main_image {
+      max-width: 220px;
+      margin-top: 30px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .resources_training {
+    background-image: image-url('scilifelab/infra-background.png');
+  }
+
+  .resources_support {
+    background-image: image-url('scilifelab/support-background.png');
+  }
+
+  .resources_community {
+    background-image: image-url('scilifelab/communitybkgrnd.png');
+  }
+
+  .resources_secondary {
+    margin-top: 20px;
+
+    background-color: #A6cbcf;
+    p {
+      font-size: 2.5rem;
+      color: #491f53;
+    }
+
+    .resources_secondary_image {
+      width: 90%;
+      height: auto;
+      aspect-ratio: auto;
+    }
+    .col-lg-8 {
+      padding: 0;
+    }
+
+  }
+}
+
+.guide_page_category {
+  display: none;
+}
+.guide_page_category.active {
+  display: block;
+}
+
+#trainer_community_accordion {
+
+  .panel-heading {
+    background-color: #a8c946;
+  }
+  .panel-heading:has(+ .panel-collapse.collapse.in) {
+    color: #FFFFFF;
+    background-color: #481d53;
+  }
+}
+
+.btn.btn-large {
+  text-align: left;
+  font-size: larger;
+  color: #491f53;
+}
+
+.resources_training_items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 250px));
+}

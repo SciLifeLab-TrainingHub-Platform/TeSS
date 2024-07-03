@@ -15,7 +15,7 @@ class OurResourcesController < ApplicationController
 
     def guides
       set_breadcrumbs
-      @breadcrumbs += [{ name: 'Guides', url: guides_path }]
+      @breadcrumbs += [{ name: 'Training Assets', url: guides_path }]
     end
 
     def pedagogic_support
