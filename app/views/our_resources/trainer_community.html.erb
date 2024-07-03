@@ -1,83 +1,125 @@
 <div class="container mt-4">
-  <h3 style="text-align: Left;"> <%= image_tag(asset_path("scilifelab/transfericon-black.png"), alt: "community", size: "45x45") %> Training Community</h3>
-  <br>
-  <p>We are developing and connecting our community spaces, events, and programs 
-  to foster knowledge transfer and networking amongst experts at SciLifeLab.</p>
-</div>
+  <h3 style="text-align: Left;"> <%= image_tag(asset_path("scilifelab/transfericon-black.png"), alt: "community", width: "45") %>
+    Courses & Community</h3>
 
+</div>
 
 <div class="container">
-<div class="row">
-<div class="col-md-8">
-  <div class="col-md-12 mb-2">
-    <div class="support-box text-left d-flex flex-column p-3">
-    <div class="row">
-    <div class="col-md-2">
-      <%= image_tag(asset_path("scilifelab/fika-snap.png"), alt: 'TH fika', width: '80px') %>
-    </div>
-    <div class="col-md-10">
-      <h5 style="color:black;">
-      <b>SciLifeLab Training Hub Drop-in Fika</b>
-      <br>
-      <ul>
-        <li> Join us <%= link_to "Thursday afternoons at 3pm", "https://www.scilifelab.se/organizer/training-hub/", target: "_blank", rel: "noopener noreferrer" %> for discussions on training and learning </li>
-        <li> Watch presentations from <%= link_to "previous Fika discussions on YouTube", "https://www.youtube.com/watch?v=4oquXWFSYSE&list=PL1nnHOyxN_WeCYjyo0Fkc11mTumm72Ozo", target: "_blank", rel: "noopener noreferrer" %>! </li>
-      </ul>
-      </h5>
-    </div>
-    </div>
-    </div>
-
-  <div class="support-box text-left d-flex flex-column p-3">
   <div class="row">
-    <div class="col-md-2">
-      <%= image_tag(asset_path("scilifelab/ELIXIRcommunities.png"), alt: 'guide', size: '80x100') %>
+    <div class="col-md-8">
+      <div class="col-md-12 mb-2">
+        <h4>Training Hub Courses</h4>
+        <p>The Training Hub has developed and co-created courses that specifically help the
+          community of experts in our ecosystem to effectively deliver their knowledge and foster an
+          environment of continuous learning!
+        </p>
+        <div class="row">
+          <div class="col-md-12 mb-2">
+            <button data-toggle="collapse" data-target="#TtT" type="button" class="btn btn-large btn-primary btn-block">Train-the-Trainer
+              - quick-start teaching and learning best practices
+            </button>
+            <div id="TtT" class="collapse">
+              <blockquote class="blockquote"><p>Train-the-Trainer is a course in foundational pedagogics for life
+                scientists and allied professionals, developed by ELIXIR-GOBLET. Next offering announced soon!</p></blockquote>
+            </div>
+          </div>
+
+          <br>
+          <div class="col-md-12 mb-2">
+            <button data-toggle="collapse" data-target="#OrgLearn" type="button" class="btn btn-large btn-primary btn-block">Organizational
+              Learning - how learning and memory work in teams
+            </button>
+            <div id="OrgLearn" class="collapse">
+
+              <blockquote class="blockquote"><p>Introduction to Organizational Learning was developed at the SciLifeLab
+                Training Hub in 2023. Check out the course website for more information, next offering announced
+                soon!</p></blockquote>
+            </div>
+          </div>
+
+          <br>
+          <div class="col-md-12 mb-2">
+            <button data-toggle="collapse" data-target="#FAIR" type="button" class="btn btn-large btn-primary btn-block">Training
+              Material made FAIR by Design - create sustainable, Open training
+            </button>
+
+            <div id="FAIR" class="collapse">
+
+              <blockquote class="blockquote">
+                <p>An interactive course on creating findable, accessible, interoperable, and
+                  reusable training materials, created in partnership with VIB and NBIS.<br> See the
+                  <a href="https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-Material-By-Design/" target="_blank">course
+                    website</a> for more information, or
+                  <a href="https://training.scilifelab.se/events/fair-training-material-by-design" target="_blank">register here</a>!
+                </p>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+        <br>
+        <h4>Community Initiatives</h4>
+        <div class="support-box text-left d-flex flex-column p-3">
+          <div class="row">
+            <div class="col-md-2">
+              <%= image_tag(asset_path("scilifelab/fika-snap.png"), alt: 'TH fika', width: '80px') %>
+            </div>
+            <div class="col-md-10">
+              <h5 style="color:black;">
+                <b>SciLifeLab Training Hub Drop-in Fika</b>
+                <br>
+                <ul>
+                  <li> Watch presentations
+                    from <%= link_to "previous Fika discussions on YouTube", "https://www.youtube.com/watch?v=4oquXWFSYSE&list=PL1nnHOyxN_WeCYjyo0Fkc11mTumm72Ozo", target: "_blank", rel: "noopener noreferrer" %>
+                    !
+                  </li>
+                  <li>Next season of Training Hub Fikas will be announced in Fall 2024.
+                  </li>
+                </ul>
+              </h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="support-box text-left d-flex flex-column p-3">
+          <div class="row">
+            <div class="col-md-2">
+              <%= image_tag(asset_path("scilifelab/ELIXIRcommunities.png"), alt: 'guide', size: '80x100') %>
+            </div>
+            <div class="col-md-10">
+              <h5 style="color:black;">
+                <b>External Focus Groups and Communities</b>
+                <br>
+                <ul>
+                  <li>
+                    <%= link_to "Join focus groups", "https://elixir-europe.org/what-we-offer/work-together", target: "_blank", rel: "noopener noreferrer" %>
+                    on
+                    <%= link_to "Learning Paths", "https://elixir-europe.org/focus-groups/learning-paths", target: "_blank", rel: "noopener noreferrer" %>
+                    or
+                    <%= link_to "FAIR Training", "https://elixir-europe.org/focus-groups/fair-training", target: "_blank", rel: "noopener noreferrer" %>
+                    to take part in building European training through ELIXIR
+                  </li>
+                  <li>
+                    Join the
+                    <%= link_to "Life Science Trainers Slack", "https://lifescitraining.slack.com/join/shared_invite/enQtNDc2NDk2NzMyNjkyLTA0Zjk5YzAwN2RlMTQyODg3NWJhMzhlY2NkY2I3MzBkZDhlOTY4OTIxYWFjNjQ2MjQ1N2VhYTFhYmU1ZDJiOTc#/shared-invite/email", target: "_blank", rel: "noopener noreferrer" %>
+                    for an international community of short-format trainers
+                  </li>
+                </ul>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <br>
+        <p>For more updates, subscribe to the
+          <%= link_to "Training Hub Newsletter", "https://forms.gle/d3mHw2TGaQLFxS7c7", target: "_blank", rel: "noopener noreferrer" %>
+          !</p>
+      </div>
     </div>
-    <div class="col-md-10">
-    <h5 style="color:black;">
-      <b>External Focus Groups and Communities</b>
-      <br>
-      <ul>
-        <li>
-          <%= link_to "Join focus groups", "https://elixir-europe.org/what-we-offer/work-together", target: "_blank", rel: "noopener noreferrer" %>
-          on 
-          <%= link_to "Learning Paths", "https://elixir-europe.org/focus-groups/learning-paths", target: "_blank", rel: "noopener noreferrer" %>
-          or
-          <%= link_to "FAIR Training", "https://elixir-europe.org/focus-groups/fair-training", target: "_blank", rel: "noopener noreferrer" %>
-          to take part in building European training through ELIXIR
-        </li>
-        <li>
-          Join the
-          <%= link_to "Life Science Trainers Slack", "https://lifescitraining.slack.com/join/shared_invite/enQtNDc2NDk2NzMyNjkyLTA0Zjk5YzAwN2RlMTQyODg3NWJhMzhlY2NkY2I3MzBkZDhlOTY4OTIxYWFjNjQ2MjQ1N2VhYTFhYmU1ZDJiOTc#/shared-invite/email", target: "_blank", rel: "noopener noreferrer" %>
-          for an international community of short-format trainers
-        </li>
-      </ul>
-      </h5>
+
+    <div class="col-md-4">
+      <%= image_tag(asset_path("scilifelab/OL-catteaching.jpg"), alt: 'organizational learning', width: '350px') %>
     </div>
-    </div>
-    </div>
-    </div>
-
-<div class="row text-center">
-<br>
-<p>For more updates, subscribe to the 
-<%= link_to "Training Hub Newsletter", "https://forms.gle/d3mHw2TGaQLFxS7c7", target: "_blank", rel: "noopener noreferrer" %>
-!</p>
+  </div>
 </div>
-</div>
-
-<div class="col-md-4">
-<%= image_tag(asset_path("scilifelab/OL-catteaching.jpg"), alt: 'organizational learning', width: '350px') %>
-</div>
-</div>
-</div>
-
-
-
-
-
-
-
-
-
-
