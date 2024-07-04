@@ -31,7 +31,20 @@
     <br>
   </div>
 
-  <%= f.input :city, field_lock: true, required: true %>
+  <div class="field">
+    <%= f.label :city_ids, "Cities", class: 'control-label'%><%= f.field_lock(:city_ids) %> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_cities_collapse"><small>Add new city</small></a>
+    <%= f.collection_select :city_ids, @cities, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |city| %>
+      <option value="<%= city.id %>" <%= 'selected="selected"' if @selected_cities_ids.include?(city.id) %>>
+        <%= city.name %>
+      </option>
+    <% end %>
+    <span class="help-block">Choose one or more cities for the event. To add new city click "Add new city"</span>
+  </div>
+
+  <div id="new_cities_collapse" class="collapse">
+    <%= f.text_area :new_cities, placeholder: "Enter new cities names separated by Semicolon (;)", rows: 5, style: "width: 100%;", field_lock: true %>
+    <br>
+  </div>
 
   <!-- County: check disabled -->
   <%# if !TeSS::Config.feature['disabled'].include? 'county' %>
