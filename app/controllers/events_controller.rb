@@ -154,6 +154,8 @@ class EventsController < ApplicationController
     authorize Event
     @event = Event.new(event_params)
     @event.user = current_user
+    newly_created_venues = []
+    newly_created_cities = []
 
     # Handle existing venue IDs
     if params[:event][:venue_ids].present?
@@ -165,22 +167,27 @@ class EventsController < ApplicationController
       params[:event][:city_ids] = params[:event][:city_ids].reject(&:blank?)
     end
 
+    # Create new venues if provided
+    if params[:event][:new_venues].present?
+      newly_created_venues = @event.venue = params[:event][:new_venues]
+    end
 
+    # Create new cities if provided
+    if params[:event][:new_cities].present?
+      newly_created_cities = @event.city = params[:event][:new_cities]
+    end
 
     respond_to do |format|
       if @event.save
-        # Create new venues if provided
-        if params[:event][:new_venues].present?
-          @event.venue = params[:event][:new_venues]
-        end
-        # Create new cities if provided
-        if params[:event][:new_cities].present?
-          @event.city = params[:event][:new_cities]
-        end
+        
         @event.create_activity :create, owner: current_user
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
+        # Delete newly created venues if the event is not saved
+        Venue.where(id: newly_created_venues.map(&:id)).destroy_all
+        # Delete newly created cities if the event is not saved
+        City.where(id: newly_created_cities.map(&:id)).destroy_all
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -191,29 +198,34 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     authorize @event
+    newly_created_venues = []
+    newly_created_cities = []
+
     # Handle existing venue IDs
     if params[:event][:venue_ids].present?
       params[:event][:venue_ids] = params[:event][:venue_ids].reject(&:blank?)
     end
+
     # Handle existing cities IDs
     if params[:event][:city_ids].present?
       params[:event][:city_ids] = params[:event][:city_ids].reject(&:blank?)
     end
 
+    # Create new venues if provided
+    if params[:event][:new_venues].present?
+      newly_created_venues = @event.venue = params[:event][:new_venues]
+    end
+
     respond_to do |format|
       if @event.update(event_params)
-        # Create new venues if provided
-        if params[:event][:new_venues].present?
-          @event.venue = params[:event][:new_venues]
-        end
-        # Create new cities if provided
-        if params[:event][:new_cities].present?
-          @event.city = params[:event][:new_cities]
-        end
         @event.create_activity(:update, owner: current_user) if @event.log_update_activity?
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
+        # Delete newly created venues if the event is not saved
+        Venue.where(id: newly_created_venues.map(&:id)).destroy_all
+        # Delete newly created cities if the event is not saved
+        City.where(id: newly_created_cities.map(&:id)).destroy_all
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
