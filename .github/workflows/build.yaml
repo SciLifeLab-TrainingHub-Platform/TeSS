@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   pull_request:
     branches: [ "rc-*" ]
-    types: [opened, reopened]
+    types: [opened, synchronize, reopened]
   push:
     branches:
       - rc-*
