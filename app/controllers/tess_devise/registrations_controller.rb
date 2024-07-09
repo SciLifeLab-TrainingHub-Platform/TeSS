@@ -2,6 +2,7 @@ class TessDevise::RegistrationsController < Devise::RegistrationsController
   # Inspired by http://stackoverflow.com/questions/3546289/override-devise-registrations-controller
   before_action :check_captcha, only: :create
   before_action :set_breadcrumbs, only: :edit
+  before_action :redirect_to_root, only: [:new, :create]
 
   # Set the after update path to be user's show page
   # instead the default root_path
@@ -33,5 +34,9 @@ class TessDevise::RegistrationsController < Devise::RegistrationsController
   def set_breadcrumbs
     add_base_breadcrumbs('users')
     @breadcrumbs += [{ name: @user.name, url: user_path(@user) }, { name: 'Manage Account' }]
+  end
+
+  def redirect_to_root
+    redirect_to root_path, alert: "Sign up is not allowed."
   end
 end
