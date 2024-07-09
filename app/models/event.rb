@@ -34,6 +34,7 @@ class Event < ApplicationRecord
       text :title
       text :keywords
       text :url
+      text :venue
       text :city
       text :country
       boolean :visible
@@ -55,6 +56,7 @@ class Event < ApplicationRecord
       # other fields
       string :title
       string :sponsors, multiple: true
+      string :venue
       string :city
       string :country
       string :event_types, multiple: true do
@@ -105,6 +107,7 @@ class Event < ApplicationRecord
   end
 
   attr_accessor :new_venues
+  attr_accessor :new_cities
   enum presence: { onsite: 0, online: 1, hybrid: 2 }
 
   belongs_to :user
@@ -119,6 +122,8 @@ class Event < ApplicationRecord
   has_many :widget_logs, as: :resource
   has_many :event_venues, dependent: :destroy
   has_many :venues, through: :event_venues
+  has_many :event_cities, dependent: :destroy
+  has_many :cities, through: :event_cities
 
   has_ontology_terms(:scientific_topics, branch: OBO_EDAM.topics)
   has_ontology_terms(:operations, branch: OBO_EDAM.operations)
@@ -154,6 +159,7 @@ class Event < ApplicationRecord
   NOMINATIM_DELAY = 1.minute
   NOMINATIM_MAX_ATTEMPTS = 3
   VENUE_NAME_SEPARATOR = ';'.freeze
+  CITY_NAME_SEPARATOR = ';'.freeze
 
   def description=(desc)
     super(Rails::Html::FullSanitizer.new.sanitize(desc))
@@ -193,7 +199,7 @@ class Event < ApplicationRecord
 
   def self.facet_fields
     field_list = %w[ content_provider keywords scientific_topics operations tools fields online event_types
-                     start venue city country sponsors target_audience eligibility language
+                     start venue city country sponsors target_audience eligibility
                      user node collections ]
 
     field_list.delete('operations') if TeSS::Config.feature['disabled'].include? 'operations'
@@ -454,7 +460,7 @@ class Event < ApplicationRecord
     external_resources.each do |er|
       c.external_resources.build(url: er.url, title: er.title)
     end
-    %i[materials scientific_topics operations nodes venues].each do |field|
+    %i[materials scientific_topics operations nodes venues cities].each do |field|
       c.send("#{field}=", send(field))
     end
 
@@ -481,6 +487,22 @@ class Event < ApplicationRecord
         Venue.find_or_create_by(name: name)
       end
       self.venues = (existing_venues + new_venues).uniq
+    end
+  end
+
+  def city
+    cities.pluck(:name).join(', ')
+  end
+
+  def city=(city_string)
+    # If city_string is not nil or empty, modify the cities association
+    if city_string.present?
+      city_names = city_string.split(CITY_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
+      existing_cities = self.cities
+      new_cities = city_names.map do |name|
+        City.find_or_create_by(name: name)
+      end
+      self.cities = (existing_cities + new_cities).uniq
     end
   end
 

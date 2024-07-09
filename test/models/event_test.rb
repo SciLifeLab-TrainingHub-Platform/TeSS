@@ -4,6 +4,9 @@ require 'sidekiq/testing'
 class EventTest < ActiveSupport::TestCase
   setup do
     @event = events(:one)
+    @event_two = events(:two)
+    @city_one = cities(:one)
+    @city_two = cities(:two)
     @mandatory = { start: @event.start, end: @event.end,
                    timezone: @event.timezone, contact: @event.contact, eligibility: @event.eligibility,
                    host_institutions: @event.host_institutions }
@@ -704,4 +707,28 @@ class EventTest < ActiveSupport::TestCase
       e.destroy!
     end
   end
+  test "should have cities" do
+    assert_equal 1, @event_one.cities.count
+    assert_equal @city_one, @event_one.cities.first
+
+    assert_equal 1, @event_two.cities.count
+    assert_equal @city_two, @event_two.cities.first
+  end
+
+  test "should add city to event" do
+    new_city = City.create(name: "New City")
+    @event_one.cities << new_city
+    assert_includes @event_one.cities, new_city
+  end
+
+  test "should remove city from event" do
+    @event_one.cities.delete(@city_one)
+    assert_not_includes @event_one.cities, @city_one
+  end
+
+  test "should destroy event and keep city" do
+    @event_one.destroy
+    assert City.exists?(@city_one.id)
+  end
+
 end
