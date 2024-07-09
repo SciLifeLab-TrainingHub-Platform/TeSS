@@ -464,25 +464,21 @@ class Event < ApplicationRecord
     self.presence = value
   end
 
+
   def venue
     venues.pluck(:name).join(', ')
   end
 
   def venue=(venue_string)
-    newly_created_venues = []
     # If venue_string is not nil or empty, modify the venues association
     if venue_string.present?
       venue_names = venue_string.split(VENUE_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
       existing_venues = self.venues
       new_venues = venue_names.map do |name|
-        venue = Venue.find_or_create_by(name: name)
-        newly_created_venues << venue unless existing_venues.include?(venue)
-        venue  # Return value of this block
+        Venue.find_or_create_by(name: name)
       end
       self.venues = (existing_venues + new_venues).uniq
     end
-    # Return the list of newly created venues
-    newly_created_venues
   end
 
   def city
@@ -490,20 +486,15 @@ class Event < ApplicationRecord
   end
 
   def city=(city_string)
-    newly_created_cities = []
     # If city_string is not nil or empty, modify the cities association
     if city_string.present?
       city_names = city_string.split(CITY_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
       existing_cities = self.cities
       new_cities = city_names.map do |name|
-        city = City.find_or_create_by(name: name)
-        newly_created_cities << city unless existing_cities.include?(city)
-        city  # Return value of this block
+        City.find_or_create_by(name: name)
       end
       self.cities = (existing_cities + new_cities).uniq
     end
-    # Return the list of newly created cities
-    newly_created_cities
   end
 
   private

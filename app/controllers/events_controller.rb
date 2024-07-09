@@ -154,8 +154,6 @@ class EventsController < ApplicationController
     authorize Event
     @event = Event.new(event_params)
     @event.user = current_user
-    newly_created_venues = []
-    newly_created_cities = []
 
     # Handle existing venue IDs
     if params[:event][:venue_ids].present?
@@ -169,25 +167,21 @@ class EventsController < ApplicationController
 
     # Create new venues if provided
     if params[:event][:new_venues].present?
-      newly_created_venues = @event.venue = params[:event][:new_venues]
+      @event.venue = params[:event][:new_venues]
     end
 
     # Create new cities if provided
     if params[:event][:new_cities].present?
-      newly_created_cities = @event.city = params[:event][:new_cities]
+      @event.city = params[:event][:new_cities]
     end
 
     respond_to do |format|
       if @event.save
-        
+
         @event.create_activity :create, owner: current_user
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
-        # Delete newly created venues if the event is not saved
-        Venue.where(id: newly_created_venues.map(&:id)).destroy_all
-        # Delete newly created cities if the event is not saved
-        City.where(id: newly_created_cities.map(&:id)).destroy_all
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -198,8 +192,6 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     authorize @event
-    newly_created_venues = []
-    newly_created_cities = []
 
     # Handle existing venue IDs
     if params[:event][:venue_ids].present?
@@ -213,7 +205,16 @@ class EventsController < ApplicationController
 
     # Create new venues if provided
     if params[:event][:new_venues].present?
-      newly_created_venues = @event.venue = params[:event][:new_venues]
+      venue_names = params[:event][:new_venues].split(Event::VENUE_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
+      new_venues = venue_names.map { |name| Venue.find_or_create_by(name: name) }
+      params[:event][:venue_ids].concat(new_venues.pluck(:id))
+    end
+
+    # Create new cities if provided
+    if params[:event][:new_cities].present?
+      city_names = params[:event][:new_cities].split(Event::CITY_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
+      new_cities = city_names.map { |name| City.find_or_create_by(name: name) }
+      params[:event][:city_ids].concat(new_cities.pluck(:id))
     end
 
     respond_to do |format|
@@ -222,10 +223,6 @@ class EventsController < ApplicationController
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
-        # Delete newly created venues if the event is not saved
-        Venue.where(id: newly_created_venues.map(&:id)).destroy_all
-        # Delete newly created cities if the event is not saved
-        City.where(id: newly_created_cities.map(&:id)).destroy_all
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
