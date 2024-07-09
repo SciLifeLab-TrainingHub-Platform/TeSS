@@ -10,9 +10,6 @@ one:
   start: 2015-11-23 10:16:33
   end: 2015-11-23 10:16:33
   sponsors: ["MyString"]
-  language: 'en'
-  venue: MyText
-  city: MyString
   county: MyString
   country: MyString
   postcode: MyString
@@ -40,7 +37,6 @@ two:
   start: 2015-11-23 00:00:00
   end: 2015-11-24 00:00:00
   sponsors: ["MyString"]
-  city: MyString
   county: MyString
   country: MyString
   postcode: MyString
@@ -61,7 +57,6 @@ month_long_event:
   start: 2015-11-23 10:16:33
   end: 2015-12-23 10:16:33
   sponsors: ["Bill Gates"]
-  city: New York
   country: USA
   keywords: ["Keyword"]
   user: regular_user
@@ -78,7 +73,6 @@ year_long_event:
   start: 2015-11-23 10:16:33
   end: 2016-12-23 10:16:33
   sponsors: ["Bill Gates"]
-  city: New York
   country: USA
   keywords: ["Keyword"]
   user: regular_user
@@ -110,7 +104,6 @@ scraper_user_event:
   eligibility: [ registration_of_interest ]
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
-  city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
   
@@ -126,7 +119,6 @@ event_with_external_resource:
   eligibility: [ registration_of_interest ]
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
-  city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
   
@@ -141,7 +133,6 @@ event_with_no_start:
   contact: MyContact
   eligibility: [ registration_of_interest ]
   end: 2016-12-12 12:00:00
-  city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
   
@@ -156,7 +147,6 @@ event_with_no_end:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
   
@@ -172,7 +162,6 @@ online_event_with_no_end:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
   
@@ -188,7 +177,6 @@ organisation_event:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
   
@@ -205,7 +193,6 @@ portal_event:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  city: "Birmingham"
   country: "United Kingdom"
   postcode: "B1 1BB"
   
@@ -222,7 +209,6 @@ dodgy_country_event:
   timezone: London
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  city: Somewhere Awesome
   postcode: 1010
   
 no_description_event:
@@ -236,7 +222,6 @@ no_description_event:
   timezone: Australia/Melbourne
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  city: Melbourne
   country: Australia
   postcode: 3000
   
@@ -254,7 +239,6 @@ event_with_report:
   timezone: Australia/Sydney
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  city: Sydney
   country: AU
   postcode: 1000
   
@@ -270,7 +254,6 @@ another_event_with_report:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  city: Somewhere Awesome
   country: BigCountry
   postcode: 1010
   
@@ -284,7 +267,6 @@ shadowbanned_event:
   start: 2018-11-23 10:16:33
   end: 2018-11-23 10:16:33
   sponsors: ["MyString"]
-  city: MyString
   county: MyString
   country: MyString
   postcode: MyString
@@ -309,7 +291,6 @@ failing_event:
   timezone: GMT
   contact: MyContact
   eligibility: [ registration_of_interest ]
-  city: Manchester
   county: Greater Manchester
   country: United Kingdom
   postcode: M13 9PL
@@ -321,7 +302,6 @@ kilburn:
   event_types: ["meetings_and_conferences"]
   start: 2019-11-23 00:00:00
   end: 2019-11-24 00:00:00
-  city: Manchester
   county: Greater Manchester
   country: United Kingdom
   postcode: M13 9PL
@@ -341,7 +321,6 @@ calendar_event:
   start: 2021-09-20 23:15:00
   end: 2021-09-21 01:00:00
   sponsors: ["MyString"]
-  city: Carlton
   country: Australia
   postcode: 3010
   keywords: ["Keyword"]
@@ -361,7 +340,6 @@ training_event:
   start: 2021-09-20 23:15:00
   end: 2021-09-21 01:00:00
   sponsors: ["FundingCorp"]
-  city: Carlton
   country: Australia
   postcode: 3010
   latitude: -37.80475509993125
@@ -384,7 +362,6 @@ ical_event_1:
   start: 2021-12-08 12:30:00 +0800
   end: 2021-12-08 13:30:00 +0800
   sponsors: ["MyString"]
-  city: Carlton
   country: Australia
   postcode: 3010
   keywords: ["Keyword"]
@@ -405,7 +382,6 @@ ical_event_2:
   start: 2022-06-15 10:00:00 +0800
   end: 2022-06-15 12:00:00 +0800
   sponsors: ["MyString"]
-  city: Carlton
   country: Australia
   postcode: 3010
   keywords: ["Keyword"]
@@ -425,7 +401,6 @@ course_event:
   start: 2015-08-23 10:16:33
   end: 2015-08-24 18:07:46
   sponsors: ['Amazon', 'GitHub', 'Google']
-  city: Manchester
   county: Greater Manchester
   country: United Kingdom
   postcode: M13 9PL
