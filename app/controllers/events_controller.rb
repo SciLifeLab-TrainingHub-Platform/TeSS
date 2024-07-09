@@ -7,6 +7,7 @@ class EventsController < ApplicationController
                                      redirect report update_report add_data reject_data]
   before_action :set_breadcrumbs
   before_action :disable_pagination, only: :index, if: ->(controller) { controller.request.format.ics? or controller.request.format.csv? or controller.request.format.rss? }
+  before_action :get_venue_and_city, only: [:new, :clone, :edit, :create, :update]
 
   include SearchableIndex
   include ActionView::Helpers::TextHelper
@@ -89,23 +90,22 @@ class EventsController < ApplicationController
     @event = Event.new(start: DateTime.now.change(hour: 9),
                        end: DateTime.now.change(hour: 17),
                        timezone: 'Stockholm')
-    @venues = Venue.all
     @selected_venue_ids = []
+    @selected_cities_ids = []
   end
 
   # GET /events/1/clone
   def clone
     authorize @event
     @event = @event.duplicate
-    @venues = Venue.all
     render :new
   end
 
   # GET /events/1/edit
   def edit
     authorize @event
-    @venues = Venue.all
     @selected_venue_ids = @event.venues.pluck(:id)
+    @selected_cities_ids = @event.cities.pluck(:id)
   end
 
   # GET /events/1/report
@@ -160,17 +160,28 @@ class EventsController < ApplicationController
       params[:event][:venue_ids] = params[:event][:venue_ids].reject(&:blank?)
     end
 
+    # Handle existing cities IDs
+    if params[:event][:city_ids].present?
+      params[:event][:city_ids] = params[:event][:city_ids].reject(&:blank?)
+    end
+
+    # Create new venues if provided
+    if params[:event][:new_venues].present?
+      @event.venue = params[:event][:new_venues]
+    end
+
+    # Create new cities if provided
+    if params[:event][:new_cities].present?
+      @event.city = params[:event][:new_cities]
+    end
+
     respond_to do |format|
       if @event.save
-        # Create new venues if provided
-        if params[:event][:new_venues].present?
-          @event.venue = params[:event][:new_venues]
-        end
+
         @event.create_activity :create, owner: current_user
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
-        @venues = Venue.all
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -181,21 +192,37 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     authorize @event
+
     # Handle existing venue IDs
     if params[:event][:venue_ids].present?
       params[:event][:venue_ids] = params[:event][:venue_ids].reject(&:blank?)
     end
+
+    # Handle existing cities IDs
+    if params[:event][:city_ids].present?
+      params[:event][:city_ids] = params[:event][:city_ids].reject(&:blank?)
+    end
+
+    # Create new venues if provided
+    if params[:event][:new_venues].present?
+      venue_names = params[:event][:new_venues].split(Event::VENUE_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
+      new_venues = venue_names.map { |name| Venue.find_or_create_by(name: name) }
+      params[:event][:venue_ids].concat(new_venues.pluck(:id))
+    end
+
+    # Create new cities if provided
+    if params[:event][:new_cities].present?
+      city_names = params[:event][:new_cities].split(Event::CITY_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
+      new_cities = city_names.map { |name| City.find_or_create_by(name: name) }
+      params[:event][:city_ids].concat(new_cities.pluck(:id))
+    end
+
     respond_to do |format|
       if @event.update(event_params)
-        # Create new venues if provided
-        if params[:event][:new_venues].present?
-          @event.venue = params[:event][:new_venues]
-        end
         @event.create_activity(:update, owner: current_user) if @event.log_update_activity?
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
-        @venues = Venue.all
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -208,6 +235,7 @@ class EventsController < ApplicationController
     authorize @event
     @event.create_activity :destroy, owner: current_user
     @event.venues.clear
+    @event.cities.clear
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
@@ -255,7 +283,7 @@ class EventsController < ApplicationController
                                   :description, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
                                   { operation_names: [] }, { operation_uris: [] }, { event_types: [] },
                                   { keywords: [] }, { fields: [] }, :start, :end, :duration, { sponsors: [] },
-                                  :online, {:venue_ids => [] }, :new_venues, :city, :county, :country, :postcode, :latitude, :longitude,
+                                  :online, {:venue_ids => [] }, :new_venues, {:city_ids => [] }, :new_cities, :county, :country, :postcode, :latitude, :longitude,
                                   :timezone, :content_provider_id, { collection_ids: [] }, { node_ids: [] },
                                   { node_names: [] }, { target_audience: [] }, { eligibility: [] }, :visible,
                                   { host_institutions: [] }, :capacity, :contact, :recognition, :learning_objectives,
@@ -270,5 +298,10 @@ class EventsController < ApplicationController
 
   def disable_pagination
     params[:per_page] = 2**10
+  end
+
+  def get_venue_and_city
+    @venues = Venue.all
+    @cities = City.all
   end
 end

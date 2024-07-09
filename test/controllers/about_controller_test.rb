@@ -20,9 +20,10 @@ class AboutControllerTest < ActionController::TestCase
   end
 
 
-  test 'should get about developers' do
-    get :developers
-    assert_response :success
-  end
+  # commenting this test as the developer route is disabled
+  # test 'should get about developers' do
+  #   get :developers
+  #   assert_response :success
+  # end
 
 end
