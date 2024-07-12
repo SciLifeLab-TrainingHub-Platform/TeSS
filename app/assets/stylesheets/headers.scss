@@ -2,20 +2,32 @@
   .navbar-brand {
     padding-top: 0;
     padding-bottom: 0;
+
     img {
       padding: 10px 5px 5px 5px;
       max-height: $navbar-height;
+      width: 100%;
+      @media (max-width: 420px) {
+        margin: 10px;
+      }
+    }
+    @media (max-width: 420px) {
+      max-width: 251px;
+      width: 100%;
     }
   }
+
 
   @media (max-width: $grid-float-breakpoint-max) {
     .navbar-collapse {
       text-align: center;
+
       .dropdown-menu {
         border-radius: 0;
         background: rgba(0, 0, 0, 0.03);
         margin: 0 10px;
         text-align: center;
+
         > li > a, .dropdown-header {
           padding: 5px 15px;
         }
