@@ -33,5 +33,12 @@
         </div>
       <% end %>
     </div>
+    <div class="quick-links">
+      <% guides.each_with_index do |(category_key, category), index| %>
+        <% if index != 0 %>|<% end %>
+        <a href="#<%= category_key %>" onclick="return guide_sidebar_show_item(this)"><%= category['name'] %></a>
+    <% end %>
+    </div>
   </div>
+
 </div>
