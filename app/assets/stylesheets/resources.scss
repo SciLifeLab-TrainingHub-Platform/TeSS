@@ -25,7 +25,7 @@
 
     .resources_training, .resources_support, .resources_community {
       background-repeat: repeat;
-      background-size: 110%;
+      background-size: 100% 100%;
       height: auto;
       background-position: center top;
 
@@ -76,6 +76,11 @@
       width: 90%;
       height: auto;
       aspect-ratio: auto;
+      @media screen and (max-width: 1199px) {
+        width: 100%;
+      }
+
+
     }
     .col-lg-8 {
       padding: 0;

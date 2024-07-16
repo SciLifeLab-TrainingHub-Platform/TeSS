@@ -19,7 +19,7 @@
           <br>
           <div class="resources_training_items">
             <% category['elements'].each do |elements_key, elements| %>
-              <%= link_to elements['url'], target: '_blank' do %>
+              <%= link_to elements['url'], target: '_blank', style: 'text-decoration: none' do %>
                 <div class="mb-5">
                   <div class="guide-box text-center d-flex flex-column p-3">
                     <p style="font-size:20px;"><b><%= elements['name'] %></b></p>
