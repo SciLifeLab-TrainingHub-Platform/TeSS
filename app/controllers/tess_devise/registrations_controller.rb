@@ -42,6 +42,6 @@ class TessDevise::RegistrationsController < Devise::RegistrationsController
   end
 
   def redirect_to_root
-    redirect_to root_path, alert: "Sign up is not allowed."
+    redirect_to root_path, :flash => { :alert => "Sign up is not allowed." }
   end
 end

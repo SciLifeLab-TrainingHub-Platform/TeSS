@@ -373,3 +373,11 @@ $(document).on('click', '[href="#activity_log"]', function () {
 
     return false;
 });
+
+// function to add a small animation to show flash message and slide back after 3 seconds
+$(document).ready(function () {
+    $('#flash-container').addClass('show')
+    setTimeout(function () {
+        $('#flash-container').removeClass('show');
+    }, 3000);
+})
