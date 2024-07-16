@@ -1,6 +1,17 @@
 <div class="quick-links">
-  <%= link_to 'What is ' + TeSS::Config.site['title_short'] + '?', about_path, class: ('selected-tab' if show == 'tess') %>
-  | <%= link_to 'How to Register', registering_resources_path, class: ('selected-tab' if show == 'registering') %>
-  | <%= link_to 'Developers Guide', developers_path, class: ('selected-tab' if show == 'developer') %>
-  | <%= link_to 'About us', us_path, class: ('selected-tab' if show == 'about') %>
+  <%= link_to 'What is it?', portal_path, class: 'quick-link-anchors' %>
+  | <%= link_to 'Get involved', us_path(anchor: 'involved'), class: 'quick-link-anchors' %>
+  | <%= link_to 'Our team', us_path(anchor: 'team'), class: 'quick-link-anchors' %>
+  | <%= link_to 'Educational science work', us_path(anchor: 'funding'), class: 'quick-link-anchors' %>
+  | <%= link_to 'Our mission', us_path(anchor: 'mission'), class: 'quick-link-anchors' %>
 </div>
+
+<script>
+    $(document).ready(function() {
+        // Remove the class 'selected-tab' from all anchors with the class 'quick-link-anchors'
+        $(`a.quick-link-anchors`).removeClass('selected-tab').filter(function() {
+            // Filter the anchors to find the one with the href attribute matching the current URL
+            return this.href === window.location.href;
+        }).addClass('selected-tab'); // Add the class 'selected-tab' to the matching anchor
+    });
+</script>
