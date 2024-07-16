@@ -1,7 +1,7 @@
 <footer class="footer">
   <div class="container">
-    <div class="row">
-      <div class="col-sm-4 col-xs-6">
+    <div class="row text-center">
+      <div class="col-sm-4">
         <div class="footer-logo footer-item">
           <%= image_tag(TeSS::Config.site['favicon'], :alt => TeSS::Config.site['logo_alt']) %>
         </div>
@@ -13,7 +13,7 @@
         <%#= link_to t("home.providers.button_text"), registering_resources_path, class: 'btn btn-primary btn-sm', style: 'margin-top: 1em' %>
       </div>
 
-      <div class="col-sm-4 col-xs-6 text-left">
+      <div class="col-sm-4">
         <div class="footer-item">
           <%= link_to "About #{TeSS::Config.site['title_short']}", about_path %>
         </div>
@@ -27,7 +27,7 @@
         <% end %>
       </div>
 
-      <div class="col-sm-4 col-xs-6 text-left">
+      <div class="col-sm-4">
         <div class="footer-item">
           <%= link_to 'Source code', TeSS::Config.site['repository'], target: '_blank', rel: 'noopener' %>
         </div>

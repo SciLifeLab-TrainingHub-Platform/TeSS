@@ -515,6 +515,18 @@ sup {
 
 #flash-container {
   text-align: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(-100%);
+  transition: transform 0.5s ease-in-out;
+  z-index: 9999;
+}
+
+#flash-container.show {
+  transform: translateY(0);
 }
 
 .schemaorg-element {
