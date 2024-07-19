@@ -10,6 +10,7 @@ on:
   create:
     tags:
       - 'rc-v*'
+      - hotfix-*
   release:
     types: [published,edited]
 
