@@ -511,7 +511,7 @@ en:
     no_consent: No cookie consent provided
     options:
       tracking: Cookies required for Google Analytics, to help TeSS improve its service.
-      necessary: Cookies necessary for TeSS to function, for example to provide user-authentication and forgery protection.
+      necessary: Cookies necessary for SciLifeLab Training Portal to function, for example to provide user-authentication and forgery protection.
     buttons:
       revoke: Revoke cookie consent
       all: Allow all cookies
