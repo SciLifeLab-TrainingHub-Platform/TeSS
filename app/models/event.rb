@@ -200,7 +200,7 @@ class Event < ApplicationRecord
 
   def self.facet_fields
     field_list = %w[ content_provider keywords scientific_topics operations tools fields online event_types
-                     start venue city country sponsors target_audience eligibility
+                     start venue city country sponsors target_audience eligibility language
                      user node collections ]
 
     field_list.delete('operations') if TeSS::Config.feature['disabled'].include? 'operations'
