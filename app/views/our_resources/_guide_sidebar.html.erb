@@ -29,6 +29,7 @@
         if (targetElement) {
             targetElement.classList.add('active');
         }
+        document.getElementById(elementClicked.href.split('#')[1]).scrollIntoView();
         return false;
     }
 </script>
