@@ -91,10 +91,16 @@
 
 .guide_page_category {
   display: none;
+  @media screen and (max-width: 991.98px) {
+    display: block;
+  }
 }
+
 .guide_page_category.active {
   display: block;
 }
+
+
 
 #trainer_community_accordion {
 
