@@ -64,6 +64,12 @@
         <%= display_attribute(@event, :timezone) %>
         <%= display_attribute(@event, :duration) %>
         <%= display_attribute(@event, :language) { |value| render_language_name(value) } %>
+        <p class="date no-spacing">
+          <strong class="text-primary"> Application Deadline: </strong>
+          <%= neatly_printed_date_range(@event.application_deadline) %>
+        </p>
+
+
         <!-- Field: description -->
         <div class="description">
           <%= google_maps_javascript_api_tag(@event) if @event.show_map? %>
