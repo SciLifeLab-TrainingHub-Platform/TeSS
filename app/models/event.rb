@@ -269,7 +269,7 @@ class Event < ApplicationRecord
     if self.end
       self.end = self.end + 17.hours if self.end.hour == 0 # hour set to 0 if not otherwise defined...
     elsif online?
-      self.end = start + 1.hour if self.end.hour == 0
+      self.end = start + 1.hour
     else
       diff = 17 - start.hour
       self.end = start + diff.hours
