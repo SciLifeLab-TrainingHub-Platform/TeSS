@@ -81,7 +81,8 @@ module EventsHelper
           description = ''
           description += (neatly_printed_date_range(event.start, event.end) + "\n\n") if event.start.present?
           description += (event.description + "\n\n") if event.description.present?
-          description += event.organizer if event.organizer.present?
+          # commented as we have removed organizer field from event
+          # description += event.organizer if event.organizer.present?
           item.description = description.to_s
 
           # we should think about our RSS feed updating rules. If a line of the event description

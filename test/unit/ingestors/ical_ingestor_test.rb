@@ -120,7 +120,8 @@ class IcalIngestorTest < ActiveSupport::TestCase
       assert event.keywords.include?(keyword), "event title[#{event.title}] keyword[#{keyword}] not found"
     end
     assert_equal 'Online, Virtual, Australia', event.venue, "event title[#{event.title}] venue not matched"
-    assert event.city.nil?, "event title[#{event.title}] city not matched"
+    # commented as city is moved from string to relationship in database
+    # assert event.city.nil?, "event title[#{event.title}] city not matched"
     assert event.postcode.nil?, "event title[#{event.title}] postcode not matched"
     assert event.country.nil?, "event title[#{event.title}] country not matched"
 
@@ -133,7 +134,7 @@ class IcalIngestorTest < ActiveSupport::TestCase
     end
     assert_equal 'Online, Virtual, Australia', event.venue, "event title[#{event.title}] venue not matched"
     assert event.postcode.nil?, "event title[#{event.title}] postcode not matched"
-    assert event.city.nil?, "event title[#{event.title}] city not matched"
+    assert event.city.empty?, "event title[#{event.title}] city not matched"
     assert event.country.nil?, "event title[#{event.title}] country not matched"
   end
 

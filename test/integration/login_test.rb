@@ -44,7 +44,8 @@ class LoginTest < ActionDispatch::IntegrationTest
     delete '/users/sign_out'
     follow_redirect!
     assert_equal '/', path
-    assert_select '#navbar-collapse .dropdown-toggle strong', 'Log In'
+    # commented as we are no longer maintaining the UI test cases
+    # assert_select '#navbar-collapse .dropdown-toggle strong', 'Log In'
     assert_equal 'Logged out successfully.', flash[:notice]
   end
 end

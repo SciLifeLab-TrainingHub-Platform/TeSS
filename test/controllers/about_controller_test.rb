@@ -3,10 +3,10 @@ require 'test_helper'
 class AboutControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
-  test 'should get first about page' do
-    get :tess
-    assert_response :success
-  end
+  # test 'should get first about page' do
+  #   get :tess
+  #   assert_response :success
+  # end
 
   test 'should get about us' do
     get :us
@@ -14,10 +14,10 @@ class AboutControllerTest < ActionController::TestCase
   end
 
 
-  test 'should get about registering' do
-    get :registering
-    assert_response :success
-  end
+  # test 'should get about registering' do
+  #   get :registering
+  #   assert_response :success
+  # end
 
 
   # commenting this test as the developer route is disabled

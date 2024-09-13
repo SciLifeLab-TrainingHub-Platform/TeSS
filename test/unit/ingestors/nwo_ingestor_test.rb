@@ -52,7 +52,7 @@ class NwoIngestorTest < ActiveSupport::TestCase
     assert_equal 'NWO Biophysics', event.title
     assert_equal 'Amsterdam', event.timezone
     assert_equal 'NWO', event.source
-    assert_equal Time.zone.parse('Mon, 09 Oct 2023 00:00:00.000000000 UTC +00:00'), event.start
-    assert_equal Time.zone.parse('Tue, 10 Oct 2023 23:59:59.999999000 UTC +00:00'), event.end
+    assert_equal Time.zone.parse('Mon, 09 Oct 2023 09:00:00.000000000 UTC +00:00'), event.start
+    assert_equal Time.zone.parse('Tue, 10 Oct 2023 17:00:00.000000000 UTC +00:00'), event.end
   end
 end

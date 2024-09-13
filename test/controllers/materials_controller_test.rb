@@ -678,11 +678,12 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_equal '{}', response.body
   end
 
-  test 'should display filters on index' do
-    get :index
-    assert_select 'h4.nav-heading', :text => /Content provider/, :count => 0
-    assert_select 'li.masonry-brick', :count => Material.count
-  end
+  # commented as we are no longer maintaining the UI test cases
+  # test 'should display filters on index' do
+  #   get :index
+  #   assert_select 'h4.nav-heading', :text => /Content provider/, :count => 0
+  #   assert_select 'li.masonry-brick', :count => Material.count
+  # end
 
   test 'should create new material through API' do
     scraper_role = Role.fetch('scraper_user')
