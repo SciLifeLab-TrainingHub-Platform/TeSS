@@ -1,5 +1,6 @@
 <div class="row information-box p-3">
-We are still working on some details of our course registry -- for now, contact <%= mail_to(TeSS::Config.contact_email) %> to add your course here!
+  We are still working on some details of our course registry -- for now,
+  contact <%= mail_to(TeSS::Config.contact_email) %> to add your course here!
 </div>
 <div class="wrapper">
   <% if TeSS::Config.solr_enabled %>
@@ -10,23 +11,22 @@ We are still working on some details of our course registry -- for now, contact 
   <% end %>
 
   <div id="content">
-    <h2><%=t("features.events.long")%></h2>
+    <h2><%= t("features.events.long") %></h2>
     <% content_for :buttons do %>
-      <!-- Register button
+      <!-- Register button-->
       <%= link_to new_event_path, class: 'btn btn-primary' do %>
         <%= t('register.buttons.events') %>
       <% end %>
-       Info 
-      <%= info_button("What are events in #{TeSS::Config.site['title_short']}?", hide_text: true) do %>
+      <!-- Info button-->
+      <%= info_button("What are events in #{TeSS::Config.site['title_short']}?", hide_text: true, class: 'event-info-button-popover') do %>
         <%= render_markdown(events_info) %>
       <% end %>
-      -->
     <% end %>
     <% content_for :display_options do %>
       <ul class="nav nav-xs nav-pills index-display-options">
         <%# We should consider setting the active status based on the query fragment so we can deeplink %>
         <%= tab('List', 'fa fa-list', 'home', active: true) %>
-        <%= tab('Calendar', 'fa fa-calendar', 'calendar', options: { 'data-calendar': calendar_events_path(search_and_facet_params.merge(format: :js, per_page: 200))}) %>
+        <%= tab('Calendar', 'fa fa-calendar', 'calendar', options: { 'data-calendar': calendar_events_path(search_and_facet_params.merge(format: :js, per_page: 200)) }) %>
         <% if TeSS::Config.map_enabled %>
           <%= tab('Map', 'fa fa-globe', 'map',
                   disabled: { check: (search_and_facet_params[:online] == 'true'),
