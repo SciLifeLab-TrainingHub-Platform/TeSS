@@ -28,3 +28,10 @@
   margin-left: 40%;
   padding-top: 100px;
 }
+
+.event-info-button-popover + .popover[role = tooltip] {
+  margin-right: 20px;
+  .arrow {
+    left: 90%;
+  }
+}
