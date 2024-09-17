@@ -28,7 +28,7 @@
             <%= suggestion_icon(@event, 'large') -%>
           <% end %>
 
-          <i class="icon icon-h2 <%= @event.presence %>-event-icon" ></i>
+          <i class="icon icon-h2 <%= @event.presence %>-event-icon"></i>
 
           <%= @event.title %>
         </h2>
@@ -68,7 +68,9 @@
           <strong class="text-primary"> Application Deadline: </strong>
           <%= neatly_printed_date_range(@event.application_deadline) %>
         </p>
-
+        <% if @event.application_deadline.is_a?(Time) && Time.now > @event.application_deadline %>
+          <span class="text-danger small">The application deadline has passed.</span>
+        <% end %>
 
         <!-- Field: description -->
         <div class="description">
