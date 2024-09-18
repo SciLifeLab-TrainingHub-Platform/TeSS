@@ -71,6 +71,7 @@ default: &default
     edit_suggestions: false
     geocoding: false
     our_resources: true
+    topics: true
     # Possible features to disable:
     #  biotools, topics, operations, sponsors, fairshare, county, ardc_fields_of_research,
     #  other_types, subsets, syllabus, approved_editors address_finder
