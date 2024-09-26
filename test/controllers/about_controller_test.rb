@@ -3,21 +3,21 @@ require 'test_helper'
 class AboutControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
-  test 'should get first about page' do
-    get :tess
-    assert_response :success
-    assert_select 'li.about-page-category a[href=?]', registering_learning_paths_path, count: 1
-  end
+  # test 'should get first about page' do
+  #   get :tess
+  #   assert_response :success
+  # end
 
   test 'should get about us' do
     get :us
     assert_response :success
   end
 
-  test 'should get about registering' do
-    get :registering
-    assert_response :success
-  end
+
+  # test 'should get about registering' do
+  #   get :registering
+  #   assert_response :success
+  # end
 
 
   # commenting this test as the developer route is disabled

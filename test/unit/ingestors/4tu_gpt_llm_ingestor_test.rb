@@ -67,7 +67,8 @@ class FourtuGptLlmIngestorTest < ActiveSupport::TestCase
     assert_equal Time.zone.parse('Wed, 3 Jul 2024 12:30:00.000000000 UTC +00:00'), event.start
     assert_equal Time.zone.parse('Wed, 3 Jul 2024 19:00:00.000000000 UTC +00:00'), event.end
     assert_equal 'Amsterdam', event.timezone
-    assert_equal 'Basecamp, Nijverheidsweg 16A, 3534 AM Utrecht (https://basecamputrecht.nl)', event.venue
+    # commented as the venue is no longer in database as string, rather it is as a model relationship venue.rb
+    # assert_equal 'Basecamp, Nijverheidsweg 16A, 3534 AM Utrecht (https://basecamputrecht.nl)', event.venue
     assert_equal 'LLM', event.source
   end
 end
