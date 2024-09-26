@@ -58,7 +58,9 @@ class Event < ApplicationRecord
       string :title
       string :sponsors, multiple: true
       string :venue
-      string :city
+      string :city, multiple: true do
+        cities.pluck(:name)
+      end
       string :country
       string :event_types, multiple: true do
         EventTypeDictionary.instance.values_for_search(event_types)
