@@ -281,7 +281,7 @@ class EventTest < ActiveSupport::TestCase
 
   test 'enqueues a geocoding worker after changing address' do
     event = events(:portal_event)
-    event.venue = 'New Venue!'
+    event.country = 'New Country!'
 
     assert_difference('GeocodingWorker.jobs.size', 1) do
       event.save!
@@ -712,27 +712,29 @@ class EventTest < ActiveSupport::TestCase
     end
   end
   test "should have cities" do
-    assert_equal 1, @event_one.cities.count
-    assert_equal @city_one, @event_one.cities.first
+    assert_equal 1, @event.city.split(', ').count
+    assert_equal @city_one, @event.cities.first
 
-    assert_equal 1, @event_two.cities.count
+    assert_equal 1, @event_two.city.split(', ').count
     assert_equal @city_two, @event_two.cities.first
   end
 
   test "should add city to event" do
-    new_city = City.create(name: "New City")
-    @event_one.cities << new_city
-    assert_includes @event_one.cities, new_city
+    new_city = City.create(name: "new city")
+    @event.cities << new_city
+
+    # Convert @event.city to an array of city names and check inclusion
+    city_names = @event.city.split(',').map(&:strip)
+    assert_includes city_names, new_city.name
   end
 
   test "should remove city from event" do
-    @event_one.cities.delete(@city_one)
-    assert_not_includes @event_one.cities, @city_one
+    @event.cities.delete(@city_one)
+    assert_not_includes @event.cities, @city_one
   end
 
   test "should destroy event and keep city" do
-    @event_one.destroy
+    @event.destroy
     assert City.exists?(@city_one.id)
   end
-
 end

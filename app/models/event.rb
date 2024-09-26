@@ -25,7 +25,6 @@ class Event < ApplicationRecord
   before_save :check_country_name
   before_save :set_default_times
   before_save :geocoding_cache_lookup, if: :address_will_change?
-  before_save :set_end_time_to_end_of_day, if: :end?
   after_save :enqueue_geocoding_worker, if: :address_changed?
 
   if TeSS::Config.solr_enabled
@@ -381,15 +380,6 @@ class Event < ApplicationRecord
     true
   end
 
-  def set_end_time_to_end_of_day
-    if self.end.present?
-      if self.end.hour == 0 && self.end.min == 0 && self.end.sec == 0
-        self.end = self.end.to_datetime.end_of_day
-      end
-    end
-  end
-  
-
   # Check the external Geocoder API (currently Nominatim) for coordinates
   def geocoding_api_lookup
     location = address
@@ -495,15 +485,20 @@ class Event < ApplicationRecord
     cities.pluck(:name).join(', ')
   end
 
-  def city=(city_string)
+  def city=(value)
     # If city_string is not nil or empty, modify the cities association
-    if city_string.present?
-      city_names = city_string.split(CITY_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
-      existing_cities = self.cities
-      new_cities = city_names.map do |name|
-        City.find_or_create_by(name: name)
+    if value.present?
+      if value.instance_of? String
+        city_names = value.split(CITY_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
+        existing_cities = self.cities
+        new_cities = city_names.map do |name|
+          City.find_or_create_by(name: name)
+        end
+        self.cities = (existing_cities + new_cities).uniq
+      elsif value.instance_of? City
+        existing_cities = self.cities
+        self.cities = (existing_cities + [value]).uniq
       end
-      self.cities = (existing_cities + new_cities).uniq
     end
   end
 
