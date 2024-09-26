@@ -283,7 +283,7 @@ class EventsController < ApplicationController
     params.require(:event).permit(:external_id, :title, :subtitle, :url, :last_scraped, :scraper_record,
                                   :description, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
                                   { operation_names: [] }, { operation_uris: [] }, { event_types: [] },
-                                  { keywords: [] }, { fields: [] }, :start, :end, :duration, { sponsors: [] },
+                                  { keywords: [] }, { fields: [] }, :start, :end, :application_deadline, :duration, { sponsors: [] },
                                   :online, {:venue_ids => [] }, :new_venues, {:city_ids => [] }, :new_cities, :county, :country, :postcode, :latitude, :longitude,
                                   :timezone, :content_provider_id, { collection_ids: [] }, { node_ids: [] },
                                   { node_names: [] }, { target_audience: [] }, { eligibility: [] }, :visible,
