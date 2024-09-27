@@ -539,6 +539,7 @@ en:
       duration: 'In hours and minutes (HH:MM), how long will your training event run?'
       eligibility: 'Who can attend the training event?'
       end: 'When does the event end?'
+      application_deadline: 'Application deadline for the event.'
       event_type: 'Select the most appropriate event type for the training event.'
       fields: 'Select Fields of Research to better classify your event.'
       hosts: ''
