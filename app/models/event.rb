@@ -45,6 +45,9 @@ class Event < ApplicationRecord
       end
       text :scientific_topics do
         scientific_topics_and_synonyms
+        end
+      text :topics do
+        topics.pluck(:name)
       end
       text :operations do
         operations_and_synonyms
@@ -81,6 +84,9 @@ class Event < ApplicationRecord
       end
       string :scientific_topics, multiple: true do
         scientific_topics_and_synonyms
+      end
+      string :topics, multiple: true do
+        topics.pluck(:name)
       end
       string :operations, multiple: true do
         operations_and_synonyms
@@ -126,6 +132,9 @@ class Event < ApplicationRecord
   has_many :venues, through: :event_venues
   has_many :event_cities, dependent: :destroy
   has_many :cities, through: :event_cities
+  has_many :event_topics, dependent: :destroy
+  has_many :topics, through: :event_topics
+
 
   has_ontology_terms(:scientific_topics, branch: OBO_EDAM.topics)
   has_ontology_terms(:operations, branch: OBO_EDAM.operations)
@@ -200,7 +209,7 @@ class Event < ApplicationRecord
   end
 
   def self.facet_fields
-    field_list = %w[ content_provider keywords scientific_topics operations tools fields online event_types
+    field_list = %w[ content_provider keywords scientific_topics topics operations tools fields online event_types
                      start venue city country sponsors target_audience eligibility language
                      user node collections ]
 
@@ -453,7 +462,7 @@ class Event < ApplicationRecord
     external_resources.each do |er|
       c.external_resources.build(url: er.url, title: er.title)
     end
-    %i[materials scientific_topics operations nodes venues cities].each do |field|
+    %i[materials scientific_topics operations nodes venues cities topics].each do |field|
       c.send("#{field}=", send(field))
     end
 
@@ -502,6 +511,11 @@ class Event < ApplicationRecord
         self.cities = (existing_cities + [value]).uniq
       end
     end
+  end
+
+
+  def topic
+    topics.pluck(:name).join(', ')
   end
 
   private

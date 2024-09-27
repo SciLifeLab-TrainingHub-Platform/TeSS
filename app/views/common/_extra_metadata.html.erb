@@ -63,6 +63,7 @@
 <%= display_attribute(resource, :remote_created_date) if resource.respond_to?(:remote_created_date) %>
 <%= display_attribute(resource, :remote_updated_date) if resource.respond_to?(:remote_updated_date) %>
 <%= display_attribute(resource, :scientific_topics) { |values| values.map { |x| x.preferred_label }.join(', ') } %>
+<%= display_attribute(resource, :topics) { |values| values.map { |x| x.name }.join(', ') } %>
 
 <% if resource.is_a?(LearningPath) %>
   <%= display_attribute(resource, :status) { |value| material_status_title_for_label(value) } %>
