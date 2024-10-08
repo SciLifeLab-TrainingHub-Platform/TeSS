@@ -7,7 +7,7 @@ class EventsController < ApplicationController
                                      redirect report update_report add_data reject_data]
   before_action :set_breadcrumbs
   before_action :disable_pagination, only: :index, if: ->(controller) { controller.request.format.ics? or controller.request.format.csv? or controller.request.format.rss? }
-  before_action :get_venue_and_city, only: [:new, :clone, :edit, :create, :update]
+  before_action :set_event_dependencies, only: [:new, :clone, :edit, :create, :update]
 
   include SearchableIndex
   include ActionView::Helpers::TextHelper
@@ -93,6 +93,7 @@ class EventsController < ApplicationController
                        timezone: 'Stockholm')
     @selected_venue_ids = []
     @selected_cities_ids = []
+    @selected_topics_ids = []
   end
 
   # GET /events/1/clone
@@ -107,6 +108,7 @@ class EventsController < ApplicationController
     authorize @event
     @selected_venue_ids = @event.venues.pluck(:id)
     @selected_cities_ids = @event.cities.pluck(:id)
+    @selected_topics_ids = @event.topics.pluck(:id)
   end
 
   # GET /events/1/report
@@ -281,7 +283,7 @@ class EventsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def event_params
     params.require(:event).permit(:external_id, :title, :subtitle, :url, :last_scraped, :scraper_record,
-                                  :description, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
+                                  :description, {:topic_ids => [] }, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
                                   { operation_names: [] }, { operation_uris: [] }, { event_types: [] },
                                   { keywords: [] }, { fields: [] }, :start, :end, :application_deadline, :duration, { sponsors: [] },
                                   :online, {:venue_ids => [] }, :new_venues, {:city_ids => [] }, :new_cities, :county, :country, :postcode, :latitude, :longitude,
@@ -303,8 +305,9 @@ class EventsController < ApplicationController
     params[:per_page] = 2**10
   end
 
-  def get_venue_and_city
+  def set_event_dependencies
     @venues = Venue.all
     @cities = City.all
+    @topics = Topic.all
   end
 end
