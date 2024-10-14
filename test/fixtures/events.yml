@@ -17,7 +17,6 @@ one:
   longitude: -2.233949
   keywords: ["Keyword"]
   user: regular_user
-  content_provider: goblet
   host_institutions: ["MyHost"]
   contact: MyContact
   eligibility: [ first_come_first_served ]
@@ -86,7 +85,6 @@ iann_event:
   url: http://myurl.com
   description: 'this is an iann event'
   user: regular_user
-  content_provider: iann
   host_institutions: ["MyHost"]
   timezone: UTC
   contact: MyContact
@@ -97,7 +95,6 @@ scraper_user_event:
   url: http://myurl.com
   description: 'this is my material'
   user: scraper_user
-  content_provider: goblet
   host_institutions: ["MyHost"]
   timezone: UTC
   contact: MyContact
@@ -112,7 +109,6 @@ event_with_external_resource:
   url: http://myurl.com
   description: 'this is my material'
   user: scraper_user
-  content_provider: goblet
   host_institutions: ["MyHost"]
   timezone: UTC
   contact: MyContact
@@ -127,7 +123,6 @@ event_with_no_start:
   url: http://myurl.com
   description: 'Fun stuff, indeed!'
   user: scraper_user
-  content_provider: goblet
   host_institutions: ["MyHost"]
   timezone: UTC
   contact: MyContact
@@ -141,7 +136,6 @@ event_with_no_end:
   url: http://myurl.com
   description: 'Fun stuff, indeed!'
   user: scraper_user
-  content_provider: goblet
   start: 2016-11-22
   host_institutions: ["MyHost"]
   timezone: UTC
@@ -155,7 +149,6 @@ online_event_with_no_end:
   url: http://myurl.com
   description: 'Fun stuff, indeed!'
   user: scraper_user
-  content_provider: goblet
   start: 2016-11-22 14:00
   presence: 1
   host_institutions: ["MyHost"]
@@ -170,7 +163,6 @@ organisation_event:
   url: http://content-provider.org/event
   description: 'Fun stuff, indeed!'
   user: scraper_user
-  content_provider: organisation_provider
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
   host_institutions: ["MyHost"]
@@ -186,7 +178,6 @@ portal_event:
   url: http://content-provider.portal/event
   description: 'Such Bioinformatics, many DNA, very Protein. Wow!'
   user: scraper_user
-  content_provider: portal_provider
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
   host_institutions: ["MyHost"]
@@ -201,7 +192,6 @@ dodgy_country_event:
   url: http://content-provider.org/event
   description: 'Never heard of it, sorry.'
   user: scraper_user
-  content_provider: organisation_provider
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
   country: üK
@@ -215,7 +205,6 @@ no_description_event:
   title: All you need to know is in the title
   url: http://content-provider.org/no-desc-event
   user: regular_user
-  content_provider: goblet
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
   host_institutions: ["MyHost"]
@@ -230,7 +219,6 @@ event_with_report:
   url: http://content-provider.org/event-with-report
   description: "An event with a report"
   user: regular_user
-  content_provider: goblet
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
   funding: Fidget spinner sales
@@ -246,7 +234,6 @@ another_event_with_report:
   title: This event happened
   url: http://content-provider.org/another-event-with-report
   user: another_regular_user
-  content_provider: goblet
   start: 2016-12-12 10:00:00
   end: 2016-12-12 12:00:00
   funding: Raffle
@@ -284,7 +271,6 @@ failing_event:
   url: http://white-star.com/frc
   description: 'Women and children first'
   user: scraper_user
-  content_provider: portal_provider
   start: 1914-04-14 23:40:00
   end: 1914-04-15 02:20:00
   host_institutions: ["MyHost"]
@@ -346,7 +332,6 @@ training_event:
   longitude: 144.96627433866243
   keywords: ["Keyword"]
   user: trainer_user
-  content_provider: goblet
   host_institutions: ["UoLife"]
   timezone: Melbourne
   contact: MyContact
@@ -366,7 +351,6 @@ ical_event_1:
   postcode: 3010
   keywords: ["Keyword"]
   user: trainer_user
-  content_provider: another_portal_provider
   host_institutions: ["UoLife"]
   timezone: Australia/Perth
   contact: MyContact
@@ -386,7 +370,6 @@ ical_event_2:
   postcode: 3010
   keywords: ["Keyword"]
   user: trainer_user
-  content_provider: another_portal_provider
   host_institutions: ["UoLife"]
   timezone: Australia/Perth
   contact: MyContact
@@ -408,7 +391,6 @@ course_event:
   longitude: -2.233949
   keywords: ['Ruby', 'Javascript']
   user: regular_user
-  content_provider: goblet
   host_institutions: ["University of Manchester"]
   contact: MyContact
   eligibility: [ first_come_first_served ]
@@ -423,7 +405,6 @@ hybrid_event:
   url: http://content-provider.portal/hybrid
   description: Hybrid in theory
   user: scraper_user
-  content_provider: portal_provider
   start: 2024-12-12 10:00:00
   end: 2024-12-12 12:00:00
   timezone: UTC

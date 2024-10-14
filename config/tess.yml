@@ -59,7 +59,7 @@ default: &default
     events: true
     invitation: false
     materials: true
-    nodes: true
+    nodes: false
     collections: false
     content_providers: true
     subscription: false

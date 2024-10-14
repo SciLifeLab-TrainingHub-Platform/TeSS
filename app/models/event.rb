@@ -320,14 +320,44 @@ class Event < ApplicationRecord
 
   def self.check_exists(event_params)
     given_event = event_params.is_a?(Event) ? event_params : new(event_params)
+
     event = nil
 
-    provider_ids = given_event.content_providers.pluck(:id)
+    # Ensure content_providers is an array
+    content_providers = Array(event_params[:content_providers])
 
+    # Check for content providers
+    if content_providers.present?
+      content_providers.each do |provider_param|
+        if provider_param[:id].present?
+          provider = ContentProvider.find(provider_param[:id])
+          given_event.content_providers << provider unless given_event.content_providers.include?(provider)
+        end
+      end
+    end
+    # After associating content providers
+    if given_event.content_providers.any? { |provider| !provider.valid? }
+      puts "One or more ContentProviders are invalid"
+      given_event.content_providers.each do |provider|
+        unless provider.valid?
+          puts "Invalid ContentProvider: #{provider.title}"
+          puts provider.errors.full_messages.join(", ")
+          pp provider
+          puts "-----\n"
+        end
+      end
+    end
+
+
+    # provider_id = (given_event.content_provider_id || given_event.content_provider&.id)&.to_s
+    provider_ids = given_event.content_providers.map(&:id)
+
+    # scope = provider_id.present? ? where(content_provider_id: provider_id) : all
     scope = provider_ids.any? ? joins(:content_providers).where(content_providers: { id: provider_ids }) : all
 
     event = scope.where(url: given_event.url).last if given_event.url.present?
 
+    # event ||= where(content_provider_id: provider_id, title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
     event ||= scope.where(title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
 
     event
