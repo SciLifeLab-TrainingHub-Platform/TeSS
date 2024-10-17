@@ -11,9 +11,10 @@ class ContentProvider < ApplicationRecord
   include CurationQueue
 
   has_many :materials, dependent: :destroy
-  has_many :events, dependent: :destroy
   has_many :sources, dependent: :destroy
   has_many :learning_paths, dependent: :destroy
+  has_many :event_content_providers, dependent: :destroy
+  has_many :events, through: :event_content_providers
 
   belongs_to :user
   belongs_to :node, optional: true

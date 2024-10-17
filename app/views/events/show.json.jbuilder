@@ -1,7 +1,7 @@
 fields = [
   :id, :external_id, :title, :subtitle, :url, :description,
 
-  :content_provider_id, :user_id,
+  :content_providers, :user_id,
 
   :keywords, :event_types, :fields,
 

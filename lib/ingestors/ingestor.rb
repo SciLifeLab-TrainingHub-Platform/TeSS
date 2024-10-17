@@ -134,8 +134,16 @@ module Ingestors
 
         # check for matched events
         resource.user_id ||= user.id
-        resource.content_provider_id ||= provider.id
+        # Assign content provider for Material, or handle Event differently
+        if type == Material
+          resource.content_provider_id ||= provider.id
+        elsif type == Event
+          resource.content_providers ||= []
+          resource.content_providers = provider
+        end
+
         existing_resource = find_existing(type, resource)
+
 
         update = existing_resource
         resource = if update
@@ -144,7 +152,24 @@ module Ingestors
                      type.new(resource.to_h)
                    end
 
+        if not resource.valid?
+          puts "type = #{type}"
+          puts "resource.valid? = #{resource.valid?}"
+          unless resource.valid?
+            puts "Validation errors:"
+            puts resource.errors.full_messages.join(", ") if resource.errors
+          end
+
+          puts resource
+          puts resource.content_providers
+
+        end
+
+
+
         resource = set_resource_defaults(resource)
+
+
         if resource.valid?
           resource.save!
           @stats[key][update ? :updated : :added] += 1

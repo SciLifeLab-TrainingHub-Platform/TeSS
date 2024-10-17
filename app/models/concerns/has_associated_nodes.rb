@@ -8,13 +8,22 @@ module HasAssociatedNodes
   end
 
   def has_node?
-    nodes.any? || content_provider&.node_id
+    if self.is_a?(Event)
+      nodes.any? || content_providers.any?(&:node_id)
+    else
+      nodes.any? || content_provider&.node_id
+    end
   end
 
   def associated_nodes
     n = self.nodes.to_a
-    n << self.content_provider.node if self.content_provider
-
+    if self.is_a?(Event)
+      content_providers.each do |provider|
+        n << provider.node if provider.node
+      end
+    else
+      n << self.content_provider.node if self.content_provider
+    end
     n.compact.uniq
   end
 

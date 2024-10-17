@@ -3,30 +3,35 @@
 Variable that should be available
 - content_provider - content provider being displayed
 %>
-<% unless content_provider.blank? %>
+<% content_providers = content_provider.is_a?(ActiveRecord::Associations::CollectionProxy) ? content_provider : [content_provider] %>
+
+<% unless content_providers.blank? %>
   <%# Content provider  %>
   <h4 class="nav-heading">Content provider</h4>
-  <div class="nav-block">
-    <p>
-      <%# Link to either external content provider's page or to the content provider's object in TeSS,
-          based on which controller/view is currenlty active %>
-      <%
-        if controller_name == 'content_providers'
-          url = content_provider.url
-          url_opts = { target: '_blank', rel: 'noopener' }
-        else
-          url = content_provider
-          url_opts = {}
-        end
-      %>
-      <%= link_to(image_tag(content_provider.image.url, class: 'medium-avatar'), url, **url_opts) %>
-    </p>
+  <% content_providers.each do |content_provider| %>
 
-    <p>
-      <%= link_to content_provider.title, url, class: 'h5', **url_opts %>
-    </p>
-    <% unless content_provider.description.blank? %>
-      <div class="tess-expandable markdown"><%= render_markdown content_provider.description %></div>
-    <% end %>
-  </div>
+    <div class="nav-block">
+      <p>
+        <%# Link to either external content provider's page or to the content provider's object in TeSS,
+          based on which controller/view is currenlty active %>
+        <%
+          if controller_name == 'content_providers'
+            url = content_provider.url
+            url_opts = { target: '_blank', rel: 'noopener' }
+          else
+            url = content_provider
+            url_opts = {}
+          end
+        %>
+        <%= link_to(image_tag(content_provider.image.url, class: 'medium-avatar'), url, **url_opts) %>
+      </p>
+
+      <p>
+        <%= link_to content_provider.title, url, class: 'h5', **url_opts %>
+      </p>
+      <% unless content_provider.description.blank? %>
+        <div class="tess-expandable markdown"><%= render_markdown content_provider.description %></div>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
