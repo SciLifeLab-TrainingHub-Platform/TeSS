@@ -101,11 +101,23 @@
   <!-- Field: Target Audience -->
   <%= f.multi_input :target_audience, errors: @event.errors[:target_audience], title: t('events.hints.targets') %>
 
+  <!-- Field: Scientific Topics -->
+  <%# if !TeSS::Config.feature['disabled'].include? 'topics' %>
+    <%#= f.autocompleter :scientific_topics, url: edam_topics_path, template: 'autocompleter/term', label: 'Topics', id_field: :uri, label_field: :preferred_label, input_html: { title: t('events.hints.topics') } %>
+  <%# end %>
+
   <!-- Field: Topics -->
-  <% if !TeSS::Config.feature['disabled'].include? 'topics' %>
-    <%= f.autocompleter :scientific_topics, url: edam_topics_path, template: 'autocompleter/term', label: 'Topics',
-                        id_field: :uri, label_field: :preferred_label, input_html: { title: t('events.hints.topics') } %>
-  <% end %>
+  <div class="field">
+    <%= f.label :topic_ids, "Topic(s)", class: 'control-label'%>
+    <%= f.field_lock(:topic_ids) %>
+    <%= f.collection_select :topic_ids, @topics, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |topic| %>
+      <option value="<%= topic.id %>" <%= 'selected="selected"' if @selected_topics_ids.include?(topic.id) %>>
+        <%= topic.name %>
+      </option>
+    <% end %>
+    <span class="help-block">Choose one or more Topics for the event.</span>
+  </div>
+
 
   <!-- Operations: check disabled -->
   <%# if !TeSS::Config.feature['disabled'].include? 'operations' %>

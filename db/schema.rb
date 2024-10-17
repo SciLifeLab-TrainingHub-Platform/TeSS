@@ -201,6 +201,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_02_112549) do
     t.index ["material_id"], name: "index_event_materials_on_material_id"
   end
 
+  create_table "event_topics", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_topics_on_event_id"
+    t.index ["topic_id"], name: "index_event_topics_on_topic_id"
+  end
+
   create_table "event_venues", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.bigint "venue_id", null: false
@@ -540,6 +549,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_02_112549) do
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -647,6 +662,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_02_112549) do
   add_foreign_key "event_content_providers", "events"
   add_foreign_key "event_materials", "events"
   add_foreign_key "event_materials", "materials"
+  add_foreign_key "event_topics", "events"
+  add_foreign_key "event_topics", "topics"
   add_foreign_key "event_venues", "events"
   add_foreign_key "event_venues", "venues"
   add_foreign_key "events", "users"
