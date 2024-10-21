@@ -77,38 +77,41 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 9, e.start.hour
   end
 
-  test 'lower precedence content provider does not overwrite' do
-    e = events(:organisation_event)
+  # since we have multiple content providers for event, this case is no longer required
+  # test 'lower precedence content provider does not overwrite' do
+  #   e = events(:organisation_event)
+  #
+  #   assert_equal content_providers(:organisation_provider), e.content_provider
+  #
+  #   e.content_provider = content_providers(:portal_provider)
+  #
+  #   assert e.save
+  #   assert_equal content_providers(:organisation_provider), e.reload.content_provider
+  # end
 
-    assert_equal content_providers(:organisation_provider), e.content_provider
+  # since we have multiple content providers for event, this case is no longer required
+  # test 'higher precedence content provider does overwrite' do
+  #   e = events(:organisation_event)
+  #
+  #   assert_equal content_providers(:organisation_provider), e.content_provider
+  #
+  #   e.content_provider = content_providers(:project_provider)
+  #
+  #   assert e.save
+  #   assert_equal content_providers(:project_provider), e.content_provider
+  # end
 
-    e.content_provider = content_providers(:portal_provider)
-
-    assert e.save
-    assert_equal content_providers(:organisation_provider), e.reload.content_provider
-  end
-
-  test 'higher precedence content provider does overwrite' do
-    e = events(:organisation_event)
-
-    assert_equal content_providers(:organisation_provider), e.content_provider
-
-    e.content_provider = content_providers(:project_provider)
-
-    assert e.save
-    assert_equal content_providers(:project_provider), e.content_provider
-  end
-
-  test 'equal precedence content provider does overwrite' do
-    e = events(:portal_event)
-
-    assert_equal content_providers(:portal_provider), e.content_provider
-
-    e.content_provider = content_providers(:another_portal_provider)
-
-    assert e.save
-    assert_equal content_providers(:another_portal_provider), e.content_provider
-  end
+  # since we have multiple content providers for event, this case is no longer required
+  # test 'equal precedence content provider does overwrite' do
+  #   e = events(:portal_event)
+  #
+  #   assert_equal content_providers(:portal_provider), e.content_provider
+  #
+  #   e.content_provider = content_providers(:another_portal_provider)
+  #
+  #   assert e.save
+  #   assert_equal content_providers(:another_portal_provider), e.content_provider
+  # end
 
   test 'country name is corrected before save' do
     e = events(:dodgy_country_event)

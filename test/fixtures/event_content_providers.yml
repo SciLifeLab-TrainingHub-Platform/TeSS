@@ -1,0 +1,101 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  event: one
+  content_provider: goblet
+
+two:
+  event: two
+  content_provider: goblet
+
+month_long_event:
+  event: month_long_event
+  content_provider: goblet
+
+year_long_event:
+  event: year_long_event
+  content_provider: goblet
+
+iann_event:
+  event: iann_event
+  content_provider: iann
+
+scraper_user_event:
+  event: scraper_user_event
+  content_provider: goblet
+
+event_with_external_resource:
+  event: event_with_external_resource
+  content_provider: goblet
+
+event_with_no_start:
+  event: event_with_no_start
+  content_provider: goblet
+
+event_with_no_end:
+  event: event_with_no_end
+  content_provider: goblet
+
+online_event_with_no_end:
+  event: online_event_with_no_end
+  content_provider: goblet
+
+organisation_event:
+  event: organisation_event
+  content_provider: organisation_provider
+
+portal_event:
+  event: portal_event
+  content_provider: portal_provider
+
+dodgy_country_event:
+  event: dodgy_country_event
+  content_provider: organisation_provider
+
+no_description_event:
+  event: no_description_event
+  content_provider: goblet
+
+event_with_report:
+  event: event_with_report
+  content_provider: goblet
+
+another_event_with_report:
+  event: another_event_with_report
+  content_provider: goblet
+
+shadowbanned_event:
+  event: shadowbanned_event
+  content_provider: goblet
+
+failing_event:
+  event: failing_event
+  content_provider: portal_provider
+
+kilburn:
+  event: kilburn
+  content_provider: goblet
+
+calendar_event:
+  event: calendar_event
+  content_provider: goblet
+
+training_event:
+  event: training_event
+  content_provider: goblet
+
+ical_event_1:
+  event: ical_event_1
+  content_provider: another_portal_provider
+
+ical_event_2:
+  event: ical_event_2
+  content_provider: another_portal_provider
+
+course_event:
+  event: course_event
+  content_provider: goblet
+
+hybrid_event:
+  event: hybrid_event
+  content_provider: portal_provider

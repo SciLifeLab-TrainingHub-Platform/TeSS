@@ -35,6 +35,9 @@ class DtlsIngestorTest < ActiveSupport::TestCase
         end
       end
     end
+    # Output the @messages to debug
+    puts('-----------------\n')
+    puts ingestor.instance_variable_get(:@messages).join("\n")
 
     assert_equal 4, ingestor.events.count
     assert ingestor.materials.empty?

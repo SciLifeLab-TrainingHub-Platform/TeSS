@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   include LogParameterChanges
   include HasAssociatedNodes
   include HasExternalResources
-  include HasContentProvider
+  # include HasContentProvider
   include LockableFields
   include Scrapable
   include Searchable
@@ -40,8 +40,8 @@ class Event < ApplicationRecord
       boolean :visible
       text :host_institutions
       text :timezone
-      text :content_provider do
-        content_provider.title unless content_provider.nil?
+      text :content_providers do
+        content_providers.pluck(:title)
       end
       text :scientific_topics do
         scientific_topics_and_synonyms
@@ -76,8 +76,8 @@ class Event < ApplicationRecord
       time :end
       time :created_at, trie: true
       time :updated_at
-      string :content_provider do
-        content_provider.title unless content_provider.nil?
+      string :content_providers, multiple: true do
+        content_providers.pluck(:title)
       end
       string :node, multiple: true do
         associated_nodes.pluck(:name)
@@ -134,7 +134,8 @@ class Event < ApplicationRecord
   has_many :cities, through: :event_cities
   has_many :event_topics, dependent: :destroy
   has_many :topics, through: :event_topics
-
+  has_many :event_content_providers, dependent: :destroy
+  has_many :content_providers, through: :event_content_providers
 
   has_ontology_terms(:scientific_topics, branch: EDAM.topics)
   has_ontology_terms(:operations, branch: EDAM.operations)
@@ -209,7 +210,7 @@ class Event < ApplicationRecord
   end
 
   def self.facet_fields
-    field_list = %w[ content_provider keywords scientific_topics topics operations tools fields online event_types
+    field_list = %w[ content_providers keywords scientific_topics topics  operations tools fields online event_types
                      start venue city country sponsors target_audience eligibility language
                      user node collections ]
 
@@ -225,7 +226,7 @@ class Event < ApplicationRecord
   end
 
   def to_csv_event
-    cp = content_provider.title unless content_provider.nil?
+    cp = content_providers_titles("; ")
 
     [title.tr(',', ' '),
      start.strftime('%d %b %Y'),
@@ -327,15 +328,34 @@ class Event < ApplicationRecord
 
   def self.check_exists(event_params)
     given_event = event_params.is_a?(Event) ? event_params : new(event_params)
+
     event = nil
 
-    provider_id = (given_event.content_provider_id || given_event.content_provider&.id)&.to_s
+    # Ensure content_providers is an array
+    content_providers = Array(event_params[:content_providers])
 
-    scope = provider_id.present? ? where(content_provider_id: provider_id) : all
+    # Check for content providers
+    if content_providers.present?
+      content_providers.each do |provider_param|
+        if provider_param[:id].present?
+          provider = ContentProvider.find(provider_param[:id])
+          given_event.content_providers << provider unless given_event.content_providers.include?(provider)
+        end
+      end
+    end
+
+
+
+    # provider_id = (given_event.content_provider_id || given_event.content_provider&.id)&.to_s
+    provider_ids = given_event.content_providers.map(&:id)
+
+    # scope = provider_id.present? ? where(content_provider_id: provider_id) : all
+    scope = provider_ids.any? ? joins(:content_providers).where(content_providers: { id: provider_ids }) : all
 
     event = scope.where(url: given_event.url).last if given_event.url.present?
 
-    event ||= where(content_provider_id: provider_id, title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
+    # event ||= where(content_provider_id: provider_id, title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
+    event ||= scope.where(title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
 
     event
   end
@@ -462,7 +482,7 @@ class Event < ApplicationRecord
     external_resources.each do |er|
       c.external_resources.build(url: er.url, title: er.title)
     end
-    %i[materials scientific_topics operations nodes venues cities topics].each do |field|
+    %i[materials scientific_topics operations nodes venues cities topics content_providers].each do |field|
       c.send("#{field}=", send(field))
     end
 
@@ -516,6 +536,19 @@ class Event < ApplicationRecord
 
   def topic
     topics.pluck(:name).join(', ')
+  end
+
+  def content_providers_titles(separator = ", ")
+    content_providers.pluck(:title).join(separator)
+  end
+
+  def content_providers=(new_providers)
+    new_providers = [new_providers] unless new_providers.is_a?(Array)
+    new_providers.each do |provider|
+      if provider.is_a?(ContentProvider) && !self.content_providers.include?(provider)
+        self.content_providers << provider
+      end
+    end
   end
 
   private
