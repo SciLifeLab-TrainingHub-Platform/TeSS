@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_02_112549) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_21_133721) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -269,6 +269,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_02_112549) do
     t.boolean "visible", default: true
     t.string "language"
     t.datetime "application_deadline"
+    t.integer "event_status", default: 0, null: false
     t.index ["presence"], name: "index_events_on_presence"
     t.index ["slug"], name: "index_events_on_slug", unique: true
     t.index ["user_id"], name: "index_events_on_user_id"

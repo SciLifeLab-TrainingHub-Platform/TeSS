@@ -117,6 +117,7 @@ class Event < ApplicationRecord
   attr_accessor :new_venues
   attr_accessor :new_cities
   enum presence: { onsite: 0, online: 1, hybrid: 2 }
+  enum event_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3 }
 
   belongs_to :user
   has_one :llm_interaction, inverse_of: :event, dependent: :destroy
