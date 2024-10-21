@@ -152,10 +152,18 @@
     <%= f.input :cost_value, as: :decimal, label: 'Cost', input_html: { title: t('events.hints.cost_value'), min: '0' } %>
   </div>
 
-  <!-- Field: Content Provider -->
-  <%= f.input :content_provider_id, label: 'Content provider (Training Organizer)',
-              collection: current_user.get_editable_providers, label_method: :title, value_method: :id, include_blank: true,
-              field_lock: true %>
+  <!-- Field: Content Providers -->
+  <%#= f.input :content_provider_id, label: 'Content provider (Training Organizer)', collection: current_user.get_editable_providers, label_method: :title, value_method: :id, include_blank: true, field_lock: true %>
+  <div class="field">
+    <%= f.label :content_provider_ids, "Content Provider(s)", class: 'control-label' %>
+    <%= f.field_lock(:content_provider_ids) %>
+    <%= f.collection_select :content_provider_ids, @content_providers, :id, :title, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |content_provider| %>
+      <option value="<%= content_provider.id %>" <%= 'selected="selected"' if @selected_content_providers_id.include?(content_provider.id) %>>
+        <%= content_provider.title %>
+      </option>
+    <% end %>
+    <span class="help-block">Choose one or more content provider for the event.</span>
+  </div>
 
   <!-- Field: Materials -->
   <%= f.autocompleter :materials, input_html: { title: t('events.hints.materials') }, url: materials_path %>

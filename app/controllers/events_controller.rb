@@ -94,6 +94,7 @@ class EventsController < ApplicationController
     @selected_venue_ids = []
     @selected_cities_ids = []
     @selected_topics_ids = []
+    @selected_content_providers_id = []
   end
 
   # GET /events/1/clone
@@ -109,6 +110,7 @@ class EventsController < ApplicationController
     @selected_venue_ids = @event.venues.pluck(:id)
     @selected_cities_ids = @event.cities.pluck(:id)
     @selected_topics_ids = @event.topics.pluck(:id)
+    @selected_content_providers_id = @event.content_providers.pluck(:id)
   end
 
   # GET /events/1/report
@@ -168,6 +170,11 @@ class EventsController < ApplicationController
       params[:event][:city_ids] = params[:event][:city_ids].reject(&:blank?)
     end
 
+    # Handle existing content provider ids
+    if params[:event][:content_provider_ids].present?
+      params[:event][:content_provider_ids] = params[:event][:content_provider_ids].reject(&:blank?)
+    end
+
     # Create new venues if provided
     if params[:event][:new_venues].present?
       @event.venue = params[:event][:new_venues]
@@ -204,6 +211,11 @@ class EventsController < ApplicationController
     # Handle existing cities IDs
     if params[:event][:city_ids].present?
       params[:event][:city_ids] = params[:event][:city_ids].reject(&:blank?)
+    end
+
+    # Handle existing content provider ids
+    if params[:event][:content_provider_ids].present?
+      params[:event][:content_provider_ids] = params[:event][:content_provider_ids].reject(&:blank?)
     end
 
     # Create new venues if provided
@@ -287,7 +299,7 @@ class EventsController < ApplicationController
                                   { operation_names: [] }, { operation_uris: [] }, { event_types: [] },
                                   { keywords: [] }, { fields: [] }, :start, :end, :application_deadline, :duration, { sponsors: [] },
                                   :online, {:venue_ids => [] }, :new_venues, {:city_ids => [] }, :new_cities, :county, :country, :postcode, :latitude, :longitude,
-                                  :timezone, :content_provider_id, { collection_ids: [] }, { node_ids: [] },
+                                  :timezone, {:content_provider_ids => [] }, { collection_ids: [] }, { node_ids: [] },
                                   { node_names: [] }, { target_audience: [] }, { eligibility: [] }, :visible,
                                   { host_institutions: [] }, :capacity, :contact, :recognition, :learning_objectives,
                                   :prerequisites, :tech_requirements, :cost_basis, :cost_value, :cost_currency, :language,
@@ -308,5 +320,6 @@ class EventsController < ApplicationController
     @venues = Venue.all
     @cities = City.all
     @topics = Topic.all
+    @content_providers = ContentProvider.all
   end
 end
