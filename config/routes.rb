@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   concern :activities do
     resources :activities, only: [:index]
   end
-
+  get 'metrics', to: 'metrics#index'
+  
   get 'edam/terms' => 'edam#terms'
   get 'edam/topics' => 'edam#topics'
   get 'edam/operations' => 'edam#operations'

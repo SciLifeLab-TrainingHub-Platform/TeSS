@@ -74,3 +74,8 @@ else
     rake 'tess:check_resource_urls'
   end
 end
+
+#update metrics
+every 1.minute do
+  rake 'metrics:update'
+end
