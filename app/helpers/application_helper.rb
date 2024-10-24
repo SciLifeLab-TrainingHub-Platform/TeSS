@@ -186,12 +186,13 @@ module ApplicationHelper
     'ContentProvider' => TeSS::Config.placeholder['content_provider'],
     'Collection' => TeSS::Config.placeholder['collection'],
     'Trainer' => TeSS::Config.placeholder['person'],
-    'Node' => 'elixir/elixir.svg'
+    'Node' => 'scilifelab/SciLifeLab_Logotype_POS.png'
   }.freeze
 
   def get_image_url_for(resource)
     if resource.is_a?(Node) && File.exist?("#{Rails.root}/app/assets/images/nodes/logos_svg/#{resource.country_code}.svg")
-      "nodes/logos_svg/#{resource.country_code}.svg"
+      # "nodes/logos_svg/#{resource.country_code}.svg"
+      DEFAULT_IMAGE_FOR_MODEL.fetch(resource.class.name)
     elsif !resource.respond_to?(:image?) || !resource.image?
       DEFAULT_IMAGE_FOR_MODEL.fetch(resource.class.name)
     else
