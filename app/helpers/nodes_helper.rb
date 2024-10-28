@@ -38,7 +38,8 @@ module NodesHelper
     opts.reverse_merge!({
                           alt: 'ELIXIR node event',
                           title: 'ELIXIR node event',
-                          class: 'elixir-node-icon' })
+                          class: 'elixir-node-icon',
+                          style: 'float: right;',})
     image_tag ApplicationHelper::DEFAULT_IMAGE_FOR_MODEL['Node'], opts
   end
 

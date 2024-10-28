@@ -186,7 +186,7 @@ module ApplicationHelper
     'ContentProvider' => TeSS::Config.placeholder['content_provider'],
     'Collection' => TeSS::Config.placeholder['collection'],
     'Trainer' => TeSS::Config.placeholder['person'],
-    'Node' => 'scilifelab/SciLifeLab_Logotype_POS.png'
+    'Node' => 'scilifelab/SciLifeLab_Logotype_Green_POS.png'
   }.freeze
 
   def get_image_url_for(resource)

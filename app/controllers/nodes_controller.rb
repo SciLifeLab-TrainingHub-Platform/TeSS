@@ -3,7 +3,7 @@ class NodesController < ApplicationController
   before_action :feature_enabled?
   before_action :set_node, only: [:show, :edit, :update, :destroy]
   before_action :set_breadcrumbs
-  before_action :redirect_to_root, except: [:show]
+  before_action :redirect_to_root
 
   include SearchableIndex
 
