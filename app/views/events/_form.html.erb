@@ -175,11 +175,15 @@
   <!-- Nodes: check feature enabled -->
   <% if TeSS::Config.feature['nodes'] %>
     <div class="form-group">
-      <label <% if @event.errors[:node_ids].any? %> style="color: #a02622"<% end %>>* Nodes</label>
+      <label
+        <% if @event.errors[:node_ids].any? %> style="color: #a02622"
+        <% end %>>* Nodes</label>
 
       <% Node.order(:name).each do |node| %>
         <div>
-          <%= f.radio_button :node_ids, node.id, checked: @event.node_ids.include?(node.id), field_lock: true %>
+          <%= f.radio_button :node_ids, node.id, field_lock: true,
+                             checked: (@event.node_ids.include?(node.id) || (@event.persisted? && @event.node_ids.empty? && node.slug == Event::EXTERNAL_NODE_SLUG))
+          %>
           <%= f.label :node_ids, node.name, value: node.id %>
         </div>
       <% end %>
