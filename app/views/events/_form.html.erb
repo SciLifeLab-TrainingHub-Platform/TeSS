@@ -173,7 +173,7 @@
   <%#= f.input :title, as: :string, field_lock: true, input_html: { title: t('events.hints.title') } %>
 
   <!-- Nodes: check feature enabled -->
-  <% if TeSS::Config.feature['nodes'] %>
+  <% if TeSS::Config.feature['nodes'] and Node.all.count > 0 %>
     <div class="form-group">
       <label
         <% if @event.errors[:node_ids].any? %> style="color: #a02622"
