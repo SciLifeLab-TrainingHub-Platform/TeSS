@@ -182,7 +182,7 @@
       <% Node.order(:name).each do |node| %>
         <div>
           <%= f.radio_button :node_ids, node.id, field_lock: true,
-                             checked: (@event.node_ids.include?(node.id) || (@event.persisted? && @event.node_ids.empty? && node.slug == Event::EXTERNAL_NODE_SLUG))
+                             checked: (@event.node_ids.include?(node.id) || (@event.persisted? && @event.node_ids.empty? && node.slug == Node::EXTERNAL_NODE_SLUG))
           %>
           <%= f.label :node_ids, node.name, value: node.id %>
         </div>

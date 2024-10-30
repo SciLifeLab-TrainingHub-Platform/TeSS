@@ -174,7 +174,6 @@ class Event < ApplicationRecord
   NOMINATIM_MAX_ATTEMPTS = 3
   VENUE_NAME_SEPARATOR = ';'.freeze
   CITY_NAME_SEPARATOR = ';'.freeze
-  EXTERNAL_NODE_SLUG = 'external'.freeze
 
   def description=(desc)
     super(Rails::Html::FullSanitizer.new.sanitize(desc))
@@ -614,7 +613,7 @@ class Event < ApplicationRecord
   end
 
   def remove_external_node_connection
-    external_node = self.nodes.find_by(slug: EXTERNAL_NODE_SLUG)
+    external_node = self.nodes.find_by(slug: Node::EXTERNAL_NODE_SLUG)
     if external_node
       self.nodes.delete(external_node)
     end
