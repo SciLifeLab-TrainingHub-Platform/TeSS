@@ -1,6 +1,7 @@
 # The concern for searchable index
 module SearchableIndex
   extend ActiveSupport::Concern
+  included EventFilter
 
   included do
     attr_reader :facet_fields, :search_params, :facet_params, :page, :sort_by, :index_resources
@@ -21,8 +22,17 @@ module SearchableIndex
       page = page_param.blank? ? 1 : page_param.to_i
       per_page = per_page_param.blank? ? 10 : per_page_param.to_i
 
-      @search_results = @model.search_and_filter(current_user, @search_params, @facet_params,
-                                    page: page, per_page: per_page, sort_by: @sort_by)
+      # todo: separate the parameters to separate function if there is more customization required for additional_filters for different classes
+      @search_results = @model.search_and_filter(
+        current_user,
+        @search_params,
+        @facet_params,
+        page: page,
+        per_page: per_page,
+        sort_by: @sort_by,
+        additional_filters: @model.name == Event.name ? EventFilter.event_filter(current_user) : nil
+      )
+
       @index_resources = @search_results.results
       instance_variable_set("@#{controller_name}_results", @search_results) # e.g. @nodes_results
     else

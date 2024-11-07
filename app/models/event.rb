@@ -25,6 +25,7 @@ class Event < ApplicationRecord
   before_save :check_country_name
   before_save :set_default_times
   before_save :geocoding_cache_lookup, if: :address_will_change?
+  before_save :set_status_and_notify
   after_save :enqueue_geocoding_worker, if: :address_changed?
 
   if TeSS::Config.solr_enabled
@@ -32,6 +33,7 @@ class Event < ApplicationRecord
     searchable do
       # full text search fields
       text :title
+      string :event_status # This will index event_status as an integer
       text :keywords
       text :url
       text :venue
@@ -610,4 +612,20 @@ class Event < ApplicationRecord
   def presence_default
     self.presence = :onsite if presence.blank?
   end
+
+  def set_status_and_notify
+    if user.trusted?
+      # Check if the user creating the event has a 'trusted' role.
+      # If true, mark the event status as 'approved' and send a notification email to the user.
+
+      # self.event_status = Event.event_statuses[:approved]
+      # UserMailer.event_published(user, self).deliver_later
+    else
+      # If the user is not trusted, the event requires admin review.
+      # Send a notification email to the admin to review the event.
+
+      # AdminMailer.review_event(self).deliver_later
+    end
+  end
+
 end

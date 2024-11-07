@@ -19,7 +19,7 @@ module Searchable
       @search_and_facet_keys ||= ([:q] | facet_keys_with_multiple)
     end
 
-    def search_and_filter(user, search_params = '', selected_facets = {}, page: 1, sort_by: nil, per_page: 30)
+    def search_and_filter(user, search_params = '', selected_facets = {}, page: 1, sort_by: nil, per_page: 30, additional_filters: nil)
       includes = Searchable::EAGER_LOADABLE.select { |a| reflections.key?(a.to_s) }
       search(include: includes) do
         fulltext search_params
@@ -78,6 +78,9 @@ module Searchable
         end
 
         paginate page: page, per_page: per_page unless page.nil?
+
+        # Additional filtering based on custom requirements
+        instance_eval(&additional_filters) if additional_filters
 
         Facets.special.each do |facet_title|
           if Facets.applicable?(facet_title, self)

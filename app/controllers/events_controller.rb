@@ -8,6 +8,7 @@ class EventsController < ApplicationController
   before_action :set_breadcrumbs
   before_action :disable_pagination, only: :index, if: ->(controller) { controller.request.format.ics? or controller.request.format.csv? or controller.request.format.rss? }
   before_action :set_event_dependencies, only: [:new, :clone, :edit, :create, :update]
+  before_action :authorize_event_access, only: [:show, :edit, :update]
 
   include SearchableIndex
   include ActionView::Helpers::TextHelper
@@ -323,4 +324,13 @@ class EventsController < ApplicationController
     @topics = Topic.all
     @content_providers = ContentProvider.all
   end
+
+  def authorize_event_access
+    # if event is not approved or user is not owner of event
+    # in previous implementation the admin can edit the evemt, ask about that as this code runs for [:show, :edit, :update]
+    unless @event.approved? || (current_user && @event.user_id == current_user.id)
+      redirect_back_or_to({ action: "index" }, alert: "You are not authorized to view this event.")
+    end
+  end
+
 end
