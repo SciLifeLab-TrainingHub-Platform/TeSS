@@ -5,6 +5,9 @@ namespace :node do
   task create_entries: :environment do
     admin_user = User.joins(:role).find_by(roles: { name: 'admin' })
     if admin_user
+      # delete all the previous nodes and its association
+      Node.destroy_all
+      # create new nodes 
       Node.where(user: admin_user, name: Node::SCILIFE_LAB_NODE_NAME, slug: Node::SCILIFE_LAB_NODE_SLUG).first_or_create
       Node.where(user: admin_user, name: Node::EXTERNAL_NODE_NAME, slug: Node::EXTERNAL_NODE_SLUG).first_or_create
       puts "Ensured presence of nodes: #{Node::SCILIFE_LAB_NODE_NAME} and #{Node::EXTERNAL_NODE_NAME}."
