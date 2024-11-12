@@ -14,7 +14,7 @@ basic_user: # Cannot create content
   title: Basic user
 unverified_user: # Content requires approval before being visible
   title: New user
-verified_user:
-  title: Verified user
+trusted_user:
+  title: Trusted user
 learning_path_curator:
   title: Learning path curator

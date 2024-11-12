@@ -1,0 +1,29 @@
+<p>Dear Admin,</p>
+
+<p>An event titled <strong><%= @event.title %></strong> has been submitted by <strong><%= @event.user.username %></strong> and is pending your review.</p>
+
+<p>Please review the event and user details below:</p>
+
+<h3>Event Details:</h3>
+<ul>
+  <li><strong>Event Title:</strong> <%= @event.title %></li>
+  <li><strong>URL:</strong> <%= @event.url %></li>
+  <li><strong>Status:</strong> <%= @event.event_status %></li>
+</ul>
+
+<h3>User Details:</h3>
+<ul>
+  <li><strong>Username:</strong> <%= @event.user.username %></li>
+  <li><strong>Email:</strong> <%= @event.user.email %></li>
+  <li><strong>Role:</strong> <%= @event.user.role&.title || 'Unknown' %></li>
+  <li><strong>Last Sign-In IP:</strong> <%= @event.user.last_sign_in_ip || 'Not available' %></li>
+  <li><strong>Sign-In Count:</strong> <%= @event.user.sign_in_count %></li>
+</ul>
+
+<p>You can view more details and approve or reject the event using the link below:</p>
+
+<%= link_to 'Review Event', event_url(@event), style: 'display: inline-block; margin-top: 10px; padding: 10px 15px; background-color: #045C64; color: #fff; text-decoration: none; border-radius: 5px;' %>
+
+<p>If you have any questions, please reply to this email or contact us at <a href="mailto:<%= TeSS::Config.contact_email %>"><%= TeSS::Config.contact_email %></a>.</p>
+
+<p>Thank you!</p>

@@ -1,6 +1,19 @@
 <li class="masonry-brick media-item long">
+
+  <% if event.event_status == 'awaiting_review' %>
+    <i class="fa fa-clock-o" style="float: right; margin: 3px; color: #D9A400;" data-toggle="tooltip" title="Pending review by SciLifeLab administrators."></i>
+  <% elsif event.event_status == 'approved' %>
+    <i class="fa fa-check" style="float: right; margin: 3px; color: green;" data-toggle="tooltip" title="Approved by SciLifeLab and now publicly accessible."></i>
+  <% elsif event.event_status == 'declined' %>
+    <i class="fa fa-ban" style="float: right; margin: 3px; color: #B22222;" data-toggle="tooltip" title="Declined by SciLifeLab administrators."></i>
+  <% elsif event.event_status == 'revisions_required' %>
+    <i class="fa fa-edit" style="float: right; margin: 3px; color: #FF8C00;" data-toggle="tooltip" title="Revisions needed before approval."></i>
+  <% end %>
+
   <%= link_to event, class: 'link-overlay with-left-icon' do %>
+
     <%= item_order_badge(collection_item) if defined? collection_item %>
+
     <div class="with-left-icon">
       <div class="icon-container hidden-xs">
         <i class="icon icon-h2 <%= event.presence %>-event-icon"></i><br/>
@@ -24,7 +37,7 @@
             <% end %>
           <% end %>
           <h4>
-            <%= event.title %> <%= event.event_status %>
+            <%= event.title %>
           </h4>
         </div>
 

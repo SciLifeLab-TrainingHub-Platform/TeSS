@@ -13,6 +13,10 @@ class Role < ApplicationRecord
 
   def self.unverified
     fetch('unverified_user')
+    end
+
+  def self.trusted
+    fetch('trusted_user')
   end
 
   def self.fetch(name)

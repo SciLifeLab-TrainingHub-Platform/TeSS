@@ -24,9 +24,9 @@ unverified_user: # Content requires approval before being visible
   name: unverified_user
   title: New user
 
-verified_user:
-  name: verified_user
-  title: Verified user
+trusted_user:
+  name: trusted_user
+  title: Trusted user
 
 learning_path_curator:
   name: learning_path_curator

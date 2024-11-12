@@ -17,3 +17,6 @@ autocomplete_suggestions:
 dead_link_check:
   every: day
   at: 6am
+delete_old_events:
+  every: day
+  at: 2pm
