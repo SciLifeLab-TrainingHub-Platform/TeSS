@@ -6,14 +6,14 @@ Variable that should be available
 <% if TeSS::Config.feature['nodes'] %>
   <% if associated_nodes.any? %>
     <%# Content provider  %>
-    <h4 class="nav-heading"><%= 'Node'.pluralize(associated_nodes.count) %></h4>
+    <!--    <h4 class="nav-heading"><%#= 'Node'.pluralize(associated_nodes.count) %></h4>-->
 
     <% associated_nodes.each do |node| %>
       <div class="nav-block">
-        <%= link_to node, class: 'associated-node-link' do %>
+        <div class="associated-node-link">
           <%= image_tag(get_image_url_for(node), class: 'node-logo') %>
           <%= country_flag(node.country_code, class: 'small-flag') %> <%= node.name %>
-        <% end %>
+        </div>
       </div>
     <% end %>
   <% end %>

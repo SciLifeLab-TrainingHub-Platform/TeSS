@@ -8,6 +8,7 @@ class EventsController < ApplicationController
   before_action :set_breadcrumbs
   before_action :disable_pagination, only: :index, if: ->(controller) { controller.request.format.ics? or controller.request.format.csv? or controller.request.format.rss? }
   before_action :set_event_dependencies, only: [:new, :clone, :edit, :create, :update]
+  before_action :formatNodeIdsForRadio, only: [:create, :update]
 
   include SearchableIndex
   include ActionView::Helpers::TextHelper
@@ -322,5 +323,9 @@ class EventsController < ApplicationController
     @cities = City.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
+  end
+
+  def formatNodeIdsForRadio
+      params[:event][:node_ids] = Array(params[:event][:node_ids])
   end
 end

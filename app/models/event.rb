@@ -25,6 +25,7 @@ class Event < ApplicationRecord
   before_save :check_country_name
   before_save :set_default_times
   before_save :geocoding_cache_lookup, if: :address_will_change?
+  after_save :remove_external_node_connection
   after_save :enqueue_geocoding_worker, if: :address_changed?
 
   if TeSS::Config.solr_enabled
@@ -156,6 +157,7 @@ class Event < ApplicationRecord
   # validates :duration, format: { with: /\A[0-9][0-9]:[0-5][0-9]\z/, message: "must be in format HH:MM" }, allow_blank: true
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
+  validates :node_ids, presence: { message: "Please select at least one node." }, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
   update_suggestions(:keywords, :target_audience, :host_institutions)
@@ -609,5 +611,14 @@ class Event < ApplicationRecord
 
   def presence_default
     self.presence = :onsite if presence.blank?
+  end
+
+  def remove_external_node_connection
+    if TeSS::Config.feature['nodes']
+      external_node = self.nodes.find_by(slug: Node::EXTERNAL_NODE_SLUG)
+      if external_node
+        self.nodes.delete(external_node)
+      end
+    end
   end
 end
