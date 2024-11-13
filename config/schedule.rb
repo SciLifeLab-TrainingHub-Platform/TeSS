@@ -77,10 +77,10 @@ end
 
 if !schedules['delete_old_events'].nil?
   every :"#{schedules['delete_old_events']['every']}", at: "#{schedules['delete_old_events']['at']}" do
-    rake 'events:delete_old'
+    rake 'delete_events:delete_old'
   end
 else
   every 5.minutes do
-    rake 'tess:delete_old_declined_events'
+    rake 'delete_events:delete_old'
   end
 end

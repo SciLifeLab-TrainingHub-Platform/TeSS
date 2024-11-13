@@ -659,12 +659,12 @@ class Event < ApplicationRecord
 
           # Update the user's role
           self.user.update!(role_id: trusted_user_role.id)
-          UserMailer.event_published(self).deliver_later
           puts "User role updated to 'trusted_user'."
         else
           # Save the updated approved_events_count if role change doesn't occur
           self.user.save!
         end
+        UserMailer.event_published(self).deliver_later
       end
     end
   end

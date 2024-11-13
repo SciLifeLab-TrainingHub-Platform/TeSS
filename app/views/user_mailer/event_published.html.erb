@@ -1,22 +1,27 @@
-<p>Dear <%= @event.user.username %>,</p>
+<p style="font-size: 16px;">Dear <strong><%= @event.user.username %></strong>,</p>
 
-<p>We are pleased to inform you that your event titled <strong><%= @event.title %></strong> has been successfully published on the SciLifeLab Training Portal.</p>
+<p style="font-size: 16px;">We are pleased to inform you that your event titled <strong><%= @event.title %></strong> has
+  been successfully published on the SciLifeLab Training Portal.</p>
 
-<p>Event Details:</p>
-<ul>
+<p style="font-size: 16px; font-weight: bold;">Event Details:</p>
+<ul style="list-style-type: none; padding-left: 0; font-size: 15px;">
   <li><strong>Event Title:</strong> <%= @event.title %></li>
-  <li><strong>URL:</strong> <%= event_url(@event) %></li>
-  <li><strong>Start Date:</strong> <%= @event.start_date.strftime('%d %B %Y') %></li>
-  <li><strong>End Date:</strong> <%= @event.end_date.strftime('%d %B %Y') %></li>
-  <li><strong>Location:</strong> <%= @event.location.presence || 'Online' %></li>
+  <li><strong>URL:</strong>
+    <a href="<%= event_url(@event) %>" style="color: #045C64; text-decoration: none;"><%= event_url(@event) %></a></li>
+  <li><strong>Start Date:</strong> <%= @event.start.strftime('%d %B %Y') %></li>
+  <li><strong>End Date:</strong> <%= @event.end.strftime('%d %B %Y') %></li>
 </ul>
 
-<p>You can view and manage your event using the link below:</p>
-<%= link_to 'View Event', event_url(@event), style: 'display: inline-block; margin-top: 10px; padding: 10px 15px; background-color: #045C64; color: #fff; text-decoration: none; border-radius: 5px;' %>
+<p style="font-size: 16px;">You can view and manage your event using the link below:</p>
+<a href="<%= event_url(@event) %>"
+   style="display: inline-block; margin-top: 10px; padding: 12px 20px; background-color: #045C64; color: #ffffff; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">
+  View Event
+</a>
 
-<p>We appreciate your contribution and look forward to seeing your event on our platform.</p>
+<p style="font-size: 16px; margin-top: 20px;">We appreciate your contribution and look forward to seeing your event on
+  our platform.</p>
 
-<p>Thank you for being a part of our community!</p>
+<p style="font-size: 16px;">Thank you for being a part of our community!</p>
 
-<p>Best regards,</p>
-<p>The SciLifeLab Training Portal Team</p>
+<p style="font-size: 16px; font-weight: bold;">Best regards,</p>
+<p style="font-size: 16px;">The SciLifeLab Training Portal Team</p>
