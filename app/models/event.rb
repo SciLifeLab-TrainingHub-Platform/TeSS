@@ -619,7 +619,7 @@ class Event < ApplicationRecord
     if user.has_role?('trusted_user') || user.has_role?('admin')
       # Check if the user creating the event has a 'trusted' role or is admin.
       # If true, mark the event status as 'approved' and send a notification email to the user.
-      self.event_status = Event.event_statuses[:approved]
+      self.update!(event_status: Event.event_statuses[:approved])
       UserMailer.event_published(self).deliver_later if user.has_role?('trusted_user')
     else
       # If the user is not trusted, the event requires admin review.
@@ -634,9 +634,11 @@ class Event < ApplicationRecord
 
 
   def change_status_and_notify
-
     if self.previous_changes.key?("event_status")
+      # getting event status change i.e. old_status and new_status
       old_status, new_status = self.previous_changes["event_status"]
+
+      # getting the status constants from enum, rather then hardcoding
       awaiting_review = Event.event_statuses.key(0)
       approved = Event.event_statuses.key(1)
       revisions_required = Event.event_statuses.key(3)
@@ -645,25 +647,28 @@ class Event < ApplicationRecord
       if (old_status == awaiting_review && new_status == approved) ||
         (old_status == revisions_required && new_status == approved)
 
-        # Increment the approved events count
-        self.user.approved_events_count += 1
+        # Increment and save the approved events count
+        self.user.update!(approved_events_count: self.user.approved_events_count + 1)
 
         # Fetch role information
         trusted_user_role = Role.find_by(title: "Trusted user")
         registered_user_role = Role.find_by(title: "Registered user")
 
+        # Ensure both roles exist
+        if trusted_user_role.nil? || registered_user_role.nil?
+          raise "Required roles not found."
+        end
+
         # Check if the user is eligible for role change
         if self.user.approved_events_count >= User::EVENT_APPROVAL_THRESHOLD &&
-          trusted_user_role && registered_user_role &&
           self.user.role_id == registered_user_role.id
 
           # Update the user's role
           self.user.update!(role_id: trusted_user_role.id)
           puts "User role updated to 'trusted_user'."
-        else
-          # Save the updated approved_events_count if role change doesn't occur
-          self.user.save!
         end
+
+        # Send email notification to user
         UserMailer.event_published(self).deliver_later
       end
     end
