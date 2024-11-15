@@ -81,6 +81,7 @@ if !schedules['delete_old_events'].nil?
   end
 else
   every 5.minutes do
+    # after testing we will add every :day, at: '4am' do
     rake 'delete_events:delete_old'
   end
 end

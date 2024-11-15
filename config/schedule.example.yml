@@ -19,4 +19,4 @@ dead_link_check:
   at: 6am
 delete_old_events:
   every: day
-  at: 2pm
+  at: 4am

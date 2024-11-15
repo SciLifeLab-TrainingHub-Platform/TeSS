@@ -4,6 +4,6 @@ class AdminMailer < ApplicationMailer
 
   def review_event(event)
     @event = event
-    mail(to: ADMIN_EMAIL_ADDRESS, subject: 'Event review for ' + @event.title)
+    mail(to: ADMIN_EMAIL_ADDRESS, subject: "Event review for #{@event.title}")
   end
 end

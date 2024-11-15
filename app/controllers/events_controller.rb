@@ -326,11 +326,9 @@ class EventsController < ApplicationController
   end
 
   def authorize_event_access
-    # if event is not approved or user is not owner of event
-    # in previous implementation the admin can edit the evemt, ask about that as this code runs for [:show, :edit, :update]
-    unless @event.approved? || (current_user && @event.user_id == current_user.id)
-      redirect_back_or_to({ action: "index" }, alert: "You are not authorized to view this event.")
-    end
+    # Allow access if the event is approved, the user is the owner, or the user is an admin
+    return if @event.approved? || (current_user && @event.user_id == current_user.id) || current_user&.has_role?('admin')
+    raise ActiveRecord::RecordNotFound
   end
 
 end

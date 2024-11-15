@@ -1,13 +1,13 @@
 <p style="font-size: 16px;">Dear <strong><%= @event.user.username %></strong>,</p>
 
 <p style="font-size: 16px;">We are pleased to inform you that your event titled <strong><%= @event.title %></strong> has
-  been successfully published on the SciLifeLab Training Portal.</p>
+  been successfully submitted on the SciLifeLab Training Portal.</p>
 
 <p style="font-size: 16px; font-weight: bold;">Event Details:</p>
 <ul style="list-style-type: none; padding-left: 0; font-size: 15px;">
   <li><strong>Event Title:</strong> <%= @event.title %></li>
   <li><strong>URL:</strong>
-    <a href="<%= event_url(@event) %>" style="color: #045C64; text-decoration: none;"><%= event_url(@event) %></a></li>
+    <a href="<%= @event.url %>" style="color: #045C64; text-decoration: none;"><%= event_url(@event) %></a></li>
   <li><strong>Start Date:</strong> <%= @event.start.strftime('%d %B %Y') %></li>
   <li><strong>End Date:</strong> <%= @event.end.strftime('%d %B %Y') %></li>
 </ul>
@@ -18,7 +18,18 @@
   View Event
 </a>
 
-<p style="font-size: 16px; margin-top: 20px;">We appreciate your contribution and look forward to seeing your event on
+<!--if user is not the trusted user, he will receive the instruction on what is going to happen with the event next  -->
+<% unless @event.user.has_role?('trusted_user') %>
+  <p style="font-size: 16px; margin-top: 20px;">Next steps for your event:</p>
+  <ul style="list-style-type: disc; padding-left: 20px; font-size: 15px;">
+    <li>Your event has been submitted for review by our administrators.</li>
+    <li>If approved, the event will be published and visible to the public on the SciLifeLab Training Portal.</li>
+    <li>If the event requires any changes, you will receive an email with the suggested improvements.</li>
+    <li>If the event is declined, you will receive an email with the reason for the decision, and the event will be removed from the portal.</li>
+  </ul>
+<% end %>
+
+<p style="font-size: 16px;">We appreciate your contribution and look forward to seeing your event on
   our platform.</p>
 
 <p style="font-size: 16px;">Thank you for being a part of our community!</p>

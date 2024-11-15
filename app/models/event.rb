@@ -620,7 +620,6 @@ class Event < ApplicationRecord
       # Check if the user creating the event has a 'trusted' role or is admin.
       # If true, mark the event status as 'approved' and send a notification email to the user.
       self.update!(event_status: Event.event_statuses[:approved])
-      UserMailer.event_published(self).deliver_later if user.has_role?('trusted_user')
     else
       # If the user is not trusted, the event requires admin review.
       # Send a notification email to the admin to review the event.
@@ -630,6 +629,7 @@ class Event < ApplicationRecord
       # Deliver_now will send the email at the moment, no matter what is the job's state.
       AdminMailer.review_event(self).deliver_later
     end
+    UserMailer.event_published(self).deliver_later
   end
 
 
@@ -660,7 +660,7 @@ class Event < ApplicationRecord
         end
 
         # Check if the user is eligible for role change
-        if self.user.approved_events_count >= User::EVENT_APPROVAL_THRESHOLD &&
+        if self.user.approved_events_count > User::EVENT_APPROVAL_THRESHOLD &&
           self.user.role_id == registered_user_role.id
 
           # Update the user's role
