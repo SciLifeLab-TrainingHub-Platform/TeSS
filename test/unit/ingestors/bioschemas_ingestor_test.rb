@@ -4,7 +4,7 @@ class BioschemasIngestorTest < ActiveSupport::TestCase
   setup do
     @ingestor = Ingestors::BioschemasIngestor.new
     @user = users(:regular_user)
-    @content_provider = content_providers(:portal_provider)
+    @content_provider = content_providers(:a_content_provider)
     mock_timezone # System time zone should not affect test result
   end
 

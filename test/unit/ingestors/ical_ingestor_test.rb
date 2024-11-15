@@ -3,7 +3,7 @@ require 'test_helper'
 class IcalIngestorTest < ActiveSupport::TestCase
   setup do
     @user = users(:regular_user)
-    @content_provider = content_providers(:another_portal_provider)
+    @content_provider = content_providers(:another_content_provider)
     mock_ingestions
     # mock_nominatim
     mock_timezone # System time zone should not affect test result
@@ -40,7 +40,7 @@ class IcalIngestorTest < ActiveSupport::TestCase
     event = events(:ical_event_1)
     refute event.nil?, "event[#{name}] not found"
     refute event.online?, "event[#{name}] online not matched"
-    assert_equal 'Another Portal Provider', event.content_provider.title,
+    assert_equal 'Another Content Provider', event.content_provider.title,
                  "event[#{name}] content provider not matched"
 
     name = 'ical_event_2'
@@ -50,7 +50,7 @@ class IcalIngestorTest < ActiveSupport::TestCase
     event = check_event_exists title, url
     refute event.nil?, "event title[#{title}] not found"
     refute event.online?, "event title[#{title}] online not matched"
-    assert_equal 'Another Portal Provider', event.content_provider.title,
+    assert_equal 'Another Content Provider', event.content_provider.title,
                  "event title[#{title}] content provider not matched"
 
     assert_difference('Event.count', 4) do

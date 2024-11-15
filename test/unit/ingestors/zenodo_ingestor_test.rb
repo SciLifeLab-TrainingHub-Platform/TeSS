@@ -3,7 +3,7 @@ require 'test_helper'
 class ZenodoIngestorTest < ActiveSupport::TestCase
   setup do
     @user = users(:regular_user)
-    @content_provider = content_providers(:portal_provider)
+    @content_provider = content_providers(:a_content_provider)
     mock_ingestions
     mock_timezone # System time zone should not affect test result
   end
@@ -39,7 +39,7 @@ class ZenodoIngestorTest < ActiveSupport::TestCase
     assert_equal 0, ingestor.stats[:materials][:rejected]
 
     # check material added successfully
-    material = get_zenodo_id(10656276, 'Australian national Persistent Identifier (PID) strategy 2024', 'Portal Provider')
+    material = get_zenodo_id(10656276, 'Australian national Persistent Identifier (PID) strategy 2024', 'A Content Provider')
     assert !material.description.nil?, 'material description is nil!'
     assert !material.keywords.nil?, 'material keywords is nil'
     assert_equal 3, material.keywords.size, 'material keywords count not matched.'
@@ -52,7 +52,7 @@ class ZenodoIngestorTest < ActiveSupport::TestCase
     assert_equal '10.5281/zenodo.10656276', material.doi, 'material.doi not matched.'
 
     # check material with contributors
-    material = get_zenodo_id(10525947, 'HASS and Indigenous Research Data Commons co-design framework', 'Portal Provider')
+    material = get_zenodo_id(10525947, 'HASS and Indigenous Research Data Commons co-design framework', 'A Content Provider')
     assert !material.description.nil?, 'material description is nil!'
     assert !material.contributors.nil?, 'material keywords is nil'
     assert_equal 3, material.contributors.size, 'material contributors count not matched!'
@@ -61,7 +61,7 @@ class ZenodoIngestorTest < ActiveSupport::TestCase
     assert_equal '10.5281/zenodo.10525947', material.doi, 'material.doi not matched.'
 
     # check material from page 2
-    material = get_zenodo_id(10052012, 'Privacy focused health data storage and access control through personal online datastores', 'Portal Provider')
+    material = get_zenodo_id(10052012, 'Privacy focused health data storage and access control through personal online datastores', 'A Content Provider')
     assert material.authors.include?('Vidanage, Anushka (orcid: 0000-0002-5386-5871)'), 'material contributors[0] missing.'
   end
 

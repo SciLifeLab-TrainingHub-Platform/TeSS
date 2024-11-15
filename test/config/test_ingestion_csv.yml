@@ -4,7 +4,7 @@ loglevel: 0
 username: ingestor
 sources:
   - id: 1
-    provider: 'Another Portal Provider' # content provider's title
+    provider: 'Another Content Provider' # content provider's title
     url: https://raw.githubusercontent.com/nci900/NCI_feed_to_DReSA/master/event_NCI.csv
     method: event_csv                         # one of 'csv', 'api', 'html'
     enabled: true

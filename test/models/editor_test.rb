@@ -62,7 +62,7 @@ class EditorTest < ActiveSupport::TestCase
   test 'cannot add the owner' do
     regular = users :regular_user
     trainer = users :trainer_user
-    prov = content_providers :organisation_provider
+    prov = content_providers :iann
 
     # check empty list
     assert prov.editors
@@ -86,7 +86,7 @@ class EditorTest < ActiveSupport::TestCase
 
   test 'can list editable providers for a user' do
     trainer = users :trainer_user
-    prov1 = content_providers :organisation_provider
+    prov1 = content_providers :iann
     prov2 = content_providers :goblet
 
     #check empty list
@@ -160,7 +160,7 @@ class EditorTest < ActiveSupport::TestCase
     trainer = users :trainer_user
     private_user = users :private_user
     admin = users :admin
-    provider = content_providers :organisation_provider
+    provider = content_providers :a_content_provider
 
     # check approved editors
     assert provider.approved_editors

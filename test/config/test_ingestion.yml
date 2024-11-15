@@ -9,12 +9,12 @@ sources:
     method: xtc                         # one of 'csv', 'api', 'html'
     enabled: true
   - id: 2
-    provider: 'Another Portal Provider' # content provider's title
+    provider: 'Another Content Provider'        # content provider's title
     url: https://app.com/events.csv     # the root URL required to access the source
-    method: event_csv                         # one of 'csv', 'api', 'html'
+    method: event_csv                   # one of 'csv', 'api', 'html'
     enabled: true
   - id: 3
-    provider: 'Another Portal Provider' # content provider's title
+    provider: 'Another Content Provider'        # content provider's title
     url: https://app.com/materials.csv  # the root URL required to access the source
-    method: material_csv                         # one of 'csv', 'api', 'html'
+    method: material_csv                # one of 'csv', 'api', 'html'
     enabled: true

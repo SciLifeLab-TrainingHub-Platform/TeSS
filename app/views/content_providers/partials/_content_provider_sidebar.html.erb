@@ -1,9 +1,3 @@
-<% unless TeSS::Config.feature['content_providers_disabled'].include?('type') %>
-  <h4 class="nav-heading">Type</h4>
-  <div class="nav-block">
-    <%= content_provider.content_provider_type %>
-  </div>
-<% end %>
 <% unless content_provider.keywords.blank? || TeSS::Config.feature['content_providers_disabled'].include?('keywords') %>
   <h4 class="nav-heading">Keywords</h4>
   <div class="nav-block">

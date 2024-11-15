@@ -3,7 +3,7 @@ require 'test_helper'
 class TessEventIngestorTest < ActiveSupport::TestCase
   setup do
     @user = users(:regular_user)
-    @content_provider = content_providers(:another_portal_provider)
+    @content_provider = content_providers(:another_content_provider)
     mock_ingestions
     mock_timezone # System time zone should not affect test result
   end
@@ -47,7 +47,7 @@ class TessEventIngestorTest < ActiveSupport::TestCase
     assert_equal new_url, event.url
 
     # check other fields
-    assert_equal 'Another Portal Provider', event.content_provider.title
+    assert_equal 'Another Content Provider', event.content_provider.title
     assert_equal 'UTC', event.timezone
     assert_equal 'Melissa Burke (melissa@biocommons.org.au)', event.contact
     assert_equal 1, event.eligibility.size, 'event eligibility size not matched!'

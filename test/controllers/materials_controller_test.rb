@@ -229,7 +229,7 @@ class MaterialsControllerTest < ActionController::TestCase
     test_title = 'Test of create with optionals via post'
     test_url = 'https://test.of.create/with/optionals_via_post'
     test_material = materials(:material_with_optionals)
-    test_provider = content_providers(:portal_provider)
+    test_provider = content_providers(:a_content_provider)
     assert_not_nil test_material, 'missing reference material'
     assert_not_nil test_provider, 'missing reference provider'
 

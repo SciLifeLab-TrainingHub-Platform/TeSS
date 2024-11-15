@@ -67,7 +67,7 @@ class SourceTest < ActiveSupport::TestCase
   test 'source approval status is set to not_approved by default if regular user' do
     assert TeSS::Config.feature['user_source_creation']
     User.current_user = users(:regular_user)
-    source = Source.new(content_provider: content_providers(:portal_provider),
+    source = Source.new(content_provider: content_providers(:goblet),
                         url: 'https://website.org',
                         method: 'bioschemas',
                         user: User.current_user)
@@ -78,7 +78,7 @@ class SourceTest < ActiveSupport::TestCase
   test 'source approval status is set to approved by default if admin' do
     assert TeSS::Config.feature['user_source_creation']
     User.current_user = users(:admin)
-    source = Source.new(content_provider: content_providers(:portal_provider),
+    source = Source.new(content_provider: content_providers(:goblet),
                         url: 'https://website.org',
                         method: 'bioschemas',
                         user: User.current_user)
@@ -90,7 +90,7 @@ class SourceTest < ActiveSupport::TestCase
     with_settings(feature: { user_source_creation: false }) do
       refute TeSS::Config.feature['user_source_creation']
       User.current_user = users(:regular_user)
-      source = Source.new(content_provider: content_providers(:portal_provider),
+      source = Source.new(content_provider: content_providers(:goblet),
                           url: 'https://website.org',
                           method: 'bioschemas',
                           user: User.current_user)

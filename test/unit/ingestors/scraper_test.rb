@@ -264,7 +264,7 @@ class ScraperTest < ActiveSupport::TestCase
   end
 
   test 'scrape a specific source' do
-    provider = content_providers(:portal_provider)
+    provider = content_providers(:a_content_provider)
     source = Source.create!(url: 'https://somewhere.com/stuff', method: 'bioschemas',
                             enabled: true, approval_status: 'approved',
                             content_provider: provider, user: users(:admin))

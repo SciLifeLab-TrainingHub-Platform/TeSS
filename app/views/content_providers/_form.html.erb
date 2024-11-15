@@ -14,8 +14,6 @@
     <%= render partial: 'common/image_form', locals: { form: f } %>
   </div>
 
-  <%= f.input :content_provider_type, label: 'Type', collection: ContentProvider::PROVIDER_TYPE, include_blank: false %>
-
   <% if current_user.is_admin? %>
     <%= f.autocompleter :user, url: users_path, transform_function: 'users', template: 'autocompleter/content_provider_owner',
                         singleton: true,

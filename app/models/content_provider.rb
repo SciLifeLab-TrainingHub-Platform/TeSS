@@ -1,7 +1,4 @@
 class ContentProvider < ApplicationRecord
-  # The order of these determines which providers have precedence when scraping.
-  # Low -> High
-  PROVIDER_TYPE = ['Portal', 'Organisation', 'Project']
 
   include PublicActivity::Common
   include LogParameterChanges
@@ -34,8 +31,6 @@ class ContentProvider < ApplicationRecord
   # Validate the URL is in correct format via valid_url gem
   validates :url, url: true
 
-  validates :content_provider_type, presence: true, inclusion: { in: PROVIDER_TYPE }
-
   clean_array_fields(:keywords)
 
   has_image(placeholder: TeSS::Config.placeholder['content_provider'])
@@ -59,7 +54,6 @@ class ContentProvider < ApplicationRecord
           self.node.name
         end
       end
-      string :content_provider_type
       integer :count do
         if self.events.count > self.materials.count
           self.events.count
@@ -78,15 +72,11 @@ class ContentProvider < ApplicationRecord
   # title:text url:text image_url:text description:text
 
   def self.facet_fields
-    %w( keywords node content_provider_type)
+    %w( keywords node )
   end
 
   def node_name= name
     self.node = Node.find_by_name(name)
-  end
-
-  def precedence
-    PROVIDER_TYPE.index(content_provider_type) || 0
   end
 
   def self.check_exists(content_provider_params)
