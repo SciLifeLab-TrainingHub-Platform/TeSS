@@ -6,11 +6,23 @@ module EventFilter
   # https://scilifelab.atlassian.net/wiki/spaces/TI/pages/3183640604/Workflows
   # this function will execute as part of code of search_and_filter of module Searchable
   def event_filter(user)
+
+    pp "event_filter"
+    pp "user"
+    if user&.has_role?('admin')
+      pp "is admin"
+    else
+      pp 'not admin'
+    end
+    pp "---"
+
     Proc.new do
       if user
-        any_of do
-          with(:user_id, user.id) if attribute_method?(:user_id)
-          with(:event_status, Event.event_statuses.key(Event.event_statuses[:approved]))
+        unless user.has_role?('admin')
+          any_of do
+            with(:user_id, user.id) if attribute_method?(:user_id)
+            with(:event_status, Event.event_statuses.key(Event.event_statuses[:approved]))
+          end
         end
       else
         with(:event_status, Event.event_statuses.key(Event.event_statuses[:approved]))
