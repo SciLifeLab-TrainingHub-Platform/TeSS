@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - rc-*
-      - harshita_workflow-addBranchTag
   create:
     tags:
       - 'rc-v*'
