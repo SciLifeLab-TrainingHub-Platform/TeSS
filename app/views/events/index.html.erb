@@ -19,7 +19,7 @@
       <% end %>
       <!-- Info button-->
       <%= info_button("What are events in #{TeSS::Config.site['title_short']}?", hide_text: true, class: 'event-info-button-popover') do %>
-        <%= render_markdown(events_info) %>
+        <%= render_markdown(EventsHelper::EVENTS_INFO) %>
       <% end %>
     <% end %>
     <% content_for :display_options do %>
