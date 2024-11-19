@@ -181,6 +181,10 @@
     <%#= f.multi_input :sponsors, errors: @event.errors[:sponsors], hint: t('events.hints.sponsors') %>
   <%# end %>
 
+  <% if @event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required]) %>
+    <p>After updating this event, an email will be sent to the admin to review and approve the changes.</p>
+  <% end %>
+
   <div class="form-group">
     <%= f.submit (f.object.new_record? ? "Add" : "Update") + " event", :class => 'btn btn-primary' %>
     <%= link_to 'Back', :back, class: 'btn btn-default' %>

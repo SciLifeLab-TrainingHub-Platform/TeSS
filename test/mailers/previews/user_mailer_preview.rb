@@ -5,4 +5,9 @@ class UserMailerPreview < ActionMailer::Preview
     @event = Event.first
     UserMailer.event_published(@event)
   end
+
+  def event_submitted
+    @event = Event.first
+    UserMailer.event_submitted(@event)
+  end
 end

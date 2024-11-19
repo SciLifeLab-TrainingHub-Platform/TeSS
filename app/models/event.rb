@@ -27,8 +27,7 @@ class Event < ApplicationRecord
   before_save :geocoding_cache_lookup, if: :address_will_change?
   after_save :enqueue_geocoding_worker, if: :address_changed?
   after_create :set_status_and_notify
-  after_update :change_status_and_notify
-
+  after_update :change_status_and_notify_user
 
   if TeSS::Config.solr_enabled
     # :nocov:
@@ -49,7 +48,7 @@ class Event < ApplicationRecord
       end
       text :scientific_topics do
         scientific_topics_and_synonyms
-        end
+      end
       text :topics do
         topics.pluck(:name)
       end
@@ -349,8 +348,6 @@ class Event < ApplicationRecord
       end
     end
 
-
-
     # provider_id = (given_event.content_provider_id || given_event.content_provider&.id)&.to_s
     provider_ids = given_event.content_providers.map(&:id)
 
@@ -444,8 +441,8 @@ class Event < ApplicationRecord
   def enqueue_geocoding_worker
     return unless TeSS::Config.feature['geocoding']
     return if (latitude.present? && longitude.present?) ||
-              (address.blank? && postcode.blank?) ||
-              nominatim_count >= NOMINATIM_MAX_ATTEMPTS
+      (address.blank? && postcode.blank?) ||
+      nominatim_count >= NOMINATIM_MAX_ATTEMPTS
 
     location = address
 
@@ -500,7 +497,6 @@ class Event < ApplicationRecord
     self.presence = value
   end
 
-
   def venue
     venues.pluck(:name).join(', ')
   end
@@ -537,7 +533,6 @@ class Event < ApplicationRecord
       end
     end
   end
-
 
   def topic
     topics.pluck(:name).join(', ')
@@ -620,6 +615,7 @@ class Event < ApplicationRecord
       # Check if the user creating the event has a 'trusted' role or is admin.
       # If true, mark the event status as 'approved' and send a notification email to the user.
       self.update!(event_status: Event.event_statuses[:approved])
+      UserMailer.event_published(self).deliver_later if user.has_role?('trusted_user')
     else
       # If the user is not trusted, the event requires admin review.
       # Send a notification email to the admin to review the event.
@@ -628,12 +624,14 @@ class Event < ApplicationRecord
       # but rather is pushed in a job's queue. If the job is not running, the email will not be sent.
       # Deliver_now will send the email at the moment, no matter what is the job's state.
       AdminMailer.review_event(self).deliver_later
+      UserMailer.event_submitted(self).deliver_later
     end
-    UserMailer.event_published(self).deliver_later
   end
 
-
-  def change_status_and_notify
+  ##
+  # this function will notify the user when/if event_status is changed by admin
+  # it only sends the mail to user when event is approved
+  def change_status_and_notify_user
     if self.previous_changes.key?("event_status")
       # getting event status change i.e. old_status and new_status
       old_status, new_status = self.previous_changes["event_status"]
@@ -673,4 +671,5 @@ class Event < ApplicationRecord
       end
     end
   end
+
 end
