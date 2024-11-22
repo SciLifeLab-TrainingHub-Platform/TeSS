@@ -1,19 +1,10 @@
-Dear <%= @event.user.username %>,
+Hi <%= @event.user.username %>,
 
-We are pleased to inform you that your event titled "<%= @event.title %>" has been successfully published on the SciLifeLab Training Portal.
-
-Event Details:
-- Event Title: <%= @event.title %>
-- URL: <%= event_url(@event) %>
-- Start Date: <%= @event.start.strftime('%d %B %Y') %>
-- End Date: <%= @event.end.strftime('%d %B %Y') %>
+Your training event titled "<%= @event.title %>" is now live on the Training Portal!
 
 You can view and manage your event using the following link:
 <%= event_url(@event) %>
 
-We appreciate your contribution and look forward to seeing your event on our platform.
+If you've found a typo or need to update your venue you can do so via the 'Edit' button on your event page. Training events are pulled from the Training Portal into the SciLifeLab Newsletter every other week and shared with communities based on keywords, so we hope you will have many registrations!
 
 Thank you for being a part of our community!
-
-Best regards,
-The SciLifeLab Training Portal Team

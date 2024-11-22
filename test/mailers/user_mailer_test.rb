@@ -17,10 +17,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     # Test that event attributes are in the email body
     assert_match event.title, mail.body.encoded
-    assert_match event.url, mail.body.encoded
     assert_match event.user.username, mail.body.encoded
-    assert_match event.start.strftime('%d %B %Y'), mail.body.encoded
-    assert_match event.end.strftime('%d %B %Y'), mail.body.encoded
   end
 
   test "event_submitted_test" do
