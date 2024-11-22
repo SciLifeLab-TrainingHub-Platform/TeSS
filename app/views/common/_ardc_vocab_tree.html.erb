@@ -42,7 +42,6 @@ Example Usage
   <% end %>
 
   <%= f.label field_label, class: 'control-label' %>
-  <%= f.field_lock(field_name.to_sym) if f.object.respond_to?(:locked_fields) %>
   <%= f.error field_name.to_sym %>
 
   <div data-field="<%= field_name %>"

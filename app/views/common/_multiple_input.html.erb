@@ -32,7 +32,6 @@ render :partial => 'common/multiple_input', :locals => {:field_name => 'keywords
   <% end %>
 
   <%= f.label field_name.to_sym, label, class: 'control-label' %>
-  <%= f.field_lock(field_name.to_sym) if f.object.respond_to?(:locked_fields) %>
 
   <%= content_tag(:p, hint, class: 'help-block') if hint %>
 
