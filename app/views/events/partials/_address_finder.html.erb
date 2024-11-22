@@ -17,7 +17,7 @@
 
 <div class="manual-address-fields">
   <div class="field">
-    <%= f.label :venue_ids, "Venues", class: 'control-label'%><%= f.field_lock(:venue_ids) %> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_venue_collapse"><small>Add new venue</small></a>
+    <%= f.label :venue_ids, "Venues", class: 'control-label'%> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_venue_collapse"><small>Add new venue</small></a>
     <%= f.collection_select :venue_ids, @venues, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |venue| %>
       <option value="<%= venue.id %>" <%= 'selected="selected"' if @selected_venue_ids.include?(venue.id) %>>
         <%= venue.name %>
@@ -27,12 +27,12 @@
   </div>
 
   <div id="new_venue_collapse" class="collapse">
-    <%= f.text_area :new_venues, placeholder: "Enter new venues separated by Semicolon (;)", rows: 5, style: "width: 100%;", field_lock: true %>
+    <%= f.text_area :new_venues, placeholder: "Enter new venues separated by Semicolon (;)", rows: 5, style: "width: 100%;" %>
     <br>
   </div>
 
   <div class="field">
-    <%= f.label :city_ids, "Cities", class: 'control-label'%><%= f.field_lock(:city_ids) %> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_cities_collapse"><small>Add new city</small></a>
+    <%= f.label :city_ids, "Cities", class: 'control-label'%> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_cities_collapse"><small>Add new city</small></a>
     <%= f.collection_select :city_ids, @cities, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |city| %>
       <option value="<%= city.id %>" <%= 'selected="selected"' if @selected_cities_ids.include?(city.id) %>>
         <%= city.name %>
@@ -42,18 +42,18 @@
   </div>
 
   <div id="new_cities_collapse" class="collapse">
-    <%= f.text_area :new_cities, placeholder: "Enter new cities names separated by Semicolon (;)", rows: 5, style: "width: 100%;", field_lock: true %>
+    <%= f.text_area :new_cities, placeholder: "Enter new cities names separated by Semicolon (;)", rows: 5, style: "width: 100%;" %>
     <br>
   </div>
 
   <!-- County: check disabled -->
   <%# if !TeSS::Config.feature['disabled'].include? 'county' %>
-    <%#= f.input :county, field_lock: true %>
+    <%#= f.input :county %>
   <%# end %>
 
   <% alpha2 = @event.nil? ? '' : country_alpha2_by_name(@event.country) %>
-  <%= f.input :country, priority: priority_countries, field_lock: true, required: true, selected: "SE" %>
-  <%= f.input :postcode, field_lock: true %>
+  <%= f.input :country, priority: priority_countries, required: true, selected: "SE" %>
+  <%= f.input :postcode %>
   <%= f.hidden_field :latitude %>
   <%= f.hidden_field :longitude %>
 </div>

@@ -8,6 +8,7 @@ class EventsController < ApplicationController
   before_action :set_breadcrumbs
   before_action :disable_pagination, only: :index, if: ->(controller) { controller.request.format.ics? or controller.request.format.csv? or controller.request.format.rss? }
   before_action :set_event_dependencies, only: [:new, :clone, :edit, :create, :update]
+  before_action :formatNodeIdsForRadio, only: [:create, :update]
   before_action :authorize_event_access, only: [:show, :edit, :update]
   after_action :change_status_and_notify_admin, only: [:update]
 
@@ -327,6 +328,10 @@ class EventsController < ApplicationController
     @content_providers = ContentProvider.all
   end
 
+  def formatNodeIdsForRadio
+      params[:event][:node_ids] = Array(params[:event][:node_ids])
+  end
+
   def authorize_event_access
     # If the user is an admin, allow full access
     return if current_user&.has_role?('admin')
@@ -341,7 +346,6 @@ class EventsController < ApplicationController
     raise ActiveRecord::RecordNotFound
   end
 
-
   ##
   # This function notifies the admin and changes the event status
   # when the owner (current_user) updates the event,
@@ -354,5 +358,4 @@ class EventsController < ApplicationController
       AdminMailer.event_updated_by_user(@event).deliver_later
     end
   end
-
 end

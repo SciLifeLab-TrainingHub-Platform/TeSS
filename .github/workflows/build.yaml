@@ -54,6 +54,7 @@ jobs:
       id: determine-env
       run: |
         CURRENT_DATE=$(date +%Y-%m-%d-%H-%M-%S)
+        BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/refs\/heads\///' | tr '/' '-')
         # Define the environment configuration JSON directly in a variable
         ENV_CONFIG='{
           "dev": {
@@ -61,7 +62,7 @@ jobs:
             "SENDER_EMAIL": "${{ secrets.DEV_SENDER_EMAIL }}",
             "DELIVERY_METHOD": "${{ secrets.DEV_DELIVERY_METHOD }}",
             "DOCKER_TARGET": "development",
-            "IMAGE_TAG": "'"$CURRENT_DATE"'"
+            "IMAGE_TAG": "'"$CURRENT_DATE-$BRANCH_NAME"'"
           },
           "preprod": {
             "VARIABLE_VALUE": "${{ secrets.PREPROD_BASE_URL }}",

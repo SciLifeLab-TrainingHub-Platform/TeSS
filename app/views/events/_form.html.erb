@@ -20,34 +20,30 @@
     </div>
   </div>
 
-  <%# Necessary to allow removal of all field locks %>
-  <%= hidden_field_tag 'event[locked_fields][]', '' %>
-
   <!-- Field: Title -->
-  <%= f.input :title, as: :string, field_lock: true, input_html: { title: t('events.hints.title') } %>
+  <%= f.input :title, as: :string, input_html: { title: t('events.hints.title') } %>
 
   <!-- Field: Sub-title -->
-  <%#= f.input :subtitle, field_lock: true, input_html: { title: t('events.hints.subtitle') } %>
+  <%#= f.input :subtitle, input_html: { title: t('events.hints.subtitle') } %>
 
   <!-- Field: URL -->
   <%= render partial: 'common/url_checker',
              locals: { f: f, url: events_check_exists_path, title: t('events.hints.url') } %>
 
   <!-- Field: Description -->
-  <%= f.input :description, as: :markdown_area, input_html: { rows: '5', title: t('events.hints.description') },
-              field_lock: true %>
+  <%= f.input :description, as: :markdown_area, input_html: { rows: '5', title: t('events.hints.description') } %>
 
   <!-- Field: Start -->
-  <%= f.input :start, as: :date_picker, field_lock: true, input_html: { title: t('events.hints.start') } %>
+  <%= f.input :start, as: :date_picker, input_html: { title: t('events.hints.start') } %>
 
   <!-- Field: End -->
-  <%= f.input :end, as: :date_picker, field_lock: true, input_html: { title: t('events.hints.end') } %>
+  <%= f.input :end, as: :date_picker, input_html: { title: t('events.hints.end') } %>
 
   <!-- Field: Application deadline -->
-  <%= f.input :application_deadline, as: :datetime_picker, field_lock: true, input_html: { title: t('events.hints.application_deadline') } %>
+  <%= f.input :application_deadline, as: :datetime_picker, input_html: { title: t('events.hints.application_deadline') } %>
 
   <!-- Field: Timezone -->
-  <%= f.input :timezone, as: :time_zone, field_lock: true, priority: priority_time_zones,
+  <%= f.input :timezone, as: :time_zone, priority: priority_time_zones,
               input_html: { class: 'js-select2', title: t('events.hints.timezone') } %>
 
   <!-- Field: Duration -->
@@ -55,14 +51,13 @@
 
   <!-- Field: Language -->
   <%= f.input :language, collection: LanguageDictionary.instance.options_for_select,
-      prompt: t('events.prompts.language'), include_blank: true, input_html: { title: t('events.hints.language') } %>
+              prompt: t('events.prompts.language'), include_blank: true, input_html: { title: t('events.hints.language') } %>
 
   <!-- Field: Prerequisites -->
   <%= f.input :prerequisites, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites') } %>
 
   <!-- Field: Learning Objectives-->
-  <%= f.input :learning_objectives, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.objectives') },
-              field_lock: true %>
+  <%= f.input :learning_objectives, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.objectives') } %>
 
   <!-- Field: Location -->
   <div class="address_content">
@@ -77,7 +72,7 @@
                  title: t('events.hints.eligibility') %>
 
   <!-- Field: Contact -->
-  <%= f.input :contact, input_html: { rows: '5', title: t('events.hints.contact') }, field_lock: true %>
+  <%= f.input :contact, input_html: { rows: '5', title: t('events.hints.contact') } %>
 
   <!-- Field: Host Institutions -->
   <%= f.multi_input :host_institutions, errors: @event.errors[:host_institutions],
@@ -103,13 +98,12 @@
 
   <!-- Field: Scientific Topics -->
   <%# if !TeSS::Config.feature['disabled'].include? 'topics' %>
-    <%#= f.autocompleter :scientific_topics, url: edam_topics_path, template: 'autocompleter/term', label: 'Topics', id_field: :uri, label_field: :preferred_label, input_html: { title: t('events.hints.topics') } %>
+  <%#= f.autocompleter :scientific_topics, url: edam_topics_path, template: 'autocompleter/term', label: 'Topics', id_field: :uri, label_field: :preferred_label, input_html: { title: t('events.hints.topics') } %>
   <%# end %>
 
   <!-- Field: Topics -->
   <div class="field">
-    <%= f.label :topic_ids, "Topic(s)", class: 'control-label'%>
-    <%= f.field_lock(:topic_ids) %>
+    <%= f.label :topic_ids, "Topic(s)", class: 'control-label' %>
     <%= f.collection_select :topic_ids, @topics, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |topic| %>
       <option value="<%= topic.id %>" <%= 'selected="selected"' if @selected_topics_ids.include?(topic.id) %>>
         <%= topic.name %>
@@ -121,12 +115,12 @@
 
   <!-- Operations: check disabled -->
   <%# if !TeSS::Config.feature['disabled'].include? 'operations' %>
-    <%#= f.autocompleter :operations, url: edam_operations_path, template: 'autocompleter/term',
+  <%#= f.autocompleter :operations, url: edam_operations_path, template: 'autocompleter/term',
                         id_field: :uri, label_field: :preferred_label %>
   <%# end %>
 
   <!-- Field: Capacity -->
-  <%= f.input :capacity, as: :integer, field_lock: true,
+  <%= f.input :capacity, as: :integer,
               input_html: { title: t('events.hints.capacity'), min: '0' } %>
 
   <!-- Field: Event Type -->
@@ -137,7 +131,7 @@
   <%= f.input :tech_requirements, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.requirements') } %>
 
   <!-- Field: Credit or Recognition -->
-  <%#= f.input :recognition, as: :string, field_lock: true, label: 'Credit or Recognition of Attendance',
+  <%#= f.input :recognition, as: :string, label: 'Credit or Recognition of Attendance',
               input_html: { title: t('events.hints.recognition') } %>
 
   <!-- Field: External Resources -->
@@ -153,10 +147,9 @@
   </div>
 
   <!-- Field: Content Providers -->
-  <%#= f.input :content_provider_id, label: 'Content provider (Training Organizer)', collection: current_user.get_editable_providers, label_method: :title, value_method: :id, include_blank: true, field_lock: true %>
+  <%#= f.input :content_provider_id, label: 'Content provider (Training Organizer)', collection: current_user.get_editable_providers, label_method: :title, value_method: :id, include_blank: true %>
   <div class="field">
     <%= f.label :content_provider_ids, "Content Provider(s)", class: 'control-label' %>
-    <%= f.field_lock(:content_provider_ids) %>
     <%= f.collection_select :content_provider_ids, @content_providers, :id, :title, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |content_provider| %>
       <option value="<%= content_provider.id %>" <%= 'selected="selected"' if @selected_content_providers_id.include?(content_provider.id) %>>
         <%= content_provider.title %>
@@ -169,16 +162,31 @@
   <%= f.autocompleter :materials, input_html: { title: t('events.hints.materials') }, url: materials_path %>
 
   <!-- Fields: that need to be check for enabled/disabled -->
-
+  
   <!-- Nodes: check feature enabled -->
-  <% if TeSS::Config.feature['nodes'] %>
-    <%= f.dropdown :node_ids, options: format_for_dropdown(Node.order(:name).all), label: 'Nodes',
-                   errors: @event.errors[:node_ids] %>
+  <% if TeSS::Config.feature['nodes'] and Node.all.count > 0 %>
+    <div class="form-group">
+      <label
+        <% if @event.errors[:node_ids].any? %> style="color: #a02622"
+        <% end %>>* Nodes</label>
+
+      <% Node.order(:name).each do |node| %>
+        <div>
+          <%= f.radio_button :node_ids, node.id,
+                             checked: (@event.node_ids.include?(node.id) || (@event.persisted? && @event.node_ids.empty? && node.slug == Node::EXTERNAL_NODE_SLUG))
+          %>
+          <%= f.label :node_ids, node.name, value: node.id %>
+        </div>
+      <% end %>
+      <% if @event.errors[:node_ids].any? %>
+        <span style="color: #a02622"><%= @event.errors[:node_ids].join(", ") %></span>
+      <% end %>
+    </div>
   <% end %>
 
   <!-- Sponsors: check disabled -->
   <%# if !TeSS::Config.feature['disabled'].include? 'sponsors' %>
-    <%#= f.multi_input :sponsors, errors: @event.errors[:sponsors], hint: t('events.hints.sponsors') %>
+  <%#= f.multi_input :sponsors, errors: @event.errors[:sponsors], hint: t('events.hints.sponsors') %>
   <%# end %>
 
   <% if @event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required]) %>

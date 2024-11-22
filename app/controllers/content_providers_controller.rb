@@ -3,6 +3,7 @@ class ContentProvidersController < ApplicationController
   before_action -> { feature_enabled?('content_providers') }
   before_action :set_content_provider, only: %i[show edit update destroy]
   before_action :set_breadcrumbs
+  rescue_from Paperclip::Error, with: :handle_paperclip_error
 
   include SearchableIndex
 
@@ -116,5 +117,11 @@ class ContentProvidersController < ApplicationController
     permitted.delete(:user_id) unless current_user && current_user.is_admin?
 
     params.require(:content_provider).permit(permitted)
+  end
+
+  def handle_paperclip_error(exception)
+    logger.error("Paperclip error: #{exception.message}")
+    flash[:alert] = "There was an error processing the image. Please try a different image format or file."
+    redirect_back(fallback_location: root_path)
   end
 end
