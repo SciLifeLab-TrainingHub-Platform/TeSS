@@ -32,13 +32,6 @@ class Node < ApplicationRecord
   validates :country_code, inclusion: { in: COUNTRIES.keys, allow_blank: true }
   # validate :has_training_coordinator
 
-  # constants for node creation and usage
-  EXTERNAL_NODE_SLUG = 'external'.freeze
-  EXTERNAL_NODE_NAME = 'External'.freeze
-  SCILIFE_LAB_NODE_SLUG = 'scilife_lab'.freeze
-  SCILIFE_LAB_NODE_NAME = 'ScilifeLab'.freeze
-
-
   alias_attribute(:title, :name)
 
   if TeSS::Config.solr_enabled
