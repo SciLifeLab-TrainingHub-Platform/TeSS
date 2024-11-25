@@ -1,6 +1,7 @@
 class Node < ApplicationRecord
   MEMBER_STATUS = ['Member', 'Observer']
   COUNTRIES = JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json')))
+  NODE_FILE_PATH = Rails.root.join('config', 'data', 'elixir_nodes.json')
 
   include PublicActivity::Common
   include LogParameterChanges
@@ -60,6 +61,57 @@ class Node < ApplicationRecord
     # :nocov:
   end
 
+
+  # Dynamically generates constants for nodes from a JSON file.
+  #
+  # This method reads node data from the JSON file specified by `NODE_FILE_PATH`
+  # and creates constants dynamically based on the node attributes. The `constant_name`
+  # field in the JSON file determines the base name of each constant, allowing for
+  # flexibility and better maintainability. Previously, these constants were hardcoded
+  # in this class, and nodes were populated using a custom command. Now, both node creation
+  # and constant definition are handled dynamically.
+  #
+  # Example of constants generated:
+  #   EXTERNAL_NODE_NAME = 'External'
+  #   EXTERNAL_NODE_SLUG = 'external'
+  #   SCILIFE_LAB_NODE_NAME = 'SciLifeLab'
+  #   SCILIFE_LAB_NODE_SLUG = 'scilife_lab'
+  #
+  # Notes:
+  # - The JSON file must include a `constant_name` field for each node to specify the base
+  #   name for its constants.
+  # - If `constant_name` is missing for a node, that node will be skipped.
+  #
+  # JSON file structure:
+  # {
+  #   "nodes": [
+  #     {
+  #       "constant_name": "SCILIFE_LAB",
+  #       "name": "SciLifeLab",
+  #       "slug": "scilife_lab"
+  #     },
+  #     {
+  #       "constant_name": "EXTERNAL",
+  #       "name": "External",
+  #       "slug": "external"
+  #     }
+  #   ]
+  # }
+  def self.load_constants
+    data = JSON.parse(File.read(NODE_FILE_PATH))
+    data['nodes'].each do |node|
+      # Define constants dynamically
+      const_name = node['constant_name']
+      next unless const_name # Skip if constant_name is missing
+
+      const_set("#{const_name}_NODE_NAME", node['name'])
+      const_set("#{const_name}_NODE_SLUG", node['slug'])
+    end
+  end
+
+  # Load constants immediately after the class is loaded
+  load_constants
+
   def related_events
     Event.where(id: provider_event_ids | event_ids)
   end
@@ -70,6 +122,9 @@ class Node < ApplicationRecord
 
   def self.load_from_hash(hash, verbose: false)
     hash["nodes"].map do |node_data|
+      # Remove `constant_name` before saving
+      node_data.delete("constant_name")
+
       node = Node.find_or_initialize_by(name: node_data["name"])
       puts "#{node.new_record? ? 'Creating' : 'Updating'}: #{node_data['name']}" if verbose
       staff_data = node_data.delete('staff')

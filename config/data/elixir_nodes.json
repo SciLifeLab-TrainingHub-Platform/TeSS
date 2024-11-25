@@ -1,14 +1,32 @@
 {
   "nodes": [
     {
-      "name": "Sweden",
-      "country_code": "SE",
+      "constant_name": "SCILIFE_LAB",
+      "name": "SciLifeLab",
+      "slug": "scilife_lab",
       "member_status": "Member",
-      "description": "",
-      "home_page": "",
-      "image_url": "https://www.elixir-europe.org/system/files/styles/medium/private/elixir_sweden_white_background.png?itok=SqpIvoLH",
-      "twitter": "",
-      "carousel_images": [],
+      "description": "SciLifeLab is a Swedish national research center for molecular biosciences.",
+      "staff": [
+        {
+          "name": "Nina Norgren",
+          "role": "Training coordinator",
+          "email": "nina.norgren@scilifelab.se",
+          "image_url": ""
+        },
+        {
+          "name": "Jessica Lindvall",
+          "role": "Training coordinator",
+          "email": "jessica.lindvall@bils.se",
+          "image_url": ""
+        }
+      ]
+    },
+    {
+      "constant_name": "EXTERNAL",
+      "name": "External",
+      "slug": "external",
+      "member_status": "Member",
+      "description": "External node for collaboration and partnership.",
       "staff": [
         {
           "name": "Nina Norgren",
