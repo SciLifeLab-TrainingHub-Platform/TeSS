@@ -9,6 +9,9 @@ class EventsController < ApplicationController
   before_action :disable_pagination, only: :index, if: ->(controller) { controller.request.format.ics? or controller.request.format.csv? or controller.request.format.rss? }
   before_action :set_event_dependencies, only: [:new, :clone, :edit, :create, :update]
   before_action :formatNodeIdsForRadio, only: [:create, :update]
+  before_action :authorize_event_access, only: [:show, :edit, :update]
+  after_action :change_status_and_notify_admin, only: [:update]
+
 
   include SearchableIndex
   include ActionView::Helpers::TextHelper
@@ -296,11 +299,11 @@ class EventsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def event_params
     params.require(:event).permit(:external_id, :title, :subtitle, :url, :last_scraped, :scraper_record,
-                                  :description, {:topic_ids => [] }, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
+                                  :description, { :topic_ids => [] }, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
                                   { operation_names: [] }, { operation_uris: [] }, { event_types: [] },
                                   { keywords: [] }, { fields: [] }, :start, :end, :application_deadline, :duration, { sponsors: [] },
-                                  :online, {:venue_ids => [] }, :new_venues, {:city_ids => [] }, :new_cities, :county, :country, :postcode, :latitude, :longitude,
-                                  :timezone, {:content_provider_ids => [] }, { collection_ids: [] }, { node_ids: [] },
+                                  :online, { :venue_ids => [] }, :new_venues, { :city_ids => [] }, :new_cities, :county, :country, :postcode, :latitude, :longitude,
+                                  :timezone, { :content_provider_ids => [] }, { collection_ids: [] }, { node_ids: [] },
                                   { node_names: [] }, { target_audience: [] }, { eligibility: [] }, :visible,
                                   { host_institutions: [] }, :capacity, :contact, :recognition, :learning_objectives,
                                   :prerequisites, :tech_requirements, :cost_basis, :cost_value, :cost_currency, :language,
@@ -315,7 +318,7 @@ class EventsController < ApplicationController
   end
 
   def disable_pagination
-    params[:per_page] = 2**10
+    params[:per_page] = 2 ** 10
   end
 
   def set_event_dependencies
@@ -327,5 +330,32 @@ class EventsController < ApplicationController
 
   def formatNodeIdsForRadio
       params[:event][:node_ids] = Array(params[:event][:node_ids])
+  end
+
+  def authorize_event_access
+    # If the user is an admin, allow full access
+    return if current_user&.has_role?('admin')
+
+    # If the user is the owner, allow access only if the event is not declined
+    return if current_user && @event.user_id == current_user.id && !@event.declined?
+
+    # If the user is not logged in and the event is approved, allow access
+    return if !current_user && @event.approved?
+
+    # If none of these conditions are met, then event cant be shown
+    raise ActiveRecord::RecordNotFound
+  end
+
+  ##
+  # This function notifies the admin and changes the event status
+  # when the owner (current_user) updates the event,
+  # if the event status is "revisions_required".
+  def change_status_and_notify_admin
+    if @event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required]) && @event.user_id == current_user.id
+      # Change status back to awaiting_review
+      @event.update!(event_status: Event.event_statuses[:awaiting_review])
+      # Send email to admin
+      AdminMailer.event_updated_by_user(@event).deliver_later
+    end
   end
 end

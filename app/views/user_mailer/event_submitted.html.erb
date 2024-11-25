@@ -1,0 +1,37 @@
+<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+  <p style="font-size: 16px;">Hi <strong><%= @event.user.username %></strong>,</p>
+
+  <p style="font-size: 16px;">
+    Congratulations! Your training event <strong><%= @event.title %></strong> has been successfully submitted on the SciLifeLab Training Portal.
+  </p>
+
+  <p style="font-size: 16px; font-weight: bold; margin-top: 20px;">Event Details:</p>
+  <ul style="list-style-type: none; padding-left: 0; font-size: 15px; margin-bottom: 20px;">
+    <li><strong>Event Title:</strong> <%= @event.title %></li>
+    <li><strong>URL:</strong>
+      <a href="<%= @event.url %>" style="color: #045C64; text-decoration: none;"><%= @event.url %></a>
+    </li>
+    <li><strong>Start Date:</strong> <%= @event.start.strftime('%d %B %Y') %></li>
+    <li><strong>End Date:</strong> <%= @event.end.strftime('%d %B %Y') %></li>
+  </ul>
+
+  <p style="font-size: 16px;">Your training event is now under review by our team.</p>
+
+  <% unless @event.user.has_role?('trusted_user') %>
+    <p style="font-size: 16px; margin-top: 20px;">The next steps are:</p>
+    <ul style="list-style-type: disc; padding-left: 20px; font-size: 15px;">
+      <li>If approved, your training event will be published and visible on the SciLifeLab Training Portal.</li>
+      <li>If the event requires any changes, you will get an email from one of our admins.</li>
+      <li>If the event is declined, we will send you an email with the reason for our decision and it will be removed from the Portal.</li>
+    </ul>
+  <% end %>
+
+  <p style="font-size: 16px; margin-top: 20px;">You can view and manage your event using the button below:</p>
+
+  <a href="<%= event_url(@event) %>"
+     style="display: inline-block; margin-top: 10px; padding: 12px 20px; background-color: #045C64; color: #ffffff;
+       text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">
+    View Event
+  </a>
+  <p style="font-size: 16px; margin-top: 20px;">Thank you for being a part of our community!</p>
+</div>

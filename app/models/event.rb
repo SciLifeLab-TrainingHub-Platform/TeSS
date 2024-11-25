@@ -27,12 +27,15 @@ class Event < ApplicationRecord
   before_save :geocoding_cache_lookup, if: :address_will_change?
   after_save :remove_external_node_connection
   after_save :enqueue_geocoding_worker, if: :address_changed?
+  after_create :set_status_and_notify
+  after_update :change_status_and_notify_user
 
   if TeSS::Config.solr_enabled
     # :nocov:
     searchable do
       # full text search fields
       text :title
+      string :event_status # This will index event_status as an integer
       text :keywords
       text :url
       text :venue
@@ -46,7 +49,7 @@ class Event < ApplicationRecord
       end
       text :scientific_topics do
         scientific_topics_and_synonyms
-        end
+      end
       text :topics do
         topics.pluck(:name)
       end
@@ -347,8 +350,6 @@ class Event < ApplicationRecord
       end
     end
 
-
-
     # provider_id = (given_event.content_provider_id || given_event.content_provider&.id)&.to_s
     provider_ids = given_event.content_providers.map(&:id)
 
@@ -442,8 +443,8 @@ class Event < ApplicationRecord
   def enqueue_geocoding_worker
     return unless TeSS::Config.feature['geocoding']
     return if (latitude.present? && longitude.present?) ||
-              (address.blank? && postcode.blank?) ||
-              nominatim_count >= NOMINATIM_MAX_ATTEMPTS
+      (address.blank? && postcode.blank?) ||
+      nominatim_count >= NOMINATIM_MAX_ATTEMPTS
 
     location = address
 
@@ -498,7 +499,6 @@ class Event < ApplicationRecord
     self.presence = value
   end
 
-
   def venue
     venues.pluck(:name).join(', ')
   end
@@ -535,7 +535,6 @@ class Event < ApplicationRecord
       end
     end
   end
-
 
   def topic
     topics.pluck(:name).join(', ')
@@ -621,4 +620,67 @@ class Event < ApplicationRecord
       end
     end
   end
+
+  def set_status_and_notify
+    if user.has_role?('trusted_user') || user.has_role?('admin')
+      # Check if the user creating the event has a 'trusted' role or is admin.
+      # If true, mark the event status as 'approved' and send a notification email to the user.
+      self.update!(event_status: Event.event_statuses[:approved])
+      UserMailer.event_published(self).deliver_later if user.has_role?('trusted_user')
+    else
+      # If the user is not trusted, the event requires admin review.
+      # Send a notification email to the admin to review the event.
+
+      # deliver_later is asynchronous. When you use this method, the email is not send at the moment,
+      # but rather is pushed in a job's queue. If the job is not running, the email will not be sent.
+      # Deliver_now will send the email at the moment, no matter what is the job's state.
+      AdminMailer.review_event(self).deliver_later
+      UserMailer.event_submitted(self).deliver_later
+    end
+  end
+
+  ##
+  # this function will notify the user when/if event_status is changed by admin
+  # it only sends the mail to user when event is approved
+  def change_status_and_notify_user
+    if self.previous_changes.key?("event_status")
+      # getting event status change i.e. old_status and new_status
+      old_status, new_status = self.previous_changes["event_status"]
+
+      # getting the status constants from enum, rather then hardcoding
+      awaiting_review = Event.event_statuses.key(0)
+      approved = Event.event_statuses.key(1)
+      revisions_required = Event.event_statuses.key(3)
+
+      # Check if the event status has changed to 'approved'
+      if (old_status == awaiting_review && new_status == approved) ||
+        (old_status == revisions_required && new_status == approved)
+
+        # Increment and save the approved events count
+        self.user.update!(approved_events_count: self.user.approved_events_count + 1)
+
+        # Fetch role information
+        trusted_user_role = Role.find_by(title: "Trusted user")
+        registered_user_role = Role.find_by(title: "Registered user")
+
+        # Ensure both roles exist
+        if trusted_user_role.nil? || registered_user_role.nil?
+          raise "Required roles not found."
+        end
+
+        # Check if the user is eligible for role change
+        if self.user.approved_events_count > User::EVENT_APPROVAL_THRESHOLD &&
+          self.user.role_id == registered_user_role.id
+
+          # Update the user's role
+          self.user.update!(role_id: trusted_user_role.id)
+          puts "User role updated to 'trusted_user'."
+        end
+
+        # Send email notification to user
+        UserMailer.event_published(self).deliver_later
+      end
+    end
+  end
+
 end
