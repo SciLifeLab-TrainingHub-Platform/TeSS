@@ -60,6 +60,7 @@ class User < ApplicationRecord
   before_create :set_default_role, :set_default_profile
   before_create :skip_email_confirmation_for_non_production
   before_update :skip_email_reconfirmation_for_non_production
+  before_update :validate_user_role_and_event_count
   before_destroy :reassign_resources
   after_update :react_to_role_change
   before_save :set_username_for_invitee
@@ -97,7 +98,6 @@ class User < ApplicationRecord
 
   scope :visible, -> { not_banned.non_default.not_rejected.where(invitation_token: nil).or(accepteds) }
   # ---
-
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
@@ -159,10 +159,10 @@ class User < ApplicationRecord
 
   def self.create_default_user
     u = User.new(role_id: Role.fetch('default_user').id,
-             username: 'default_user',
-             email: TeSS::Config.contact_email,
-             password: SecureRandom.base64,
-             processing_consent: '1')
+                 username: 'default_user',
+                 email: TeSS::Config.contact_email,
+                 password: SecureRandom.base64,
+                 processing_consent: '1')
     u.skip_confirmation!
     u.save!
     u
@@ -333,7 +333,7 @@ class User < ApplicationRecord
   end
 
   # Override the gravatar URL to first check for a locally uploaded image
-  def avatar_url(image_params={}, gravatar_params={})
+  def avatar_url(image_params = {}, gravatar_params = {})
     if image.present?
       image.url(**image_params)
     else
@@ -399,7 +399,7 @@ class User < ApplicationRecord
   end
 
   def consents_to_processing
-    if processing_consent!="1"
+    if processing_consent != "1"
       errors.add(:base, "You must consent to #{TeSS::Config.site['title_short']} processing your data in order to register")
 
       false
@@ -409,6 +409,51 @@ class User < ApplicationRecord
   def set_username_for_invitee
     if !self.invitation_token.nil? and !self.email.nil? and self.username.nil?
       self.username = self.email
+    end
+  end
+
+  def validate_user_role_and_event_count
+    # Get the changes
+    changes_hash = changes
+
+    # Only proceed if role_id or approved_events_count is changed
+    if changes_hash.key?("role_id") || changes_hash.key?("approved_events_count")
+
+      # Fetch roles by title
+      trusted_user_role = Role.find_by(title: "Trusted user")
+      registered_user_role = Role.find_by(title: "Registered user")
+
+      # Get previous and new role IDs
+      new_role_id = changes_hash.dig("role_id", 1)
+      new_role = Role.find(new_role_id) if new_role_id
+      new_approved_events_count = changes_hash.dig("approved_events_count", 1)
+
+      # Scenario 1:If role and approved_events_count both are changed
+      if changes_hash.key?("role_id") && changes_hash.key?("approved_events_count")
+        # Trusted User Cannot Have Approved Events Count ≤ Threshold
+        if new_approved_events_count <= EVENT_APPROVAL_THRESHOLD && new_role == trusted_user_role
+          errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
+          throw(:abort) # Prevent saving
+        end
+      end
+
+      # Scenario 2: If only role is changed not approved_events_count
+      if changes_hash.key?("role_id") && !changes_hash.key?("approved_events_count")
+        # Trusted User Cannot Have Approved Events Count ≤ Threshold
+        if new_role == registered_user_role && self.approved_events_count > EVENT_APPROVAL_THRESHOLD
+          errors.add(:base, "A 'registered_user' cannot have approved events count more than #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
+          throw(:abort) # Prevent saving
+        end
+      end
+
+      # Scenario 3: If only approved_events_count is changed not role
+      if changes_hash.key?("approved_events_count") && !changes_hash.key?("role_id")
+        # Trusted User Cannot Have Approved Events Count ≤ Threshold
+        if new_approved_events_count <= EVENT_APPROVAL_THRESHOLD && self.role == trusted_user_role
+          errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
+          throw(:abort) # Prevent saving
+        end
+      end
     end
   end
 end
