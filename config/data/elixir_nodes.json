@@ -1,7 +1,6 @@
 {
   "nodes": [
     {
-      "constant_name": "SCILIFE_LAB",
       "name": "SciLifeLab",
       "slug": "scilife_lab",
       "member_status": "Member",
@@ -22,7 +21,6 @@
       ]
     },
     {
-      "constant_name": "EXTERNAL",
       "name": "External",
       "slug": "external",
       "member_status": "Member",
