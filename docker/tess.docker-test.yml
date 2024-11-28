@@ -19,7 +19,7 @@ default: &default
     logo: elixir/elixir-tess.svg
     logo_alt: 'Training eSupport System'
     logo_open_graph: ''
-    logo_email: ''
+    logo_email: 'scilifelab/email_footer.png'
     # Colours of the SVG icons used throughout TeSS, requires `rake assets:precompile` if changed
     icon_primary_color: '#047EAA' # Blue by default
     icon_secondary_color: '#F47D21' # Orange by default
