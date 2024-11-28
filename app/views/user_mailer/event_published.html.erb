@@ -7,13 +7,11 @@
 
   <p style="font-size: 16px; margin-top: 20px;">
     You can view and manage your event using the following link:
+    <a href="<%= event_url(@event) %>"
+       style="color: #045C64; text-decoration: underline; font-weight: bold;">
+      View Event
+    </a>.
   </p>
-
-  <a href="<%= event_url(@event) %>"
-     style="display: inline-block; margin-top: 10px; padding: 12px 20px; background-color: #045C64; color: #ffffff;
-       text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">
-    View Event
-  </a>
 
   <p style="font-size: 16px; margin-top: 20px;">
     If you've found a typo or need to update your venue, you can do so via the 'Edit' button on your event page.
