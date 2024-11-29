@@ -81,36 +81,36 @@ class EventTest < ActiveSupport::TestCase
   # test 'lower precedence content provider does not overwrite' do
   #   e = events(:organisation_event)
   #
-  #   assert_equal content_providers(:organisation_provider), e.content_provider
+  #   assert_equal content_providers(:a_content_provider), e.content_provider
   #
-  #   e.content_provider = content_providers(:portal_provider)
+  #   e.content_provider = content_providers(:goblet)
   #
   #   assert e.save
-  #   assert_equal content_providers(:organisation_provider), e.reload.content_provider
+  #   assert_equal content_providers(:a_content_provider), e.reload.content_provider
   # end
 
   # since we have multiple content providers for event, this case is no longer required
   # test 'higher precedence content provider does overwrite' do
   #   e = events(:organisation_event)
   #
-  #   assert_equal content_providers(:organisation_provider), e.content_provider
+  #   assert_equal content_providers(:a_content_provider), e.content_provider
   #
-  #   e.content_provider = content_providers(:project_provider)
+  #   e.content_provider = content_providers(:another_content_provider)
   #
   #   assert e.save
-  #   assert_equal content_providers(:project_provider), e.content_provider
+  #   assert_equal content_providers(:another_content_provider), e.content_provider
   # end
 
   # since we have multiple content providers for event, this case is no longer required
   # test 'equal precedence content provider does overwrite' do
   #   e = events(:portal_event)
   #
-  #   assert_equal content_providers(:portal_provider), e.content_provider
+  #   assert_equal content_providers(:goblet), e.content_provider
   #
-  #   e.content_provider = content_providers(:another_portal_provider)
+  #   e.content_provider = content_providers(:iann)
   #
   #   assert e.save
-  #   assert_equal content_providers(:another_portal_provider), e.content_provider
+  #   assert_equal content_providers(:iann), e.content_provider
   # end
 
   test 'country name is corrected before save' do

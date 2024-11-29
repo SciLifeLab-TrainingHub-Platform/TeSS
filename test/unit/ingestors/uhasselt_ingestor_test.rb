@@ -3,7 +3,7 @@ require 'test_helper'
 class UhasseltIngestorTest < ActiveSupport::TestCase
   setup do
     @user = users(:regular_user)
-    @content_provider = content_providers(:another_portal_provider)
+    @content_provider = content_providers(:another_content_provider)
     mock_ingestions
     mock_timezone
   end

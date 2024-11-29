@@ -1,5 +1,5 @@
 first_source:
-  content_provider: another_portal_provider # content provider's title
+  content_provider: goblet # content provider's title
   url: https://app.com/events.csv     # the root URL required to access the source
   method: event_csv                         # one of 'csv', 'api', 'html'
   enabled: false
@@ -8,7 +8,7 @@ first_source:
   approval_status: 2
 
 second_source:
-  content_provider: another_portal_provider # content provider's title
+  content_provider: goblet # content provider's title
   url: https://app.com/materials.csv  # the root URL required to access the source
   method: material_csv                         # one of 'csv', 'api', 'html'
   enabled: false
@@ -17,7 +17,7 @@ second_source:
   approval_status: 2
 
 third_source:
-  content_provider: another_portal_provider   # content provider's title
+  content_provider: goblet   # content provider's title
   url: https://raw.githubusercontent.com/nci900/NCI_feed_to_DReSA/master/event_NCI.csv
   method: event_csv                         # one of 'csv', 'api', 'html'
   enabled: false
@@ -26,7 +26,7 @@ third_source:
   approval_status: 2
 
 fourth_source:
-  content_provider: portal_provider   # content provider's title
+  content_provider: iann  # content provider's title
   url: https://zenodo.org/api/records/?communities=ardc  # the root URL to access the source
   method: zenodo                        # one of 'csv', 'rest'
   enabled: false
@@ -35,7 +35,7 @@ fourth_source:
   approval_status: 2
 
 fifth_source:
-  content_provider: another_portal_provider   # content provider's title
+  content_provider: goblet   # content provider's title
   url: 'https://pawsey.org.au/event/pcon-embracing-new-solutions-for-in-situ-visualisation/?ical=true'
   method: ical                        # one of 'csv', 'ical' or 'rest'
   enabled: false
@@ -44,7 +44,7 @@ fifth_source:
   approval_status: 2
 
 sixth_source:
-  content_provider: another_portal_provider # content provider's title
+  content_provider: goblet # content provider's title
   url: 'https://tess.elixir-europe.org/events?include_expired=false&content_provider[]=Australian%20BioCommons'
   method: tess_event                        # one of 'csv', 'rest'
   enabled: false
@@ -53,7 +53,7 @@ sixth_source:
   approval_status: 2
 
 pawsey_source:
-  content_provider: portal_provider
+  content_provider: iann
   url: 'https://pawsey.org.au/event/eoi-1-day-introduction-to-amd-gpus-amd-instinct-architecture-and-rocm/?ical=true'
   method: ical
   enabled: false
@@ -62,7 +62,7 @@ pawsey_source:
   approval_status: 2
 
 eventbrite_source:
-  content_provider: portal_provider
+  content_provider: goblet
   url: 'https://www.eventbriteapi.com/v3/organizations/34338661734'
   method: eventbrite
   token: 'YXAKB2UNBVO7FV5SJHQA'
@@ -72,7 +72,7 @@ eventbrite_source:
   approval_status: 2
 
 unapproved_source:
-  content_provider: portal_provider
+  content_provider: iann
   url: 'https://website.org'
   method: bioschemas
   enabled: false
@@ -80,7 +80,7 @@ unapproved_source:
   approval_status: 0
 
 approval_requested_source:
-  content_provider: portal_provider
+  content_provider: iann
   url: 'https://website.org'
   method: bioschemas
   enabled: false
@@ -88,7 +88,7 @@ approval_requested_source:
   approval_status: 1
 
 enabled_source:
-  content_provider: portal_provider
+  content_provider: iann
   url: 'https://website.org'
   method: bioschemas
   enabled: true
@@ -96,7 +96,7 @@ enabled_source:
   approval_status: 2
 
 disabled_source:
-  content_provider: portal_provider
+  content_provider: iann
   url: 'https://website.org'
   method: bioschemas
   enabled: false

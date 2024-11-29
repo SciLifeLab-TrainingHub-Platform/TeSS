@@ -4,22 +4,22 @@ loglevel: 0
 username: ingestor
 sources:
   - id: 1
-    provider: 'Portal Provider'         # content provider's title
+    provider: 'A Content Provider'         # content provider's title
     url: https://zenodo.org/api/records/?communities=ardc  # the root URL to access the source
     method: zenodo                      # the `key` of one of the ingestors located in `lib/ingestors`
     enabled: true
   - id: 2
-    provider: 'Portal Provider'
+    provider: 'A Content Provider'
     url: https://zenodo.org/api/records/?communities=dummy
     method: zenodo
     enabled: true
   - id: 3
-    provider: 'Another Portal Provider'
+    provider: 'Another Content Provider'
     url: https://zenodo.org/api/records/?communities=australianbiocommons-training
     method: zenodo
     enabled: true
   - id: 4
-    provider: 'Portal Provider'
+    provider: 'A Content Provider'
     url: https://zenodo.org/api/records/?communities=ardc-again
     method: zenodo
     enabled: true

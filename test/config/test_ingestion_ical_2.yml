@@ -4,12 +4,12 @@ loglevel: 0
 username: ingestor
 sources:
   - id: 1
-    provider: 'Another Portal Provider'        # content provider's title
+    provider: 'Another Content Provider'        # content provider's title
     url: 'https://pawsey.org.au/event/pawsey-intern-showcase-2021/?ical=true'
     method: ical                               # one of 'csv', 'ical' or 'rest'
     enabled: true
   - id: 2
-    provider: 'Another Portal Provider'        # content provider's title
+    provider: 'Another Content Provider'        # content provider's title
     url: 'https://pawsey.org.au/event/pcon-embracing-new-solutions-for-in-situ-visualisation/?ical=true'
     method: ical                               # one of 'csv', 'ical' or 'rest'
     enabled: true

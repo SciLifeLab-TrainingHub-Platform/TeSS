@@ -3,7 +3,7 @@ require 'test_helper'
 class MaterialCsvIngestorTest < ActiveSupport::TestCase
   setup do
     @user = users(:regular_user)
-    @content_provider = content_providers(:another_portal_provider)
+    @content_provider = content_providers(:another_content_provider)
     mock_ingestions
     mock_nominatim
     mock_timezone # System time zone should not affect test result
@@ -61,7 +61,7 @@ class MaterialCsvIngestorTest < ActiveSupport::TestCase
     assert_equal title, material.title, 'material title not matched!'
     assert_equal url, material.url, 'material url not matched!'
     assert !material.content_provider.nil?, 'material provider is nil.'
-    assert_equal 'Another Portal Provider', material.content_provider.title, 'material provider not matched'
+    assert_equal 'Another Provider', material.content_provider.title, 'material provider not matched'
     assert_equal 'This is the first materials that we have created and shared.', material.description,
                  'material description not matched!'
     assert !material.keywords.nil?, 'material keywords is nil'
@@ -136,7 +136,7 @@ class MaterialCsvIngestorTest < ActiveSupport::TestCase
     material = get_material title, url
     refute material.nil?, "Post-task: material from search title[#{title}] in nil."
     # refute material.contact.nil?, "#{title}: contact is nil."
-    # assert_equal 'user@provider.portal', material.contact, "#{title}: contact should match default (content_provider)."
+    # assert_equal 'user@provider.com', material.contact, "#{title}: contact should match default (content_provider)."
     refute material.doi.nil?, "#{title}: doi is nil."
     assert_equal 'https://doi.org/10.5281/zenodo.5778051', material.doi, "#{title}: doi not matched."
   end
@@ -189,7 +189,7 @@ class MaterialCsvIngestorTest < ActiveSupport::TestCase
     assert updated.scraper_record, 'Updated not a scraper record!'
     assert !updated.last_scraped.nil?, 'Updated last scraped is nil!'
 
-    # assert_equal 'user@provider.portal', updated.contact, "Updated contact not matched!"
+    # assert_equal 'user@provider.com', updated.contact, "Updated contact not matched!"
     assert_equal 'archived', updated.status, 'Updated status not matched!'
     assert_equal 'CC-BY-4.0', updated.licence, 'Updated licence not matched!'
     assert_equal 2, updated.keywords.size, 'Updated keywords count not matched!'

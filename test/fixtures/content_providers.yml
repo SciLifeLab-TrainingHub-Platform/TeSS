@@ -7,7 +7,6 @@ goblet:
   description: This is the goblet test description
   user: regular_user
   node: good
-  content_provider_type: Portal
   contact: contact@goblet.org
   event_curation_email: curation@goblet.org
 
@@ -17,7 +16,6 @@ iann:
   image_url: http://example.com/iann.png
   description: This is the iann test description
   user: regular_user
-  content_provider_type: Portal
 
 two:
   title: MyTextAgain
@@ -40,29 +38,37 @@ provider_with_empty_image_url:
   description: MyTextAgain
   user: regular_user
 
-organisation_provider:
-  title: Organisation Content Provider
+a_content_provider:
+  title: A Content Provider
   url: http://content-provider.org
   user: regular_user
-  content_provider_type: Organisation
+  contact: user@content-provider.org
 
-project_provider:
-  title: Project Content Provider
+another_content_provider:
+  title: Another Content Provider
+  url: http://another-content-provider.org
+  user: regular_user
+  contact: user@another-content-provider.org
+
+no_contact_provider:
+  title: A Content Provider
+  url: http://content-provider.org
+  user: regular_user
+
+empty_contact_provider:
+  title: Content Provider with Empty Contact
   url: http://content-provider.com
   user: regular_user
-  content_provider_type: Organisation
   contact: ''
 
-portal_provider:
-  title: Portal Provider
-  url: http://content-provider.portal
+name_and_email_contact_provider:
+  title: Jim Provider
+  url: http://content-provider.com
   user: regular_user
-  content_provider_type: Portal
-  contact: Jim (jim@provider.portal)
+  contact: Jim (jim@provider.com)
 
-another_portal_provider:
-  title: Another Portal Provider
-  url: http://another-content-provider.portal
+bare_email_contact_provider:
+  title: Content Provider just with an email contact
+  url: http://another-content-provider.com
   user: regular_user
-  content_provider_type: Portal
-  contact: user@provider.portal
+  contact: user@provider.com
