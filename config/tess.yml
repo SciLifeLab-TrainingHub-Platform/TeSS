@@ -22,7 +22,7 @@ default: &default
     logo: scilifelab/SciLifeLab_Logotype_NEG.png
     logo_alt: 'Training Hub Portal'
     logo_open_graph: ''
-    logo_email: ''
+    logo_email: 'scilifelab/email_footer.png'
     # Colours of the SVG icons used throughout TeSS, requires `rake assets:precompile` if changed
     icon_primary_color: '#A7C947' # Blue by default
     icon_secondary_color: '#045C64' # Orange by default
@@ -59,7 +59,7 @@ default: &default
     events: true
     invitation: false
     materials: true
-    nodes: false
+    nodes: true
     collections: false
     content_providers: true
     subscription: false

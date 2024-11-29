@@ -1,0 +1,19 @@
+Hi <%= @event.user.username %>,
+
+Your training event has been successfully submitted on the SciLifeLab Training Portal and is currently under review by our team.
+
+Next Steps:
+- If approved, your training event will be published and visible on the SciLifeLab Training Portal.
+- If any changes are required, you will receive an email from one of our admins with details.
+- If the event is declined, you will be notified via email with the reason, and it will be removed from the portal.
+
+
+Event Details:
+  Event Title: <%= @event.title %>
+  Event URL: <%= @event.url %>
+  Start Date: <%= @event.start.strftime('%d %B %Y') %>
+  End Date: <%= @event.end.strftime('%d %B %Y') %>
+
+You can view and manage your event using the following link: <%= event_url(@event) %>
+
+Thank you for being an active part of the SciLifeLab community. We value your contributions to making training accessible and impactful!

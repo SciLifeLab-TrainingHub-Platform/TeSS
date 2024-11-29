@@ -1,0 +1,22 @@
+Dear Admin,
+
+An event titled "<%= @event.title %>" has been submitted by <%= @event.user.username %> and is pending your review.
+
+Event Details:
+- Event Title: <%= @event.title %>
+- URL: <%= @event.url %>
+- Status: <%= @event.event_status.humanize %>
+
+User Details:
+- Username: <%= @event.user.username %>
+- Email: <%= @event.user.email %>
+- Role: <%= @event.user.role&.title || 'Unknown' %>
+- Last Sign-In IP: <%= @event.user.last_sign_in_ip || 'Not available' %>
+- Sign-In Count: <%= @event.user.sign_in_count %>
+
+You can review the event using the following link:
+<%= root_url %>admin/event/<%= @event.id %>/edit
+
+If you have any questions, please reply to this email or contact us at <%= TeSS::Config.contact_email %>.
+
+Thank you!

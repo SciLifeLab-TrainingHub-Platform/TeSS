@@ -74,3 +74,13 @@ else
     rake 'tess:check_resource_urls'
   end
 end
+
+if !schedules['delete_old_events'].nil?
+  every :"#{schedules['delete_old_events']['every']}", at: "#{schedules['delete_old_events']['at']}" do
+    rake 'delete_events:delete_old'
+  end
+else
+  every :day, at: '4am' do
+    rake 'delete_events:delete_old'
+  end
+end

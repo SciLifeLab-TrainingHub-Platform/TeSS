@@ -35,9 +35,9 @@
   <%= f.multi_input :keywords %>
 
   <!-- Nodes: check feature enabled -->
-  <% if TeSS::Config.feature['nodes'] %>
-    <%= f.input :node_id, label: 'ELIXIR node', collection: Node.order(:name).all, label_method: :name %>
-  <% end %>
+  <%# if TeSS::Config.feature['nodes'] %>
+    <%#= f.input :node_id, label: 'ELIXIR node', collection: Node.order(:name).all, label_method: :name %>
+  <%# end %>
 
   <div class="form-group">
     <%= f.submit (f.object.new_record? ? "Register" : "Update") + " content provider", class: 'btn btn-primary' %>

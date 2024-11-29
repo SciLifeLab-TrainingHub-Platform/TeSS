@@ -1,0 +1,24 @@
+Dear Admin,
+
+The event titled <%= @event.title %> has been updated by <%= @event.user.username %>.
+
+The event status has been changed to <%= Event.event_statuses.key(Event.event_statuses[:awaiting_review]).humanize %> for your review.
+
+Please review the updated event and user details below:
+
+Event Details:
+- Event Title: <%= @event.title %>
+- URL: <%= @event.url %>
+- Status: <%= @event.event_status.humanize %>
+
+User Details:
+- Username: <%= @event.user.username %>
+- Email: <%= @event.user.email %>
+- Role: <%= @event.user.role&.title || ‘Unknown’ %>
+- Last Sign-In IP: <%= @event.user.last_sign_in_ip %>
+- Sign-In Count: <%= @event.user.sign_in_count %>
+
+You can review the event using the following link:
+<%= root_url %>admin/event/<%= @event.id %>/edit
+
+Thank you!

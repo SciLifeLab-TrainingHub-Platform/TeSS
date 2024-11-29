@@ -28,6 +28,10 @@ class User < ApplicationRecord
     # :nocov:
   end
 
+  # constants
+  EVENT_APPROVAL_THRESHOLD = 3
+  # ---
+
   has_one :profile, inverse_of: :user, dependent: :destroy
   CREATED_RESOURCE_TYPES = [:events, :materials, :workflows, :content_providers, :sources, :collections, :nodes,
                             :learning_paths, :learning_path_topics]
@@ -93,6 +97,7 @@ class User < ApplicationRecord
 
   scope :visible, -> { not_banned.non_default.not_rejected.where(invitation_token: nil).or(accepteds) }
   # ---
+
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
