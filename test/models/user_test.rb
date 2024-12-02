@@ -81,8 +81,8 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(@user_params.merge(processing_consent: '0'))
     assert_not user.save, 'Saved user with processing_consent address field equal to "0"'
     assert user.errors.added?(:base, 'You must consent to TTI processing your data in order to register')
-  end  
-  
+  end
+
   test "should not save with nil password" do
     user = User.new(@user_params.merge(password: nil))
     assert user.password_required?
@@ -228,7 +228,7 @@ class UserTest < ActiveSupport::TestCase
     assert_includes User.with_role('unverified_user'), users(:unverified_user)
     assert_not_includes User.with_role('unverified_user'), users(:shadowbanned_user)
     assert_includes User.with_role('unverified_user'), users(:shadowbanned_unverified_user)
-    
+
     assert_not_includes User.unbanned.with_role('unverified_user'), users(:regular_user)
     assert_includes User.unbanned.with_role('unverified_user'), users(:unverified_user)
     assert_not_includes User.unbanned.with_role('unverified_user'), users(:shadowbanned_user)
@@ -474,5 +474,85 @@ class UserTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::RecordNotFound) { source.reload }
     assert_raise(ActiveRecord::RecordNotFound) { collection.reload }
     assert_raise(ActiveRecord::RecordNotFound) { node.reload }
+  end
+
+  # to run this test run the following command
+  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_role_to_registered_user_role_with_approved_events_count_greater_than_threshold_is_invalid/'
+  # test to check if user has updated role and approved_event_count
+  test 'changing_role_to_registered_user_role_with_approved_events_count_greater_than_threshold_is_invalid' do
+    @registered_user_role = Role.find_by!(title: 'Registered user')
+    @user = users(:trusted_user)
+
+    assert_raises(ActiveRecord::RecordNotSaved) do
+      # Change role to Registered user and set approved_events_count > threshold
+      @user.update!(role: @registered_user_role, approved_events_count: 11)
+    end
+
+    assert_includes @user.errors.full_messages,
+                    "A 'registered_user' cannot have approved events count more than #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
+  end
+
+  # to run this test run the following command
+  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_role_to_trusted_user_role_with_approved_events_count_less_than_threshold_is_invalid/'
+  # test to check if user has updated role and approved_event_count
+  test 'changing_role_to_trusted_user_role_with_approved_events_count_less_than_threshold_is_invalid' do
+    @trusted_user_role = Role.find_by!(title: 'Trusted user')
+    @user = users(:regular_user)
+
+    assert_raises(ActiveRecord::RecordNotSaved) do
+      # Change role to Registered user and set approved_events_count > threshold
+      @user.update!(role: @trusted_user_role, approved_events_count: 1)
+    end
+
+    assert_includes @user.errors.full_messages,
+                    "A 'trusted_user' cannot have approved events count less than or equal to #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
+  end
+
+  # to run this test run the following command
+  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_approved_events_count_to_less_than_or_equal_to_threshold_for_trusted_user_is_invalid/'
+  # test to check if user has updated approved_event_count only
+  test 'changing_approved_events_count_to_less_than_or_equal_to_threshold_for_trusted_user_is_invalid' do
+    @user = users(:trusted_user)
+    assert_raises(ActiveRecord::RecordNotSaved) do
+      @user.update!(approved_events_count: 2)
+    end
+    assert_includes @user.errors.full_messages, "A 'trusted_user' cannot have approved events count less than or equal to #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
+  end
+
+  # to run this test run the following command
+  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_approved_events_count_to_more_than_threshold_for_registered_user_is_invalid/'
+  # test to check if user has updated approved_event_count only
+  test 'changing_approved_events_count_to_more_than_threshold_for_registered_user_is_invalid' do
+    @user = users(:regular_user)
+    assert_raises(ActiveRecord::RecordNotSaved) do
+      @user.update!(approved_events_count: 5)
+    end
+    assert_includes @user.errors.full_messages, "A 'registered_user' cannot have approved events count more than #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
+  end
+
+  # to run this test run the following command
+  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_role_to_trusted_user_role_from_registered_user_is_invalid_without_approved_events_count/'
+  # test to check if user has updated role
+  test 'changing_role_to_trusted_user_role_from_registered_user_is_invalid_without_approved_events_count' do
+    @user = users(:regular_user)
+    @trusted_user_role = Role.find_by!(title: 'Trusted user')
+
+    assert_raises(ActiveRecord::RecordNotSaved) do
+      @user.update!(role: @trusted_user_role)
+    end
+    assert_includes @user.errors.full_messages, "A 'trusted_user' cannot have approved events count less than or equal to #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
+  end
+
+  # to run this test run the following command
+  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_role_to_registered_user_from_trusted_user_role_is_invalid_without_approved_events_count/'
+  # test to check if user has updated role
+  test 'changing_role_to_registered_user_from_trusted_user_role_is_invalid_without_approved_events_count' do
+    @registered_user_role = Role.find_by!(title: 'Registered user')
+    @user = users(:trusted_user)
+
+    assert_raises(ActiveRecord::RecordNotSaved) do
+      @user.update!(role: @registered_user_role)
+    end
+    assert_includes @user.errors.full_messages, "A 'registered_user' cannot have approved events count more than #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
   end
 end

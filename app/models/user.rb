@@ -435,6 +435,11 @@ class User < ApplicationRecord
           errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
           throw(:abort) # Prevent saving
         end
+
+        if new_approved_events_count > EVENT_APPROVAL_THRESHOLD && new_role == registered_user_role
+          errors.add(:base, "A 'registered_user' cannot have approved events count more than #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
+          throw(:abort) # Prevent saving
+        end
       end
 
       # Scenario 2: If only role is changed not approved_events_count
@@ -444,6 +449,10 @@ class User < ApplicationRecord
           errors.add(:base, "A 'registered_user' cannot have approved events count more than #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
           throw(:abort) # Prevent saving
         end
+        if new_role == trusted_user_role && self.approved_events_count <= EVENT_APPROVAL_THRESHOLD
+          errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
+          throw(:abort) # Prevent saving
+        end
       end
 
       # Scenario 3: If only approved_events_count is changed not role
@@ -451,6 +460,12 @@ class User < ApplicationRecord
         # Trusted User Cannot Have Approved Events Count ≤ Threshold
         if new_approved_events_count <= EVENT_APPROVAL_THRESHOLD && self.role == trusted_user_role
           errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
+          throw(:abort) # Prevent saving
+        end
+
+        # Trusted User Cannot Have Approved Events Count ≤ Threshold
+        if new_approved_events_count > EVENT_APPROVAL_THRESHOLD && self.role == registered_user_role
+          errors.add(:base, "A 'registered_user' cannot have approved events count more than #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
           throw(:abort) # Prevent saving
         end
       end
