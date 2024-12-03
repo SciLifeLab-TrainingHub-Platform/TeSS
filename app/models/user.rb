@@ -99,6 +99,7 @@ class User < ApplicationRecord
   scope :visible, -> { not_banned.non_default.not_rejected.where(invitation_token: nil).or(accepteds) }
   # ---
 
+
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
@@ -159,10 +160,10 @@ class User < ApplicationRecord
 
   def self.create_default_user
     u = User.new(role_id: Role.fetch('default_user').id,
-                 username: 'default_user',
-                 email: TeSS::Config.contact_email,
-                 password: SecureRandom.base64,
-                 processing_consent: '1')
+             username: 'default_user',
+             email: TeSS::Config.contact_email,
+             password: SecureRandom.base64,
+             processing_consent: '1')
     u.skip_confirmation!
     u.save!
     u
@@ -333,7 +334,7 @@ class User < ApplicationRecord
   end
 
   # Override the gravatar URL to first check for a locally uploaded image
-  def avatar_url(image_params = {}, gravatar_params = {})
+  def avatar_url(image_params={}, gravatar_params={})
     if image.present?
       image.url(**image_params)
     else
@@ -399,7 +400,7 @@ class User < ApplicationRecord
   end
 
   def consents_to_processing
-    if processing_consent != "1"
+    if processing_consent!="1"
       errors.add(:base, "You must consent to #{TeSS::Config.site['title_short']} processing your data in order to register")
 
       false
