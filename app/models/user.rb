@@ -413,63 +413,39 @@ class User < ApplicationRecord
     end
   end
 
+  # Validates changes to a user's role and approved events count based on predefined rules.
+  #
+  # This method ensures the following constraints:
+  # - A 'Trusted user' cannot have an approved events count less than or equal to EVENT_APPROVAL_THRESHOLD.
+  # - A 'Registered user' cannot have an approved events count greater than EVENT_APPROVAL_THRESHOLD.
+  #
+  # The validation considers changes to `role_id` and/or `approved_events_count` attributes.
+  # If the constraints are violated, an error is added to the model, and the save operation is aborted.
   def validate_user_role_and_event_count
     # Get the changes
     changes_hash = changes
 
     # Only proceed if role_id or approved_events_count is changed
-    if changes_hash.key?("role_id") || changes_hash.key?("approved_events_count")
+    return unless changes_hash.key?("role_id") || changes_hash.key?("approved_events_count")
 
-      # Fetch roles by title
-      trusted_user_role = Role.find_by(title: "Trusted user")
-      registered_user_role = Role.find_by(title: "Registered user")
+    # Fetch roles by title
+    trusted_user_role = Role.find_by(title: "Trusted user")
+    registered_user_role = Role.find_by(title: "Registered user")
 
-      # Get previous and new role IDs
-      new_role_id = changes_hash.dig("role_id", 1)
-      new_role = Role.find(new_role_id) if new_role_id
-      new_approved_events_count = changes_hash.dig("approved_events_count", 1)
+    # Determine current and new values
+    current_role = role
+    new_role_id = changes_hash.dig("role_id", 1)
+    new_role = new_role_id ? Role.find(new_role_id) : current_role
 
-      # Scenario 1:If role and approved_events_count both are changed
-      if changes_hash.key?("role_id") && changes_hash.key?("approved_events_count")
-        # Trusted User Cannot Have Approved Events Count ≤ Threshold
-        if new_approved_events_count <= EVENT_APPROVAL_THRESHOLD && new_role == trusted_user_role
-          errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
-          throw(:abort) # Prevent saving
-        end
+    current_approved_events_count = approved_events_count
+    new_approved_events_count = changes_hash.key?("approved_events_count") ? changes_hash.dig("approved_events_count", 1) : current_approved_events_count
 
-        if new_approved_events_count > EVENT_APPROVAL_THRESHOLD && new_role == registered_user_role
-          errors.add(:base, "A 'registered_user' cannot have approved events count more than #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
-          throw(:abort) # Prevent saving
-        end
-      end
-
-      # Scenario 2: If only role is changed not approved_events_count
-      if changes_hash.key?("role_id") && !changes_hash.key?("approved_events_count")
-        # Trusted User Cannot Have Approved Events Count ≤ Threshold
-        if new_role == registered_user_role && self.approved_events_count > EVENT_APPROVAL_THRESHOLD
-          errors.add(:base, "A 'registered_user' cannot have approved events count more than #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
-          throw(:abort) # Prevent saving
-        end
-        if new_role == trusted_user_role && self.approved_events_count <= EVENT_APPROVAL_THRESHOLD
-          errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
-          throw(:abort) # Prevent saving
-        end
-      end
-
-      # Scenario 3: If only approved_events_count is changed not role
-      if changes_hash.key?("approved_events_count") && !changes_hash.key?("role_id")
-        # Trusted User Cannot Have Approved Events Count ≤ Threshold
-        if new_approved_events_count <= EVENT_APPROVAL_THRESHOLD && self.role == trusted_user_role
-          errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
-          throw(:abort) # Prevent saving
-        end
-
-        # Trusted User Cannot Have Approved Events Count ≤ Threshold
-        if new_approved_events_count > EVENT_APPROVAL_THRESHOLD && self.role == registered_user_role
-          errors.add(:base, "A 'registered_user' cannot have approved events count more than #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
-          throw(:abort) # Prevent saving
-        end
-      end
+    if new_role == trusted_user_role && new_approved_events_count <= EVENT_APPROVAL_THRESHOLD
+      errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
+      throw(:abort) # Prevent saving
+    elsif new_role == registered_user_role && new_approved_events_count > EVENT_APPROVAL_THRESHOLD
+      errors.add(:base, "A 'registered_user' cannot have approved events count more than #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
+      throw(:abort) # Prevent saving
     end
   end
 end

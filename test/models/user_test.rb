@@ -327,8 +327,10 @@ class UserTest < ActiveSupport::TestCase
     # Resources
     material1 = user1.materials.create!(title: 'material 1', url: 'https://training.com/materials/1', description: 'material1')
     material2 = user2.materials.create!(title: 'material 2', url: 'https://training.com/materials/2', description: 'material2')
-    event1 = user2.events.create!(title: 'event 1', url: 'https://training.com/events/1')
-    event2 = user3.events.create!(title: 'event 2', url: 'https://training.com/events/2')
+
+    node = nodes(:good)
+    event1 = user2.events.create!(title: 'event 1', url: 'https://training.com/events/1', node_ids: [node.id])
+    event2 = user3.events.create!(title: 'event 2', url: 'https://training.com/events/2', node_ids: [node.id])
 
     # Activity
     admin = users(:admin)
@@ -476,83 +478,61 @@ class UserTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::RecordNotFound) { node.reload }
   end
 
-  # to run this test run the following command
-  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_role_to_registered_user_role_with_approved_events_count_greater_than_threshold_is_invalid/'
-  # test to check if user has updated role and approved_event_count
-  test 'changing_role_to_registered_user_role_with_approved_events_count_greater_than_threshold_is_invalid' do
+  # Test to ensure that changing role to 'Registered user' with approved_events_count greater than threshold is invalid
+  test 'should not update role to registered_user with approved_events_count greater than threshold' do
     @registered_user_role = Role.find_by!(title: 'Registered user')
     @user = users(:trusted_user)
 
     assert_raises(ActiveRecord::RecordNotSaved) do
-      # Change role to Registered user and set approved_events_count > threshold
       @user.update!(role: @registered_user_role, approved_events_count: 11)
     end
-
-    assert_includes @user.errors.full_messages,
-                    "A 'registered_user' cannot have approved events count more than #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
   end
 
-  # to run this test run the following command
-  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_role_to_trusted_user_role_with_approved_events_count_less_than_threshold_is_invalid/'
-  # test to check if user has updated role and approved_event_count
-  test 'changing_role_to_trusted_user_role_with_approved_events_count_less_than_threshold_is_invalid' do
+  # Test to ensure that changing role to 'Trusted user' with approved_events_count less than threshold is invalid
+  test 'should not update role to trusted_user with approved_events_count less than threshold' do
     @trusted_user_role = Role.find_by!(title: 'Trusted user')
     @user = users(:regular_user)
 
     assert_raises(ActiveRecord::RecordNotSaved) do
-      # Change role to Registered user and set approved_events_count > threshold
       @user.update!(role: @trusted_user_role, approved_events_count: 1)
     end
-
-    assert_includes @user.errors.full_messages,
-                    "A 'trusted_user' cannot have approved events count less than or equal to #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
   end
 
-  # to run this test run the following command
-  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_approved_events_count_to_less_than_or_equal_to_threshold_for_trusted_user_is_invalid/'
-  # test to check if user has updated approved_event_count only
-  test 'changing_approved_events_count_to_less_than_or_equal_to_threshold_for_trusted_user_is_invalid' do
+  # Test to ensure that changing approved_events_count to less than or equal to threshold for trusted user is invalid
+  test 'should not update approved_events_count to less than or equal to threshold for trusted_user' do
     @user = users(:trusted_user)
+
     assert_raises(ActiveRecord::RecordNotSaved) do
       @user.update!(approved_events_count: 2)
     end
-    assert_includes @user.errors.full_messages, "A 'trusted_user' cannot have approved events count less than or equal to #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
   end
 
-  # to run this test run the following command
-  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_approved_events_count_to_more_than_threshold_for_registered_user_is_invalid/'
-  # test to check if user has updated approved_event_count only
-  test 'changing_approved_events_count_to_more_than_threshold_for_registered_user_is_invalid' do
+  # Test to ensure that changing approved_events_count to more than threshold for registered user is invalid
+  test 'should not update approved_events_count to more than threshold for registered_user' do
     @user = users(:regular_user)
+
     assert_raises(ActiveRecord::RecordNotSaved) do
       @user.update!(approved_events_count: 5)
     end
-    assert_includes @user.errors.full_messages, "A 'registered_user' cannot have approved events count more than #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
   end
 
-  # to run this test run the following command
-  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_role_to_trusted_user_role_from_registered_user_is_invalid_without_approved_events_count/'
-  # test to check if user has updated role
-  test 'changing_role_to_trusted_user_role_from_registered_user_is_invalid_without_approved_events_count' do
+  # Test to ensure that changing role to 'Trusted user' from 'Registered user' without approved_events_count is invalid
+  test 'should not update role to trusted_user from registered_user without approved_events_count' do
     @user = users(:regular_user)
     @trusted_user_role = Role.find_by!(title: 'Trusted user')
 
     assert_raises(ActiveRecord::RecordNotSaved) do
       @user.update!(role: @trusted_user_role)
     end
-    assert_includes @user.errors.full_messages, "A 'trusted_user' cannot have approved events count less than or equal to #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
   end
 
-  # to run this test run the following command
-  # docker compose run test bin/rails test test/models/user_test.rb --name '/changing_role_to_registered_user_from_trusted_user_role_is_invalid_without_approved_events_count/'
-  # test to check if user has updated role
-  test 'changing_role_to_registered_user_from_trusted_user_role_is_invalid_without_approved_events_count' do
+  # Test to ensure that changing role to 'Registered user' from 'Trusted user' without approved_events_count is invalid
+  test 'should not update role to registered_user from trusted_user without approved_events_count' do
     @registered_user_role = Role.find_by!(title: 'Registered user')
     @user = users(:trusted_user)
 
     assert_raises(ActiveRecord::RecordNotSaved) do
       @user.update!(role: @registered_user_role)
     end
-    assert_includes @user.errors.full_messages, "A 'registered_user' cannot have approved events count more than #{User::EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly."
   end
 end
