@@ -41,7 +41,7 @@
           </h4>
         </div>
 
-        <% if event.has_node? -%>
+        <% if event.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
           <%= elixir_node_icon %>
         <% end -%>
 

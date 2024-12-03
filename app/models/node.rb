@@ -34,6 +34,7 @@ class Node < ApplicationRecord
   # constants for node creation and usage
   EXTERNAL_NODE_SLUG = 'external'.freeze
   EXTERNAL_NODE_NAME = 'External'.freeze
+  SCILIFE_LAB_NODE_SLUG = 'scilife_lab'.freeze
 
   alias_attribute(:title, :name)
 
