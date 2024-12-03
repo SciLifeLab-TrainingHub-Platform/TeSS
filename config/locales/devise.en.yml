@@ -18,6 +18,7 @@ en:
       confirmation_instructions:
         subject: "Confirmation instructions"
         confirm_through_link: "You can confirm your TeSS account email through the link below:"
+        additional_message: "You're one step away from joining the portal for life science training in Sweden:"
       reset_password_instructions:
         subject: "Reset password instructions"
         password_change_request: "Someone has requested a link to change your password on TeSS. You can do this through the link below."

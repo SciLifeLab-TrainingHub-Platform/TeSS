@@ -1,0 +1,9 @@
+Hello <%= @email %>,
+
+You’re one step away from joining the portal for life science training in Sweden.
+
+To confirm your email address, please click the link below or copy and paste it into your browser:
+<%= confirmation_url(@resource, confirmation_token: @token) %>
+
+Thank you,
+The TeSS Team
