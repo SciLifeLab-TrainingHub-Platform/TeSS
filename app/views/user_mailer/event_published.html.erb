@@ -1,3 +1,10 @@
+<%= link_to(root_url) do %>
+  <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
+                title: "Visit #{TeSS::Config.site['title_short']}",
+                style: 'height: 100px;', target: '_blank') %>
+<% end %>
+<br>
+
 <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
   <p style="font-size: 16px;">Hi <strong><%= @event.user.username %></strong>,</p>
 
@@ -21,7 +28,5 @@
     Training events are pulled from the Training Portal into the SciLifeLab Newsletter every other week and shared with communities based on keywords. We hope your event will attract many registrations!
   </p>
 
-  <p style="font-size: 16px; margin-top: 20px;">
-    Thank you for being a part of our community!
-  </p>
+
 </div>

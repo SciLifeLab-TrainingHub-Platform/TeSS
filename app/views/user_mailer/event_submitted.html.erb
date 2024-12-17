@@ -1,3 +1,9 @@
+<%= link_to(root_url) do %>
+  <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
+                title: "Visit #{TeSS::Config.site['title_short']}",
+                style: 'height: 100px;', target: '_blank') %>
+<% end %>
+<br>
 <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
   <!-- User Greeting -->
   <p style="font-size: 16px;">Hi <strong><%= @event.user.username %></strong>,</p>
@@ -36,11 +42,5 @@
        style="color: #045C64; text-decoration: underline; font-weight: bold;">
       View Event
     </a>.
-  </p>
-
-  <!-- Closing Note -->
-  <p style="font-size: 16px; margin-top: 20px;">
-    Thank you for being an active part of the SciLifeLab community. We value your contributions to making training
-    accessible and impactful!
   </p>
 </div>

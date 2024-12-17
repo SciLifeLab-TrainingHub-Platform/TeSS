@@ -21,7 +21,7 @@ en:
         additional_message: "You're one step away from joining the portal for life science training in Sweden:"
       reset_password_instructions:
         subject: "Reset password instructions"
-        password_change_request: "Someone has requested a link to change your password on TeSS. You can do this through the link below."
+        password_change_request: "Follow the link to reset your Training Portal password:"
         ignore_if_not_you: "If you didn't request this, please ignore this email."
         password_change_waits: "Your password won't change until you access the link above and create a new one."
       unlock_instructions:
