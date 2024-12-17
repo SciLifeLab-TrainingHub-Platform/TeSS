@@ -1,20 +1,20 @@
 <%= link_to(root_url) do %>
   <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
                 title: "Visit #{TeSS::Config.site['title_short']}",
-                style: 'height: 100px;', target: '_blank') %>
+                style: 'width: 100%;', target: '_blank') %>
 <% end %>
 <br>
-<p style="font-size: 16px; color: #333; margin: 0 0 10px;">Dear Admin,</p>
+<h3> <strong>Dear Admin,</strong> </h3>
 
-<p style="font-size: 16px; color: #333; margin: 0 0 20px;">
+<p style=" color: #333; margin: 0 0 20px;">
   An event titled <strong><%= @event.title %></strong> has been submitted by
   <strong><%= @event.user.username %></strong> and is <strong style="color: #045C64;">pending your review</strong>.
 </p>
 
-<p style="font-size: 16px; color: #333; margin: 0 0 20px;">Please review the event and user details below:</p>
+<p style=" color: #333; margin: 0 0 20px;">Please review the event and user details below:</p>
 
 <h3 style="font-size: 18px; color: #045C64; margin: 0 0 10px;">Event Details:</h3>
-<ul style="font-size: 16px; color: #333; padding-left: 20px; margin: 0 0 20px;">
+<ul style=" color: #333; padding-left: 20px; margin: 0 0 20px;">
   <li><strong>Event Title:</strong> <%= @event.title %></li>
   <li><strong>URL:</strong>
     <a href="<%= @event.url %>" target="_blank" style="color: #045C64; text-decoration: none;"><%= @event.url %></a>
@@ -23,7 +23,7 @@
 </ul>
 
 <h3 style="font-size: 18px; color: #045C64; margin: 0 0 10px;">User Details:</h3>
-<ul style="font-size: 16px; color: #333; padding-left: 20px; margin: 0 0 20px;">
+<ul style=" color: #333; padding-left: 20px; margin: 0 0 20px;">
   <li><strong>Username:</strong> <%= @event.user.username %></li>
   <li><strong>Email:</strong> <%= @event.user.email %></li>
   <li><strong>Role:</strong> <%= @event.user.role&.title || 'Unknown' %></li>
@@ -31,7 +31,7 @@
   <li><strong>Sign-In Count:</strong> <%= @event.user.sign_in_count %></li>
 </ul>
 
-<p style="font-size: 16px; color: #333; margin: 0 0 20px;">
+<p style=" color: #333; margin: 0 0 20px;">
   You can view more details and approve or reject the event using the link below:
 </p>
 

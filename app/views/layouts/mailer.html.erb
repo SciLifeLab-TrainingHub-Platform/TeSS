@@ -3,6 +3,10 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <!-- Media Query for Small Screens -->
   <style>
+      p, .email_footer, a, ul, li {
+          font-size: 14px;
+      }
+
       @media (max-width: 600px) {
           .email_footer {
               table, td {
@@ -36,8 +40,7 @@
     <%= yield %>
   </div>
 
-
-  <p style="font-size: 16px; margin-top: 20px;">
+  <p style="margin-top: 20px;">
     Thank you for being a part of our community!
   </p>
 
@@ -47,12 +50,13 @@
   <table class="email_footer" width="100%" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
     <tr>
       <!-- Left Section -->
-      <td style="width: 50%; text-align: center; vertical-align: top; padding: 5px;">
+      <td style="width: 50%; text-align: right; vertical-align: top; padding: 10px;">
         <p style="margin: 0; font-size: 14px; font-weight: bold; color: #333;">SciLifeLab Training Hub</p>
-        <a href="<%= root_url %>events" style="font-size: 14px; color: #045C64; text-decoration: none;">Check out our upcoming courses</a>
+        <a href="<%= root_url %>events" style="font-size: 14px; color: #045C64; text-decoration: none;">Check out our
+          upcoming courses</a>
       </td>
       <!-- Right Section -->
-      <td style="width: 50%; text-align: center; vertical-align: top; padding: 5px;">
+      <td style="width: 50%; text-align: left; vertical-align: top; padding: 10px;">
         <p style="margin: 0; font-size: 14px; font-weight: bold; color: #333;">Get in touch</p>
         <a href="mailto:training.hub@scilifelab.se" style="font-size: 14px; color: #045C64; text-decoration: none;">training.hub@scilifelab.se</a>
       </td>

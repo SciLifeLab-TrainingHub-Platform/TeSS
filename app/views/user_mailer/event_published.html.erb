@@ -1,18 +1,18 @@
 <%= link_to(root_url) do %>
   <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
                 title: "Visit #{TeSS::Config.site['title_short']}",
-                style: 'height: 100px;', target: '_blank') %>
+                style: 'width: 100%;', target: '_blank') %>
 <% end %>
 <br>
 
 <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-  <p style="font-size: 16px;">Hi <strong><%= @event.user.username %></strong>,</p>
+  <h3>Hi <strong><%= @event.user.username %></strong>,</h3>
 
-  <p style="font-size: 16px;">
+  <p>
     Your training event titled "<strong><%= @event.title %></strong>" is now live on the Training Portal!
   </p>
 
-  <p style="font-size: 16px; margin-top: 20px;">
+  <p style="margin-top: 20px;">
     You can view and manage your event using the following link:
     <a href="<%= event_url(@event) %>"
        style="color: #045C64; text-decoration: underline; font-weight: bold;">
@@ -20,11 +20,11 @@
     </a>.
   </p>
 
-  <p style="font-size: 16px; margin-top: 20px;">
+  <p style=" margin-top: 20px;">
     If you've found a typo or need to update your venue, you can do so via the 'Edit' button on your event page.
   </p>
 
-  <p style="font-size: 16px;">
+  <p>
     Training events are pulled from the Training Portal into the SciLifeLab Newsletter every other week and shared with communities based on keywords. We hope your event will attract many registrations!
   </p>
 
