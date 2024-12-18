@@ -1,0 +1,8 @@
+FROM cypress/included:12.16.0
+WORKDIR /e2e
+COPY . .
+RUN npm install
+CMD ["npm", "run", "cypress:run"]
+
+# RUN npm install
+# RUN npx cypress install

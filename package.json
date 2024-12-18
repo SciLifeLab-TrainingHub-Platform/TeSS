@@ -1,0 +1,20 @@
+{
+  "name": "tess",
+  "version": "1.0.0",
+  "description": "The [Scilifelab](https://www.scilifelab.se/) **T**raining **H**ub is dedicated to fostering a diverse and inclusive community of instructors and learners, where we can all gain new skills and benefit from the minds of many.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "devDependencies": {
+    "cypress": "^13.16.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

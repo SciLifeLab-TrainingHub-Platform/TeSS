@@ -41,3 +41,8 @@ tess.crontab
 
 # Mac files
 **/.DS_Store
+
+#cypress files
+/cypress/screenshots
+/cypress/videos
+/node_modules
