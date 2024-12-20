@@ -60,7 +60,6 @@ class User < ApplicationRecord
   before_create :set_default_role, :set_default_profile
   before_create :skip_email_confirmation_for_non_production
   before_update :skip_email_reconfirmation_for_non_production
-  before_update :validate_user_role_and_event_count
   before_destroy :reassign_resources
   after_update :react_to_role_change
   before_save :set_username_for_invitee
@@ -83,6 +82,8 @@ class User < ApplicationRecord
 
   validate :consents_to_processing, on: :create, unless: ->(user) { user.using_omniauth? || User.current_user.try(:is_admin?) }
 
+  validates_with UserRoleAndEventCountValidator, on: :update
+  
   accepts_nested_attributes_for :profile
 
   attr_accessor :publicize_email
@@ -410,42 +411,6 @@ class User < ApplicationRecord
   def set_username_for_invitee
     if !self.invitation_token.nil? and !self.email.nil? and self.username.nil?
       self.username = self.email
-    end
-  end
-
-  # Validates changes to a user's role and approved events count based on predefined rules.
-  #
-  # This method ensures the following constraints:
-  # - A 'Trusted user' cannot have an approved events count less than or equal to EVENT_APPROVAL_THRESHOLD.
-  # - A 'Registered user' cannot have an approved events count greater than EVENT_APPROVAL_THRESHOLD.
-  #
-  # The validation considers changes to `role_id` and/or `approved_events_count` attributes.
-  # If the constraints are violated, an error is added to the model, and the save operation is aborted.
-  def validate_user_role_and_event_count
-    # Get the changes
-    changes_hash = changes
-
-    # Only proceed if role_id or approved_events_count is changed
-    return unless changes_hash.key?("role_id") || changes_hash.key?("approved_events_count")
-
-    # Fetch roles by title
-    trusted_user_role = Role.find_by(title: "Trusted user")
-    registered_user_role = Role.find_by(title: "Registered user")
-
-    # Determine current and new values
-    current_role = role
-    new_role_id = changes_hash.dig("role_id", 1)
-    new_role = new_role_id ? Role.find(new_role_id) : current_role
-
-    current_approved_events_count = approved_events_count
-    new_approved_events_count = changes_hash.key?("approved_events_count") ? changes_hash.dig("approved_events_count", 1) : current_approved_events_count
-
-    if new_role == trusted_user_role && new_approved_events_count <= EVENT_APPROVAL_THRESHOLD
-      errors.add(:base, "A 'trusted_user' cannot have approved events count less than or equal to #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
-      throw(:abort) # Prevent saving
-    elsif new_role == registered_user_role && new_approved_events_count > EVENT_APPROVAL_THRESHOLD
-      errors.add(:base, "A 'registered_user' cannot have approved events count more than #{EVENT_APPROVAL_THRESHOLD}. Please change the input accordingly.")
-      throw(:abort) # Prevent saving
     end
   end
 end
