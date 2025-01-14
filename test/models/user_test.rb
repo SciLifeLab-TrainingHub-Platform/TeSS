@@ -367,23 +367,23 @@ class UserTest < ActiveSupport::TestCase
 
     # Test
     assert_no_difference('Event.count') do
-    assert_no_difference('Material.count') do
-    assert_no_difference('Subscription.count') do
-    assert_difference('provider.editors.count', -1) do
-    assert_no_difference('provider2.editors.count') do
-    assert_no_difference('provider3.editors.count') do
-    assert_difference('Collaboration.count', -1) do
-    assert_difference('User.count', -2) do
-      assert user1.merge(user2, user3)
-      assert user2.reload.destroy
-      assert user3.reload.destroy
-    end
-    end
-    end
-    end
-    end
-    end
-    end
+      assert_no_difference('Material.count') do
+        assert_no_difference('Subscription.count') do
+          assert_difference('provider.editors.count', -1) do
+            assert_no_difference('provider2.editors.count') do
+              assert_no_difference('provider3.editors.count') do
+                assert_difference('Collaboration.count', -1) do
+                  assert_difference('User.count', -2) do
+                    assert user1.merge(user2, user3)
+                    assert user2.reload.destroy
+                    assert user3.reload.destroy
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
     end
 
     assert_equal 'base_user', user1.username
@@ -483,9 +483,7 @@ class UserTest < ActiveSupport::TestCase
     @registered_user_role = Role.find_by!(title: 'Registered user')
     @user = users(:trusted_user)
 
-    assert_raises(ActiveRecord::RecordNotSaved) do
-      @user.update!(role: @registered_user_role, approved_events_count: 11)
-    end
+    assert_not @user.update(role: @registered_user_role, approved_events_count: 11)
   end
 
   # Test to ensure that changing role to 'Trusted user' with approved_events_count less than threshold is invalid
@@ -493,27 +491,21 @@ class UserTest < ActiveSupport::TestCase
     @trusted_user_role = Role.find_by!(title: 'Trusted user')
     @user = users(:regular_user)
 
-    assert_raises(ActiveRecord::RecordNotSaved) do
-      @user.update!(role: @trusted_user_role, approved_events_count: 1)
-    end
+    assert_not @user.update(role: @trusted_user_role, approved_events_count: 1)
   end
 
   # Test to ensure that changing approved_events_count to less than or equal to threshold for trusted user is invalid
   test 'should not update approved_events_count to less than or equal to threshold for trusted_user' do
     @user = users(:trusted_user)
 
-    assert_raises(ActiveRecord::RecordNotSaved) do
-      @user.update!(approved_events_count: 2)
-    end
+    assert_not @user.update(approved_events_count: 2)
   end
 
   # Test to ensure that changing approved_events_count to more than threshold for registered user is invalid
   test 'should not update approved_events_count to more than threshold for registered_user' do
     @user = users(:regular_user)
 
-    assert_raises(ActiveRecord::RecordNotSaved) do
-      @user.update!(approved_events_count: 5)
-    end
+    assert_not @user.update(approved_events_count: 5)
   end
 
   # Test to ensure that changing role to 'Trusted user' from 'Registered user' without approved_events_count is invalid
@@ -521,18 +513,13 @@ class UserTest < ActiveSupport::TestCase
     @user = users(:regular_user)
     @trusted_user_role = Role.find_by!(title: 'Trusted user')
 
-    assert_raises(ActiveRecord::RecordNotSaved) do
-      @user.update!(role: @trusted_user_role)
-    end
+    assert_not @user.update(role: @trusted_user_role)
   end
 
   # Test to ensure that changing role to 'Registered user' from 'Trusted user' without approved_events_count is invalid
   test 'should not update role to registered_user from trusted_user without approved_events_count' do
     @registered_user_role = Role.find_by!(title: 'Registered user')
     @user = users(:trusted_user)
-
-    assert_raises(ActiveRecord::RecordNotSaved) do
-      @user.update!(role: @registered_user_role)
-    end
+    assert_not @user.update(role: @registered_user_role)
   end
 end
