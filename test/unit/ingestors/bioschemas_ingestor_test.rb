@@ -98,6 +98,7 @@ class BioschemasIngestorTest < ActiveSupport::TestCase
 
   test 'do not overwrite other content providers event, even with same url' do
     existing_event = events(:course_event)
+    existing_event.nodes = [nodes(:good)]
     mock_bioschemas('https://website.org/courseinstances.json', 'existing.json')
     @ingestor.read('https://website.org/courseinstances.json')
     assert_equal 1, @ingestor.events.count
@@ -123,6 +124,7 @@ class BioschemasIngestorTest < ActiveSupport::TestCase
 
   test 'do overwrite event with same url if same provider' do
     existing_event = events(:course_event)
+    existing_event.nodes = [nodes(:good)]
     provider = existing_event.content_providers
     mock_bioschemas('https://website.org/courseinstances.json', 'existing.json')
     @ingestor.read('https://website.org/courseinstances.json')

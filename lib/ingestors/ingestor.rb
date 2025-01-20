@@ -153,8 +153,6 @@ module Ingestors
                    end
 
         if not resource.valid?
-          puts "type = #{type}"
-          puts "resource.valid? = #{resource.valid?}"
           unless resource.valid?
             puts "Validation errors:"
             puts resource.errors.full_messages.join(", ") if resource.errors
