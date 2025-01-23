@@ -11,7 +11,7 @@ class AddLlmCheck < ActiveRecord::Migration[7.0]
       t.string :output
       t.boolean :needs_processing, default: false
     end
-    add_reference :events, :llm_interaction, foreign_key: true
+    #add_reference :events, :llm_interaction, foreign_key: true
     add_column :events, :open_science, :string, array: true, default: []
   end
 end
