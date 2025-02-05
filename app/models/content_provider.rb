@@ -16,6 +16,9 @@ class ContentProvider < ApplicationRecord
   belongs_to :user
   belongs_to :node, optional: true
 
+  before_validation :check_cp_valid
+  after_validation :check_cp_valid
+
   has_and_belongs_to_many :editors, class_name: "User"
 
   attribute :contact, :string
@@ -114,10 +117,12 @@ class ContentProvider < ApplicationRecord
       editor.editables.reload
 
       # transfer events to the provider's user
-      editor.events.where(content_provider_id: id).find_each do |event|
-        event.user = user
-        event.save!
-      end
+      editor.events.each { |event|
+        if event.content_providers.exists?(id: id)
+          event.user = user
+          event.save!
+        end
+      }
 
       # transfer materials to the provider's user
       editor.materials.where(content_provider_id: id).find_each do |material|
@@ -138,7 +143,7 @@ class ContentProvider < ApplicationRecord
   end
 
   def approved_editors= values
-    #puts "set approved_editors: user count #{values.size}"
+    # puts "set approved_editors: user count #{values.size}"
     editors_list = []
     values.each do |item|
       if !item.nil? and !item.blank?
@@ -152,4 +157,13 @@ class ContentProvider < ApplicationRecord
     editors.each { |item| remove_editor(item) if !editors_list.include?(item) }
   end
 
+  def check_cp_valid
+    if self.errors.any?
+
+      pp("inside check_cp_valid callback ====")
+      pp "content provider Validation errors: #{self.errors.full_messages}"
+      pp("content_providers title = #{self.title}")
+      pp("====")
+    end
+  end
 end

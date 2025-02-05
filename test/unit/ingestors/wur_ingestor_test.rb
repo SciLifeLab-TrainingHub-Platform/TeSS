@@ -13,10 +13,12 @@ class WurIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from wur' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.wur.nl/en/Resources-1/RSS/Calendar.htm',
-      method: 'wur',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::WurIngestor.new

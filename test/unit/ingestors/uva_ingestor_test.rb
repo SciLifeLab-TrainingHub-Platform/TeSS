@@ -13,10 +13,12 @@ class UvaIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from uva' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.uva.nl/_restapi/list-json?uuid=def191e0-f85f-4ba0-b618-ee6d16f36db4&mount=13a4adcb-039a-4e99-b085-e9d91c8c7dc1',
-      method: 'uva',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user
     )
 
     ingestor = Ingestors::UvaIngestor.new

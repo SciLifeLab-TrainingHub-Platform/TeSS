@@ -157,10 +157,6 @@ module Ingestors
             puts "Validation errors:"
             puts resource.errors.full_messages.join(", ") if resource.errors
           end
-
-          puts resource
-          puts resource.content_providers
-
         end
 
 

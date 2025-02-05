@@ -41,7 +41,17 @@ module HasTestJob
       c = controller.new
       c.params = { klass.model_name.param_key => params }
       safe_params = c.send("#{klass.model_name.param_key}_params")
-      klass.new(safe_params.merge(extras))
+      resource = klass.new(safe_params)
+
+      # If the type is 'event', handle content_provider association
+      if type == 'event' && extras[:content_provider].present?
+        resource.content_providers << extras[:content_provider]
+      end
+      extras.each do |key, value|
+        next if key == :content_provider # Skip, already handled
+        resource.send("#{key}=", value) if resource.respond_to?("#{key}=")
+      end
+      resource
     end
   end
 

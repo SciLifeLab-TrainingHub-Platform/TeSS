@@ -122,7 +122,7 @@ class EditorTest < ActiveSupport::TestCase
     assert event
     assert_equal trainer, event.user
     assert_equal trainer.username, event.user.username
-    assert_equal provider, event.content_provider
+    assert_equal provider, event.content_providers[0]
     assert material
     assert_equal trainer.username, material.user.username
     assert_equal provider.title, material.content_provider.title
@@ -147,7 +147,7 @@ class EditorTest < ActiveSupport::TestCase
     # check reassignments
     event.reload
     material.reload
-    assert_equal provider.title, event.content_provider.title
+    assert_equal provider.title, event.content_providers[0].title
     assert_equal provider.title, material.content_provider.title
     assert_equal provider.user.username, event.user.username, "event[#{event.title}] owner not matched"
     assert_equal provider.user, material.user, "material[#{material.title}] owner not matched"
@@ -199,7 +199,7 @@ class EditorTest < ActiveSupport::TestCase
     provider.add_editor(trainer)
 
     another_event = Event.create!(user: trainer, title: 'New event', timezone: 'UTC', url: 'http://example.com', online: true)
-    assert_nil another_event.content_provider
+    assert_nil another_event.content_providers[0]
 
     # remove editor
     provider.remove_editor(trainer)
@@ -211,7 +211,7 @@ class EditorTest < ActiveSupport::TestCase
     # check reassignments
     event.reload
     another_event.reload
-    assert_nil another_event.content_provider
+    assert_nil another_event.content_providers[0]
     assert_equal trainer, another_event.user
     assert_equal provider.user, event.user
   end

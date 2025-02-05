@@ -13,10 +13,12 @@ class CarpentriesIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from upcoming SWC workshops feed' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://feeds.carpentries.org/swc_upcoming_workshops.json',
-      method: 'carpentries',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::CarpentriesIngestor.new

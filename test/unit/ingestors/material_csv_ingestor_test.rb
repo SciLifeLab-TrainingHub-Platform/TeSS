@@ -61,7 +61,9 @@ class MaterialCsvIngestorTest < ActiveSupport::TestCase
     assert_equal title, material.title, 'material title not matched!'
     assert_equal url, material.url, 'material url not matched!'
     assert !material.content_provider.nil?, 'material provider is nil.'
-    assert_equal 'Another Provider', material.content_provider.title, 'material provider not matched'
+
+    assert_equal 'Another Content Provider', material.content_provider.title, 'material provider not matched'
+
     assert_equal 'This is the first materials that we have created and shared.', material.description,
                  'material description not matched!'
     assert !material.keywords.nil?, 'material keywords is nil'

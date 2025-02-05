@@ -28,6 +28,10 @@ class Source < ApplicationRecord
   before_update :log_approval_status_change
   before_update :reset_approval_status
 
+  after_validation :check_source_valid
+  before_validation :check_source_valid
+
+
   if TeSS::Config.solr_enabled
     # :nocov:
     searchable do
@@ -161,5 +165,16 @@ class Source < ApplicationRecord
   def loggable_changes
     super - %w[approval_status log records_read records_written resources_added resources_updated resources_rejected
                finished_at]
+  end
+
+  def check_source_valid
+    if self.errors.any?
+      pp "****"
+      pp self
+      pp "---"
+      pp "Validation errors: #{self.errors.full_messages}"
+      pp "---"
+      pp "****"
+    end
   end
 end

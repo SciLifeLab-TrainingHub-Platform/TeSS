@@ -13,10 +13,12 @@ class LibcalIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from libcal' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://vu-nl.libcal.com/ajax/calendar/list?c=7052&date=2022-01-10&perpage=48&page=1&audience=&cats=&camps=&inc=0',
-      method: 'libcal',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user
     )
 
     ingestor = Ingestors::LibcalIngestor.new

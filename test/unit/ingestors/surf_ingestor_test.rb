@@ -13,10 +13,13 @@ class SurfIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from surf' do
+    user = users(:regular_user)
+
     source = @content_provider.sources.build(
       url: 'https://www.surf.nl/sitemap.xml',
-      method: 'surf',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::SurfIngestor.new

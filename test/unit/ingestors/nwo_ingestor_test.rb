@@ -13,10 +13,13 @@ class NwoIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from nwo' do
+
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.nwo.nl/en/meetings',
-      method: 'nwo',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::NwoIngestor.new

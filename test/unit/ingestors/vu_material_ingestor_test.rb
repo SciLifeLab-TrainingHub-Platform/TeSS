@@ -13,10 +13,12 @@ class VuMaterialIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest materials from vu' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://vu.nl/en/education/phd-courses',
-      method: 'vu_material',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::VuMaterialIngestor.new

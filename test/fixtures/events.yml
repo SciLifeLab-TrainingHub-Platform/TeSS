@@ -24,6 +24,7 @@ one:
   duration: '00:00'
   learning_objectives: "There are none."
   recognition: "Yup. You attended the workshop."
+  event_status: 1
 
 two:
   external_id: MyString2
@@ -229,7 +230,9 @@ event_with_report:
   eligibility: [ registration_of_interest ]
   country: AU
   postcode: 1000
-  
+  event_status: 1
+
+
 another_event_with_report:
   title: This event happened
   url: http://content-provider.org/another-event-with-report
@@ -243,7 +246,8 @@ another_event_with_report:
   eligibility: [ registration_of_interest ]
   country: BigCountry
   postcode: 1010
-  
+  event_status: 1
+
 shadowbanned_event:
   external_id: MyString1
   title: PredConf 2018
@@ -336,6 +340,7 @@ training_event:
   timezone: Melbourne
   contact: MyContact
   eligibility: [ first_come_first_served ]
+  event_status: 1
 
 ical_event_1:
   title: P'Con - Embracing new solutions for in-situ visualisation
@@ -398,6 +403,7 @@ course_event:
   learning_objectives: "There are none."
   recognition: "Yup. You attended the workshop."
   target_audience: ['Everyone!']
+  event_status: 1
 
 hybrid_event:
   presence: 2
@@ -408,3 +414,14 @@ hybrid_event:
   start: 2024-12-12 10:00:00
   end: 2024-12-12 12:00:00
   timezone: UTC
+
+approved_event:
+  title: approved event
+  url: http://myurl.com
+  description: 'this is an published event'
+  user: regular_user
+  host_institutions: ["MyHost"]
+  timezone: UTC
+  contact: MyContact
+  eligibility: [ registration_of_interest ]
+  event_status: 1

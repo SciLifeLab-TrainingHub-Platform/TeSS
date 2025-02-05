@@ -13,10 +13,12 @@ class OsciIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from osci' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://osc-international.com/my-calendar/',
-      method: 'osci',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user
     )
 
     ingestor = Ingestors::OsciIngestor.new

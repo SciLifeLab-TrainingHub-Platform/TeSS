@@ -13,12 +13,13 @@ class DccIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from dcc' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://dcc-po.nl/agenda/',
-      method: 'dcc',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user
     )
-
     ingestor = Ingestors::DccIngestor.new
 
     # check event doesn't

@@ -13,10 +13,12 @@ class LcrdmIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from lcrdm' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://lcrdm.nl/evenementen/',
-      method: 'lcrdm',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::LcrdmIngestor.new

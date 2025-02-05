@@ -20,10 +20,12 @@ class EventCsvIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from CSV file' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://raw.githubusercontent.com/nci900/NCI_feed_to_DReSA/master/event_NCI.csv',
       method: 'event_csv',
-      enabled: true
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::EventCsvIngestor.new
@@ -88,7 +90,7 @@ class EventCsvIngestorTest < ActiveSupport::TestCase
     assert_equal 'To provide a basic intro to supercomputing on the **Gadi** system',
                  event.learning_objectives
     assert_equal "To get the most of this session, it would be good to have a basic awareness of:\n\n" +
-                 "- Supercomputing\n" + "- Bioinformatics\n" + '- Software Design',
+                   "- Supercomputing\n" + "- Bioinformatics\n" + '- Software Design',
                  event.prerequisites
     assert_equal 'There are no technical requirements.',
                  event.tech_requirements

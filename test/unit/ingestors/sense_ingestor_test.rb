@@ -13,10 +13,15 @@ class SenseIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from sense' do
+
+    user = users(:regular_user)
+
     source = @content_provider.sources.build(
       url: 'https://sense.nl/event/page/2/?wpv_view_count=177',
-      method: 'sense',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user
+
     )
 
     ingestor = Ingestors::SenseIngestor.new
