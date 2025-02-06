@@ -2,4 +2,5 @@
 :queues:
   - default
   - mailers
+  - slack_notifications
   - source_testing
