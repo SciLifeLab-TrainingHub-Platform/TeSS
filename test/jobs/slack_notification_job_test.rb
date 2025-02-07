@@ -34,19 +34,4 @@ class SlackNotificationJobTest < ActiveJob::TestCase
       assert_match(/Slack notification failed: Unauthorized channels #unauthorized-channel/, @log_output.string)
     end
   end
-
-=begin
-  test 'job sends message to allowed channels' do
-    message = 'Test message'
-    channels = ['#traininghub-dev']
-
-    Slack::Web::Client.any_instance.expects(:chat_postMessage).with(
-      channel: '#traininghub-dev', text: message, as_user: true
-    ).returns(true)
-
-    perform_enqueued_jobs do
-      SlackNotificationJob.perform_now(message, channels)
-    end
-  end
-=end
 end
