@@ -431,7 +431,6 @@ class Event < ApplicationRecord
         redis.set(location, [latitude, longitude].to_json)
       rescue Redis::BaseError => e
         raise e unless Rails.env.production?
-
         puts "Redis error: #{e.message}"
       end
     else
@@ -679,15 +678,14 @@ class Event < ApplicationRecord
   end
 
   def notify_slack_if_published
-    message =
-      <<~MESSAGE
+    if self.event_status == Event.event_statuses.key(1)
+      message =
+        <<~MESSAGE
         New Course Announcement from the <#{Rails.application.routes.url_helpers.root_url}|Training Portal>\n
         > :scilife: *#{self.title}*
         > <#{Rails.application.routes.url_helpers.event_url(self)}|More information>
       MESSAGE
-
-    if self.event_status == Event.event_statuses.key(1)
-      SlackNotificationJob.perform_now(message, '#traininghub-dev')
+      SlackNotificationJob.perform_later(message, '#traininghub-dev')
     end
   end
 end
