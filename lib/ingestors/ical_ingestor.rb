@@ -87,7 +87,6 @@ module Ingestors
           event.timezone = tzid.first.to_s if !tzid.nil? and tzid.size > 0
         end
 
-
         event.venue = calevent.location.to_s
         if calevent.location.downcase.include?('online')
           event.online = true
@@ -111,9 +110,6 @@ module Ingestors
             event.keywords << cats.to_s.strip
           end
         end
-
-        pp("event")
-        pp(event)
 
         # store event
         @events << event

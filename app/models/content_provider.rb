@@ -16,9 +16,6 @@ class ContentProvider < ApplicationRecord
   belongs_to :user
   belongs_to :node, optional: true
 
-  before_validation :check_cp_valid
-  after_validation :check_cp_valid
-
   has_and_belongs_to_many :editors, class_name: "User"
 
   attribute :contact, :string
@@ -155,15 +152,5 @@ class ContentProvider < ApplicationRecord
     editors_list.each { |item| add_editor(item) if !editors.include?(item) }
     # remove old
     editors.each { |item| remove_editor(item) if !editors_list.include?(item) }
-  end
-
-  def check_cp_valid
-    if self.errors.any?
-
-      pp("inside check_cp_valid callback ====")
-      pp "content provider Validation errors: #{self.errors.full_messages}"
-      pp("content_providers title = #{self.title}")
-      pp("====")
-    end
   end
 end

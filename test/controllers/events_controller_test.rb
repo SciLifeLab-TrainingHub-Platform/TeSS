@@ -6,7 +6,7 @@ class EventsControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
   setup do
-    skip
+    mock_images
     @event = events(:one)
     @material = materials(:good_material)
     @collection = collections(:two)

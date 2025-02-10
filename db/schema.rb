@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2024_11_11_131459) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -264,14 +265,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_131459) do
     t.string "cost_basis"
     t.string "cost_currency"
     t.string "fields", default: [], array: true
+    t.string "open_science", default: [], array: true
     t.boolean "visible", default: true
     t.string "language"
     t.datetime "application_deadline"
     t.integer "event_status", default: 0, null: false
     t.text "admin_notes"
-    t.bigint "llm_interaction_id"
-    t.string "open_science", default: [], array: true
-    t.index ["llm_interaction_id"], name: "index_events_on_llm_interaction_id"
     t.index ["presence"], name: "index_events_on_presence"
     t.index ["slug"], name: "index_events_on_slug", unique: true
     t.index ["user_id"], name: "index_events_on_user_id"
@@ -670,7 +669,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_131459) do
   add_foreign_key "event_topics", "topics"
   add_foreign_key "event_venues", "events"
   add_foreign_key "event_venues", "venues"
-  add_foreign_key "events", "llm_interactions"
   add_foreign_key "events", "users"
   add_foreign_key "learning_path_topic_links", "learning_paths"
   add_foreign_key "learning_paths", "content_providers"

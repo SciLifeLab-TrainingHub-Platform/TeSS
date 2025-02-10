@@ -28,8 +28,6 @@ class Event < ApplicationRecord
   after_save :enqueue_geocoding_worker, if: :address_changed?
   after_create :set_status_and_notify
   after_update :change_status_and_notify_user
-  before_validation :check_event_valid
-  after_validation :check_event_valid
 
 
   if TeSS::Config.solr_enabled
@@ -162,7 +160,7 @@ class Event < ApplicationRecord
   # validates :duration, format: { with: /\A[0-9][0-9]:[0-5][0-9]\z/, message: "must be in format HH:MM" }, allow_blank: true
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
-  # validates :node_ids, presence: { message: "Please select at least one node." }, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
+  validates :node_ids, presence: { message: "Please select at least one node." }, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
   update_suggestions(:keywords, :target_audience, :host_institutions)
@@ -675,17 +673,4 @@ class Event < ApplicationRecord
       end
     end
   end
-
-  def check_event_valid
-
-    # Check if the event has validation errors and print them
-    if self.errors.any?
-      pp("inside check_event_valid callback ---")
-      # Print the Event object before saving
-      pp "event Validation errors: #{self.errors.full_messages}"
-      pp("event title = #{self.title}")
-      pp("----")
-    end
-  end
-
 end

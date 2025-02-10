@@ -9,7 +9,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show tabs for enabled features' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     features = { 'events': true,
@@ -42,7 +41,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should not show tabs for disabled features' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     features = { 'events': false,
@@ -73,7 +71,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should allow configuration of home page sections' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     site_settings = TeSS::Config.site.dup
@@ -137,7 +134,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should allow configuration of tab order and directory' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     features = { 'events': true,
@@ -204,7 +200,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should hide unverified providers from carousel' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
     mock_images
     ContentProvider.destroy_all
@@ -229,7 +224,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show upcoming events' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     my_events = [events(:one), events(:two)]
@@ -249,7 +243,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show latest materials' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     my_materials = [materials(:good_material), materials(:interpro)]
@@ -264,7 +257,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show featured trainer' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     with_settings({ site: { home_page: { featured_trainer: true } } }) do
@@ -276,7 +268,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show event counts in counter blocks' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     params = events(:one).attributes.symbolize_keys
@@ -292,7 +283,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show provider grid' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     mock_images
@@ -313,7 +303,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show community banner if matching community for country' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'GB', 'names' => { 'en' => 'United Kingdom' } } }) do
@@ -326,7 +315,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should not show community banner if no matching community for country' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'SE', 'names' => { 'en' => 'Sweden' } } }) do
@@ -339,7 +327,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should not show community banner if feature disabled' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'GB', 'names' => { 'en' => 'United Kingdom' } } }) do
@@ -352,7 +339,6 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should not show registration button if disabled for country' do
-    puts "Test \"#{name}\" is skipped as we are no longer maintaining UI test cases"
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
     with_settings({ blocked_countries: ['gb'] }) do

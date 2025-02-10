@@ -39,22 +39,22 @@ class UuIngestorTest < ActiveSupport::TestCase
       end
     end
 
-    # assert_equal 58, ingestor.events.count
-    # assert ingestor.materials.empty?
-    # assert_equal 57, ingestor.stats[:events][:added]
-    # assert_equal 1, ingestor.stats[:events][:updated]
-    # assert_equal 0, ingestor.stats[:events][:rejected]
-    #
-    # # check event does exist
-    # event = Event.where(title: new_title, url: new_url).first
-    # assert event
-    # assert_equal new_title, event.title
-    # assert_equal new_url, event.url
-    #
-    # # check other fields
-    # assert_equal 'UU', event.source
-    # assert_equal 'Amsterdam', event.timezone
-    # assert_equal Time.zone.parse('Mon, 27 Mar 2023 13:00:00.000000000 UTC +00:00'), event.start
-    # assert_equal Time.zone.parse('Mon, 27 Mar 2023 15:00:00.000000000 UTC +00:00'), event.end
+    assert_equal 58, ingestor.events.count
+    assert ingestor.materials.empty?
+    assert_equal 57, ingestor.stats[:events][:added]
+    assert_equal 1, ingestor.stats[:events][:updated]
+    assert_equal 0, ingestor.stats[:events][:rejected]
+
+    # check event does exist
+    event = Event.where(title: new_title, url: new_url).first
+    assert event
+    assert_equal new_title, event.title
+    assert_equal new_url, event.url
+
+    # check other fields
+    assert_equal 'UU', event.source
+    assert_equal 'Amsterdam', event.timezone
+    assert_equal Time.zone.parse('Mon, 27 Mar 2023 13:00:00.000000000 UTC +00:00'), event.start
+    assert_equal Time.zone.parse('Mon, 27 Mar 2023 15:00:00.000000000 UTC +00:00'), event.end
   end
 end
