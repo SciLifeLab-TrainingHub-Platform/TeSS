@@ -61,6 +61,7 @@ gem 'simple_form'
 gem 'simple_token_authentication'
 gem 'sitemap_generator'
 gem 'sitemap-parser'
+gem 'slack-ruby-client'
 gem 'slim'
 gem 'sunspot_rails', github: 'sunspot/sunspot', branch: 'master' # Contains Ruby 3 fixes that are not released
 gem 'terser'
@@ -71,7 +72,6 @@ gem 'tzinfo-data'
 gem 'validate_url'
 gem 'whenever', require: false # Work around https://github.com/javan/whenever/issues/831
 gem 'will_paginate'
-gem 'slack-ruby-client'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-clipboard', '~> 1.5.12'
