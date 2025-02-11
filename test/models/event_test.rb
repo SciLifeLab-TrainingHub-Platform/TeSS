@@ -746,26 +746,30 @@ class EventTest < ActiveSupport::TestCase
 
   test "slack notification job is enqueued when event is approved" do
     assert_enqueued_with(job: SlackNotificationJob) do
-      event = Event.new(
-        title: 'new event',
-        url: 'https://myevent.com',
-        user: users(:regular_user),
-        event_status: 1,
-        nodes: [nodes(:good)]
-      )
+      parameters = @mandatory.merge(
+        {
+          title: 'new event',
+          url: 'https://myevent.com',
+          user: users(:regular_user),
+          event_status: 1,
+          nodes: [nodes(:good)]
+        })
+      event = Event.new(parameters)
       event.save
     end
   end
 
   test 'slack notification job is not enqueued for non approved events' do
     assert_no_enqueued_jobs only: SlackNotificationJob do
-      event = Event.new(
-        title: 'new event',
-        url: 'https://myevent.com',
-        user: users(:regular_user),
-        event_status: 0,
-        nodes: [nodes(:good)]
-      )
+      parameters = @mandatory.merge(
+        {
+          title: 'new event',
+          url: 'https://myevent.com',
+          user: users(:regular_user),
+          event_status: 0,
+          nodes: [nodes(:good)]
+        })
+      event = Event.new(parameters)
       event.save
     end
   end
