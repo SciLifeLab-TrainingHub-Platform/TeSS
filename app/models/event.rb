@@ -25,7 +25,7 @@ class Event < ApplicationRecord
   before_save :check_country_name
   before_save :set_default_times
   before_save :geocoding_cache_lookup, if: :address_will_change?
-  before_save :update_event_statuses
+  before_create :update_event_statuses
   after_save :enqueue_geocoding_worker, if: :address_changed?
   after_create :set_status_and_notify
   after_update :change_status_and_notify_user
@@ -681,11 +681,13 @@ class Event < ApplicationRecord
     if self.event_status == Event.event_statuses.key(1)
       message =
         <<~MESSAGE
-        New Course Announcement from the <#{Rails.application.routes.url_helpers.root_url}|Training Portal>\n
-        > :scilife: *#{self.title}*
-        > <#{Rails.application.routes.url_helpers.event_url(self)}|More information>
-      MESSAGE
-      SlackNotificationJob.perform_later(message, '#traininghub-dev')
+          New Course Announcement from the <#{Rails.application.routes.url_helpers.root_url}|Training Portal>\n
+          > :scilife: *#{self.title}*
+          > <#{Rails.application.routes.url_helpers.event_url(self)}|More information>
+        MESSAGE
+
+      channels = ENV.fetch('SLACK_COURSE_NOTIFICATION_CHANNELS').split(',').map(&:strip)
+      SlackNotificationJob.perform_later(message, channels)
     end
   end
 end
