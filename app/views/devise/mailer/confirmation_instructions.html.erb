@@ -1,5 +1,15 @@
-<p><%= t("devise.mailer.welcome", email: @email)%></p>
+<%= image_tag("emails/welcome.png", alt: TeSS::Config.site['title_short'],
+              title: "Visit #{TeSS::Config.site['title_short']}",
+              style: 'width: 100%;', target: '_blank') %>
 
-<p><%= t("devise.mailer.confirmation_instructions.confirm_through_link")%></p>
+<h3><%= t("devise.mailer.hello", email: @email)%></h3>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= t("devise.mailer.confirmation_instructions.additional_message")%></p>
+
+<p style="text-align: center;">
+  <a href="<%= confirmation_url(@resource, confirmation_token: @token) %>"
+     style="display: inline-block; padding: 12px 24px; background-color: #045C64; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: 500; text-align: center; transition: background-color 0.3s ease;">
+    Confirm your email address
+  </a>
+</p>
+

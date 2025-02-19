@@ -1,14 +1,20 @@
+<%= link_to(root_url) do %>
+  <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
+                title: "Visit #{TeSS::Config.site['title_short']}",
+                style: 'width: 100%;', target: '_blank') %>
+<% end %>
+<br>
 <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
   <!-- User Greeting -->
-  <p style="font-size: 16px;">Hi <strong><%= @event.user.username %></strong>,</p>
+  <h3>Hi <strong><%= @event.user.username %></strong>,</h3>
 
   <!-- Introduction Section -->
-  <p style="font-size: 16px; margin-top: 20px;">
+  <p style=" margin-top: 20px;">
     Your training event has been successfully submitted on the SciLifeLab Training Portal and is
     <strong style="color: #045C64;">currently under review by our team</strong>.
   </p>
 
-  <p style="font-size: 16px; margin-top: 20px;">Next Steps:</p>
+  <p style=" margin-top: 20px;">Next Steps:</p>
   <ul style="list-style-type: disc; padding-left: 20px; font-size: 15px; margin-bottom: 20px;">
     <li>If approved, your training event will be published and visible on the SciLifeLab Training Portal.</li>
     <li>If any changes are required, you will receive an email from one of our admins with details.</li>
@@ -18,7 +24,7 @@
   </ul>
 
   <!-- Event Details Section -->
-  <p style="font-size: 16px;">
+  <p>
     Below are the details of your submitted training event:
   </p>
   <ul style="list-style-type: none; padding-left: 0; font-size: 15px; margin-bottom: 20px;">
@@ -30,17 +36,11 @@
     <li><strong>End Date:</strong> <%= @event.end.strftime('%d %B %Y') %></li>
   </ul>
 
-  <p style="font-size: 16px; margin-top: 20px;">
+  <p style=" margin-top: 20px;">
     You can view and manage your event using the following link:
     <a href="<%= event_url(@event) %>"
        style="color: #045C64; text-decoration: underline; font-weight: bold;">
       View Event
     </a>.
-  </p>
-
-  <!-- Closing Note -->
-  <p style="font-size: 16px; margin-top: 20px;">
-    Thank you for being an active part of the SciLifeLab community. We value your contributions to making training
-    accessible and impactful!
   </p>
 </div>

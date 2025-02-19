@@ -1,17 +1,68 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
-<body style="font-family: sans-serif; width: 100%; -webkit-font-smoothing: antialiased; background-color: #fff">
-  <div style="margin: 0 auto; max-width: 600px; padding: 20px;">
-    <%= yield %>
+  <!-- Media Query for Small Screens -->
+  <style>
+      p, .email_footer, a, ul, li {
+          font-size: 14px;
+      }
 
-    <br/><br/>
-    <%= link_to(root_url) do %>
-      <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
-                    title: "Visit #{TeSS::Config.site['title_short']}",
-                    style: 'height: 100px;', target: '_blank') %>
-    <% end %>
+      @media (max-width: 600px) {
+          .email_footer {
+              table, td {
+                  width: 100% !important;
+                  display: block;
+                  text-align: left;
+              }
+
+              td {
+                  padding: 10px 0;
+              }
+
+              td + td {
+                  padding-top: 10px;
+              }
+
+              td p, td a {
+                  font-size: 16px;
+              }
+          }
+      }
+  </style>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; background-color: #ffffff; margin: 0; padding: 0;">
+
+<!-- Email Container -->
+<div style="margin: 0 auto; max-width: 600px; padding: 20px; background-color: #ffffff; box-sizing: border-box;">
+
+  <!-- Email Content -->
+  <div>
+    <%= yield %>
   </div>
+
+  <p style="margin-top: 20px;">
+    Thank you for being a part of our community!
+  </p>
+
+  <!-- Footer -->
+  <hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;">
+
+  <table class="email_footer" width="100%" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
+    <tr>
+      <!-- Left Section -->
+      <td style="width: 50%; text-align: right; vertical-align: top; padding: 10px;">
+        <p style="margin: 0; font-size: 14px; font-weight: bold; color: #333;">SciLifeLab Training Hub</p>
+        <a href="<%= root_url %>events" style="font-size: 14px; color: #045C64; text-decoration: none;">Check out our
+          upcoming courses</a>
+      </td>
+      <!-- Right Section -->
+      <td style="width: 50%; text-align: left; vertical-align: top; padding: 10px;">
+        <p style="margin: 0; font-size: 14px; font-weight: bold; color: #333;">Get in touch</p>
+        <a href="mailto:<%= AdminMailer::ADMIN_EMAIL_ADDRESS %>" style="font-size: 14px; color: #045C64; text-decoration: none;"><%= AdminMailer::ADMIN_EMAIL_ADDRESS %></a>
+      </td>
+    </tr>
+  </table>
+  <hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;">
+</div>
 </body>
 </html>
