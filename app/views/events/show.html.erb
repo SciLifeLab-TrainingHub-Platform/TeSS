@@ -2,7 +2,7 @@
   <%# SIDEBAR %>
   <div class="collapsing-sidebar" id="sidebar">
     <%= render partial: 'content_providers/partials/content_provider_info', locals: { content_provider: @event.content_providers } %>
-    <%= render partial: "nodes/partials/associated_node_info", locals: { associated_nodes: @event.associated_nodes } %>
+    <%= render partial: "nodes/partials/associated_node_info", locals: { associated_nodes: @event.associated_nodes.select { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG }} %>
     <%= render(partial: 'users/partials/user_info', locals: { user: @event.user }) if current_user.try(:is_admin?) %>
   </div>
 
@@ -19,7 +19,7 @@
         <% end %>
 
         <h2 class="mt-0">
-          <% if @event.has_node? -%>
+          <% if @event.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } -%>
             <%= elixir_node_icon %>
           <% end -%>
           <% if current_user&.is_admin? %>
