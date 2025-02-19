@@ -22,6 +22,7 @@ class EventsController < ApplicationController
   # GET /events.json
   def index
     @bioschemas = @events.flat_map(&:to_bioschemas)
+
     respond_to do |format|
       format.html
       format.json
@@ -142,12 +143,12 @@ class EventsController < ApplicationController
   # POST /events/check_exists
   # POST /events/check_exists.json
   def check_exists
-    @event = Event.check_exists(event_params)
+    @events = Event.check_exists(event_params)
 
-    if @event
+    if @events.any?
       respond_to do |format|
-        format.html { redirect_to @event }
-        format.json { render :show, location: @event }
+        format.html { render :index, locals: { events: @events }}
+        format.json { render json: @events, status: 200 }
       end
     else
       respond_to do |format|
@@ -339,8 +340,8 @@ class EventsController < ApplicationController
     # If the user is the owner, allow access only if the event is not declined
     return if current_user && @event.user_id == current_user.id && !@event.declined?
 
-    # If the user is not logged in and the event is approved, allow access
-    return if !current_user && @event.approved?
+    # If the event is approved, allow access to anyone (logged-in or not)
+    return if @event.approved?
 
     # If none of these conditions are met, then event cant be shown
     raise ActiveRecord::RecordNotFound

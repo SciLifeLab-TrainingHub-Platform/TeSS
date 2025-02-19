@@ -160,7 +160,7 @@ class Event < ApplicationRecord
   # validates :duration, format: { with: /\A[0-9][0-9]:[0-5][0-9]\z/, message: "must be in format HH:MM" }, allow_blank: true
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
-  validates :node_ids, presence: { message: "Please select at least one node." }, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
+  # validates :node_ids, presence: { message: "Please select at least one node." }, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
   update_suggestions(:keywords, :target_audience, :host_institutions)
@@ -335,7 +335,7 @@ class Event < ApplicationRecord
   def self.check_exists(event_params)
     given_event = event_params.is_a?(Event) ? event_params : new(event_params)
 
-    event = nil
+    events = []
 
     # Ensure content_providers is an array
     content_providers = Array(event_params[:content_providers])
@@ -356,12 +356,17 @@ class Event < ApplicationRecord
     # scope = provider_id.present? ? where(content_provider_id: provider_id) : all
     scope = provider_ids.any? ? joins(:content_providers).where(content_providers: { id: provider_ids }) : all
 
-    event = scope.where(url: given_event.url).last if given_event.url.present?
-
     # event ||= where(content_provider_id: provider_id, title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
-    event ||= scope.where(title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
+    if given_event.url.present?
+      events += scope.where(url: given_event.url)
+    end
 
-    event
+    if given_event.title.present? && given_event.start.present?
+      events += scope.where(title: given_event.title, start: given_event.start)
+    end
+
+    # Ensure unique events
+    events.uniq
   end
 
   def suggested_latitude

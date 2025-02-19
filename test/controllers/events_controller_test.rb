@@ -395,6 +395,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should destroy event when approved editor' do
+
     @event.content_providers[0].add_editor users(:another_regular_user)
     sign_in users(:another_regular_user)
     assert_difference('Event.count', -1) do
@@ -550,11 +551,12 @@ class EventsControllerTest < ActionController::TestCase
 
     post :check_exists, params: { format: :json, event: { url: @event.url, content_provider_id: provider1.id } }
     assert_response :success
-    assert_equal(JSON.parse(response.body)['id'], e1.id)
+    event = response_data.find { |e| e['relationships']['content-providers']['data'].any? { |cp| cp['id'] == provider1.id.to_s } }
+    assert_equal e1.id, JSON.parse(response.body)['id']
 
     post :check_exists, params: { format: :json, event: { url: @event.url, content_provider_id: provider2.id } }
     assert_response :success
-    assert_equal(JSON.parse(response.body)['id'], e2.id)
+    assert_equal e2.id, JSON.parse(response.body)['id']
   end
 
   test 'should return nothing when event does not exist' do
@@ -1548,7 +1550,7 @@ class EventsControllerTest < ActionController::TestCase
 
   test 'should not show unverified users event anon user' do
     event = users(:unverified_user).events.create!(title: 'Hello', description: 'World',
-                                                   url: 'https://example.com/event')
+                                                   url: 'https://example.com/event', event_status: 1)
 
     get :show, params: { id: event }
     assert_response :forbidden

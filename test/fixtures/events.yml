@@ -48,6 +48,7 @@ two:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
+  event_status: 1
 
 month_long_event:
   title: Month-long event
@@ -187,7 +188,8 @@ portal_event:
   eligibility: [ registration_of_interest ]
   country: "United Kingdom"
   postcode: "B1 1BB"
-  
+  event_status: 1
+
 dodgy_country_event:
   title: Fun Training Day
   url: http://content-provider.org/event
