@@ -128,7 +128,7 @@ module Ingestors
     end
 
     def write_resources(type, resources, user, provider)
-      resources.each_with_index do |resource, i|
+        resources.each_with_index do |resource, i|
         key = type.model_name.collection.to_sym
         @stats[key][:processed] += 1
 

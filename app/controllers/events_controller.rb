@@ -143,12 +143,12 @@ class EventsController < ApplicationController
   # POST /events/check_exists
   # POST /events/check_exists.json
   def check_exists
-    @events = Event.check_exists(event_params)
+    @event = Event.check_exists(event_params)
 
-    if @events.any?
+    if @event
       respond_to do |format|
-        format.html { render :index, locals: { events: @events }}
-        format.json { render json: @events, status: 200 }
+        format.html { redirect_to @event }
+        format.json { render :show, location: @event }
       end
     else
       respond_to do |format|

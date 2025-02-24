@@ -124,7 +124,7 @@ class Event < ApplicationRecord
   enum event_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3 }
 
   belongs_to :user
-    has_one :llm_interaction, inverse_of: :event, dependent: :destroy
+  has_one :llm_interaction, inverse_of: :event, dependent: :destroy
   accepts_nested_attributes_for :llm_interaction, allow_destroy: true
   has_one :edit_suggestion, as: :suggestible, dependent: :destroy
   has_one :link_monitor, as: :lcheck, dependent: :destroy
@@ -335,7 +335,7 @@ class Event < ApplicationRecord
   def self.check_exists(event_params)
     given_event = event_params.is_a?(Event) ? event_params : new(event_params)
 
-    events = []
+    event = nil
 
     # Ensure content_providers is an array
     content_providers = Array(event_params[:content_providers])
@@ -356,17 +356,12 @@ class Event < ApplicationRecord
     # scope = provider_id.present? ? where(content_provider_id: provider_id) : all
     scope = provider_ids.any? ? joins(:content_providers).where(content_providers: { id: provider_ids }) : all
 
+    event = scope.where(url: given_event.url).last if given_event.url.present?
+
     # event ||= where(content_provider_id: provider_id, title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
-    if given_event.url.present?
-      events += scope.where(url: given_event.url)
-    end
+    event ||= scope.where(title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
 
-    if given_event.title.present? && given_event.start.present?
-      events += scope.where(title: given_event.title, start: given_event.start)
-    end
-
-    # Ensure unique events
-    events.uniq
+    event
   end
 
   def suggested_latitude
