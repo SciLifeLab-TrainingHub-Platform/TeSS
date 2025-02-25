@@ -160,7 +160,7 @@ class Event < ApplicationRecord
   # validates :duration, format: { with: /\A[0-9][0-9]:[0-5][0-9]\z/, message: "must be in format HH:MM" }, allow_blank: true
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
-  # validates :node_ids, presence: { message: "Please select at least one node." }, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
+  validates :node_ids, presence: { message: "Please select at least one node." }, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
   update_suggestions(:keywords, :target_audience, :host_institutions)
