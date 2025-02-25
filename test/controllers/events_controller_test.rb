@@ -544,9 +544,10 @@ class EventsControllerTest < ActionController::TestCase
 
   test 'should find existing event by url and given content provider' do
     skip 'need to refactor the check_exists function'
-    # todo: need to refactor the check_exists function for event controller and model now that the logic is changed
-    # ticket:
-    provider1 = content_providers(:iann)
+    # TODO: Refactor the check_exists function in both the event controller and model
+    # to align with the updated logic. This is a significant task that will require
+    # careful consideration, as the changes will impact the logic of most test cases
+    # and may involve substantial updates to ensure consistency across the codebase.    provider1 = content_providers(:iann)
     provider2 = content_providers(:two)
 
     e1 = provider1.events.create!(title: 'another event', url: @event.url, user: users(:regular_user))
