@@ -544,10 +544,7 @@ class EventsControllerTest < ActionController::TestCase
 
   test 'should find existing event by url and given content provider' do
     skip 'need to refactor the check_exists function'
-    # TODO: Refactor the check_exists function in both the event controller and model
-    # to align with the updated logic. This is a significant task that will require
-    # careful consideration, as the changes will impact the logic of most test cases
-    # and may involve substantial updates to ensure consistency across the codebase.
+    # TODO: https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/244
     provider1 = content_providers(:iann)
     provider2 = content_providers(:two)
 
