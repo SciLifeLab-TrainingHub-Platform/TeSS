@@ -545,6 +545,26 @@ en:
           type: 'resource collection'
           image: 'scilifelab/guides/TH-asynchguide-image-update.png'
           url: 'https://doi.org/10.17044/scilifelab.24512674'
+        courseplanning:
+          name: 'Resources for Course Planning'
+          type: 'resource collection'
+          image: 'scilifelab/guides/TH-planningguides-image.png'
+          url: 'https://doi.org/10.17044/scilifelab.28194329.v1'
+        learningoutcomes:
+          name: 'Resources for Learning Outcomes'
+          type: 'resource collection'
+          image: 'scilifelab/guides/TH-LOguide-image.png'
+          url: 'https://doi.org/10.17044/scilifelab.28473218.v1'
+        deliveringlearning:
+          name: 'Resources for Delivering Learning Experiences'
+          type: 'resource collection'
+          image: 'scilifelab/guides/TH-EngagementGuide-image.png'
+          url: 'https://doi.org/10.17044/scilifelab.24599829.v1'
+        evaluatinglearning:
+          name: 'Resources for Evaluating Learning'
+          type: 'resource collection'
+          image: 'scilifelab/guides/TH-evaluation-image.png'
+          url: 'https://doi.org/10.17044/scilifelab.28512722.v1'
     course_tools:
       name: 'Course Tools'
       description: 'Course tools are systems, apps, and resources that the Training Hub and other SciLifeLab entities make available for development of SciLifeLab courses.'
@@ -578,3 +598,18 @@ en:
           type: 'training framework'
           image: 'scilifelab/guides/bicycle-graphic.png'
           url: 'https://www.bikeprinciples.org/'
+    coursematerial:
+      name: 'Course Material'
+      description: 'Guidelines are frameworks that align with SciLifeLabs commitment to Open science and FAIR training.'
+      elements:
+        fairmaterial:
+          name: 'Best Practices for FAIR Material'
+          type: 'course material'
+          image: 'scilifelab/guides/FAIRcourse.png'
+          url: 'https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-Material-By-Design/chapters/chapter_02/'
+        coursedelivery:
+          name: 'Course Delivery & Teaching Practice'
+          type: 'course material'
+          image: 'scilifelab/guides/TH-ttt-image.png'
+          url: 'https://scilifelab-training.github.io/train-the-trainer/2403/module1.html'
+
