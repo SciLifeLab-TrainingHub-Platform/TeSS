@@ -576,7 +576,7 @@ en:
           url: 'https://training-certificate.serve.scilifelab.se/app/training-certificate'
     coursematerial:
       name: 'Course Material'
-      description: 'course material is training resources that are available as part of an intensive course.'
+      description: 'Course materials are recommended resources that have been developed as part of an intensive course.'
       elements:
         fairmaterial:
           name: 'Best Practices for FAIR Material'
