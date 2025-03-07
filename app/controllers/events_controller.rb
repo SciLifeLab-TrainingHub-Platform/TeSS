@@ -22,6 +22,7 @@ class EventsController < ApplicationController
   # GET /events.json
   def index
     @bioschemas = @events.flat_map(&:to_bioschemas)
+
     respond_to do |format|
       format.html
       format.json
@@ -339,8 +340,8 @@ class EventsController < ApplicationController
     # If the user is the owner, allow access only if the event is not declined
     return if current_user && @event.user_id == current_user.id && !@event.declined?
 
-    # If the user is not logged in and the event is approved, allow access
-    return if !current_user && @event.approved?
+    # If the event is approved, allow access to anyone (logged-in or not)
+    return if @event.approved?
 
     # If none of these conditions are met, then event cant be shown
     raise ActiveRecord::RecordNotFound

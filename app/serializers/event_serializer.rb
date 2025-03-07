@@ -19,7 +19,7 @@ class EventSerializer < ApplicationSerializer
   attribute :report, if: -> { policy(object).view_report? }
 
   belongs_to :user
-  belongs_to :content_provider
+  has_many :content_providers
   has_many :nodes
   has_many :collections
   has_many :materials

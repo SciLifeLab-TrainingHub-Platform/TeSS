@@ -811,8 +811,8 @@ components:
               properties:
                 user:
                   $ref: '#/components/schemas/SingleRelationshipObject'
-                content-provider:
-                  $ref: '#/components/schemas/OptionalRelationshipObject'
+                content-providers:
+                  $ref: '#/components/schemas/MultiRelationshipObject'
                 nodes:
                   $ref: '#/components/schemas/MultiRelationshipObject'
                 collections:
