@@ -25,9 +25,11 @@ class Event < ApplicationRecord
   before_save :check_country_name
   before_save :set_default_times
   before_save :geocoding_cache_lookup, if: :address_will_change?
+  before_create :update_event_statuses
   after_save :enqueue_geocoding_worker, if: :address_changed?
   after_create :set_status_and_notify
   after_update :change_status_and_notify_user
+  after_save :notify_slack_if_published
 
   if TeSS::Config.solr_enabled
     # :nocov:
@@ -429,7 +431,6 @@ class Event < ApplicationRecord
         redis.set(location, [latitude, longitude].to_json)
       rescue Redis::BaseError => e
         raise e unless Rails.env.production?
-
         puts "Redis error: #{e.message}"
       end
     else
@@ -611,19 +612,22 @@ class Event < ApplicationRecord
     self.presence = :onsite if presence.blank?
   end
 
+  def update_event_statuses
+    if user.has_role?('trusted_user') || user.has_role?('admin')
+      # Check if the user creating the event has a 'trusted' role or is admin.
+      # If true, set the event status as 'approved'
+      self.event_status = Event.event_statuses[:approved]
+    end
+  end
+
   def set_status_and_notify
     if user.has_role?('trusted_user') || user.has_role?('admin')
       # Check if the user creating the event has a 'trusted' role or is admin.
-      # If true, mark the event status as 'approved' and send a notification email to the user.
-      self.update!(event_status: Event.event_statuses[:approved])
+      # If true, send a notification email to the user.
       UserMailer.event_published(self).deliver_later if user.has_role?('trusted_user')
     else
       # If the user is not trusted, the event requires admin review.
       # Send a notification email to the admin to review the event.
-
-      # deliver_later is asynchronous. When you use this method, the email is not send at the moment,
-      # but rather is pushed in a job's queue. If the job is not running, the email will not be sent.
-      # Deliver_now will send the email at the moment, no matter what is the job's state.
       AdminMailer.review_event(self).deliver_later
       UserMailer.event_submitted(self).deliver_later
     end
@@ -673,4 +677,17 @@ class Event < ApplicationRecord
     end
   end
 
+  def notify_slack_if_published
+    if self.event_status == Event.event_statuses.key(1)
+      message =
+        <<~MESSAGE
+          New Course Announcement from the <#{Rails.application.routes.url_helpers.root_url}|Training Portal>\n
+          > :scilife: *#{self.title}*
+          > <#{Rails.application.routes.url_helpers.event_url(self)}|More information>
+        MESSAGE
+
+      channels = ENV.fetch('SLACK_COURSE_NOTIFICATION_CHANNELS').split(',').map(&:strip)
+      SlackNotificationJob.perform_later(message, channels)
+    end
+  end
 end
