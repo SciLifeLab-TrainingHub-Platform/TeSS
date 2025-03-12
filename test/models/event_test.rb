@@ -2,6 +2,9 @@ require 'test_helper'
 require 'sidekiq/testing'
 
 class EventTest < ActiveSupport::TestCase
+
+  include ActiveJob::TestHelper
+
   setup do
     @event = events(:one)
     @event_two = events(:two)
@@ -699,4 +702,33 @@ class EventTest < ActiveSupport::TestCase
     assert City.exists?(@city_one.id)
   end
 
+  test "slack notification job is enqueued when event is approved" do
+    assert_enqueued_with(job: SlackNotificationJob) do
+      parameters = @mandatory.merge(
+        {
+          title: 'new event',
+          url: 'https://myevent.com',
+          user: users(:regular_user),
+          event_status: 1,
+          nodes: [nodes(:good)]
+        })
+      event = Event.new(parameters)
+      event.save
+    end
+  end
+
+  test 'slack notification job is not enqueued for non approved events' do
+    assert_no_enqueued_jobs only: SlackNotificationJob do
+      parameters = @mandatory.merge(
+        {
+          title: 'new event',
+          url: 'https://myevent.com',
+          user: users(:regular_user),
+          event_status: 0,
+          nodes: [nodes(:good)]
+        })
+      event = Event.new(parameters)
+      event.save
+    end
+  end
 end

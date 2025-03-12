@@ -59,6 +59,7 @@ gem 'simple_calendar', '~> 2.4'
 gem 'simple_form'
 gem 'simple_token_authentication'
 gem 'sitemap-parser'
+gem 'slack-ruby-client'
 gem 'slim'
 gem 'sunspot_rails', github: 'sunspot/sunspot', branch: 'master' # Contains Ruby 3 fixes that are not released
 gem 'terser'
