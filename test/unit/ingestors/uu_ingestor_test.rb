@@ -13,10 +13,12 @@ class UuIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from uu' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.uu.nl/events.rss?category-containers=4293,4295,4296,4301,2162490',
-      method: 'uu',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user
     )
 
     ingestor = Ingestors::UuIngestor.new
@@ -25,6 +27,7 @@ class UuIngestorTest < ActiveSupport::TestCase
     new_title = 'Inloopspreekuur voor alle vragen over research data en software - week 13 2023'
     new_url = 'https://www.uu.nl/agenda/inloopspreekuur-voor-alle-vragen-over-research-data-en-software-230327'
     refute Event.where(title: new_title, url: new_url).any?
+
 
     # run task
     assert_difference 'Event.count', 57 do

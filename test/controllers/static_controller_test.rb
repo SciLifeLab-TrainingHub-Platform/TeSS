@@ -9,6 +9,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show tabs for enabled features' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     features = { 'events': true,
                  'materials': true,
                  'elearning_materials': true,
@@ -22,23 +24,25 @@ class StaticControllerTest < ActionController::TestCase
       get :home
     end
 
-    # commented as we are no longer maintaining the UI test cases
-    # assert_select 'ul.nav.navbar-nav' do
-    #   assert_select 'li a[href=?]', about_path
-    #   assert_select 'li a[href=?]', events_path
-    #   assert_select 'li a[href=?]', materials_path
-    #   assert_select 'li a[href=?]', workflows_path
-    #   assert_select 'li a[href=?]', elearning_materials_path
-    #   assert_select 'li a[href=?]', collections_path
-    #   assert_select 'li.dropdown.directory-menu' do
-    #     assert_select 'li a[href=?]', content_providers_path
-    #     assert_select 'li a[href=?]', trainers_path
-    #     assert_select 'li a[href=?]', nodes_path
-    #   end
-    # end
+    # skipping as we are no longer maintaining the UI test cases
+    assert_select 'ul.nav.navbar-nav' do
+      assert_select 'li a[href=?]', about_path
+      assert_select 'li a[href=?]', events_path
+      assert_select 'li a[href=?]', materials_path
+      assert_select 'li a[href=?]', workflows_path
+      assert_select 'li a[href=?]', elearning_materials_path
+      assert_select 'li a[href=?]', collections_path
+      assert_select 'li.dropdown.directory-menu' do
+        assert_select 'li a[href=?]', content_providers_path
+        assert_select 'li a[href=?]', trainers_path
+        assert_select 'li a[href=?]', nodes_path
+      end
+    end
   end
 
   test 'should not show tabs for disabled features' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     features = { 'events': false,
                  'materials': false,
                  'elearning_materials': false,
@@ -67,6 +71,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should allow configuration of home page sections' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     site_settings = TeSS::Config.site.dup
     site_settings['home_page'] = {
       'catalogue_blocks': false,
@@ -128,6 +134,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should allow configuration of tab order and directory' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     features = { 'events': true,
                  'materials': true,
                  'elearning_materials': true,
@@ -137,64 +145,62 @@ class StaticControllerTest < ActionController::TestCase
                  'trainers': true,
                  'nodes': true }
 
-    # commented as we are no longer maintaining the UI test cases
-    # with_settings(feature: features, site: { tab_order: %w[materials events], directory_tabs: [] }) do
-    #   get :home
-    #   assert_select 'ul.nav.navbar-nav' do
-    #     assert_select 'li:nth-child(1) a[href=?]', materials_path
-    #     assert_select 'li:nth-child(2) a[href=?]', events_path
-    #     assert_select 'li a[href=?]', about_path
-    #     assert_select 'li a[href=?]', workflows_path
-    #     assert_select 'li a[href=?]', elearning_materials_path
-    #     assert_select 'li a[href=?]', collections_path
-    #     assert_select 'li a[href=?]', content_providers_path
-    #     assert_select 'li a[href=?]', trainers_path
-    #     assert_select 'li a[href=?]', nodes_path
-    #     assert_select 'li.dropdown.directory-menu', count: 0
-    #   end
-    # end
+    with_settings(feature: features, site: { tab_order: %w[materials events], directory_tabs: [] }) do
+      get :home
+      assert_select 'ul.nav.navbar-nav' do
+        assert_select 'li:nth-child(1) a[href=?]', materials_path
+        assert_select 'li:nth-child(2) a[href=?]', events_path
+        assert_select 'li a[href=?]', about_path
+        assert_select 'li a[href=?]', workflows_path
+        assert_select 'li a[href=?]', elearning_materials_path
+        assert_select 'li a[href=?]', collections_path
+        assert_select 'li a[href=?]', content_providers_path
+        assert_select 'li a[href=?]', trainers_path
+        assert_select 'li a[href=?]', nodes_path
+        assert_select 'li.dropdown.directory-menu', count: 0
+      end
+    end
 
-    # commented as we are no longer maintaining the UI test cases
-    # with_settings(feature: features, site: { tab_order: %w[content_providers about materials trainers],
-    #                                          directory_tabs: [] }) do
-    #   get :home
-    #
-    #   assert_select 'ul.nav.navbar-nav' do
-    #     assert_select 'li:nth-child(1) a[href=?]', content_providers_path
-    #     assert_select 'li:nth-child(2) a[href=?]', about_path
-    #     assert_select 'li:nth-child(3) a[href=?]', materials_path
-    #     assert_select 'li:nth-child(4) a[href=?]', trainers_path
-    #     assert_select 'li a[href=?]', events_path
-    #     assert_select 'li a[href=?]', workflows_path
-    #     assert_select 'li a[href=?]', elearning_materials_path
-    #     assert_select 'li a[href=?]', collections_path
-    #     assert_select 'li a[href=?]', nodes_path
-    #     assert_select 'li.dropdown.directory-menu', count: 0
-    #   end
-    # end
+    with_settings(feature: features, site: { tab_order: %w[content_providers about materials trainers],
+                                             directory_tabs: [] }) do
+      get :home
 
-    # commented as we are no longer maintaining the UI test cases
-    # with_settings(feature: features, site: { tab_order: %w[content_providers about materials trainers],
-    #                                          directory_tabs: %w[about materials] }) do
-    #   get :home
-    #
-    #   assert_select 'ul.nav.navbar-nav' do
-    #     assert_select 'li:nth-child(1) a[href=?]', content_providers_path
-    #     assert_select 'li:nth-child(2) a[href=?]', trainers_path
-    #     assert_select 'li a[href=?]', events_path
-    #     assert_select 'li a[href=?]', workflows_path
-    #     assert_select 'li a[href=?]', elearning_materials_path
-    #     assert_select 'li a[href=?]', collections_path
-    #     assert_select 'li a[href=?]', nodes_path
-    #     assert_select 'li.dropdown.directory-menu' do
-    #       assert_select 'li:nth-child(1) a[href=?]', about_path
-    #       assert_select 'li:nth-child(2) a[href=?]', materials_path
-    #     end
-    #   end
-    # end
+      assert_select 'ul.nav.navbar-nav' do
+        assert_select 'li:nth-child(1) a[href=?]', content_providers_path
+        assert_select 'li:nth-child(2) a[href=?]', about_path
+        assert_select 'li:nth-child(3) a[href=?]', materials_path
+        assert_select 'li:nth-child(4) a[href=?]', trainers_path
+        assert_select 'li a[href=?]', events_path
+        assert_select 'li a[href=?]', workflows_path
+        assert_select 'li a[href=?]', elearning_materials_path
+        assert_select 'li a[href=?]', collections_path
+        assert_select 'li a[href=?]', nodes_path
+        assert_select 'li.dropdown.directory-menu', count: 0
+      end
+    end
+
+    with_settings(feature: features, site: { tab_order: %w[content_providers about materials trainers],
+                                             directory_tabs: %w[about materials] }) do
+      get :home
+
+      assert_select 'ul.nav.navbar-nav' do
+        assert_select 'li:nth-child(1) a[href=?]', content_providers_path
+        assert_select 'li:nth-child(2) a[href=?]', trainers_path
+        assert_select 'li a[href=?]', events_path
+        assert_select 'li a[href=?]', workflows_path
+        assert_select 'li a[href=?]', elearning_materials_path
+        assert_select 'li a[href=?]', collections_path
+        assert_select 'li a[href=?]', nodes_path
+        assert_select 'li.dropdown.directory-menu' do
+          assert_select 'li:nth-child(1) a[href=?]', about_path
+          assert_select 'li:nth-child(2) a[href=?]', materials_path
+        end
+      end
+    end
   end
 
   test 'should hide unverified providers from carousel' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
     mock_images
     ContentProvider.destroy_all
     regular = users(:regular_user)
@@ -218,6 +224,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show upcoming events' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     my_events = [events(:one), events(:two)]
     my_events.each do |e|
       e.start = Time.zone.tomorrow
@@ -235,6 +243,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show latest materials' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     my_materials = [materials(:good_material), materials(:interpro)]
     Material.stub(:search_and_filter, MockSearch.new(my_materials)) do
       with_settings({ site: { home_page: { latest_materials: 5 } } }) do
@@ -247,6 +257,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show featured trainer' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     with_settings({ site: { home_page: { featured_trainer: true } } }) do
       get :home
       assert_select 'section#featured_trainer', count: 1
@@ -256,6 +268,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show event counts in counter blocks' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     params = events(:one).attributes.symbolize_keys
     params.delete(:id)
     params = params.merge({ start: Time.zone.now + 1.week, end: Time.zone.now + 1.week + 8.hours })
@@ -269,6 +283,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show provider grid' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     mock_images
     ContentProvider.destroy_all
     regular = users(:regular_user)
@@ -287,6 +303,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should show community banner if matching community for country' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'GB', 'names' => { 'en' => 'United Kingdom' } } }) do
       with_settings({ site: { home_page: { communities: true } } }) do
         get :home
@@ -297,6 +315,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should not show community banner if no matching community for country' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'SE', 'names' => { 'en' => 'Sweden' } } }) do
       with_settings({ site: { home_page: { communities: true } } }) do
         get :home
@@ -307,6 +327,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should not show community banner if feature disabled' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'GB', 'names' => { 'en' => 'United Kingdom' } } }) do
       with_settings({ site: { home_page: { communities: false } } }) do
         get :home
@@ -317,6 +339,8 @@ class StaticControllerTest < ActionController::TestCase
   end
 
   test 'should not show registration button if disabled for country' do
+    skip 'Skipping this test as we are no longer maintaining UI test cases'
+
     with_settings({ blocked_countries: ['gb'] }) do
       Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'GB' } }) do
         get :home

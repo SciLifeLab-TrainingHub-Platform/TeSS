@@ -128,7 +128,7 @@ module Ingestors
     end
 
     def write_resources(type, resources, user, provider)
-      resources.each_with_index do |resource, i|
+        resources.each_with_index do |resource, i|
         key = type.model_name.collection.to_sym
         @stats[key][:processed] += 1
 
@@ -153,16 +153,10 @@ module Ingestors
                    end
 
         if not resource.valid?
-          puts "type = #{type}"
-          puts "resource.valid? = #{resource.valid?}"
           unless resource.valid?
             puts "Validation errors:"
             puts resource.errors.full_messages.join(", ") if resource.errors
           end
-
-          puts resource
-          puts resource.content_providers
-
         end
 
 

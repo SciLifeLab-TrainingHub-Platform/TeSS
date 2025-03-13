@@ -13,10 +13,12 @@ class DtlsIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from dtls' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.dtls.nl/',
-      method: 'dtls',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user
     )
 
     ingestor = Ingestors::DtlsIngestor.new
@@ -35,9 +37,6 @@ class DtlsIngestorTest < ActiveSupport::TestCase
         end
       end
     end
-    # Output the @messages to debug
-    puts('-----------------\n')
-    puts ingestor.instance_variable_get(:@messages).join("\n")
 
     assert_equal 4, ingestor.events.count
     assert ingestor.materials.empty?

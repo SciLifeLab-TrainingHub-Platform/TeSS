@@ -114,10 +114,12 @@ class ContentProvider < ApplicationRecord
       editor.editables.reload
 
       # transfer events to the provider's user
-      editor.events.where(content_provider_id: id).find_each do |event|
-        event.user = user
-        event.save!
-      end
+      editor.events.each { |event|
+        if event.content_providers.exists?(id: id)
+          event.user = user
+          event.save!
+        end
+      }
 
       # transfer materials to the provider's user
       editor.materials.where(content_provider_id: id).find_each do |material|
@@ -138,7 +140,7 @@ class ContentProvider < ApplicationRecord
   end
 
   def approved_editors= values
-    #puts "set approved_editors: user count #{values.size}"
+    # puts "set approved_editors: user count #{values.size}"
     editors_list = []
     values.each do |item|
       if !item.nil? and !item.blank?
@@ -151,5 +153,4 @@ class ContentProvider < ApplicationRecord
     # remove old
     editors.each { |item| remove_editor(item) if !editors_list.include?(item) }
   end
-
 end

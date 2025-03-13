@@ -13,11 +13,13 @@ class LeidenIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from leiden' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.library.universiteitleiden.nl/events',
-      method: 'leiden',
-      enabled: true
-    )
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
+      )
 
     ingestor = Ingestors::LeidenIngestor.new
 

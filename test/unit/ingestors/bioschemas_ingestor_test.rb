@@ -98,6 +98,7 @@ class BioschemasIngestorTest < ActiveSupport::TestCase
 
   test 'do not overwrite other content providers event, even with same url' do
     existing_event = events(:course_event)
+    existing_event.nodes = [nodes(:good)]
     mock_bioschemas('https://website.org/courseinstances.json', 'existing.json')
     @ingestor.read('https://website.org/courseinstances.json')
     assert_equal 1, @ingestor.events.count
@@ -118,11 +119,12 @@ class BioschemasIngestorTest < ActiveSupport::TestCase
     assert_not_equal existing_event.id, added_event.reload.id
 
     assert_equal 'Summer Course on Learning Stuff', existing_event.reload.title
-    assert_not_equal @content_provider, existing_event.content_provider
+    assert_not_equal @content_provider, existing_event.content_providers[0]
   end
 
   test 'do overwrite event with same url if same provider' do
     existing_event = events(:course_event)
+    existing_event.nodes = [nodes(:good)]
     provider = existing_event.content_providers
     mock_bioschemas('https://website.org/courseinstances.json', 'existing.json')
     @ingestor.read('https://website.org/courseinstances.json')
@@ -170,7 +172,7 @@ class BioschemasIngestorTest < ActiveSupport::TestCase
     sample = @ingestor.events.detect { |e| e.url == 'https://webapp2.vital-it.ch/courseadmin/website/course/20221010_XXX12' }
     assert sample.persisted?
     assert_includes sample.description, 'This course is now full with a long waiting list.'
-    assert_equal @content_provider, sample.content_provider
+    assert_equal @content_provider, sample.content_providers[0]
   end
 
   test 'does not duplicate external resources' do

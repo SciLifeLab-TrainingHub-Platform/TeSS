@@ -13,10 +13,12 @@ class DansIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from dans' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://dans.knaw.nl/en/agenda/?filter=true&page=',
-      method: 'dans',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::DansIngestor.new

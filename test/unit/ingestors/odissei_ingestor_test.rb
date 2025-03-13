@@ -13,10 +13,12 @@ class OdisseiIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from odissei' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://odissei-data.nl/calendar/',
-      method: 'odissei',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user
     )
 
     ingestor = Ingestors::OdisseiIngestor.new

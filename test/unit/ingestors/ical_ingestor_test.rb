@@ -14,9 +14,13 @@ class IcalIngestorTest < ActiveSupport::TestCase
   end
 
   test 'sitemap not found' do
-    source = @content_provider.sources.build(url: 'https://missing.org/sitemap.xml',
-                                             method: 'ical',
-                                             enabled: true)
+    user = users(:regular_user)
+    source = @content_provider.sources.build(
+      url: 'https://missing.org/sitemap.xml',
+      method: 'ical',
+      enabled: true,
+      user: user
+    )
     ingestor = Ingestors::IcalIngestor.new
 
     assert_no_difference('Event.count') do
@@ -30,9 +34,13 @@ class IcalIngestorTest < ActiveSupport::TestCase
   end
 
   test 'ingest valid sitemap' do
-    source = @content_provider.sources.build(url: 'https://app.com/events/sitemap.xml',
-                                             method: 'ical',
-                                             enabled: true)
+    user = users(:regular_user)
+    source = @content_provider.sources.build(
+      url: 'https://app.com/events/sitemap.xml',
+      method: 'ical',
+      enabled: true,
+      user: user
+    )
     ingestor = Ingestors::IcalIngestor.new
 
     # check two events to be updated
@@ -40,7 +48,7 @@ class IcalIngestorTest < ActiveSupport::TestCase
     event = events(:ical_event_1)
     refute event.nil?, "event[#{name}] not found"
     refute event.online?, "event[#{name}] online not matched"
-    assert_equal 'Another Content Provider', event.content_provider.title,
+    assert_equal 'MyTextAgain', event.content_providers[0].title,
                  "event[#{name}] content provider not matched"
 
     name = 'ical_event_2'
@@ -50,7 +58,7 @@ class IcalIngestorTest < ActiveSupport::TestCase
     event = check_event_exists title, url
     refute event.nil?, "event title[#{title}] not found"
     refute event.online?, "event title[#{title}] online not matched"
-    assert_equal 'Another Content Provider', event.content_provider.title,
+    assert_equal 'MyTextAgain', event.content_providers[0].title,
                  "event title[#{title}] content provider not matched"
 
     assert_difference('Event.count', 4) do
@@ -143,9 +151,13 @@ class IcalIngestorTest < ActiveSupport::TestCase
     assert_no_difference 'Event.count' do
       freeze_time(2019) do
         ingestor = Ingestors::IcalIngestor.new
+
+        user = users(:regular_user)
         source = @content_provider.sources.build(
           url: 'https://pawsey.org.au/event/pcon-embracing-new-solutions-for-in-situ-visualisation/?ical=true',
-          method: 'ical', enabled: true
+          method: 'ical',
+          enabled: true,
+          user: user,
         )
 
         ingestor.read(source.url)
@@ -158,9 +170,13 @@ class IcalIngestorTest < ActiveSupport::TestCase
         assert_equal 0, ingestor.stats[:events][:rejected]
 
         ingestor = Ingestors::IcalIngestor.new
+
+        user = users(:regular_user)
         source = @content_provider.sources.build(
           url: 'https://pawsey.org.au/event/pawsey-intern-showcase-2021/?ical=true',
-          method: 'ical', enabled: true
+          method: 'ical',
+          enabled: true,
+          user: user
         )
 
         ingestor.read(source.url)

@@ -70,7 +70,7 @@ module Ingestors
                 event.city = loc.first.strip
                 event.country = loc.last.strip
               when 'provider'
-                event.organizer = element.text
+                # event.organizer = element.text
               # ugly implementation so that TeSS does not shift timezone too much
               when 'startdate', 'courseDate'
                 event.start = element.text.to_s.split

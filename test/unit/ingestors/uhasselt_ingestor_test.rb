@@ -9,10 +9,12 @@ class UhasseltIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from uhasselt' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://bibliotheek.uhasselt.be/nl/resources#kalender',
-      method: 'uhasselt',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::UhasseltIngestor.new

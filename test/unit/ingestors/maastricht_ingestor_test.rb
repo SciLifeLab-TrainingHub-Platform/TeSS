@@ -13,10 +13,12 @@ class MaastrichtIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from maastricht' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://library.maastrichtuniversity.nl/events/',
-      method: 'maastricht',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::MaastrichtIngestor.new

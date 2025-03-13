@@ -13,10 +13,13 @@ class RugIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from rug' do
+
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.rug.nl/about-ug/latest-news/events/calendar/',
-      method: 'rug',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::RugIngestor.new
@@ -58,10 +61,12 @@ class RugIngestorTest < ActiveSupport::TestCase
 
 
   test 'can ingest events from rug in various timezones' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.rug.nl/about-ug/latest-news/events/calendar/',
-      method: 'rug',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::RugIngestor.new

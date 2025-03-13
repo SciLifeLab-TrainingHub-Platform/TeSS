@@ -13,10 +13,12 @@ class OscmIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from oscm' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.openscience-maastricht.nl/events/',
-      method: 'oscm',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user,
     )
 
     ingestor = Ingestors::OscmIngestor.new

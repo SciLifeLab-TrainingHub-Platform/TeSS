@@ -28,6 +28,7 @@ class Source < ApplicationRecord
   before_update :log_approval_status_change
   before_update :reset_approval_status
 
+
   if TeSS::Config.solr_enabled
     # :nocov:
     searchable do

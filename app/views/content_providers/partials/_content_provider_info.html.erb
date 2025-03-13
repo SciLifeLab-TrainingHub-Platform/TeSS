@@ -8,7 +8,7 @@ Variable that should be available
 <% unless content_providers.blank? %>
   <%# Content provider  %>
   <h4 class="nav-heading">Content provider</h4>
-  <% content_providers.each do |content_provider| %>
+  <% content_providers.compact.each do |content_provider| %>
 
     <div class="nav-block">
       <p>

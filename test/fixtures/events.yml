@@ -24,6 +24,7 @@ one:
   duration: '00:00'
   learning_objectives: "There are none."
   recognition: "Yup. You attended the workshop."
+  event_status: 1
 
 two:
   external_id: MyString2
@@ -47,6 +48,7 @@ two:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
+  event_status: 1
 
 month_long_event:
   title: Month-long event
@@ -103,7 +105,8 @@ scraper_user_event:
   end: 2016-12-12 12:00:00
   country: BigCountry
   postcode: 1010
-  
+  event_status: 1
+
 event_with_external_resource:
   title: External Resource Event
   url: http://myurl.com
@@ -186,7 +189,8 @@ portal_event:
   eligibility: [ registration_of_interest ]
   country: "United Kingdom"
   postcode: "B1 1BB"
-  
+  event_status: 1
+
 dodgy_country_event:
   title: Fun Training Day
   url: http://content-provider.org/event
@@ -229,7 +233,9 @@ event_with_report:
   eligibility: [ registration_of_interest ]
   country: AU
   postcode: 1000
-  
+  event_status: 1
+
+
 another_event_with_report:
   title: This event happened
   url: http://content-provider.org/another-event-with-report
@@ -243,7 +249,8 @@ another_event_with_report:
   eligibility: [ registration_of_interest ]
   country: BigCountry
   postcode: 1010
-  
+  event_status: 1
+
 shadowbanned_event:
   external_id: MyString1
   title: PredConf 2018
@@ -280,6 +287,7 @@ failing_event:
   county: Greater Manchester
   country: United Kingdom
   postcode: M13 9PL
+  event_status: 1
 
 kilburn:
   title: Kilburn Event
@@ -315,6 +323,7 @@ calendar_event:
   timezone: Melbourne
   contact: MyContact
   eligibility: [ first_come_first_served ]
+  event_status: 1
 
 training_event:
   title: "calendar event"
@@ -336,6 +345,7 @@ training_event:
   timezone: Melbourne
   contact: MyContact
   eligibility: [ first_come_first_served ]
+  event_status: 1
 
 ical_event_1:
   title: P'Con - Embracing new solutions for in-situ visualisation
@@ -398,6 +408,7 @@ course_event:
   learning_objectives: "There are none."
   recognition: "Yup. You attended the workshop."
   target_audience: ['Everyone!']
+  event_status: 1
 
 hybrid_event:
   presence: 2
@@ -408,3 +419,15 @@ hybrid_event:
   start: 2024-12-12 10:00:00
   end: 2024-12-12 12:00:00
   timezone: UTC
+  event_status: 1
+
+approved_event:
+  title: approved event
+  url: http://myurl.com
+  description: 'this is an published event'
+  user: regular_user
+  host_institutions: ["MyHost"]
+  timezone: UTC
+  contact: MyContact
+  eligibility: [ registration_of_interest ]
+  event_status: 1

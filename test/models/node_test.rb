@@ -89,7 +89,7 @@ class NodeTest < ActiveSupport::TestCase
     provider.update!(node: node)
 
     e1 = events(:one)
-    e1.update!(content_provider: provider)
+    e1.update!(content_providers: [provider])
     e2 = events(:two)
     node.events << e2
     node.reload

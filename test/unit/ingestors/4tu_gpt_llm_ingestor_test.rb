@@ -14,10 +14,12 @@ class FourtuGptLlmIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from 4tu' do
+    user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.4tu.nl/en/agenda/',
-      method: '4tu',
-      enabled: true
+      method: 'bioschemas',
+      enabled: true,
+      user: user
     )
 
     ingestor = Ingestors::FourtuLlmIngestor.new

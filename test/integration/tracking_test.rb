@@ -8,7 +8,7 @@ class TrackingTest < ActionDispatch::IntegrationTest
   end
 
   test 'link tracking' do
-    event = events(:one)
+    event = events(:approved_event)
     material = materials(:good_material)
     trainer = profiles(:trainer_one_profile)
 
