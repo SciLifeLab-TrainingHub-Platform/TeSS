@@ -1,26 +1,32 @@
-<p style="font-size: 16px; color: #333;">Dear Admin,</p>
+<%= link_to(root_url) do %>
+  <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
+                title: "Visit #{TeSS::Config.site['title_short']}",
+                style: 'width: 100%;', target: '_blank') %>
+<% end %>
+<br>
+<h3><strong>Dear Admin,</strong></h3>
 
-<p style="font-size: 16px; color: #333;">
+<p style="color: #333;">
   The event titled <strong><%= @event.title %></strong> has been updated by
   <strong><%= @event.user.username %></strong>.
 </p>
 
-<p style="font-size: 16px; color: #333;">
+<p style="color: #333;">
   The event status has been changed to <strong><%= Event.event_statuses.key(Event.event_statuses[:awaiting_review]).humanize %></strong> for your review.
 </p>
 
-<p style="font-size: 16px; color: #333;">Please review the updated event and user details below:</p>
+<p style="color: #333;">Please review the updated event and user details below:</p>
 
-<h3 style="font-size: 18px; color: #0d6efd;">Event Details:</h3>
-<ul style="font-size: 16px; color: #333; padding-left: 20px;">
+<h3 style="font-size: 18px; color: #045C64;">Event Details:</h3>
+<ul style="color: #333; padding-left: 20px;">
   <li><strong>Event Title:</strong> <%= @event.title %></li>
-  <li><strong>URL:</strong> <a href="<%= @event.url %>" target="_blank" style="color: #0d6efd;"><%= @event.url %></a>
+  <li><strong>URL:</strong> <a href="<%= @event.url %>" target="_blank" style="color: #045C64;"><%= @event.url %></a>
   </li>
   <li><strong>Status:</strong> <%= @event.event_status.humanize %></li>
 </ul>
 
-<h3 style="font-size: 18px; color: #0d6efd;">User Details:</h3>
-<ul style="font-size: 16px; color: #333; padding-left: 20px;">
+<h3 style="font-size: 18px; color: #045C64;">User Details:</h3>
+<ul style="color: #333; padding-left: 20px;">
   <li><strong>Username:</strong> <%= @event.user.username %></li>
   <li><strong>Email:</strong> <%= @event.user.email %></li>
   <li><strong>Role:</strong> <%= @event.user.role&.title || 'Unknown' %></li>
@@ -28,10 +34,6 @@
   <li><strong>Sign-In Count:</strong> <%= @event.user.sign_in_count %></li>
 </ul>
 
-<p style="font-size: 16px; color: #333;">You can review the event details and approve or reject it using the link below:</p>
-<a style="display: inline-block; margin-top: 10px; padding: 12px 15px; background-color: #0d6efd; color: #ffffff; text-decoration: none; border-radius: 5px; font-size: 14px; font-weight: 500; text-align: center; transition: background-color 0.3s ease;"
+<p style="color: #333;">You can review the event details and approve or reject it using the link below:</p>
+<a style="display: inline-block; margin-top: 10px; padding: 12px 15px; background-color: #045C64; color: #ffffff; text-decoration: none; border-radius: 5px; font-size: 14px; font-weight: 500; text-align: center; transition: background-color 0.3s ease;"
    href="<%= root_url %>admin/event/<%= @event.id %>/edit">Review Event</a>
-
-<p style="font-size: 16px; color: #333;">Thank you!</p>
-
-<br/>

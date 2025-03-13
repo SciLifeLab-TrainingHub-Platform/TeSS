@@ -82,6 +82,8 @@ class User < ApplicationRecord
 
   validate :consents_to_processing, on: :create, unless: ->(user) { user.using_omniauth? || User.current_user.try(:is_admin?) }
 
+  validates_with UserRoleAndEventCountValidator, on: :update
+  
   accepts_nested_attributes_for :profile
 
   attr_accessor :publicize_email

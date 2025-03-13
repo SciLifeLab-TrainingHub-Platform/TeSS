@@ -157,3 +157,11 @@ learning_path_curator:
   encrypted_password: 'learning_paths_curator_encrypted_password'
   confirmed_at: <%= Time.zone.now %>
   role: learning_path_curator
+
+trusted_user:
+  username: 'trusted'
+  email: 'trusted@user.com'
+  encrypted_password: 'learning_paths_curator_encrypted_password'
+  confirmed_at: <%= Time.zone.now %>
+  role: trusted_user
+  approved_events_count: 5
