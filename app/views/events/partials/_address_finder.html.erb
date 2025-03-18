@@ -18,12 +18,13 @@
 <div class="manual-address-fields">
   <div class="field">
     <%= f.label :venue_ids, "Venues", class: 'control-label'%> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_venue_collapse"><small>Add new venue</small></a>
+    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.venue_hint') %>">&#xe086;</span>
     <%= f.collection_select :venue_ids, @venues, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |venue| %>
       <option value="<%= venue.id %>" <%= 'selected="selected"' if @selected_venue_ids.include?(venue.id) %>>
         <%= venue.name %>
       </option>
     <% end %>
-    <span class="help-block">Choose one or more venues for the event. To add new venue click "Add new venue"</span>
+    <span class="help-block small">Choose one or more venues for the event. To add new venue click "Add new venue"</span>
   </div>
 
   <div id="new_venue_collapse" class="collapse">
@@ -33,12 +34,13 @@
 
   <div class="field">
     <%= f.label :city_ids, "Cities", class: 'control-label'%> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_cities_collapse"><small>Add new city</small></a>
+    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.city_hint') %>">&#xe086;</span>
     <%= f.collection_select :city_ids, @cities, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |city| %>
       <option value="<%= city.id %>" <%= 'selected="selected"' if @selected_cities_ids.include?(city.id) %>>
         <%= city.name %>
       </option>
     <% end %>
-    <span class="help-block">Choose one or more cities for the event. To add new city click "Add new city"</span>
+    <span class="help-block small">Choose one or more cities for the event. To add new city click "Add new city"</span>
   </div>
 
   <div id="new_cities_collapse" class="collapse">
@@ -53,7 +55,7 @@
 
   <% alpha2 = @event.nil? ? '' : country_alpha2_by_name(@event.country) %>
   <%= f.input :country, priority: priority_countries, required: true, selected: "SE" %>
-  <%= f.input :postcode %>
+  <%#= f.input :postcode %>
   <%= f.hidden_field :latitude %>
   <%= f.hidden_field :longitude %>
 </div>

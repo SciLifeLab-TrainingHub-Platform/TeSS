@@ -5,5 +5,7 @@
 <% opts['placeholder'] = title unless title.nil? %>
 
 <div class="form-group">
-  <%= f.input :url, as: :string, hint: ' ', input_html: opts %>
+  <%= f.label :url, class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.url_hint') %>">&#xe086;</span>
+  <%= f.input :url, as: :string, hint: ' ', input_html: opts, label: false %>
 </div>

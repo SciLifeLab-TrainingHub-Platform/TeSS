@@ -31,6 +31,14 @@ class Event < ApplicationRecord
   after_update :change_status_and_notify_user
   after_save :notify_slack_if_published
 
+  # rails admin settings
+  rails_admin do
+    configure :learning_objectives do
+      label 'learning outcomes'
+    end
+  end
+
+
   if TeSS::Config.solr_enabled
     # :nocov:
     searchable do

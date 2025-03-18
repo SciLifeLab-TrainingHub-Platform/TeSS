@@ -21,7 +21,12 @@
   </div>
 
   <!-- Field: Title -->
-  <%= f.input :title, as: :string, input_html: { title: t('events.hints.title') } %>
+  <div class="form-group">
+    <%= f.label :title, class: "control-label" %>
+    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.title_hint') %>">&#xe086;</span>
+    <%= f.input :title, as: :string, input_html: { title: t('events.hints.title') }, label: false %>
+  </div>
+
 
   <!-- Field: Sub-title -->
   <%#= f.input :subtitle, input_html: { title: t('events.hints.subtitle') } %>
@@ -29,9 +34,6 @@
   <!-- Field: URL -->
   <%= render partial: 'common/url_checker',
              locals: { f: f, url: events_check_exists_path, title: t('events.hints.url') } %>
-
-  <!-- Field: Description -->
-  <%= f.input :description, as: :markdown_area, input_html: { rows: '5', title: t('events.hints.description') } %>
 
   <!-- Field: Start -->
   <%= f.input :start, as: :date_picker, input_html: { title: t('events.hints.start') } %>
@@ -53,11 +55,44 @@
   <%= f.input :language, collection: LanguageDictionary.instance.options_for_select,
               prompt: t('events.prompts.language'), include_blank: true, input_html: { title: t('events.hints.language') } %>
 
+  <!-- Field: Contact -->
+  <%= f.label :contact, class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.contact_hint') %>">&#xe086;</span>
+  <%= f.input :contact, input_html: { rows: '5', title: t('events.hints.contact') }, label: false %>
+
+  <!-- Field: Description -->
+  <%= f.label :description, class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.description_hint') %>">&#xe086;</span>
+  <%= f.input :description, as: :markdown_area, input_html: { rows: '5', title: t('events.hints.description') }, label: false %>
+
+  <!-- Field: Target Audience -->
+  <%= f.multi_input :target_audience,
+                    errors: @event.errors[:target_audience],
+                    title: t('events.hints.targets'),
+                    label: "#{f.label(:target_audience, class: 'control-label')} <span class='glyphicon' style='cursor: default; font-size: small' title='#{t('events.hints.targets_hint')}'> &#xe086;</span>".html_safe %>
+
   <!-- Field: Prerequisites -->
-  <%= f.input :prerequisites, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites') } %>
+  <%= f.label :prerequisites, class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.prerequisites_hint') %>">&#xe086;</span>
+  <%= f.input :prerequisites, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites') }, label: false %>
 
   <!-- Field: Learning Objectives-->
-  <%= f.input :learning_objectives, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.objectives') } %>
+  <!-- Changed the display value to 'Learning outcomes' -->
+  <%= f.label :learning_objectives, "Learning outcomes", class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.objectives_hint') %>">&#xe086;</span>
+  <%= f.input :learning_objectives, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.objectives') }, label: false %>
+
+
+  <!-- Field: Keywords -->
+  <%= f.multi_input :keywords, errors: @event.errors[:keywords],
+                    title: t('events.hints.keywords'),
+                    label: "#{f.label(:keywords, class: 'control-label')} <span class='glyphicon' style='cursor: default; font-size: small' title='#{t('events.hints.keywords_hint')}'> &#xe086;</span>".html_safe %>
+
+
+  <!-- Field: Technology Requirements -->
+  <%= f.label :tech_requirements, class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.requirements_hint') %>">&#xe086;</span>
+  <%= f.input :tech_requirements, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.requirements') }, label: false %>
 
   <!-- Field: Location -->
   <div class="address_content">
@@ -71,16 +106,10 @@
                  errors: @event.errors[:eligibility],
                  title: t('events.hints.eligibility') %>
 
-  <!-- Field: Contact -->
-  <%= f.input :contact, input_html: { rows: '5', title: t('events.hints.contact') } %>
 
   <!-- Field: Host Institutions -->
-  <%= f.multi_input :host_institutions, errors: @event.errors[:host_institutions],
-                    title: t('events.hints.hosts') %>
+  <%#= f.multi_input :host_institutions, errors: @event.errors[:host_institutions], title: t('events.hints.hosts') %>
 
-  <!-- Field: Keywords -->
-  <%= f.multi_input :keywords, errors: @event.errors[:keywords],
-                    title: t('events.hints.keywords') %>
 
   <!-- Field: Fields -->
   <% if !TeSS::Config.feature['disabled'].include? 'ardc_fields_of_research' %>
@@ -93,8 +122,7 @@
                          title: t('events.hints.fields') } %>
   <% end %>
 
-  <!-- Field: Target Audience -->
-  <%= f.multi_input :target_audience, errors: @event.errors[:target_audience], title: t('events.hints.targets') %>
+
 
   <!-- Field: Scientific Topics -->
   <%# if !TeSS::Config.feature['disabled'].include? 'topics' %>
@@ -104,12 +132,13 @@
   <!-- Field: Topics -->
   <div class="field">
     <%= f.label :topic_ids, "Topic(s)", class: 'control-label' %>
-    <%= f.collection_select :topic_ids, @topics, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |topic| %>
+    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.topics_hint') %>">&#xe086;</span>
+    <%= f.collection_select :topic_ids, @topics, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true, title: t('events.hints.topics') } do |topic| %>
       <option value="<%= topic.id %>" <%= 'selected="selected"' if @selected_topics_ids.include?(topic.id) %>>
         <%= topic.name %>
       </option>
     <% end %>
-    <span class="help-block">Choose one or more Topics for the event.</span>
+    <span class="help-block small">Choose one or more Topics for the event.</span>
   </div>
 
 
@@ -120,22 +149,18 @@
   <%# end %>
 
   <!-- Field: Capacity -->
-  <%= f.input :capacity, as: :integer,
-              input_html: { title: t('events.hints.capacity'), min: '0' } %>
+  <%#= f.input :capacity, as: :integer, input_html: { title: t('events.hints.capacity'), min: '0' } %>
 
   <!-- Field: Event Type -->
-  <%= f.dropdown :event_types, options: EventTypeDictionary.instance.options_for_select, label: 'Event type',
-                 errors: @event.errors[:event_types], title: t('events.hints.event_type') %>
+  <%#= f.dropdown :event_types, options: EventTypeDictionary.instance.options_for_select, label: 'Event type', errors: @event.errors[:event_types], title: t('events.hints.event_type') %>
 
-  <!-- Field: Technology Requirements -->
-  <%= f.input :tech_requirements, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.requirements') } %>
 
   <!-- Field: Credit or Recognition -->
   <%#= f.input :recognition, as: :string, label: 'Credit or Recognition of Attendance',
               input_html: { title: t('events.hints.recognition') } %>
 
   <!-- Field: External Resources -->
-  <%= render partial: 'events/partials/external_resources', locals: { f: f } %>
+  <%#= render partial: 'events/partials/external_resources', locals: { f: f } %>
 
   <!-- Field: Costs -->
   <div class="form-group">
@@ -150,16 +175,17 @@
   <%#= f.input :content_provider_id, label: 'Content provider (Training Organizer)', collection: current_user.get_editable_providers, label_method: :title, value_method: :id, include_blank: true %>
   <div class="field">
     <%= f.label :content_provider_ids, "Content Provider(s)", class: 'control-label' %>
+    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.content_provider_hint') %>">&#xe086;</span>
     <%= f.collection_select :content_provider_ids, @content_providers, :id, :title, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |content_provider| %>
       <option value="<%= content_provider.id %>" <%= 'selected="selected"' if @selected_content_providers_id.include?(content_provider.id) %>>
         <%= content_provider.title %>
       </option>
     <% end %>
-    <span class="help-block">Choose one or more content provider for the event.</span>
+    <span class="help-block small">Choose one or more content provider for the event.</span>
   </div>
 
   <!-- Field: Materials -->
-  <%= f.autocompleter :materials, input_html: { title: t('events.hints.materials') }, url: materials_path %>
+  <%#= f.autocompleter :materials, input_html: { title: t('events.hints.materials') }, url: materials_path %>
 
   <!-- Fields: that need to be check for enabled/disabled -->
   
@@ -168,12 +194,12 @@
     <div class="form-group">
       <label
         <% if @event.errors[:node_ids].any? %> style="color: #a02622"
-        <% end %>>* Nodes</label>
+        <% end %>>My course is affiliated with SciLifeLab: </label>
 
       <% Node.order(:name).each do |node| %>
         <div>
           <%= f.radio_button :node_ids, node.id, checked: (@event.node_ids.include?(node.id)) %>
-          <%= f.label :node_ids, node.name, value: node.id %>
+          <%= f.label :node_ids, (node.slug == Node::SCILIFE_LAB_NODE_SLUG ? "Yes" : "No"), value: node.id %>
         </div>
       <% end %>
       <% if @event.errors[:node_ids].any? %>

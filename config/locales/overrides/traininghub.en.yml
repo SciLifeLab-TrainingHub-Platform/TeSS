@@ -366,11 +366,15 @@ en:
       capacity: >
         Provide the total number (cap) of individuals that can attend the training event.
         Leave blank if there is no limit.
+      city_hint: 'If your course is virtual, enter the city as Online'
       contact: ''
+      contact_hint: 'An email to which queries about the course can be directed'
+      content_provider_hint: 'The organization providing the material, ie: NBIS, CryoNet, SciLifeLab Clinical Genomics, etc.'
       cost_basis: 'Select the basis by which costs, if any, are applied.'
       cost_value: 'Input the cost of the training event.'
       cost_currency: 'Select the currency associated with the cost.'
       description: 'Provide a textual description of the training event, for additional context.'
+      description_hint: 'Include the aim of the course, a brief summary of the course content, and core ideas the participants will engage with. You may also include selection criteria and important dates here.'
       duration: 'In hours and minutes (HH:MM), how long will your training event run?'
       eligibility: 'Who can attend the training event?'
       end: 'When does the event end?'
@@ -378,21 +382,32 @@ en:
       fields: 'Select Fields of Research to better classify your event.'
       hosts: ''
       keywords: "Provide words or terms that clearly identify the training event's topics."
+      keywords_hint: "Enter 3-5 helpful keywords that would assist potential applicants in finding your course by content."
       materials: 'Add any training materials that are associated with the training event.'
       objectives: 'What knowledge, skills, or abilities should your audience gain from completing the training?'
+      objectives_hint: "Participant-centered statements of what skills, knowledge, or abilities will be gained through taking the course."
       organizer: ''
       prerequisites: 'What understanding or knowledge does the audience need to have covered before the training event?'
+      prerequisites_hint: 'What prior knowledge is required to take the course, if any. No prerequisites is a valid entry!'
       recognition: 'Provide a description of any qualifications, awards, certificates, diplomas, or other
         educational credentials that will be awarded on successful completion of the training event.'
       requirements: 'Indicate the technical requirements needed to participate in the training event.'
+      requirements_hint: 'Any requirements for computers, specific programs, access to machinery, etc.'
       sponsors: 'Who sponsored, or funded the event?'
       start: 'When does the event start?'
       subtitle: 'Include a subtitle to add context for your intended audience.'
       targets: 'Indicate the type of audience for which the training event is intended.'
+      targets_hint: 'Common target audiences include PhD students, postdocs, group leaders, core facility staff, everyone…'
       topics: 'Select the Fields of Research (FoR) codes that the training covers.'
+      topics_hint: 'There are specific tags used here, currently only enter DDLS if your course is affiliated with the DDLS research school.'
       timezone: 'Select the appropriate timezone'
       title: 'Add a title for your training event.'
+      title_hint: "The title of your course. This can be the same as previous years."
       url: 'Enter a valid URL for the event landing page.'
+      url_hint: "Your course website. This can be the registration form if you do not have a course website."
+      venue_hint: "The room and building your course will take place in."
+
+
   materials:
     hints:
       authors: >
