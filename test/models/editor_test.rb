@@ -198,7 +198,10 @@ class EditorTest < ActiveSupport::TestCase
     event = events :training_event
     provider.add_editor(trainer)
 
-    another_event = Event.create!(user: trainer, title: 'New event', timezone: 'UTC', url: 'http://example.com', online: true)
+    parameters = @mandatory.merge({
+      user: trainer, title: 'New event', timezone: 'UTC', url:
+      'http://example.com', online: true})
+    another_event = Event.create!(parameters)
     assert_nil another_event.content_providers[0]
 
     # remove editor

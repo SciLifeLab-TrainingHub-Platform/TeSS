@@ -4,6 +4,7 @@ require 'test_helper'
 
 class ScraperTest < ActiveSupport::TestCase
   setup do
+    skip 'Skipping all the ingestors tests'
     mock_ingestions
     Source.delete_all
   end

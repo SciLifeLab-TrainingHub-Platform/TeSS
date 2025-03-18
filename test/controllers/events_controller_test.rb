@@ -22,7 +22,8 @@ class EventsControllerTest < ActionController::TestCase
     @monitor = @failing_event.create_link_monitor(url: @failing_event.url, code: 404, fail_count: 5)
     @mandatory_fields = { online: true, start: @event.start, end: @event.end,
                           host_institutions: @event.host_institutions, timezone: @event.timezone,
-                          contact: @event.contact, eligibility: @event.eligibility }
+                          contact: @event.contact, eligibility: @event.eligibility,
+                          nodes: @event.nodes }
   end
 
   # Tests
@@ -1527,9 +1528,10 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should show unverified users event to themselves' do
+    parameters = @mandatory_fields.merge({title: 'Hello', description: 'World',
+                                          url: 'https://example.com/event'})
     sign_in users(:unverified_user)
-    event = users(:unverified_user).events.create!(title: 'Hello', description: 'World',
-                                                   url: 'https://example.com/event')
+    event = users(:unverified_user).events.create!(parameters)
 
     get :show, params: { id: event }
 
@@ -1551,8 +1553,11 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should not show unverified users event anon user' do
-    event = users(:unverified_user).events.create!(title: 'Hello', description: 'World',
-                                                   url: 'https://example.com/event', event_status: 1)
+    parameters = @mandatory_fields.merge({ title: 'Hello', description:
+                                           'World', url:
+                                           'https://example.com/event',
+                                           event_status: 1 })
+    event = users(:unverified_user).events.create!(parameters)
 
     get :show, params: { id: event }
     assert_response :forbidden
@@ -1576,7 +1581,9 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should not display language of instruction if not specified' do
-    event = users(:regular_user).events.create!(title: 'No language', url: 'https://example.com/nolang', language: '', event_status: 1)
+    parameters = @mandatory_fields.merge({
+      title: 'No language', url: 'https://example.com/nolang', language: '', event_status: 1})
+    event = users(:regular_user).events.create!(parameters)
 
     get :show, params: { id: event }
     assert_response :success
