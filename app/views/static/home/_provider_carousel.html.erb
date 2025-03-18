@@ -21,7 +21,7 @@
           <div class="item<%= ' active' if active -%>">
             <% provider_pages.next.each do |p| %>
               <div class="col-xs-4">
-                <%= link_to(image_tag(p.image.url, class: 'img-responsive'), p, title: p.title) %>
+                <%= link_to(image_tag(p.image.url, class: 'img-responsive', alt: "content provider #{p.title} image",), p, title: p.title) %>
               </div>
             <% end %>
           </div>
