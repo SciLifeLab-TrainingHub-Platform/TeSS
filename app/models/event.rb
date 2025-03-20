@@ -26,8 +26,6 @@ class Event < ApplicationRecord
   before_save :set_end_time_to_end_of_day, if: :end?
   before_create :update_event_statuses
   after_save :enqueue_geocoding_worker, if: :address_changed?
-  after_create :set_status_and_notify
-  after_update :change_status_and_notify_user
   after_save :notify_slack_if_published
 
   if TeSS::Config.solr_enabled
@@ -564,63 +562,6 @@ class Event < ApplicationRecord
       # Check if the user creating the event has a 'trusted' role or is admin.
       # If true, set the event status as 'approved'
       self.event_status = Event.event_statuses[:approved]
-    end
-  end
-
-  def set_status_and_notify
-    if user.has_role?('trusted_user') || user.has_role?('admin')
-      # Check if the user creating the event has a 'trusted' role or is admin.
-      # If true, send a notification email to the user.
-      UserMailer.event_published(self).deliver_later if user.has_role?('trusted_user')
-    else
-      # If the user is not trusted, the event requires admin review.
-      # Send a notification email to the admin to review the event.
-      AdminMailer.review_event(self).deliver_later
-      UserMailer.event_submitted(self).deliver_later
-    end
-  end
-
-  ##
-  # this function will notify the user when/if event_status is changed by admin
-  # it only sends the mail to user when event is approved
-  def change_status_and_notify_user
-    if self.previous_changes.key?("event_status")
-      # getting event status change i.e. old_status and new_status
-      old_status, new_status = self.previous_changes["event_status"]
-
-      # getting the status constants from enum, rather then hardcoding
-      awaiting_review = Event.event_statuses.key(0)
-      approved = Event.event_statuses.key(1)
-      revisions_required = Event.event_statuses.key(3)
-
-      # Check if the event status has changed to 'approved'
-      if (old_status == awaiting_review && new_status == approved) ||
-        (old_status == revisions_required && new_status == approved)
-
-        # Increment and save the approved events count
-        self.user.update!(approved_events_count: self.user.approved_events_count + 1)
-
-        # Fetch role information
-        trusted_user_role = Role.find_by(title: "Trusted user")
-        registered_user_role = Role.find_by(title: "Registered user")
-
-        # Ensure both roles exist
-        if trusted_user_role.nil? || registered_user_role.nil?
-          raise "Required roles not found."
-        end
-
-        # Check if the user is eligible for role change
-        if self.user.approved_events_count > User::EVENT_APPROVAL_THRESHOLD &&
-          self.user.role_id == registered_user_role.id
-
-          # Update the user's role
-          self.user.update!(role_id: trusted_user_role.id)
-          puts "User role updated to 'trusted_user'."
-        end
-
-        # Send email notification to user
-        UserMailer.event_published(self).deliver_later
-      end
     end
   end
 
