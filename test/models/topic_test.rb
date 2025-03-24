@@ -8,7 +8,7 @@ class TopicTest < ActiveSupport::TestCase
     @topic_two = topics(:two)
     @event_one = events(:one)
     @event_two = events(:two)
-    @mandatory = { start: Date.today, end: Date.today + 1.day }
+    @mandatory = { start: Date.today, end: Date.today + 1.day, nodes: @event_one.nodes }
 
   end
 

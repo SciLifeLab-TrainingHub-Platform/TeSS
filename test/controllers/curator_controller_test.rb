@@ -3,6 +3,11 @@ require 'test_helper'
 class CuratorControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
+  setup do
+    @event = events(:one)
+    @mandatory_event_fields = { nodes: @event.nodes }
+  end
+
   test 'should get topic suggestions if curator' do
     sign_in users(:curator)
     e1 = add_topic_suggestions(events(:one), ['Genomics', 'Animals'])
@@ -80,11 +85,12 @@ class CuratorControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_includes assigns(:users), new_user
 
-    e = new_user.events.create!(title: 'Spam event', url: 'http://cool-event.pancakes', start: 10.days.from_now,
-                                description: "test event", end: 11.days.from_now,
-                                eligibility: [ 'registration_of_interest' ], host_institutions: [ "MIT" ],
-                                contact: "me", online: true, timezone: 'UTC'
-                                )
+    parameters = @mandatory_event_fields.merge({
+      title: 'Spam event', url: 'http://cool-event.pancakes', start: 10.days.from_now,
+      description: "test event", end: 11.days.from_now,
+      eligibility: [ 'registration_of_interest' ], host_institutions: [ "MIT" ],
+      contact: "me", online: true, timezone: 'UTC'})
+    e = new_user.events.create!(parameters)
     e.create_activity(:create, owner: new_user)
 
     get :users, params: { with_content: true }
@@ -132,10 +138,12 @@ class CuratorControllerTest < ActionController::TestCase
     source = nil
     node = nil
     4.times do |i|
-      e = new_user.events.create!(title: "Spam event #{i}", url: "http://cool-event.pancakes/#{i}", start: 10.days.from_now,
-                                  description: "test event", end: 11.days.from_now,
-                                  eligibility: [ 'registration_of_interest' ], host_institutions: [ "MIT" ],
-                                  contact: "me", online: true, timezone: 'UTC')
+      parameters = @mandatory_event_fields.merge({
+       title: "Spam event #{i}", url: "http://cool-event.pancakes/#{i}", start: 10.days.from_now,
+       description: "test event", end: 11.days.from_now,
+       eligibility: [ 'registration_of_interest' ], host_institutions: [ "MIT" ],
+       contact: "me", online: true, timezone: 'UTC'})
+      e = new_user.events.create!(parameters)
       e.create_activity(:create, owner: new_user)
       event = e
     end

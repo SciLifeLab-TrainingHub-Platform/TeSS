@@ -14,6 +14,7 @@ class ContentProvidersControllerTest < ActionController::TestCase
       description: 'New description',
       contact: 'New contact'
     }
+    @mandatory_fields_of_event = { nodes: events(:one).nodes }
   end
 
   # Tests
@@ -464,21 +465,21 @@ class ContentProvidersControllerTest < ActionController::TestCase
 
     # make sure this content provider has events in the past, future and without date
     good_user = users(:admin)
-    past_event = good_user.events.build(title: 'past',
-                                        url: 'http://example.com/good-stuff',
-                                        end: 3.days.ago,
-                                        content_providers: [@content_provider])
+    past_event_parameters = @mandatory_fields_of_event.merge(
+      {title: 'past', url: 'http://example.com/good-stuff', end: 3.days.ago,
+       content_providers: [@content_provider]})
+    past_event = good_user.events.build(past_event_parameters)
     past_event.save!
 
-    future_event = good_user.events.build(title: 'future',
-                                          url: 'http://example.com/good-stuff',
-                                          end: 4.days.from_now,
-                                          content_providers: [@content_provider])
+    future_event_parameters = @mandatory_fields_of_event.merge({
+     title: 'future', url: 'http://example.com/good-stuff', end: 4.days.from_now,
+     content_providers: [@content_provider]})
+    future_event = good_user.events.build(future_event_parameters)
     future_event.save!
 
-    dateless_event = good_user.events.build(title: 'dateless',
-                                            url: 'http://example.com/good-stuff',
-                                            content_providers: [@content_provider])
+    dateless_event_parameters = @mandatory_fields_of_event.merge({
+      title: 'dateless', url: 'http://example.com/good-stuff', content_providers: [@content_provider]})
+    dateless_event = good_user.events.build(dateless_event_parameters)
     dateless_event.save!
 
     get :show, params: { id: @content_provider }

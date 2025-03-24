@@ -1541,8 +1541,8 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should show unverified users event to admin' do
-    event = users(:unverified_user).events.create!(title: 'Hello', description: 'World',
-                                                   url: 'https://eexample.com/event')
+    parameters = @mandatory_fields.merge({title: 'Hello', description: 'World', url: 'https://eexample.com/event'})
+    event = users(:unverified_user).events.create!(parameters)
     sign_in users(:admin)
 
     get :show, params: { id: event }
