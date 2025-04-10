@@ -12,8 +12,10 @@ class EventTest < ActiveSupport::TestCase
     @city_two = cities(:two)
     @mandatory = { start: @event.start, end: @event.end,
                    timezone: @event.timezone, contact: @event.contact, eligibility: @event.eligibility,
-                   host_institutions: @event.host_institutions,
-                   nodes: @event.nodes }
+                   host_institutions: @event.host_institutions, nodes: @event.nodes,
+                   language: @event.language, prerequisites: @event.prerequisites,
+                   target_audience: @event.target_audience,
+                   content_providers: @event.content_providers, cost_basis: @event.cost_basis }
   end
 
   test 'can get associated nodes for event' do
@@ -418,18 +420,10 @@ class EventTest < ActiveSupport::TestCase
     assert event.valid?
   end
 
-  test 'validates language if present' do
+  test 'validates language' do
     parameters = @mandatory.merge({title: 'An event', url: 'https://myevent.com',
                                    language: 'en', user: users(:regular_user)})
     event = Event.new(parameters)
-    assert event.valid?
-
-    # Okay if not present
-    event.language = nil
-    assert event.valid?
-
-    # Okay if blank
-    event.language = ''
     assert event.valid?
 
     # Not okay if not a known ISO-639-2 code

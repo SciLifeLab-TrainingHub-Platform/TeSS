@@ -9,6 +9,12 @@ class UserTest < ActiveSupport::TestCase
     @user_data = users(:regular_user)
     @user_params = { username: 'new_user', password: '12345678', email: 'new-user@example.com', processing_consent: '1' }
     User.get_default_user
+    @event = events(:one)
+    @mandatory_event_fields = { nodes: @event.nodes, language: @event.language,
+                                prerequisites: @event.prerequisites,
+                                target_audience: @event.target_audience,
+                                content_providers: @event.content_providers,
+                                cost_basis: @event.cost_basis }
   end
 
   test "should save new user" do
@@ -329,8 +335,10 @@ class UserTest < ActiveSupport::TestCase
     material2 = user2.materials.create!(title: 'material 2', url: 'https://training.com/materials/2', description: 'material2')
 
     node = nodes(:good)
-    event1 = user2.events.create!(title: 'event 1', url: 'https://training.com/events/1', node_ids: [node.id])
-    event2 = user3.events.create!(title: 'event 2', url: 'https://training.com/events/2', node_ids: [node.id])
+    event1_params = @mandatory_event_fields.merge( {title: 'event 1', url: 'https://training.com/events/1', node_ids: [node.id]} )
+    event2_params = @mandatory_event_fields.merge( {title: 'event 2', url: 'https://training.com/events/2', node_ids: [node.id]} )
+    event1 = user2.events.create!(event1_params)
+    event2 = user3.events.create!(event2_params)
 
     # Activity
     admin = users(:admin)

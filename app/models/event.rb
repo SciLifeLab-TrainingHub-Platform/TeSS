@@ -170,6 +170,8 @@ class Event < ApplicationRecord
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
   validates :node_ids, presence: { message: "Please select at least one node." }, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
+  validates :language, :prerequisites, :target_audience, :content_providers, :cost_basis, presence: true, on: :create
+  validates :language, :prerequisites, :target_audience, :content_providers, :cost_basis, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
   update_suggestions(:keywords, :target_audience, :host_institutions)
@@ -552,13 +554,17 @@ class Event < ApplicationRecord
     content_providers.pluck(:title).join(separator)
   end
 
-  def content_providers=(new_providers)
+  def content_providers_input=(new_providers)
     new_providers = [new_providers] unless new_providers.is_a?(Array)
     new_providers.each do |provider|
       if provider.is_a?(ContentProvider) && !self.content_providers.include?(provider)
         self.content_providers << provider
       end
     end
+  end
+
+  def content_provider_ids=(ids)
+    self.content_providers = ContentProvider.where(id: ids.reject(&:blank?))
   end
 
   private
@@ -697,5 +703,9 @@ class Event < ApplicationRecord
       channels = ENV.fetch('SLACK_COURSE_NOTIFICATION_CHANNELS').split(',').map(&:strip)
       SlackNotificationJob.perform_later(message, channels)
     end
+  end
+
+  def after_switch_to_more_mandatory_fields?
+    updated_at.present? && updated_at > Time.new(2025, 4, 1)
   end
 end

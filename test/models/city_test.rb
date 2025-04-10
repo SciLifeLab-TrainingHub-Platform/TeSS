@@ -9,7 +9,12 @@ class CityTest < ActiveSupport::TestCase
 
     @mandatory = { start: @event_one.start, end: @event_one.end,
                    timezone: @event_one.timezone, contact: @event_one.contact, eligibility: @event_one.eligibility,
-                   host_institutions: @event_one.host_institutions, nodes: @event_one.nodes }
+                   host_institutions: @event_one.host_institutions, nodes: @event_one.nodes,
+                   language: @event_one.language,
+                   prerequisites: @event_one.prerequisites,
+                   target_audience: @event_one.target_audience,
+                   content_providers: @event_one.content_providers,
+                   cost_basis: @event_one.cost_basis  }
 
   end
 

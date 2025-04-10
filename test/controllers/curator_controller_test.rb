@@ -5,7 +5,11 @@ class CuratorControllerTest < ActionController::TestCase
 
   setup do
     @event = events(:one)
-    @mandatory_event_fields = { nodes: @event.nodes }
+    @mandatory_event_fields = { nodes: @event.nodes, language: @event.language,
+                                prerequisites: @event.prerequisites,
+                                target_audience: @event.target_audience,
+                                content_providers: @event.content_providers,
+                                cost_basis: @event.cost_basis }
   end
 
   test 'should get topic suggestions if curator' do

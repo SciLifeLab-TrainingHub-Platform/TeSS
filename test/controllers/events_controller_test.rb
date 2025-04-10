@@ -22,11 +22,13 @@ class EventsControllerTest < ActionController::TestCase
     @monitor = @failing_event.create_link_monitor(url: @failing_event.url, code: 404, fail_count: 5)
     # it must be node_ids and not nodes like in other test files because the
     # API only accepts the white-listed parameters; node_ids and node_names
-    # are, nodes isn't
+    # are, nodes isn't. same with content_provider_ids.
     @mandatory_fields = { online: true, start: @event.start, end: @event.end,
                           host_institutions: @event.host_institutions, timezone: @event.timezone,
                           contact: @event.contact, eligibility: @event.eligibility,
-                          node_ids: [ @event.nodes[0].id ] }
+                          node_ids: [ @event.nodes[0].id ], language: @event.language,
+                          prerequisites: @event.prerequisites, target_audience: @event.target_audience,
+                          content_provider_ids: [ @event.content_providers[0].id ], cost_basis: @event.cost_basis }
   end
 
   # Tests
@@ -233,7 +235,7 @@ class EventsControllerTest < ActionController::TestCase
   test 'should create event for admin' do
     sign_in users(:admin)
     assert_difference('Event.count') do
-      post :create, params: { event: { description: @event.description, title: @event.title, url: @event.url }.merge(@mandatory_fields) }
+      post :create, params: { event: @mandatory_fields.merge({ description: @event.description, title: @event.title, url: @event.url }) }
     end
     assert_redirected_to event_path(assigns(:event))
   end
@@ -855,11 +857,11 @@ class EventsControllerTest < ActionController::TestCase
 
     assert_difference('Event.count', 1) do
       post :create, params: {
-        event: {
+        event: @mandatory_fields.merge({
           description: '<b>hi</b><script>alert("hi!");</script>',
           title: 'Dirty Event',
           url: 'http://www.example.com/events/dirty'
-        }.merge(@mandatory_fields)
+        })
       }
     end
 
@@ -1419,14 +1421,14 @@ class EventsControllerTest < ActionController::TestCase
 
   test 'should show calendar events' do
     (1..200).each do |i|
-      Event.create(title: "hi#{i}", url: "http://google.com#hi#{i}",
+      Event.create(**@mandatory_fields, title: "hi#{i}", url: "http://google.com#hi#{i}",
                    user: User.first, content_providers: [ContentProvider.first], timezone: 'UTC',
                    start: Time.now.beginning_of_month.noon - 8.days, end: Time.now.noon - 1.day + 7.hours, city: 'Tilburg', country: 'Netherlands')
     end
-    Event.create(title: 'relevant_event', url: 'http://google.com#relevant',
+    Event.create(**@mandatory_fields, title: 'relevant_event', url: 'http://google.com#relevant',
                  user: User.first, content_providers: [ContentProvider.first], timezone: 'UTC',
                  start: Time.now.noon, end: Time.now.noon + 7.hours, city: 'Tilburg', country: 'Netherlands')
-    Event.create(title: 'long relevant_event', url: 'http://google.com#long_relevant',
+    Event.create(**@mandatory_fields, title: 'long relevant_event', url: 'http://google.com#long_relevant',
                  user: User.first, content_providers: [ContentProvider.first], timezone: 'UTC',
                  start: Time.now.noon, end: Time.now.noon + 1.month + 7.hours, city: 'Tilburg', country: 'Netherlands')
     sign_in users(:another_regular_user)
@@ -1521,17 +1523,6 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  test 'should create event without language specified' do
-    sign_in users(:regular_user)
-    assert_difference('Event.count', 1) do
-      event_parameters = @mandatory_fields.merge({ description: @event.description, title: @event.title, url: @event.url,
-                                                   language: '' })
-      post :create, params: { event: event_parameters }
-    end
-    assert_redirected_to event_path(assigns(:event))
-    refute assigns(:event).language.present?
-  end
-
   test 'should display language of instruction' do
     get :show, params: { id: events(:one) }
     assert_response :success
@@ -1539,13 +1530,4 @@ class EventsControllerTest < ActionController::TestCase
     # assert_select 'strong', text: 'Language of instruction:'
   end
 
-  test 'should not display language of instruction if not specified' do
-    parameters = @mandatory_fields.merge({
-      title: 'No language', url: 'https://example.com/nolang', language: '', event_status: 1})
-    event = users(:regular_user).events.create!(parameters)
-
-    get :show, params: { id: event }
-    assert_response :success
-    assert_select 'strong', text: 'Language of instruction:', count: 0
-  end
 end
