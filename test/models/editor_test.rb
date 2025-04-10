@@ -4,6 +4,8 @@ class EditorTest < ActiveSupport::TestCase
 
   setup do
     mock_images
+    @event = events(:one)
+    @mandatory_event_fields = { nodes: @event.nodes }
   end
 
   test 'can create and delete editors' do
@@ -198,7 +200,10 @@ class EditorTest < ActiveSupport::TestCase
     event = events :training_event
     provider.add_editor(trainer)
 
-    another_event = Event.create!(user: trainer, title: 'New event', timezone: 'UTC', url: 'http://example.com', online: true)
+    parameters = @mandatory_event_fields.merge({
+      user: trainer, title: 'New event', timezone: 'UTC', url:
+      'http://example.com', online: true})
+    another_event = Event.create!(parameters)
     assert_nil another_event.content_providers[0]
 
     # remove editor

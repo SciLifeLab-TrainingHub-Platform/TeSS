@@ -1,0 +1,99 @@
+one:
+  node: good
+  resource: one (Event)
+
+two:
+  node: good
+  resource: two (Event)
+
+three:
+  node: good
+  resource: month_long_event (Event)
+
+four:
+  node: good
+  resource: year_long_event (Event)
+
+five:
+  node: good
+  resource: iann_event (Event)
+
+six:
+  node: another_node
+  resource: scraper_user_event (Event)
+
+seven:
+  node: good
+  resource: event_with_external_resource (Event)
+
+eight:
+  node: westeros
+  resource: event_with_no_start (Event)
+
+nine:
+  node: westeros
+  resource: event_with_no_end (Event)
+
+ten:
+  node: westeros
+  resource: online_event_with_no_end (Event)
+
+eleven:
+  node: good
+  resource: organisation_event (Event)
+
+twelve:
+  node: good
+  resource: portal_event (Event)
+
+thirteen:
+  node: westeros
+  resource: dodgy_country_event (Event)
+
+fourteen:
+  node: westeros
+  resource: no_description_event (Event)
+
+fifteen:
+  node: westeros
+  resource: event_with_report (Event)
+
+sixteen:
+  node: good
+  resource: another_event_with_report (Event)
+
+seventeen:
+  node: westeros
+  resource: shadowbanned_event (Event)
+
+eighteen:
+  node: westeros
+  resource: failing_event (Event)
+
+nineteen:
+  node: westeros
+  resource: kilburn (Event)
+
+twenty:
+  node: good
+  resource: calendar_event (Event)
+
+twentyone:
+  node: good
+  resource: training_event (Event)
+
+twentytwo:
+  node: good
+  resource: ical_event_1 (Event)
+
+twentythree:
+  node: westeros
+  resource: ical_event_2 (Event)
+
+twentyfour:
+  node: westeros
+  resource: course_event (Event)
+
+twentyfive:
+  node: good
+  resource: hybrid_event (Event)

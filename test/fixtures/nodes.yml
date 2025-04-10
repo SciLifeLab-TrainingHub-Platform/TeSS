@@ -17,6 +17,14 @@ westeros:
   twitter: westeros
   user: regular_user
 
+another_node:
+  name: Another Node Name
+  member_status: Member
+  country_code: SE
+  home_page: http://example.com
+  user: regular_user
+
+
 #
 #no_name:
 #  name:

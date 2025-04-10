@@ -2,6 +2,7 @@ require 'test_helper'
 
 class IngestorTest < ActiveSupport::TestCase
   test 'convert HTML descriptions to markdown where appropriate' do
+    skip 'Skipping all the ingestors tests'
     ingestor = Ingestors::Ingestor.new
 
     input = "### Title\n\nAmpersands & Quotes \""

@@ -12,14 +12,15 @@ class EventTest < ActiveSupport::TestCase
     @city_two = cities(:two)
     @mandatory = { start: @event.start, end: @event.end,
                    timezone: @event.timezone, contact: @event.contact, eligibility: @event.eligibility,
-                   host_institutions: @event.host_institutions }
+                   host_institutions: @event.host_institutions,
+                   nodes: @event.nodes }
   end
 
   test 'can get associated nodes for event' do
     e = events(:scraper_user_event)
 
-    assert_equal [], e.nodes
-    assert_equal 1, e.associated_nodes.count
+    assert_equal [nodes(:another_node)], e.nodes
+    assert_equal 2, e.associated_nodes.count
     assert_includes e.associated_nodes, nodes(:good)
   end
 
@@ -30,9 +31,9 @@ class EventTest < ActiveSupport::TestCase
       e.nodes << nodes(:westeros)
     end
 
-    assert_equal 1, e.nodes.count
+    assert_equal 2, e.nodes.count
     assert_includes e.nodes, nodes(:westeros)
-    assert_equal 2, e.associated_nodes.count
+    assert_equal 3, e.associated_nodes.count
     assert_includes e.associated_nodes, nodes(:good)
     assert_includes e.associated_nodes, nodes(:westeros)
   end
@@ -303,8 +304,10 @@ class EventTest < ActiveSupport::TestCase
 
   test 'does not enqueue a geocoding worker after creating an event with defined lat/lon' do
     assert_no_difference('GeocodingWorker.jobs.size') do
-      event = Event.create(user: users(:regular_user), title: 'New event', url: 'http://example.com',
-                           latitude: 25, longitude: 25, venue: 'Place')
+      parameters = @mandatory.merge({
+        user: users(:regular_user), title: 'New event', url:
+        'http://example.com', latitude: 25, longitude: 25, venue: 'Place'})
+      event = Event.create(parameters)
       refute event.address.blank?
     end
   end
@@ -398,7 +401,10 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'validates timezone if present' do
-    event = Event.new(title: 'An event', url: 'https://myevent.com', timezone: 'UTC', user: users(:regular_user))
+    parameters = @mandatory.merge({title: 'An event', url:
+                                   'https://myevent.com', timezone: 'UTC',
+                                   user: users(:regular_user)})
+    event = Event.new(parameters)
     assert event.valid?
 
     event.timezone = '123'
@@ -413,7 +419,9 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'validates language if present' do
-    event = Event.new(title: 'An event', url: 'https://myevent.com', language: 'en', user: users(:regular_user))
+    parameters = @mandatory.merge({title: 'An event', url: 'https://myevent.com',
+                                   language: 'en', user: users(:regular_user)})
+    event = Event.new(parameters)
     assert event.valid?
 
     # Okay if not present
@@ -431,7 +439,8 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'validates URL format' do
-    event = Event.new(title: 'An event', timezone: 'UTC', user: users(:regular_user))
+    parameters = @mandatory.merge({title: 'An event', timezone: 'UTC', user: users(:regular_user)})
+    event = Event.new(parameters)
 
     refute event.valid?
     assert event.errors.added?(:url, :blank)
@@ -462,7 +471,10 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'fuzzy-matches event types according to dictionary' do
-    event = Event.new(title: 'An event', timezone: 'UTC', user: users(:regular_user), url: 'https://https-website.com/mat')
+    parameters = @mandatory.merge({title: 'An event', timezone: 'UTC', user:
+                                   users(:regular_user), url:
+                                   'https://https-website.com/mat'})
+    event = Event.new(parameters)
     assert event.valid?
 
     eligibility = EligibilityDictionary.instance.keys.first
@@ -478,8 +490,12 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'get online status from description if scraped' do
-    event = Event.new(title: 'An event', timezone: 'UTC', user: users(:regular_user), url: 'https://https-website.com/mat',
-                      description: 'This event is held on Zoom', scraper_record: true)
+    parameters = @mandatory.merge({title: 'An event', timezone: 'UTC', user:
+                                   users(:regular_user), url:
+                                   'https://https-website.com/mat',
+                                   description: 'This event is held on Zoom',
+                                   scraper_record: true})
+    event = Event.new(parameters)
     refute event.online?
     assert event.valid?
     event.save!
@@ -487,8 +503,12 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'do not fix online status if hybrid' do
-    event = Event.new(title: 'An event', timezone: 'UTC', user: users(:regular_user), url: 'https://https-website.com/mat',
-                      description: 'This event is held on Zoom', scraper_record: true, presence: :hybrid)
+    parameters = @mandatory.merge({title: 'An event', timezone: 'UTC', user:
+                                   users(:regular_user), url:
+                                   'https://https-website.com/mat',
+                                   description: 'This event is held on Zoom',
+                                   scraper_record: true, presence: :hybrid})
+    event = Event.new(parameters)
     assert event.hybrid?
     assert event.valid?
     event.save!
@@ -496,8 +516,12 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'get event_type from keywords if scraped' do
-    event = Event.new(title: 'An event', timezone: 'UTC', user: users(:regular_user), url: 'https://https-website.com/mat',
-                      keywords: ['Workshops and courses'], scraper_record: true)
+    parameters = @mandatory.merge({title: 'An event', timezone: 'UTC', user:
+                                   users(:regular_user), url:
+                                   'https://https-website.com/mat', keywords:
+                                   ['Workshops and courses'], scraper_record:
+                                   true})
+    event = Event.new(parameters)
     assert_not event.event_types.include?('Workshops and courses')
     assert event.keywords.include?('Workshops and courses')
     assert event.valid?
@@ -507,8 +531,12 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'do not get event_type from keywords if not scraped' do
-    event = Event.new(title: 'An event', timezone: 'UTC', user: users(:regular_user), url: 'https://https-website.com/mat',
-                      keywords: ['Workshops and courses'], scraper_record: false)
+    parameters = @mandatory.merge({title: 'An event', timezone: 'UTC', user:
+                                   users(:regular_user), url:
+                                   'https://https-website.com/mat', keywords:
+                                   ['Workshops and courses'], scraper_record:
+                                   false})
+    event = Event.new(parameters)
     assert event.valid?
     event.save!
     assert_not event.event_types.include?('Workshops and courses')
@@ -519,7 +547,7 @@ class EventTest < ActiveSupport::TestCase
     user = users(:regular_user)
     node = nodes(:westeros)
     material = materials(:good_material)
-    event = Event.new(
+    parameters = @mandatory.merge({
       title: 'An event',
       timezone: 'UTC',
       user:,
@@ -530,7 +558,8 @@ class EventTest < ActiveSupport::TestCase
       materials: [material],
       scientific_topic_names: %w[Proteins DNA],
       operation_names: ['Variant calling']
-    )
+    })
+    event = Event.new(parameters)
 
     assert event.save
     dup = nil

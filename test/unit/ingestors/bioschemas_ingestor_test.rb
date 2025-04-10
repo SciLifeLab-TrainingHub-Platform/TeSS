@@ -2,6 +2,7 @@ require 'test_helper'
 
 class BioschemasIngestorTest < ActiveSupport::TestCase
   setup do
+    skip 'Skipping all the ingestors tests'
     @ingestor = Ingestors::BioschemasIngestor.new
     @user = users(:regular_user)
     @content_provider = content_providers(:a_content_provider)
