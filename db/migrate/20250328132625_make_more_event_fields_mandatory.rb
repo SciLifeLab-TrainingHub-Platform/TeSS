@@ -1,6 +1,6 @@
 class MakeMoreEventFieldsMandatory < ActiveRecord::Migration[7.0]
   def up
-    Event.where(language: nil).update_all(language: "English")
+    Event.where(language: nil).update_all(language: "en")
     Event.where(prerequisites: nil).update_all(prerequisites: "N/A")
     Event.where(target_audience: nil).update_all(target_audience: "Everyone")
     Event.where(cost_basis: nil).update_all(cost_basis: "N/A")
