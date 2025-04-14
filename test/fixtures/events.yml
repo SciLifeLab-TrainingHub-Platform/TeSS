@@ -25,6 +25,11 @@ one:
   learning_objectives: "There are none."
   recognition: "Yup. You attended the workshop."
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
+
 
 two:
   external_id: MyString2
@@ -49,6 +54,10 @@ two:
   contact: MyContact
   eligibility: [ registration_of_interest ]
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 month_long_event:
   title: Month-long event
@@ -65,6 +74,10 @@ month_long_event:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 year_long_event:
   title: Year-long event
@@ -81,6 +94,10 @@ year_long_event:
   timezone: US/Eastern
   contact: MyContact
   eligibility: [ by_invitation ]
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 iann_event:
   title: iAnn event
@@ -91,6 +108,10 @@ iann_event:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 scraper_user_event:
   title: material owned by scraper
@@ -106,6 +127,10 @@ scraper_user_event:
   country: BigCountry
   postcode: 1010
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 event_with_external_resource:
   title: External Resource Event
@@ -120,6 +145,10 @@ event_with_external_resource:
   end: 2016-12-12 12:00:00
   country: BigCountry
   postcode: 1010
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
   
 event_with_no_start:
   title: No Start Time
@@ -133,6 +162,10 @@ event_with_no_start:
   end: 2016-12-12 12:00:00
   country: BigCountry
   postcode: 1010
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
   
 event_with_no_end:
   title: No End Time
@@ -146,6 +179,10 @@ event_with_no_end:
   eligibility: [ registration_of_interest ]
   country: BigCountry
   postcode: 1010
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
   
 online_event_with_no_end:
   title: No End Time
@@ -160,6 +197,10 @@ online_event_with_no_end:
   eligibility: [ registration_of_interest ]
   country: BigCountry
   postcode: 1010
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
   
 organisation_event:
   title: Fun Training Day
@@ -174,6 +215,10 @@ organisation_event:
   eligibility: [ registration_of_interest ]
   country: BigCountry
   postcode: 1010
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
   
 portal_event:
   presence: 0
@@ -190,6 +235,10 @@ portal_event:
   country: "United Kingdom"
   postcode: "B1 1BB"
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 dodgy_country_event:
   title: Fun Training Day
@@ -204,6 +253,10 @@ dodgy_country_event:
   contact: MyContact
   eligibility: [ registration_of_interest ]
   postcode: 1010
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
   
 no_description_event:
   title: All you need to know is in the title
@@ -217,6 +270,10 @@ no_description_event:
   eligibility: [ registration_of_interest ]
   country: Australia
   postcode: 3000
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
   
 event_with_report:
   title: This event happened
@@ -234,6 +291,10 @@ event_with_report:
   country: AU
   postcode: 1000
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 
 another_event_with_report:
@@ -250,6 +311,10 @@ another_event_with_report:
   country: BigCountry
   postcode: 1010
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 shadowbanned_event:
   external_id: MyString1
@@ -272,6 +337,10 @@ shadowbanned_event:
   timezone: UTC
   contact: MyContact
   eligibility: [ registration_of_interest ]
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 failing_event:
   title: Collision With Iceberg
@@ -288,6 +357,10 @@ failing_event:
   country: United Kingdom
   postcode: M13 9PL
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 kilburn:
   title: Kilburn Event
@@ -304,6 +377,10 @@ kilburn:
   timezone: Europe/London
   contact: MyContact
   eligibility: [ registration_of_interest ]
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 calendar_event:
   title: "calendar event"
@@ -324,6 +401,10 @@ calendar_event:
   contact: MyContact
   eligibility: [ first_come_first_served ]
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 training_event:
   title: "calendar event"
@@ -346,6 +427,10 @@ training_event:
   contact: MyContact
   eligibility: [ first_come_first_served ]
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 ical_event_1:
   title: P'Con - Embracing new solutions for in-situ visualisation
@@ -365,6 +450,10 @@ ical_event_1:
   timezone: Australia/Perth
   contact: MyContact
   eligibility: [ first_come_first_served ]
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 ical_event_2:
   title: "PaCER Seminar: Computational Fluid Dynamics"
@@ -384,6 +473,10 @@ ical_event_2:
   timezone: Australia/Perth
   contact: MyContact
   eligibility: [ first_come_first_served ]
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 course_event:
   title: Summer Course on Learning Stuff
@@ -409,6 +502,10 @@ course_event:
   recognition: "Yup. You attended the workshop."
   target_audience: ['Everyone!']
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 hybrid_event:
   presence: 2
@@ -420,6 +517,10 @@ hybrid_event:
   end: 2024-12-12 12:00:00
   timezone: UTC
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
 
 approved_event:
   title: approved event
@@ -431,3 +532,7 @@ approved_event:
   contact: MyContact
   eligibility: [ registration_of_interest ]
   event_status: 1
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"

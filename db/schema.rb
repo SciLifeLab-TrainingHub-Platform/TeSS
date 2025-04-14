@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_11_131459) do
-
+ActiveRecord::Schema[7.0].define(version: 2025_03_28_132625) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -244,7 +243,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_131459) do
     t.boolean "scraper_record", default: false
     t.string "keywords", default: [], array: true
     t.string "event_types", default: [], array: true
-    t.string "target_audience", default: [], array: true
+    t.string "target_audience", default: [], null: false, array: true
     t.integer "capacity"
     t.string "eligibility", default: [], array: true
     t.text "contact"
@@ -260,14 +259,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_131459) do
     t.string "duration"
     t.text "recognition"
     t.text "learning_objectives"
-    t.text "prerequisites"
+    t.text "prerequisites", null: false
     t.text "tech_requirements"
-    t.string "cost_basis"
+    t.string "cost_basis", null: false
     t.string "cost_currency"
     t.string "fields", default: [], array: true
     t.string "open_science", default: [], array: true
     t.boolean "visible", default: true
-    t.string "language"
+    t.string "language", null: false
     t.datetime "application_deadline"
     t.integer "event_status", default: 0, null: false
     t.text "admin_notes"

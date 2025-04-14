@@ -5,7 +5,11 @@ class EditorTest < ActiveSupport::TestCase
   setup do
     mock_images
     @event = events(:one)
-    @mandatory_event_fields = { nodes: @event.nodes }
+    @mandatory_event_fields = { nodes: @event.nodes, language: @event.language,
+                                prerequisites: @event.prerequisites,
+                                target_audience: @event.target_audience,
+                                content_providers: @event.content_providers,
+                                cost_basis: @event.cost_basis }
   end
 
   test 'can create and delete editors' do
@@ -192,33 +196,6 @@ class EditorTest < ActiveSupport::TestCase
     assert_equal 2, provider.approved_editors.size
     assert !provider.approved_editors.include?(private_user.username)
     assert !provider.editors.include?(private_user)
-  end
-
-  test 'reassigning resources works for resources without content provider set' do
-    trainer = users :trainer_user
-    provider = content_providers :goblet
-    event = events :training_event
-    provider.add_editor(trainer)
-
-    parameters = @mandatory_event_fields.merge({
-      user: trainer, title: 'New event', timezone: 'UTC', url:
-      'http://example.com', online: true})
-    another_event = Event.create!(parameters)
-    assert_nil another_event.content_providers[0]
-
-    # remove editor
-    provider.remove_editor(trainer)
-    assert !provider.editors.include?(trainer),
-           "trainer[#{trainer.username}] still in provider[#{provider.title}].editors"
-    assert !trainer.editables.include?(provider),
-           "trainer[#{trainer.username}] can still edit provider[#{provider.title}]"
-
-    # check reassignments
-    event.reload
-    another_event.reload
-    assert_nil another_event.content_providers[0]
-    assert_equal trainer, another_event.user
-    assert_equal provider.user, event.user
   end
 
   test 'get_editable_providers' do

@@ -40,6 +40,14 @@ online_event_with_no_end:
   event: online_event_with_no_end
   content_provider: goblet
 
+organisation_event:
+  event: organisation_event
+  content_provider: goblet
+
+portal_event:
+  event: portal_event
+  content_provider: goblet
+
 dodgy_country_event:
   event: dodgy_country_event
   content_provider: no_contact_provider
@@ -90,4 +98,8 @@ course_event:
 
 hybrid_event:
   event: hybrid_event
+  content_provider: two
+
+approved_event:
+  event: approved_event
   content_provider: two

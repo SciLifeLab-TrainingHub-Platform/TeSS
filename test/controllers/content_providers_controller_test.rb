@@ -14,7 +14,12 @@ class ContentProvidersControllerTest < ActionController::TestCase
       description: 'New description',
       contact: 'New contact'
     }
-    @mandatory_fields_of_event = { nodes: events(:one).nodes }
+    @event = events(:one)
+    @mandatory_fields_of_event = { nodes: @event.nodes, language: @event.language,
+                                   prerequisites: @event.prerequisites,
+                                   target_audience: @event.target_audience,
+                                   content_providers: @event.content_providers,
+                                   cost_basis: @event.cost_basis }
   end
 
   # Tests
