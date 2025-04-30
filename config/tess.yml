@@ -58,7 +58,7 @@ default: &default
     elearning_materials: false
     events: true
     invitation: false
-    materials: true
+    materials: false
     nodes: true
     collections: false
     content_providers: true

@@ -17,6 +17,10 @@ SimpleCov.start do
 end
 
 ENV['RAILS_ENV'] ||= 'test'
+# Set a default value for SLACK_COURSE_NOTIFICATION_CHANNELS to ensure
+# tests pass without requiring actual environment variables.
+ENV['SLACK_COURSE_NOTIFICATION_CHANNELS'] = '#channel1,#channel2'
+
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 require 'webmock/minitest'
