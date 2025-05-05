@@ -172,7 +172,6 @@ class Event < ApplicationRecord
   validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, presence: true, on: :create
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
-  validate :end_date_is_after_start_date
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
   update_suggestions(:keywords, :target_audience, :host_institutions)
@@ -687,14 +686,12 @@ class Event < ApplicationRecord
         end
 
         # Send email notification to user
-        UserMailer.event_published(self).deliver_later if Event.start > DateTime.now
+        UserMailer.event_published(self).deliver_later if Event.start && Event.start.to_datetime >= DateTime.now
       end
     end
   end
 
   def notify_slack_if_published
-
-
     old_status, new_status = self.previous_changes["event_status"]
 
     awaiting_review = Event.event_statuses.key(0)
@@ -703,7 +700,7 @@ class Event < ApplicationRecord
 
     # Check if the event status has changed to 'approved'
     if ((old_status == awaiting_review && new_status == approved) ||
-      (old_status == revisions_required && new_status == approved)) && Event.start > DateTime.now
+      (old_status == revisions_required && new_status == approved)) && self.start && self.start.to_datetime >= DateTime.now
 
       message =
         <<~MESSAGE
@@ -719,9 +716,5 @@ class Event < ApplicationRecord
 
   def after_switch_to_more_mandatory_fields?
     updated_at.present? && updated_at > Time.new(2025, 4, 1)
-  end
-
-  def end_date_is_after_start_date
-    errors.add(:end, 'cannot be before or equal to the start date') unless self[:end].present? && self[:end] > start
   end
 end

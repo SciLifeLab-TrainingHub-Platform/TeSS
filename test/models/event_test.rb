@@ -14,8 +14,8 @@ class EventTest < ActiveSupport::TestCase
                    timezone: @event.timezone, contact: @event.contact, eligibility: @event.eligibility,
                    host_institutions: @event.host_institutions, nodes: @event.nodes,
                    language: @event.language, prerequisites: @event.prerequisites,
-                   target_audience: @event.target_audience,
-                   content_providers: @event.content_providers, cost_basis: @event.cost_basis }
+                   target_audience: @event.target_audience, content_providers: @event.content_providers,
+                   cost_basis: @event.cost_basis, learning_objectives: @event.learning_objectives}
   end
 
   test 'can get associated nodes for event' do
@@ -775,7 +775,8 @@ class EventTest < ActiveSupport::TestCase
           url: 'https://myevent.com',
           user: users(:regular_user),
           event_status: 1,
-          nodes: [nodes(:good)]
+          nodes: [nodes(:good)],
+          start: DateTime.now.advance(days: 1)
         })
       event = Event.new(parameters)
       event.save
