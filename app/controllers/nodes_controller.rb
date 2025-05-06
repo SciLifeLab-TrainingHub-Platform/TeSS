@@ -3,7 +3,6 @@ class NodesController < ApplicationController
   before_action :feature_enabled?
   before_action :set_node, only: [:show, :edit, :update, :destroy]
   before_action :set_breadcrumbs
-  before_action :redirect_to_root
 
   include SearchableIndex
 
@@ -96,10 +95,5 @@ class NodesController < ApplicationController
     params.require(:node).permit(:name, :member_status, :country_code, :home_page, :staff, :twitter, :image_url,
                                  :description, { institutions: [] }, { carousel_images: [] },
                                  { staff_attributes: [:id, :name, :email, :role, :image, :image_url, :_destroy] })
-  end
-
-  # this is to disable the node route for end user access
-  def redirect_to_root
-    redirect_to root_path, flash: { alert: "This is a restricted page." }
   end
 end

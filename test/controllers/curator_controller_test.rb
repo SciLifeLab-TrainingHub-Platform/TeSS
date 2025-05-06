@@ -196,7 +196,8 @@ class CuratorControllerTest < ActionController::TestCase
     assert_includes assigns(:users), new_user
     assert_select '.panel-heading a[href=?]', @controller.user_path(new_user), text: new_user.username
 
-    (User::CREATED_RESOURCE_TYPES - [:learning_paths, :learning_path_topics]).each do |type|
+    (User::CREATED_RESOURCE_TYPES - [:learning_paths, :learning_path_topics, :nodes]).each do |type|
+
       klass = type.to_s.classify.constantize
       assert_select '.curate-user strong', { text: klass.model_name.human },
                     "#{klass.name.pluralize} missing from list of resources"
@@ -204,7 +205,7 @@ class CuratorControllerTest < ActionController::TestCase
                     text: "See all 4 #{klass.model_name.human.pluralize}"
     end
 
-    [event, material, workflow, collection, provider, source, node].each do |resource|
+    [event, material, workflow, collection, provider, source].each do |resource|
       assert_select '.curate-user a[href=?]', @controller.polymorphic_path(resource), { text: resource.title },
                     "#{@controller.polymorphic_path(resource)} not found!, \nBody:\n#{response.body}"
     end

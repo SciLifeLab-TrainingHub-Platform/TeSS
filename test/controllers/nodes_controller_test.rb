@@ -25,18 +25,27 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     get :index
     assert_response :success
     assert_includes assigns(:nodes), @node
   end
 
   test "should get index as json" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     get :index, format: :json
     assert_response :success
     assert_includes assigns(:nodes), @node
   end
 
   test 'should get index as json-api' do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     get :index, params: { format: :json_api }
     assert_response :success
     assert_not_nil assigns(:nodes)
@@ -55,6 +64,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:admin)
 
     get :new
@@ -62,6 +74,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should create node" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:admin)
 
     assert_difference('Node.count', 1) do
@@ -74,6 +89,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should not create node if non-admin" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:another_regular_user)
 
     assert_no_difference('Node.count') do
@@ -86,6 +104,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should not create node if not logged-in" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     assert_no_difference('Node.count') do
       assert_no_difference('StaffMember.count') do
         post :create, params: { node: @node_attributes }
@@ -96,22 +117,34 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should show node" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     get :show, params: { id: @node }
     assert_response :success
   end
 
   test "should show node as json" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     get :show, params: { id: @node, format: :json }
     assert_response :success
   end
 
   test "should show node as json-api" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     get :show, params: { id: @node, format: :json_api }
     assert_response :success
     assert_valid_json_api_response
   end
 
   test "should get edit" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:admin)
 
     get :edit, params: { id: @node }
@@ -119,6 +152,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should update node" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:admin)
 
     patch :update, params: {
@@ -134,6 +170,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should not allow update if non-admin, non-owner" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:another_regular_user)
 
     patch :update, params: { id: @node, node: { country_code: 'EE' } }
@@ -142,15 +181,24 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should not allow update if not logged-in" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     patch :update, params: { id: @node, node: { country_code: 'EE' } }
 
     assert_redirected_to new_user_session_path
   end
 
   test "should create node staff via edit form" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:admin)
 
     assert_difference('StaffMember.count', 1) do
+      # Test skipped as the node routes have been disabled. For details, see:
+      # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+      skip "Node routes are disabled; skipping this test."
       patch :update, params: {
           id: @node,
           node: { carousel_images: @node.carousel_images, country_code: @node.country_code,
@@ -174,6 +222,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should delete node staff via edit form" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:admin)
 
     assert_difference('StaffMember.count', -1) do
@@ -195,6 +246,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should edit node staff via edit form" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:admin)
 
     patch :update, params: {
@@ -221,6 +275,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test "should destroy node" do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     sign_in users(:admin)
 
     assert_difference('Node.count', -1) do
@@ -231,6 +288,9 @@ class NodesControllerTest < ActionController::TestCase
   end
 
   test 'should cope with node without country' do
+    # Test skipped as the node routes have been disabled. For details, see:
+    # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+    skip "Node routes are disabled; skipping this test."
     n = Node.create(user: users(:admin), name: 'No Country Node')
     assert n.valid?
     assert_nil n.country_code

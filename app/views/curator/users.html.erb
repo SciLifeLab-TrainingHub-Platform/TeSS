@@ -79,6 +79,7 @@
           <% end %><br/>
 
           <% User::CREATED_RESOURCE_TYPES.each do |type| %>
+            <% next if type == :nodes %>
             <% count = user.send(type).count %>
             <% if count > 0 %>
               <% resources = user.send(type).order(created_at: :desc).first(3) %>

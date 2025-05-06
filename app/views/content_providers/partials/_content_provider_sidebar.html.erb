@@ -4,19 +4,22 @@
     <%= content_provider.keywords.join(', ') %>
   </div>
 <% end %>
-<% unless content_provider.node.blank? || !TeSS::Config.feature['nodes'] %>
-  <h4 class="nav-heading">ELIXIR node</h4>
-  <div class="nav-block">
-    <p>
-      <%= link_to country_flag(content_provider.node.country_code, class: 'small-flag'), content_provider.node %>
-      <%= link_to content_provider.node.name, content_provider.node %>
-    </p>
 
-    <p>
-      <%= link_to (image_tag get_image_url_for(content_provider.node), :class => "media-image listing_image"), content_provider.node %>
-    </p>
-  </div>
-<% end %>
+<%# unless content_provider.node.blank? || !TeSS::Config.feature['nodes'] %>
+<!--  <h4 class="nav-heading">ELIXIR node</h4>-->
+<!--  <div class="nav-block">-->
+<!--    <p>-->
+      <%#= link_to country_flag(content_provider.node.country_code, class: 'small-flag'), content_provider.node %>
+      <%#= link_to content_provider.node.name, content_provider.node %>
+<!--    </p>-->
+
+<!--    <p>-->
+      <%#= link_to (image_tag get_image_url_for(content_provider.node), :class => "media-image listing_image"), content_provider.node %>
+<!--    </p>-->
+<!--  </div>-->
+<%# end %>
+
+
 <% unless @content_provider.contact.blank? || TeSS::Config.feature['content_providers_disabled'].include?('contact') %>
   <h4 class="nav-heading">Contact</h4>
   <div class="nav-block">
