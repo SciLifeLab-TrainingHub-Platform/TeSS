@@ -686,7 +686,7 @@ class Event < ApplicationRecord
         end
 
         # Send email notification to user
-        UserMailer.event_published(self).deliver_later if Event.start && Event.start.to_datetime >= DateTime.now
+        UserMailer.event_published(self).deliver_later if self.start && self.start.to_datetime >= DateTime.now
       end
     end
   end

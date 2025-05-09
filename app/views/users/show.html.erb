@@ -128,10 +128,10 @@
     <div class="my-3">
       <% materials = @user.materials.limit(resource_limit) %>
       <% materials_count =  @user.materials.count %>
-      <% upcoming_events = @user.events.not_finished %>
-      <% past_events = @user.events.finished %>
-      <% events = upcoming_events.limit(resource_limit) %>
-      <% events_count =  @user.events.count %>
+      <% upcoming_events = filter_events_by_status(@user.events.not_finished, current_user) %>
+      <% past_events = filter_events_by_status(@user.events.finished, current_user) %>
+      <% events = filter_events_by_status(upcoming_events.limit(resource_limit), current_user) %>
+      <% events_count =  filter_events_by_status(@user.events, current_user).count %>
       <% workflows = @user.workflows.visible_by(current_user).limit(resource_limit) %>
       <% workflows_count =  @user.workflows.visible_by(current_user).count %>
       <% collections = @user.collections.visible_by(current_user).limit(resource_limit) %>

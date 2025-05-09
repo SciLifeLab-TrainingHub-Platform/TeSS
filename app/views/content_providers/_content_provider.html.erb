@@ -1,3 +1,4 @@
+
 <% cache(content_provider, expires_in: 6.hours) do %>
   <li class="masonry-brick media-item <%="long" if TeSS::Config.site.fetch('content_provider_grid_long', true)%>")>
     <%= link_to content_provider, class: 'link-overlay' do %>
@@ -15,8 +16,8 @@
 
       <% if content_provider.events.length > 0 %>
         <div>
-          <strong><%= pluralize(content_provider.events.not_finished.not_disabled.length, 'event') %></strong>
-          <em>(<%= pluralize(content_provider.events.finished.not_disabled.length, 'past event') %>)</em>
+          <strong><%= pluralize(filter_events_by_status(content_provider.events.not_finished.not_disabled, current_user).length, 'event') %></strong>
+          <em>(<%= pluralize(filter_events_by_status(content_provider.events.finished.not_disabled, current_user).length, 'past event') %>)</em>
         </div>
       <% end %>
 
