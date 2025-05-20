@@ -1514,9 +1514,9 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should not show unverified users event anon user' do
-    parameters = @mandatory_fields.merge({ title: 'Hello', description:
-      'World', url:
-                                             'https://example.com/event',
+    parameters = @mandatory_fields.merge({ title: 'Hello',
+                                           description: 'World',
+                                           url: 'https://example.com/event',
                                            event_status: 1 })
     event = users(:unverified_user).events.create!(parameters)
 

@@ -264,14 +264,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_28_132625) do
     t.string "cost_basis", null: false
     t.string "cost_currency"
     t.string "fields", default: [], array: true
+    t.string "open_science", default: [], array: true
     t.boolean "visible", default: true
     t.string "language", null: false
-    t.bigint "llm_interaction_id"
-    t.string "open_science", default: [], array: true
     t.datetime "application_deadline"
     t.integer "event_status", default: 0, null: false
     t.text "admin_notes"
-    t.index ["llm_interaction_id"], name: "index_events_on_llm_interaction_id"
     t.index ["presence"], name: "index_events_on_presence"
     t.index ["slug"], name: "index_events_on_slug", unique: true
     t.index ["user_id"], name: "index_events_on_user_id"
@@ -670,7 +668,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_28_132625) do
   add_foreign_key "event_topics", "topics"
   add_foreign_key "event_venues", "events"
   add_foreign_key "event_venues", "venues"
-  add_foreign_key "events", "llm_interactions"
   add_foreign_key "events", "users"
   add_foreign_key "learning_path_topic_links", "learning_paths"
   add_foreign_key "learning_paths", "content_providers"
