@@ -169,9 +169,9 @@ class Event < ApplicationRecord
   # validates :duration, format: { with: /\A[0-9][0-9]:[0-5][0-9]\z/, message: "must be in format HH:MM" }, allow_blank: true
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
-  validates :node_ids, presence: { message: "Please select at least one node." }, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
-  validates :language, :prerequisites, :target_audience, :content_providers, :cost_basis, presence: true, on: :create
-  validates :language, :prerequisites, :target_audience, :content_providers, :cost_basis, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
+  validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
+  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, presence: true, on: :create
+  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
   update_suggestions(:keywords, :target_audience, :host_institutions)
@@ -686,13 +686,22 @@ class Event < ApplicationRecord
         end
 
         # Send email notification to user
-        UserMailer.event_published(self).deliver_later
+        UserMailer.event_published(self).deliver_later if self.start && self.start.to_datetime >= DateTime.now
       end
     end
   end
 
   def notify_slack_if_published
-    if self.event_status == Event.event_statuses.key(1)
+    old_status, new_status = self.previous_changes["event_status"]
+
+    awaiting_review = Event.event_statuses.key(0)
+    approved = Event.event_statuses.key(1)
+    revisions_required = Event.event_statuses.key(3)
+
+    # Check if the event status has changed to 'approved'
+    if ((old_status == awaiting_review && new_status == approved) ||
+      (old_status == revisions_required && new_status == approved)) && self.start && self.start.to_datetime >= DateTime.now
+
       message =
         <<~MESSAGE
           New Course Announcement from the <#{Rails.application.routes.url_helpers.root_url}|Training Portal>\n

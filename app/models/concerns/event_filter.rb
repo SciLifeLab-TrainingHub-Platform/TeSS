@@ -16,7 +16,7 @@ module EventFilter
             without(:event_status, Event.event_statuses.key(Event.event_statuses[:declined]))
             any_of do
               # Show events belonging to the user
-              with(:user_id, user.id) if attribute_method?(:user_id)
+              with(:user_id, user.id)
               # Or show approved events
               with(:event_status, Event.event_statuses.key(Event.event_statuses[:approved]))
             end

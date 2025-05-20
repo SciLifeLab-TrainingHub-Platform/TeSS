@@ -14,7 +14,9 @@ class CityTest < ActiveSupport::TestCase
                    prerequisites: @event_one.prerequisites,
                    target_audience: @event_one.target_audience,
                    content_providers: @event_one.content_providers,
-                   cost_basis: @event_one.cost_basis  }
+                   cost_basis: @event_one.cost_basis,
+                   learning_objectives: @event_one.learning_objectives
+    }
 
   end
 

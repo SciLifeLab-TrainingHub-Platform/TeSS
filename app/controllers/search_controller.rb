@@ -1,6 +1,9 @@
 # The controller for actions related to searchable models
 class SearchController < ApplicationController
+  included EventFilter
+
   PAGE_SIZE = 30
+
 
   before_action :set_breadcrumbs
 
@@ -16,6 +19,10 @@ class SearchController < ApplicationController
           fulltext search_params
 
           with('end').greater_than(Time.zone.now) if model_name == 'Event'
+          if model_name == 'Event'
+              instance_eval(&EventFilter.event_filter(current_user))
+          end
+
 
           # Hide failing records
           if model.method_defined?(:link_monitor)

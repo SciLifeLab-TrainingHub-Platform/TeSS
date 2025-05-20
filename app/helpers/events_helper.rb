@@ -174,4 +174,21 @@ module EventsHelper
       end
     end
   end
+
+  def filter_events_by_status(events, user)
+    return Event.none if events.blank?
+    if user&.is_admin?
+      events
+    else
+      if user
+        # Show approved events and the user's events (excluding declined)
+        events.where("event_status = ? OR (user_id = ? AND event_status != ?)",
+                     Event.event_statuses[:approved], user.id, Event.event_statuses[:declined])
+      else
+        # Show only approved events for non-logged-in users
+        events.where(event_status: Event.event_statuses[:approved])
+      end
+    end
+  end
+
 end

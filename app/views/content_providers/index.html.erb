@@ -11,14 +11,14 @@
     <%#Commented the below lines to hide register button for content providers%>
     <%
 =begin%>
- <% content_for :buttons do %> 
+ <% content_for :buttons do %>
       <%= link_to new_content_provider_path, class: 'btn btn-primary' do %>
         <%= t('register.buttons.content_providers') %>
       <% end %>
       <%= info_button("What are content providers in #{TeSS::Config.site['title_short']}?", hide_text: true) do %>
         <%= render_markdown(ContentProvidersHelper::CONTENT_PROVIDERS_INFO) %>
       <% end %>
-    <% end %>  
+    <% end %>
 <%
 =end%>
 

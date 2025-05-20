@@ -28,7 +28,8 @@ class EventsControllerTest < ActionController::TestCase
                           contact: @event.contact, eligibility: @event.eligibility,
                           node_ids: [ @event.nodes[0].id ], language: @event.language,
                           prerequisites: @event.prerequisites, target_audience: @event.target_audience,
-                          content_provider_ids: [ @event.content_providers[0].id ], cost_basis: @event.cost_basis }
+                          content_provider_ids: [ @event.content_providers[0].id ], cost_basis: @event.cost_basis,
+                          learning_objectives: @event.learning_objectives }
   end
 
   # Tests
@@ -658,7 +659,7 @@ class EventsControllerTest < ActionController::TestCase
 
   test 'user can update their own event through the API' do
     user = users(:regular_user)
-    event = user.events.first
+    event = user.events.where.not(event_status: Event.event_statuses[:declined]).first
 
     new_title = 'totally new title'
     assert_no_difference('Event.count') do
@@ -837,13 +838,13 @@ class EventsControllerTest < ActionController::TestCase
       patch :update, params: {
         id: event,
         event: @mandatory_fields.merge({
-          title: 'New title',
-          description: 'New description',
-          url: 'http://new.url.com',
-          external_resources_attributes: { '1' => { id: resource.id, title: 'Cool link',
-                                                    url: 'http://www.reddit.com', _destroy: '0' } }
-        }
-                                      )
+                                         title: 'New title',
+                                         description: 'New description',
+                                         url: 'http://new.url.com',
+                                         external_resources_attributes: { '1' => { id: resource.id, title: 'Cool link',
+                                                                                   url: 'http://www.reddit.com', _destroy: '0' } }
+                                       }
+        )
       }
     end
 
@@ -1513,9 +1514,9 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should not show unverified users event anon user' do
-    parameters = @mandatory_fields.merge({ title: 'Hello', description:
-                                           'World', url:
-                                           'https://example.com/event',
+    parameters = @mandatory_fields.merge({ title: 'Hello',
+                                           description: 'World',
+                                           url: 'https://example.com/event',
                                            event_status: 1 })
     event = users(:unverified_user).events.create!(parameters)
 
@@ -1530,4 +1531,221 @@ class EventsControllerTest < ActionController::TestCase
     # assert_select 'strong', text: 'Language of instruction:'
   end
 
+  test 'should display all approved events' do
+    parameters = @mandatory_fields.merge({ title: 'approved event',
+                                           description: 'approved event for should display all approved events',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:approved] })
+
+    event = users(:regular_user).events.create!(parameters)
+    event2 = users(:trusted_user).events.create!(parameters)
+
+    assert event.persisted?, "Event was not successfully created for regular_user"
+    assert event2.persisted?, "Event was not successfully created for another_regular_user"
+
+    sign_in users(:regular_user)
+    get :index
+    assert_response :success
+  end
+
+  test 'should display pending events created by the current user in index page and not by another user' do
+
+    parameters = @mandatory_fields.merge({ title: 'approved event',
+                                           description: 'approved event for should display all approved events',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:awaiting_review], })
+
+    event = users(:regular_user).events.create!(parameters)
+    event2 = users(:another_regular_user).events.create!(parameters)
+
+    assert event.persisted?, "Event was not successfully created for regular_user"
+    assert event2.persisted?, "Event was not successfully created for another_regular_user"
+
+    sign_in users(:regular_user)
+    get :index
+    assert_response :success
+    assert_includes assigns(:events), event
+    assert_not_includes assigns(:events), event2
+
+  end
+
+  test 'should display revisions events created by the current user in index page and not by another user' do
+
+    parameters = @mandatory_fields.merge({ title: 'approved event',
+                                           description: 'approved event for should display all approved events',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:revisions_required], })
+
+    event = users(:regular_user).events.create!(parameters)
+    event2 = users(:another_regular_user).events.create!(parameters)
+
+    assert event.persisted?, "Event was not successfully created for regular_user"
+    assert event2.persisted?, "Event was not successfully created for another_regular_user"
+
+    sign_in users(:regular_user)
+    get :index
+    assert_response :success
+    assert_includes assigns(:events), event
+    assert_not_includes assigns(:events), event2
+  end
+
+  test 'should show approved event to everyone' do
+    parameters = @mandatory_fields.merge({ title: 'approved event',
+                                           description: 'approved event for should display all approved events',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:approved], })
+
+    event = users(:regular_user).events.create!(parameters)
+
+    # As a signed-out user
+    get :show, params: { id: event.id }
+    assert_response :success
+
+    # As a signed-in user
+    sign_in users(:regular_user)
+    get :show, params: { id: event.id }
+    assert_response :success
+  end
+
+  test 'should show awaiting_review event only to owner' do
+    parameters = @mandatory_fields.merge({ title: 'awaiting_review event',
+                                           description: 'awaiting_review event',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:awaiting_review], })
+
+    event = users(:regular_user).events.create!(parameters)
+
+    # As the owner
+    sign_in users(:regular_user)
+    get :show, params: { id: event.id }
+    assert_response :success
+
+    # As another user
+    sign_in users(:another_regular_user)
+    assert_raises(ActiveRecord::RecordNotFound) do
+      get :show, params: { id: event.id }
+    end
+  end
+
+  test 'should show revisions_required event only to owner' do
+    parameters = @mandatory_fields.merge({ title: 'revisions_required event',
+                                           description: 'revisions_required event',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:revisions_required], })
+
+    event = users(:regular_user).events.create!(parameters)
+
+    # As the owner
+    sign_in users(:regular_user)
+    get :show, params: { id: event.id }
+    assert_response :success
+
+    # As another user
+    sign_in users(:another_regular_user)
+    assert_raises(ActiveRecord::RecordNotFound) do
+      get :show, params: { id: event.id }
+    end
+  end
+
+  test 'should show declined event only to admin' do
+    parameters = @mandatory_fields.merge({ title: 'declined event',
+                                           description: 'declined event',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:declined], })
+
+    event = users(:regular_user).events.create!(parameters)
+
+    # As an admin
+    sign_in users(:admin)
+    get :show, params: { id: event.id }
+    assert_response :success
+
+    # As the owner
+    sign_in event.user
+    assert_raises(ActiveRecord::RecordNotFound) do
+      get :show, params: { id: event.id }
+    end
+  end
+
+  test 'should allow edit for approved event only for owner' do
+    parameters = @mandatory_fields.merge({ title: 'approved event',
+                                           description: 'approved event',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:approved], })
+
+    event = users(:regular_user).events.create!(parameters)
+
+    # As the owner
+    sign_in event.user
+    get :edit, params: { id: event.id }
+    assert_response :success
+
+    # As another user
+    sign_in users(:another_regular_user)
+    get :edit, params: { id: event.id }
+
+    assert_response :forbidden
+    assert_select "div#error-message", text: "You are not authorised to perform this action."
+
+  end
+
+  test 'should allow edit for awaiting_review event only for owner' do
+    parameters = @mandatory_fields.merge({ title: 'awaiting_review event',
+                                           description: 'awaiting_review event',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:awaiting_review], })
+
+    event = users(:regular_user).events.create!(parameters)
+
+    # As the owner
+    sign_in event.user
+    get :edit, params: { id: event.id }
+    assert_response :success
+
+    # As another user
+    sign_in users(:another_regular_user)
+    assert_raises(ActiveRecord::RecordNotFound) do
+      get :edit, params: { id: event.id }
+    end
+  end
+
+  test 'should allow edit for revisions_required event only for owner' do
+    parameters = @mandatory_fields.merge({ title: 'revisions_required event',
+                                           description: 'revisions_required event',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:revisions_required], })
+
+    event = users(:regular_user).events.create!(parameters)
+
+    # As the owner
+    sign_in event.user
+    get :edit, params: { id: event.id }
+    assert_response :success
+
+    # As another user
+    sign_in users(:another_regular_user)
+    assert_raises(ActiveRecord::RecordNotFound) do
+      get :edit, params: { id: event.id }
+    end
+  end
+
+  test 'should allow edit for declined event only to admin' do
+    parameters = @mandatory_fields.merge({ title: 'declined event',
+                                           description: 'declined event',
+                                           url: 'https://example.com/event',
+                                           event_status: Event.event_statuses[:declined], })
+
+    event = users(:regular_user).events.create!(parameters)
+
+    # As an admin
+    sign_in users(:admin)
+    get :edit, params: { id: event.id }
+    assert_response :success
+
+    # As the owner
+    sign_in event.user
+    assert_raises(ActiveRecord::RecordNotFound) do
+      get :edit, params: { id: event.id }
+    end
+  end
 end

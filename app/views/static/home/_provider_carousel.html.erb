@@ -33,10 +33,11 @@
     </div>
 
     <div class="text-center font-size-lg">
-      <%== t 'home.providers.content' %>
       <p>
-        <%= link_to t('home.providers.button_text'), registering_resources_path, class: 'btn btn-primary' %>
+      Are you holding a course or workshop for the life science community?
       </p>
+      <p>
+        <%= link_to "Add it here", new_event_path, class: 'btn btn-primary' %>      </p>
     </div>
   </section>
 <% end %>

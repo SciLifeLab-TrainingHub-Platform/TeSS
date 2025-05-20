@@ -19,7 +19,8 @@ class ContentProvidersControllerTest < ActionController::TestCase
                                    prerequisites: @event.prerequisites,
                                    target_audience: @event.target_audience,
                                    content_providers: @event.content_providers,
-                                   cost_basis: @event.cost_basis }
+                                   cost_basis: @event.cost_basis,
+                                   learning_objectives: @event.learning_objectives}
   end
 
   # Tests

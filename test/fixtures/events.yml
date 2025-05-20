@@ -58,6 +58,7 @@ two:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 month_long_event:
   title: Month-long event
@@ -78,6 +79,7 @@ month_long_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 year_long_event:
   title: Year-long event
@@ -98,6 +100,7 @@ year_long_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 iann_event:
   title: iAnn event
@@ -112,6 +115,7 @@ iann_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 scraper_user_event:
   title: material owned by scraper
@@ -131,6 +135,7 @@ scraper_user_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 event_with_external_resource:
   title: External Resource Event
@@ -149,7 +154,8 @@ event_with_external_resource:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
-  
+  learning_objectives: "There are some."
+
 event_with_no_start:
   title: No Start Time
   url: http://myurl.com
@@ -166,7 +172,8 @@ event_with_no_start:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
-  
+  learning_objectives: "There are some."
+
 event_with_no_end:
   title: No End Time
   url: http://myurl.com
@@ -183,7 +190,8 @@ event_with_no_end:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
-  
+  learning_objectives: "There are some."
+
 online_event_with_no_end:
   title: No End Time
   url: http://myurl.com
@@ -201,7 +209,8 @@ online_event_with_no_end:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
-  
+  learning_objectives: "There are some."
+
 organisation_event:
   title: Fun Training Day
   url: http://content-provider.org/event
@@ -219,7 +228,8 @@ organisation_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
-  
+  learning_objectives: "There are some."
+
 portal_event:
   presence: 0
   title: Awesome Training Day
@@ -239,6 +249,7 @@ portal_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 dodgy_country_event:
   title: Fun Training Day
@@ -257,7 +268,8 @@ dodgy_country_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
-  
+  learning_objectives: "There are some."
+
 no_description_event:
   title: All you need to know is in the title
   url: http://content-provider.org/no-desc-event
@@ -274,7 +286,8 @@ no_description_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
-  
+  learning_objectives: "There are some."
+
 event_with_report:
   title: This event happened
   url: http://content-provider.org/event-with-report
@@ -295,7 +308,7 @@ event_with_report:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
-
+  learning_objectives: "There are some."
 
 another_event_with_report:
   title: This event happened
@@ -315,6 +328,7 @@ another_event_with_report:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 shadowbanned_event:
   external_id: MyString1
@@ -341,6 +355,7 @@ shadowbanned_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 failing_event:
   title: Collision With Iceberg
@@ -361,6 +376,7 @@ failing_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 kilburn:
   title: Kilburn Event
@@ -381,6 +397,7 @@ kilburn:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 calendar_event:
   title: "calendar event"
@@ -405,6 +422,7 @@ calendar_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 training_event:
   title: "calendar event"
@@ -431,6 +449,8 @@ training_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
+
 
 ical_event_1:
   title: P'Con - Embracing new solutions for in-situ visualisation
@@ -454,6 +474,7 @@ ical_event_1:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 ical_event_2:
   title: "PaCER Seminar: Computational Fluid Dynamics"
@@ -477,6 +498,7 @@ ical_event_2:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 course_event:
   title: Summer Course on Learning Stuff
@@ -504,7 +526,6 @@ course_event:
   event_status: 1
   language: "en"
   prerequisites: "You should be awake."
-  target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
 
 hybrid_event:
@@ -521,6 +542,7 @@ hybrid_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
 
 approved_event:
   title: approved event
@@ -536,3 +558,53 @@ approved_event:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
+
+awaiting_review_event:
+  title: awaiting review event
+  url: http://myurl.com
+  description: 'this is an pending event'
+  user: regular_user
+  host_institutions: ["MyHost"]
+  timezone: UTC
+  contact: MyContact
+  eligibility: [ registration_of_interest ]
+  event_status: 0
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
+
+declined_event:
+  title: declined event
+  url: http://myurl.com
+  description: 'this is an declined event'
+  user: regular_user
+  host_institutions: ["MyHost"]
+  timezone: UTC
+  contact: MyContact
+  eligibility: [ registration_of_interest ]
+  event_status: 2
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
+
+revisions_required_event:
+  title: revisions required event
+  url: http://myurl.com
+  description: 'this is an revisions required event'
+  user: regular_user
+  host_institutions: ["MyHost"]
+  timezone: UTC
+  contact: MyContact
+  eligibility: [ registration_of_interest ]
+  event_status: 3
+  language: "en"
+  prerequisites: "You should be awake."
+  target_audience: ['Everyone!']
+  cost_basis: "2 monies for students, 5 monies for everyone else"
+  learning_objectives: "There are some."
+
