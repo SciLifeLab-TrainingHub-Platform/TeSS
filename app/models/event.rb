@@ -664,9 +664,6 @@ class Event < ApplicationRecord
       if (old_status == awaiting_review && new_status == approved) ||
         (old_status == revisions_required && new_status == approved)
 
-        # Increment and save the approved events count
-        self.user.update!(approved_events_count: self.user.approved_events_count + 1)
-
         # Fetch role information
         trusted_user_role = Role.find_by(title: "Trusted user")
         registered_user_role = Role.find_by(title: "Registered user")
@@ -676,13 +673,14 @@ class Event < ApplicationRecord
           raise "Required roles not found."
         end
 
-        # Check if the user is eligible for role change
-        if self.user.approved_events_count > User::EVENT_APPROVAL_THRESHOLD &&
+        # Check if the user qualifies for a role change based on the approval threshold
+        if self.user.approved_events_count + 1 > User::EVENT_APPROVAL_THRESHOLD &&
           self.user.role_id == registered_user_role.id
-
-          # Update the user's role
-          self.user.update!(role_id: trusted_user_role.id)
-          puts "User role updated to 'trusted_user'."
+          # Increment approved_events_count and update the user's role to "Trusted user" in one step
+          self.user.update!(approved_events_count: self.user.approved_events_count + 1, role_id: trusted_user_role.id)
+        else
+          # Only increment approved_events_count if no role change is needed
+          self.user.update!(approved_events_count: self.user.approved_events_count + 1)
         end
 
         # Send email notification to user
