@@ -127,6 +127,7 @@ class Event < ApplicationRecord
     # :nocov:
   end
 
+  alias_attribute(:learning_outcomes, :learning_objectives)
   attr_accessor :new_venues
   attr_accessor :new_cities
   enum presence: { onsite: 0, online: 1, hybrid: 2 }
