@@ -36,6 +36,13 @@ class Event < ApplicationRecord
     configure :learning_objectives do
       label 'learning outcomes'
     end
+    configure :target_audience, :serialized do
+      label 'Target Audience'
+      help 'Enter items either as an array (e.g., [Students, Teachers, Researchers]) or in the specified format, with each item on a new line starting with a dash (-).'
+      pretty_value do
+        value.join(', ') if value.present?
+      end
+    end
   end
 
 
