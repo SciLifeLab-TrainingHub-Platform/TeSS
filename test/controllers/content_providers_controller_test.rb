@@ -521,7 +521,6 @@ class ContentProvidersControllerTest < ActionController::TestCase
     get :show, params: { id: @content_provider }
     assert_response :success
     assert_select '#sidebar' do
-      assert_select '.nav-heading', text: 'ELIXIR node', count: 1
       assert_select '.nav-heading', text: 'Keywords', count: 1
       assert_select '.nav-heading', text: 'Contact', count: 1
       assert_select '.nav-heading', text: 'Owner', count: 1

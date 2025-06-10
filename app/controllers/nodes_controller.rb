@@ -97,9 +97,4 @@ class NodesController < ApplicationController
                                  :description, { institutions: [] }, { carousel_images: [] },
                                  { staff_attributes: [:id, :name, :email, :role, :image, :image_url, :_destroy] })
   end
-
-  # this is to disable the node route for end user access
-  def redirect_to_root
-    redirect_to root_path, flash: { alert: "This is a restricted page." }
-  end
 end

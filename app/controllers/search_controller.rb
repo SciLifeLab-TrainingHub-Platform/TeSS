@@ -4,7 +4,6 @@ class SearchController < ApplicationController
 
   PAGE_SIZE = 30
 
-
   before_action :set_breadcrumbs
 
   # GET /searches

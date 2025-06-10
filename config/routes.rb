@@ -64,7 +64,9 @@ Rails.application.routes.draw do
 
   resources :trainers, only: [:show, :index]
 
-  resources :nodes, concerns: :activities
+  # Node routes disabled. For details, see:
+  # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
+  # resources :nodes, concerns: :activities
 
   resources :events, concerns: :activities do
     collection do
