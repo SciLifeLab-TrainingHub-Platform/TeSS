@@ -32,7 +32,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./pg-backup
-          file: ./pgbackup/Dockerfile
+          file: ./pg-backup/Dockerfile
           push: true
           tags: |
             ghcr.io/scilifelab-traininghub-platform/pgbackup-curl:test-${{ github.ref_name }}
