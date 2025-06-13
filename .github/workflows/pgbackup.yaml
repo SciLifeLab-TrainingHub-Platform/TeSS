@@ -1,9 +1,6 @@
 name: Build and Push Postgres-Curl Image to GHCR
 
 on:
-  push:
-    branches:
-      - harshita_addpgbackup
   workflow_dispatch:  # Allows manual trigger from any branch
 
 
@@ -35,5 +32,5 @@ jobs:
           file: ./pg-backup/Dockerfile
           push: true
           tags: |
-            ghcr.io/scilifelab-traininghub-platform/pgbackup-curl:test-${{ github.ref_name }}
-            ghcr.io/scilifelab-traininghub-platform/pgbackup-curl:test-${{ github.ref_name }}-run-${{ github.run_number }}
+            ghcr.io/scilifelab-traininghub-platform/pgbackup-curl:latest
+            ghcr.io/scilifelab-traininghub-platform/pgbackup-curl:${{ github.ref_name }}-run-${{ github.run_number }}
