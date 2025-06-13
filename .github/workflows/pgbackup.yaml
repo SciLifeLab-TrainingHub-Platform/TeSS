@@ -1,7 +1,11 @@
 name: Build and Push Postgres-Curl Image to GHCR
 
 on:
+  push:
+    branches:
+      - harshita_addpgbackup
   workflow_dispatch:  # Allows manual trigger from any branch
+
 
 jobs:
   build-and-push:
