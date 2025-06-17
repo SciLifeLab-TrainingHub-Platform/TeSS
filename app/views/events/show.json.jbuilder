@@ -14,7 +14,7 @@ fields = [
   :capacity, :cost_basis, :cost_value, :cost_currency,
 
   :target_audience, :eligibility, :recognition, :learning_objectives,
-  :prerequisites, :tech_requirements,
+  :prerequisites, :tech_requirements, :application_deadline,
 
   :source, :slug, :last_scraped, :scraper_record, :created_at, :updated_at
 ]
