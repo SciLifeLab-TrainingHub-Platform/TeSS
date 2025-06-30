@@ -323,10 +323,16 @@ class EventsController < ApplicationController
   end
 
   def set_event_dependencies
+
     @venues = Venue.all
-    @cities = City.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
+    @country_code = if @event
+                      JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json'))).key(@event.country) || "SE"
+                    else
+                      "SE"
+                    end
+    @cities = City.where(country_code: @country_code)
   end
 
   def formatNodeIdsForRadio

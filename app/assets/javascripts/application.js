@@ -381,3 +381,40 @@ $(document).ready(function () {
         $('#flash-container').removeClass('show');
     }, 3000);
 })
+
+function get_city_by_country_code(country_code, element) {
+    const routeLink = $(element).data('route-link'); // Get the route link from the element
+
+    $.ajax({
+        url:  routeLink,
+        type: 'POST',
+        data: {
+            country_code: country_code,
+        },
+        datatype: 'json',
+        success: function (data) {
+            let cities = data.cities
+            const citySelect = document.getElementById('event_city_ids');
+
+            // Clear existing options
+            citySelect.innerHTML = '';
+
+            // Populate with new options
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.id;
+                option.textContent = city.name;
+                citySelect.appendChild(option);
+            });
+
+            // Reinitialize Select2 if applicable
+            if ($(citySelect).hasClass('js-select2')) {
+                $(citySelect).trigger('change'); // Notify Select2 of changes
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("error")
+            console.log(jqXHR, textStatus, errorThrown)
+        }
+    });
+}

@@ -16,22 +16,16 @@
 </div>
 
 <div class="manual-address-fields">
-  <div class="field">
-    <%= f.label :venue_ids, "Venues", class: 'control-label'%> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_venue_collapse"><small>Add new venue</small></a>
-    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.venue_hint') %>">&#xe086;</span>
-    <%= f.collection_select :venue_ids, @venues, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |venue| %>
-      <option value="<%= venue.id %>" <%= 'selected="selected"' if @selected_venue_ids.include?(venue.id) %>>
-        <%= venue.name %>
-      </option>
-    <% end %>
-    <span class="help-block small">Choose one or more venues for the event. To add new venue click "Add new venue"</span>
-  </div>
 
-  <div id="new_venue_collapse" class="collapse">
-    <%= f.text_area :new_venues, placeholder: "Enter new venues separated by Semicolon (;)", rows: 5, style: "width: 100%;" %>
-    <br>
-  </div>
-
+  <%= f.input :country,
+              priority: priority_countries,
+              required: true,
+              selected: @country_code,
+              input_html: {
+                onchange: "get_city_by_country_code(this.value, this)",
+                'data-route-link': cities_by_country_path
+              }
+  %>
   <div class="field">
     <%= f.label :city_ids, "Cities", class: 'control-label'%> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_cities_collapse"><small>Add new city</small></a>
     <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.city_hint') %>">&#xe086;</span>
@@ -48,13 +42,29 @@
     <br>
   </div>
 
+  <div class="field">
+    <%= f.label :venue_ids, "Venues", class: 'control-label'%> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_venue_collapse"><small>Add new venue</small></a>
+    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.venue_hint') %>">&#xe086;</span>
+    <%= f.collection_select :venue_ids, @venues, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |venue| %>
+      <option value="<%= venue.id %>" <%= 'selected="selected"' if @selected_venue_ids.include?(venue.id) %>>
+        <%= venue.name %>
+      </option>
+    <% end %>
+    <span class="help-block small">Choose one or more venues for the event. To add new venue click "Add new venue"</span>
+  </div>
+
+  <div id="new_venue_collapse" class="collapse">
+    <%= f.text_area :new_venues, placeholder: "Enter new venues separated by Semicolon (;)", rows: 5, style: "width: 100%;" %>
+    <br>
+  </div>
+
+
   <!-- County: check disabled -->
   <%# if !TeSS::Config.feature['disabled'].include? 'county' %>
     <%#= f.input :county %>
   <%# end %>
 
   <% alpha2 = @event.nil? ? '' : country_alpha2_by_name(@event.country) %>
-  <%= f.input :country, priority: priority_countries, required: true, selected: "SE" %>
   <%#= f.input :postcode %>
   <%= f.hidden_field :latitude %>
   <%= f.hidden_field :longitude %>
