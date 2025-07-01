@@ -1,10 +1,15 @@
 require 'json'
 require 'httparty'
 
+# to execute this file run
+# rake city:import
 namespace :city do
   desc 'Import cities from external JSON file and save them to the database'
 
   task import: :environment do
+    # Ensure the "Online" city is added
+    City.find_or_create_by(name: "Online", country_code: nil)
+
     url = 'https://raw.githubusercontent.com/lutangar/cities.json/master/cities.json'
 
     puts "Fetching city data from #{url}..."

@@ -27,19 +27,14 @@
               }
   %>
   <div class="field">
-    <%= f.label :city_ids, "Cities", class: 'control-label'%> <a class="btn-link" role="button" tabindex="0" data-toggle="collapse" data-target="#new_cities_collapse"><small>Add new city</small></a>
+    <%= f.label :city_ids, "Cities", class: 'control-label'%>
     <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.city_hint') %>">&#xe086;</span>
     <%= f.collection_select :city_ids, @cities, :id, :name, { include_blank: false }, { class: 'js-select2', style: 'width: 100%;', multiple: true } do |city| %>
       <option value="<%= city.id %>" <%= 'selected="selected"' if @selected_cities_ids.include?(city.id) %>>
         <%= city.name %>
       </option>
     <% end %>
-    <span class="help-block small">Choose one or more cities for the event. To add new city click "Add new city"</span>
-  </div>
-
-  <div id="new_cities_collapse" class="collapse">
-    <%= f.text_area :new_cities, placeholder: "Enter new cities names separated by Semicolon (;)", rows: 5, style: "width: 100%;" %>
-    <br>
+    <span class="help-block small">Choose one or more cities for the event.</span>
   </div>
 
   <div class="field">

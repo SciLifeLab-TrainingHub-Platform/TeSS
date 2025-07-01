@@ -11,7 +11,6 @@ class CitiesControllerTest  < ActionController::TestCase
     @city_4 = City.create!(name: "London", country_code: "GB")
   end
 
-
   test "should return 400 when country_code is missing" do
     post :cities_by_country, params: {}, as: :json
     assert_response :bad_request
