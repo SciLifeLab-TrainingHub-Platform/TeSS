@@ -8,7 +8,7 @@ namespace :city do
 
   task import: :environment do
     # Ensure the "Online" city is added
-    City.find_or_create_by(name: "Online", country_code: nil)
+    City.find_or_create_by(name: City::ONLINE_CITY, country_code: nil)
 
     url = 'https://raw.githubusercontent.com/lutangar/cities.json/master/cities.json'
 
