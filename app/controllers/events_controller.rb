@@ -320,7 +320,7 @@ class EventsController < ApplicationController
                     else
                       "SE"
                     end
-    @cities = City.where(country_code: @country_code).or(City.online)
+    @cities = City.where(country_code: @country_code).or(City.online).order(:name)
   end
 
   def formatNodeIdsForRadio

@@ -7,22 +7,15 @@ class CitiesController < ApplicationController
       # 400 Bad Request: Missing country code
       respond_to do |format|
         format.json { render json: { error: "Country code is required" }, status: 400 }
-        end
+      end
       return
     end
 
-    cities = City.where(country_code: country_code).select( "id, name")
+    cities = City.where(country_code: country_code).select("id, name").order(:name)
 
-    if cities.present?
-      # 200 OK: Cities found
-      respond_to do |format|
-        format.json { render json: { cities: cities }, status: 200 }
-      end
-    else
-      # 404 Not Found: No cities for the given country code
-      respond_to do |format|
-        format.json { render json: { error: "No cities found for the given country code" }, status: 404 }
-      end
+    # 200 OK: Cities found
+    respond_to do |format|
+      format.json { render json: { cities: cities }, status: 200 }
     end
   rescue StandardError => e
     # 500 Internal Server Error: Unexpected issue

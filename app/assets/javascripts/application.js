@@ -153,7 +153,7 @@ document.addEventListener("turbolinks:load", function(e) {
     $('[data-toggle="tab"]').each(function() {
         if (("#" + this.href.split("#").pop()) === window.location.hash) {
             if (!("active" in this.parentElement.classList)) {
-                $(this).tab('show'); 
+                $(this).tab('show');
             }
         }
     })
@@ -384,17 +384,17 @@ $(document).ready(function () {
 
 function get_city_by_country_code(country_code, element) {
     const routeLink = $(element).data('route-link'); // Get the route link from the element
+    const citySelect = document.getElementById('event_city_ids');
 
     $.ajax({
-        url:  routeLink,
+        url: routeLink,
         type: 'POST',
         data: {
             country_code: country_code,
         },
-        datatype: 'json',
+        dataType: 'json',
         success: function (data) {
             let cities = data.cities
-            const citySelect = document.getElementById('event_city_ids');
 
             // Clear existing options
             citySelect.innerHTML = '';
@@ -406,15 +406,15 @@ function get_city_by_country_code(country_code, element) {
                 option.textContent = city.name;
                 citySelect.appendChild(option);
             });
-
-            // Reinitialize Select2 if applicable
-            if ($(citySelect).hasClass('js-select2')) {
-                $(citySelect).trigger('change'); // Notify Select2 of changes
-            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log("error")
-            console.log(jqXHR, textStatus, errorThrown)
+            // Clear existing options
+            citySelect.innerHTML = '';
+        },
+        complete: function (data) {
+            if ($(citySelect).hasClass('js-select2')) {
+                $(citySelect).trigger('change');
+            }
         }
     });
 }
