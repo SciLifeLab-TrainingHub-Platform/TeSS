@@ -56,6 +56,10 @@
       </div>
 
       <div class="my-3">
+        <% if @event.registration_form_url.present? %>
+            <strong>Registration form:</strong>
+            <%= link_to 'Click here to register for the event', @event.registration_form_url, target: '_blank', rel: 'noopener' %>
+        <% end %>
         <!-- Field: start and end -->
         <p class="date no-spacing">
           <strong class="text-primary"> Date: </strong>
