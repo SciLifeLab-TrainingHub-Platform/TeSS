@@ -1,12 +1,15 @@
 <%# header notice -%>
 <% if TeSS::Config.header_notice&.strip.present? %>
-  <nav class="header-notice">
-    <div class="container">
-      <div class="text-center">
-        <%== TeSS::Config.header_notice %>
+  <% unless Rails.env.production? %>
+    <nav class="header-notice">
+      <div class="container">
+        <div class="text-center">
+          <%== TeSS::Config.header_notice %>
+          <%= Rails.env %>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  <% end %>
 <% end %>
 
 <header class="unified-header">
@@ -54,7 +57,7 @@
             { feature: 'trainers', link: trainers_path },
             { feature: 'content_providers', link: content_providers_path },
             # { feature: 'nodes', link: nodes_path },
-            { feature: 'our_resources', link: our_resources_path}
+            { feature: 'our_resources', link: our_resources_path }
           ].select do |t|
             t[:feature] == 'about' || TeSS::Config.feature[t[:feature]]
           end.sort_by do |t|
