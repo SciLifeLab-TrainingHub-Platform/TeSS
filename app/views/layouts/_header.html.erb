@@ -1,14 +1,16 @@
 <%# header notice -%>
-<% if TeSS::Config.header_notice&.strip.present? %>
-  <% unless Rails.env.production? %>
-    <nav class="header-notice">
-      <div class="container">
-        <div class="text-center">
-          <%== TeSS::Config.header_notice %>
-        </div>
+<% if TeSS::Config.header_notice&.strip.present? &&
+  ENV['DEPLOYMENT_ENV'].present? &&
+  ENV['DEPLOYMENT_ENV'] != 'live'
+%>
+  <nav class="header-notice">
+    <div class="container">
+      <div class="text-center">
+        <%== TeSS::Config.header_notice %>
+        <%== ENV['DEPLOYMENT_ENV'] %>
       </div>
-    </nav>
-  <% end %>
+    </div>
+  </nav>
 <% end %>
 
 <header class="unified-header">
