@@ -1,5 +1,8 @@
 <%# header notice -%>
-<% if TeSS::Config.header_notice&.strip.present? %>
+<% if TeSS::Config.header_notice&.strip.present? &&
+  ENV['DEPLOYMENT_ENV'].present? &&
+  ENV['DEPLOYMENT_ENV'] != 'live'
+%>
   <nav class="header-notice">
     <div class="container">
       <div class="text-center">
@@ -54,7 +57,7 @@
             { feature: 'trainers', link: trainers_path },
             { feature: 'content_providers', link: content_providers_path },
             # { feature: 'nodes', link: nodes_path },
-            { feature: 'our_resources', link: our_resources_path}
+            { feature: 'our_resources', link: our_resources_path }
           ].select do |t|
             t[:feature] == 'about' || TeSS::Config.feature[t[:feature]]
           end.sort_by do |t|
