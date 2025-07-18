@@ -178,7 +178,7 @@ class Event < ApplicationRecord
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
   validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
-  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, presence: true, on: :create
+  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, :start, :end, presence: true, on: :create
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
