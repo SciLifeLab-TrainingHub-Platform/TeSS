@@ -31,6 +31,10 @@ class ContentProvider < ApplicationRecord
   # Validate the URL is in correct format via valid_url gem
   validates :url, url: true
 
+  # Validates approval_notification_email format using standard email regex.
+  # Allows blank values so the field is optional, but if present, it must be a valid email.
+  validates :approval_notification_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
+
   clean_array_fields(:keywords)
 
   has_image(placeholder: TeSS::Config.placeholder['content_provider'])
@@ -48,6 +52,7 @@ class ContentProvider < ApplicationRecord
       end
       # other fields
       string :title
+      string :approval_notification_email
       string :keywords, :multiple => true
       string :node, :multiple => true do
         unless self.node.blank?
