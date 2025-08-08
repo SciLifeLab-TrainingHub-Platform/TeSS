@@ -10,11 +10,4 @@ class UserMailerPreview < ActionMailer::Preview
     @event = Event.first
     UserMailer.event_submitted(@event)
   end
-
-  def notify_content_provider
-    @event = Event.first
-    @content_provider = @event&.content_providers&.first
-    raise "No event or content provider found for preview" unless @event && @content_provider
-    UserMailer.notify_content_provider(@event, @content_provider)
-  end
 end

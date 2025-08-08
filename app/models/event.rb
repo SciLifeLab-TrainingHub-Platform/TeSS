@@ -648,7 +648,7 @@ class Event < ApplicationRecord
       # If true, send a notification email to the user.
       UserMailer.event_published(self).deliver_later if user.has_role?('trusted_user')
       for content_provider in self.content_providers
-        UserMailer.notify_content_provider(self, content_provider).deliver_later
+        ContentProviderMailer.notify_content_provider(self, content_provider).deliver_later
       end
     else
       # If the user is not trusted, the event requires admin review.
@@ -697,7 +697,7 @@ class Event < ApplicationRecord
         # Send email notification to user
         UserMailer.event_published(self).deliver_later if self.start && self.start.to_datetime >= DateTime.now
         self.content_providers.each { |content_provider|
-          UserMailer.notify_content_provider(self, content_provider).deliver_later
+          ContentProviderMailer.notify_content_provider(self, content_provider).deliver_later
         }
       end
     end
