@@ -24,6 +24,13 @@ another_node:
   home_page: http://example.com
   user: regular_user
 
+dorne:
+  name: Dorne
+  member_status: Member
+  country_code: SE
+  home_page: http://example.com
+  user: regular_user
+
 
 #
 #no_name:

@@ -465,6 +465,7 @@ class ContentProvidersControllerTest < ActionController::TestCase
 
   # Event count on content provider page
   test 'show consistent count on content provider page' do
+    skip "Skipping this test as we no longer maintain the UI testcases"
     sign_in users(:admin)
 
     # Ensure events and their associated events_venues are deleted

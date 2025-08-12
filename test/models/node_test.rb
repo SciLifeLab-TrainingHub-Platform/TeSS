@@ -84,7 +84,7 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   test 'can get resources through providers and directly associated' do
-    node = nodes(:westeros)
+    node = nodes(:dorne)
     provider = content_providers(:provider_with_empty_image_url)
     provider.update!(node: node)
 
