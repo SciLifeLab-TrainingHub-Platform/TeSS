@@ -18,18 +18,9 @@
 
 <script>
     function guide_sidebar_show_item(elementClicked) {
-        let allGuideCategories = document.getElementsByClassName('guide_page_category');
-        for (let i = 0; i < allGuideCategories.length; i++) {
-            allGuideCategories[i].classList.remove('active');
-        }
-
         let targetElementId = elementClicked.getAttribute('href').substring(1);
         let targetElement = document.getElementById(targetElementId);
-
-        if (targetElement) {
-            targetElement.classList.add('active');
-        }
-        document.getElementById(elementClicked.href.split('#')[1]).scrollIntoView();
+        document.getElementById(elementClicked.href.split('#')[1]).scrollIntoView({ behavior: 'smooth', block: 'start' });
         return false;
     }
 </script>
