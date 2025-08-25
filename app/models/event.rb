@@ -136,7 +136,6 @@ class Event < ApplicationRecord
 
   alias_attribute(:learning_outcomes, :learning_objectives)
   attr_accessor :new_venues
-  attr_accessor :new_cities
   enum presence: { onsite: 0, online: 1, hybrid: 2 }
   enum event_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3 }
 
@@ -539,19 +538,10 @@ class Event < ApplicationRecord
 
   def city=(value)
     # If city_string is not nil or empty, modify the cities association
-    if value.present?
-      if value.instance_of? String
-        city_names = value.split(CITY_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
-        existing_cities = self.cities
-        new_cities = city_names.map do |name|
-          City.find_or_create_by(name: name)
-        end
-        self.cities = (existing_cities + new_cities).uniq
-      elsif value.instance_of? City
+    if value.present? && value.is_a?(City)
         existing_cities = self.cities
         self.cities = (existing_cities + [value]).uniq
       end
-    end
   end
 
   def topic
