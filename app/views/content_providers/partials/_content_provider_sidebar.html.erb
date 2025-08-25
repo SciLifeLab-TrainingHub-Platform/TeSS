@@ -27,6 +27,13 @@
   </div>
 <% end %>
 
+<% unless @content_provider.approval_notification_email.blank? %>
+  <h4 class="nav-heading">Approval notification email address</h4>
+  <div class="nav-block">
+    <%= content_provider.approval_notification_email %>
+  </div>
+<% end %>
+
 <%= render partial: 'content_providers/partials/content_provider_schemaorg',
            locals: { content_provider: @content_provider } %>
 

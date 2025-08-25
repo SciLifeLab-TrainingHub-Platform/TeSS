@@ -1,0 +1,19 @@
+Hello,
+
+This is a notification from the Training Hub Portal that an event associated with your content provider, <%= @content_provider.title %>, has been approved.
+
+
+- Event Title: <%= @event.title %>
+- Date: <%= @event.start.strftime('%B %d, %Y') %> <% if @event.end && @event.end != @event.start %>– <%= @event.end.strftime('%B %d, %Y') %><% end %>
+- Location: <%= @event.venue || 'Online' %>
+- Link: <%= event_url(@event) %>
+
+
+You received this email because your content provider profile includes the following notification email address:
+<%= @content_provider.approval_notification_email %>.
+
+
+To update this address, visit the <a href="<%= edit_content_provider_url(@content_provider) %>">content provider settings</a>.
+
+Best regards,
+The Training Hub Team

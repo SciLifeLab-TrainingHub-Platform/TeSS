@@ -1342,6 +1342,10 @@ components:
           type: string
           nullable: true
           description: A point of contact for this content provider.
+        approval-notification-email:
+          type: string
+          nullable: true
+          format: email
     ContentProviderCollection:
       allOf:
         - $ref: '#/components/schemas/FacetedCollection'
