@@ -153,7 +153,7 @@ document.addEventListener("turbolinks:load", function(e) {
     $('[data-toggle="tab"]').each(function() {
         if (("#" + this.href.split("#").pop()) === window.location.hash) {
             if (!("active" in this.parentElement.classList)) {
-                $(this).tab('show'); 
+                $(this).tab('show');
             }
         }
     })
@@ -381,3 +381,40 @@ $(document).ready(function () {
         $('#flash-container').removeClass('show');
     }, 3000);
 })
+
+function get_city_by_country_code(country_code, element) {
+    const routeLink = $(element).data('route-link'); // Get the route link from the element
+    const citySelect = document.getElementById('event_city_ids');
+
+    $.ajax({
+        url: routeLink,
+        type: 'POST',
+        data: {
+            country_code: country_code,
+        },
+        dataType: 'json',
+        success: function (data) {
+            let cities = data.cities
+
+            // Clear existing options
+            citySelect.innerHTML = '';
+
+            // Populate with new options
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.id;
+                option.textContent = city.name;
+                citySelect.appendChild(option);
+            });
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            // Clear existing options
+            citySelect.innerHTML = '';
+        },
+        complete: function (data) {
+            if ($(citySelect).hasClass('js-select2')) {
+                $(citySelect).trigger('change');
+            }
+        }
+    });
+}

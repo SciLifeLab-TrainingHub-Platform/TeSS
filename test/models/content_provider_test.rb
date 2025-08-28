@@ -90,4 +90,25 @@ class ContentProviderTest < ActiveSupport::TestCase
     assert_nil LearningPath.find_by_id(learning_path.id)
     assert_nil Source.find_by_id(source.id)
   end
+
+  test 'should be valid with a proper approval_notification_email' do
+    content_provider = content_providers(:approval_notification_email_contact_provider)
+    assert content_provider.valid?, 'ContentProvider with valid approval_notification_email should be valid'
+  end
+
+  test 'should be valid without approval_notification_email' do
+    content_provider = content_providers(:no_approval_notification_email_contact_provider)
+    assert content_provider.valid?, 'ContentProvider without approval_notification_email should still be valid'
+  end
+
+  test 'should be valid with empty approval_notification_email' do
+    content_provider = content_providers(:empty_approval_notification_email_contact_provider)
+    assert content_provider.valid?, 'ContentProvider with empty approval_notification_email should be valid'
+  end
+
+  test 'should be invalid with malformed approval_notification_email' do
+    content_provider = content_providers(:invalid_approval_notification_email_contact_provider)
+    assert_not content_provider.valid?, 'ContentProvider with invalid approval_notification_email should not be valid'
+    assert_includes content_provider.errors[:approval_notification_email], 'is invalid'
+  end
 end

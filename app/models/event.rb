@@ -136,7 +136,6 @@ class Event < ApplicationRecord
 
   alias_attribute(:learning_outcomes, :learning_objectives)
   attr_accessor :new_venues
-  attr_accessor :new_cities
   enum presence: { onsite: 0, online: 1, hybrid: 2 }
   enum event_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3 }
 
@@ -179,8 +178,8 @@ class Event < ApplicationRecord
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
   validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
-  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, presence: true, on: :create
-  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
+  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, :start, :end, presence: true, on: :create
+  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, :start, :end, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
   update_suggestions(:keywords, :target_audience, :host_institutions)
@@ -540,19 +539,10 @@ class Event < ApplicationRecord
 
   def city=(value)
     # If city_string is not nil or empty, modify the cities association
-    if value.present?
-      if value.instance_of? String
-        city_names = value.split(CITY_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
-        existing_cities = self.cities
-        new_cities = city_names.map do |name|
-          City.find_or_create_by(name: name)
-        end
-        self.cities = (existing_cities + new_cities).uniq
-      elsif value.instance_of? City
+    if value.present? && value.is_a?(City)
         existing_cities = self.cities
         self.cities = (existing_cities + [value]).uniq
       end
-    end
   end
 
   def topic
@@ -648,6 +638,9 @@ class Event < ApplicationRecord
       # Check if the user creating the event has a 'trusted' role or is admin.
       # If true, send a notification email to the user.
       UserMailer.event_published(self).deliver_later if user.has_role?('trusted_user')
+      for content_provider in self.content_providers
+        ContentProviderMailer.notify_content_provider(self, content_provider).deliver_later
+      end
     else
       # If the user is not trusted, the event requires admin review.
       # Send a notification email to the admin to review the event.
@@ -694,6 +687,9 @@ class Event < ApplicationRecord
 
         # Send email notification to user
         UserMailer.event_published(self).deliver_later if self.start && self.start.to_datetime >= DateTime.now
+        self.content_providers.each { |content_provider|
+          ContentProviderMailer.notify_content_provider(self, content_provider).deliver_later
+        }
       end
     end
   end

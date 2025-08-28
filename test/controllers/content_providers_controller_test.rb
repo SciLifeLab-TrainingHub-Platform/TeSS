@@ -20,7 +20,10 @@ class ContentProvidersControllerTest < ActionController::TestCase
                                    target_audience: @event.target_audience,
                                    content_providers: @event.content_providers,
                                    cost_basis: @event.cost_basis,
-                                   learning_objectives: @event.learning_objectives}
+                                   learning_objectives: @event.learning_objectives,
+                                   start: Time.new(2015, 11, 23, 0, 0, 0),
+                                   end: Time.new(2015, 11, 24, 0, 0, 0)
+    }
   end
 
   # Tests
@@ -321,7 +324,8 @@ class ContentProvidersControllerTest < ActionController::TestCase
     get :show, params: { id: @content_provider }
     assert_response :success
     # assert_select 'h4.nav-heading', :text => /Content provider/
-    assert_select 'a[href=?]', @content_provider.url do #
+    assert_select 'a[href=?]', @content_provider.url do
+      #
       assert_select 'img[src=?]', ActionController::Base.helpers.asset_path(@content_provider.image.url), count: 1
     end
     # assert_select 'a.btn-info[href=?]', content_providers_path, :count => 1 #Back button
@@ -472,19 +476,19 @@ class ContentProvidersControllerTest < ActionController::TestCase
     # make sure this content provider has events in the past, future and without date
     good_user = users(:admin)
     past_event_parameters = @mandatory_fields_of_event.merge(
-      {title: 'past', url: 'http://example.com/good-stuff', end: 3.days.ago,
-       content_providers: [@content_provider]})
+      { title: 'past', url: 'http://example.com/good-stuff', end: 3.days.ago,
+        content_providers: [@content_provider] })
     past_event = good_user.events.build(past_event_parameters)
     past_event.save!
 
     future_event_parameters = @mandatory_fields_of_event.merge({
-     title: 'future', url: 'http://example.com/good-stuff', end: 4.days.from_now,
-     content_providers: [@content_provider]})
+                                                                 title: 'future', url: 'http://example.com/good-stuff', end: 4.days.from_now,
+                                                                 content_providers: [@content_provider] })
     future_event = good_user.events.build(future_event_parameters)
     future_event.save!
 
     dateless_event_parameters = @mandatory_fields_of_event.merge({
-      title: 'dateless', url: 'http://example.com/good-stuff', content_providers: [@content_provider]})
+                                                                   title: 'dateless', url: 'http://example.com/good-stuff', content_providers: [@content_provider] })
     dateless_event = good_user.events.build(dateless_event_parameters)
     dateless_event.save!
 
@@ -589,5 +593,115 @@ class ContentProvidersControllerTest < ActionController::TestCase
 
     get :show, params: { id: content_provider }
     assert_response :forbidden
+  end
+
+  test 'should include approval_notification_email in JSON show response' do
+    content_provider = users(:regular_user).content_providers.create!(
+      title: 'Hello',
+      description: 'World',
+      url: 'https://example.com/content_provider',
+      approval_notification_email: 'somebody@example.com'
+    )
+
+    get :show, params: { id: content_provider.id }, format: :json
+    assert_response :success
+
+    json = JSON.parse(response.body)
+    assert_equal content_provider.approval_notification_email, json['approval_notification_email']
+  end
+
+  test 'should permit approval_notification_email on create' do
+    sign_in users(:regular_user)
+    assert_difference('ContentProvider.count', 1) do
+      post :create, params: {
+        content_provider: {
+          title: @content_provider.title,
+          url: @content_provider.url,
+          image_url: @content_provider.image_url,
+          description: @content_provider.description,
+          approval_notification_email: 'somebody@example.com'
+        }
+      }
+      cp = ContentProvider.last
+      assert_equal 'somebody@example.com', cp.approval_notification_email
+    end
+  end
+
+  test 'should permit approval_notification_email on update' do
+    sign_in users(:regular_user)
+    patch :update, params: {
+      id: @content_provider.id,
+      content_provider: {
+        title: @content_provider.title,
+        url: @content_provider.url,
+        image_url: @content_provider.image_url,
+        description: @content_provider.description,
+        approval_notification_email: 'somebody@example.com'
+      }
+    }
+    cp = ContentProvider.find(@content_provider.id)
+    assert_equal 'somebody@example.com', cp.approval_notification_email
+  end
+
+  test 'should reject invalid approval_notification_email on create' do
+    sign_in users(:regular_user)
+    assert_no_difference('ContentProvider.count') do
+      post :create, params: {
+        content_provider: {
+          title: @content_provider.title,
+          url: @content_provider.url,
+          image_url: @content_provider.image_url,
+          description: @content_provider.description,
+          approval_notification_email: 'invalid email'
+        }
+      }
+    end
+  end
+
+  test 'should accept empty approval_notification_email on create' do
+    sign_in users(:regular_user)
+    assert_difference('ContentProvider.count', 1) do
+      post :create, params: {
+        content_provider: {
+          title: "New Provider Without Approval Email",
+          url: @content_provider.url,
+          image_url: @content_provider.image_url,
+          description: @content_provider.description,
+          approval_notification_email: ''
+        }
+      }
+      cp = ContentProvider.last
+      assert_equal '', cp.approval_notification_email
+    end
+  end
+
+  test 'should permit empty approval_notification_email on update' do
+    title = 'Content provider with empty approval_notification_email on update'
+    sign_in users(:regular_user)
+    patch :update, params: {
+      id: @content_provider.id,
+      content_provider: {
+        title: title,
+        approval_notification_email: ''
+      }
+    }
+    cp = ContentProvider.find(@content_provider.id)
+    assert_equal '', cp.approval_notification_email
+    assert_equal title, cp.title
+  end
+
+  test 'should reject invalid approval_notification_email on update' do
+    original_title = @content_provider.title
+    sign_in users(:regular_user)
+    patch :update, params: {
+      id: @content_provider.id,
+      content_provider: {
+        title: 'Content provider with invalid approval_notification_email on update',
+        approval_notification_email: 'invalid email'
+      }
+    }
+    cp = ContentProvider.find(@content_provider.id)
+    assert_nil cp.approval_notification_email
+    assert_equal original_title, cp.title
   end
 end
