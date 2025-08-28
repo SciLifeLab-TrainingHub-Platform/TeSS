@@ -110,7 +110,7 @@ class ContentProvidersController < ApplicationController
     params[:content_provider].delete :node_name
 
     permitted = [:title, :url, :image, :image_url, :description, :id, :node_id, :contact,
-                 :event_curation_email,
+                 :event_curation_email, :approval_notification_email,
                  { keywords: [] }, :remote_updated_date, :remote_created_date, { approved_editors: [] },
                  :local_updated_date, :remote_updated_date, :node_name, :user_id]
 

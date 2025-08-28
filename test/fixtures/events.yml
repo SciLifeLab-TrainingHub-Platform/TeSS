@@ -29,6 +29,7 @@ one:
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  registration_form_url: http://example.com
 
 two:
   external_id: MyString2
@@ -58,6 +59,7 @@ two:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 month_long_event:
   title: Month-long event
@@ -79,6 +81,7 @@ month_long_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 year_long_event:
   title: Year-long event
@@ -100,6 +103,7 @@ year_long_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 iann_event:
   title: iAnn event
@@ -117,6 +121,8 @@ iann_event:
   learning_objectives: "There are some."
   start: 2015-11-23 10:16:33
   end: 2015-11-23 10:16:33
+  registration_form_url: http://example.com
+
 
 scraper_user_event:
   title: material owned by scraper
@@ -137,6 +143,7 @@ scraper_user_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 event_with_external_resource:
   title: External Resource Event
@@ -156,6 +163,7 @@ event_with_external_resource:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 event_with_no_start:
   title: No Start Time
@@ -174,6 +182,7 @@ event_with_no_start:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 event_with_no_end:
   title: No End Time
@@ -192,6 +201,7 @@ event_with_no_end:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 online_event_with_no_end:
   title: No End Time
@@ -211,6 +221,7 @@ online_event_with_no_end:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 organisation_event:
   title: Fun Training Day
@@ -230,6 +241,7 @@ organisation_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 portal_event:
   presence: 0
@@ -251,6 +263,7 @@ portal_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 dodgy_country_event:
   title: Fun Training Day
@@ -270,6 +283,7 @@ dodgy_country_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 no_description_event:
   title: All you need to know is in the title
@@ -288,6 +302,7 @@ no_description_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 event_with_report:
   title: This event happened
@@ -310,6 +325,7 @@ event_with_report:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 another_event_with_report:
   title: This event happened
@@ -330,6 +346,7 @@ another_event_with_report:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 shadowbanned_event:
   external_id: MyString1
@@ -357,6 +374,7 @@ shadowbanned_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 failing_event:
   title: Collision With Iceberg
@@ -378,6 +396,7 @@ failing_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 kilburn:
   title: Kilburn Event
@@ -399,6 +418,7 @@ kilburn:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 calendar_event:
   title: "calendar event"
@@ -424,6 +444,7 @@ calendar_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 training_event:
   title: "calendar event"
@@ -451,6 +472,8 @@ training_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
+
 
 ical_event_1:
   title: P'Con - Embracing new solutions for in-situ visualisation
@@ -475,6 +498,7 @@ ical_event_1:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 ical_event_2:
   title: "PaCER Seminar: Computational Fluid Dynamics"
@@ -499,6 +523,7 @@ ical_event_2:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 course_event:
   title: Summer Course on Learning Stuff
@@ -527,6 +552,7 @@ course_event:
   language: "en"
   prerequisites: "You should be awake."
   cost_basis: "2 monies for students, 5 monies for everyone else"
+  registration_form_url: http://example.com
 
 hybrid_event:
   presence: 2
@@ -543,6 +569,7 @@ hybrid_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 approved_event:
   title: approved event
@@ -559,6 +586,7 @@ approved_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 awaiting_review_event:
   title: awaiting review event
@@ -575,6 +603,7 @@ awaiting_review_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com
 
 revisions_required_event:
   title: revisions required event
@@ -591,3 +620,4 @@ revisions_required_event:
   target_audience: ['Everyone!']
   cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
+  registration_form_url: http://example.com

@@ -797,4 +797,66 @@ class EventTest < ActiveSupport::TestCase
       event.save
     end
   end
+
+  test 'registration_form_url allows valid URLs' do
+    valid_urls = %w[http://example.com https://example.com https://sub.domain.co.uk/path?query=123 https://example.com:8080 https://example.com/path#anchor https://user:pass@example.com]
+
+    valid_urls.each do |valid_url|
+      parameters = @mandatory.merge({
+                                      user: users(:regular_user),
+                                      title: 'Valid event',
+                                      url: 'https://main.example.com',
+                                      online: true,
+                                      registration_form_url: valid_url
+                                    })
+
+      event = Event.new(parameters)
+      event.validate
+
+      assert_empty event.errors[:registration_form_url], "Expected '#{valid_url}' to be valid, but got: #{event.errors[:registration_form_url].join(', ')}"
+      end
+  end
+
+  test 'registration_form_url rejects invalid URLs' do
+    invalid_urls = [
+      'just-text',
+      'www.example.com',                  # missing scheme
+      'http:/incomplete.com',             # malformed scheme
+      'http//missing-colon.com',          # missing colon after http
+      '://missing-scheme.com',            # missing scheme name
+      'ftp://example.com',                # disallowed scheme if only http/https allowed
+      'https:// example.com',             # space in URL
+    ]
+
+    invalid_urls.each do |invalid_url|
+      parameters = @mandatory.merge({
+                                      user: users(:regular_user),
+                                      title: 'Invalid URL event',
+                                      url: 'https://main.example.com',
+                                      online: true,
+                                      registration_form_url: invalid_url
+                                    })
+
+      event = Event.new(parameters)
+      event.validate
+
+      refute_empty event.errors[:registration_form_url], "Expected '#{invalid_url}' to be invalid, but no errors were found"
+    end
+  end
+
+  test 'registration_form_url allows blank URL' do
+    parameters = @mandatory.merge({
+                                    user: users(:regular_user),
+                                    title: 'Blank URL event',
+                                    url: 'https://example.com/event',
+                                    online: true,
+                                    registration_form_url: ''  # Blank URL
+                                  })
+
+    event = Event.new(parameters)
+    event.validate
+
+    assert_empty event.errors[:registration_form_url], 'Expected blank registration_form_url to be allowed, but got validation errors'
+
+  end
 end

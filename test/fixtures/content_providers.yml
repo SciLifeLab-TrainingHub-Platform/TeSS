@@ -72,3 +72,16 @@ bare_email_contact_provider:
   url: http://another-content-provider.com
   user: regular_user
   contact: user@provider.com
+
+approval_notification_email_contact_provider:
+  title: Content Provider just with an email contact
+  url: http://another-content-provider.com
+  user: regular_user
+  contact: user@provider.com
+  approval_notification_email: "someone@email.com"
+
+no_approval_notification_email_contact_provider:
+  title: Content Provider just with an email contact
+  url: http://another-content-provider.com
+  user: regular_user
+  contact: user@provider.com

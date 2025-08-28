@@ -11,9 +11,8 @@
 
   <div class="container">
     <div class="content">
-      <% first_category_key = guides.keys.first %>
       <% guides.each do |category_key, category| %>
-        <div id="<%= category_key %>" class="guide_page_category <%= 'active' if category_key == first_category_key %>">
+        <div id="<%= category_key %>">
           <h4><%= category['name'] %></h4>
           <p><%= category['description'] %></p>
           <br>

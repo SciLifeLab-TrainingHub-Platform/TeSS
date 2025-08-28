@@ -185,11 +185,6 @@ class EventsController < ApplicationController
       @event.venue = params[:event][:new_venues]
     end
 
-    # Create new cities if provided
-    if params[:event][:new_cities].present?
-      @event.city = params[:event][:new_cities]
-    end
-
     respond_to do |format|
       if @event.save
 
@@ -228,13 +223,6 @@ class EventsController < ApplicationController
       venue_names = params[:event][:new_venues].split(Event::VENUE_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
       new_venues = venue_names.map { |name| Venue.find_or_create_by(name: name) }
       params[:event][:venue_ids].concat(new_venues.pluck(:id))
-    end
-
-    # Create new cities if provided
-    if params[:event][:new_cities].present?
-      city_names = params[:event][:new_cities].split(Event::CITY_NAME_SEPARATOR).map(&:strip).reject(&:empty?)
-      new_cities = city_names.map { |name| City.find_or_create_by(name: name) }
-      params[:event][:city_ids].concat(new_cities.pluck(:id))
     end
 
     respond_to do |format|
@@ -299,11 +287,11 @@ class EventsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def event_params
-    params.require(:event).permit(:external_id, :title, :subtitle, :url, :last_scraped, :scraper_record,
+    params.require(:event).permit(:external_id, :title, :subtitle, :url, :last_scraped, :registration_form_url, :scraper_record,
                                   :description, { :topic_ids => [] }, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
                                   { operation_names: [] }, { operation_uris: [] }, { event_types: [] },
                                   { keywords: [] }, { fields: [] }, :start, :end, :application_deadline, :duration, { sponsors: [] },
-                                  :online, { :venue_ids => [] }, :new_venues, { :city_ids => [] }, :new_cities, :county, :country, :postcode, :latitude, :longitude,
+                                  :online, { :venue_ids => [] }, :new_venues, { :city_ids => [] }, :county, :country, :postcode, :latitude, :longitude,
                                   :timezone, { :content_provider_ids => [] }, { collection_ids: [] }, { node_ids: [] },
                                   { node_names: [] }, { target_audience: [] }, { eligibility: [] }, :visible,
                                   { host_institutions: [] }, :capacity, :contact, :recognition, :learning_objectives,
@@ -323,10 +311,16 @@ class EventsController < ApplicationController
   end
 
   def set_event_dependencies
+
     @venues = Venue.all
-    @cities = City.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
+    @country_code = if @event
+                      JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json'))).key(@event.country) || "SE"
+                    else
+                      "SE"
+                    end
+    @cities = City.where(country_code: @country_code).or(City.online).order(:name)
   end
 
   def formatNodeIdsForRadio

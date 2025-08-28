@@ -24,6 +24,12 @@
     <%= f.input :event_curation_email, label: 'Receive event curation emails at this address' %>
   <% end %>
 
+  <div class="form-group">
+    <%= f.label :approval_notification_email, class: "control-label" %>
+    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('providers.hints.approval_notification_email_hint') %>">&#xe086;</span>
+    <%= f.input :approval_notification_email, input_html: { title: t('providers.hints.approval_notification_email') }, label: false %>
+  </div>
+
   <% if !TeSS::Config.feature['disabled'].include? 'approved_editors' %>
     <%= f.autocompleter :approved_editors, url: users_path, transform_function: 'users', template: 'autocompleter/user',
                         form_field_name: 'content_provider[approved_editors]',

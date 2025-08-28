@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_28_132625) do
+ActiveRecord::Schema[7.0].define(version: 2025_07_23_130821) do 
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -94,6 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_28_132625) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "country_code"
   end
 
   create_table "collaborations", id: :serial, force: :cascade do |t|
@@ -151,6 +153,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_28_132625) do
     t.datetime "image_updated_at"
     t.string "contact"
     t.string "event_curation_email"
+    t.string "approval_notification_email"
     t.index ["node_id"], name: "index_content_providers_on_node_id"
     t.index ["slug"], name: "index_content_providers_on_slug", unique: true
     t.index ["user_id"], name: "index_content_providers_on_user_id"
@@ -271,6 +274,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_28_132625) do
     t.datetime "application_deadline"
     t.integer "event_status", default: 0, null: false
     t.text "admin_notes"
+    t.string "registration_form_url"
     t.index ["llm_interaction_id"], name: "index_events_on_llm_interaction_id"
     t.index ["presence"], name: "index_events_on_presence"
     t.index ["slug"], name: "index_events_on_slug", unique: true

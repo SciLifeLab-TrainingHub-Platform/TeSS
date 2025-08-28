@@ -357,6 +357,9 @@ en:
     sites: "Our <b>Service</b> may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the privacy policy of these websites. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party sites or services."
     changes: "We may update our privacy policy from time to time. Thus, we advise you to review this page periodically for any changes. We will notify you of any changes by posting the new privacy policy on this page. These changes posted on this page are effective immediately."
   providers:
+    hints:
+      approval_notification_email: "This email address will receive a notification when an event is approved."
+      approval_notification_email_hint: "Optional. Used for approval notifications."
     info: >
       Content providers are entities (such as academic institutions, non-profit organisations, portals etc.) that
       provide training materials of relevance to life sciences and ELIXIR.

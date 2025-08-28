@@ -543,6 +543,8 @@ en:
       eligibility: 'Who can attend the training event?'
       end: 'When does the event end?'
       application_deadline: 'Application deadline for the event.'
+      registration_form_url: 'Enter the registration URL for the event.'
+      registration_form_url_hint: 'Enter the full registration URL where participants can sign up for the event.'
       event_type: 'Select the most appropriate event type for the training event.'
       fields: 'Select Fields of Research to better classify your event.'
       hosts: ''
