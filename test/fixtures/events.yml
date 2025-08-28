@@ -605,23 +605,6 @@ awaiting_review_event:
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
-declined_event:
-  title: declined event
-  url: http://myurl.com
-  description: 'this is an declined event'
-  user: regular_user
-  host_institutions: ["MyHost"]
-  timezone: UTC
-  contact: MyContact
-  eligibility: [ registration_of_interest ]
-  event_status: 2
-  language: "en"
-  prerequisites: "You should be awake."
-  target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
-  learning_objectives: "There are some."
-  registration_form_url: http://example.com
-
 revisions_required_event:
   title: revisions required event
   url: http://myurl.com

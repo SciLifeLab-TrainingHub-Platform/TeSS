@@ -1564,9 +1564,11 @@ class EventsControllerTest < ActionController::TestCase
     sign_in users(:regular_user)
     get :index
     assert_response :success
-    assert_includes assigns(:events), event
-    assert_not_includes assigns(:events), event2
 
+    if TeSS::Config.solr_enabled
+      assert_includes assigns(:events), event
+      assert_not_includes assigns(:events), event2
+    end
   end
 
   test 'should display revisions events created by the current user in index page and not by another user' do
@@ -1585,8 +1587,11 @@ class EventsControllerTest < ActionController::TestCase
     sign_in users(:regular_user)
     get :index
     assert_response :success
-    assert_includes assigns(:events), event
-    assert_not_includes assigns(:events), event2
+
+    if TeSS::Config.solr_enabled
+      assert_includes assigns(:events), event
+      assert_not_includes assigns(:events), event2
+    end
   end
 
   test 'should show approved event to everyone' do
