@@ -44,6 +44,18 @@
   <!-- Field: Application deadline -->
   <%= f.input :application_deadline, as: :datetime_picker, input_html: { title: t('events.hints.application_deadline') } %>
 
+  <!-- Field: registration_form_url -->
+  <%= f.label :registration_form_url, class: "control-label", label: 'Registration form URL' %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.registration_form_url_hint') %>">&#xe086;</span>
+  <%=
+    f.input :registration_form_url,
+            input_html: {
+              type: 'url',
+              title: t('events.hints.registration_form_url')
+            },
+            label: false
+  %>
+
   <!-- Field: Timezone -->
   <%= f.input :timezone, as: :time_zone, priority: priority_time_zones,
               input_html: { class: 'js-select2', title: t('events.hints.timezone') } %>
@@ -174,7 +186,7 @@
   <!-- Field: Content Providers -->
   <%#= f.input :content_provider_id, label: 'Content provider (Training Organizer)', collection: current_user.get_editable_providers, label_method: :title, value_method: :id, include_blank: true %>
   <div class="field">
-    <%= f.label :content_provider_ids, "* Content Provider(s)", class: "control-label"%>
+    <%= f.label :content_provider_ids, "* Content Provider(s)", class: "control-label" %>
     <span class="glyphicon"
           style="cursor: default; font-size: small;"
           title="<%= t('events.hints.content_provider_hint') %>">
