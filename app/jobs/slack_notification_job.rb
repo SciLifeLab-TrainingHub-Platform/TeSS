@@ -11,7 +11,7 @@ class SlackNotificationJob < ApplicationJob
     client = Slack::Web::Client.new
     channels.each do |channel|
       begin
-        client.chat_postMessage(channel: channel, text: message, as_user: true)
+        client.chat_postMessage(channel: channel, text: message, as_user: true, unfurl_links: false)
         Rails.logger.info("Slack notification sent successfully to '#{channel}'")
       rescue Slack::Web::Api::Errors::SlackError => e
         Rails.logger.error("Slack notification failed for '#{channel}': #{e.message}")
