@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_07_23_130821) do 
-
+ActiveRecord::Schema[7.0].define(version: 2025_09_05_082806) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -96,6 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_23_130821) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "country_code"
+    t.index ["name", "country_code"], name: "index_cities_on_name_and_country_code", unique: true
   end
 
   create_table "collaborations", id: :serial, force: :cascade do |t|

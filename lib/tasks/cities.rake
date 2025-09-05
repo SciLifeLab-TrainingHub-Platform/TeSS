@@ -1,45 +1,42 @@
 require 'json'
-require 'httparty'
 
-# to execute this file run
-# rake city:import
+# to execute this file run `rake city:import`
 namespace :city do
-  desc 'Import cities from external JSON file and save them to the database'
+  desc 'Import cities from local JSON file and save them to the database in batches of 5000'
 
   task import: :environment do
     # Ensure the "Online" city is added
     City.find_or_create_by(name: City::ONLINE_CITY, country_code: nil)
 
-    url = 'https://raw.githubusercontent.com/lutangar/cities.json/master/cities.json'
+    file_path = Rails.root.join('config', 'data', 'cities.json')
 
-    puts "Fetching city data from #{url}..."
-    response = HTTParty.get(url)
-
-    if response.code == 200
-      cities = JSON.parse(response.body)
-
-      puts "Processing city data..."
-
-      #  ["Insiza", "ZW"],
-      city_names_and_countries = cities.map { |city| [city['name'], city['country']] }.uniq
-
-      total = city_names_and_countries.size
-      puts "Saving #{total} cities to the database..."
-
-      city_names_and_countries.each_with_index do |city_info, index|
-        City.find_or_create_by(name: city_info[0], country_code: city_info[1])
-
-        # Update progress bar
-        print_progress(index + 1, total)
-      end
-
-      puts "\nCity import completed. #{City.count} cities in the database."
-    else
-      puts "Failed to fetch city data. HTTP Response Code: #{response.code}"
+    unless File.exist?(file_path)
+      puts "Cities JSON file not found at #{file_path}"
+      exit 1
     end
+
+    puts "Reading city data from #{file_path}..."
+    cities = JSON.parse(File.read(file_path))
+
+    puts "Processing city data..."
+    city_records = cities.map { |city|
+      {
+        name: city['name'],
+        country_code: city['country'],
+      }
+    }.uniq
+
+    city_records.each_slice(5000).with_index do |batch, batch_index|
+      City.insert_all(batch)
+
+      printed = [(batch_index + 1) * 5000, city_records.size].min
+      print_progress(printed, city_records.size)
+    end
+    puts "\nCity import completed. #{City.count} cities in the database."
   end
 
   def print_progress(current, total)
+    current = [current, total].min
     progress_width = 50
     progress = (current.to_f / total * progress_width).round
     percentage = (current.to_f / total * 100).round
