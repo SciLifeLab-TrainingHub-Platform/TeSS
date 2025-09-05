@@ -26,19 +26,11 @@ namespace :city do
       }
     }.uniq
 
-    puts "Filtering out existing cities..."
-    existing_names = City.pluck(:name, :country_code)
-
-    new_records = city_records.reject do |c|
-      existing_names.include?([c[:name], c[:country_code]])
-    end
-
-    puts "Saving #{new_records.size} new cities to the database in batches of 5000..."
-    new_records.each_slice(5000).with_index do |batch, batch_index|
+    city_records.each_slice(5000).with_index do |batch, batch_index|
       City.insert_all(batch)
 
-      printed = [(batch_index + 1) * 5000, new_records.size].min
-      print_progress(printed, new_records.size)
+      printed = [(batch_index + 1) * 5000, city_records.size].min
+      print_progress(printed, city_records.size)
     end
     puts "\nCity import completed. #{City.count} cities in the database."
   end

@@ -11,7 +11,9 @@ class CitiesController < ApplicationController
       return
     end
 
-    cities = City.where(country_code: country_code).select("id, name").order(:name)
+    cities = City.where(country_code: country_code).select("id, name")
+                 .or(City.online).order(:name)
+                 .order(:name)
 
     # 200 OK: Cities found
     respond_to do |format|
