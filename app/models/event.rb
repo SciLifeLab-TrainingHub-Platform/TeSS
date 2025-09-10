@@ -27,8 +27,8 @@ class Event < ApplicationRecord
   before_save :geocoding_cache_lookup, if: :address_will_change?
   before_create :update_event_statuses
   after_save :enqueue_geocoding_worker, if: :address_changed?
-  after_create :set_status_and_notify
-  after_update :change_status_and_notify_user
+  after_commit :set_status_and_notify, on: :create
+  after_commit :change_status_and_notify_user, on: :update
   after_save :notify_slack_if_published
 
   # rails admin settings
