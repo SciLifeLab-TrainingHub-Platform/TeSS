@@ -262,7 +262,7 @@ The response is a JSON object providing the count of events that match the appli
   - Example Value: 1
 - **url**
   - The base URL for the events index endpoint.
-  - Example Value: https://training.scilifelab.se//events
+  - Example Value: https://training.scilifelab.se/events
 - params
   - The query parameters applied to filter the events.
   - Example Value: {} (if no filters are applied).
