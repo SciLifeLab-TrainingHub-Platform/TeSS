@@ -358,9 +358,3 @@ We can use `page_size` or `per_page` to get more results:
 /content_providers.json?page_size=50
 /content_providers.json?page=2
 ```
-
-#### How it works 
-
-`ContentProvidersController` includes `SearchableIndex` (see `app/controllers/concerns/searchable_index.rb`).
-When Solr is enabled (`config/tess.yml: solr_enabled: true`), `fetch_resources` sets a default per_page of 10 unless you pass a pagination param.
-The JSON view (`app/views/content_providers/index.json.jbuilder`) simply renders `@content_providers` (the current page), and does not include pagination metadata.
