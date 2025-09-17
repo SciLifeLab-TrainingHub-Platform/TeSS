@@ -262,7 +262,7 @@ The response is a JSON object providing the count of events that match the appli
   - Example Value: 1
 - **url**
   - The base URL for the events index endpoint.
-  - Example Value: https://training.scilifelab.se//events
+  - Example Value: https://training.scilifelab.se/events
 - params
   - The query parameters applied to filter the events.
   - Example Value: {} (if no filters are applied).
@@ -342,4 +342,19 @@ The following API call filters content providers by the keyword `NBIS`:
 
 ```http
 https://training.scilifelab.se/content_providers.json?keywords=NBIS
+```
+
+#### Pagination
+
+We can use `page_size` or `per_page` to get more results:
+
+**Increase page size:** `.../content_providers.json?page_size=<page_size>` or `.../content_providers.json?per_page=<per_page>` /// default per_page is 10
+
+**Page through results:** `.../content_providers.json?page=<page_num>`
+
+#### Examples:
+
+```http
+/content_providers.json?page_size=50
+/content_providers.json?page=2
 ```
