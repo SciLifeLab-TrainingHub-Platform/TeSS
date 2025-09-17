@@ -1,5 +1,5 @@
 fields = [
-  :id, :external_id, :title, :subtitle, :url, :description,
+  :id, :external_id, :title, :subtitle, :url, :registration_form_url, :description,
 
   :content_providers, :user_id,
 
