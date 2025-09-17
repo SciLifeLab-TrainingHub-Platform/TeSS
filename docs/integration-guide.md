@@ -343,3 +343,24 @@ The following API call filters content providers by the keyword `NBIS`:
 ```http
 https://training.scilifelab.se/content_providers.json?keywords=NBIS
 ```
+
+#### Pagination
+
+We can use `page_size` or `per_page` to get more results:
+
+**Increase page size:** `.../content_providers.json?page_size=<page_size>` or `.../content_providers.json?per_page=<per_page>` /// default per_page is 10
+
+**Page through results:** `.../content_providers.json?page=<page_num>`
+
+#### Examples:
+
+```http
+/content_providers.json?page_size=50
+/content_providers.json?page=2
+```
+
+#### How it works 
+
+`ContentProvidersController` includes `SearchableIndex` (see `app/controllers/concerns/searchable_index.rb`).
+When Solr is enabled (`config/tess.yml: solr_enabled: true`), `fetch_resources` sets a default per_page of 10 unless you pass a pagination param.
+The JSON view (`app/views/content_providers/index.json.jbuilder`) simply renders `@content_providers` (the current page), and does not include pagination metadata.
