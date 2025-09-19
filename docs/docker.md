@@ -35,8 +35,7 @@ Create TeSS configuration files:
 
     cp config/secrets.example.yml config/secrets.yml
 
-`tess.yml` is already present in config/ folder.
-`tess.yml` is used to configure features and branding of your TeSS instance. `secrets.yml` is used to hold API keys etc.
+`tess.yml` is already present in config/ folder to configure features and branding of your TeSS instance. `secrets.yml` is used to hold API keys etc.
 
 *Note: If changes are made to these files the containers will need to be restarted.*
 
