@@ -33,9 +33,9 @@ Although this file will work out of the box, it is recommended that you update i
 
 Create TeSS configuration files:
 
-    cp config/tess.example.yml config/tess.yml
     cp config/secrets.example.yml config/secrets.yml
 
+`tess.yml` is already present in config/ folder.
 `tess.yml` is used to configure features and branding of your TeSS instance. `secrets.yml` is used to hold API keys etc.
 
 *Note: If changes are made to these files the containers will need to be restarted.*
@@ -44,6 +44,10 @@ Create TeSS configuration files:
 
     docker-compose run app bundle install
     docker-compose run app bundle exec rake db:setup
+
+### Insert the cities into database
+
+    docker-compose run app rake city:import
 
 ### Start services
 
