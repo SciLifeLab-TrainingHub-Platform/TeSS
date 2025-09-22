@@ -21,14 +21,17 @@
 <% if event.prerequisites.present? || event.tech_requirements.present? %>
   <% prereq_card = event_section_card('Prerequisites & Technical Requirements', class: 'event-section-card--full') do %>
     <% if event.prerequisites.present? %>
-      <div class="event-rich-text markdown">
-        <h4 class="event-overview__heading">Prerequisites</h4>
+      <div class="event-rich-text markdown event-prereq__section">
+        <h4 class="event-overview__heading event-prereq__heading">Prerequisites</h4>
         <%= render_markdown(event.prerequisites) %>
       </div>
     <% end %>
     <% if event.tech_requirements.present? %>
-      <div class="event-rich-text markdown">
-        <h4 class="event-overview__heading">Technical requirements</h4>
+      <% if event.prerequisites.present? %>
+        <hr class="event-prereq__divider">
+      <% end %>
+      <div class="event-rich-text markdown event-prereq__section">
+        <h4 class="event-overview__heading event-prereq__heading">Technical requirements</h4>
         <%= render_markdown(event.tech_requirements) %>
       </div>
     <% end %>
@@ -55,9 +58,6 @@
   <%= event_detail_item(Event.human_attribute_name(:operations)) { event_pill_list(operations, variant: :primary) } if operations.any? %>
   <%= event_detail_item(Event.human_attribute_name(:topics)) { event_pill_list(topic_names, variant: :accent) } if topic_names.any? %>
   <%= event_detail_item(Event.human_attribute_name(:target_audience)) { event_pill_list(audience_titles, variant: :neutral) } if audience_titles.any? %>
-  <% if event.cost_basis.present? %>
-    <%= event_detail_item(Event.human_attribute_name(:cost_basis), CostBasisDictionary.instance.lookup_value(event.cost_basis, 'title')) %>
-  <% end %>
 <% end %>
 
 <% nodes = event.associated_nodes %>

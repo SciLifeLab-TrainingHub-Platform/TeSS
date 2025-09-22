@@ -98,6 +98,19 @@
 
 .event-overview-card .event-rich-text {
   flex-grow: 1;
+  font-size: 1.75rem;
+  line-height: 1.85;
+}
+
+.event-prereq__heading {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.event-prereq__divider {
+  border: none;
+  border-top: 1px solid rgba($gray-light, 0.4);
+  margin: 16px 0;
 }
 
 .event-section-row {
@@ -150,7 +163,7 @@
 }
 
 .event-overview__heading {
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   margin-top: 0;
   margin-bottom: 12px;
   color: $headings-color;
@@ -217,7 +230,7 @@
 }
 
 .event-section-title {
-  font-size: 2rem;
+  font-size: 2.4rem;
   margin-top: 0;
   margin-bottom: 18px;
 }
@@ -339,10 +352,7 @@
   width: 120px;
   height: 120px;
   object-fit: cover;
-  border-radius: 8px;
-  background-color: #fff;
-  border: 1px solid rgba($gray-light, 0.4);
-  padding: 6px;
+  border-radius: 50%;
 }
 
 .event-content-provider__logo--rounded {
@@ -356,7 +366,7 @@
 
 .event-content-provider__link {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   word-break: break-word;
 }
 
