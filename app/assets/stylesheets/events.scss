@@ -36,6 +36,34 @@
   }
 }
 
+.event-action__register {
+  background-color: $accent-color;
+  border-color: darken($accent-color, 5%);
+  color: $headings-color;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    background-color: darken($accent-color, 6%);
+    border-color: darken($accent-color, 10%);
+    color: $headings-color;
+  }
+}
+
+.event-action__view {
+  background-color: $brand-info;
+  border-color: darken($brand-info, 10%);
+  color: $headings-color;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    background-color: darken($brand-info, 6%);
+    border-color: darken($brand-info, 12%);
+    color: $headings-color;
+  }
+}
+
 .event-sections {
   margin-top: 20px;
 }
@@ -56,6 +84,130 @@
   display: flex;
   flex-wrap: wrap;
   margin: 0 -10px 20px;
+}
+
+.event-section-card--sidebar {
+  width: 100%;
+}
+
+.event-overview-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-overview-card .event-rich-text {
+  flex-grow: 1;
+}
+
+.event-section-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.event-section-row > .event-section-card {
+  flex: 1 1 calc(50% - 8px);
+  max-width: calc(50% - 8px);
+  margin-bottom: 0;
+}
+
+.event-section-row.single-card > .event-section-card {
+  flex-basis: 100%;
+  max-width: 100%;
+}
+
+.event-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.event-intro__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.event-intro__sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.event-sections__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.event-overview__divider {
+  margin: 24px 0;
+  border: none;
+  border-top: 1px solid rgba($gray-light, 0.4);
+}
+
+.event-overview__heading {
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: $headings-color;
+}
+
+.event-summary__cta {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-start;
+
+  .btn-group {
+    width: auto;
+  }
+
+  .btn-group > .btn {
+    width: auto;
+    min-width: 0;
+  }
+}
+
+
+.event-content-providers {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@include xs {
+  .event-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .event-section-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .event-section-row > .event-section-card {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+
+@include sm {
+  .event-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .event-section-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .event-section-row > .event-section-card {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
 }
 
 .event-section-grid .event-section-card {
@@ -166,30 +318,35 @@
 }
 
 
-.event-content-providers {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
-
 .event-content-provider {
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba($gray-light, 0.5);
+  background-color: rgba($accent-color, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .event-content-provider__media {
-  flex: 0 0 128px;
+  flex: 0 0 auto;
 }
 
 .event-content-provider__logo {
-  width: 128px;
-  height: 128px;
-  object-fit: contain;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
   border-radius: 8px;
   background-color: #fff;
   border: 1px solid rgba($gray-light, 0.4);
   padding: 6px;
+}
+
+.event-content-provider__logo--rounded {
+  border-radius: 50%;
 }
 
 .event-content-provider__title {
@@ -198,13 +355,18 @@
 }
 
 .event-content-provider__link {
-  margin-bottom: 8px;
-  font-size: 1.25rem;
+  margin: 0;
+  font-size: 1.1rem;
   word-break: break-word;
 }
 
-.event-content-provider__description p:last-child {
-  margin-bottom: 0;
+.event-content-provider__description {
+  max-width: 420px;
+  margin: 0 auto;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .event-related-list {
