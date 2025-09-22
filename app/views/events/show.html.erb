@@ -1,10 +1,10 @@
 <div class="wrapper collapsing-wrapper">
   <%# SIDEBAR %>
-  <div class="collapsing-sidebar" id="sidebar">
-    <%= render partial: 'content_providers/partials/content_provider_info', locals: { content_provider: @event.content_providers } %>
-    <%= render partial: "nodes/partials/associated_node_info", locals: { associated_nodes: @event.associated_nodes.select { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG }} %>
-    <%= render(partial: 'users/partials/user_info', locals: { user: @event.user }) if current_user.try(:is_admin?) %>
-  </div>
+<!--  <div class="collapsing-sidebar" id="sidebar">-->
+    <%#= render partial: 'content_providers/partials/content_provider_info', locals: { content_provider: @event.content_providers } %>
+    <%#= render partial: "nodes/partials/associated_node_info", locals: { associated_nodes: @event.associated_nodes.select { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG }} %>
+    <%#= render(partial: 'users/partials/user_info', locals: { user: @event.user }) if current_user.try(:is_admin?) %>
+<!--  </div>-->
 
   <div id="content">
     <div id="home" class="my-2">
@@ -37,6 +37,10 @@
 
       <div class="content-actions">
         <div class="content-viewer-actions">
+          <% if @event.registration_form_url.present? %>
+            <%= link_to 'Register for this event', @event.registration_form_url,
+                        class: 'btn btn-primary', target: '_blank', rel: 'noopener' %>
+          <% end %>
           <%= external_link_button 'View event', @event.url, track: @event %>
           <% if @event.persisted? %>
             <%= render partial: 'events/add_to_calendar_button', locals: { event: @event } if @event.start && @event.end %>
@@ -55,78 +59,16 @@
         <% end %>
       </div>
 
-      <div class="my-3">
-        <% if @event.registration_form_url.present? %>
-            <strong>Registration form:</strong>
-            <%= link_to 'Click here to register for the event', @event.registration_form_url, target: '_blank', rel: 'noopener' %>
-        <% end %>
-        <!-- Field: start and end -->
-        <p class="date no-spacing">
-          <strong class="text-primary"> Date: </strong>
-          <%= neatly_printed_date_range(@event.start, @event.end, false) %>
-        </p>
-        <%#= display_attribute(@event, :timezone) %>
-        <%= display_attribute(@event, :duration) %>
-        <%= display_attribute(@event, :language) { |value| render_language_name(value) } %>
+      <%= render partial: 'events/partials/details_sections', locals: { event: @event } %>
 
-        <% if @event.event_status != Event.event_statuses.key(Event.event_statuses[:approved]) %>
-        <p class="event_status no-spacing"><strong class="text-primary"> Event status: </strong>
-          <span
-            <%  if @event.event_status == Event.event_statuses.key(Event.event_statuses[:declined])  %>
-            style="color: red"
-            <%  end  %>>
-            <%=  @event.event_status.humanize  %>
-          </span>
-        </p>
-        <%  end %>
+      <%= render partial: 'events/partials/twitter_card', locals: { event: @event } %>
 
-        <p class="date no-spacing">
-          <strong class="text-primary"> Application Deadline: </strong>
-          <%= neatly_printed_date_range(@event.application_deadline) %>
-        </p>
-        <!-- Field: description -->
-        <div class="description">
-          <%= google_maps_javascript_api_tag(@event) if @event.show_map? %>
-          <% if @event.description.present? %>
-            <%= render_markdown @event.description %>
-          <% else %>
-            <span class="muted">No description provided</span>
-          <% end %>
-        </div>
-      </div>
+      <%= render partial: 'events/report' if policy(@event).view_report? && @event.persisted? %>
 
-      <div>
-        <%= render partial: 'common/extra_metadata', locals: { resource: @event } %>
-
-        <!-- Field: external resources -->
-        <% if @event.external_resources.any? %>
-          <strong class="text-primary">External resources:</strong>
-          <%= render partial: 'common/external_resources_list',
-                     locals: { external_resources: @event.external_resources } %>
-        <% end %>
-
-        <!-- Field: material -->
-        <% if @event.materials.any? %>
-          <div>
-            <strong class="text-primary">Related training materials: </strong>
-            <ul>
-              <% @event.materials.each do |material| %>
-                <li><%= link_to material.title, material %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-
-        <%= render partial: 'events/partials/twitter_card', locals: { event: @event } %>
-
-        <%= render partial: 'events/report' if policy(@event).view_report? && @event.persisted? %>
-
-        <% if policy(@event).update? && @event.edit_suggestion %>
-          <%= render partial: 'common/approve_term_suggestions',
-                     locals: { suggestion: @event.edit_suggestion } %>
-        <% end %>
-
-      </div>
+      <% if policy(@event).update? && @event.edit_suggestion %>
+        <%= render partial: 'common/approve_term_suggestions',
+                   locals: { suggestion: @event.edit_suggestion } %>
+      <% end %>
     </div>
 
     <%= render partial: 'activities/activity_log_button', locals: { resource: @event } if @event.persisted? %>

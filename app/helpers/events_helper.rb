@@ -131,6 +131,60 @@ module EventsHelper
     })
   end
 
+  def event_section_card(title, options = {}, &block)
+    body_content = capture(&block)
+    return ''.html_safe if body_content.blank?
+
+    classes = ['event-section-card', options[:class]].compact.join(' ')
+    content_tag(:div, class: classes) do
+      concat content_tag(:h3, title, class: 'event-section-title')
+      concat body_content
+    end
+  end
+
+  def event_detail_item(label, value = nil, &block)
+    content = block_given? ? capture(&block) : value
+    return ''.html_safe if content.blank?
+
+    content_tag(:div, class: 'event-detail-item') do
+      concat content_tag(:span, label, class: 'event-detail-label')
+      concat content_tag(:div, content, class: 'event-detail-value')
+    end
+  end
+
+  def event_pill_list(values, variant: :accent)
+    values = Array(values).flatten.compact.reject(&:blank?)
+    return ''.html_safe if values.empty?
+
+    content_tag(:div, class: 'event-pill-list') do
+      safe_join(values.map do |value|
+        classes = ['event-pill']
+        classes << "event-pill--#{variant}" if variant
+        content_tag(:span, value, class: classes.join(' '))
+      end)
+    end
+  end
+
+  def event_cost_value(event)
+    return if event.cost_value.blank?
+
+    formatted_value = number_with_precision(event.cost_value, precision: 2, strip_insignificant_zeros: true)
+    parts = []
+    symbol = currency_symbol_by_iso_code(event.cost_currency)
+    parts << symbol if symbol.present?
+    parts << formatted_value
+    parts << "(#{event.cost_currency})" if event.cost_currency.present?
+    parts.join(' ').strip
+  end
+
+  def event_formatted_datetime(datetime)
+    return if datetime.blank?
+
+    l(datetime, format: :long)
+  rescue StandardError
+    datetime.to_s
+  end
+
   DATE_STRF = '%-e %B %Y'
   TIME_STRF = '%H:%M'
 
