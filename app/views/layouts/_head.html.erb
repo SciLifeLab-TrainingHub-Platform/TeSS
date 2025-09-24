@@ -21,13 +21,8 @@
   <% end -%>
 
   <% if TeSS::Config.analytics_enabled && cookie_consent.allow_tracking? %>
-    <%
-=begin%>
- <%= render 'layouts/google_analytics' %> 
-<%
-=end%>
-   <%= render 'layouts/matomo_analytics' %>
-
+    <%= render 'layouts/google_analytics' if Rails.application.secrets.google_analytics_code.present? %>
+    <%= render 'layouts/matomo_analytics' if Rails.application.secrets.matomo_url.present? %>
   <% end %>
 
   <% if content_for? :og_header %>
