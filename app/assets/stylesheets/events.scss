@@ -37,30 +37,30 @@
 }
 
 .event-action__register {
-  background-color: $accent-color;
-  border-color: darken($accent-color, 5%);
-  color: $headings-color;
+  background-color: $scilifelab-color-lime;
+  border-color: darken($scilifelab-color-lime, 12%);
+  color: $scilifelab-color-dark-gray;
   font-weight: 700;
 
   &:hover,
   &:focus {
-    background-color: darken($accent-color, 6%);
-    border-color: darken($accent-color, 10%);
-    color: $headings-color;
+    background-color: darken($scilifelab-color-lime, 6%);
+    border-color: darken($scilifelab-color-lime, 18%);
+    color: $scilifelab-color-dark-gray;
   }
 }
 
 .event-action__view {
-  background-color: $brand-info;
-  border-color: darken($brand-info, 10%);
-  color: $headings-color;
+  background-color: $scilifelab-color-aqua;
+  border-color: darken($scilifelab-color-aqua, 12%);
+  color: #FFFFFF;
   font-weight: 700;
 
   &:hover,
   &:focus {
-    background-color: darken($brand-info, 6%);
-    border-color: darken($brand-info, 12%);
-    color: $headings-color;
+    background-color: darken($scilifelab-color-aqua, 6%);
+    border-color: darken($scilifelab-color-aqua, 18%);
+    color: #FFFFFF;
   }
 }
 
@@ -339,8 +339,8 @@
   text-align: center;
   padding: 20px;
   border-radius: 16px;
-  border: 1px solid rgba($gray-light, 0.5);
-  background-color: rgba($accent-color, 0.08);
+  border: 1px solid $scilifelab-color-lime-75;
+  background-color: $scilifelab-color-lime-25;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
