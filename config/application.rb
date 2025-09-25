@@ -87,8 +87,7 @@ module TeSS
     end
 
     def analytics_enabled
-      force_analytics_enabled || 
-      (Rails.application.secrets.google_analytics_code.present? && Rails.env.production?) ||
+      force_analytics_enabled || (Rails.application.secrets.google_analytics_code.present? && Rails.env.production?) ||
       (Rails.application.secrets.matomo_url.present? && ENV['DEPLOYMENT_ENV'] == 'live')
     end
 
