@@ -1,7 +1,14 @@
 <% event = local_assigns.fetch(:event) %>
 
 <% cost_value = event_cost_value(event) %>
-<% cost_label = cost_value || (event.cost_basis.present? ? CostBasisDictionary.instance.lookup_value(event.cost_basis, 'title') : nil) %>
+<% cost_basis_title = event.cost_basis.present? ? CostBasisDictionary.instance.lookup_value(event.cost_basis, 'title') : nil %>
+<% cost_label = if cost_value && cost_basis_title
+                 "#{cost_value} (#{cost_basis_title})"
+               elsif cost_value
+                 cost_value
+               else
+                 cost_basis_title
+               end %>
 
 <%= event_section_card('Event Details', class: 'event-section-card--sidebar') do %>
   <%= event_detail_item('Dates', neatly_printed_date_range(event.start, event.end)) if event.start.present? %>
