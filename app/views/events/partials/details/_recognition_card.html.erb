@@ -1,0 +1,7 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% if event.recognition.present? %>
+  <%= event_section_card('Credit / Recognition', class: 'event-section-card--full') do %>
+    <div class="event-rich-text"><%= simple_format(event.recognition) %></div>
+  <% end %>
+<% end %>

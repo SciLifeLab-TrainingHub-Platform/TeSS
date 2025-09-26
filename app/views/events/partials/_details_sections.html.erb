@@ -1,184 +1,23 @@
 <% event = local_assigns.fetch(:event, @event) %>
 
-<% description_card = event_section_card('Description', class: 'event-section-card--full event-overview-card') do %>
-  <div class="event-rich-text markdown">
-    <% if event.description.present? %>
-      <%= render_markdown event.description %>
-    <% else %>
-      <span class="muted">No description provided</span>
-    <% end %>
-  </div>
-<% end %>
-
-<% learning_card = nil %>
-<% if event.learning_outcomes.present? %>
-  <% learning_card = event_section_card('Learning Outcomes', class: 'event-section-card--full') do %>
-    <div class="event-rich-text markdown"><%= render_markdown(event.learning_outcomes) %></div>
-  <% end %>
-<% end %>
-
-<% prereq_card = nil %>
-<% if event.prerequisites.present? || event.tech_requirements.present? %>
-  <% prereq_card = event_section_card('Prerequisites & Technical Requirements', class: 'event-section-card--full') do %>
-    <% if event.prerequisites.present? %>
-      <div class="event-rich-text markdown event-prereq__section">
-        <h4 class="event-overview__heading event-prereq__heading">Prerequisites</h4>
-        <%= render_markdown(event.prerequisites) %>
-      </div>
-    <% end %>
-    <% if event.tech_requirements.present? %>
-      <% if event.prerequisites.present? %>
-        <hr class="event-prereq__divider">
-      <% end %>
-      <div class="event-rich-text markdown event-prereq__section">
-        <h4 class="event-overview__heading event-prereq__heading">Technical requirements</h4>
-        <%= render_markdown(event.tech_requirements) %>
-      </div>
-    <% end %>
-  <% end %>
-<% end %>
-
-<% audience_card = event_section_card('Audience & Capacity', class: 'event-section-card--full') do %>
-  <% eligibility_titles = event.eligibility.map { |value| EligibilityDictionary.instance.lookup_value(value, 'title') }.compact %>
-  <%= event_detail_item(Event.human_attribute_name(:eligibility)) { event_pill_list(eligibility_titles) } if eligibility_titles.any? %>
-  <%= event_detail_item(Event.human_attribute_name(:capacity), event.capacity) %>
-<% end %>
-
-<% keywords = Array(event.keywords).reject(&:blank?) %>
-<% fields = Array(event.fields).reject(&:blank?) %>
-<% scientific_topics = event.scientific_topics.map(&:preferred_label) %>
-<% operations = event.operations.map(&:preferred_label) %>
-<% topic_names = event.topics.map(&:name) %>
-<% audience_titles = event.target_audience.map { |value| target_audience_title_for_label(value) }.compact %>
-
-<% topics_card = event_section_card('Topics & Tags', class: 'event-section-card--full') do %>
-  <%= event_detail_item(Event.human_attribute_name(:keywords)) { event_pill_list(keywords, variant: :accent) } if keywords.any? %>
-  <%= event_detail_item(Event.human_attribute_name(:fields)) { event_pill_list(fields, variant: :primary) } if fields.any? %>
-  <%= event_detail_item(Event.human_attribute_name(:scientific_topics)) { event_pill_list(scientific_topics, variant: :secondary) } if scientific_topics.any? %>
-  <%= event_detail_item(Event.human_attribute_name(:operations)) { event_pill_list(operations, variant: :primary) } if operations.any? %>
-  <%= event_detail_item(Event.human_attribute_name(:topics)) { event_pill_list(topic_names, variant: :accent) } if topic_names.any? %>
-  <%= event_detail_item(Event.human_attribute_name(:target_audience)) { event_pill_list(audience_titles, variant: :neutral) } if audience_titles.any? %>
-<% end %>
-
-<% nodes = event.associated_nodes %>
-<% affiliation = nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
-<% node_names = nodes.map(&:name) %>
-<% host_institutions = Array(event.host_institutions).reject(&:blank?) %>
-<% sponsors = Array(event.sponsors).reject(&:blank?) %>
-
-<% affiliation_card = nil %>
-<% if affiliation || node_names.any? || host_institutions.any? || sponsors.any? %>
-  <% affiliation_card = event_section_card('Affiliations & Networks', class: 'event-section-card--full') do %>
-    <%= event_detail_item('SciLifeLab affiliation', 'Yes') if affiliation %>
-    <%= event_detail_item('Associated nodes') { event_pill_list(node_names, variant: :primary) } if node_names.any? %>
-    <%= event_detail_item(Event.human_attribute_name(:host_institutions)) { event_pill_list(host_institutions, variant: :secondary) } if host_institutions.any? %>
-    <%= event_detail_item(Event.human_attribute_name(:sponsors)) { event_pill_list(sponsors, variant: :neutral) } if sponsors.any? %>
-  <% end %>
-<% end %>
-
-<% recognition_card = event_section_card('Credit / Recognition', class: 'event-section-card--full') do %>
-  <div class="event-rich-text"><%= simple_format(event.recognition) %></div>
-<% end if event.recognition.present? %>
-
-<% materials_card = nil %>
-<% if event.materials.any? %>
-  <% materials_card = event_section_card('Related Training Materials', class: 'event-section-card--full') do %>
-    <ul class="event-related-list">
-      <% event.materials.each do |material| %>
-        <li><%= link_to material.title, material %></li>
-      <% end %>
-    </ul>
-  <% end %>
-<% end %>
-
-<% external_resources_card = nil %>
-<% if event.external_resources.any? %>
-  <% external_resources_card = event_section_card('External Resources', class: 'event-section-card--full') do %>
-    <%= render partial: 'common/external_resources_list', locals: { external_resources: event.external_resources } %>
-  <% end %>
-<% end %>
-
-<% history_card = nil %>
-<% if event.respond_to?(:remote_created_date) || event.respond_to?(:remote_updated_date) %>
-  <% history_card = event_section_card('Record History', class: 'event-section-card--full') do %>
-    <% if event.respond_to?(:remote_created_date) && event.remote_created_date.present? %>
-      <% created_value = event.remote_created_date.respond_to?(:to_date) ? l(event.remote_created_date.to_date) : event.remote_created_date %>
-      <%= event_detail_item(Event.human_attribute_name(:remote_created_date), created_value) %>
-    <% end %>
-    <% if event.respond_to?(:remote_updated_date) && event.remote_updated_date.present? %>
-      <% updated_value = event.remote_updated_date.respond_to?(:to_date) ? l(event.remote_updated_date.to_date) : event.remote_updated_date %>
-      <%= event_detail_item(Event.human_attribute_name(:remote_updated_date), updated_value) %>
-    <% end %>
-  <% end %>
-<% end %>
-
-<% submission_card = nil %>
-<% if current_user&.is_admin? && event.user %>
-  <% submission_card = event_section_card('Submission Details', class: 'event-section-card--full event-submission-card') do %>
-    <%= event_detail_item('Submitted by') { link_to(event.user.name, event.user) } %>
-    <%= event_detail_item('User since', time_ago_in_words(event.user.created_at) + ' ago') %>
-    <% if event.user.banned? %>
-      <%= event_detail_item('Status') do %>
-        <%= render(partial: 'users/partials/ban', locals: { ban: event.user.ban }) %>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
-
-<% cost_value = event_cost_value(event) %>
-<% cost_label = cost_value || (event.cost_basis.present? ? CostBasisDictionary.instance.lookup_value(event.cost_basis, 'title') : nil) %>
-
-<% summary_card = event_section_card('Event Details', class: 'event-section-card--sidebar') do %>
-  <%= event_detail_item('Dates', neatly_printed_date_range(event.start, event.end)) if event.start.present? %>
-  <%= event_detail_item('Application deadline', event_formatted_datetime(event.application_deadline)) if event.application_deadline.present? %>
-  <%= event_detail_item('Contact', simple_format(event.contact)) if event.contact.present? %>
-  <%= event_detail_item(Event.human_attribute_name(:venue), event.venue) if event.venue.present? %>
-  <%= event_detail_item(Event.human_attribute_name(:city), event.city) if event.city.present? %>
-  <%= event_detail_item(Event.human_attribute_name(:country), event.country) if event.country.present? %>
-  <%= event_detail_item('Language', render_language_name(event.language)) if event.language.present? %>
-  <%= event_detail_item('Cost', cost_label) if cost_label.present? %>
-  <%= event_detail_item(Event.human_attribute_name(:timezone), event.timezone) if event.timezone.present? %>
-  <%= event_detail_item(Event.human_attribute_name(:duration), event.duration) if event.duration.present? %>
-
-  <% if event.start && event.end %>
-    <div class="event-summary__cta">
-      <%= render partial: 'events/add_to_calendar_button', locals: { event: event } %>
-    </div>
-  <% end %>
-<% end %>
-
-<% content_providers_card = nil %>
-<% if event.content_providers.any? %>
-  <% content_providers_card = event_section_card('Content Providers', class: 'event-section-card--sidebar') do %>
-    <div class="event-content-providers">
-      <% event.content_providers.each do |provider| %>
-        <div class="event-content-provider">
-          <h4 class="event-content-provider__title"><%= link_to provider.title, provider %></h4>
-          <% if provider.description.present? %>
-            <div class="event-content-provider__description markdown">
-              <%= render_markdown provider.description %>
-            </div>
-          <% end %>
-          <% if provider.url.present? %>
-            <p class="event-content-provider__link">
-              <%= link_to provider.url, provider.url, target: '_blank', rel: 'noopener' %>
-            </p>
-          <% end %>
-          <div class="event-content-provider__media">
-            <%= link_to provider do %>
-              <%= image_tag(get_image_url_for(provider), class: 'event-content-provider__logo event-content-provider__logo--rounded', alt: provider.title) %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-<% end %>
+<% description_card = render('events/partials/details/description_card', event: event).presence %>
+<% learning_card = render('events/partials/details/learning_card', event: event).presence %>
+<% prereq_card = render('events/partials/details/prereq_card', event: event).presence %>
+<% topics_card = render('events/partials/details/topics_card', event: event).presence %>
+<% affiliation_card = render('events/partials/details/affiliation_card', event: event).presence %>
+<% audience_card = render('events/partials/details/audience_card', event: event).presence %>
+<% recognition_card = render('events/partials/details/recognition_card', event: event).presence %>
+<% materials_card = render('events/partials/details/materials_card', event: event).presence %>
+<% external_resources_card = render('events/partials/details/external_resources_card', event: event).presence %>
+<% history_card = render('events/partials/details/history_card', event: event).presence %>
+<% submission_card = render('events/partials/details/submission_card', event: event).presence %>
+<% summary_card = render('events/partials/details/summary_card', event: event).presence %>
+<% content_providers_card = render('events/partials/details/content_providers_card', event: event).presence %>
 
 <div class="event-sections">
   <div class="event-intro">
     <div class="event-intro__main">
-      <%= description_card if description_card.present? %>
+      <%= description_card %>
     </div>
 
     <div class="event-intro__sidebar">

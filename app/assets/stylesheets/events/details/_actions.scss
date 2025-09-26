@@ -1,0 +1,27 @@
+.event-action__register {
+  background-color: $scilifelab-color-lime;
+  border-color: darken($scilifelab-color-lime, 12%);
+  color: $scilifelab-color-dark-gray;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    background-color: darken($scilifelab-color-lime, 6%);
+    border-color: darken($scilifelab-color-lime, 18%);
+    color: $scilifelab-color-dark-gray;
+  }
+}
+
+.event-action__view {
+  background-color: $scilifelab-color-aqua;
+  border-color: darken($scilifelab-color-aqua, 12%);
+  color: #FFFFFF;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    background-color: darken($scilifelab-color-aqua, 6%);
+    border-color: darken($scilifelab-color-aqua, 18%);
+    color: #FFFFFF;
+  }
+}

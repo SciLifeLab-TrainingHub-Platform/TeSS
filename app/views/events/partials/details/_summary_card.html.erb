@@ -1,0 +1,23 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% cost_value = event_cost_value(event) %>
+<% cost_label = cost_value || (event.cost_basis.present? ? CostBasisDictionary.instance.lookup_value(event.cost_basis, 'title') : nil) %>
+
+<%= event_section_card('Event Details', class: 'event-section-card--sidebar') do %>
+  <%= event_detail_item('Dates', neatly_printed_date_range(event.start, event.end)) if event.start.present? %>
+  <%= event_detail_item('Application deadline', event_formatted_datetime(event.application_deadline)) if event.application_deadline.present? %>
+  <%= event_detail_item('Contact', simple_format(event.contact)) if event.contact.present? %>
+  <%= event_detail_item(Event.human_attribute_name(:venue), event.venue) if event.venue.present? %>
+  <%= event_detail_item(Event.human_attribute_name(:city), event.city) if event.city.present? %>
+  <%= event_detail_item(Event.human_attribute_name(:country), event.country) if event.country.present? %>
+  <%= event_detail_item('Language', render_language_name(event.language)) if event.language.present? %>
+  <%= event_detail_item('Cost', cost_label) if cost_label.present? %>
+  <%= event_detail_item(Event.human_attribute_name(:timezone), event.timezone) if event.timezone.present? %>
+  <%= event_detail_item(Event.human_attribute_name(:duration), event.duration) if event.duration.present? %>
+
+  <% if event.start && event.end %>
+    <div class="event-summary__cta">
+      <%= render partial: 'events/add_to_calendar_button', locals: { event: event } %>
+    </div>
+  <% end %>
+<% end %>

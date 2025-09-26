@@ -1,0 +1,7 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% if event.external_resources.any? %>
+  <%= event_section_card('External Resources', class: 'event-section-card--full') do %>
+    <%= render partial: 'common/external_resources_list', locals: { external_resources: event.external_resources } %>
+  <% end %>
+<% end %>

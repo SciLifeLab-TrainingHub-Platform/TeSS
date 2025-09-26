@@ -1,0 +1,66 @@
+.event-content-providers {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.event-content-provider {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid $scilifelab-color-lime-75;
+  background-color: $scilifelab-color-lime-25;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.event-content-provider__media {
+  flex: 0 0 auto;
+}
+
+.event-content-provider__logo {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.event-content-provider__logo--rounded {
+  border-radius: 50%;
+}
+
+.event-content-provider__title {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.event-content-provider__link {
+  margin: 0;
+  font-size: 1.25rem;
+  word-break: break-word;
+}
+
+.event-content-provider__description {
+  max-width: 420px;
+  margin: 0 auto;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.event-related-list {
+  @include unstyled-ul;
+  margin: 0;
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  li:last-child {
+    margin-bottom: 0;
+  }
+}

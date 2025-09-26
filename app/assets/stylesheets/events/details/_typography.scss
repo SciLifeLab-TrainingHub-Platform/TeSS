@@ -1,0 +1,38 @@
+.event-overview-card .event-rich-text {
+  flex-grow: 1;
+  font-size: 1.75rem;
+  line-height: 1.85;
+}
+
+.event-overview__heading {
+  font-size: 1.35rem;
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: $headings-color;
+}
+
+.event-overview__heading.event-prereq__heading {
+  font-size: 1.65rem;
+  margin-bottom: 10px;
+}
+
+.event-section-title {
+  font-size: 2.4rem;
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.event-rich-text {
+  font-size: 1.5rem;
+  line-height: 1.85;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.event-prereq__divider {
+  border: none;
+  border-top: 1px solid rgba($gray-light, 0.4);
+  margin: 16px 0;
+}
