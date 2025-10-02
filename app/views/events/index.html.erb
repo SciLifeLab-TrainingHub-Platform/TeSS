@@ -1,67 +1,67 @@
-<div class="wrapper">
-  <% if TeSS::Config.solr_enabled %>
-    <div id="sidebar" class="popout-sidebar">
-      <%= render partial: "search/common/facet_sidebar",
-                 locals: { resources: @events_results, resource_type: Event } %>
-    </div>
-  <% end %>
-
-  <div id="content">
-    <h2><%= t("features.events.long") %></h2>
-    <% content_for :buttons do %>
-      <!-- Register button-->
-      <%= link_to new_event_path, class: 'btn btn-primary' do %>
-        <%= t('register.buttons.events') %>
-      <% end %>
-      <!-- Info button-->
-      <%= info_button("What are events in #{TeSS::Config.site['title_short']}?", hide_text: true, class: 'event-info-button-popover') do %>
-        <%= render_markdown(EventsHelper::EVENTS_INFO) %>
-      <% end %>
-    <% end %>
-    <% content_for :display_options do %>
-      <ul class="nav nav-xs nav-pills index-display-options">
-        <%# We should consider setting the active status based on the query fragment so we can deeplink %>
-        <%= tab('List', 'fa fa-list', 'home', active: true) %>
-        <%= tab('Calendar', 'fa fa-calendar', 'calendar', options: { 'data-calendar': calendar_events_path(search_and_facet_params.merge(format: :js, per_page: 200)) }) %>
-        <% if TeSS::Config.map_enabled %>
-          <%= tab('Map', 'fa fa-globe', 'map',
-                  disabled: { check: (search_and_facet_params[:online] == 'true'),
-                              message: 'Only showing online events.' }) %>
-        <% end %>
-      </ul>
-    <% end %>
-
-    <%= render partial: "search/common/search_panel", locals: { resources: @events_results,
-                                                                resource_type: Event } %>
-
-    <%# ACTUAL RESULTS LIST %>
-    <% unless @events.blank? %>
-      <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
-          <%= render partial: 'common/masonry_grid', locals: { objects: @events } %>
-
-          <%= render partial: "search/common/pagination_bar", locals: { resources: @events } %>
-        </div>
-
-        <div id="calendar" class="tab-pane fade in">
-          <%= render partial: 'events/partials/calendar_loader' %>
-        </div>
-
-        <% if TeSS::Config.map_enabled %>
-          <div id="map" class="tab-pane fade">
-            <div id="map-count" class="search-results-count"></div>
-            <div id="map-content">
-              <%= render partial: 'events/partials/events_map' %>
-              <p id="map-notice" class="help-block">
-                Note, this map only displays events that have geolocation information in
-                <%= TeSS::Config.site['title_short'] %>.<br>
-                For the complete list of events in <%= TeSS::Config.site['title_short'] %>, click the grid tab.
-              </p>
-            </div>
-          </div>
-        <% end %>
+  <div class="wrapper">
+    <% if TeSS::Config.solr_enabled %>
+      <div id="sidebar" class="popout-sidebar">
+        <%= render partial: "search/common/facet_sidebar",
+                   locals: { resources: @events_results, resource_type: Event } %>
       </div>
     <% end %>
-  </div>
 
-</div>
+    <div id="content">
+      <h2><%= t("features.events.long") %></h2>
+      <% content_for :buttons do %>
+        <!-- Register button-->
+        <%= link_to new_event_path, class: 'btn btn-primary' do %>
+          <%= t('register.buttons.events') %>
+        <% end %>
+        <!-- Info button-->
+        <%= info_button("What are events in #{TeSS::Config.site['title_short']}?", hide_text: true, class: 'event-info-button-popover') do %>
+          <%= render_markdown(EventsHelper::EVENTS_INFO) %>
+        <% end %>
+      <% end %>
+      <% content_for :display_options do %>
+        <ul class="nav nav-xs nav-pills index-display-options">
+          <%# We should consider setting the active status based on the query fragment so we can deeplink %>
+          <%= tab('List', 'fa fa-list', 'home', active: true) %>
+          <%= tab('Calendar', 'fa fa-calendar', 'calendar', options: { 'data-calendar': calendar_events_path(search_and_facet_params.merge(format: :js, per_page: 200)) }) %>
+          <% if TeSS::Config.map_enabled %>
+            <%= tab('Map', 'fa fa-globe', 'map',
+                    disabled: { check: (search_and_facet_params[:online] == 'true'),
+                                message: 'Only showing online events.' }) %>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <%= render partial: "search/common/search_panel", locals: { resources: @events_results,
+                                                                  resource_type: Event } %>
+
+      <%# ACTUAL RESULTS LIST %>
+      <% unless @events.blank? %>
+        <div class="tab-content">
+          <div id="home" class="tab-pane fade in active">
+            <%= render partial: 'common/masonry_grid', locals: { objects: @events } %>
+
+            <%= render partial: "search/common/pagination_bar", locals: { resources: @events } %>
+          </div>
+
+          <div id="calendar" class="tab-pane fade in">
+            <%= render partial: 'events/partials/calendar_loader' %>
+          </div>
+
+          <% if TeSS::Config.map_enabled %>
+            <div id="map" class="tab-pane fade">
+              <div id="map-count" class="search-results-count"></div>
+              <div id="map-content">
+                <%= render partial: 'events/partials/events_map' %>
+                <p id="map-notice" class="help-block">
+                  Note, this map only displays events that have geolocation information in
+                  <%= TeSS::Config.site['title_short'] %>.<br>
+                  For the complete list of events in <%= TeSS::Config.site['title_short'] %>, click the grid tab.
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>

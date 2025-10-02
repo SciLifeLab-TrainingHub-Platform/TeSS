@@ -88,6 +88,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :courses, concerns: :activities do
+    collection do
+      get :count
+    end
+  end
+
   resources :collections, concerns: %i[collaboratable activities] do
     member do
       %w[events materials].each do |item|

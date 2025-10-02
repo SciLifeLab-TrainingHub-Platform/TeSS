@@ -72,6 +72,8 @@ module Searchable
               order_by(:count, :desc)
             when 'Material'
               order_by(:created_at, :desc)
+            when 'Course'
+              order_by(:created_at, :desc)
             else
               order_by(:sort_title, :asc)
           end

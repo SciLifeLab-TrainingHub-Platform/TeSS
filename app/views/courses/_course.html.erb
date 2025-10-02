@@ -1,0 +1,28 @@
+<li class="masonry-brick media-item long">
+
+  <%= link_to course, class: 'link-overlay with-left-icon' do %>
+
+    <%= item_order_badge(collection_item) if defined? collection_item %>
+
+    <div class="with-left-icon">
+
+      <div class="right-container">
+        <div class="masonry-brick-heading">
+
+          <h4>
+            <%= course.title %>
+          </h4>
+        </div>
+
+<!--        add node section later-->
+        <%# if course.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
+          <%#= elixir_node_icon %>
+        <%# end -%>
+
+
+      </div>
+    </div>
+
+    <%= item_comment(collection_item) if defined? collection_item %>
+  <% end %>
+</li>

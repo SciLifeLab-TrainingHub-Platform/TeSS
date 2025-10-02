@@ -12,6 +12,7 @@ class ContentProvider < ApplicationRecord
   has_many :learning_paths, dependent: :destroy
   has_many :event_content_providers, dependent: :destroy
   has_many :events, through: :event_content_providers
+  has_and_belongs_to_many :courses
 
   belongs_to :user
   belongs_to :node, optional: true

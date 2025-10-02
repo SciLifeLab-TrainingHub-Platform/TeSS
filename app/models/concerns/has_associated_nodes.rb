@@ -17,7 +17,7 @@ module HasAssociatedNodes
 
   def associated_nodes
     n = self.nodes.to_a
-    if self.is_a?(Event)
+    if self.is_a?(Event) || self.is_a?(Course)
       content_providers.each do |provider|
         n << provider.node if provider.node
       end

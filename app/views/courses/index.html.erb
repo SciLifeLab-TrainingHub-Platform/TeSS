@@ -1,0 +1,39 @@
+<div class="wrapper">
+  <% if TeSS::Config.solr_enabled %>
+    <div id="sidebar" class="popout-sidebar">
+      <%= render partial: "search/common/facet_sidebar",
+                 locals: { resources: @courses_results, resource_type: Course } %>
+    </div>
+  <% end %>
+
+  <div id="content">
+    <h2> Courses </h2>
+    <% content_for :buttons do %>
+      <!-- Register button-->
+      <%= link_to new_event_path, class: 'btn btn-primary' do %>
+      Create new Course
+      <% end %>
+      <!-- Info button-->
+      <%= info_button("What are events in #{TeSS::Config.site['title_short']}?", hide_text: true, class: 'event-info-button-popover') do %>
+        <%#= render_markdown(EventsHelper::EVENTS_INFO) %>
+      <% end %>
+    <% end %>
+
+    <%= render partial: "search/common/search_panel", locals: { resources: @courses_results,
+                                                                resource_type: Course } %>
+
+    <%# ACTUAL RESULTS LIST %>
+    <% unless @courses.blank? %>
+      <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+          <%= render partial: 'common/masonry_grid', locals: { objects: @courses } %>
+
+          <%= render partial: "search/common/pagination_bar", locals: { resources: @courses } %>
+        </div>
+
+
+      </div>
+    <% end %>
+  </div>
+
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_05_082806) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_02_144736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -159,12 +159,41 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_05_082806) do
     t.index ["user_id"], name: "index_content_providers_on_user_id"
   end
 
+  create_table "content_providers_courses", id: false, force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "content_provider_id", null: false
+    t.index ["content_provider_id", "course_id"], name: "index_content_providers_courses"
+    t.index ["course_id", "content_provider_id"], name: "index_courses_content_providers", unique: true
+  end
+
   create_table "content_providers_users", id: false, force: :cascade do |t|
     t.bigint "content_provider_id"
     t.bigint "user_id"
     t.index ["content_provider_id", "user_id"], name: "provider_user_unique", unique: true
     t.index ["content_provider_id"], name: "index_content_providers_users_on_content_provider_id"
     t.index ["user_id"], name: "index_content_providers_users_on_user_id"
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "language"
+    t.text "keywords", default: [], array: true
+    t.jsonb "authors", default: [], array: true
+    t.jsonb "contributors", default: [], array: true
+    t.string "url"
+    t.text "learning_outcomes"
+    t.text "structure_and_duration"
+    t.string "target_audience", default: [], array: true
+    t.text "prerequisites_knowledge"
+    t.text "prerequisites_technical"
+    t.string "licensing"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.bigint "user_id", null: false
+    t.index ["slug"], name: "index_courses_on_slug", unique: true
+    t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
   create_table "edit_suggestions", id: :serial, force: :cascade do |t|
@@ -275,6 +304,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_05_082806) do
     t.integer "event_status", default: 0, null: false
     t.text "admin_notes"
     t.string "registration_form_url"
+    t.bigint "course_id"
+    t.index ["course_id"], name: "index_events_on_course_id"
     t.index ["llm_interaction_id"], name: "index_events_on_llm_interaction_id"
     t.index ["presence"], name: "index_events_on_presence"
     t.index ["slug"], name: "index_events_on_slug", unique: true
@@ -518,6 +549,33 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_05_082806) do
     t.index ["user_id"], name: "index_sources_on_user_id"
   end
 
+  create_table "space_roles", force: :cascade do |t|
+    t.string "key"
+    t.bigint "user_id"
+    t.bigint "space_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["space_id"], name: "index_space_roles_on_space_id"
+    t.index ["user_id"], name: "index_space_roles_on_user_id"
+  end
+
+  create_table "spaces", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "host"
+    t.string "theme"
+    t.string "image_file_name"
+    t.string "image_content_type"
+    t.bigint "image_file_size"
+    t.datetime "image_updated_at"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "image_url"
+    t.index ["host"], name: "index_spaces_on_host", unique: true
+    t.index ["user_id"], name: "index_spaces_on_user_id"
+  end
+
   create_table "staff_members", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "role"
@@ -664,6 +722,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_05_082806) do
   add_foreign_key "collections", "users"
   add_foreign_key "content_providers", "nodes"
   add_foreign_key "content_providers", "users"
+  add_foreign_key "courses", "users"
   add_foreign_key "event_cities", "cities"
   add_foreign_key "event_cities", "events"
   add_foreign_key "event_content_providers", "content_providers"
@@ -674,6 +733,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_05_082806) do
   add_foreign_key "event_topics", "topics"
   add_foreign_key "event_venues", "events"
   add_foreign_key "event_venues", "venues"
+  add_foreign_key "events", "courses"
   add_foreign_key "events", "llm_interactions"
   add_foreign_key "events", "users"
   add_foreign_key "learning_path_topic_links", "learning_paths"
@@ -686,6 +746,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_05_082806) do
   add_foreign_key "nodes", "users"
   add_foreign_key "sources", "content_providers"
   add_foreign_key "sources", "users"
+  add_foreign_key "space_roles", "spaces"
   add_foreign_key "staff_members", "nodes"
   add_foreign_key "stars", "users"
   add_foreign_key "subscriptions", "users"
