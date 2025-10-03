@@ -3,16 +3,23 @@
 This companion document expands on the high-level overview in `docs/architecture-diagram.md`. It captures operational details, configuration touch-points, and maintenance notes for engineers who need to work on the TeSS infrastructure or ingest pipeline.
 
 ## Table of Contents
-- [Scope](#scope)
-- [Scheduled Maintenance](#scheduled-maintenance)
-- [Ingestion Pipeline Internals](#ingestion-pipeline-internals)
-- [LLM Integration](#llm-integration)
-- [Background Jobs & Queues](#background-jobs--queues)
-- [Authentication Providers](#authentication-providers)
-- [Model Concerns Reference](#model-concerns-reference)
-- [External Services Inventory](#external-services-inventory)
-- [Configuration Quick Reference](#configuration-quick-reference)
-- [Troubleshooting Notes](#troubleshooting-notes)
+
+- [TeSS Architecture Deep Dive](#tess-architecture-deep-dive)
+  - [Table of Contents](#table-of-contents)
+  - [Scope](#scope)
+  - [Scheduled Maintenance](#scheduled-maintenance)
+  - [Ingestion Pipeline Internals](#ingestion-pipeline-internals)
+  - [LLM Integration](#llm-integration)
+  - [Background Jobs \& Queues](#background-jobs--queues)
+  - [Authentication Providers](#authentication-providers)
+  - [Model Concerns Reference](#model-concerns-reference)
+  - [External Services Inventory](#external-services-inventory)
+  - [Configuration Quick Reference](#configuration-quick-reference)
+  - [Troubleshooting Notes](#troubleshooting-notes)
+    - [Ingestion Failures](#ingestion-failures)
+    - [Geocoding Delays](#geocoding-delays)
+    - [Search Index Out of Sync](#search-index-out-of-sync)
+    - [Sidekiq Queue Backlog](#sidekiq-queue-backlog)
 
 ## Scope
 
@@ -124,19 +131,23 @@ Shared modules located in `app/models/concerns/` (plus supporting modules under 
 ## Troubleshooting Notes
 
 ### Ingestion Failures
+
 - **Symptom:** Source marked as failed.
 - **Diagnostics:** Review `Source#log`, check `log/scraper.log` if configured, verify network access to remote endpoint, ensure tokens are valid.
 - **Next Steps:** Retry from UI (Source > Test) or run `bundle exec rake tess:automated_ingestion` locally.
 
 ### Geocoding Delays
+
 - Ensure Redis is reachable (check `redis-cli ping`).
 - Confirm `TeSS::Config.feature['geocoding']` is enabled and Sidekiq queue is being processed.
 
 ### Search Index Out of Sync
+
 - Verify Solr container/process running.
 - Reindex via `bundle exec rake sunspot:reindex` (can be heavy; schedule during low-traffic periods).
 
 ### Sidekiq Queue Backlog
+
 - Inspect the Web UI (`/sidekiq`) for failing jobs.
 - Check `log/sidekiq.log` for errors.
 - Ensure Redis memory and connection pool is healthy.

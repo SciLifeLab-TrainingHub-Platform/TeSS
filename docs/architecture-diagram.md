@@ -1,6 +1,7 @@
 # TeSS Architecture Documentation
 
 ## Table of Contents
+
 - [TeSS Architecture Documentation](#tess-architecture-documentation)
   - [Table of Contents](#table-of-contents)
   - [System Overview](#system-overview)
@@ -15,7 +16,7 @@
     - [Background Processing](#background-processing)
       - [Sidekiq Workers](#sidekiq-workers)
       - [Scheduled Ingestion (Scraper)](#scheduled-ingestion-scraper)
-    - [Authentication & Authorization](#authentication--authorization)
+    - [Authentication \& Authorization](#authentication--authorization)
     - [Authentication Flow](#authentication-flow)
     - [Data flow](#data-flow)
     - [Search Flow](#search-flow)
@@ -26,6 +27,7 @@
 TeSS (Training e-Support Service) is a Ruby on Rails application that provides a portal for discovering and registering training events and materials in the life sciences domain.
 
 ## Component Architecture
+
 ```mermaid
 graph TD
 %% Entry points
@@ -178,7 +180,6 @@ sequenceDiagram
     Note over TeSS: Create/Update Account
     TeSS-->>User: Sign In Success
 ```
-
 
 ### Data flow
 
