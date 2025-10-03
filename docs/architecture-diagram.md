@@ -14,6 +14,8 @@
       - [Apache Solr](#apache-solr)
     - [Background Processing](#background-processing)
       - [Sidekiq Workers](#sidekiq-workers)
+      - [Scheduled Ingestion (Scraper)](#scheduled-ingestion-scraper)
+    - [Authentication & Authorization](#authentication--authorization)
     - [Authentication Flow](#authentication-flow)
     - [Data flow](#data-flow)
     - [Search Flow](#search-flow)
@@ -26,41 +28,58 @@ TeSS (Training e-Support Service) is a Ruby on Rails application that provides a
 ## Component Architecture
 ```mermaid
 graph TD
-    %% External Layer
+%% Entry points
     LB[Load Balancer]
-    
-    %% Authentication
-    Auth[Authentication<br/>- Local authentication<br/>- OIDC Providers/LS-login]
-    
-    %% Application Core
-    Rails[Rails Application<br/>- PUMA server<br/>- Port 3000<br/>- API + WebUI]
-    
-    %% Storage Systems
-    FileStorage[File Storage for<br/>uploading user<br/>images, static<br/>assets]
-    
-    Redis[Redis<br/>- Sidekiq Job queue<br/>- Geocoding cache<br/>- API Token Storage<br/>- Fragment Caching]
-    
-    PostgreSQL[(PostgreSQL Db<br/>- Primary Database<br/>- All App Data<br/>- CRUD operations)]
-    
-    Solr[Apache Solr<br/>- Search Engine<br/>- Full Text Search<br/>- Faceted Browse]
-    
-    %% Background Processing
-    Sidekiq[Sidekiq Workers<br/>- Async Processing<br/>- Background Jobs<br/>- Data Import]
-    
-    %% External Services
-    ExternalAPIs[External APIs<br/>- Google Map API<br/>- Recaptcha]
-    
-    %% Connections
+    Auth[Authentication Services<br/>Devise local auth<br/>LS-Login OIDC<br/>API tokens]
+
+%% Runtime
+    Rails[Rails Application<br/>Puma server<br/>HTML + JSON API]
+    Pundit[Pundit Policies]
+
+%% Storage Systems
+    PostgreSQL[(PostgreSQL<br/>Primary data store)]
+    Solr[Apache Solr<br/>Sunspot index]
+    Redis[Redis<br/>Sidekiq backend<br/>Geocoding cache<br/>Token store<br/>ActionCable]
+    Files[File Storage<br/>Paperclip uploads]
+
+%% Background Processing
+    Cron[Cron / Whenever<br/>Scheduled rake tasks]
+    Scraper[Scraper Service<br/>config/ingestion.yml]
+    Sidekiq[Sidekiq Workers<br/>default/mailers/<br/>slack_notifications/<br/>source_testing]
+
+%% External integrations
+    Geo[Nominatim]
+    BioPortal[BioPortal Annotator]
+    Slack[Slack API]
+    Fairsharing[FAIRsharing API]
+    LLM[LLM Providers<br/>ChatGPT/Willma]
+    Maps[Google Maps + Places]
+    GeoIP[MaxMind GeoIP]
+
+%% Flows
     LB --> Rails
     Auth --> Rails
-    Rails --> FileStorage
-    Rails -->|Search Index| Solr
-    Rails -->|"Store user accounts & sessions<br/>CRUD events, materials, providers<br/>Read/write all application data<br/>Connection pool (database.yml)"| PostgreSQL
+    Rails --> Pundit
+    Rails --> PostgreSQL
+    Rails --> Solr
     Rails --> Redis
+    Rails --> Files
+
+    Cron --> Scraper
+    Scraper --> PostgreSQL
+    Scraper --> Solr
+    Scraper --> LLM
+
     Redis --> Sidekiq
-    Sidekiq -->|Store ingested data| PostgreSQL
-    Sidekiq -->|Update Search Index| Solr
-    Sidekiq -->|Data Ingestion| ExternalAPIs
+    Sidekiq --> PostgreSQL
+    Sidekiq --> Solr
+    Sidekiq --> Geo
+    Sidekiq --> BioPortal
+    Sidekiq --> Slack
+
+    Rails --> Fairsharing
+    Rails --> Maps
+    Rails --> GeoIP
 ```
 
 ## System Components
@@ -82,23 +101,20 @@ The main application server built with Ruby on Rails framework, running on Puma 
 
 Primary relational database system for persistent data storage.
 
-- **Stores**: 
-  - User accounts and authentication data
-  - Training events and materials
-  - Content provider information
-  - Application sessions
-- **Connection Pool**: Configured via `database.yml`
+- **Stores**: user accounts, role assignments, Rails resources (events, materials, content providers, learning paths, workflows), autocomplete suggestions, audit activities, and ingestion logs.
+- **Connection Pool**: configured via `config/database.yml`.
 
 #### Redis
 
-In-memory key-value store for high-performance operations.
+In-memory key-value store used for non-persistent operational state.
 
-- **Primary Function**: Sidekiq job queue backend
-- **Secondary Functions**:
-  - Geocoding results cache
-  - API token storage
-  - Fragment caching
-- **Configuration**: Set via `REDIS_URL` environment variable
+- **Functions**:
+  - Sidekiq job backend (`config/sidekiq.yml`)
+  - Geocoding cache for Event coordinates (`app/models/event.rb`)
+  - Source test job bookkeeping (`app/models/concerns/has_test_job.rb`)
+  - FAIRsharing API token caching (`lib/fairsharing/client.rb`)
+  - ActionCable production adapter (`config/cable.yml`)
+- **Configuration**: dynamic via `TeSS::Config.redis_url` (`config/application.rb`).
 
 #### Apache Solr
 
@@ -115,21 +131,36 @@ Enterprise search platform for full-text search capabilities.
 
 #### Sidekiq Workers
 
-Asynchronous job processing system for background tasks.
+Asynchronous job processing system used for tasks that must not block web requests.
 
-- **Concurrency**: Configurable worker threads
-- **Job Types**:
-  - Data import from external sources
-  - Geocoding via Nominatim API
-  - Email notifications
-  - Search index updates
-  
-- **Queue Priority**:
-  1. `critical` - Time-sensitive operations
-  2. `default` - Standard background jobs
-  3. `mailers` - Email delivery
-  4. `imports` - External data ingestion
-  5. `geocoding` - Location processing
+- **Adapter**: configured via `config/initializers/sidekiq.rb` with `sidekiq-status` support.
+- **Queues**: `default`, `mailers`, `slack_notifications`, `source_testing` (`config/sidekiq.yml`).
+- **Representative jobs**:
+  - `GeocodingWorker` – resolves event coordinates using Redis-backed caching (`app/workers/geocoding_worker.rb`).
+  - `EditSuggestionWorker` – fetches BioPortal annotations for curation support (`app/workers/edit_suggestion_worker.rb`).
+  - `SourceTestWorker` – dry-runs ingestion sources via Sidekiq::Status (`app/workers/source_test_worker.rb`).
+  - `SlackNotificationJob` – ActiveJob wrapper for production-only Slack alerts (`app/jobs/slack_notification_job.rb`).
+- **Scheduling**: queues are fed either by user-triggered actions (e.g., Source testing) or by rake tasks executed via cron (see below).
+
+#### Scheduled Ingestion (Scraper)
+
+- **Coordinator**: `lib/scraper.rb` orchestrated by `rake tess:automated_ingestion` (`lib/tasks/tess.rake`).
+- **Trigger**: Cron entries generated by Whenever (`config/schedule.rb`).
+- **Configuration**: Combines defaults from `lib/scraper.rb` (username, role, logging) with overrides in `config/ingestion.yml` (via `TeSS::Config.ingestion`) and approved database `Source` records (`lib/scraper.rb:68-71`).
+- **Flow**: instantiates `Scraper::ConfigSource` and persisted `Source` records, runs the appropriate ingestors, persists Events/Materials, and refreshes the Solr index.
+- **More detail**: See `docs/architecture-deep-dive.md#scheduled-maintenance` for the full job schedule and follow-up processing.
+
+### Authentication & Authorization
+
+- **Devise** handles local authentication, confirmations, invitations, password recovery, and tracks sign-ins (`app/models/user.rb`).
+- **OmniAuth Providers** (OpenID Connect) enable federated login:
+  - **LS-Login / Life Science AAI** (`config/initializers/omniauth/ls_login.rb`)
+  - **AAF** – Australian Access Federation (`config/initializers/omniauth/aaf.rb`)
+  - **Tuakiri** – New Zealand Tuakiri AAI (`config/initializers/omniauth/tuakiri.rb`)
+- **Token Authentication** via `acts_as_token_authentication_handler_for` exposes API access using per-user tokens (`app/controllers/application_controller.rb:15`).
+- **Pundit** policies authorize per-resource access using `Pundit::CurrentContext` to include request metadata (`app/controllers/application_controller.rb:28`).
+
+For implementation nuances (LLM enrichment, model concerns, troubleshooting), refer to the companion guide in `docs/architecture-deep-dive.md`.
 
 ### Authentication Flow
 
@@ -137,7 +168,7 @@ Asynchronous job processing system for background tasks.
 sequenceDiagram
     participant User
     participant TeSS
-    participant IdP as Identity Provider
+    participant IdP as "Identity Provider"
 
     User->>TeSS: Click LS-Login
     TeSS-->>IdP: Redirect
@@ -179,29 +210,38 @@ sequenceDiagram
     User->>Rails: Search Query
     Rails->>Solr: Query Index
     Solr-->>Rails: Return IDs & Scores
-    Rails->>PostgreSQL: Fetch Full Records
+    Rails->>PostgreSQL: Fetch Full Records & Autocomplete Suggestions
     PostgreSQL-->>Rails: Return Data
     Rails->>Rails: Format Results
     Rails-->>User: Display Results
 ```
+
+> **Note:** Autocomplete suggestions are stored in the `autocomplete_suggestions` table and maintained via the `AutocompleteManager` concern rather than being sourced from Solr facets.
 
 ### Background Job Processing  Flow
 
 ```mermaid
 sequenceDiagram
     participant Cron
-    participant Rails
-    participant Redis
-    participant Sidekiq
-    participant External API as External API
+    participant Rake as "Rake Task (tess:automated_ingestion)"
+    participant Scraper
+    participant Ingestor as "Ingestors"
     participant PostgreSQL
+    participant Solr
+    participant Sidekiq
+    participant Redis
+    participant ExternalAPI as "External APIs"
 
-    Cron->>Rails: Trigger Import
-    Rails->>Redis: Enqueue Job
-    Sidekiq->>Redis: Poll Queue
-    Redis-->>Sidekiq: Return Job
-    Sidekiq->>External API: Fetch Data
-    External API-->>Sidekiq: Return Data
-    Sidekiq->>PostgreSQL: Save Data
-    Sidekiq->>Solr: Update Index
+    Cron->>Rake: Scheduled execution (Whenever)
+    Rake->>Scraper: Instantiate with config/ingestion.yml
+    Scraper->>Ingestor: Select appropriate ingestor
+    Ingestor->>ExternalAPI: Fetch remote data
+    ExternalAPI-->>Ingestor: Resource payload
+    Ingestor->>PostgreSQL: Persist events/materials
+    Ingestor->>Solr: Reindex resources
+    Scraper->>Sidekiq: Enqueue follow-up jobs (e.g., geocoding)
+    Sidekiq->>Redis: Store job metadata
+    Sidekiq->>ExternalAPI: Call Nominatim / BioPortal / Slack as needed
+    Sidekiq->>PostgreSQL: Update resources
+    Sidekiq->>Solr: Refresh index entries
 ```
