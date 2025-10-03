@@ -31,7 +31,7 @@
       <div class="content-actions">
         <div class="content-viewer-actions">
           <% if @event.registration_form_url.present? %>
-            <%= external_link_button 'Register', @event.registration_form_url,
+            <%= external_link_button2 'Register', @event.registration_form_url,
                                       class: 'btn event-action__register' %>
           <% end %>
           <%= external_link_button 'View course website', @event.url,

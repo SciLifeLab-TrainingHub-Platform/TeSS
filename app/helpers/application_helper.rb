@@ -467,6 +467,12 @@ module ApplicationHelper
     external_link(text, url, options)
   end
 
+  def external_link_button2(text, url, options = {})
+    options.reverse_merge!({ class: 'btn btn-primary' })
+    text = (text + ' <i class="icon icon-md arrow-top-right"></i>').html_safe
+    external_link(text, url, options)
+  end
+
   def external_link(text, url, options = {})
     track = options.delete(:track)
     if track
