@@ -463,13 +463,9 @@ module ApplicationHelper
 
   def external_link_button(text, url, options = {})
     options.reverse_merge!({ class: 'btn btn-primary' })
-    text = (text + ' <i class="icon icon-md arrow-top-right-white-icon"></i>').html_safe
-    external_link(text, url, options)
-  end
-
-  def external_link_button2(text, url, options = {})
-    options.reverse_merge!({ class: 'btn btn-primary' })
-    text = (text + ' <i class="icon icon-md arrow-top-right"></i>').html_safe
+    icon_class = options.delete(:icon_class) || 'icon icon-md arrow-top-right-white-icon'
+    escaped_icon_class = ERB::Util.html_escape(icon_class)
+    text = (text + " <i class=\"#{escaped_icon_class}\"></i>").html_safe
     external_link(text, url, options)
   end
 
