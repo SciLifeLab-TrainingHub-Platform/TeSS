@@ -1,0 +1,65 @@
+<fieldset class="contributors-fields border">
+  <legend class="w-auto">Contributor(s)</legend>
+
+  <div id="contributors-wrapper" class="row rounded mb-4 pl-5">
+    <div class="contributor-fields mb-3">
+      <div>
+        <label for="contributor_name_1" class="form-label">Contributor Name</label>
+        <input type="text" id="contributor_name_1" name="contributor_name[]" class="form-control input-sm" required autocomplete="name">
+      </div>
+
+      <div>
+        <label for="contributor_affiliation_1" class="form-label">Contributor Affiliation</label>
+        <input type="text" id="contributor_affiliation_1" name="contributor_affiliation[]" class="form-control input-sm" required autocomplete="organization">
+      </div>
+
+      <div>
+        <label for="contributor_orcid_1" class="form-label">Contributor ORCID</label>
+        <input type="text" id="contributor_orcid_1" name="contributor_orcid[]" class="form-control input-sm" placeholder="0000-0000-0000-0000" required>
+      </div>
+
+      <button type="button" class="btn btn-sm btn-danger remove-contributor mt-2">Remove</button>
+    </div>
+  </div>
+
+  <button type="button" id="add-contributor" class="btn btn-sm btn-outline-primary mt-3">
+    + Add Contributor
+  </button>
+
+  <script>
+      $(document).on('turbolinks:load', function () {
+          const $wrapper = $('#contributors-wrapper');
+          let contributorCount = 1;
+
+          $('#add-contributor').on('click', function () {
+              contributorCount++;
+              const $clone = $wrapper.find('.contributor-fields').first().clone();
+
+              // Clear input values
+              $clone.find('input').val('');
+
+              // Update IDs to keep them unique
+              $clone.find('input').each(function() {
+                  const baseId = $(this).attr('id').replace(/\d+$/, '');
+                  $(this).attr('id', baseId + contributorCount);
+              });
+
+              // Update labels to match new IDs
+              $clone.find('label').each(function() {
+                  const baseFor = $(this).attr('for').replace(/\d+$/, '');
+                  $(this).attr('for', baseFor + contributorCount);
+              });
+
+              $wrapper.append($clone);
+          });
+
+          $wrapper.on('click', '.remove-contributor', function () {
+              if ($wrapper.find('.contributor-fields').length > 1) {
+                  $(this).closest('.contributor-fields').remove();
+              } else {
+                  alert('At least one contributor is required.');
+              }
+          });
+      });
+  </script>
+</fieldset>

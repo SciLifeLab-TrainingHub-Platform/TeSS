@@ -2,6 +2,8 @@
 class CoursesController < ApplicationController
   before_action -> { feature_enabled?('courses') }
   before_action :set_course, only: %i[show edit update destroy]
+  before_action :set_course_dependencies, only: [:new, :edit, :create, :update]
+  before_action :normalize_authors_and_contributors, only: [:create, :update]
 
   include SearchableIndex
 
@@ -28,11 +30,15 @@ class CoursesController < ApplicationController
   def new
     authorize Course
     @course = Course.new
+    @selected_content_providers_id = []
+    @selected_events_id = []
   end
 
   # GET /courses/1/edit
   def edit
     authorize @course
+    @selected_content_providers_id = @course.content_providers.pluck(:id)
+    @selected_events_id = @course.events.pluck(:id)
   end
 
   # POST /courses
@@ -88,13 +94,43 @@ class CoursesController < ApplicationController
 
   # Only allow trusted parameters
   def course_params
-    permitted = [:title, :description, :language, :url, :licensing,
+    permitted = [:title, :description, :language, :url, :licence,
                  :structure_and_duration, :learning_outcomes, :prerequisites_knowledge,
                  :prerequisites_technical, { keywords: [] }, { authors: [] }, { contributors: [] },
-                 :target_audience, :node_id, :user_id]
+                 :target_audience, :node_id, :user_id, { :content_provider_ids => [] }, { :event_ids => [] }]
 
     permitted.delete(:user_id) unless current_user&.is_admin?
 
     params.require(:course).permit(permitted)
+  end
+
+  def set_course_dependencies
+    @content_providers = ContentProvider.all
+    @events = Event.all
+  end
+
+  def normalize_authors_and_contributors
+    if params[:author_name]
+      authors = params[:author_name].each_index.map do |i|
+        {
+          name: params[:author_name][i],
+          affiliation: params[:author_affiliation][i],
+          orcid: params[:author_orcid][i],
+          email: params[:author_email][i]
+        }
+      end
+      params[:course][:authors] = authors
+    end
+
+    if params[:contributor_name]
+      contributors = params[:contributor_name].each_index.map do |i|
+        {
+          name: params[:contributor_name][i],
+          affiliation: params[:contributor_affiliation][i],
+          orcid: params[:contributor_orcid][i]
+        }
+      end
+      params[:course][:contributors] = contributors
+    end
   end
 end

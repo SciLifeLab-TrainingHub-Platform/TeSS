@@ -5,7 +5,7 @@ class Course < ApplicationRecord
   include HasAssociatedNodes
   include HasFriendlyId
   include CurationQueue
-
+  include HasLicence
 
   has_and_belongs_to_many :content_providers
   has_many :events, dependent: :destroy
@@ -24,16 +24,11 @@ class Course < ApplicationRecord
     string :node, multiple: true do
       associated_nodes.pluck(:name)
     end
-    text :authors do
-      authors.join(" ")
-    end
-    text :contributors do
-      authors.join(" ")
-    end
+
     string :target_audience, multiple: true
 
     string :language
-    string :licensing
+    string :licence
     string :url
 
     time :created_at
@@ -41,16 +36,12 @@ class Course < ApplicationRecord
 
   end
 
-  # def self.facet_keys_with_multiple
-  #   %i[keywords authors contributors target_audience language licensing node_id]
-  # end
 
   # Facet fields for search filters
   def self.facet_fields
-    field_list = %w[content_providers keywords authors contributors target_audience language licensing node]
+    field_list = %w[content_providers keywords target_audience language licence node]
 
     # Apply feature flags
-    field_list.delete('node') unless TeSS::Config.feature['nodes']
     field_list.delete('node') unless TeSS::Config.feature['nodes']
 
     field_list

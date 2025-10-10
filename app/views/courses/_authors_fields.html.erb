@@ -1,0 +1,71 @@
+<fieldset class="authors-fields border">
+  <legend class="w-auto">Author(s)</legend>
+
+  <div id="authors-wrapper" class="row rounded mb-4 pl-5">
+    <div class="author-fields mb-3">
+      <div>
+        <label for="author_name_1" class="form-label">Author Name</label>
+        <input type="text" id="author_name_1" name="author_name[]" class="form-control input-sm" required autocomplete="name">
+      </div>
+
+      <div>
+        <label for="author_affiliation_1" class="form-label">Author Affiliation</label>
+        <input type="text" id="author_affiliation_1" name="author_affiliation[]" class="form-control input-sm" required autocomplete="organization">
+      </div>
+
+      <div>
+        <label for="author_orcid_1" class="form-label">Author ORCID</label>
+        <input type="text" id="author_orcid_1" name="author_orcid[]" class="form-control input-sm" placeholder="0000-0000-0000-0000" required pattern="\d{4}-\d{4}-\d{4}-\d{4}">
+      </div>
+
+      <div>
+        <label for="author_email_1" class="form-label">Author Email</label>
+        <input type="email" id="author_email_1" name="author_email[]" class="form-control input-sm" required autocomplete="email">
+      </div>
+
+      <button type="button" class="btn btn-sm btn-danger remove-author mt-2">Remove</button>
+    </div>
+  </div>
+
+  <button type="button" id="add-author" class="btn btn-sm btn-outline-primary mt-3">
+    + Add Author
+  </button>
+
+  <script>
+      $(document).on('turbolinks:load', function () {
+          const $wrapper = $('#authors-wrapper');
+          let authorCount = 1;
+
+          $('#add-author').on('click', function () {
+              authorCount++;
+              const $clone = $wrapper.find('.author-fields').first().clone();
+
+              // Clear input values
+              $clone.find('input').val('');
+
+              // Update IDs to keep them unique
+              $clone.find('input').each(function() {
+                  const baseId = $(this).attr('id').replace(/\d+$/, '');
+                  $(this).attr('id', baseId + authorCount);
+              });
+
+              // Update labels to match new IDs
+              $clone.find('label').each(function() {
+                  const baseFor = $(this).attr('for').replace(/\d+$/, '');
+                  $(this).attr('for', baseFor + authorCount);
+              });
+
+              $wrapper.append($clone);
+          });
+
+          $wrapper.on('click', '.remove-author', function () {
+              if ($wrapper.find('.author-fields').length > 1) {
+                  $(this).closest('.author-fields').remove();
+              } else {
+                  alert('At least one author is required.');
+              }
+          });
+      });
+  </script>
+</fieldset>
+

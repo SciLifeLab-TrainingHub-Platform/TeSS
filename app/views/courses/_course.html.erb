@@ -13,13 +13,9 @@
             <%= course.title %>
           </h4>
         </div>
-
-<!--        add node section later-->
-        <%# if course.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
-          <%#= elixir_node_icon %>
-        <%# end -%>
-
-
+        <% if course.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
+          <%= elixir_node_icon %>
+        <% end -%>
       </div>
     </div>
 

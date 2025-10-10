@@ -1,0 +1,154 @@
+<%= simple_form_for @course, html: { id: 'course_form', class: 'prevent-enter-submit' } do |f| %>
+
+  <%= render partial: 'common/error_summary', locals: { resource: @course } %>
+
+
+  <!-- Field: Title -->
+  <div class="form-group">
+    <%= f.label :title, class: "control-label" %>
+    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.title_hint') %>">&#xe086;</span>
+    <%= f.input :title, as: :string, input_html: { title: t('events.hints.title') }, label: false %>
+  </div>
+
+  <!-- Field: URL -->
+  <%= render partial: 'common/url_checker',
+             locals: { f: f, url: events_check_exists_path, title: t('events.hints.url') } %>
+
+  <!-- Field: Language -->
+  <%= f.input :language, collection: LanguageDictionary.instance.options_for_select,
+              prompt: t('events.prompts.language'), include_blank: true, input_html: { title: t('events.hints.language') } %>
+
+
+  <!-- Field: Licence -->
+  <%= f.input :licence, collection: licence_options_for_select, as: :grouped_select, group_method: :last, group_label_method: :first,
+              input_html: { title: 'add course licences', class: 'js-select2' },
+              prompt: 'Select a licence...', errors: @course.errors[:licence]
+  %>
+
+
+
+  <!-- Field: Description -->
+  <%= f.label :description, class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.description_hint') %>">&#xe086;</span>
+  <%= f.input :description, as: :markdown_area, input_html: { rows: '5', title: t('events.hints.description') }, label: false %>
+
+  <!-- Field: Target Audience -->
+  <%= f.multi_input :target_audience,
+                    errors: @course.errors[:target_audience],
+                    title: t('events.hints.targets'),
+                    label: "#{f.label(:target_audience, class: 'control-label')} <span class='glyphicon' style='cursor: default; font-size: small' title='#{t('events.hints.targets_hint')}'> &#xe086;</span>".html_safe %>
+
+  <!-- Field: prerequisites_knowledge -->
+  <%= f.label :prerequisites_knowledge, class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.prerequisites_hint') %>">&#xe086;</span>
+  <%= f.input :prerequisites_knowledge, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites') }, label: false %>
+
+  <!-- Field: Prerequisites -->
+  <%= f.label :prerequisites_technical, class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.prerequisites_hint') %>">&#xe086;</span>
+  <%= f.input :prerequisites_technical, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites') }, label: false %>
+
+  <!-- Field: Prerequisites -->
+  <%= f.label :structure_and_duration, class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.prerequisites_hint') %>">&#xe086;</span>
+  <%= f.input :structure_and_duration, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites') }, label: false %>
+
+  <!-- Field: Learning Objectives-->
+  <%= f.label :learning_outcomes, "* Learning outcomes", class: "control-label" %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.objectives_hint') %>">&#xe086;</span>
+  <%= f.input :learning_outcomes, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.objectives') }, label: false %>
+
+
+  <!-- Field: Keywords -->
+  <%= f.multi_input :keywords, errors: @course.errors[:keywords],
+                    title: t('events.hints.keywords'),
+                    label: "#{f.label(:keywords, class: 'control-label')} <span class='glyphicon' style='cursor: default; font-size: small' title='#{t('events.hints.keywords_hint')}'> &#xe086;</span>".html_safe %>
+
+  <!-- Author fields  Render one Author field by default-->
+  <%= render 'authors_fields' %>
+
+  <!-- Author fields  Render one Author field by default-->
+  <%= render 'contributors_fields' %>
+
+
+  <!-- Field: Events -->
+  <div class="field">
+    <%= f.label :event_ids, "* Event(s)", class: "control-label" %>
+    <span class="glyphicon"
+          style="cursor: default; font-size: small;"
+          title="Events for the course">
+    &#xe086;
+  </span>
+    <%= f.collection_select :event_ids, @events, :id, :title,
+                            { include_blank: false },
+                            { class: "js-select2", style: "width: 100%;", multiple: true } do |event| %>
+      <option value="<%= event.id %>"
+              <%= 'selected="selected"' if @selected_events_id.include?(event.id) %>>
+        <%= event.title %>
+      </option>
+    <% end %>
+
+    <% if @course.errors[:content_providers].present? %>
+    <span class="help-block small" style="color: #a02622;">
+      <%= @course.errors[:content_providers].join(', ') %>
+    </span>
+    <% else %>
+      <span class="help-block small">Choose one or more content provider for the event.</span>
+    <% end %>
+  </div>
+
+
+
+  <!-- Field: Content Providers -->
+  <%#= f.input :content_provider_id, label: 'Content provider (Training Organizer)', collection: current_user.get_editable_providers, label_method: :title, value_method: :id, include_blank: true %>
+  <div class="field">
+    <%= f.label :content_provider_ids, "* Content Provider(s)", class: "control-label" %>
+    <span class="glyphicon"
+          style="cursor: default; font-size: small;"
+          title="<%= t('events.hints.content_provider_hint') %>">
+    &#xe086;
+  </span>
+    <%= f.collection_select :content_provider_ids, @content_providers, :id, :title,
+                            { include_blank: false },
+                            { class: "js-select2", style: "width: 100%;", multiple: true } do |content_provider| %>
+      <option value="<%= content_provider.id %>"
+              <%= 'selected="selected"' if @selected_content_providers_id.include?(content_provider.id) %>>
+        <%= content_provider.title %>
+      </option>
+    <% end %>
+
+    <% if @course.errors[:content_providers].present? %>
+    <span class="help-block small" style="color: #a02622;">
+      <%= @course.errors[:content_providers].join(', ') %>
+    </span>
+    <% else %>
+      <span class="help-block small">Choose one or more content provider for the event.</span>
+    <% end %>
+  </div>
+
+
+  <!-- Nodes: check feature enabled -->
+  <% if TeSS::Config.feature['nodes'] and Node.all.count > 0 %>
+    <div class="form-group">
+      <label>* My course is affiliated with SciLifeLab: </label>
+
+      <% Node.order(:name).each do |node| %>
+        <div>
+          <%= f.radio_button :node_ids, node.id, checked: (@course.node_ids.include?(node.id)) %>
+          <%= f.label :node_ids, (node.slug == Node::SCILIFE_LAB_NODE_SLUG ? "Yes" : "No"), value: node.id %>
+        </div>
+      <% end %>
+      <% if @course.errors[:node_ids].any? %>
+        <span style="color: #a02622"><%= @course.errors[:node_ids].join(", ") %></span>
+      <% end %>
+    </div>
+  <% end %>
+
+
+  <div class="form-group">
+    <%= f.submit (f.object.new_record? ? "Add" : "Update") + " course", :class => 'btn btn-primary' %>
+    <%= link_to 'Back', :back, class: 'btn btn-default' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                :back, :class => 'btn btn-default' %>
+  </div>
+<% end %>

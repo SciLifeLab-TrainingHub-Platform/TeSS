@@ -10,7 +10,7 @@
     <h2> Courses </h2>
     <% content_for :buttons do %>
       <!-- Register button-->
-      <%= link_to new_event_path, class: 'btn btn-primary' do %>
+      <%= link_to new_course_path, class: 'btn btn-primary' do %>
       Create new Course
       <% end %>
       <!-- Info button-->
@@ -31,9 +31,10 @@
           <%= render partial: "search/common/pagination_bar", locals: { resources: @courses } %>
         </div>
 
-
       </div>
     <% end %>
+
+
   </div>
 
 </div>

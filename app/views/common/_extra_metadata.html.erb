@@ -21,6 +21,14 @@
   <%= display_attribute(resource, :date_published) %>
 <% end -%>
 
+<% if resource.is_a?(Course) %>
+  <%= display_attribute(resource, :learning_outcomes, markdown: true) %>
+  <%= display_attribute(resource, :structure_and_duration, markdown: true) %>
+  <%= display_attribute(resource, :prerequisites_knowledge, markdown: true) %>
+  <%= display_attribute(resource, :prerequisites_technical, markdown: true) %>
+  <%= display_attribute(resource, :target_audience) { |values| values.map { |x| target_audience_title_for_label(x) }.join(', ') } %>
+<% end %>
+
 <% if resource.is_a?(Event) %>
   <%= display_attribute(resource, :venue) %>
   <%= display_attribute(resource, :city) %>
@@ -62,7 +70,7 @@
 <%= display_attribute(resource, :contributors) { |values| values.join(', ') } if resource.respond_to?(:contributors) %>
 <%= display_attribute(resource, :remote_created_date) if resource.respond_to?(:remote_created_date) %>
 <%= display_attribute(resource, :remote_updated_date) if resource.respond_to?(:remote_updated_date) %>
-<%= display_attribute(resource, :scientific_topics) { |values| values.map { |x| x.preferred_label }.join(', ') } %>
+<%= display_attribute(resource, :scientific_topics) { |values| values.map { |x| x.preferred_label }.join(', ') } if resource.respond_to?(:scientific_topics) %>
 <%= display_attribute(resource, :topics) { |values| values.map { |x| x.name }.join(', ') } if resource.is_a?(Event) %>
 
 <% if resource.is_a?(LearningPath) %>
