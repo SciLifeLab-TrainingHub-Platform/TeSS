@@ -2,11 +2,10 @@
 <script>
   var _paq = window._paq = window._paq || [];
   
-  // Track initial page view
-  _paq.push(['trackPageView']);
+  // Enable link tracking
   _paq.push(['enableLinkTracking']);
   
-  // Turbolinks compatibility: track page changes
+  // Track page views on every Turbolinks navigation (including initial load)
   document.addEventListener('turbolinks:load', function() {
     if (typeof _paq !== 'undefined') {
       _paq.push(['setCustomUrl', window.location.href]);
@@ -15,7 +14,7 @@
     }
   });
   
-  // Load Matomo script
+  // Load Matomo tracking script
   (function() {
     var u="<%= Rails.application.secrets.matomo_url %>";
     _paq.push(['setTrackerUrl', u+'matomo.php']);
