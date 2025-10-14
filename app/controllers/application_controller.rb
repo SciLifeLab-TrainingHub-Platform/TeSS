@@ -55,10 +55,13 @@ class ApplicationController < ActionController::Base
   end
 
   def test_url
+
+    pp "in test url"
     body = {}
 
     begin
       uri = URI.parse(params[:url]) rescue nil
+      pp "uri is #{uri}"
       if uri && (uri.scheme == 'http' || uri.scheme == 'https')
         PrivateAddressCheck.only_public_connections do
           res = HTTParty.get(uri.to_s, timeout: 5, format: :plain)

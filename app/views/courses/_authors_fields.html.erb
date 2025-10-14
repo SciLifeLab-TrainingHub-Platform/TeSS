@@ -1,6 +1,9 @@
 <fieldset class="authors-fields border">
   <legend class="w-auto">Author(s)</legend>
 
+  <!-- Hidden field to hold serialized authors -->
+  <%= f.hidden_field :authors, id: 'course_authors' %>
+
   <div id="authors-wrapper" class="row rounded mb-4 pl-5">
     <div class="author-fields mb-3">
       <div>
@@ -65,7 +68,24 @@
                   alert('At least one author is required.');
               }
           });
+
+          $('#course_form').on('submit', function() {
+              let authors = [];
+
+              $('#authors-wrapper .author-fields').each(function() {
+                  let name = $(this).find('[name="author_name[]"]').val().trim();
+                  let affiliation = $(this).find('[name="author_affiliation[]"]').val().trim();
+                  let orcid = $(this).find('[name="author_orcid[]"]').val().trim();
+                  let email = $(this).find('[name="author_email[]"]').val().trim();
+
+                  if (name || affiliation || orcid || email) {
+                      authors.push({ name, affiliation, orcid, email });
+                  }
+              });
+
+              // Store JSON in hidden field (or blank if none)
+              $('#course_authors').val(authors.length ? JSON.stringify(authors) : '');
+          });
       });
   </script>
 </fieldset>
-

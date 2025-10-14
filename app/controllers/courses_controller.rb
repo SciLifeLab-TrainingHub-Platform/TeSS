@@ -3,7 +3,6 @@ class CoursesController < ApplicationController
   before_action -> { feature_enabled?('courses') }
   before_action :set_course, only: %i[show edit update destroy]
   before_action :set_course_dependencies, only: [:new, :edit, :create, :update]
-  before_action :normalize_authors_and_contributors, only: [:create, :update]
 
   include SearchableIndex
 
@@ -44,8 +43,11 @@ class CoursesController < ApplicationController
   # POST /courses
   def create
     authorize Course
+    normalize_authors_and_contributors
+    normalize_node_ids
     @course = Course.new(course_params)
     @course.user = current_user if @course.respond_to?(:user=)
+
 
     respond_to do |format|
       if @course.save
@@ -85,6 +87,23 @@ class CoursesController < ApplicationController
     end
   end
 
+  def check_exists
+    @course = Course.check_exists(course_params)
+
+    if @course
+      respond_to do |format|
+        format.html { redirect_to @course }
+        format.json { render :show, location: @course }
+      end
+    else
+      respond_to do |format|
+        format.html { render nothing: true, status: 200, content_type: 'text/html' }
+        format.json { render json: {}, status: 200, content_type: 'application/json' }
+      end
+    end
+  end
+
+
   private
 
   # Use callbacks to share common setup or constraints
@@ -94,10 +113,18 @@ class CoursesController < ApplicationController
 
   # Only allow trusted parameters
   def course_params
-    permitted = [:title, :description, :language, :url, :licence,
-                 :structure_and_duration, :learning_outcomes, :prerequisites_knowledge,
-                 :prerequisites_technical, { keywords: [] }, { authors: [] }, { contributors: [] },
-                 :target_audience, :node_id, :user_id, { :content_provider_ids => [] }, { :event_ids => [] }]
+    permitted = [
+      :title, :description, :language, :url, :licence,
+      :structure_and_duration, :learning_outcomes, :prerequisites_knowledge,
+      :prerequisites_technical,
+      { keywords: [] },
+      { target_audience: [] },
+      { authors: [:name, :affiliation, :orcid, :email] },
+      { contributors: [:name, :affiliation, :orcid, :email] },
+      { event_ids: [] },
+      { content_provider_ids: [] },
+      { node_ids: [] }
+    ]
 
     permitted.delete(:user_id) unless current_user&.is_admin?
 
@@ -110,27 +137,16 @@ class CoursesController < ApplicationController
   end
 
   def normalize_authors_and_contributors
-    if params[:author_name]
-      authors = params[:author_name].each_index.map do |i|
-        {
-          name: params[:author_name][i],
-          affiliation: params[:author_affiliation][i],
-          orcid: params[:author_orcid][i],
-          email: params[:author_email][i]
-        }
+    [:authors, :contributors].each do |key|
+      if params[:course][key].is_a?(String)
+        params[:course][key] = JSON.parse(params[:course][key]) rescue []
       end
-      params[:course][:authors] = authors
     end
+  end
 
-    if params[:contributor_name]
-      contributors = params[:contributor_name].each_index.map do |i|
-        {
-          name: params[:contributor_name][i],
-          affiliation: params[:contributor_affiliation][i],
-          orcid: params[:contributor_orcid][i]
-        }
-      end
-      params[:course][:contributors] = contributors
+  def normalize_node_ids
+    if params[:course][:node_ids].is_a?(String)
+      params[:course][:node_ids] = [params[:course][:node_ids]]
     end
   end
 end

@@ -1,4 +1,5 @@
 class Course < ApplicationRecord
+  include PublicActivity::Common
   include LogParameterChanges
   include Searchable
   include HasLanguage
@@ -8,7 +9,7 @@ class Course < ApplicationRecord
   include HasLicence
 
   has_and_belongs_to_many :content_providers
-  has_many :events, dependent: :destroy
+  has_many :events
   belongs_to :user
 
 
@@ -46,4 +47,20 @@ class Course < ApplicationRecord
 
     field_list
   end
+
+  def self.check_exists(course_params)
+    given_course = self.new(course_params)
+    course = nil
+
+    if given_course.url.present?
+      course = self.find_by_url(given_course.url)
+    end
+
+    if given_course.title.present?
+      course ||= self.where(title: given_course.title).last
+    end
+
+    course
+  end
+
 end

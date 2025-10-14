@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_10_122703) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_14_085717) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -179,8 +179,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_10_122703) do
     t.text "description"
     t.string "language"
     t.text "keywords", default: [], array: true
-    t.jsonb "authors", default: [], array: true
-    t.jsonb "contributors", default: [], array: true
     t.string "url"
     t.text "learning_outcomes"
     t.text "structure_and_duration"
@@ -192,6 +190,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_10_122703) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.bigint "user_id", null: false
+    t.jsonb "authors", default: []
+    t.jsonb "contributors", default: []
     t.index ["slug"], name: "index_courses_on_slug", unique: true
     t.index ["user_id"], name: "index_courses_on_user_id"
   end

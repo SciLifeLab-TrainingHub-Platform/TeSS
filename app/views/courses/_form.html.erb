@@ -12,8 +12,7 @@
 
   <!-- Field: URL -->
   <%= render partial: 'common/url_checker',
-             locals: { f: f, url: events_check_exists_path, title: t('events.hints.url') } %>
-
+             locals: { f: f, url: courses_check_exists_path, title: '' } %>
   <!-- Field: Language -->
   <%= f.input :language, collection: LanguageDictionary.instance.options_for_select,
               prompt: t('events.prompts.language'), include_blank: true, input_html: { title: t('events.hints.language') } %>
@@ -65,10 +64,10 @@
                     label: "#{f.label(:keywords, class: 'control-label')} <span class='glyphicon' style='cursor: default; font-size: small' title='#{t('events.hints.keywords_hint')}'> &#xe086;</span>".html_safe %>
 
   <!-- Author fields  Render one Author field by default-->
-  <%= render 'authors_fields' %>
+  <%= render 'authors_fields', f: f %>
 
   <!-- Author fields  Render one Author field by default-->
-  <%= render 'contributors_fields' %>
+  <%= render 'contributors_fields', f: f %>
 
 
   <!-- Field: Events -->

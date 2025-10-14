@@ -1,21 +1,24 @@
 <fieldset class="contributors-fields border">
   <legend class="w-auto">Contributor(s)</legend>
 
+  <!-- Hidden field to hold serialized contributors -->
+  <%= f.hidden_field :contributors, id: 'course_contributors' %>
+
   <div id="contributors-wrapper" class="row rounded mb-4 pl-5">
     <div class="contributor-fields mb-3">
       <div>
         <label for="contributor_name_1" class="form-label">Contributor Name</label>
-        <input type="text" id="contributor_name_1" name="contributor_name[]" class="form-control input-sm" required autocomplete="name">
+        <input type="text" id="contributor_name_1" name="contributor_name[]" class="form-control input-sm" autocomplete="name">
       </div>
 
       <div>
         <label for="contributor_affiliation_1" class="form-label">Contributor Affiliation</label>
-        <input type="text" id="contributor_affiliation_1" name="contributor_affiliation[]" class="form-control input-sm" required autocomplete="organization">
+        <input type="text" id="contributor_affiliation_1" name="contributor_affiliation[]" class="form-control input-sm" autocomplete="organization">
       </div>
 
       <div>
         <label for="contributor_orcid_1" class="form-label">Contributor ORCID</label>
-        <input type="text" id="contributor_orcid_1" name="contributor_orcid[]" class="form-control input-sm" placeholder="0000-0000-0000-0000" required>
+        <input type="text" id="contributor_orcid_1" name="contributor_orcid[]" class="form-control input-sm" placeholder="0000-0000-0000-0000" pattern="\d{4}-\d{4}-\d{4}-\d{4}">
       </div>
 
       <button type="button" class="btn btn-sm btn-danger remove-contributor mt-2">Remove</button>
@@ -31,20 +34,21 @@
           const $wrapper = $('#contributors-wrapper');
           let contributorCount = 1;
 
+          // Add new contributor
           $('#add-contributor').on('click', function () {
               contributorCount++;
               const $clone = $wrapper.find('.contributor-fields').first().clone();
 
-              // Clear input values
+              // Clear inputs
               $clone.find('input').val('');
 
-              // Update IDs to keep them unique
+              // Update IDs for uniqueness
               $clone.find('input').each(function() {
                   const baseId = $(this).attr('id').replace(/\d+$/, '');
                   $(this).attr('id', baseId + contributorCount);
               });
 
-              // Update labels to match new IDs
+              // Update labels
               $clone.find('label').each(function() {
                   const baseFor = $(this).attr('for').replace(/\d+$/, '');
                   $(this).attr('for', baseFor + contributorCount);
@@ -53,12 +57,32 @@
               $wrapper.append($clone);
           });
 
+          // Remove contributor
           $wrapper.on('click', '.remove-contributor', function () {
               if ($wrapper.find('.contributor-fields').length > 1) {
                   $(this).closest('.contributor-fields').remove();
               } else {
                   alert('At least one contributor is required.');
               }
+          });
+
+          // Serialize contributors before form submit
+          $('#course_form').on('submit', function() {
+              let contributors = [];
+
+              $('#contributors-wrapper .contributor-fields').each(function() {
+                  let name = $(this).find('[name="contributor_name[]"]').val().trim();
+                  let affiliation = $(this).find('[name="contributor_affiliation[]"]').val().trim();
+                  let orcid = $(this).find('[name="contributor_orcid[]"]').val().trim();
+
+                  // Only push if at least one field is filled
+                  if (name || affiliation || orcid) {
+                      contributors.push({ name, affiliation, orcid });
+                  }
+              });
+
+              // Store as JSON (or blank if none)
+              $('#course_contributors').val(contributors.length ? JSON.stringify(contributors) : '');
           });
       });
   </script>

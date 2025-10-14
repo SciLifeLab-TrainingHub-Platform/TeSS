@@ -48,6 +48,7 @@
         <%
           tabs = [
             { feature: 'about', link: about_path },
+            { feature: 'courses', link: courses_path },
             { feature: 'events', link: events_path },
             # { feature: 'materials', link: materials_path },
             { feature: 'elearning_materials', link: elearning_materials_path },
@@ -64,9 +65,9 @@
             TeSS::Config.site['tab_order'].index(t[:feature]) || 99
           end
 
+
           directory_tabs, main_tabs = tabs.partition { |t| TeSS::Config.site['directory_tabs']&.include?(t[:feature]) }
         %>
-
         <%= menu_group(pull: 'right') do %>
           <% main_tabs.each do |t| %>
             <%= menu_item t("features.#{t[:feature]}.short"), t[:link] %>

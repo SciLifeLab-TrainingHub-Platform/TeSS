@@ -3,6 +3,9 @@ en:
     about:
       short: About
       long: About
+    courses:
+      short: Catalogue
+      long: Course Catalogue
     events:
       short: Courses
       long: Training Courses

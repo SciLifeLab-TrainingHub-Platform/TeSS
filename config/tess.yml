@@ -56,6 +56,7 @@ default: &default
   header_notice: You are using a non-production version of this site. Information may be modified or deleted without prior warning.
   feature:
     elearning_materials: false
+    courses: true
     events: true
     invitation: false
     materials: false

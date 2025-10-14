@@ -1,6 +1,6 @@
 require 'json'
 
-# to execute this file run `rake city:import`
+# to execute this file run `bundle exec rake city:import`
 namespace :city do
   desc 'Import cities from local JSON file and save them to the database in batches of 5000'
 

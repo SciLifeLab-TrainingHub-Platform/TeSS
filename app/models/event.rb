@@ -140,7 +140,7 @@ class Event < ApplicationRecord
   enum event_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3 }
 
   belongs_to :user
-  belongs_to :course
+  belongs_to :course, optional: true
 
   has_one :llm_interaction, inverse_of: :event, dependent: :destroy
   accepts_nested_attributes_for :llm_interaction, allow_destroy: true
