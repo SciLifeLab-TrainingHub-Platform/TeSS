@@ -37,6 +37,16 @@ class Course < ApplicationRecord
 
   end
 
+  validates :title, :url, :language, :description,
+            :structure_and_duration, :learning_outcomes,
+            :prerequisites_knowledge, :prerequisites_technical,
+            presence: true
+
+  validates :target_audience, presence: true
+  validates :content_providers, presence: true
+  validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
+
+
 
   # Facet fields for search filters
   def self.facet_fields
@@ -62,5 +72,4 @@ class Course < ApplicationRecord
 
     course
   end
-
 end
