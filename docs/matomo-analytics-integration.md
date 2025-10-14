@@ -4,12 +4,12 @@ This document describes how Matomo analytics tracking is integrated into Trainin
 
 ## Overview
 
-Training Portal uses [Matomo](https://matomo.org/) for web analytics tracking. The integration is designed to:
+Training Portal uses Matomo (https://matomo.org/) for web analytics tracking. The integration is designed to:
 
 - Respect user privacy and cookie consent
 - Only track production traffic (no development/staging pollution)
 - Work with Turbolinks navigation
-- Be easily configurable per deployment environment
+- Be easily configurable
 
 ## Architecture
 
@@ -18,9 +18,9 @@ Training Portal uses [Matomo](https://matomo.org/) for web analytics tracking. T
 ```
 1. User visits page
 2. Check: TeSS::Config.analytics_enabled?
-   ├─ Environment check: DEPLOYMENT_ENV == 'live'?
-   ├─ Configuration check: Matomo URL/Site ID present?
-   └─ Manual override: force_analytics_enabled?
+   - Environment check: DEPLOYMENT_ENV == 'live'?
+   - Configuration check: Matomo URL/Site ID present?
+   - Manual override: force_analytics_enabled?
 3. Check: User consented to tracking cookies?
 4. If both true: Load Matomo tracking script
 5. Track page views and navigation via Turbolinks events
@@ -44,20 +44,15 @@ For **production** deployment, set these environment variables:
 DEPLOYMENT_ENV=live
 
 # Matomo server configuration (REQUIRED)
-MATOMO_URL=""
-MATOMO_SITE_ID=""
-```
-
-For **non-production** deployments:
-
-```bash
-# Disable analytics tracking
-DEPLOYMENT_ENV=dev        # or 'preprod' for pre-production
+MATOMO_URL="https://your-matomo-instance.com/"
+MATOMO_SITE_ID="your_production_site_id"
 ```
 
 ### Rails Configuration
 
 The Matomo configuration is handled in `config/secrets.yml`:
+
+**For Production** (from environment variables):
 
 ```yaml
 production:
@@ -86,22 +81,10 @@ Matomo only loads when:
 
 The consent system offers two options:
 
-- **"Allow necessary cookies"**: Essential cookies only, no analytics
-- **"Allow all cookies"**: Includes analytics tracking
+- **Allow necessary cookies**: Essential cookies only, no analytics
+- **Allow all cookies**: Includes analytics tracking
 
 ## Testing
-
-### Local Development Testing
-
-1. **Verify analytics are disabled**:
-
-   ```bash
-   rails console
-   TeSS::Config.analytics_enabled  # Should return false
-   ENV['DEPLOYMENT_ENV']           # Should be 'dev' or nil
-   ```
-
-2. **Check page source**: Search for "Matomo" - should find nothing
 
 ### Production Testing
 
@@ -118,7 +101,7 @@ The consent system offers two options:
    - Visit site and accept "Allow all cookies"
    - Navigate between pages
    - Check browser Network tab for requests to matomo instance url
-   - Verify in Matomo dashboard: Visitors → Real-time
+   - Verify in Matomo dashboard (production site): Visitors → Real-time
 
 3. **Test cookie consent**:
    - "Allow necessary cookies" → No Matomo requests
@@ -146,15 +129,8 @@ The consent system offers two options:
 
    ```bash
    rails console
-   TeSS::Config.analytics_enabled  # Should be true
+   TeSS::Config.analytics_enabled  # Should return true
    ```
-
-### Tracking Development/Staging Traffic
-
-If you see non-production traffic in Matomo:
-
-- Verify `DEPLOYMENT_ENV` is set correctly on all environments
-- Check that analytics are properly disabled in non-production
 
 ### Cookie Consent Issues
 
@@ -183,16 +159,3 @@ If you see non-production traffic in Matomo:
 2. Restart Rails application
 3. Verify new configuration in Rails console
 4. Test tracking functionality
-
-### Monitoring
-
-- Monitor Matomo dashboard for data quality
-- Check error logs for JavaScript errors
-- Verify tracking across different user flows
-- Review cookie consent acceptance rates
-
-## External Resources
-
-- [Matomo Documentation](https://developer.matomo.org/)
-- [Matomo JavaScript Tracking API](https://developer.matomo.org/api-reference/tracking-javascript)
-- [GDPR Compliance with Matomo](https://matomo.org/docs/privacy/)

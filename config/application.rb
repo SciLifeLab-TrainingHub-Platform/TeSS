@@ -87,8 +87,9 @@ module TeSS
     end
 
     def analytics_enabled
-      force_analytics_enabled || (Rails.application.secrets.google_analytics_code.present? && Rails.env.production?) ||
-      (Rails.application.secrets.matomo_url.present? && Rails.application.secrets.matomo_site_id.present? && Rails.env.production? && ENV['DEPLOYMENT_ENV'] == 'preprod')
+      force_analytics_enabled || 
+      (Rails.application.secrets.google_analytics_code.present? && Rails.env.production?) ||
+      (Rails.application.secrets.matomo_url.present? && Rails.application.secrets.matomo_site_id.present? && Rails.env.production? && ENV['DEPLOYMENT_ENV'] == 'live')
     end
 
     def map_enabled
