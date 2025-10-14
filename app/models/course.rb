@@ -9,7 +9,7 @@ class Course < ApplicationRecord
   include HasLicence
 
   has_and_belongs_to_many :content_providers
-  has_many :events
+  has_many :events, dependent: :nullify
   belongs_to :user
 
 
