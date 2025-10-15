@@ -35,6 +35,8 @@
 .event-detail-value {
   font-size: 1.45rem;
   color: $text-color;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 
   .markdown {
     margin: 0;
