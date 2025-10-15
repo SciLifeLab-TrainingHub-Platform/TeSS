@@ -5,24 +5,27 @@
   <%= f.hidden_field :contributors, id: 'course_contributors' %>
 
   <div id="contributors-wrapper" class="row rounded mb-4 pl-5">
-    <div class="contributor-fields mb-3">
-      <div>
-        <label for="contributor_name_1" class="form-label">Contributor Name</label>
-        <input type="text" id="contributor_name_1" name="contributor_name[]" class="form-control input-sm" autocomplete="name">
-      </div>
+    <% contributors = f.object.contributors.presence || [{}] %>
+    <% contributors.each_with_index do |contributor, index| %>
+      <div class="contributor-fields mb-3">
+        <div>
+          <label for="contributor_name_<%= index + 1 %>" class="form-label">Contributor Name</label>
+          <input type="text" id="contributor_name_<%= index + 1 %>" name="contributor_name[]" class="form-control input-sm" autocomplete="name" value="<%= contributor['name'] %>">
+        </div>
 
-      <div>
-        <label for="contributor_affiliation_1" class="form-label">Contributor Affiliation</label>
-        <input type="text" id="contributor_affiliation_1" name="contributor_affiliation[]" class="form-control input-sm" autocomplete="organization">
-      </div>
+        <div>
+          <label for="contributor_affiliation_<%= index + 1 %>" class="form-label">Contributor Affiliation</label>
+          <input type="text" id="contributor_affiliation_<%= index + 1 %>" name="contributor_affiliation[]" class="form-control input-sm" autocomplete="organization" value="<%= contributor['affiliation'] %>">
+        </div>
 
-      <div>
-        <label for="contributor_orcid_1" class="form-label">Contributor ORCID</label>
-        <input type="text" id="contributor_orcid_1" name="contributor_orcid[]" class="form-control input-sm" placeholder="0000-0000-0000-0000" pattern="\d{4}-\d{4}-\d{4}-\d{4}">
-      </div>
+        <div>
+          <label for="contributor_orcid_<%= index + 1 %>" class="form-label">Contributor ORCID</label>
+          <input type="text" id="contributor_orcid_<%= index + 1 %>" name="contributor_orcid[]" class="form-control input-sm" placeholder="0000-0000-0000-0000" pattern="\d{4}-\d{4}-\d{4}-\d{4}" value="<%= contributor['orcid'] %>">
+        </div>
 
-      <button type="button" class="btn btn-sm btn-danger remove-contributor mt-2">Remove</button>
-    </div>
+        <button type="button" class="btn btn-sm btn-danger remove-contributor mt-2">Remove</button>
+      </div>
+    <% end %>
   </div>
 
   <button type="button" id="add-contributor" class="btn btn-sm btn-outline-primary mt-3">
@@ -32,7 +35,7 @@
   <script>
       $(document).on('turbolinks:load', function () {
           const $wrapper = $('#contributors-wrapper');
-          let contributorCount = 1;
+          let contributorCount = $wrapper.find('.contributor-fields').length;
 
           // Add new contributor
           $('#add-contributor').on('click', function () {
@@ -75,7 +78,6 @@
                   let affiliation = $(this).find('[name="contributor_affiliation[]"]').val().trim();
                   let orcid = $(this).find('[name="contributor_orcid[]"]').val().trim();
 
-                  // Only push if at least one field is filled
                   if (name || affiliation || orcid) {
                       contributors.push({ name, affiliation, orcid });
                   }

@@ -64,6 +64,9 @@ class CoursesController < ApplicationController
   # PATCH/PUT /courses/1
   def update
     authorize @course
+    normalize_authors_and_contributors
+    normalize_node_ids
+
     respond_to do |format|
       if @course.update(course_params)
         @course.create_activity(:update, owner: current_user) if @course.respond_to?(:create_activity)
