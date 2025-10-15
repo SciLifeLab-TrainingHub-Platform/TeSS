@@ -600,7 +600,7 @@ en:
           name: 'Best Practices for FAIR Material'
           type: 'course material'
           image: 'scilifelab/guides/FAIRcourse.png'
-          url: 'https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-Material-By-Design/chapters/chapter_02/'
+          url: 'https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-Material-By-Design/'
         coursedelivery:
           name: 'Course Delivery & Teaching Practice'
           type: 'course material'
@@ -630,4 +630,3 @@ en:
           type: 'training framework'
           image: 'scilifelab/guides/bicycle-graphic.png'
           url: 'https://www.bikeprinciples.org/'
-
