@@ -6,13 +6,14 @@
   <!-- Field: Title -->
   <div class="form-group">
     <%= f.label :title, class: "control-label" %>
-    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.title_hint') %>">&#xe086;</span>
-    <%= f.input :title, as: :string, input_html: { title: t('events.hints.title') }, label: false %>
+    <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('courses.hints.title_hint') %>">&#xe086;</span>
+    <%= f.input :title, as: :string, input_html: { title: t('courses.hints.title_hint') }, label: false %>
   </div>
 
   <!-- Field: URL -->
   <%= render partial: 'common/url_checker',
              locals: { f: f, url: courses_check_exists_path, title: '' } %>
+             
   <!-- Field: Language -->
   <%= f.input :language, collection: LanguageDictionary.instance.options_for_select,
               prompt: t('events.prompts.language'), include_blank: true, input_html: { title: t('events.hints.language') } %>
@@ -29,13 +30,13 @@
   <!-- Field: Description -->
   <%= f.label :description, class: "control-label" %>
   <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.description_hint') %>">&#xe086;</span>
-  <%= f.input :description, as: :markdown_area, input_html: { rows: '5', title: t('events.hints.description') }, label: false %>
+  <%= f.input :description, as: :markdown_area, input_html: { rows: '5', title: t('events.hints.description_hint') }, label: false %>
 
   <!-- Field: Target Audience -->
   <%= f.multi_input :target_audience,
                     errors: @course.errors[:target_audience],
                     title: t('events.hints.targets'),
-                    label: "#{f.label(:target_audience, class: 'control-label')} <span class='glyphicon' style='cursor: default; font-size: small' title='#{t('events.hints.targets_hint')}'> &#xe086;</span>".html_safe %>
+                    label: "#{f.label(:target_audience, class: 'control-label')} <span class='glyphicon' style='cursor: default; font-size: small' title='#{t('events.hints.targets')}'> &#xe086;</span>".html_safe %>
 
   <!-- Field: prerequisites_knowledge -->
   <%= f.label :prerequisites_knowledge, class: "control-label" %>
@@ -45,22 +46,22 @@
   <!-- Field: Prerequisites -->
   <%= f.label :prerequisites_technical, class: "control-label" %>
   <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.prerequisites_hint') %>">&#xe086;</span>
-  <%= f.input :prerequisites_technical, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites') }, label: false %>
+  <%= f.input :prerequisites_technical, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites_hint') }, label: false %>
 
-  <!-- Field: Prerequisites -->
+  <!-- Field: Structure and Duration -->
   <%= f.label :structure_and_duration, class: "control-label" %>
-  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.prerequisites_hint') %>">&#xe086;</span>
-  <%= f.input :structure_and_duration, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.prerequisites') }, label: false %>
+  <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('courses.hints.structure_duration_hint') %>">&#xe086;</span>
+  <%= f.input :structure_and_duration, as: :markdown_area, input_html: { rows: '3', title: t('courses.hints.structure_duration_hint') }, label: false %>
 
   <!-- Field: Learning Objectives-->
   <%= f.label :learning_outcomes, "* Learning outcomes", class: "control-label" %>
   <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('events.hints.objectives_hint') %>">&#xe086;</span>
-  <%= f.input :learning_outcomes, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.objectives') }, label: false %>
+  <%= f.input :learning_outcomes, as: :markdown_area, input_html: { rows: '3', title: t('events.hints.objectives_hint') }, label: false %>
 
 
   <!-- Field: Keywords -->
   <%= f.multi_input :keywords, errors: @course.errors[:keywords],
-                    title: t('events.hints.keywords'),
+                    title: t('events.hints.keywords_hint'),
                     label: "#{f.label(:keywords, class: 'control-label')} <span class='glyphicon' style='cursor: default; font-size: small' title='#{t('events.hints.keywords_hint')}'> &#xe086;</span>".html_safe %>
 
   <!-- Author fields  Render one Author field by default-->
@@ -75,7 +76,7 @@
     <%= f.label :event_ids, "* Event(s)", class: "control-label" %>
     <span class="glyphicon"
           style="cursor: default; font-size: small;"
-          title="Events for the course">
+          title="<%= t('courses.hints.event_hint') %>">
     &#xe086;
   </span>
     <%= f.collection_select :event_ids, @events, :id, :title,
