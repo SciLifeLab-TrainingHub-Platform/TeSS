@@ -1,0 +1,17 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% keywords = Array(event.keywords).reject(&:blank?) %>
+<% fields = Array(event.fields).reject(&:blank?) %>
+<% scientific_topics = event.scientific_topics.map(&:preferred_label) %>
+<% operations = event.operations.map(&:preferred_label) %>
+<% topic_names = event.topics.map(&:name) %>
+<% audience_titles = event.target_audience.map { |value| target_audience_title_for_label(value) }.compact %>
+
+<%= event_section_card('Topics & Tags', class: 'event-section-card--full') do %>
+  <%= event_detail_item(Event.human_attribute_name(:keywords)) { event_pill_list(keywords, variant: :accent) } if keywords.any? %>
+  <%= event_detail_item(Event.human_attribute_name(:fields)) { event_pill_list(fields, variant: :primary) } if fields.any? %>
+  <%= event_detail_item(Event.human_attribute_name(:scientific_topics)) { event_pill_list(scientific_topics, variant: :secondary) } if scientific_topics.any? %>
+  <%= event_detail_item(Event.human_attribute_name(:operations)) { event_pill_list(operations, variant: :primary) } if operations.any? %>
+  <%= event_detail_item(Event.human_attribute_name(:topics)) { event_pill_list(topic_names, variant: :accent) } if topic_names.any? %>
+  <%= event_detail_item(Event.human_attribute_name(:target_audience)) { event_pill_list(audience_titles, variant: :neutral) } if audience_titles.any? %>
+<% end %>

@@ -1,0 +1,8 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% eligibility_titles = event.eligibility.map { |value| EligibilityDictionary.instance.lookup_value(value, 'title') }.compact %>
+
+<%= event_section_card('Audience & Capacity', class: 'event-section-card--full') do %>
+  <%= event_detail_item(Event.human_attribute_name(:eligibility)) { event_pill_list(eligibility_titles) } if eligibility_titles.any? %>
+  <%= event_detail_item(Event.human_attribute_name(:capacity), event.capacity) %>
+<% end %>

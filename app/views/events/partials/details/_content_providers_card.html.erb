@@ -1,0 +1,28 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% if event.content_providers.any? %>
+  <%= event_section_card('Content Providers', class: 'event-section-card--sidebar') do %>
+    <div class="event-content-providers">
+      <% event.content_providers.each do |provider| %>
+        <div class="event-content-provider">
+          <h4 class="event-content-provider__title"><%= link_to provider.title, provider %></h4>
+          <% if provider.description.present? %>
+            <div class="event-content-provider__description markdown">
+              <%= render_markdown(provider.description) %>
+            </div>
+          <% end %>
+          <% if provider.url.present? %>
+            <p class="event-content-provider__link">
+              <%= link_to provider.url, provider.url, target: '_blank', rel: 'noopener' %>
+            </p>
+          <% end %>
+          <div class="event-content-provider__media">
+            <%= link_to provider do %>
+              <%= image_tag(get_image_url_for(provider), class: 'event-content-provider__logo', alt: provider.title) %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
