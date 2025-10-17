@@ -293,3 +293,17 @@ If this doesn't work, you may need to first enable "linger" on the `tess` user, 
 You can then start/stop/restart Sidekiq using the following:
 
     systemctl --user {start,stop,restart} sidekiq
+
+## Analytics Configuration
+
+Training Portal includes Matomo analytics integration for production traffic tracking. For detailed setup instructions, see:
+
+- [Matomo Analytics Integration](matomo-analytics-integration.md)
+
+**Quick setup**: Set these environment variables for production:
+
+```bash
+DEPLOYMENT_ENV=live
+MATOMO_URL=https://your-matomo-instance.com/
+MATOMO_SITE_ID=your_site_id
+```

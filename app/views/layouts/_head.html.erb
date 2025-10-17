@@ -21,7 +21,7 @@
   <% end -%>
 
   <% if TeSS::Config.analytics_enabled && cookie_consent.allow_tracking? %>
-    <%= render 'layouts/google_analytics' %>
+    <%= render 'layouts/matomo_analytics' %>
   <% end %>
 
   <% if content_for? :og_header %>
