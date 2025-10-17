@@ -35,3 +35,12 @@
     left: 90%;
   }
 }
+
+@import "events/details/actions";
+@import "events/details/layout";
+@import "events/details/typography";
+@import "events/details/detail_items";
+@import "events/details/pills";
+@import "events/details/content_providers";
+@import "events/details/header";
+@import "events/details/responsive";

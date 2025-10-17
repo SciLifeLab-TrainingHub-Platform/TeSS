@@ -1,0 +1,7 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% if event.learning_outcomes.present? %>
+  <%= event_section_card('Learning Outcomes', class: 'event-section-card--full') do %>
+    <div class="event-rich-text markdown"><%= render_markdown(event.learning_outcomes) %></div>
+  <% end %>
+<% end %>

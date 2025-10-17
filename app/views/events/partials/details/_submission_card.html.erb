@@ -1,0 +1,13 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% if current_user&.is_admin? && event.user %>
+  <%= event_section_card('Submission Details', class: 'event-section-card--full event-submission-card') do %>
+    <%= event_detail_item('Submitted by') { link_to(event.user.name, event.user) } %>
+    <%= event_detail_item('User since', time_ago_in_words(event.user.created_at) + ' ago') %>
+    <% if event.user.banned? %>
+      <%= event_detail_item('Status') do %>
+        <%= render(partial: 'users/partials/ban', locals: { ban: event.user.ban }) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

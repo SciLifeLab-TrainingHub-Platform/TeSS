@@ -1,0 +1,14 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% if event.respond_to?(:remote_created_date) || event.respond_to?(:remote_updated_date) %>
+  <%= event_section_card('Record History', class: 'event-section-card--full') do %>
+    <% if event.respond_to?(:remote_created_date) && event.remote_created_date.present? %>
+      <% created_value = event.remote_created_date.respond_to?(:to_date) ? l(event.remote_created_date.to_date) : event.remote_created_date %>
+      <%= event_detail_item(Event.human_attribute_name(:remote_created_date), created_value) %>
+    <% end %>
+    <% if event.respond_to?(:remote_updated_date) && event.remote_updated_date.present? %>
+      <% updated_value = event.remote_updated_date.respond_to?(:to_date) ? l(event.remote_updated_date.to_date) : event.remote_updated_date %>
+      <%= event_detail_item(Event.human_attribute_name(:remote_updated_date), updated_value) %>
+    <% end %>
+  <% end %>
+<% end %>

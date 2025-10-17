@@ -1,0 +1,59 @@
+<% event = local_assigns.fetch(:event, @event) %>
+
+<% description_card = render('events/partials/details/description_card', event: event).presence %>
+<% learning_card = render('events/partials/details/learning_card', event: event).presence %>
+<% prereq_card = render('events/partials/details/prereq_card', event: event).presence %>
+<% topics_card = render('events/partials/details/topics_card', event: event).presence %>
+<% affiliation_card = render('events/partials/details/affiliation_card', event: event).presence %>
+<% audience_card = render('events/partials/details/audience_card', event: event).presence %>
+<% recognition_card = render('events/partials/details/recognition_card', event: event).presence %>
+<% materials_card = render('events/partials/details/materials_card', event: event).presence %>
+<% external_resources_card = render('events/partials/details/external_resources_card', event: event).presence %>
+<% history_card = render('events/partials/details/history_card', event: event).presence %>
+<% submission_card = render('events/partials/details/submission_card', event: event).presence %>
+<% summary_card = render('events/partials/details/summary_card', event: event).presence %>
+<% content_providers_card = render('events/partials/details/content_providers_card', event: event).presence %>
+
+<div class="event-sections">
+  <div class="event-intro">
+    <div class="event-intro__main">
+      <%= description_card %>
+    </div>
+
+    <div class="event-intro__sidebar">
+      <%= summary_card if summary_card.present? %>
+      <%= content_providers_card if content_providers_card.present? %>
+    </div>
+  </div>
+
+  <div class="event-sections__stack">
+    <% learning_pair = [learning_card, prereq_card].compact %>
+    <% if learning_pair.any? %>
+      <% if learning_pair.length == 2 %>
+        <div class="event-section-row">
+          <%= safe_join(learning_pair) %>
+        </div>
+      <% else %>
+        <%= safe_join(learning_pair) %>
+      <% end %>
+    <% end %>
+
+    <% topics_pair = [topics_card, affiliation_card].compact %>
+    <% if topics_pair.any? %>
+      <% if topics_pair.length == 2 %>
+        <div class="event-section-row">
+          <%= safe_join(topics_pair) %>
+        </div>
+      <% else %>
+        <%= safe_join(topics_pair) %>
+      <% end %>
+    <% end %>
+
+    <%= audience_card if audience_card.present? %>
+    <%= recognition_card if recognition_card.present? %>
+    <%= materials_card if materials_card.present? %>
+    <%= external_resources_card if external_resources_card.present? %>
+    <%= history_card if history_card.present? %>
+    <%= submission_card if submission_card.present? %>
+  </div>
+</div>

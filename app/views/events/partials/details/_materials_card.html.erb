@@ -1,0 +1,11 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% if event.materials.any? %>
+  <%= event_section_card('Related Training Materials', class: 'event-section-card--full') do %>
+    <ul class="event-related-list">
+      <% event.materials.each do |material| %>
+        <li><%= link_to material.title, material %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
