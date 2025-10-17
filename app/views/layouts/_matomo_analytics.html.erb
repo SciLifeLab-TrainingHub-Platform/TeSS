@@ -16,7 +16,7 @@
   
   // Load Matomo tracking script
   (function() {
-    var u="<%= Rails.application.secrets.matomo_url %>";
+    var u="<%= Rails.application.secrets.matomo_url.to_s.chomp('/') + '/' %>";
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '<%= Rails.application.secrets.matomo_site_id %>']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
