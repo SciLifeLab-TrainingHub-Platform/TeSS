@@ -45,7 +45,7 @@ class Course < ApplicationRecord
   validates :target_audience, presence: true
   validates :content_providers, presence: true
   validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
-
+  clean_array_fields(:keywords, :target_audience)
 
 
   # Facet fields for search filters

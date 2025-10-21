@@ -9,7 +9,7 @@
   <div id="content">
     <div id="home" class="my-2">
       <div class="page-header">
-        <%= broken_link_notice(@event) if @course.failing? %>
+        <%= broken_link_notice(@course) if @course.failing? %>
         <%= unverified_notice(@course) if @course.from_unverified_or_rejected? %>
 
 
