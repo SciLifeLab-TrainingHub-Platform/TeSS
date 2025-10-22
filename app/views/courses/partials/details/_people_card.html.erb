@@ -1,0 +1,22 @@
+<% course = local_assigns.fetch(:course) %>
+
+<% authors_html = course_people_list(course.authors) %>
+<% contributors_html = course_people_list(course.contributors) %>
+
+<% if authors_html.present? || contributors_html.present? %>
+  <%= course_section_card('Course Team') do %>
+    <% if authors_html.present? %>
+      <div class="course-section-block course-team-block">
+        <h5 class="course-subsection-heading">Authors</h5>
+        <%= authors_html %>
+      </div>
+    <% end %>
+
+    <% if contributors_html.present? %>
+      <div class="course-section-block course-team-block">
+        <h5 class="course-subsection-heading">Contributors</h5>
+        <%= contributors_html %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

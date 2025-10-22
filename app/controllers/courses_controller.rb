@@ -111,7 +111,12 @@ class CoursesController < ApplicationController
 
   # Use callbacks to share common setup or constraints
   def set_course
-    @course = Course.friendly.find(params[:id])
+    @course = Course.includes(
+      :nodes,
+      :user,
+      { content_providers: :node },
+      { events: [:content_providers] }
+    ).friendly.find(params[:id])
   end
 
   # Only allow trusted parameters

@@ -1,31 +1,24 @@
 <div class="wrapper collapsing-wrapper">
-  <%# SIDEBAR %>
-  <div class="collapsing-sidebar" id="sidebar">
-    <%= render partial: 'content_providers/partials/content_provider_info', locals: { content_provider: @course.content_providers } %>
-    <%= render partial: "nodes/partials/associated_node_info", locals: { associated_nodes: @course.associated_nodes.select { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG }} %>
-    <%= render(partial: 'users/partials/user_info', locals: { user: @course.user }) if current_user.try(:is_admin?) %>
-  </div>
-
   <div id="content">
-    <div id="home" class="my-2">
+    <div id="home" class="my-2 course-show">
       <div class="page-header">
         <%= broken_link_notice(@course) if @course.failing? %>
         <%= unverified_notice(@course) if @course.from_unverified_or_rejected? %>
 
-
         <h2 class="mt-0">
           <% if @course.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } -%>
-            <%= elixir_node_icon %>
+            <%= elixir_node_icon(class: 'elixir-node-icon elixir-node-icon--event') %>
           <% end -%>
-
-
           <%= @course.title %>
         </h2>
       </div>
 
       <div class="content-actions">
         <div class="content-viewer-actions">
-          <%= external_link_button 'View course', @course.url, track: @course %>
+          <% if @course.url.present? %>
+            <%= external_link_button 'View course website', @course.url, track: @course,
+                                     class: 'btn event-action__view' %>
+          <% end %>
         </div>
         <% if @course.persisted? %>
           <div class="content-manager-actions">
@@ -37,41 +30,7 @@
         <% end %>
       </div>
 
-      <div class="my-3">
-        <%= display_attribute(@course, :language) { |value| render_language_name(value) } %>
-
-        <!-- Field: description -->
-        <div class="description">
-          <% if @course.description.present? %>
-            <%= render_markdown @course.description %>
-          <% else %>
-            <span class="muted">No description provided</span>
-          <% end %>
-        </div>
-      </div>
-
-      <div>
-        <%= render partial: 'common/extra_metadata', locals: { resource: @course } %>
-      </div>
-
-      <% if @course.events.any? %>
-        <div class="course-events my-3">
-          <h4>Associated Events</h4>
-          <ul class="list-unstyled">
-            <% @course.events.each do |event| %>
-              <li>
-                <%= link_to event.title, event_path(event), class: "event-link" %>
-
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      <% else %>
-        <div class="course-events my-3">
-          <span class="muted">No associated events.</span>
-        </div>
-      <% end %>
-
+      <%= render 'courses/partials/details_sections', course: @course %>
     </div>
 
     <%= render partial: 'activities/activity_log_button', locals: { resource: @course } if @course.persisted? %>

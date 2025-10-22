@@ -1,0 +1,25 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% organizer = event.content_providers.first&.title %>
+<% location = [event.city, event.country].compact.reject(&:blank?).join(', ') %>
+
+<div class="course-instance-card">
+  <div class="course-instance-card__body">
+    <p class="course-instance-card__dates"><%= course_event_date_range(event) %></p>
+    <h5 class="course-instance-card__title">
+      <%= link_to event.title, event %>
+    </h5>
+
+    <% if organizer.present? %>
+      <p class="course-instance-card__meta"><strong>Organizer:</strong> <%= organizer %></p>
+    <% end %>
+
+    <% if location.present? %>
+      <p class="course-instance-card__meta"><strong>Location:</strong> <%= location %></p>
+    <% end %>
+  </div>
+
+  <div class="course-instance-card__actions">
+    <%= link_to 'View details', event, class: 'btn btn-link course-instance-card__link' %>
+  </div>
+</div>

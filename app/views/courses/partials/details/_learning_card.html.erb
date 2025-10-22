@@ -1,0 +1,9 @@
+<% course = local_assigns.fetch(:course) %>
+
+<% if course.learning_outcomes.present? %>
+  <%= course_section_card('Learning Outcomes') do %>
+    <div class="course-rich-text markdown">
+      <%= render_markdown(course.learning_outcomes) %>
+    </div>
+  <% end %>
+<% end %>

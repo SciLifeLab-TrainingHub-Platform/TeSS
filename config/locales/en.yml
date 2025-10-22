@@ -68,6 +68,8 @@ en:
           onsite: Face-to-face
           hybrid: Hybrid
         language: 'Language of instruction'
+      course:
+        content_providers: 'Content Providers'
   about:
     registry: >
       TeSS is a platform that was developed to provide a one-stop shop for trainers and trainees to discover

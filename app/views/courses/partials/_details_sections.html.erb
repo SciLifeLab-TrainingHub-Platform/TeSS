@@ -1,0 +1,53 @@
+<% course = local_assigns.fetch(:course, @course) %>
+
+<% description_card = render('courses/partials/details/description_card', course: course).presence %>
+<% summary_card = render('courses/partials/details/summary_card', course: course).presence %>
+<% providers_card = render('courses/partials/details/content_providers_card', course: course).presence %>
+<% learning_card = render('courses/partials/details/learning_card', course: course).presence %>
+<% structure_card = render('courses/partials/details/structure_card', course: course).presence %>
+<% prereq_card = render('courses/partials/details/prereq_card', course: course).presence %>
+<% keywords_card = render('courses/partials/details/keywords_card', course: course).presence %>
+<% people_card = render('courses/partials/details/people_card', course: course).presence %>
+
+<% grouped_events = course_events_grouped(course) %>
+<% upcoming_instances_card = render('courses/partials/details/instances_card',
+                                    course: course,
+                                    title: 'Upcoming Course Instances',
+                                    events: grouped_events[:upcoming]).presence %>
+<% past_instances_card = render('courses/partials/details/instances_card',
+                                course: course,
+                                title: 'Past Course Instances',
+                                events: grouped_events[:past],
+                                show_empty_state: false).presence %>
+
+<div class="event-sections course-sections">
+  <div class="event-intro course-intro">
+    <div class="event-intro__main">
+      <%= description_card %>
+    </div>
+
+    <div class="event-intro__sidebar">
+      <%= summary_card if summary_card.present? %>
+      <%= providers_card if providers_card.present? %>
+    </div>
+  </div>
+
+  <div class="event-sections__stack course-sections__stack">
+    <% primary_pair = [learning_card, structure_card].compact %>
+    <% if primary_pair.any? %>
+      <% if primary_pair.length == 2 %>
+        <div class="event-section-row">
+          <%= safe_join(primary_pair) %>
+        </div>
+      <% else %>
+        <%= safe_join(primary_pair) %>
+      <% end %>
+    <% end %>
+
+    <%= prereq_card if prereq_card.present? %>
+    <%= keywords_card if keywords_card.present? %>
+    <%= people_card if people_card.present? %>
+    <%= upcoming_instances_card if upcoming_instances_card.present? %>
+    <%= past_instances_card if past_instances_card.present? %>
+  </div>
+</div>
