@@ -1,0 +1,11 @@
+<% event = local_assigns.fetch(:event) %>
+
+<%= event_section_card('Description', class: 'event-section-card--full event-overview-card') do %>
+  <div class="event-rich-text markdown">
+    <% if event.description.present? %>
+      <%= render_markdown(event.description) %>
+    <% else %>
+      <span class="muted">No description provided</span>
+    <% end %>
+  </div>
+<% end %>

@@ -352,7 +352,7 @@ en:
     resources: "The details of any training materials and events that you register will be publicly visible and searchable. Any workflows and packages created can be opted to be made private, in which case only you, any collaborators you specify, and the <b>Service</b> administrators will be able to view and search for them."
     server: "When you browse the <b>Service</b>, the server automatically records logs of which pages you access, when you accessed them, and your IP address. These logs are used to fix errors and are not shared with any third parties. Sensitive information (such as passwords) is automatically stripped out."
     cookies: The <b>Service</b> makes use of "strictly necessary cookies" for the site to function. These cookies are needed to establish your "session" with the <b>Service</b>, which allows functionality such as user log-in, and secures against Cross Site Request Forgery (CSRF) attacks.
-    analytics: "TeSS uses Google Analytics to track how users are discovering the portal and interacting with the <b>Service</b>. The information gathered includes which pages you visited, which search terms lead you to the <b>Service</b> and information about your web browser. No personally identifiable information is sent to Google."
+    analytics: "The portal uses Matomo analytics to track how users are discovering the portal and interacting with the <b>Service</b>. The information gathered includes which pages you visited, which search terms lead you to the <b>Service</b> and information about your web browser. This data is stored on our own servers and is not shared with third parties."
     retention: "Your information will be retained by the <b>Service</b> until you choose to remove it, you delete your account, the <b>Service</b> ceases to exist, or when stipulated by the archival rules for the university as a government authority. If you want to update or remove your personal data, please contact SciLifeLab Training Hub at Stockholm University using traininghub@scilifelab.se."
     code: ""
     controller: ""
@@ -534,12 +534,12 @@ en:
       not_source_enabled: 'Source not enabled.'
   cookies:
     notice: SciLifeLab Training Portal makes use of some necessary cookies to provide its core functionality.
-    google_analytics: Additionally, we make use of Google Analytics to discover how people are using TeSS in order to help us improve the service. To opt out of this, choose the "Allow necessary cookies" option.
+    matomo_analytics: Additionally, we make use of Matomo analytics to discover how people are using the Training Portal in order to help us improve the service. To opt out of this, choose the "Allow necessary cookies" option.
     necessary_cookies_btn: Only allow necessary cookies
     all_cookies_btn: Allow all cookies
     no_consent: No cookie consent provided
     options:
-      tracking: Cookies required for Google Analytics, to help TeSS improve its service.
+      tracking: Cookies required for Matomo analytics, to help the Training Portal improve its service.
       necessary: Cookies necessary for SciLifeLab Training Portal to function, for example to provide user-authentication and forgery protection.
     buttons:
       revoke: Revoke cookie consent
@@ -611,7 +611,7 @@ en:
           name: 'Best Practices for FAIR Material'
           type: 'course material'
           image: 'scilifelab/guides/FAIRcourse.png'
-          url: 'https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-Material-By-Design/chapters/chapter_02/'
+          url: 'https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-Material-By-Design/'
         coursedelivery:
           name: 'Course Delivery & Teaching Practice'
           type: 'course material'
@@ -641,4 +641,3 @@ en:
           type: 'training framework'
           image: 'scilifelab/guides/bicycle-graphic.png'
           url: 'https://www.bikeprinciples.org/'
-

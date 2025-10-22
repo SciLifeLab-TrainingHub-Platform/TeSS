@@ -46,17 +46,24 @@ Interested in contributing to TeSS? Check out [our guide](CONTRIBUTING.md) on th
 ## Architecture overview
 
 TeSS makes use of the following services to function:
+
 - PostgreSQL - Database
 - Solr - Search
 - Sidekiq - Asynchronous tasks
 - Redis - Caching
 
 and also integrates with several external services:
+
 - [Nominatim](https://nominatim.org/) - Geocoding
 - [Google Maps API](https://developers.google.com/maps) - Maps and address autocompletion
 - [LS-Login](https://lifescience-ri.eu/ls-login/) - Authentication
 - [bio.tools](https://bio.tools/) - Tool suggestions
 - [FAIRsharing](https://fairsharing.org/) - Standard, policy and database suggestions
+
+For detailed architecture documentation, please refer to:
+
+- [Architecture Diagram](docs/architecture-diagram.md) - Visual overview of system components and their relationships
+- [Architecture Deep Dive](docs/architecture-deep-dive.md) - Comprehensive technical documentation of the system architecture 
 
 ## Installation
 

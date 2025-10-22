@@ -1,0 +1,73 @@
+@include xs {
+  .event-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .event-section-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .event-section-row > .event-section-card {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+
+  .event-show .page-header h2 {
+    font-size: 2.4rem;
+  }
+
+  .event-show .page-header h2 .icon {
+    font-size: 2rem;
+  }
+
+  .event-show .page-header h2 .elixir-node-icon--event {
+    float: none !important;
+    display: block;
+    margin: 0 auto 8px;
+    height: 3.8rem;
+    width: auto;
+    clear: both;
+  }
+
+  .event-section-card {
+    padding: 20px;
+  }
+
+  .event-detail-item {
+    grid-template-columns: 1fr;
+  }
+
+  .event-detail-label {
+    font-size: 1.05rem;
+  }
+
+  .event-content-provider {
+    flex-direction: column;
+  }
+
+  .event-content-provider__media {
+    flex: 0 0 auto;
+  }
+
+  .event-content-provider__logo {
+    max-width: 100%;
+    max-height: 120px;
+  }
+}
+
+@include sm {
+  .event-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .event-section-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .event-section-row > .event-section-card {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}

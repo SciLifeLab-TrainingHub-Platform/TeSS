@@ -1,0 +1,16 @@
+<% event = local_assigns.fetch(:event) %>
+
+<% nodes = event.associated_nodes %>
+<% affiliation = nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
+<% node_names = nodes.map(&:name) %>
+<% host_institutions = Array(event.host_institutions).reject(&:blank?) %>
+<% sponsors = Array(event.sponsors).reject(&:blank?) %>
+
+<% if affiliation || node_names.any? || host_institutions.any? || sponsors.any? %>
+  <%= event_section_card('Affiliations & Networks', class: 'event-section-card--full') do %>
+    <%= event_detail_item('SciLifeLab affiliation', 'Yes') if affiliation %>
+    <%= event_detail_item('Associated nodes') { event_pill_list(node_names, variant: :primary) } if node_names.any? %>
+    <%= event_detail_item(Event.human_attribute_name(:host_institutions)) { event_pill_list(host_institutions, variant: :secondary) } if host_institutions.any? %>
+    <%= event_detail_item(Event.human_attribute_name(:sponsors)) { event_pill_list(sponsors, variant: :neutral) } if sponsors.any? %>
+  <% end %>
+<% end %>

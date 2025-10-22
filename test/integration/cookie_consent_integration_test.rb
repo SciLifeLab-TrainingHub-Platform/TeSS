@@ -57,7 +57,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       get root_path
 
       assert_equal ['necessary'], CookieConsent.new(cookies).options
-      assert_select '#ga-script', count: 0
+      assert_select '#matomo-script', count: 0
     end
   end
 
@@ -68,7 +68,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       get root_path
 
       assert CookieConsent.new(cookies).allow_tracking?
-      assert_select '#ga-script', count: 1
+      assert_select '#matomo-script', count: 1
     end
   end
 
@@ -81,7 +81,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       cookie_consent = CookieConsent.new(cookies)
       assert_equal ['necessary'], cookie_consent.options
       assert cookie_consent.allow_tracking?
-      assert_select '#ga-script', count: 1
+      assert_select '#matomo-script', count: 1
     end
   end
 
@@ -105,7 +105,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_select '#cookie-consent-level', text: /No cookie consent/, count: 0
-      assert_select '#cookie-consent-level li', text: /Cookies required for Google Analytics/, count: 0
+      assert_select '#cookie-consent-level li', text: /Cookies required for Matomo analytics/, count: 0
       assert_select '#cookie-consent-level li', text: /Cookies necessary/
 
       post cookies_consent_path, params: { allow: all_options }
@@ -113,7 +113,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       get cookies_consent_path
 
       assert_response :success
-      assert_select '#cookie-consent-level li', text: /Cookies required for Google Analytics/
+      assert_select '#cookie-consent-level li', text: /Cookies required for Matomo analytics/
       assert_select '#cookie-consent-level li', text: /Cookies necessary/
     end
   end
@@ -136,7 +136,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       get cookies_consent_path
       assert_response :success
 
-      assert_select '#cookie-consent-level li', text: /Cookies required for Google Analytics/
+      assert_select '#cookie-consent-level li', text: /Cookies required for Matomo analytics/
       assert_select '#cookie-consent-level li', text: /Cookies necessary/
     end
   end
@@ -161,7 +161,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       assert_response :success
 
       assert_select '#cookie-consent-level', text: /No cookie consent/, count: 0
-      assert_select '#cookie-consent-level li', text: /Cookies required for Google Analytics/, count: 0
+      assert_select '#cookie-consent-level li', text: /Cookies required for Matomo analytics/, count: 0
       assert_select '#cookie-consent-level li', text: /Cookies necessary/
       assert_select '#cookie-banner', count: 0
 
@@ -173,7 +173,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       assert_response :success
 
       assert_select '#cookie-consent-level', text: /No cookie consent/
-      assert_select '#cookie-consent-level li', text: /Cookies required for Google Analytics/, count: 0
+      assert_select '#cookie-consent-level li', text: /Cookies required for Matomo analytics/, count: 0
       assert_select '#cookie-consent-level li', text: /Cookies necessary/, count: 0
       assert_select '#cookie-banner'
     end
