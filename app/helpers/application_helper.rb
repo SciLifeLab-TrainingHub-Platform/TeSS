@@ -2,6 +2,8 @@ require 'i18n_data'
 
 # The core application helper
 module ApplicationHelper
+  include SectionCardsHelper
+
   IGNORED_FILTERS = %w[user].freeze
 
   # def bootstrap_class_for flash_type
