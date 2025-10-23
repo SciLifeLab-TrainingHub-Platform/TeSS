@@ -92,7 +92,7 @@ module TeSS
       matomo_configured = Rails.application.secrets.matomo_url.present? &&
                           Rails.application.secrets.matomo_site_id.present?
 
-      matomo_configured && Rails.env.production? && ENV['DEPLOYMENT_ENV'] == 'live'
+      matomo_configured && Rails.env.production? && ENV['DEPLOYMENT_ENV'] == 'preprod'
     end
 
     def map_enabled
