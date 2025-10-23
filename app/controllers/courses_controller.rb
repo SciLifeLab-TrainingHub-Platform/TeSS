@@ -8,6 +8,8 @@ class CoursesController < ApplicationController
 
   # GET /courses
   def index
+    preload_index_associations if request.format.html?
+
     respond_to do |format|
       format.html
       format.json
@@ -158,3 +160,15 @@ class CoursesController < ApplicationController
     end
   end
 end
+  def preload_index_associations
+    return unless @courses.present?
+
+    ActiveRecord::Associations::Preloader.new(
+      records: @courses,
+      associations: [
+        :nodes,
+        :content_providers,
+        { events: :content_providers }
+      ]
+    ).call
+  end

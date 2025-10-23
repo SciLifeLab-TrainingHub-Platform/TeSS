@@ -1,0 +1,39 @@
+
+<li class="course-card">
+  <%= item_order_badge(collection_item) if defined? collection_item %>
+
+  <div class="course-card__content">
+    <div class="course-card__heading">
+      <h4 class="course-card__title"><%= link_to course.title, course %></h4>
+      <% if current_user&.is_admin? %>
+        <div class="course-card__icons">
+          <%= missing_icon(course) if course.respond_to?(:failing?) %>
+          <%= scrape_status_icon(course) if course.respond_to?(:last_scraped) %>
+        </div>
+      <% end %>
+    </div>
+
+    <% next_event = course_next_event(course) %>
+    <div class="course-card__meta-row">
+      <% if next_event %>
+        <p class="course-card__meta">
+          <strong>Next instance:</strong>
+          <%= link_to next_event, class: 'course-next-instance-link' do %>
+            <span><%= course_event_date_range(next_event) %></span>
+            <i class="icon icon-md arrow-top-right"></i>
+          <% end %>
+        </p>
+      <% else %>
+        <p class="course-card__meta">
+          <strong>No upcoming instances</strong>
+        </p>
+      <% end %>
+
+      <% if course.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
+        <div class="course-card__badge">
+          <%= elixir_node_icon %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</li>

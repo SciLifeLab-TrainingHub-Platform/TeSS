@@ -6,35 +6,32 @@
     </div>
   <% end %>
 
-  <div id="content">
-    <h2> Courses </h2>
-    <% content_for :buttons do %>
-      <!-- Register button-->
-      <%= link_to new_course_path, class: 'btn btn-primary' do %>
-      Create new Course
+  <div id="content" class="courses-index">
+    <div class="courses-index__heading">
+      <h2>Courses</h2>
+      <% content_for :buttons do %>
+        <%= link_to new_course_path, class: 'btn btn-primary' do %>
+          Create new course
+        <% end %>
       <% end %>
-      <!-- Info button-->
-      <%= info_button("What are events in #{TeSS::Config.site['title_short']}?", hide_text: true, class: 'event-info-button-popover') do %>
-        <%#= render_markdown(EventsHelper::EVENTS_INFO) %>
-      <% end %>
-    <% end %>
+    </div>
 
-    <%= render partial: "search/common/search_panel", locals: { resources: @courses_results,
-                                                                resource_type: Course } %>
+    <%= render partial: "search/common/search_panel",
+               locals: { resources: @courses_results, resource_type: Course } %>
 
-    <%# ACTUAL RESULTS LIST %>
-    <% unless @courses.blank? %>
-      <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
-          <%= render partial: 'common/masonry_grid', locals: { objects: @courses } %>
+    <% if @courses.present? %>
+      <ul class="course-cards media-grid">
+        <%= render partial: 'courses/index_course', collection: @courses, as: :course %>
+      </ul>
 
-          <%= render partial: "search/common/pagination_bar", locals: { resources: @courses } %>
-        </div>
-
+      <div class="courses-index__pagination">
+        <%= render partial: "search/common/pagination_bar", locals: { resources: @courses } %>
+      </div>
+    <% else %>
+      <div class="courses-index__empty">
+        <p>No courses found. Adjust your filters or search to discover available courses.</p>
       </div>
     <% end %>
-
-
   </div>
 
 </div>

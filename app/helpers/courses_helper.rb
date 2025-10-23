@@ -42,10 +42,19 @@ module CoursesHelper
   end
 
   def course_events_grouped(course)
-    events_relation = Event.includes(:content_providers).where(course_id: course.id)
-    events_relation = filter_course_events(events_relation)
+    events_source =
+      if course.respond_to?(:association) && course.association(:events).loaded?
+        course.events
+      else
+        Event.includes(:content_providers).where(course_id: course.id)
+      end
 
-    events = events_relation.to_a
+    filtered_events = filter_course_events(events_source)
+    events = if filtered_events.respond_to?(:to_a)
+               filtered_events.to_a
+             else
+               Array(filtered_events).compact
+             end
     return { upcoming: [], past: [] } if events.blank?
 
     sorted = events.sort_by { |event| event.start || event.updated_at || Time.zone.at(0) }
@@ -73,6 +82,14 @@ module CoursesHelper
       format_course_date(finish_at)
     else
       'Dates to be confirmed'
+    end
+  end
+
+  def course_next_event(course)
+    @course_next_event_cache ||= {}
+    @course_next_event_cache[course.id] ||= begin
+      grouped = course_events_grouped(course)
+      grouped[:upcoming].first
     end
   end
 
@@ -135,20 +152,41 @@ module CoursesHelper
     end
   end
 
-  def filter_course_events(events_relation)
-    return Event.none if events_relation.blank?
+  def filter_course_events(events_source)
+    return Event.none if events_source.blank?
+
+    if events_source.is_a?(ActiveRecord::Relation)
+      if current_user&.is_admin?
+        events_source
+      elsif current_user
+        events_source.where(
+          "event_status = :approved OR (user_id = :user_id AND event_status != :declined)",
+          approved: Event.event_statuses[:approved],
+          user_id: current_user.id,
+          declined: Event.event_statuses[:declined]
+        )
+      else
+        events_source.where(event_status: Event.event_statuses[:approved])
+      end
+    else
+      filter_events_array(events_source)
+    end
+  end
+
+  def filter_events_array(events_array)
+    events = Array(events_array).compact
+    return [] if events.blank?
 
     if current_user&.is_admin?
-      events_relation
+      events
     elsif current_user
-      events_relation.where(
-        "event_status = :approved OR (user_id = :user_id AND event_status != :declined)",
-        approved: Event.event_statuses[:approved],
-        user_id: current_user.id,
-        declined: Event.event_statuses[:declined]
-      )
+      events.reject do |event|
+        event.event_status == 'declined' && event.user_id == current_user.id
+      end.select do |event|
+        event.event_status == 'approved' || event.user_id == current_user.id
+      end
     else
-      events_relation.where(event_status: Event.event_statuses[:approved])
+      events.select { |event| event.event_status == 'approved' }
     end
   end
 end
