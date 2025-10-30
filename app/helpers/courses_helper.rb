@@ -115,7 +115,10 @@ module CoursesHelper
     if orcid
       normalized_orcid = orcid.delete(' ')
       orcid_url = normalized_orcid.start_with?('http') ? normalized_orcid : "https://orcid.org/#{normalized_orcid}"
-      parts << link_to('ORCID', orcid_url, target: '_blank', rel: 'noopener noreferrer', class: 'course-person-orcid')
+      parts << link_to(orcid_url, target: '_blank', rel: 'noopener noreferrer', class: 'course-person-orcid') do
+        image_tag('modern/icons/orcid.svg', alt: 'ORCID iD', class: 'course-person-orcid-icon') +
+          content_tag(:span, 'ORCID', class: 'course-person-orcid-text')
+      end
     end
 
     parts << mail_to(email, email, class: 'course-person-email') if email
