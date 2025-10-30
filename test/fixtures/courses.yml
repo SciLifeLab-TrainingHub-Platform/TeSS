@@ -1,31 +1,55 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  description: MyText
-  language: MyString
-  keywords: MyText
-  authors: MyText
-  contributors: MyText
-  url: MyString
-  learning_outcomes: MyText
-  structure_and_duration: MyText
-  target_audience: MyText
-  prerequisites_knowledge: MyText
-  prerequisites_technical: MyText
-  licensing: MyString
+  title: "Architecto est aliqu"
+  description: "Magna possimus veri"
+  language: "sv"
+  keywords: []
+  url: "www.google.com"
+  learning_outcomes: "Similique et dolore"
+  structure_and_duration: "Commodi odio cupidit"
+  target_audience: []
+  prerequisites_knowledge: "Irure harum quis con"
+  prerequisites_technical: "Cupidatat dolore eaq"
+  licence: "Glide"
+  authors:
+    - { "name": "Alec Mclean", "email": "mohiquv@mailinator.com", "orcid": "Voluptate dolores co", "affiliation": "Facere laboris sed a" }
+  contributors:
+    - { "name": "Hedley Gamble", "orcid": "Sed et dolor adipisi", "affiliation": "Aliqua A doloribus" }
+  user: regular_user
 
 two:
-  title: MyString
-  description: MyText
-  language: MyString
-  keywords: MyText
-  authors: MyText
-  contributors: MyText
-  url: MyString
-  learning_outcomes: MyText
-  structure_and_duration: MyText
-  target_audience: MyText
-  prerequisites_knowledge: MyText
-  prerequisites_technical: MyText
-  licensing: MyString
+  title: "c2"
+  description: "Recusandae Ullamco"
+  language: "hu"
+  keywords: []
+  url: "Veniam laborum Sun"
+  learning_outcomes: "Adipisicing esse li"
+  structure_and_duration: "Aliquid molestias su"
+  target_audience: []
+  prerequisites_knowledge: "Fugiat quisquam dign"
+  prerequisites_technical: "Eiusmod repellendus"
+  licence: "gnuplot"
+  authors: []
+  contributors: []
+  user: regular_user
+
+three:
+  title: "Beatae consectetur v"
+  description: "Esse eum in non veli"
+  language: "pt"
+  keywords: []
+  url: "https://www.skyscanner.net/"
+  learning_outcomes: "Quia minim quasi rer"
+  structure_and_duration: "Saepe voluptatum qua"
+  target_audience: []
+  prerequisites_knowledge: "Maiores enim sequi v"
+  prerequisites_technical: "Cum lorem est sed ve"
+  licence: "Arphic-1999"
+  authors:
+    - { "name": "Jaden Bennett", "email": "nofolaqoro@mailinator.com", "orcid": "Et tempore itaque p", "affiliation": "Voluptatem Temporib" }
+    - { "name": "author 1", "email": "author1@email.com", "orcid": "1234-1234-1234-1234", "affiliation": "Author 1 Affiliation" }
+    - { "name": "author 2", "email": "author2@email.com", "orcid": "1234-1234-1234-1234", "affiliation": "Author 2 Affiliation" }
+  contributors:
+    - { "name": "Contributor 2", "orcid": "1234-1234-1234-1234", "affiliation": "Contributor 2 Affiliation" }
+  user: regular_user

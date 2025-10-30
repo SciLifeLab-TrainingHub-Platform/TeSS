@@ -12,30 +12,32 @@ class Course < ApplicationRecord
   has_many :events, dependent: :nullify
   belongs_to :user
 
+  if TeSS::Config.solr_enabled
+    searchable do
+      text :title, :description, :learning_outcomes, :structure_and_duration, :prerequisites_knowledge, :prerequisites_technical
+      string :content_providers, multiple: true do
+        content_providers.pluck(:title)
+      end
+      string :keywords, multiple: true
+      string :sort_title do
+        title.downcase.gsub(/^(an?|the) /, '')
+      end
+      string :node, multiple: true do
+        associated_nodes.pluck(:name)
+      end
 
-  searchable do
-    text :title, :description, :learning_outcomes, :structure_and_duration, :prerequisites_knowledge, :prerequisites_technical
-    string :content_providers, multiple: true do
-      content_providers.pluck(:title)
+      string :target_audience, multiple: true
+
+      string :language
+      string :licence
+      string :url
+
+      time :created_at
+      time :updated_at
+
     end
-    string :keywords, multiple: true
-    string :sort_title do
-      title.downcase.gsub(/^(an?|the) /, '')
-    end
-    string :node, multiple: true do
-      associated_nodes.pluck(:name)
-    end
-
-    string :target_audience, multiple: true
-
-    string :language
-    string :licence
-    string :url
-
-    time :created_at
-    time :updated_at
-
   end
+
 
   validates :title, :url, :language, :description,
             :structure_and_duration, :learning_outcomes,
