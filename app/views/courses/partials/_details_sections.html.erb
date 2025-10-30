@@ -24,6 +24,7 @@
   <div class="event-intro course-intro">
     <div class="event-intro__main">
       <%= description_card %>
+      <%= upcoming_instances_card if upcoming_instances_card.present? %>
     </div>
 
     <div class="event-intro__sidebar">
@@ -47,7 +48,6 @@
     <%= prereq_card if prereq_card.present? %>
     <%= keywords_card if keywords_card.present? %>
     <%= people_card if people_card.present? %>
-    <%= upcoming_instances_card if upcoming_instances_card.present? %>
     <%= past_instances_card if past_instances_card.present? %>
   </div>
 </div>
