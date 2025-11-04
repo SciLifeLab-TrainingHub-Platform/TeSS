@@ -22,9 +22,6 @@ class SearchController < ApplicationController
               instance_eval(&EventFilter.event_filter(current_user))
           end
 
-          pp "model_name"
-          pp model_name
-
 
           # Hide failing records
           if model.method_defined?(:link_monitor)

@@ -595,7 +595,7 @@ class CoursesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal '{}', response.body
   end
-  
+
   # todo: add reporting test cases and feature
 
 end

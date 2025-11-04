@@ -20,9 +20,6 @@ module Searchable
     end
 
     def search_and_filter(user, search_params = '', selected_facets = {}, page: 1, sort_by: nil, per_page: 30, additional_filters: nil)
-      pp "search_and_filter"
-      pp search_params
-
       includes = Searchable::EAGER_LOADABLE.select { |a| reflections.key?(a.to_s) }
       search(include: includes) do
         fulltext search_params
