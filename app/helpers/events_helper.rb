@@ -141,6 +141,7 @@ module EventsHelper
 
   def event_pill_list(values, variant: :accent)
     pill_list(values, variant: variant)
+    
   end
 
   def event_cost_value(event)

@@ -3,6 +3,7 @@ class CoursesController < ApplicationController
   before_action -> { feature_enabled?('courses') }
   before_action :set_course, only: %i[show edit update destroy]
   before_action :set_course_dependencies, only: [:new, :edit, :create, :update]
+  before_action :set_breadcrumbs
 
   include SearchableIndex
 

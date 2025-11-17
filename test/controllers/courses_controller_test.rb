@@ -1,7 +1,601 @@
 require "test_helper"
 
-class CoursesControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+class CoursesControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
+
+  setup do
+    @user = users(:regular_user)
+    @node = nodes(:westeros)
+    @content_providers = content_providers(:goblet)
+
+    @mandatory = {
+      title: "Test Course",
+      description: "A test description",
+      language: "en",
+      keywords: ["test", "ruby"],
+      authors: [{ "name" => "John Doe", "affiliation" => "Uni X", "orcid" => "0000-0001", "email" => "johndoe@example.com" }],
+      contributors: [{ "name" => "Jane Doe", "affiliation" => "Uni Y", "orcid" => "0000-0002", "email" => "janedoe@example.com" }],
+      url: "https://example.com/test_course",
+      learning_outcomes: "Learn testing",
+      structure_and_duration: "1 week",
+      target_audience: ["students"],
+      prerequisites_knowledge: "None",
+      prerequisites_technical: "None",
+      licence: "Glide",
+    }
+  end
+
+  test "should get index" do
+    get :index
+    assert_response :success
+  end
+
+  test 'should get index with solr enabled' do
+    with_settings(solr_enabled: true) do
+      Course.stub(:search_and_filter, MockSearch.new(Course.all)) do
+        get :index, params: { q: 'nightclub', keywords: 'ragtime' }
+        assert_response :success
+        assert_not_empty assigns(:courses)
+      end
+    end
+  end
+
+  test 'should get index as json' do
+    parameters = @mandatory.merge(
+      {
+        nodes: [@node],
+        content_providers: [@content_providers],
+        user: @user
+      })
+    course = Course.create!(parameters)
+
+    get :index, params: { format: :json }
+    json_response = JSON.parse(response.body)
+
+    assert_response :success
+
+    assert_not_nil assigns(:courses)
+
+    # List of expected fields in each course
+    expected_fields = %w[
+    id title description language keywords authors contributors url
+    learning_outcomes structure_and_duration target_audience
+    prerequisites_knowledge prerequisites_technical licence slug
+    nodes events content_providers
+  ]
+
+    # Check each course in the response
+    json_response.each do |course_json|
+      expected_fields.each do |field|
+        assert course_json.key?(field), "Expected course to have field '#{field}'"
+      end
+
+      # check nested arrays
+      assert_kind_of Array, course_json['keywords'], 'Keywords should be an array'
+      assert_kind_of Array, course_json['authors'], 'Authors should be an array'
+      assert_kind_of Array, course_json['contributors'], 'Contributors should be an array'
+      assert_kind_of Array, course_json['nodes'], 'Nodes should be an array'
+      assert_kind_of Array, course_json['events'], 'Events should be an array'
+      assert_kind_of Array, course_json['content_providers'], 'Content providers should be an array'
+    end
+  end
+
+  test 'should get new' do
+    sign_in @user
+    get :new
+    assert_response :success
+  end
+
+  test 'should get new page for logged in users only' do
+    get :new
+    assert_response :redirect
+    sign_in @user
+    get :new
+    assert_response :success
+    sign_in users(:admin)
+    get :new
+    assert_response :success
+  end
+
+  test 'should not get new page for basic users' do
+    sign_in users(:basic_user)
+    get :new
+    assert_response :forbidden
+  end
+
+  # EDIT TESTS
+  test 'should not get edit page for not logged in users' do
+
+    parameters = @mandatory.merge(
+      {
+        nodes: [@node],
+        content_providers: [@content_providers],
+        user: @user
+      })
+    course = Course.create!(parameters)
+
+    get :edit, params: { id: course }
+    assert_redirected_to new_user_session_path
+  end
+
+  test 'should get edit for course owner' do
+
+    parameters = @mandatory.merge(
+      {
+        nodes: [@node],
+        content_providers: [@content_providers],
+        user: @user
+      })
+    course = Course.create!(parameters)
+
+    sign_in course.user
+    get :edit, params: { id: course }
+    assert_response :success
+  end
+
+  test 'should get edit for admin' do
+    parameters = @mandatory.merge(
+      {
+        nodes: [@node],
+        content_providers: [@content_providers],
+        user: @user
+      })
+    course = Course.create!(parameters)
+    sign_in users(:admin)
+    get :edit, params: { id: course }
+    assert_response :success
+  end
+
+  test 'should not get edit page for non-owner user' do
+    parameters = @mandatory.merge(
+      {
+        nodes: [@node],
+        content_providers: [@content_providers],
+        user: @user
+      })
+    course = Course.create!(parameters)
+    sign_in users(:another_regular_user)
+    get :edit, params: { id: course }
+    assert :forbidden
+  end
+
+  # CREATE TEST
+  test 'should create course for user' do
+    sign_in users(:regular_user)
+    assert_difference('Course.count') do
+      # Create event with all mandatory fields
+      parameters = @mandatory.merge(
+        {
+          node_ids: [@node.id],
+          content_provider_ids: [@content_providers.id],
+        }
+      )
+      post :create, params: { course: parameters }
+    end
+  end
+
+  test 'should create event for admin' do
+    sign_in users(:admin)
+    assert_difference('Course.count') do
+      # Create event with all mandatory fields
+      parameters = @mandatory.merge(
+        {
+          node_ids: [@node.id],
+          content_provider_ids: [@content_providers.id],
+        }
+      )
+      post :create, params: { course: parameters }
+    end
+    assert_redirected_to course_path(assigns(:course))
+  end
+
+  test 'should not create event for non-logged in user' do
+    assert_no_difference('Course.count') do
+      # Create event with all mandatory fields
+      parameters = @mandatory.merge(
+        {
+          node_ids: [@node.id],
+          content_provider_ids: [@content_providers.id],
+        }
+      )
+      post :create, params: { course: parameters }
+    end
+    assert_redirected_to new_user_session_path
+  end
+
+  # SHOW TEST
+  test 'should show course' do
+    sign_in users(:regular_user)
+
+    # Create a course to show
+    parameters = @mandatory.merge(
+      {
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id]
+      }
+    )
+    post :create, params: { course: parameters }
+
+    course = assigns(:course) # get the course just created
+
+    # Show the course
+    get :show, params: { id: course.id }
+    assert_response :success
+    assert assigns(:course)
+    assert_equal course.id, assigns(:course).id
+  end
+
+  test 'should show event as json' do
+    sign_in users(:regular_user)
+
+    parameters = @mandatory.merge(
+      {
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id]
+      }
+    )
+
+    post :create, params: { course: parameters }
+
+    course = assigns(:course)
+    assert course.persisted?, "Course was not saved: #{course.errors.full_messages.join(', ')}"
+
+    get :show, params: { id: course.id, format: :json }
+    assert_response :success
+
+    json_response = JSON.parse(response.body)
+
+    # List of expected fields in each course
+    expected_fields = %w[
+    id title description language keywords authors contributors url
+    learning_outcomes structure_and_duration target_audience
+    prerequisites_knowledge prerequisites_technical licence slug
+    nodes events content_providers
+  ]
+
+    # If the controller returns a single course as a hash
+    expected_fields.each do |field|
+      assert json_response.key?(field), "Expected course to have field '#{field}'"
+    end
+
+    # Check nested arrays
+    %w[keywords authors contributors nodes events content_providers].each do |array_field|
+      assert_kind_of Array, json_response[array_field], "#{array_field} should be an array"
+    end
+  end
+
+  # UPDATE TEST
+  test 'should update course' do
+    sign_in users(:regular_user)
+
+    parameters = @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id]
+    )
+    post :create, params: { course: parameters }
+
+    course = assigns(:course)
+    assert course.persisted?, "Course was not saved: #{course.errors.full_messages.join(', ')}"
+
+    # New attributes for update
+    updated_attributes = {
+      title: 'Updated Course Title',
+      description: 'Updated description'
+    }
+
+    patch :update, params: { id: course.id, course: updated_attributes }
+
+    updated_course = assigns(:course)
+    assert_response :redirect
+    assert_redirected_to course_path(updated_course)
+
+    # Reload from DB and check the changes
+    updated_course.reload
+    assert_equal 'Updated Course Title', updated_course.title
+    assert_equal 'Updated description', updated_course.description
+  end
+
+  test 'should not update course if not owner' do
+    sign_in users(:regular_user)
+    parameters = @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id]
+    )
+    post :create, params: { course: parameters }
+
+    course = assigns(:course)
+    assert course.persisted?, "Course was not saved: #{course.errors.full_messages.join(', ')}"
+
+    sign_out users(:regular_user)
+    sign_in users(:another_regular_user)
+
+    updated_attributes = {
+      title: 'Hacked Title',
+      description: 'Hacked description'
+    }
+    patch :update, params: { id: course.id, course: updated_attributes }
+
+    updated_course = assigns(:course)
+
+    # Reload from DB and ensure attributes did NOT change
+    updated_course.reload
+    assert_not_equal 'Hacked Title', updated_course.title
+    assert_not_equal 'Hacked description', updated_course.description
+
+    assert_response :forbidden
+  end
+
+
+  test 'should update course if admin' do
+    sign_in users(:regular_user)
+    parameters = @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id]
+    )
+    post :create, params: { course: parameters }
+
+    course = assigns(:course)
+    assert course.persisted?, "Course was not saved: #{course.errors.full_messages.join(', ')}"
+
+    sign_out users(:regular_user)
+    sign_in users(:admin)
+
+    updated_attributes = {
+      title: 'Updated Course Title',
+      description: 'Updated description'
+    }
+    patch :update, params: { id: course.id, course: updated_attributes }
+
+    updated_course = assigns(:course)
+
+    updated_course.reload
+    assert_equal 'Updated Course Title', updated_course.title
+    assert_equal 'Updated description', updated_course.description
+
+    assert_redirected_to course_path(updated_course)
+  end
+
+  # DESTROY TESTS
+  test 'should destroy course owned by user' do
+    sign_in users(:regular_user)
+
+    parameters = @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id]
+    )
+    post :create, params: { course: parameters }
+
+    course = assigns(:course)
+    assert course.persisted?, "Course was not saved: #{course.errors.full_messages.join(', ')}"
+
+    assert_difference('Course.count', -1) do
+      delete :destroy, params: { id: course.id }
+    end
+    assert_redirected_to courses_path
+
+  end
+
+  test 'should destroy course when administrator' do
+    sign_in users(:regular_user)
+
+    parameters = @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id]
+    )
+    post :create, params: { course: parameters }
+
+    course = assigns(:course)
+    assert course.persisted?, "Course was not saved: #{course.errors.full_messages.join(', ')}"
+
+    sign_out users(:regular_user)
+    sign_in users(:admin)
+
+    assert_difference('Course.count', -1) do
+      delete :destroy, params: { id: course.id }
+    end
+    assert_redirected_to courses_path
+  end
+
+  test 'should not destroy course not owned by user' do
+    sign_in users(:regular_user)
+
+    parameters = @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id]
+    )
+    post :create, params: { course: parameters }
+
+    course = assigns(:course)
+    assert course.persisted?, "Course was not saved: #{course.errors.full_messages.join(', ')}"
+
+    sign_out users(:regular_user)
+    sign_in users(:another_regular_user)
+
+    assert_difference('Course.count', 0) do
+      delete :destroy, params: { id: course.id }
+    end
+    assert_response :forbidden
+  end
+
+  # CONTENT TESTS
+  # BREADCRUMBS
+  test 'breadcrumbs for course index' do
+    get :index
+    assert_response :success
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li[class=active]', text: /Courses/, count: 1
+    end
+  end
+
+  test 'breadcrumbs for showing course' do
+    sign_in users(:regular_user)
+    parameters = @mandatory.merge(
+      {
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id]
+      }
+    )
+    post :create, params: { course: parameters }
+    course = assigns(:course)
+
+    # Show the course
+    get :show, params: { id: course }
+
+    assert_response :success
+    assert assigns(:course)
+    course = assigns(:course)
+
+    assert_select 'div.breadcrumbs' do
+      assert_select 'li > a[href$="/"] > span', text: /Home/, count: 1
+      assert_select 'li > a[href$="/courses"] > span', text: /Courses/, count: 1
+      assert_select 'li.active', text: /#{course.title}/, count: 1
+    end
+  end
+
+  test 'breadcrumbs for editing course' do
+    sign_in users(:regular_user)
+    parameters = @mandatory.merge(
+      {
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id]
+      }
+    )
+    post :create, params: { course: parameters }
+    course = assigns(:course)
+
+    # Show the course
+    get :edit, params: { id: course }
+
+    assert_response :success
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li', text: /Courses/, count: 1 do
+        assert_select 'a[href=?]', courses_url, count: 1
+      end
+      assert_select 'li', text: /#{course.title}/, count: 1 do
+        assert_select 'a[href=?]', course_url(course), count: 1
+      end
+      assert_select 'li[class=active]', text: /Edit/, count: 1
+    end
+
+  end
+
+  test 'breadcrumbs for creating new event' do
+    sign_in users(:regular_user)
+    get :new
+    assert_response :success
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li', text: /Courses/, count: 1 do
+        assert_select 'a[href=?]', courses_url, count: 1
+      end
+      assert_select 'li[class=active]', text: /New/, count: 1
+    end
+  end
+
+  # Action Buttons
+
+  test 'do not show action buttons when not owner or admin' do
+    sign_in users(:regular_user)
+    parameters = @mandatory.merge(
+      {
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id]
+      }
+    )
+    post :create, params: { course: parameters }
+    course = assigns(:course)
+
+    sign_out users(:regular_user)
+    sign_in users(:another_regular_user)
+
+    # Show the course
+    get :show, params: { id: course }
+
+    assert_select 'a.btn[href=?]', edit_course_path(course), count: 0 # No Edit
+    assert_select 'a.btn[href=?]', course_path(course), count: 0 # No delete
+  end
+
+  test 'should show action buttons when owner' do
+    sign_in users(:regular_user)
+    parameters = @mandatory.merge(
+      {
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id]
+      }
+    )
+    post :create, params: { course: parameters }
+    course = assigns(:course)
+
+    # Show the course
+    get :show, params: { id: course }
+    assert_select 'a.btn[href=?]', edit_course_path(course), count: 1
+    assert_select 'a.btn[href=?]', course_path(course), text: 'Delete', count: 1
+  end
+
+  test 'should show action buttons when admin' do
+    sign_in users(:regular_user)
+    parameters = @mandatory.merge(
+      {
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id]
+      }
+    )
+    post :create, params: { course: parameters }
+    course = assigns(:course)
+
+    sign_out users(:regular_user)
+    sign_in users(:admin)
+
+    # Show the course
+    get :show, params: { id: course }
+    assert_select 'a.btn[href=?]', edit_course_path(course), count: 1
+    assert_select 'a.btn[href=?]', course_path(course), text: 'Delete', count: 1
+  end
+
+  test 'should find existing course by title, content provider' do
+    sign_in users(:regular_user)
+    parameters = @mandatory.merge(
+      {
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id]
+      }
+    )
+    post :create, params: { course: parameters }
+    course = assigns(:course)
+    sign_out users(:regular_user)
+
+    post :check_exists, params: { format: :json, course: { title: course.title,
+                                                          content_provider_id: course.content_providers[0].id
+    }}
+    assert_response :success
+    assert_equal(JSON.parse(response.body)['id'], course.id)
+  end
+
+  test 'should find existing course by url' do
+    sign_in users(:regular_user)
+    parameters = @mandatory.merge(
+      {
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id]
+      }
+    )
+    post :create, params: { course: parameters }
+    course = assigns(:course)
+    sign_out users(:regular_user)
+
+    post :check_exists, params: { format: :json, course: {url: course.url}}
+    assert_response :success
+    assert_equal(JSON.parse(response.body)['id'], course.id)
+  end
+
+  test 'should return nothing when event does not exist' do
+    post :check_exists, params: { format: :json, course: {url: "http://no-such-site.com"}}
+    assert_response :success
+    assert_equal '{}', response.body
+  end
+
+  # todo: add reporting test cases and feature
+
 end

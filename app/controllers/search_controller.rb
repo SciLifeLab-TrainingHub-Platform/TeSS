@@ -65,6 +65,7 @@ class SearchController < ApplicationController
     @_models << 'Collection' if TeSS::Config.feature['collections']
     @_models << 'ContentProvider' if TeSS::Config.feature['content_providers']
     @_models << 'Trainer' if TeSS::Config.feature['trainers']
+    @_models << 'Course' # if TeSS::Config.feature['courses'] # enable this feature in later releases
     @_models
   end
 end

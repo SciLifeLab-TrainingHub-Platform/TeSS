@@ -214,6 +214,8 @@
 
   <!-- Fields: that need to be check for enabled/disabled -->
 
+  <%= f.association :course, collection: Course.all, prompt: "Select a course" %>
+
   <!-- Nodes: check feature enabled -->
   <% if TeSS::Config.feature['nodes'] and Node.all.count > 0 %>
     <div class="form-group">
