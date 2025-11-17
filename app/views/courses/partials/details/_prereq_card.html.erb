@@ -1,0 +1,24 @@
+<% course = local_assigns.fetch(:course) %>
+
+<% knowledge = course.prerequisites_knowledge.presence %>
+<% technical = course.prerequisites_technical.presence %>
+
+<% if knowledge || technical %>
+  <%= course_section_card('Prerequisites & Technical Requirements') do %>
+    <div class="course-prerequisites markdown">
+      <% if knowledge %>
+        <div class="course-section-block">
+          <h5 class="course-subsection-heading">Prior Knowledge</h5>
+          <%= render_markdown(knowledge) %>
+        </div>
+      <% end %>
+
+      <% if technical %>
+        <div class="course-section-block">
+          <h5 class="course-subsection-heading">Technical Requirements</h5>
+          <%= render_markdown(technical) %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

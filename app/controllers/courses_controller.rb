@@ -9,6 +9,8 @@ class CoursesController < ApplicationController
 
   # GET /courses
   def index
+    preload_index_associations if request.format.html?
+
     respond_to do |format|
       format.html
       format.json
@@ -112,7 +114,12 @@ class CoursesController < ApplicationController
 
   # Use callbacks to share common setup or constraints
   def set_course
-    @course = Course.friendly.find(params[:id])
+    @course = Course.includes(
+      :nodes,
+      :user,
+      { content_providers: :node },
+      { events: [:content_providers] }
+    ).friendly.find(params[:id])
   end
 
   # Only allow trusted parameters
@@ -154,3 +161,15 @@ class CoursesController < ApplicationController
     end
   end
 end
+  def preload_index_associations
+    return unless @courses.present?
+
+    ActiveRecord::Associations::Preloader.new(
+      records: @courses,
+      associations: [
+        :nodes,
+        :content_providers,
+        { events: :content_providers }
+      ]
+    ).call
+  end

@@ -1,0 +1,18 @@
+<% course = local_assigns.fetch(:course) %>
+<% events = Array(local_assigns[:events]).compact %>
+<% title = local_assigns.fetch(:title) %>
+<% show_empty_state = local_assigns.fetch(:show_empty_state, true) %>
+
+<% if events.any? || show_empty_state %>
+  <%= course_section_card(title, class: 'event-section-card--full course-instances-card') do %>
+    <% if events.any? %>
+      <div class="course-instances-grid">
+        <% events.each do |event| %>
+          <%= render 'courses/partials/details/instance_tile', event: event %>
+        <% end %>
+      </div>
+    <% elsif show_empty_state %>
+      <p class="muted">No <%= title.downcase %>.</p>
+    <% end %>
+  <% end %>
+<% end %>

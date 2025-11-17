@@ -1,0 +1,22 @@
+<% course = local_assigns.fetch(:course) %>
+
+<% target_audience_values = course_target_audience(course) %>
+<% keyword_values = course_keywords(course) %>
+
+<% if target_audience_values.any? || keyword_values.any? %>
+  <%= course_section_card('Audience & Keywords') do %>
+    <% if target_audience_values.any? %>
+      <div class="course-section-block">
+        <h5 class="course-subsection-heading">Target Audience</h5>
+        <%= course_pill_list(target_audience_values) %>
+      </div>
+    <% end %>
+
+    <% if keyword_values.any? %>
+      <div class="course-section-block">
+        <h5 class="course-subsection-heading">Keywords</h5>
+        <%= course_pill_list(keyword_values, variant: :neutral) %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
