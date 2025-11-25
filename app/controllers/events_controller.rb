@@ -100,6 +100,7 @@ class EventsController < ApplicationController
     @selected_cities_ids = []
     @selected_topics_ids = []
     @selected_content_providers_id = []
+    @prefill_course = load_prefill_course
   end
 
   # GET /events/1/clone
@@ -315,6 +316,7 @@ class EventsController < ApplicationController
     @venues = Venue.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
+    @courses = policy_scope(Course).order(:title).limit(100)
     @country_code = if @event
                       JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json'))).key(@event.country) || "SE"
                     else
@@ -325,6 +327,17 @@ class EventsController < ApplicationController
 
   def formatNodeIdsForRadio
       params[:event][:node_ids] = Array(params[:event][:node_ids])
+  end
+
+  def load_prefill_course
+    return nil if params[:event].present?
+    return nil if params[:course_id].blank?
+
+    # Raises ActiveRecord::RecordNotFound (404) if course is missing,
+    # Pundit::NotAuthorizedError (403) if user cannot view the course.
+    course = Course.friendly.find(params[:course_id])
+    authorize course, :show?
+    course
   end
 
   def authorize_event_access
