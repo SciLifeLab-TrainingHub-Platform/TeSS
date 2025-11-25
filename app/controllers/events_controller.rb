@@ -101,6 +101,7 @@ class EventsController < ApplicationController
     @selected_topics_ids = []
     @selected_content_providers_id = []
     @prefill_course = load_prefill_course
+    apply_course_prefill if @prefill_course
   end
 
   # GET /events/1/clone
@@ -335,9 +336,15 @@ class EventsController < ApplicationController
 
     # Raises ActiveRecord::RecordNotFound (404) if course is missing,
     # Pundit::NotAuthorizedError (403) if user cannot view the course.
-    course = Course.friendly.find(params[:course_id])
+    course = Course.friendly.includes(:content_providers).find(params[:course_id])
     authorize course, :show?
     course
+  end
+
+  def apply_course_prefill
+    result = CourseToEventPrefiller.prefill(@event, @prefill_course, current_user)
+    @prefill_applied_fields = result.applied_fields
+    @prefill_warnings = result.warnings
   end
 
   def authorize_event_access
