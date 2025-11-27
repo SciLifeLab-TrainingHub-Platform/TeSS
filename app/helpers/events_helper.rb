@@ -144,6 +144,23 @@ module EventsHelper
     
   end
 
+  def humanize_prefill_field(field)
+    case field.to_sym
+    when :content_provider_ids
+      'Content providers'
+    when :node_ids
+      'Nodes'
+    when :course
+      'Course association'
+    when :learning_objectives
+      'Learning outcomes'
+    when :tech_requirements
+      'Technical requirements'
+    else
+      field.to_s.humanize
+    end
+  end
+
   def event_cost_value(event)
     return if event.cost_value.blank?
 

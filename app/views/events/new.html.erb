@@ -8,17 +8,24 @@
   </div>
   <div class="col-md-8 col-md-pull-4">
     <% if @prefill_course && @prefill_applied_fields.present? %>
-      <div class="alert alert-info">
+      <div class="alert alert-info alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
         <strong>Prefilled from "<%= @prefill_course.title %>".</strong>
         <div>
-          Fields set: <%= @prefill_applied_fields.map { |f| f.to_s.humanize }.join(', ') %>.
+          <%= pluralize(@prefill_applied_fields.length, 'field') %> prefilled:
+          <%= @prefill_applied_fields.map { |f| humanize_prefill_field(f) }.join(', ') %>.
           Please review and set dates, venue, and URL.
         </div>
       </div>
     <% end %>
 
     <% if @prefill_warnings.present? %>
-      <div class="alert alert-warning">
+      <div class="alert alert-warning alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
         <ul class="list-unstyled mb-0">
           <% @prefill_warnings.each do |warning| %>
             <li><%= warning %></li>
