@@ -109,13 +109,6 @@ class CoursesController < ApplicationController
     end
   end
 
-  def prefill
-    @course = Course.friendly.includes(:content_providers).find(params[:id])
-    authorize @course, :show?
-
-    render json: CourseToEventPrefiller.prefill_payload(@course, current_user)
-  end
-
 
   private
 

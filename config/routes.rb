@@ -93,9 +93,6 @@ Rails.application.routes.draw do
     collection do
       get :count
     end
-    member do
-      get :prefill
-    end
   end
 
   resources :collections, concerns: %i[collaboratable activities] do
