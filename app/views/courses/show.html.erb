@@ -19,6 +19,11 @@
             <%= external_link_button 'View course website', @course.url, track: @course,
                                      class: 'btn event-action__view' %>
           <% end %>
+          <% if policy(Event).new? %>
+            <%= link_to 'Create Course Instance',
+                        new_event_path(course_id: @course),
+                        class: 'btn btn-primary' %>
+          <% end %>
         </div>
         <% if @course.persisted? %>
           <div class="content-manager-actions">

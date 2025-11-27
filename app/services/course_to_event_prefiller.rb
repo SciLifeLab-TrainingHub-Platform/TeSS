@@ -21,6 +21,40 @@ class CourseToEventPrefiller
     Result.new(applied_fields: applied, warnings: warnings)
   end
 
+  def self.prefill_payload(course, user)
+    editable_provider_ids = Array(user&.get_editable_providers&.pluck(:id))
+    course_provider_ids = course.content_providers.pluck(:id)
+    allowed_provider_ids = editable_provider_ids.present? ? (course_provider_ids & editable_provider_ids) : []
+
+    warnings = []
+    if allowed_provider_ids.length < course_provider_ids.length && allowed_provider_ids.any?
+      warnings << 'Content providers were limited to those you can edit.'
+    end
+    if allowed_provider_ids.empty? && course_provider_ids.any?
+      warnings << 'No content providers were prefilled because you cannot edit the course providers.'
+    end
+
+    node_ids = filtered_node_ids(course)
+
+    payload = {
+      title: course.title,
+      description: course.description,
+      learning_objectives: course.learning_outcomes,
+      prerequisites: course.prerequisites_knowledge,
+      tech_requirements: course.prerequisites_technical,
+      keywords: course.keywords,
+      target_audience: course.target_audience,
+      language: course.language,
+      course_id: course.id,
+      content_provider_ids: allowed_provider_ids,
+      node_ids: node_ids,
+      warnings: warnings
+    }
+
+    payload[:applied_fields] = payload.keys.reject { |k| k == :warnings }.select { |k| payload[k].present? }
+    payload
+  end
+
   def self.set_field(event, field, value, applied)
     return unless event.respond_to?(field) && event.public_send(field).blank? && value.present?
 
@@ -92,4 +126,12 @@ class CourseToEventPrefiller
     course_title
   end
   private_class_method :default_title
+
+  def self.filtered_node_ids(course)
+    return [] unless TeSS::Config.feature['nodes'] && Node.all.count.positive?
+
+    existing_node_ids = Node.pluck(:id)
+    Array(course.node_ids) & existing_node_ids
+  end
+  private_class_method :filtered_node_ids
 end

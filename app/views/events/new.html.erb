@@ -7,6 +7,26 @@
     <%= render :partial => "events/partials/general_event_info" %>
   </div>
   <div class="col-md-8 col-md-pull-4">
+    <% if @prefill_course && @prefill_applied_fields.present? %>
+      <div class="alert alert-info">
+        <strong>Prefilled from "<%= @prefill_course.title %>".</strong>
+        <div>
+          Fields set: <%= @prefill_applied_fields.map { |f| f.to_s.humanize }.join(', ') %>.
+          Please review and set dates, venue, and URL.
+        </div>
+      </div>
+    <% end %>
+
+    <% if @prefill_warnings.present? %>
+      <div class="alert alert-warning">
+        <ul class="list-unstyled mb-0">
+          <% @prefill_warnings.each do |warning| %>
+            <li><%= warning %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <%= render :partial => 'form' %>
   </div>
 </div>
