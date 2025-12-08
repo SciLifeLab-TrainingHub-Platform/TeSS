@@ -10,7 +10,7 @@
       </div>
 
       <div class="col-lg-4 col-md-5 text-right">
-        <%= link_to t('cookies.buttons.necessary'), cookies_consent_path(allow: 'necessary'),
+        <%= link_to t('cookies.buttons.necessary'), cookies_consent_path(allow: 'necessary_v2'),
                     method: :post, class: 'btn btn-default' %>
         <%= link_to t('cookies.buttons.all'), cookies_consent_path(allow: CookieConsent::OPTIONS.join(',')),
                     method: :post, class: 'btn btn-primary' if TeSS::Config.analytics_enabled %>
