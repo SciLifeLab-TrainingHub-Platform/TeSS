@@ -40,4 +40,14 @@ $(document).on('change', '.event_cost_basis', function () {
 $(document).on('ready turbolinks:load', function () {
     Events.switchCostFields();
     Events.switchAddressFields();
+
+    $('#prefill-from-course-btn').on('click', function (e) {
+        e.preventDefault();
+        var courseId = $('#prefill_course_select').val();
+        if (!courseId) {
+            alert('Please select a course first');
+            return;
+        }
+        window.location.href = '/events/new?course_id=' + encodeURIComponent(courseId);
+    });
 });
