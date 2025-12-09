@@ -34,8 +34,8 @@ if @course.respond_to?(:events)
                   :id,
                   :title,
                   :description,
-                  :start_date,
-                  :end_date,
+                  :start,
+                  :end,
                   :url
   end
 end
