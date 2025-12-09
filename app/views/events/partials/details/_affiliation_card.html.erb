@@ -5,12 +5,13 @@
 <% node_names = nodes.map(&:name) %>
 <% host_institutions = Array(event.host_institutions).reject(&:blank?) %>
 <% sponsors = Array(event.sponsors).reject(&:blank?) %>
+<% audience_titles = event.target_audience.map { |value| target_audience_title_for_label(value) }.compact %>
 
 <% if affiliation || node_names.any? || host_institutions.any? || sponsors.any? %>
   <%= event_section_card('Affiliations & Networks', class: 'event-section-card--full') do %>
-    <%= event_detail_item('SciLifeLab affiliation', 'Yes') if affiliation %>
     <%= event_detail_item('Associated nodes') { event_pill_list(node_names, variant: :primary) } if node_names.any? %>
     <%= event_detail_item(Event.human_attribute_name(:host_institutions)) { event_pill_list(host_institutions, variant: :secondary) } if host_institutions.any? %>
     <%= event_detail_item(Event.human_attribute_name(:sponsors)) { event_pill_list(sponsors, variant: :neutral) } if sponsors.any? %>
+    <%= event_detail_item(Event.human_attribute_name(:target_audience)) { event_pill_list(audience_titles, variant: :neutral) } if audience_titles.any? %>
   <% end %>
 <% end %>
