@@ -160,7 +160,7 @@ class CoursesController < ApplicationController
       params[:course][:node_ids] = [params[:course][:node_ids]]
     end
   end
-end
+
   def preload_index_associations
     return unless @courses.present?
 
@@ -173,3 +173,4 @@ end
       ]
     ).call
   end
+end
