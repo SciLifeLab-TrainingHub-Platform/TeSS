@@ -35,8 +35,8 @@ json.array! @courses do |course|
                     :id,
                     :title,
                     :description,
-                    :start_date,
-                    :end_date,
+                    :start,
+                    :end,
                     :url
     end
   end

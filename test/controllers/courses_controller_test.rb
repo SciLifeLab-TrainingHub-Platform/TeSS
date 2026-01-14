@@ -12,7 +12,7 @@ class CoursesControllerTest < ActionController::TestCase
       title: "Test Course",
       description: "A test description",
       language: "en",
-      keywords: ["test", "ruby"],
+      keywords: %w[test ruby],
       authors: [{ "name" => "John Doe", "affiliation" => "Uni X", "orcid" => "0000-0001", "email" => "johndoe@example.com" }],
       contributors: [{ "name" => "Jane Doe", "affiliation" => "Uni Y", "orcid" => "0000-0002", "email" => "janedoe@example.com" }],
       url: "https://example.com/test_course",

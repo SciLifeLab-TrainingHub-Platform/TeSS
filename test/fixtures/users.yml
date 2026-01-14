@@ -165,3 +165,10 @@ trusted_user:
   confirmed_at: <%= Time.zone.now %>
   role: trusted_user
   approved_events_count: 5
+
+another_regular_user2:
+  username: 'Dale2'
+  email: 'dale2@notarealdomain.org'
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'hello') %>
+  role: user
+  confirmed_at: <%= Time.zone.now %>
