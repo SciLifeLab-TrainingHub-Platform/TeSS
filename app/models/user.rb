@@ -33,9 +33,10 @@ class User < ApplicationRecord
   # ---
 
   has_one :profile, inverse_of: :user, dependent: :destroy
-  CREATED_RESOURCE_TYPES = [:events, :materials, :workflows, :content_providers, :sources, :collections, :nodes,
+  CREATED_RESOURCE_TYPES = [:events, :courses, :materials, :workflows, :content_providers, :sources, :collections, :nodes,
                             :learning_paths, :learning_path_topics]
   has_many :materials
+  has_many :courses
   has_many :collections
   has_many :workflows
   has_many :content_providers

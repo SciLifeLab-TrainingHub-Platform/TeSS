@@ -24,7 +24,7 @@ var Tracking = {
         if (window.gtag) {
             gtag('event', 'click', {
                 'event_category': 'outbound',
-                'event_label': url,
+                'event_label': this.href,
                 'transport_type': 'beacon',
                 'event_callback': function() {} // Not needed
             });

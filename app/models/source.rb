@@ -77,14 +77,18 @@ class Source < ApplicationRecord
   end
 
   def self.check_exists(source_params)
-    given_source = self.new(source_params)
-    source = nil
+    check_exists_candidates(source_params).first
+  end
+
+  def self.check_exists_candidates(source_params)
+    given_source = new(source_params)
 
     if given_source.url.present?
-      source = self.find_by_url(given_source.url)
+      url_matches = where(url: given_source.url).order(id: :asc)
+      return url_matches if url_matches.exists?
     end
 
-    source
+    none
   end
 
   def self.enabled

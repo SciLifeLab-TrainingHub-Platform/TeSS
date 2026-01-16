@@ -1,17 +1,26 @@
 class CookieConsent
   OPTIONS = %w(necessary_v2 tracking).freeze
+  LEGACY_ALIASES = {
+    'necessary' => 'necessary_v2'
+  }.freeze
 
   def initialize(store)
     @store = store
   end
 
   def options=(opts)
-    opts = opts.split(',').map(&:strip)
+    opts = opts.to_s.split(',').map(&:strip)
+    opts = opts.map { |opt| LEGACY_ALIASES.fetch(opt, opt) }.uniq
     @store[:cookie_consent] = opts.join(',') unless opts.any? { |opt| !OPTIONS.include?(opt) }
   end
 
   def options
-    (@store[:cookie_consent] || '').split(',').select { |opt| OPTIONS.include?(opt) }
+    (@store[:cookie_consent] || '')
+      .split(',')
+      .map(&:strip)
+      .map { |opt| LEGACY_ALIASES.fetch(opt, opt) }
+      .select { |opt| OPTIONS.include?(opt) }
+      .uniq
   end
 
   def revoke
@@ -35,6 +44,6 @@ class CookieConsent
   end
 
   def allow_necessary?
-    !required? || options.include?('necessary')
+    !required? || options.include?('necessary_v2')
   end
 end

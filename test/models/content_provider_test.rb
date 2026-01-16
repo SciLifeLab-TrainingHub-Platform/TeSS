@@ -107,7 +107,13 @@ class ContentProviderTest < ActiveSupport::TestCase
   end
 
   test 'should be invalid with malformed approval_notification_email' do
-    content_provider = content_providers(:invalid_approval_notification_email_contact_provider)
+    content_provider = ContentProvider.new(
+      title: 'Content Provider with invalid approval_notification_email',
+      url: 'http://example.com',
+      user: users(:regular_user),
+      contact: 'user@provider.com',
+      approval_notification_email: 'not-an-email'
+    )
     assert_not content_provider.valid?, 'ContentProvider with invalid approval_notification_email should not be valid'
     assert_includes content_provider.errors[:approval_notification_email], 'is invalid'
   end

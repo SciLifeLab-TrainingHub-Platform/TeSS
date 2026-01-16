@@ -541,6 +541,7 @@ en:
     options:
       tracking: Cookies required for Matomo analytics, to help the Training Portal improve its service.
       necessary: Cookies necessary for SciLifeLab Training Portal to function, for example to provide user-authentication and forgery protection.
+      necessary_v2: Cookies necessary for SciLifeLab Training Portal to function, for example to provide user-authentication and forgery protection.
     buttons:
       revoke: Revoke cookie consent
       all: Allow all cookies

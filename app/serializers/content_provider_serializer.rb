@@ -3,4 +3,8 @@ class ContentProviderSerializer < ApplicationSerializer
 
   has_many :events
   has_many :materials
+
+  def approval_notification_email
+    object.approval_notification_email.presence
+  end
 end

@@ -5,30 +5,12 @@
   <!-- Field: Disabled -->
   <%= f.input :visible, label: 'Show this event?', input_html: { title: t('events.hints.visible') } %>
 
-  <div class="form-group">
-    <label class="control-label">Prefill course from Catalogue</label>
-    <div class="row">
-      <div class="col-sm-9">
-        <%= select_tag :prefill_course_select,
-                       options_from_collection_for_select(@courses, 'to_param', 'title'),
-                       prompt: "Select a course (optional)",
-                       class: 'form-control js-select2',
-                       id: 'prefill_course_select' %>
-      </div>
-      <div class="col-sm-3">
-        <button type="button" class="btn event-action__view btn-block" id="prefill-from-course-btn">
-          <i class="fa fa-magic"></i> Prefill
-        </button>
-      </div>
-    </div>
-    <% if @event.course.present? %>
-      <p class="help-block">
-        <small>Currently associated course: <%= @event.course.title %></small>
-      </p>
-    <% end %>
-  </div>
-
   <%= f.hidden_field :course_id %>
+  <% if f.object.course.present? %>
+    <p class="help-block">
+      <small>Currently associated course: <%= f.object.course.title %></small>
+    </p>
+  <% end %>
 
   <!-- Field: presence -->
   <div class="form-group">

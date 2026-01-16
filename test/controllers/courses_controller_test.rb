@@ -156,7 +156,7 @@ class CoursesControllerTest < ActionController::TestCase
     course = Course.create!(parameters)
     sign_in users(:another_regular_user)
     get :edit, params: { id: course }
-    assert :forbidden
+    assert_response :forbidden
   end
 
   # CREATE TEST
@@ -174,7 +174,7 @@ class CoursesControllerTest < ActionController::TestCase
     end
   end
 
-  test 'should create event for admin' do
+  test 'should create course for admin' do
     sign_in users(:admin)
     assert_difference('Course.count') do
       # Create event with all mandatory fields
@@ -189,7 +189,7 @@ class CoursesControllerTest < ActionController::TestCase
     assert_redirected_to course_path(assigns(:course))
   end
 
-  test 'should not create event for non-logged in user' do
+  test 'should not create course for non-logged in user' do
     assert_no_difference('Course.count') do
       # Create event with all mandatory fields
       parameters = @mandatory.merge(
@@ -554,23 +554,33 @@ class CoursesControllerTest < ActionController::TestCase
     assert_select 'a.btn[href=?]', course_path(course), text: 'Delete', count: 1
   end
 
-  test 'should find existing course by title, content provider' do
-    sign_in users(:regular_user)
-    parameters = @mandatory.merge(
-      {
-        node_ids: [@node.id],
-        content_provider_ids: [@content_providers.id]
-      }
-    )
-    post :create, params: { course: parameters }
-    course = assigns(:course)
-    sign_out users(:regular_user)
+  test 'should find existing course by title and content provider' do
+    provider1 = content_providers(:a_content_provider)
+    provider2 = content_providers(:another_content_provider)
+    title = 'Provider Aware Course'
 
-    post :check_exists, params: { format: :json, course: { title: course.title,
-                                                          content_provider_id: course.content_providers[0].id
-    }}
+    course1 = Course.create!(@mandatory.merge(
+                               title: title,
+                               url: 'https://example.com/provider-aware-course-1',
+                               nodes: [@node],
+                               content_providers: [provider1],
+                               user: @user
+                             ))
+    course2 = Course.create!(@mandatory.merge(
+                               title: title,
+                               url: 'https://example.com/provider-aware-course-2',
+                               nodes: [@node],
+                               content_providers: [provider2],
+                               user: @user
+                             ))
+
+    post :check_exists, params: { format: :json, course: { title: title, content_provider_id: provider1.id } }
     assert_response :success
-    assert_equal(JSON.parse(response.body)['id'], course.id)
+    assert_equal course1.id, JSON.parse(response.body)['id']
+
+    post :check_exists, params: { format: :json, course: { title: title, content_provider_id: provider2.id } }
+    assert_response :success
+    assert_equal course2.id, JSON.parse(response.body)['id']
   end
 
   test 'should find existing course by url' do
@@ -590,10 +600,84 @@ class CoursesControllerTest < ActionController::TestCase
     assert_equal(JSON.parse(response.body)['id'], course.id)
   end
 
-  test 'should return nothing when event does not exist' do
-    post :check_exists, params: { format: :json, course: {url: "http://no-such-site.com"}}
+  test 'should return nothing when course does not exist' do
+    post :check_exists, params: { format: :json, course: { url: "http://no-such-site.com" } }
     assert_response :success
     assert_equal '{}', response.body
+  end
+
+  test 'should redirect when course exists (html)' do
+    course = Course.create!(@mandatory.merge(
+                              title: 'HTML Exists Course',
+                              url: 'https://example.com/html-exists-course',
+                              nodes: [@node],
+                              content_providers: [@content_providers],
+                              user: @user
+                            ))
+
+    post :check_exists, params: { course: { url: course.url } }
+    assert_redirected_to course_path(course)
+  end
+
+  test 'should return ok when course does not exist (html)' do
+    post :check_exists, params: { course: { url: 'http://no-such-site.com' } }
+    assert_response :success
+    assert_equal '', response.body
+  end
+
+  test 'check_exists does not disclose unverified courses to public' do
+    unverified_course = Course.create!(@mandatory.merge(
+                                         title: 'Hidden Unverified Course',
+                                         url: 'https://example.com/hidden-unverified-course',
+                                         nodes: [@node],
+                                         content_providers: [@content_providers],
+                                         user: users(:unverified_user)
+                                       ))
+
+    post :check_exists, params: { format: :json, course: { url: unverified_course.url } }
+    assert_response :success
+    assert_equal '{}', response.body
+  end
+
+  test 'check_exists returns disclosable duplicate when newest match is hidden' do
+    visible_course = Course.create!(@mandatory.merge(
+                                      title: 'Duplicate URL Visible Course',
+                                      url: 'https://example.com/duplicate-url-course',
+                                      nodes: [@node],
+                                      content_providers: [@content_providers],
+                                      user: users(:regular_user)
+                                    ))
+    hidden_course = Course.create!(@mandatory.merge(
+                                     title: 'Duplicate URL Hidden Course',
+                                     url: visible_course.url,
+                                     nodes: [@node],
+                                     content_providers: [@content_providers],
+                                     user: users(:unverified_user)
+                                   ))
+    assert_operator hidden_course.id, :>, visible_course.id
+
+    post :check_exists, params: { format: :json, course: { url: visible_course.url } }
+    assert_response :success
+    assert_equal visible_course.id, JSON.parse(response.body)['id']
+  end
+
+  test 'check_exists does not disclose shadowbanned courses to public but does to admin' do
+    shadowbanned_course = Course.create!(@mandatory.merge(
+                                           title: 'Hidden Shadowbanned Course',
+                                           url: 'https://example.com/hidden-shadowbanned-course',
+                                           nodes: [@node],
+                                           content_providers: [@content_providers],
+                                           user: users(:shadowbanned_user)
+                                         ))
+
+    post :check_exists, params: { format: :json, course: { url: shadowbanned_course.url } }
+    assert_response :success
+    assert_equal '{}', response.body
+
+    sign_in users(:admin)
+    post :check_exists, params: { format: :json, course: { url: shadowbanned_course.url } }
+    assert_response :success
+    assert_equal shadowbanned_course.id, JSON.parse(response.body)['id']
   end
 
   # todo: add reporting test cases and feature

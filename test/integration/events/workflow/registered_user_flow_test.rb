@@ -43,7 +43,7 @@ class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
 
   test "registered user creates pending event and triggers emails" do
     # Log in user
-    login_user(@user.username, @user.email, 'hello')
+    sign_in @user
 
     perform_enqueued_jobs do
       # Go to new event page

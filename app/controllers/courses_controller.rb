@@ -9,7 +9,7 @@ class CoursesController < ApplicationController
 
   # GET /courses
   def index
-    preload_index_associations if request.format.html?
+    preload_index_associations if request.format.symbol == :html || request.format.symbol == :json
 
     respond_to do |format|
       format.html
@@ -94,16 +94,20 @@ class CoursesController < ApplicationController
   end
 
   def check_exists
-    @course = Course.check_exists(course_params)
+    @course = Course.check_exists_candidates(course_check_exists_params)
+                   .limit(50)
+                   .find { |course| course_disclosable_for_check_exists?(course) }
 
     if @course
       respond_to do |format|
         format.html { redirect_to @course }
-        format.json { render :show, location: @course }
+        format.json do
+          render json: { id: @course.id, title: @course.title }, status: :ok, location: @course
+        end
       end
     else
       respond_to do |format|
-        format.html { render nothing: true, status: 200, content_type: 'text/html' }
+        format.html { head :ok }
         format.json { render json: {}, status: 200, content_type: 'application/json' }
       end
     end
@@ -111,6 +115,16 @@ class CoursesController < ApplicationController
 
 
   private
+
+  def course_disclosable_for_check_exists?(course)
+    return false unless policy(course).show?
+
+    if course.respond_to?(:from_shadowbanned?) && course.from_shadowbanned?
+      return current_user&.shadowbanned? || current_user&.is_admin?
+    end
+
+    true
+  end
 
   # Use callbacks to share common setup or constraints
   def set_course
@@ -142,16 +156,31 @@ class CoursesController < ApplicationController
     params.require(:course).permit(permitted)
   end
 
+  def course_check_exists_params
+    params.require(:course).permit(:title, :url, :content_provider_id, content_provider_ids: [])
+  end
+
   def set_course_dependencies
     @content_providers = ContentProvider.all
     @events = Event.all
   end
 
   def normalize_authors_and_contributors
+    return unless params[:course].is_a?(ActionController::Parameters) || params[:course].is_a?(Hash)
+
     [:authors, :contributors].each do |key|
-      if params[:course][key].is_a?(String)
-        params[:course][key] = JSON.parse(params[:course][key]) rescue []
+      raw_value = params[:course][key]
+      next unless raw_value.is_a?(String)
+
+      if raw_value.blank?
+        params[:course][key] = []
+        next
       end
+
+      params[:course][key] = JSON.parse(raw_value)
+    rescue JSON::ParserError => e
+      Rails.logger.warn("CoursesController#normalize_authors_and_contributors: invalid JSON for #{key}: #{e.message}")
+      params[:course].delete(key)
     end
   end
 
@@ -168,8 +197,8 @@ class CoursesController < ApplicationController
       records: @courses,
       associations: [
         :nodes,
-        :content_providers,
-        { events: :content_providers }
+        { content_providers: :node },
+        :events
       ]
     ).call
   end

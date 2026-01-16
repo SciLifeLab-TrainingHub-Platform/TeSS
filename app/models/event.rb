@@ -354,9 +354,11 @@ class Event < ApplicationRecord
   end
 
   def self.check_exists(event_params)
-    given_event = event_params.is_a?(Event) ? event_params : new(event_params)
+    check_exists_candidates(event_params).first
+  end
 
-    event = nil
+  def self.check_exists_candidates(event_params)
+    given_event = event_params.is_a?(Event) ? event_params : new(event_params)
 
     # Ensure content_providers is an array
     content_providers = Array(event_params[:content_providers])
@@ -371,18 +373,24 @@ class Event < ApplicationRecord
       end
     end
 
-    # provider_id = (given_event.content_provider_id || given_event.content_provider&.id)&.to_s
-    provider_ids = given_event.content_providers.map(&:id)
+    provider_ids = Array(given_event.content_provider_ids).reject(&:blank?).map(&:to_i).reject(&:zero?).uniq
 
-    # scope = provider_id.present? ? where(content_provider_id: provider_id) : all
-    scope = provider_ids.any? ? joins(:content_providers).where(content_providers: { id: provider_ids }) : all
+    scope = if provider_ids.any?
+              joins(:content_providers).where(content_providers: { id: provider_ids }).distinct
+            else
+              all
+            end
 
-    event = scope.where(url: given_event.url).last if given_event.url.present?
+    if given_event.url.present?
+      url_matches = scope.where(url: given_event.url).order(id: :desc)
+      return url_matches if url_matches.exists?
+    end
 
-    # event ||= where(content_provider_id: provider_id, title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
-    event ||= scope.where(title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
+    if given_event.title.present? && given_event.start.present?
+      return scope.where(title: given_event.title, start: given_event.start).order(id: :desc)
+    end
 
-    event
+    none
   end
 
   def suggested_latitude

@@ -55,17 +55,21 @@ class SourcesController < ApplicationController
   # POST /sources/check_exists
   # POST /sources/check_exists.json
   def check_exists
-    @source = Source.check_exists(source_params)
+    @source = Source.check_exists_candidates(source_params)
+                   .limit(50)
+                   .find { |source| source_disclosable_for_check_exists?(source) }
 
     if @source
       respond_to do |format|
         format.html { redirect_to @source }
-        format.json { render :show, location: @source }
+        format.json do
+          render json: { id: @source.id, title: @source.title }, status: :ok, location: @source
+        end
       end
     else
       respond_to do |format|
-        format.html { render :nothing => true, :status => 200, :content_type => 'text/html' }
-        format.json { render json: {}, :status => 200, :content_type => 'application/json' }
+        format.html { head :ok }
+        format.json { render json: {}, status: 200, content_type: 'application/json' }
       end
     end
   end
@@ -137,6 +141,16 @@ class SourcesController < ApplicationController
   end
 
   private
+
+  def source_disclosable_for_check_exists?(source)
+    return false unless policy(source).show?
+
+    if source.respond_to?(:from_shadowbanned?) && source.from_shadowbanned?
+      return current_user&.shadowbanned? || current_user&.is_admin?
+    end
+
+    true
+  end
 
   def set_source
     @source = Source.find(params[:id])

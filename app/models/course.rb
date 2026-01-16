@@ -61,17 +61,44 @@ class Course < ApplicationRecord
   end
 
   def self.check_exists(course_params)
-    given_course = self.new(course_params)
-    course = nil
-
-    if given_course.url.present?
-      course = self.find_by_url(given_course.url)
-    end
-
-    if given_course.title.present?
-      course ||= self.where(title: given_course.title).last
-    end
-
-    course
+    check_exists_candidates(course_params).first
   end
+
+  def self.check_exists_candidates(course_params)
+    title, url, provider_ids = extract_check_exists_attributes(course_params)
+
+    scope = if provider_ids.any?
+              joins(:content_providers).where(content_providers: { id: provider_ids }).distinct
+            else
+              all
+            end
+
+    if url.present?
+      url_matches = scope.where(url: url).order(id: :desc)
+      return url_matches if url_matches.exists?
+    end
+
+    return scope.where(title: title).order(id: :desc) if title.present?
+
+    none
+  end
+
+  def self.extract_check_exists_attributes(course_params)
+    if course_params.is_a?(Course)
+      title = course_params.title
+      url = course_params.url
+      provider_ids = course_params.content_provider_ids
+    else
+      params_hash = course_params.to_h.with_indifferent_access
+      title = params_hash[:title]
+      url = params_hash[:url]
+
+      provider_ids = Array(params_hash[:content_provider_ids]).reject(&:blank?)
+      provider_ids += Array(params_hash[:content_provider_id]).reject(&:blank?)
+      provider_ids = provider_ids.map(&:to_i).reject(&:zero?).uniq
+    end
+
+    [title, url, provider_ids]
+  end
+  private_class_method :extract_check_exists_attributes
 end

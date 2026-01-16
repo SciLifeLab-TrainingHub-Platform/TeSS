@@ -729,6 +729,7 @@ en:
     options:
       tracking: Cookies required for analytics tracking, to help TeSS improve its service.
       necessary: Cookies necessary for TeSS to function, for example to provide user-authentication and forgery protection.
+      necessary_v2: Cookies necessary for TeSS to function, for example to provide user-authentication and forgery protection.
     buttons:
       revoke: Revoke cookie consent
       all: Allow all cookies

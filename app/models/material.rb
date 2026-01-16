@@ -141,22 +141,26 @@ class Material < ApplicationRecord
   end
 
   def self.check_exists(material_params)
+    check_exists_candidates(material_params).first
+  end
+
+  def self.check_exists_candidates(material_params)
     given_material = material_params.is_a?(Material) ? material_params : new(material_params)
-    material = nil
 
     provider_id = (given_material.content_provider_id || given_material.content_provider&.id)&.to_s
 
     scope = provider_id.present? ? where(content_provider_id: provider_id) : all
 
     if given_material.url.present?
-      material = scope.where(url: given_material.url).last
+      url_matches = scope.where(url: given_material.url).order(id: :desc)
+      return url_matches if url_matches.exists?
     end
 
     if provider_id.present? && given_material.title.present?
-      material ||= scope.where(content_provider_id: provider_id, title: given_material.title).last
+      return scope.where(title: given_material.title).order(id: :desc)
     end
 
-    material
+    none
   end
 
   def to_bioschemas

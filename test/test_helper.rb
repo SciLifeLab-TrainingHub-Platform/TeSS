@@ -47,7 +47,16 @@ class ActiveSupport::TestCase
 
   setup do
     redis = Redis.new(url: TeSS::Config.redis_url)
-    redis.flushdb
+
+    attempts = 0
+    begin
+      redis.flushdb
+    rescue Redis::CannotConnectError, Redis::TimeoutError, SocketError
+      attempts += 1
+      raise if attempts >= 20
+      sleep 0.1
+      retry
+    end
   end
 
   teardown do
