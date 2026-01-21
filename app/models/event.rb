@@ -25,11 +25,10 @@ class Event < ApplicationRecord
   before_save :check_country_name
   before_save :set_default_times
   before_save :geocoding_cache_lookup, if: :address_will_change?
-  before_create :set_initial_status
+  before_create :set_event_initial_status
   after_save :enqueue_geocoding_worker, if: :address_changed?
-  after_commit :run_approval_lifecycle_on_create, on: :create
-  after_commit :run_approval_lifecycle_on_status_change, on: :update
-  after_save :notify_slack_if_published
+  after_commit :run_event_approval_lifecycle_on_create, on: :create
+  after_commit :run_event_approval_lifecycle_on_status_change, on: :update
 
   # rails admin settings
   rails_admin do
@@ -575,7 +574,7 @@ class Event < ApplicationRecord
     self.content_providers = ContentProvider.where(id: ids.reject(&:blank?))
   end
 
-  def status_just_approved?
+  def event_status_just_approved?
     return false unless previous_changes.key?("event_status")
 
     old_status, new_status = previous_changes["event_status"]
@@ -651,25 +650,26 @@ class Event < ApplicationRecord
     self.presence = :onsite if presence.blank?
   end
 
-  def set_initial_status
+  def set_event_initial_status
     self.event_status = :approved if self.user.admin_or_trusted?
   end
 
-  # logic refactored
-  def run_approval_lifecycle_on_create
-    ApprovalLifecycle.new(self).after_create
+  def run_event_approval_lifecycle_on_create
+    ApprovalLifecycle.new(
+      self,
+      notifier: Notifications::EventNotifier.new(self)
+    ).after_create
   end
 
   ##
   # this function will notify the user when/if event_status is changed by admin
   # it only sends the mail to user when event is approved
-  def run_approval_lifecycle_on_status_change
-    return unless status_just_approved?
-    ApprovalLifecycle.new(self).after_status_change if publishable?
-  end
-
-  def notify_slack_if_published
-    Notifications::Slack::SlackEventPublished.new(self).call
+  def run_event_approval_lifecycle_on_status_change
+    return unless event_status_just_approved?
+    ApprovalLifecycle.new(
+      self,
+      notifier: Notifications::EventNotifier.new(self)
+    ).after_status_change if publishable?
   end
 
   def after_switch_to_more_mandatory_fields?

@@ -10,4 +10,9 @@ class AdminMailerPreview < ActionMailer::Preview
     @event = Event.first
     AdminMailer.event_updated_by_user(@event)
   end
+
+  def review_course
+    course = Course.first
+    AdminMailer.review_course(course)
+  end
 end

@@ -9,6 +9,9 @@ require "test_helper"
 # - Visibility rules for pending events:
 #   - Only the event owner and admin can see the event
 #   - Other users and the public cannot view the event in index or show pages
+# - Updating an event in "revisions_required" state by the owner:
+#   - Status is reset to awaiting_review
+#   - Admin is notified that the event was updated
 
 class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
   include ActionMailer::TestHelper
@@ -123,7 +126,6 @@ class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
 
 
     # admin
-    # login_user(@admin.username, @admin.email, 'admin_encrypted_password')
     sign_in @admin
 
     # Index page
@@ -140,5 +142,42 @@ class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
 
     sign_out @admin
 
+  end
+  test "owner updating revisions_required event resets status and notifies admin" do
+    sign_in @user
+    event = @user.events.create!(@parameters)
+    assert_equal "awaiting_review", event.event_status
+    sign_out @user
+
+    sign_in @admin
+    event.update_column(:event_status, Event.event_statuses[:revisions_required])
+    event.reload
+
+    assert_equal "revisions_required", event.event_status
+    sign_out @admin
+
+    sign_in @user
+
+    perform_enqueued_jobs do
+      assert_emails 1 do
+        patch event_path(event), params: { event: { title: "Updated after revisions" } }
+      end
+    end
+
+    event.reload
+    assert_equal "awaiting_review", event.event_status, "Event status should reset after owner update"
+
+    admin_email = ActionMailer::Base.deliveries.find do |mail|
+      mail.to.include?(AdminMailer::ADMIN_EMAIL_ADDRESS)
+    end
+    assert_not_nil admin_email, "Expected admin notification email"
+
+    # Check email subject
+    expected_subject = "Event #{event.title} updated by #{event.user.username}"
+    assert_equal expected_subject, admin_email.subject
+
+    # Verify email body contains key information
+    assert_match "The event titled #{event.title} has been updated by #{event.user.username}", admin_email.body.encoded
+    assert_match "The event status has been changed to Awaiting review", admin_email.body.encoded
   end
 end

@@ -12,6 +12,13 @@ class Course < ApplicationRecord
   has_many :events, dependent: :nullify
   belongs_to :user
 
+  enum course_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3}
+
+  before_create :set_course_initial_status
+  after_commit :run_course_approval_lifecycle_on_create, on: :create
+  after_commit :run_course_approval_lifecycle_on_status_change, on: :update
+  after_save :course_notify_slack_if_published
+
   if TeSS::Config.solr_enabled
     searchable do
       text :title, :description, :learning_outcomes, :structure_and_duration, :prerequisites_knowledge, :prerequisites_technical
@@ -35,6 +42,8 @@ class Course < ApplicationRecord
       time :created_at
       time :updated_at
 
+      string :course_status
+      integer :user_id
     end
   end
 
@@ -82,6 +91,43 @@ class Course < ApplicationRecord
 
     none
   end
+
+  # Initial state for course
+  def set_course_initial_status
+    self.course_status = :approved if self.user.admin_or_trusted?
+  end
+
+  def course_status_just_approved?
+    return false unless previous_changes.key?("course_status")
+
+    old_status, new_status = previous_changes["course_status"]
+
+    awaiting_review = Course.course_statuses.key(0)
+    revisions_required = Course.course_statuses.key(3)
+    approved = Course.course_statuses.key(1)
+
+    old_status.in?([awaiting_review, revisions_required]) &&
+      new_status == approved
+  end
+  def run_course_approval_lifecycle_on_create
+    ApprovalLifecycle.new(
+      self,
+      notifier: Notifications::CourseNotifier.new(self)
+    ).after_create
+  end
+
+  def run_course_approval_lifecycle_on_status_change
+    return unless course_status_just_approved?
+    ApprovalLifecycle.new(
+      self,
+      notifier: Notifications::CourseNotifier.new(self)
+    ).after_status_change
+  end
+
+  def course_notify_slack_if_published
+    Notifications::Slack::SlackEventPublished.new(self).call
+  end
+
 
   def self.extract_check_exists_attributes(course_params)
     if course_params.is_a?(Course)

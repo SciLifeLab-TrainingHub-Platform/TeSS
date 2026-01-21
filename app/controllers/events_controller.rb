@@ -10,7 +10,7 @@ class EventsController < ApplicationController
   before_action :set_event_dependencies, only: [:new, :clone, :edit, :create, :update]
   before_action :formatNodeIdsForRadio, only: [:create, :update]
   before_action :authorize_event_access, only: [:show, :edit, :update]
-  after_action :change_status_and_notify_admin, only: [:update]
+  after_action :event_change_status_and_notify_admin, only: [:update]
 
 
   include SearchableIndex
@@ -403,12 +403,7 @@ class EventsController < ApplicationController
   # This function notifies the admin and changes the event status
   # when the owner (current_user) updates the event,
   # if the event status is "revisions_required".
-  def change_status_and_notify_admin
-    if @event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required]) && @event.user_id == current_user.id
-      # Change status back to awaiting_review
-      @event.update!(event_status: Event.event_statuses[:awaiting_review])
-      # Send email to admin
-      AdminMailer.event_updated_by_user(@event).deliver_later
-    end
+  def event_change_status_and_notify_admin
+    Notifications::EventNotifier.new(@event).reset_status_and_notify_admin(current_user)
   end
 end

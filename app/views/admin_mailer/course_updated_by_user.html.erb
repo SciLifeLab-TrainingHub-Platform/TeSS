@@ -1,0 +1,39 @@
+<%= link_to(root_url) do %>
+  <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
+                title: "Visit #{TeSS::Config.site['title_short']}",
+                style: 'width: 100%;', target: '_blank') %>
+<% end %>
+<br>
+<h3><strong>Dear Admin,</strong></h3>
+
+<p style="color: #333;">
+  The course titled <strong><%= @course.title %></strong> has been updated by
+  <strong><%= @course.user.username %></strong>.
+</p>
+
+<p style="color: #333;">
+  The course status has been changed to <strong><%= Course.course_statuses.key(Course.course_statuses[:awaiting_review]).humanize %></strong> for your review.
+</p>
+
+<p style="color: #333;">Please review the updated event and user details below:</p>
+
+<h3 style="font-size: 18px; color: #045C64;">Course Details:</h3>
+<ul style="color: #333; padding-left: 20px;">
+  <li><strong>Course Title:</strong> <%= @course.title %></li>
+  <li><strong>URL:</strong> <a href="<%= @course.url %>" target="_blank" style="color: #045C64;"><%= @course.url %></a>
+  </li>
+  <li><strong>Status:</strong> <%= @course.course_status.humanize %></li>
+</ul>
+
+<h3 style="font-size: 18px; color: #045C64;">User Details:</h3>
+<ul style="color: #333; padding-left: 20px;">
+  <li><strong>Username:</strong> <%= @course.user.username %></li>
+  <li><strong>Email:</strong> <%= @course.user.email %></li>
+  <li><strong>Role:</strong> <%= @course.user.role&.title || 'Unknown' %></li>
+  <li><strong>Last Sign-In IP:</strong> <%= @course.user.last_sign_in_ip || 'Not available' %></li>
+  <li><strong>Sign-In Count:</strong> <%= @course.user.sign_in_count %></li>
+</ul>
+
+<p style="color: #333;">You can review the course details and approve or reject it using the link below:</p>
+<a style="display: inline-block; margin-top: 10px; padding: 12px 15px; background-color: #045C64; color: #ffffff; text-decoration: none; border-radius: 5px; font-size: 14px; font-weight: 500; text-align: center; transition: background-color 0.3s ease;"
+   href="<%= root_url %>admin/courses/<%= @course.id %>/edit">Review Course</a>

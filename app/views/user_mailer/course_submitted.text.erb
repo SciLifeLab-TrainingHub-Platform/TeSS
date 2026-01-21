@@ -1,0 +1,15 @@
+Hi <%= @course.user.username %>,
+
+Your course has been successfully submitted on the SciLifeLab Training Portal and is currently under review by our team.
+
+Next Steps:
+- If approved, your course will be published and visible on the SciLifeLab Training Portal.
+- If any changes are required, you will receive an email from one of our admins with details.
+- If the course is declined, you will be notified via email with the reason, and it will be removed from the portal.
+
+
+Event Details:
+  Course Title: <%= @course.title %>
+  Course URL: <%= @course.url %>
+
+You can view and manage your event using the following link: <%= courses_url(@course) %>

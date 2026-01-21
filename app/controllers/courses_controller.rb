@@ -5,6 +5,9 @@ class CoursesController < ApplicationController
   before_action :set_course_dependencies, only: [:new, :edit, :create, :update]
   before_action :set_breadcrumbs
 
+  after_action :course_change_status_and_notify_admin, only: [:update]
+  before_action :authorize_course_access, only: [:show, :edit, :update]
+
   include SearchableIndex
 
   # GET /courses
@@ -51,7 +54,6 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
     @course.user = current_user if @course.respond_to?(:user=)
 
-
     respond_to do |format|
       if @course.save
         @course.create_activity :create, owner: current_user if @course.respond_to?(:create_activity)
@@ -95,8 +97,8 @@ class CoursesController < ApplicationController
 
   def check_exists
     @course = Course.check_exists_candidates(course_check_exists_params)
-                   .limit(50)
-                   .find { |course| course_disclosable_for_check_exists?(course) }
+                    .limit(50)
+                    .find { |course| course_disclosable_for_check_exists?(course) }
 
     if @course
       respond_to do |format|
@@ -112,7 +114,6 @@ class CoursesController < ApplicationController
       end
     end
   end
-
 
   private
 
@@ -201,5 +202,27 @@ class CoursesController < ApplicationController
         :events
       ]
     ).call
+  end
+
+  ##
+  # This function notifies the admin and changes the event status
+  # when the owner (current_user) updates the event,
+  # if the event status is "revisions_required".
+  def course_change_status_and_notify_admin
+    Notifications::CourseNotifier.new(@event).reset_status_and_notify_admin(current_user)
+  end
+
+  def authorize_course_access
+    # If the user is an admin, allow full access
+    return if current_user&.has_role?('admin')
+
+    # If the user is the owner, allow access only if the course is not declined
+    return if current_user && @course.user_id == current_user.id && !@course.declined?
+
+    # If the course is approved, allow access to anyone (logged-in or not)
+    return if @course.approved?
+
+    # If none of these conditions are met, then course can't be shown
+    raise ActiveRecord::RecordNotFound
   end
 end

@@ -54,12 +54,10 @@ class AdminApprovalFlowTest < ActionDispatch::IntegrationTest
     @pending_event = @user.events.create!(@parameters)
   end
 
-  # ----------------------------
   # Approve pending event
-  # ----------------------------
   test "admin approves pending event" do
-    sign_in @admin
     channels = ENV.fetch('SLACK_COURSE_NOTIFICATION_CHANNELS').split(',').map(&:strip)
+    sign_in @admin
 
     perform_enqueued_jobs do
       # Simulate approving event
@@ -95,9 +93,7 @@ class AdminApprovalFlowTest < ActionDispatch::IntegrationTest
     sign_out @admin
   end
 
-  # ----------------------------
   # Reject event
-  # ----------------------------
   test "admin rejects event" do
     sign_in @admin
 
@@ -123,9 +119,7 @@ class AdminApprovalFlowTest < ActionDispatch::IntegrationTest
     end
   end
 
-  # ----------------------------
   # Request revisions
-  # ----------------------------
   test "admin requests revisions" do
     sign_in @admin
 
