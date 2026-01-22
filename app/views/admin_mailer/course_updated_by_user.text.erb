@@ -4,12 +4,12 @@ The course titled <%= @course.title %> has been updated by <%= @course.user.user
 
 The course status has been changed to <%= Course.course_statuses.key(Course.course_statuses[:awaiting_review]).humanize %> for your review.
 
-Please review the updated event and user details below:
+Please review the updated course and user details below:
 
-Event Details:
-- Event Title: <%= @course.title %>
+Course Details:
+- Course Title: <%= @course.title %>
 - URL: <%= @course.url %>
-- Status: <%= @course.course_statuses.humanize %>
+- Status: <%= @course.course_status.humanize %>
 
 User Details:
 - Username: <%= @course.user.username %>
@@ -18,5 +18,5 @@ User Details:
 - Last Sign-In IP: <%= @course.user.last_sign_in_ip %>
 - Sign-In Count: <%= @course.user.sign_in_count %>
 
-You can review the event using the following link:
+You can review the course using the following link:
 <%= root_url %>admin/courses/<%= @course.id %>/edit

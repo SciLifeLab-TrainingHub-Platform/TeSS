@@ -14,7 +14,7 @@ class AdminMailer < ApplicationMailer
 
   def review_course(course)
     @course = course
-    mail(to: ADMIN_EMAIL_ADDRESS, subject: "Course #{@course.title} updated by #{@course.user.username}")
+    mail(to: ADMIN_EMAIL_ADDRESS, subject: "Course review for #{@course.title}")
   end
 
   def course_updated_by_user(course)

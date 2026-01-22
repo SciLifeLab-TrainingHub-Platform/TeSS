@@ -23,9 +23,9 @@
     </li>
   </ul>
 
-  <!-- Event Details Section -->
+  <!-- Course Details Section -->
   <p>
-    Below are the details of your submitted training event:
+    Below are the details of your submitted training course:
   </p>
   <ul style="list-style-type: none; padding-left: 0; font-size: 15px; margin-bottom: 20px;">
     <li><strong>Course Title:</strong> <%= @course.title %></li>
@@ -35,8 +35,8 @@
   </ul>
 
   <p style=" margin-top: 20px;">
-    You can view and manage your event using the following link:
-    <a href="<%= courses_url(@course) %>"
+    You can view and manage your course using the following link:
+    <a href="<%= course_url(@course) %>"
        style="color: #045C64; text-decoration: underline; font-weight: bold;">
       View Course
     </a>.

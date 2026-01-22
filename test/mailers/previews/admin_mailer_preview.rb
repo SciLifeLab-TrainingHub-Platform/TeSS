@@ -15,4 +15,9 @@ class AdminMailerPreview < ActionMailer::Preview
     course = Course.first
     AdminMailer.review_course(course)
   end
+
+  def course_updated_by_user
+    course = Course.first
+    AdminMailer.course_updated_by_user(course)
+  end
 end

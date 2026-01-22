@@ -73,7 +73,7 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
       message_arg = slack_job[:args].first
       channels_arg = slack_job[:args].second
 
-      assert_includes message_arg, "New Course Announcement from the"
+      assert_includes message_arg, "New #{event.class.name} Announcement from the"
       assert_equal channels, channels_arg
     end
 

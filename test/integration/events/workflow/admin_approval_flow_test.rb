@@ -74,7 +74,7 @@ class AdminApprovalFlowTest < ActionDispatch::IntegrationTest
     if slack_job
       message_arg = slack_job[:args].first
       channels_arg = slack_job[:args].second
-      assert_includes message_arg, "New Course Announcement from the"
+      assert_includes message_arg, "New #{@pending_event.class.name} Announcement from the"
       assert_equal channels, channels_arg
     end
 

@@ -7,43 +7,10 @@ module Notifications
     end
 
     def publish
-      pp course: {
-        id: @course.id,
-        title: @course.title,
-        status: @course.course_status,
-        user_id: @course.user_id
-      }
-
-      # User email
-      pp user_email: @course.user&.email
       UserMailer.course_published(@course).deliver_later
-      pp info: "User email enqueued for course #{@course.id}"
-
-      # Content provider emails
-      pp content_providers_count: @course.content_providers&.size
-
       @course.content_providers&.each do |cp|
-        pp content_provider: {
-          id: cp.id,
-          title: cp.title,
-          approval_notification_email: cp.approval_notification_email
-        }
-
-        ContentProviderMailer
-          .course_content_provider_notification(@course, cp)
-          .deliver_later
-        pp info: "Content provider email enqueued for course #{@course.id}, content_provider_id #{cp.id}"
+        ContentProviderMailer.course_content_provider_notification(@course, cp).deliver_later
       end
-
-      # Slack notification
-      pp slack_payload: {
-        course_id: @course.id,
-        approved: @course.approved?,
-        publishable: @course.respond_to?(:publishable?) ? @course.publishable? : 'N/A'
-      }
-
-      Notifications::Slack::SlackEventPublished.new(@course).call
-      pp info: "Slack notification triggered for course #{@course.id}"
     end
 
     def review

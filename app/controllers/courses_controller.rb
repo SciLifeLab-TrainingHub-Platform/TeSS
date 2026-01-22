@@ -204,12 +204,10 @@ class CoursesController < ApplicationController
     ).call
   end
 
-  ##
-  # This function notifies the admin and changes the event status
-  # when the owner (current_user) updates the event,
-  # if the event status is "revisions_required".
+  # Notifies the admin and updates the course status
+  # when the owner edits a course in "revisions_required" state.
   def course_change_status_and_notify_admin
-    Notifications::CourseNotifier.new(@event).reset_status_and_notify_admin(current_user)
+    Notifications::CourseNotifier.new(@course).reset_status_and_notify_admin(current_user)
   end
 
   def authorize_course_access

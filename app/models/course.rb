@@ -17,7 +17,6 @@ class Course < ApplicationRecord
   before_create :set_course_initial_status
   after_commit :run_course_approval_lifecycle_on_create, on: :create
   after_commit :run_course_approval_lifecycle_on_status_change, on: :update
-  after_save :course_notify_slack_if_published
 
   if TeSS::Config.solr_enabled
     searchable do
@@ -123,11 +122,6 @@ class Course < ApplicationRecord
       notifier: Notifications::CourseNotifier.new(self)
     ).after_status_change
   end
-
-  def course_notify_slack_if_published
-    Notifications::Slack::SlackEventPublished.new(self).call
-  end
-
 
   def self.extract_check_exists_attributes(course_params)
     if course_params.is_a?(Course)
