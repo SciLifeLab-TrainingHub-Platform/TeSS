@@ -13,14 +13,14 @@ module Notifications
 
       private
 
-      attr_reader :event
+      attr_reader :record
 
       # Build the Slack message
       def message
         <<~MESSAGE
-          New #{@record.class.name} Announcement from the <#{root_url}|Training Portal>
+          New #{record.class.name} Announcement from the <#{root_url}|Training Portal>
 
-          > :scilife: *#{@record.title}*
+          > :scilife: *#{record.title}*
           > <#{record_url}|More information>
         MESSAGE
       end
@@ -39,11 +39,11 @@ module Notifications
       end
 
       def record_url
-        case @record
-        when Event then Rails.application.routes.url_helpers.event_url(@record)
-        when Course then Rails.application.routes.url_helpers.course_url(@record)
+        case record
+        when Event then Rails.application.routes.url_helpers.event_url(record)
+        when Course then Rails.application.routes.url_helpers.course_url(record)
         else
-          raise "Unsupported record type for SlackPublished: #{@record.class.name}"
+          raise "Unsupported record type for SlackPublished: #{record.class.name}"
         end
       end
     end

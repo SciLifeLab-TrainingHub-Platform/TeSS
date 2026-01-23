@@ -6,8 +6,6 @@ module CourseFilter
   # Additional filtering for courses, regarding the task with the workflow
   # This function will execute as part of search_and_filter of module Searchable
   def course_filter(user)
-    pp "in course_filter"
-
     Proc.new do
       if user
         # If the user is an admin, include every course

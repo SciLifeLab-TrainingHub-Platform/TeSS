@@ -154,6 +154,7 @@ class CoursesControllerTest < ActionController::TestCase
         user: @user
       })
     course = Course.create!(parameters)
+    course.update_column(:course_status, Course.course_statuses[:approved])
     sign_in users(:another_regular_user)
     get :edit, params: { id: course }
     assert_response :forbidden
@@ -305,6 +306,7 @@ class CoursesControllerTest < ActionController::TestCase
 
     course = assigns(:course)
     assert course.persisted?, "Course was not saved: #{course.errors.full_messages.join(', ')}"
+    course.update_column(:course_status, Course.course_statuses[:approved])
 
     sign_out users(:regular_user)
     sign_in users(:another_regular_user)
@@ -506,6 +508,7 @@ class CoursesControllerTest < ActionController::TestCase
     )
     post :create, params: { course: parameters }
     course = assigns(:course)
+    course.update_column(:course_status, Course.course_statuses[:approved])
 
     sign_out users(:regular_user)
     sign_in users(:another_regular_user)
