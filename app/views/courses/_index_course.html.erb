@@ -1,16 +1,16 @@
-
 <li class="course-card">
   <%= item_order_badge(collection_item) if defined? collection_item %>
 
   <div class="course-card__content">
     <div class="course-card__heading">
       <h4 class="course-card__title"><%= link_to course.title, course %></h4>
-      <% if current_user&.is_admin? %>
-        <div class="course-card__icons">
+      <div class="course-card__icons">
+        <% if current_user&.is_admin? %>
           <%= missing_icon(course) if course.respond_to?(:failing?) %>
           <%= scrape_status_icon(course) if course.respond_to?(:last_scraped) %>
-        </div>
-      <% end %>
+        <% end %>
+        <%= review_status_icon(course) %>
+      </div>
     </div>
 
     <% next_event = course_next_event(course) %>

@@ -52,6 +52,26 @@
   gap: 6px;
 }
 
+.course-card__review-status-icon {
+  font-size: 16px;
+}
+
+.course-card__review-status-icon--awaiting-review {
+  color: #D9A400;
+}
+
+.course-card__review-status-icon--approved {
+  color: #008000;
+}
+
+.course-card__review-status-icon--declined {
+  color: #B22222;
+}
+
+.course-card__review-status-icon--revisions-required {
+  color: #FF8C00;
+}
+
 .course-card__meta-row {
   display: flex;
   align-items: center;

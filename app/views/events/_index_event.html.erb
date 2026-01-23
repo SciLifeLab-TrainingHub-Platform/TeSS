@@ -1,16 +1,3 @@
-<% review_status_icon = nil %>
-<% if current_user&.is_admin? %>
-  <% review_status_icon = capture do %>
-    <% if event.event_status == 'awaiting_review' %>
-      <i class="fa fa-clock-o" data-toggle="tooltip" title="Pending review by SciLifeLab administrators."></i>
-    <% elsif event.event_status == 'declined' %>
-      <i class="fa fa-ban" data-toggle="tooltip" title="Declined by SciLifeLab administrators."></i>
-    <% elsif event.event_status == 'revisions_required' %>
-      <i class="fa fa-edit" data-toggle="tooltip" title="Revisions needed before approval."></i>
-    <% end %>
-  <% end %>
-<% end %>
-
 <% collection_item = local_assigns[:collection_item] %>
 <% event_type_titles = Array(event.event_types).flatten.compact.map { |t| EventTypeDictionary.instance.lookup_value(t, 'title') || t }.uniq %>
 <% presence_label = event.presence.present? ? t("activerecord.attributes.event.presence.#{event.presence}", default: nil) : nil %>
@@ -28,9 +15,9 @@
           <%= missing_icon(event) %>
           <%= scrape_status_icon(event) %>
           <%= suggestion_icon(event) %>
-          <%= review_status_icon if review_status_icon.present? %>
         <% end %>
         <%= event_status_icon(event) %>
+        <%= review_status_icon(event) %>
       </div>
     </div>
 

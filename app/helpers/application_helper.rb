@@ -87,6 +87,34 @@ module ApplicationHelper
     "<span class='fresh-icon pull-right'>#{icon_for(:suggestion, size)}</span>".html_safe
   end
 
+  def review_status_icon(record)
+    status = if record.respond_to?(:event_status)
+               record.event_status
+             elsif record.respond_to?(:course_status)
+               record.course_status
+             end
+
+    return if status.blank?
+
+    icon_class, modifier_class, tooltip_title = case status
+                                                when 'awaiting_review'
+                                                  ['fa-clock-o', 'awaiting-review', 'Pending review by SciLifeLab administrators.']
+                                                when 'approved'
+                                                  ['fa-check', 'approved', 'Approved by SciLifeLab and now publicly accessible.']
+                                                when 'declined'
+                                                  ['fa-ban', 'declined', 'Declined by SciLifeLab administrators.']
+                                                when 'revisions_required'
+                                                  ['fa-edit', 'revisions-required', 'Revisions needed before approval.']
+                                                else
+                                                  return
+                                                end
+
+    tag.i('', class: "fa #{icon_class} course-card__review-status-icon course-card__review-status-icon--#{modifier_class}",
+              'aria-hidden' => true,
+              data: { toggle: 'tooltip' },
+              title: tooltip_title)
+  end
+
   def event_status_icon(event, size = nil)
     if event.started?
       "<span class='event-started-icon pull-right'>#{icon_for(:started, size)}</span>".html_safe
