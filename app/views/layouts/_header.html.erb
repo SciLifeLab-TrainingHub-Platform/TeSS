@@ -65,12 +65,36 @@
             TeSS::Config.site['tab_order'].index(t[:feature]) || 99
           end
 
+          course_tabs = %w[courses events]
+          course_menu_items = []
+          course_menu_items << { name: t('features.courses.long'), link: courses_path } if TeSS::Config.feature['courses']
+          course_menu_items << { name: t('features.events.long'), link: events_path } if TeSS::Config.feature['events']
+          if course_menu_items.present?
+            course_menu_index = tabs.index { |t| course_tabs.include?(t[:feature]) }
+            tabs = tabs.reject { |t| course_tabs.include?(t[:feature]) }
+            course_menu_index ||= tabs.length
+            tabs.insert(course_menu_index, { dropdown: true, name: 'Courses', items: course_menu_items })
+          end
 
           directory_tabs, main_tabs = tabs.partition { |t| TeSS::Config.site['directory_tabs']&.include?(t[:feature]) }
         %>
         <%= menu_group(pull: 'right') do %>
           <% main_tabs.each do |t| %>
-            <%= menu_item t("features.#{t[:feature]}.short"), t[:link] %>
+            <% if t[:dropdown] %>
+              <li class="dropdown courses-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                  <%= t[:name] %> <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <% t[:items].each do |item| %>
+                    <li><%= link_to item[:name], item[:link] %></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% else %>
+              <%= menu_item t("features.#{t[:feature]}.short"), t[:link] %>
+            <% end %>
           <% end %>
 
           <% if directory_tabs.present? %>
