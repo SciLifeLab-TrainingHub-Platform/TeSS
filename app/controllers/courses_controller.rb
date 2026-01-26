@@ -7,6 +7,9 @@ class CoursesController < ApplicationController
 
   after_action :course_change_status_and_notify_admin, only: [:update]
   before_action :authorize_course_access, only: [:show, :edit, :update]
+  before_action only: [:show, :edit, :update] do
+    authorize_resource_access(@course)
+  end
 
   include SearchableIndex
 
@@ -208,19 +211,5 @@ class CoursesController < ApplicationController
   # when the owner edits a course in "revisions_required" state.
   def course_change_status_and_notify_admin
     Notifications::CourseNotifier.new(@course).reset_status_and_notify_admin(current_user)
-  end
-
-  def authorize_course_access
-    # If the user is an admin, allow full access
-    return if current_user&.has_role?('admin')
-
-    # If the user is the owner, allow access only if the course is not declined
-    return if current_user && @course.user_id == current_user.id && !@course.declined?
-
-    # If the course is approved, allow access to anyone (logged-in or not)
-    return if @course.approved?
-
-    # If none of these conditions are met, then course can't be shown
-    raise ActiveRecord::RecordNotFound
   end
 end

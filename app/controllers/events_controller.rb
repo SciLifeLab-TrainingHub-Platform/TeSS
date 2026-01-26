@@ -9,9 +9,10 @@ class EventsController < ApplicationController
   before_action :disable_pagination, only: :index, if: ->(controller) { controller.request.format.ics? or controller.request.format.csv? or controller.request.format.rss? }
   before_action :set_event_dependencies, only: [:new, :clone, :edit, :create, :update]
   before_action :formatNodeIdsForRadio, only: [:create, :update]
-  before_action :authorize_event_access, only: [:show, :edit, :update]
   after_action :event_change_status_and_notify_admin, only: [:update]
-
+  before_action only: [:show, :edit, :update] do
+    authorize_resource_access(@event)
+  end
 
   include SearchableIndex
   include ActionView::Helpers::TextHelper
@@ -148,8 +149,8 @@ class EventsController < ApplicationController
   # POST /events/check_exists.json
   def check_exists
     @event = Event.check_exists_candidates(event_params)
-                 .limit(50)
-                 .find { |event| event_disclosable_for_check_exists?(event) }
+                  .limit(50)
+                  .find { |event| event_disclosable_for_check_exists?(event) }
 
     if @event
       respond_to do |format|
@@ -315,7 +316,7 @@ class EventsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def event_params
     params.require(:event).permit(:external_id, :title, :subtitle, :url, :last_scraped, :registration_form_url, :scraper_record,
-                                  :description, :course_id,  { :topic_ids => [] }, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
+                                  :description, :course_id, { :topic_ids => [] }, { scientific_topic_names: [] }, { scientific_topic_uris: [] },
                                   { operation_names: [] }, { operation_uris: [] }, { event_types: [] },
                                   { keywords: [] }, { fields: [] }, :start, :end, :application_deadline, :duration, { sponsors: [] },
                                   :online, { :venue_ids => [] }, :new_venues, { :city_ids => [] }, :county, :country, :postcode, :latitude, :longitude,
@@ -364,7 +365,7 @@ class EventsController < ApplicationController
   end
 
   def formatNodeIdsForRadio
-      params[:event][:node_ids] = Array(params[:event][:node_ids])
+    params[:event][:node_ids] = Array(params[:event][:node_ids])
   end
 
   def load_prefill_course
@@ -383,20 +384,6 @@ class EventsController < ApplicationController
     result = CourseToEventPrefiller.prefill(@event, @prefill_course, current_user)
     @prefill_applied_fields = result.applied_fields
     @prefill_warnings = result.warnings
-  end
-
-  def authorize_event_access
-    # If the user is an admin, allow full access
-    return if current_user&.has_role?('admin')
-
-    # If the user is the owner, allow access only if the event is not declined
-    return if current_user && @event.user_id == current_user.id && !@event.declined?
-
-    # If the event is approved, allow access to anyone (logged-in or not)
-    return if @event.approved?
-
-    # If none of these conditions are met, then event cant be shown
-    raise ActiveRecord::RecordNotFound
   end
 
   ##

@@ -118,6 +118,22 @@ class ApplicationController < ActionController::Base
     Locator.instance.lookup(remote_ip)&.dig('country')
   end
 
+  # Authorize access to :show, :edit, :update for events and courses based on role, ownership, or approval
+  def authorize_resource_access(resource)
+    # If the user is an admin, allow full access
+    return if current_user&.has_role?('admin')
+
+    # If the user is the owner, allow access only if resource is not declined
+    return if current_user && resource.user_id == current_user.id && !resource.declined?
+
+    # If the resource is approved, allow access to anyone
+    return if resource.approved?
+
+    # If none of these conditions are met, deny access
+    raise ActiveRecord::RecordNotFound
+  end
+
+
   def from_blocked_country?
     return unless TeSS::Config.blocked_countries.present?
     user_country = current_user_country
