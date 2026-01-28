@@ -70,6 +70,18 @@ en:
         language: 'Language of instruction'
       course:
         content_providers: 'Content Providers'
+    errors:
+      models:
+        course:
+          attributes:
+            course_status:
+              cannot_unapprove_with_approved_instances: 'cannot be changed while the course has approved instances.'
+        event:
+          attributes:
+            course:
+              must_be_approved_for_course_instance: 'must be approved before you can create a course instance.'
+            event_status:
+              cannot_be_approved_until_course_is_approved: 'cannot be approved until the associated course is approved.'
   about:
     registry: >
       TeSS is a platform that was developed to provide a one-stop shop for trainers and trainees to discover
@@ -532,7 +544,18 @@ en:
     info: >
       Content providers are entities (such as academic institutions, non-profit organisations, portals etc.) that
       provide training materials of relevance to life sciences and ELIXIR.
+  courses:
+    actions:
+      create_instance: 'Create Course Instance'
+    messages:
+      not_approved_instance_help: 'This course is not approved yet. You can create course instances once the course is approved.'
+    event_option_status:
+      awaiting_review: 'Pending review'
+      declined: 'Declined'
+      revisions_required: 'Revisions required'
   events:
+    prefill:
+      course_not_approved: 'Course is not approved yet.'
     hints:
       address: 'Where is this event being held?'
       capacity: >

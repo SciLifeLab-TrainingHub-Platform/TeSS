@@ -127,10 +127,19 @@ class CourseTest < ActiveSupport::TestCase
   end
 
   test "has many events dependent nullify" do
-    course = Course.create!(@mandatory.merge(user: @user, content_providers: [@content_providers], nodes: [@node]))
+    course = Course.create!(@mandatory.merge(user: users(:trusted_user), content_providers: [@content_providers], nodes: [@node]))
     event = events(:one)
     event.update!(course: course)
     course.destroy
     assert_nil event.reload.course_id
+  end
+
+  test 'cannot unapprove a course while it has approved instances' do
+    course = Course.create!(@mandatory.merge(user: users(:trusted_user), content_providers: [@content_providers], nodes: [@node]))
+    approved_event = events(:one)
+    approved_event.update!(course: course)
+
+    refute course.update(course_status: Course.course_statuses[:awaiting_review])
+    assert_includes course.errors[:course_status], I18n.t('activerecord.errors.models.course.attributes.course_status.cannot_unapprove_with_approved_instances')
   end
 end

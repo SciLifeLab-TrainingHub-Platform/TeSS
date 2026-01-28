@@ -57,6 +57,8 @@ class Course < ApplicationRecord
   validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
   clean_array_fields(:keywords, :target_audience)
 
+  validate :cannot_unapprove_with_approved_events
+
 
   # Facet fields for search filters
   def self.facet_fields
@@ -141,4 +143,15 @@ class Course < ApplicationRecord
     [title, url, provider_ids]
   end
   private_class_method :extract_check_exists_attributes
+
+  def cannot_unapprove_with_approved_events
+    return unless will_save_change_to_course_status?
+
+    old_status, new_status = course_status_change_to_be_saved
+    return unless old_status == 'approved' && new_status != 'approved'
+
+    return unless events.where(event_status: Event.event_statuses[:approved]).exists?
+
+    errors.add(:course_status, :cannot_unapprove_with_approved_instances)
+  end
 end
