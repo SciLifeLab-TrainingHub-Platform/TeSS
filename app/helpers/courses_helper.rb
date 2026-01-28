@@ -31,6 +31,17 @@ module CoursesHelper
     Array(course.keywords).flatten.compact.reject(&:blank?)
   end
 
+  def course_event_option_label(event)
+    return event.title if event.blank?
+
+    status = event.respond_to?(:event_status) ? event.event_status : nil
+    return event.title if status.blank? || status == 'approved'
+
+    suffix = I18n.t("courses.event_option_status.#{status}", default: status.humanize)
+
+    "#{event.title} (#{suffix})"
+  end
+
   def course_people_list(people)
     people = normalize_course_people(people)
 

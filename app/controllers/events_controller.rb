@@ -355,7 +355,7 @@ class EventsController < ApplicationController
     @venues = Venue.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
-    @courses = policy_scope(Course).select(:id, :title, :slug).order(:title).limit(100) if @show_prefill
+    @courses = Course.approved.select(:id, :title, :slug).order(:title).limit(100) if @show_prefill
     @country_code = if @event
                       JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json'))).key(@event.country) || "SE"
                     else
@@ -373,6 +373,10 @@ class EventsController < ApplicationController
     return nil if params[:course_id].blank?
 
     course = Course.friendly.includes(:content_providers).find(params[:course_id])
+    unless course.approved?
+      @prefill_error = I18n.t('events.prefill.course_not_approved')
+      return nil
+    end
     authorize course, :show?
     course
   rescue ActiveRecord::RecordNotFound, Pundit::NotAuthorizedError

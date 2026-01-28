@@ -226,6 +226,67 @@ class CoursesControllerTest < ActionController::TestCase
     assert_equal course.id, assigns(:course).id
   end
 
+  test 'unapproved course does not allow creating course instances' do
+    sign_in users(:regular_user)
+
+    course = courses(:one)
+    get :show, params: { id: course.id }
+
+    assert_response :success
+    assert_select 'a', text: I18n.t('courses.actions.create_instance'), count: 0
+    assert_select '.help-block', text: I18n.t('courses.messages.not_approved_instance_help')
+  end
+
+  test 'approved course allows creating course instances' do
+    sign_in users(:regular_user)
+
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:approved])
+
+    get :show, params: { id: course.id }
+
+    assert_response :success
+    assert_select 'a', text: I18n.t('courses.actions.create_instance'), count: 1
+  end
+
+  test 'course edit shows existing unapproved events with status' do
+    sign_in users(:regular_user)
+
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:approved])
+
+    template_event = events(:one)
+    pending_event = Event.create!(
+      title: 'Pending course instance',
+      url: 'https://example.com/pending-course-instance',
+      user: users(:regular_user),
+      course: course,
+      start: template_event.start,
+      end: template_event.end,
+      timezone: template_event.timezone,
+      contact: template_event.contact,
+      eligibility: template_event.eligibility,
+      host_institutions: template_event.host_institutions,
+      nodes: template_event.nodes,
+      language: template_event.language,
+      prerequisites: template_event.prerequisites,
+      target_audience: template_event.target_audience,
+      content_providers: template_event.content_providers,
+      cost_basis: template_event.cost_basis,
+      learning_objectives: template_event.learning_objectives
+    )
+    assert_equal 'awaiting_review', pending_event.event_status
+    assert_includes Course.find(course.id).event_ids, pending_event.id
+
+    get :edit, params: { id: course.id }
+
+    assert_response :success
+    assert_includes assigns(:course).event_ids, pending_event.id
+    assert_includes assigns(:events).map(&:id), pending_event.id
+    awaiting_review_label = I18n.t('courses.event_option_status.awaiting_review')
+    assert_select "#course_event_ids option[value='#{pending_event.id}']", text: /Pending course instance\s*\(#{Regexp.escape(awaiting_review_label)}\)/
+  end
+
   test 'should show event as json' do
     sign_in users(:regular_user)
 

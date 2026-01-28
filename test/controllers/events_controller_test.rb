@@ -157,6 +157,14 @@ class EventsControllerTest < ActionController::TestCase
     assert_select '.help-block', text: 'Course not found.'
   end
 
+  test 'new shows inline message when course is not approved' do
+    sign_in users(:regular_user)
+    course = courses(:one)
+    get :new, params: { prefill: '1', course_id: course.id }
+    assert_response :success
+    assert_select '.help-block', text: I18n.t('events.prefill.course_not_approved')
+  end
+
   test 'should get new page for logged in users only' do
     # Redirect to login if not logged in
     get :new

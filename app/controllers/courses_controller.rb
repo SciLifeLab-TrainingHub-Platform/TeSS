@@ -165,7 +165,12 @@ class CoursesController < ApplicationController
 
   def set_course_dependencies
     @content_providers = ContentProvider.all
-    @events = Event.all
+    approved_events = Event.where(event_status: Event.event_statuses[:approved])
+    @events = if defined?(@course) && @course&.persisted?
+                approved_events.or(Event.where(id: @course.event_ids)).distinct.order(:title)
+              else
+                approved_events.order(:title)
+              end
   end
 
   def normalize_authors_and_contributors

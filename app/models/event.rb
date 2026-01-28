@@ -186,6 +186,8 @@ class Event < ApplicationRecord
   fuzzy_dictionary_match(event_types: 'EventTypeDictionary',
                          eligibility: 'EligibilityDictionary')
 
+  validate :course_must_be_approved_for_course_instance
+
   # These fields should not been shown to users unless they have sufficient privileges
   SENSITIVE_FIELDS = %i[funding attendee_count applicant_count trainer_count feedback notes]
 
@@ -592,6 +594,22 @@ class Event < ApplicationRecord
   end
 
   private
+
+  def course_must_be_approved_for_course_instance
+    return unless course.present?
+
+    if !course.approved? && (new_record? || will_save_change_to_course_id?)
+      errors.add(:course, :must_be_approved_for_course_instance)
+    end
+
+    return unless will_save_change_to_event_status?
+
+    _old_status, new_status = event_status_change_to_be_saved
+    return unless new_status == 'approved'
+    return if course.approved?
+
+    errors.add(:event_status, :cannot_be_approved_until_course_is_approved)
+  end
 
   def allowed_url
     disallowed = (TeSS::Config.blocked_domains || []).any? do |regex|

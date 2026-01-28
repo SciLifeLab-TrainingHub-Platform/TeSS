@@ -79,14 +79,10 @@
           title="<%= t('courses.hints.event_hint') %>">
     &#xe086;
   </span>
-    <%= f.collection_select :event_ids, @events, :id, :title,
-                            { include_blank: false },
-                            { class: "js-select2", style: "width: 100%;", multiple: true } do |event| %>
-      <option value="<%= event.id %>"
-              <%= 'selected="selected"' if @selected_events_id.include?(event.id) %>>
-        <%= event.title %>
-      </option>
-    <% end %>
+    <%= f.select :event_ids,
+                 options_from_collection_for_select(@events, :id, ->(event) { course_event_option_label(event) }, Array(@selected_events_id)),
+                 { include_blank: false },
+                 { class: "js-select2", style: "width: 100%;", multiple: true } %>
 
     <% if @course.errors[:content_providers].present? %>
     <span class="help-block small" style="color: #a02622;">

@@ -20,9 +20,15 @@
                                      class: 'btn event-action__view' %>
           <% end %>
           <% if policy(Event).new? %>
-            <%= link_to 'Create Course Instance',
-                        new_event_path(course_id: @course),
-                        class: 'btn btn-primary' %>
+            <% if @course.approved? %>
+              <%= link_to t('courses.actions.create_instance'),
+                          new_event_path(course_id: @course),
+                          class: 'btn btn-primary' %>
+            <% else %>
+              <p class="help-block small">
+                <%= t('courses.messages.not_approved_instance_help') %>
+              </p>
+            <% end %>
           <% end %>
         </div>
         <% if @course.persisted? %>
