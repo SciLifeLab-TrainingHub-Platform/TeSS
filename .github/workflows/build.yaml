@@ -44,7 +44,7 @@ jobs:
 
   build:
     name: Build and Deploy
-    needs: test  # 🚦 BLOCKS deployment if tests fail
+    needs: test  
     runs-on: ubuntu-latest
 
     steps:
