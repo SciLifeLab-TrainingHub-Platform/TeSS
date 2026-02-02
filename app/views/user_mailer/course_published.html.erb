@@ -1,0 +1,26 @@
+<%= link_to(root_url) do %>
+  <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
+                title: "Visit #{TeSS::Config.site['title_short']}",
+                style: 'width: 100%;', target: '_blank') %>
+<% end %>
+<br>
+
+<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+  <h3>Hi <strong><%= @course.user.username %></strong>,</h3>
+
+  <p>
+    Your training course titled "<strong><%= @course.title %></strong>" is now live on the Training Portal!
+  </p>
+
+  <p style="margin-top: 20px;">
+    You can view and manage your course using the following link:
+    <a href="<%= course_url(@course) %>"
+       style="color: #045C64; text-decoration: underline; font-weight: bold;">
+      View Course
+    </a>.
+  </p>
+
+  <p style=" margin-top: 20px;">
+    If you've found a typo or need to update your venue, you can do so via the 'Edit' button on your course page.
+  </p>
+</div>

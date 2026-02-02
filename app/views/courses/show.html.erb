@@ -1,0 +1,49 @@
+<div class="wrapper collapsing-wrapper">
+  <div id="content">
+    <div id="home" class="my-2 course-show">
+      <div class="page-header">
+        <%= broken_link_notice(@course) if @course.failing? %>
+        <%= unverified_notice(@course) if @course.from_unverified_or_rejected? %>
+
+        <h2 class="mt-0">
+          <% if @course.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } -%>
+            <%= elixir_node_icon(class: 'elixir-node-icon elixir-node-icon--event') %>
+          <% end -%>
+          <%= @course.title %>
+        </h2>
+      </div>
+
+      <div class="content-actions">
+        <div class="content-viewer-actions">
+          <% if @course.url.present? %>
+            <%= external_link_button 'View course website', @course.url, track: @course,
+                                     class: 'btn event-action__view' %>
+          <% end %>
+          <% if policy(Event).new? %>
+            <% if @course.approved? %>
+              <%= link_to t('courses.actions.create_instance'),
+                          new_event_path(course_id: @course),
+                          class: 'btn btn-primary' %>
+            <% else %>
+              <p class="help-block small">
+                <%= t('courses.messages.not_approved_instance_help') %>
+              </p>
+            <% end %>
+          <% end %>
+        </div>
+        <% if @course.persisted? %>
+          <div class="content-manager-actions">
+            <% if policy(@course).update? %>
+              <%= edit_button(@course) %>
+            <% end %>
+            <%= delete_button(@course) if policy(@course).destroy? %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= render 'courses/partials/details_sections', course: @course %>
+    </div>
+
+    <%= render partial: 'activities/activity_log_button', locals: { resource: @course } if @course.persisted? %>
+  </div>
+</div>

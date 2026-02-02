@@ -1,0 +1,15 @@
+<%- model_class = Course -%>
+<div class="page-header">
+  <%= page_title("New Course Catalogue Entry") %>
+</div>
+<div class="row">
+  <div class="col-md-4 col-md-push-8">
+<div class="info-box-header"><i class="glyphicon glyphicon-info-sign"></i> Add a course to the SciLifeLab catalogue</div>
+    The SciLifeLab course catalogue is a listing of all SciLifeLab-affiliated courses. By adding your course here, potential participants can be alerted when the next registration cycle opens, and resources can be efficiently directed into developing courses that target gaps in our national catalogue.
+<br><br>
+To add a course, fill in the form, including all required fields, with as rich information as you can!
+  </div>
+  <div class="col-md-8 col-md-pull-4">
+    <%= render :partial => 'form' %>
+  </div>
+</div>

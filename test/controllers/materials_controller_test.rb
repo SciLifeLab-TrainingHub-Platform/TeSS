@@ -191,7 +191,7 @@ class MaterialsControllerTest < ActionController::TestCase
     #Administrator = SUCCESS
     sign_in users(:another_regular_user)
     get :edit, params: { id: @material }
-    assert :forbidden
+    assert_response :forbidden
   end
 
   test 'should get edit page for approved editor' do
@@ -269,7 +269,35 @@ class MaterialsControllerTest < ActionController::TestCase
     end
     assert_redirected_to material_path(assigns(:material))
 
-    # check response
+    created_material = Material.find_by!(url: test_url)
+
+    # required attributes
+    assert_equal test_title, created_material.title, 'title not matched.'
+    assert_equal test_url, created_material.url, 'url not matched.'
+    assert_equal test_material.description, created_material.description, 'description not matched.'
+    assert_equal test_material.licence, created_material.licence, 'licence not matched.'
+    assert_equal test_material.contact, created_material.contact, 'contact not matched.'
+    assert_equal test_material.keywords, created_material.keywords, 'keywords not matched'
+    assert_equal test_material.status, created_material.status, 'status not matched'
+
+    # optional attributes
+    assert_equal test_material.doi, created_material.doi, 'doi not matched.'
+    assert_equal test_provider.id, created_material.content_provider_id, 'provider not matched'
+    assert_equal test_material.resource_type, created_material.resource_type, 'resource_type not matched'
+    assert_equal test_material.version, created_material.version, 'version not matched'
+    assert_equal test_material.other_types, created_material.other_types, 'other_types not matched'
+    assert_equal test_material.target_audience, created_material.target_audience, 'target audience not matched'
+    assert_equal test_material.authors, created_material.authors, 'authors not matched'
+    assert_equal test_material.contributors, created_material.contributors, 'contributors not matched'
+    assert_equal test_material.subsets, created_material.subsets, 'subsets not matched'
+    assert_equal test_material.prerequisites, created_material.prerequisites, 'prerequisites not matched'
+    assert_equal test_material.syllabus, created_material.syllabus, 'syllabus not matched'
+    assert_equal test_material.learning_objectives, created_material.learning_objectives, 'learning objectives not matched'
+    assert_equal test_material.date_created.to_fs('%Y-%m-%d'), created_material.date_created.to_fs('%Y-%m-%d'), 'date created not matched'
+    assert_equal test_material.date_modified.to_fs('%Y-%m-%d'), created_material.date_modified.to_fs('%Y-%m-%d'), 'date modified not matched'
+    assert_equal test_material.date_published.to_fs('%Y-%m-%d'), created_material.date_published.to_fs('%Y-%m-%d'), 'date published not matched'
+
+    # check exists response (minimal payload)
     post :check_exists, params: {
       format: :json,
       material: { title: test_title,
@@ -280,39 +308,8 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 'application/json; charset=utf-8', response.content_type, 'response content type not matched'
 
-    # required attributes
-    assert_equal test_title, JSON.parse(response.body)['title'], 'title not matched.'
-    assert_equal test_url, JSON.parse(response.body)['url'], 'description not matched.'
-    assert_equal test_material.description, JSON.parse(response.body)['description'], 'description not matched.'
-    assert_equal test_material.licence, JSON.parse(response.body)['licence'], 'licence not matched.'
-    assert_equal test_material.contact, JSON.parse(response.body)['contact'], 'contact not matched.'
-    assert_equal test_material.keywords, JSON.parse(response.body)['keywords'], 'keywords not matched'
-    assert_equal test_material.status, JSON.parse(response.body)['status'], 'status not matched'
-
-    #optional attributes
-    assert_equal test_material.doi, JSON.parse(response.body)['doi'], 'doi not matched.'
-    assert_equal test_provider.id, JSON.parse(response.body)['content_provider_id'], 'provider not matched'
-    assert_equal test_material.resource_type, JSON.parse(response.body)['resource_type'], 'resource_type not matched'
-    assert_equal test_material.version, JSON.parse(response.body)['version'], 'version not matched'
-    assert_equal test_material.other_types, JSON.parse(response.body)['other_types'], 'other_types not matched'
-    #assert_equal test_material.events, JSON.parse(response.body)['events'], 'events not matched'
-    assert_equal test_material.target_audience, JSON.parse(response.body)['target_audience'], 'target audience not matched'
-    assert_equal test_material.authors, JSON.parse(response.body)['authors'], 'authors not matched'
-    assert_equal test_material.contributors, JSON.parse(response.body)['contributors'], 'contributors not matched'
-    assert_equal test_material.subsets, JSON.parse(response.body)['subsets'], 'subsets not matched'
-    assert_equal test_material.prerequisites, JSON.parse(response.body)['prerequisites'], 'prerequisites not matched'
-    assert_equal test_material.syllabus, JSON.parse(response.body)['syllabus'], 'syllabus not matched'
-    assert_equal test_material.learning_objectives, JSON.parse(response.body)['learning_objectives'],
-                 'learning objectives not matched'
-    assert_equal test_material.date_created.to_fs('%Y-%m-%d'), JSON.parse(response.body)['date_created'],
-                 'date created not matched'
-    assert_equal test_material.date_modified.to_fs('%Y-%m-%d'), JSON.parse(response.body)['date_modified'],
-                 'date modified not matched'
-    assert_equal test_material.date_published.to_fs('%Y-%m-%d'), JSON.parse(response.body)['date_published'],
-                 'date published not matched'
-
-    # reload
-    @material.reload
+    assert_equal created_material.id, JSON.parse(response.body)['id']
+    assert_equal created_material.title, JSON.parse(response.body)['title']
   end
 
   test 'should create material for admin' do
@@ -640,8 +637,8 @@ class MaterialsControllerTest < ActionController::TestCase
   test 'should find existing material by url without provider' do
     post :check_exists, params: { format: :json, material: { title: 'whatever', url: @material.url } }
     assert_response :success
-    assert_equal(JSON.parse(response.body)['url'], @material.url)
     assert_equal(JSON.parse(response.body)['id'], @material.id)
+    assert_equal(JSON.parse(response.body)['title'], @material.title)
   end
 
   test 'should find existing material by url and given content provider' do

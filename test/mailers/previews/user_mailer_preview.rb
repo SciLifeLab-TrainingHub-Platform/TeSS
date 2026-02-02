@@ -10,4 +10,14 @@ class UserMailerPreview < ActionMailer::Preview
     @event = Event.first
     UserMailer.event_submitted(@event)
   end
+
+  def course_published
+    course = Course.first
+    UserMailer.course_published(course)
+  end
+
+  def course_submitted
+    course = Course.first
+    UserMailer.course_submitted(course)
+  end
 end

@@ -25,11 +25,10 @@ class Event < ApplicationRecord
   before_save :check_country_name
   before_save :set_default_times
   before_save :geocoding_cache_lookup, if: :address_will_change?
-  before_create :update_event_statuses
+  before_create :set_event_initial_status
   after_save :enqueue_geocoding_worker, if: :address_changed?
-  after_commit :set_status_and_notify, on: :create
-  after_commit :change_status_and_notify_user, on: :update
-  after_save :notify_slack_if_published
+  after_commit :run_event_approval_lifecycle_on_create, on: :create
+  after_commit :run_event_approval_lifecycle_on_status_change, on: :update
 
   # rails admin settings
   rails_admin do
@@ -44,7 +43,6 @@ class Event < ApplicationRecord
       end
     end
   end
-
 
   if TeSS::Config.solr_enabled
     # :nocov:
@@ -140,6 +138,8 @@ class Event < ApplicationRecord
   enum event_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3 }
 
   belongs_to :user
+  belongs_to :course, optional: true
+
   has_one :llm_interaction, inverse_of: :event, dependent: :destroy
   accepts_nested_attributes_for :llm_interaction, allow_destroy: true
   has_one :edit_suggestion, as: :suggestible, dependent: :destroy
@@ -177,7 +177,7 @@ class Event < ApplicationRecord
   # validates :duration, format: { with: /\A[0-9][0-9]:[0-5][0-9]\z/, message: "must be in format HH:MM" }, allow_blank: true
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
-  validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
+  validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0 }
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, :start, :end, presence: true, on: :create
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, :start, :end, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
@@ -185,6 +185,8 @@ class Event < ApplicationRecord
   update_suggestions(:keywords, :target_audience, :host_institutions)
   fuzzy_dictionary_match(event_types: 'EventTypeDictionary',
                          eligibility: 'EligibilityDictionary')
+
+  validate :course_must_be_approved_for_course_instance
 
   # These fields should not been shown to users unless they have sufficient privileges
   SENSITIVE_FIELDS = %i[funding attendee_count applicant_count trainer_count feedback notes]
@@ -352,9 +354,11 @@ class Event < ApplicationRecord
   end
 
   def self.check_exists(event_params)
-    given_event = event_params.is_a?(Event) ? event_params : new(event_params)
+    check_exists_candidates(event_params).first
+  end
 
-    event = nil
+  def self.check_exists_candidates(event_params)
+    given_event = event_params.is_a?(Event) ? event_params : new(event_params)
 
     # Ensure content_providers is an array
     content_providers = Array(event_params[:content_providers])
@@ -369,18 +373,24 @@ class Event < ApplicationRecord
       end
     end
 
-    # provider_id = (given_event.content_provider_id || given_event.content_provider&.id)&.to_s
-    provider_ids = given_event.content_providers.map(&:id)
+    provider_ids = Array(given_event.content_provider_ids).reject(&:blank?).map(&:to_i).reject(&:zero?).uniq
 
-    # scope = provider_id.present? ? where(content_provider_id: provider_id) : all
-    scope = provider_ids.any? ? joins(:content_providers).where(content_providers: { id: provider_ids }) : all
+    scope = if provider_ids.any?
+              joins(:content_providers).where(content_providers: { id: provider_ids }).distinct
+            else
+              all
+            end
 
-    event = scope.where(url: given_event.url).last if given_event.url.present?
+    if given_event.url.present?
+      url_matches = scope.where(url: given_event.url).order(id: :desc)
+      return url_matches if url_matches.exists?
+    end
 
-    # event ||= where(content_provider_id: provider_id, title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
-    event ||= scope.where(title: given_event.title, start: given_event.start).last if given_event.title.present? && given_event.start.present?
+    if given_event.title.present? && given_event.start.present?
+      return scope.where(title: given_event.title, start: given_event.start).order(id: :desc)
+    end
 
-    event
+    none
   end
 
   def suggested_latitude
@@ -540,9 +550,9 @@ class Event < ApplicationRecord
   def city=(value)
     # If city_string is not nil or empty, modify the cities association
     if value.present? && value.is_a?(City)
-        existing_cities = self.cities
-        self.cities = (existing_cities + [value]).uniq
-      end
+      existing_cities = self.cities
+      self.cities = (existing_cities + [value]).uniq
+    end
   end
 
   def topic
@@ -566,7 +576,40 @@ class Event < ApplicationRecord
     self.content_providers = ContentProvider.where(id: ids.reject(&:blank?))
   end
 
+  def event_status_just_approved?
+    return false unless previous_changes.key?("event_status")
+
+    old_status, new_status = previous_changes["event_status"]
+
+    awaiting_review = Event.event_statuses.key(0)
+    revisions_required = Event.event_statuses.key(3)
+    approved = Event.event_statuses.key(1)
+
+    old_status.in?([awaiting_review, revisions_required]) &&
+      new_status == approved
+  end
+
+  def publishable?
+    self.start.present? && self.start.to_datetime >= DateTime.current
+  end
+
   private
+
+  def course_must_be_approved_for_course_instance
+    return unless course.present?
+
+    if !course.approved? && (new_record? || will_save_change_to_course_id?)
+      errors.add(:course, :must_be_approved_for_course_instance)
+    end
+
+    return unless will_save_change_to_event_status?
+
+    _old_status, new_status = event_status_change_to_be_saved
+    return unless new_status == 'approved'
+    return if course.approved?
+
+    errors.add(:event_status, :cannot_be_approved_until_course_is_approved)
+  end
 
   def allowed_url
     disallowed = (TeSS::Config.blocked_domains || []).any? do |regex|
@@ -625,96 +668,26 @@ class Event < ApplicationRecord
     self.presence = :onsite if presence.blank?
   end
 
-  def update_event_statuses
-    if user.has_role?('trusted_user') || user.has_role?('admin')
-      # Check if the user creating the event has a 'trusted' role or is admin.
-      # If true, set the event status as 'approved'
-      self.event_status = Event.event_statuses[:approved]
-    end
+  def set_event_initial_status
+    self.event_status = :approved if self.user.admin_or_trusted?
   end
 
-  def set_status_and_notify
-    if user.has_role?('trusted_user') || user.has_role?('admin')
-      # Check if the user creating the event has a 'trusted' role or is admin.
-      # If true, send a notification email to the user.
-      UserMailer.event_published(self).deliver_later if user.has_role?('trusted_user')
-      for content_provider in self.content_providers
-        ContentProviderMailer.notify_content_provider(self, content_provider).deliver_later
-      end
-    else
-      # If the user is not trusted, the event requires admin review.
-      # Send a notification email to the admin to review the event.
-      AdminMailer.review_event(self).deliver_later
-      UserMailer.event_submitted(self).deliver_later
-    end
+  def run_event_approval_lifecycle_on_create
+    ApprovalLifecycle.new(
+      self,
+      notifier: Notifications::EventNotifier.new(self)
+    ).after_create
   end
 
   ##
   # this function will notify the user when/if event_status is changed by admin
   # it only sends the mail to user when event is approved
-  def change_status_and_notify_user
-    if self.previous_changes.key?("event_status")
-      # getting event status change i.e. old_status and new_status
-      old_status, new_status = self.previous_changes["event_status"]
-
-      # getting the status constants from enum, rather then hardcoding
-      awaiting_review = Event.event_statuses.key(0)
-      approved = Event.event_statuses.key(1)
-      revisions_required = Event.event_statuses.key(3)
-
-      # Check if the event status has changed to 'approved'
-      if (old_status == awaiting_review && new_status == approved) ||
-        (old_status == revisions_required && new_status == approved)
-
-        # Fetch role information
-        trusted_user_role = Role.find_by(title: "Trusted user")
-        registered_user_role = Role.find_by(title: "Registered user")
-
-        # Ensure both roles exist
-        if trusted_user_role.nil? || registered_user_role.nil?
-          raise "Required roles not found."
-        end
-
-        # Check if the user qualifies for a role change based on the approval threshold
-        if self.user.approved_events_count + 1 > User::EVENT_APPROVAL_THRESHOLD &&
-          self.user.role_id == registered_user_role.id
-          # Increment approved_events_count and update the user's role to "Trusted user" in one step
-          self.user.update!(approved_events_count: self.user.approved_events_count + 1, role_id: trusted_user_role.id)
-        else
-          # Only increment approved_events_count if no role change is needed
-          self.user.update!(approved_events_count: self.user.approved_events_count + 1)
-        end
-
-        # Send email notification to user
-        UserMailer.event_published(self).deliver_later if self.start && self.start.to_datetime >= DateTime.now
-        self.content_providers.each { |content_provider|
-          ContentProviderMailer.notify_content_provider(self, content_provider).deliver_later
-        }
-      end
-    end
-  end
-
-  def notify_slack_if_published
-    old_status, new_status = self.previous_changes["event_status"]
-
-    awaiting_review = Event.event_statuses.key(0)
-    approved = Event.event_statuses.key(1)
-    revisions_required = Event.event_statuses.key(3)
-
-    # Check if the event status has changed to 'approved'
-    if ((old_status == awaiting_review && new_status == approved) ||
-      (old_status == revisions_required && new_status == approved)) && self.start && self.start.to_datetime >= DateTime.now
-
-      message =
-        <<~MESSAGE
-          New Course Announcement from the <#{Rails.application.routes.url_helpers.root_url}|Training Portal>\n
-          > :scilife: *#{self.title}*
-          > <#{Rails.application.routes.url_helpers.event_url(self)}|More information>
-        MESSAGE
-
-      channels = ENV.fetch('SLACK_COURSE_NOTIFICATION_CHANNELS').split(',').map(&:strip)
-      SlackNotificationJob.perform_later(message, channels)
-    end
+  def run_event_approval_lifecycle_on_status_change
+    return unless event_status_just_approved?
+    ApprovalLifecycle.new(
+      self,
+      notifier: Notifications::EventNotifier.new(self)
+    ).after_status_change if publishable?
   end
 
   def after_switch_to_more_mandatory_fields?

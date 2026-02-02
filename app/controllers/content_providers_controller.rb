@@ -36,16 +36,20 @@ class ContentProvidersController < ApplicationController
   # POST /events/check_exists
   # POST /events/check_exists.json
   def check_exists
-    @content_provider = ContentProvider.check_exists(content_provider_params)
+    @content_provider = ContentProvider.check_exists_candidates(content_provider_params)
+                                     .limit(50)
+                                     .find { |content_provider| content_provider_disclosable_for_check_exists?(content_provider) }
 
     if @content_provider
       respond_to do |format|
         format.html { redirect_to @content_provider }
-        format.json { render :show, location: @content_provider }
+        format.json do
+          render json: { id: @content_provider.id, title: @content_provider.title }, status: :ok, location: @content_provider
+        end
       end
     else
       respond_to do |format|
-        format.html { render nothing: true, status: 200, content_type: 'text/html' }
+        format.html { head :ok }
         format.json { render json: {}, status: 200, content_type: 'application/json' }
       end
     end
@@ -93,6 +97,16 @@ class ContentProvidersController < ApplicationController
   end
 
   private
+
+  def content_provider_disclosable_for_check_exists?(content_provider)
+    return false unless policy(content_provider).show?
+
+    if content_provider.respond_to?(:from_shadowbanned?) && content_provider.from_shadowbanned?
+      return current_user&.shadowbanned? || current_user&.is_admin?
+    end
+
+    true
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_content_provider

@@ -9,7 +9,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       refute cookie_consent.given?
       assert cookie_consent.show_banner?
       assert_select '#cookie-banner' do
-        assert_select 'a.btn[href=?]', cookies_consent_path(allow: 'necessary')
+        assert_select 'a.btn[href=?]', cookies_consent_path(allow: 'necessary_v2')
         assert_select 'a.btn[href=?]', cookies_consent_path(allow: all_options), count: 0
       end
     end
@@ -20,7 +20,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       get root_path
 
       assert_select '#cookie-banner' do
-        assert_select 'a.btn[href=?]', cookies_consent_path(allow: 'necessary')
+        assert_select 'a.btn[href=?]', cookies_consent_path(allow: 'necessary_v2')
         assert_select 'a.btn[href=?]', cookies_consent_path(allow: all_options)
       end
     end
@@ -44,7 +44,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       get root_path
 
       cookie_consent = CookieConsent.new(cookies)
-      assert_equal ['necessary', 'tracking'], cookie_consent.options
+      assert_equal ['necessary_v2', 'tracking'], cookie_consent.options
       assert cookie_consent.given?
       assert_select '#cookie-banner', count: 0
     end
@@ -52,11 +52,11 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'analytics code not present if only necessary cookies allowed' do
     with_settings({ require_cookie_consent: true, force_analytics_enabled: true }) do
-      post cookies_consent_path, params: { allow: 'necessary' }
+      post cookies_consent_path, params: { allow: 'necessary_v2' }
 
       get root_path
 
-      assert_equal ['necessary'], CookieConsent.new(cookies).options
+      assert_equal ['necessary_v2'], CookieConsent.new(cookies).options
       assert_select '#matomo-script', count: 0
     end
   end
@@ -74,12 +74,12 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'analytics code present if cookie consent not required' do
     with_settings({ require_cookie_consent: false, force_analytics_enabled: true }) do
-      post cookies_consent_path, params: { allow: 'necessary' }
+      post cookies_consent_path, params: { allow: 'necessary_v2' }
 
       get root_path
 
       cookie_consent = CookieConsent.new(cookies)
-      assert_equal ['necessary'], cookie_consent.options
+      assert_equal ['necessary_v2'], cookie_consent.options
       assert cookie_consent.allow_tracking?
       assert_select '#matomo-script', count: 1
     end
@@ -93,10 +93,10 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_select '#cookie-consent-level', text: /No cookie consent/
       assert_select 'a.btn[href=?]', cookies_consent_path(allow: 'none')
-      assert_select 'a.btn[href=?]', cookies_consent_path(allow: 'necessary')
+      assert_select 'a.btn[href=?]', cookies_consent_path(allow: 'necessary_v2')
       assert_select 'a.btn[href=?]', cookies_consent_path(allow: all_options)
 
-      post cookies_consent_path, params: { allow: 'necessary' }
+      post cookies_consent_path, params: { allow: 'necessary_v2' }
 
       follow_redirect!
       assert_select '#flash-container .alert-danger', count: 0
@@ -128,7 +128,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
       assert_equal user, User.current_user
       assert_response :success
       assert_select '#cookie-consent-level', text: /No cookie consent/
-      assert_select 'a.btn[href=?]', cookies_consent_path(allow: 'necessary')
+      assert_select 'a.btn[href=?]', cookies_consent_path(allow: 'necessary_v2')
       assert_select 'a.btn[href=?]', cookies_consent_path(allow: all_options)
 
       post cookies_consent_path, params: { allow: all_options }
@@ -153,7 +153,7 @@ class CookieConsentIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'revoke consent' do
     with_settings({ require_cookie_consent: true, force_analytics_enabled: true }) do
-      post cookies_consent_path, params: { allow: 'necessary' }
+      post cookies_consent_path, params: { allow: 'necessary_v2' }
       follow_redirect!
       assert_select '#flash-container .alert-danger', count: 0
 

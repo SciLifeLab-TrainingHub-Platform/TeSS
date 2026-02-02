@@ -18,6 +18,21 @@
     }
   }
 
+  .courses-menu .dropdown-menu > li > a:visited {
+    color: $dropdown-link-color;
+  }
+
+  .courses-menu .dropdown-menu > li.active > a {
+    background-color: transparent;
+    color: $dropdown-link-color;
+  }
+
+  .courses-menu .dropdown-menu > li.active > a:hover,
+  .courses-menu .dropdown-menu > li.active > a:focus {
+    background-color: $dropdown-link-hover-bg;
+    color: $dropdown-link-hover-color;
+  }
+
 
   @media (max-width: $grid-float-breakpoint-max) {
     .navbar-collapse {

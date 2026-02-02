@@ -1,0 +1,36 @@
+<%= link_to(root_url) do %>
+  <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
+                title: "Visit #{TeSS::Config.site['title_short']}",
+                style: 'width: 100%;', target: '_blank') %>
+<% end %>
+<br>
+
+<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+  <p>Hello <%= @content_provider.title %> team,</p>
+
+  <p>
+    A course has been submitted that is associated with your content provider:
+  </p>
+
+  <ul>
+    <li><strong>Course:</strong> <%= @course.title %></li>
+    <li><strong>licence:</strong> <%= @course.licence %></li>
+    <li><strong>Submitted by:</strong> <%= @course.user.name %> (<%= @course.user.email %>)</li>
+  </ul>
+
+  <p>
+    View this course: <a href="<%= course_url(@course) %>">Click here</a>
+  </p>
+
+  <p>
+    You received this email because your content provider profile includes the following notification email address:
+    <strong> <%= @content_provider.approval_notification_email %>. </strong>
+    <br>
+    To update this address, visit the <a href="<%= edit_content_provider_url(@content_provider) %>">content provider settings</a>.
+  </p>
+
+  <p>
+    Best regards,<br>
+    The Training Hub Team
+  </p>
+</div>

@@ -1,0 +1,166 @@
+
+.course-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.course-card {
+  @include floating-card;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.course-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.course-card__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.course-card__title {
+  flex: 1;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.course-card__title a {
+  color: #14324b;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.course-card__title a:hover {
+  text-decoration: underline;
+}
+
+.course-card__icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.course-card__review-status-icon {
+  font-size: 16px;
+}
+
+.course-card__review-status-icon--awaiting-review {
+  color: #D9A400;
+}
+
+.course-card__review-status-icon--approved {
+  color: #008000;
+}
+
+.course-card__review-status-icon--declined {
+  color: #B22222;
+}
+
+.course-card__review-status-icon--revisions-required {
+  color: #FF8C00;
+}
+
+.course-card__meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.course-card__meta-row > :first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.course-card__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-self: flex-start;
+  gap: 12px;
+}
+
+.course-card__meta {
+  margin: 0;
+  color: $text-muted;
+}
+
+.course-card__badge {
+  display: flex;
+  align-items: center;
+}
+
+.course-card__badge .elixir-node-icon {
+  width: 120px;
+  height: auto;
+}
+
+.course-next-instance-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: $brand-primary;
+  background: rgba($brand-primary, 0.1);
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    color: darken($brand-primary, 10%);
+    background: rgba($brand-primary, 0.18);
+    text-decoration: none;
+  }
+}
+
+.course-next-instance-link i {
+  margin-left: 2px;
+}
+
+@media (max-width: 768px) {
+  .course-card {
+    padding: 20px;
+  }
+
+  .course-card__meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .course-card__aside {
+    align-items: flex-start;
+  }
+
+  .course-card__meta strong {
+    display: none;
+  }
+
+  .course-next-instance-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .course-card__badge {
+    align-self: flex-start;
+
+    .elixir-node-icon {
+      width: 112px;
+      height: auto;
+    }
+  }
+}

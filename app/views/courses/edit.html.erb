@@ -1,0 +1,13 @@
+<%- model_class = Course -%>
+<div class="page-header">
+  <%= page_title(t('.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize.downcase)) %>
+</div>
+<div class="row">
+  <div class="col-md-4 col-md-push-8">
+<div class="info-box-header"><i class="glyphicon glyphicon-info-sign"></i> Editing your course</div>
+    You are editing a course in the SciLifeLab course catalogue. <br><br>This course and all iterations connected to it will be affected by this update!
+  </div>
+  <div class="col-md-8 col-md-pull-4">
+    <%= render :partial => 'form' %>
+  </div>
+</div>

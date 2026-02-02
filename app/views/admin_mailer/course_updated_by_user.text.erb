@@ -1,0 +1,22 @@
+Dear Admin,
+
+The course titled <%= @course.title %> has been updated by <%= @course.user.username %>.
+
+The course status has been changed to <%= Course.course_statuses.key(Course.course_statuses[:awaiting_review]).humanize %> for your review.
+
+Please review the updated course and user details below:
+
+Course Details:
+- Course Title: <%= @course.title %>
+- URL: <%= @course.url %>
+- Status: <%= @course.course_status.humanize %>
+
+User Details:
+- Username: <%= @course.user.username %>
+- Email: <%= @course.user.email %>
+- Role: <%= @course.user.role&.title || ‘Unknown’ %>
+- Last Sign-In IP: <%= @course.user.last_sign_in_ip %>
+- Sign-In Count: <%= @course.user.sign_in_count %>
+
+You can review the course using the following link:
+<%= root_url %>admin/courses/<%= @course.id %>/edit

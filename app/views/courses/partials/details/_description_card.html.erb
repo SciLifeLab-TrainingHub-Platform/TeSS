@@ -1,0 +1,11 @@
+<% course = local_assigns.fetch(:course) %>
+
+<%= course_section_card('Course Description', class: 'event-section-card--full course-overview-card') do %>
+  <div class="course-rich-text markdown">
+    <% if course.description.present? %>
+      <%= render_markdown(course.description) %>
+    <% else %>
+      <span class="muted">No description provided</span>
+    <% end %>
+  </div>
+<% end %>

@@ -44,4 +44,13 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_match event.user.username, mail.body.encoded
     assert_match event.user.email, mail.body.encoded
   end
+
+  test "review_course email" do
+    #   write test for this in the end
+  end
+
+  test "course_updated_by_user test" do
+    #   write test for this in the end
+  end
+
 end

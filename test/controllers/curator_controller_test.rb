@@ -142,6 +142,7 @@ class CuratorControllerTest < ActionController::TestCase
     provider = nil
     source = nil
     node = nil
+    course = nil
     4.times do |i|
       parameters = @mandatory_event_fields.merge({
        title: "Spam event #{i}", url: "http://cool-event.pancakes/#{i}", start: 10.days.from_now,
@@ -190,6 +191,23 @@ class CuratorControllerTest < ActionController::TestCase
       node = n
     end
 
+    4.times do |i|
+      c = new_user.courses.create!(title: "Spam course #{i}",
+                                   url: "https://course.com/#{i}",
+                                   description: 'Spam course description',
+                                   language: 'en',
+                                   structure_and_duration: '1 hour',
+                                   learning_outcomes: 'Learn things',
+                                   prerequisites_knowledge: 'None',
+                                   prerequisites_technical: 'None',
+                                   target_audience: ['students'],
+                                   licence: 'Glide',
+                                   nodes: [node],
+                                   content_providers: [provider])
+      c.create_activity(:create, owner: new_user)
+      course = c
+    end
+
     get :users, params: { with_content: true }
 
     assert_response :success
@@ -205,7 +223,7 @@ class CuratorControllerTest < ActionController::TestCase
                     text: "See all 4 #{klass.model_name.human.pluralize}"
     end
 
-    [event, material, workflow, collection, provider, source].each do |resource|
+    [event, material, workflow, collection, provider, source, course].each do |resource|
       assert_select '.curate-user a[href=?]', @controller.polymorphic_path(resource), { text: resource.title },
                     "#{@controller.polymorphic_path(resource)} not found!, \nBody:\n#{response.body}"
     end

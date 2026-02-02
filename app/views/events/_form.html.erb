@@ -5,6 +5,13 @@
   <!-- Field: Disabled -->
   <%= f.input :visible, label: 'Show this event?', input_html: { title: t('events.hints.visible') } %>
 
+  <%= f.hidden_field :course_id %>
+  <% if f.object.course.present? %>
+    <p class="help-block">
+      <small>Currently associated course: <%= f.object.course.title %></small>
+    </p>
+  <% end %>
+
   <!-- Field: presence -->
   <div class="form-group">
     <%= label_tag('type') %> <br/>

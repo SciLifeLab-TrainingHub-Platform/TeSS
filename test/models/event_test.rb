@@ -773,8 +773,8 @@ class EventTest < ActiveSupport::TestCase
         {
           title: 'new event',
           url: 'https://myevent.com',
-          user: users(:regular_user),
-          event_status: 1,
+          user: users(:trusted_user),
+          event_status: Event.event_statuses[:approved],
           nodes: [nodes(:good)],
           start: DateTime.now.advance(days: 1)
         })
@@ -796,6 +796,45 @@ class EventTest < ActiveSupport::TestCase
       event = Event.new(parameters)
       event.save
     end
+  end
+
+  test 'cannot create course instance for an unapproved course' do
+    course = courses(:one) # awaiting_review by default
+    parameters = @mandatory.merge(
+      {
+        title: 'course instance',
+        url: 'https://example.com/course-instance',
+        user: users(:regular_user),
+        course: course
+      }
+    )
+
+    event = Event.new(parameters)
+    refute event.save
+    assert_includes event.errors[:course], I18n.t('activerecord.errors.models.event.attributes.course.must_be_approved_for_course_instance')
+  end
+
+  test 'event linked to an unapproved course cannot be approved' do
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:approved])
+
+    parameters = @mandatory.merge(
+      {
+        title: 'course instance',
+        url: 'https://example.com/course-instance',
+        user: users(:regular_user),
+        course: course
+      }
+    )
+    event = Event.create!(parameters)
+
+    course.update_column(:course_status, Course.course_statuses[:awaiting_review])
+
+    refute event.update(event_status: Event.event_statuses[:approved])
+    assert_includes event.errors[:event_status], I18n.t('activerecord.errors.models.event.attributes.event_status.cannot_be_approved_until_course_is_approved')
+
+    course.update_column(:course_status, Course.course_statuses[:approved])
+    assert event.update(event_status: Event.event_statuses[:approved])
   end
 
   test 'registration_form_url allows valid URLs' do

@@ -143,6 +143,28 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'new shows inline message when prefill submitted without selection' do
+    sign_in users(:regular_user)
+    get :new, params: { prefill: '1', course_id: '' }
+    assert_response :success
+    assert_select '.help-block', text: 'Please select a course first.'
+  end
+
+  test 'new shows inline message when course_id is invalid' do
+    sign_in users(:regular_user)
+    get :new, params: { prefill: '1', course_id: 'not-a-real-course' }
+    assert_response :success
+    assert_select '.help-block', text: 'Course not found.'
+  end
+
+  test 'new shows inline message when course is not approved' do
+    sign_in users(:regular_user)
+    course = courses(:one)
+    get :new, params: { prefill: '1', course_id: course.id }
+    assert_response :success
+    assert_select '.help-block', text: I18n.t('events.prefill.course_not_approved')
+  end
+
   test 'should get new page for logged in users only' do
     # Redirect to login if not logged in
     get :new
@@ -201,7 +223,7 @@ class EventsControllerTest < ActionController::TestCase
   test 'should not get edit page for non-owner user' do
     sign_in users(:another_regular_user)
     get :edit, params: { id: @event }
-    assert :forbidden
+    assert_response :forbidden
   end
 
   test 'should get edit page for approved editor' do
@@ -474,10 +496,11 @@ class EventsControllerTest < ActionController::TestCase
 
   # OTHER CONTENT
   test 'event has correct layout' do
+    cookies[:cookie_consent] = 'necessary_v2'
     get :show, params: { id: @event }
     assert_response :success
     assert_select 'h2', text: @event.title # Has Title
-    assert_select 'a.btn', text: 'View event', count: 1 do
+    assert_select 'a.btn', text: 'View course website', count: 1 do
       assert_select 'a[href=?]', @event.url, count: 1
     end
     # Should not show when not logged in
@@ -539,15 +562,15 @@ class EventsControllerTest < ActionController::TestCase
                                                           url: @event.url,
                                                           content_provider_id: @event.content_providers[0].id } }
     assert_response :success
-    assert_equal(JSON.parse(response.body)['url'], @event.url)
     assert_equal(JSON.parse(response.body)['id'], @event.id)
+    assert_equal(JSON.parse(response.body)['title'], @event.title)
   end
 
   test 'should find existing event by url without provider' do
     post :check_exists, params: { format: :json, event: { title: 'whatever', url: @event.url } }
     assert_response :success
-    assert_equal(JSON.parse(response.body)['url'], @event.url)
     assert_equal(JSON.parse(response.body)['id'], @event.id)
+    assert_equal(JSON.parse(response.body)['title'], @event.title)
   end
 
   test 'should find existing event by url and given content provider' do
@@ -576,6 +599,19 @@ class EventsControllerTest < ActionController::TestCase
 
   test 'should render properly when no url supplied' do
     post :check_exists, params: { format: :json, event: { url: nil } }
+    assert_response :success
+    assert_equal '{}', response.body
+  end
+
+  test 'check_exists should not disclose unapproved events to the public' do
+    pending_event = users(:regular_user).events.create!(@mandatory_fields.merge(
+                                                         title: 'Pending event',
+                                                         url: 'http://example.com/pending-event-check-exists',
+                                                         description: 'this is a pending event',
+                                                         event_status: Event.event_statuses[:awaiting_review]
+                                                       ))
+
+    post :check_exists, params: { format: :json, event: { url: pending_event.url } }
     assert_response :success
     assert_equal '{}', response.body
   end
@@ -892,7 +928,7 @@ class EventsControllerTest < ActionController::TestCase
 
   test 'should redirect to event URL' do
     assert_difference('WidgetLog.count', 1) do
-      get :redirect, params: { id: @event }
+      get :redirect, params: { id: @event, widget: 'test_widget', other: 'should_not_be_logged' }
     end
 
     assert_redirected_to @event.url
@@ -903,6 +939,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_equal 'events#redirect', log.action
     assert_equal @event, log.resource
     assert_equal @event.url, log.data
+    assert_equal({ 'widget' => 'test_widget' }, log.params)
   end
 
   test 'should count index results' do
@@ -1398,10 +1435,10 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  test 'should show map if location data' do
+  test 'should not show map on event show page (even with location data)' do
     get :show, params: { id: events(:one) }
     assert_response :success
-    assert_select '#map'
+    assert_select '#map', count: 0
   end
 
   test 'should not show map if no location data' do

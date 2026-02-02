@@ -25,7 +25,6 @@ Rails.application.routes.draw do
   get 'our_resources/pedagogic_support' => 'our_resources#pedagogic_support', as: 'pedagogic'
   get 'our_resources/trainer_community' => 'our_resources#trainer_community', as: 'community'
   get 'our_resources/fair_training' => 'our_resources#fair_training', as: 'fair'
-  get 'our_resources/our_courses' => 'our_resources#our_courses', as: 'courses'
 
   get 'privacy' => 'static#privacy', as: 'privacy'
 
@@ -33,6 +32,8 @@ Rails.application.routes.draw do
   post 'events/check_exists' => 'events#check_exists'
   post 'content_providers/check_exists' => 'content_providers#check_exists'
   post 'sources/check_exists' => 'sources#check_exists'
+  post 'courses/check_exists' => 'courses#check_exists'
+
 
   #devise_for :users
   # Use custom invitations and registrations controllers that subclasses devise's
@@ -85,6 +86,12 @@ Rails.application.routes.draw do
       get :report
       patch :report, to: 'events#update_report'
       get :clone
+    end
+  end
+
+  resources :courses, concerns: :activities do
+    collection do
+      get :count
     end
   end
 

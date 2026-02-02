@@ -7,6 +7,32 @@
     <%= render :partial => "events/partials/general_event_info" %>
   </div>
   <div class="col-md-8 col-md-pull-4">
+    <% if @show_prefill %>
+      <%= form_tag new_event_path, method: :get do %>
+        <div class="form-group<%= ' has-error' if @prefill_error.present? %>">
+          <label class="control-label">Prefill course from Catalogue</label>
+          <div class="row">
+            <div class="col-sm-9">
+              <%= hidden_field_tag :prefill, '1' %>
+              <%= select_tag :course_id,
+                             options_for_select([['Select a course (optional)', '']], params[:course_id]) +
+                               options_from_collection_for_select(@courses, 'to_param', 'title', params[:course_id]),
+                             class: 'form-control js-select2',
+                             id: 'prefill_course_select' %>
+              <% if @prefill_error.present? %>
+                <p class="help-block"><%= @prefill_error %></p>
+              <% end %>
+            </div>
+            <div class="col-sm-3">
+              <button type="submit" class="btn event-action__view btn-block" id="prefill-from-course-btn">
+                <i class="fa fa-magic"></i> Prefill
+              </button>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
     <%= render :partial => 'form' %>
   </div>
 </div>

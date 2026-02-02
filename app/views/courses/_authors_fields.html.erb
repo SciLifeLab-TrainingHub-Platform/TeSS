@@ -1,0 +1,40 @@
+<fieldset class="authors-fields border">
+  <legend class="w-auto">Author(s) <span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('courses.hints.authors_hint') %>">&#xe086;</span></legend>
+
+
+  <!-- Hidden field to hold serialized authors -->
+  <%= f.hidden_field :authors, id: 'course_authors' %>
+
+  <div id="authors-wrapper" class="row rounded mb-4 pl-5">
+    <% authors = f.object.authors.presence || [{}] %>
+    <% authors.each_with_index do |author, index| %>
+      <div class="author-fields mb-3">
+        <div>
+          <label for="author_name_<%= index + 1 %>" class="form-label">Author Name</label>
+          <input type="text" id="author_name_<%= index + 1 %>" name="author_name[]" class="form-control input-sm" required autocomplete="name" value="<%= author['name'] %>">
+        </div>
+
+        <div>
+          <label for="author_affiliation_<%= index + 1 %>" class="form-label">Author Affiliation</label>
+          <input type="text" id="author_affiliation_<%= index + 1 %>" name="author_affiliation[]" class="form-control input-sm" required autocomplete="organization" value="<%= author['affiliation'] %>">
+        </div>
+
+        <div>
+          <label for="author_orcid_<%= index + 1 %>" class="form-label">Author ORCID</label>
+          <input type="text" id="author_orcid_<%= index + 1 %>" name="author_orcid[]" class="form-control input-sm" placeholder="0000-0000-0000-0000" required pattern="\d{4}-\d{4}-\d{4}-\d{4}" value="<%= author['orcid'] %>">
+        </div>
+
+        <div>
+          <label for="author_email_<%= index + 1 %>" class="form-label">Author Email</label>
+          <input type="email" id="author_email_<%= index + 1 %>" name="author_email[]" class="form-control input-sm" required autocomplete="email" value="<%= author['email'] %>">
+        </div>
+
+        <button type="button" class="btn btn-sm btn-danger remove-author mt-2">Remove</button>
+      </div>
+    <% end %>
+  </div>
+
+  <button type="button" id="add-author" class="btn btn-sm btn-outline-primary mt-3">
+    + Add Author
+  </button>
+</fieldset>

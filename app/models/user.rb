@@ -33,9 +33,10 @@ class User < ApplicationRecord
   # ---
 
   has_one :profile, inverse_of: :user, dependent: :destroy
-  CREATED_RESOURCE_TYPES = [:events, :materials, :workflows, :content_providers, :sources, :collections, :nodes,
+  CREATED_RESOURCE_TYPES = [:events, :courses, :materials, :workflows, :content_providers, :sources, :collections, :nodes,
                             :learning_paths, :learning_path_topics]
   has_many :materials
+  has_many :courses
   has_many :collections
   has_many :workflows
   has_many :content_providers
@@ -382,6 +383,15 @@ class User < ApplicationRecord
     end
   end
 
+  def admin_or_trusted?
+    has_role?(:trusted_user) || has_role?(:admin)
+  end
+
+  def approve_event!
+    increment!(:approved_events_count, 1)
+    promote_to_trusted_if_needed
+  end
+
   protected
 
   def reassign_resources(new_owner = User.get_default_user)
@@ -391,6 +401,16 @@ class User < ApplicationRecord
   end
 
   private
+
+  def promote_to_trusted_if_needed
+    registered_role = Role.find_by!(title: "Registered user")
+    trusted_role    = Role.find_by!(title: "Trusted user")
+
+    return unless approved_events_count > User::EVENT_APPROVAL_THRESHOLD &&
+      role_id == registered_role.id
+
+    update!(role: trusted_role)
+  end
 
   def react_to_role_change
     if saved_change_to_role_id?

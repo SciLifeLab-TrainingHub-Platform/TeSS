@@ -1,0 +1,37 @@
+<div class="wrapper">
+  <% if TeSS::Config.solr_enabled %>
+    <div id="sidebar" class="popout-sidebar">
+      <%= render partial: "search/common/facet_sidebar",
+                 locals: { resources: @courses_results, resource_type: Course } %>
+    </div>
+  <% end %>
+
+  <div id="content" class="courses-index">
+    <div class="courses-index__heading">
+      <h2><%= t('features.courses.long') %></h2>
+      <% content_for :buttons do %>
+        <%= link_to new_course_path, class: 'btn btn-primary' do %>
+          Create new course
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= render partial: "search/common/search_panel",
+               locals: { resources: @courses_results, resource_type: Course } %>
+
+    <% if @courses.present? %>
+      <ul class="course-cards media-grid">
+        <%= render partial: 'courses/index_course', collection: @courses, as: :course %>
+      </ul>
+
+      <div class="courses-index__pagination">
+        <%= render partial: "search/common/pagination_bar", locals: { resources: @courses } %>
+      </div>
+    <% else %>
+      <div class="courses-index__empty">
+        <p>No courses found. Adjust your filters or search to discover available courses.</p>
+      </div>
+    <% end %>
+  </div>
+
+</div>

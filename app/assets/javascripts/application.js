@@ -61,6 +61,7 @@ function redirect_with_updated_search(param, paramVal) {
 
 function reposition_tiles(container, tileClass){
     var $container = $("." + container);
+    if (!$container.length) return;
 
     $container.imagesLoaded(function () {
         $container.masonry({

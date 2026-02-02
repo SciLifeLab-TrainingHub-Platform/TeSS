@@ -1,0 +1,34 @@
+<fieldset class="contributors-fields border">
+  <legend class="w-auto">Contributor(s)<span class="glyphicon" style="cursor: default; font-size: small" title="<%= t('courses.hints.contributor_hint') %>">&#xe086;</span></legend>
+
+  <!-- Hidden field to hold serialized contributors -->
+  <%= f.hidden_field :contributors, id: 'course_contributors' %>
+
+  <div id="contributors-wrapper" class="row rounded mb-4 pl-5">
+    <% contributors = f.object.contributors.presence || [{}] %>
+    <% contributors.each_with_index do |contributor, index| %>
+      <div class="contributor-fields mb-3">
+        <div>
+          <label for="contributor_name_<%= index + 1 %>" class="form-label">Contributor Name</label>
+          <input type="text" id="contributor_name_<%= index + 1 %>" name="contributor_name[]" class="form-control input-sm" autocomplete="name" value="<%= contributor['name'] %>">
+        </div>
+
+        <div>
+          <label for="contributor_affiliation_<%= index + 1 %>" class="form-label">Contributor Affiliation</label>
+          <input type="text" id="contributor_affiliation_<%= index + 1 %>" name="contributor_affiliation[]" class="form-control input-sm" autocomplete="organization" value="<%= contributor['affiliation'] %>">
+        </div>
+
+        <div>
+          <label for="contributor_orcid_<%= index + 1 %>" class="form-label">Contributor ORCID</label>
+          <input type="text" id="contributor_orcid_<%= index + 1 %>" name="contributor_orcid[]" class="form-control input-sm" placeholder="0000-0000-0000-0000" pattern="\d{4}-\d{4}-\d{4}-\d{4}" value="<%= contributor['orcid'] %>">
+        </div>
+
+        <button type="button" class="btn btn-sm btn-danger remove-contributor mt-2">Remove</button>
+      </div>
+    <% end %>
+  </div>
+
+  <button type="button" id="add-contributor" class="btn btn-sm btn-outline-primary mt-3">
+    + Add Contributor
+  </button>
+</fieldset>

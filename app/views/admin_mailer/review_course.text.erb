@@ -1,0 +1,20 @@
+Dear Admin,
+
+A course titled "<%= @course.title %>" has been submitted by <%= @course.user.username %> and is pending your review.
+
+Course Details:
+- Course Title: <%= @course.title %>
+- URL: <%= @course.url %>
+- Status: <%= @course.course_status.humanize %>
+
+User Details:
+- Username: <%= @course.user.username %>
+- Email: <%= @course.user.email %>
+- Role: <%= @course.user.role&.title || 'Unknown' %>
+- Last Sign-In IP: <%= @course.user.last_sign_in_ip || 'Not available' %>
+- Sign-In Count: <%= @course.user.sign_in_count %>
+
+You can review the event using the following link:
+<%= root_url %>admin/courses/<%= @course.id %>/edit
+
+If you have any questions, please reply to this email or contact us at <%= TeSS::Config.contact_email %>.

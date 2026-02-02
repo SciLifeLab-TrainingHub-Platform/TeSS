@@ -1,0 +1,15 @@
+<% course = local_assigns.fetch(:course) %>
+
+<% node_names = course.associated_nodes.map(&:name).compact.uniq %>
+<% licence_name = licence_name_for_abbreviation(course.licence) if course.licence.present? %>
+
+<%= course_section_card('Course Details', class: 'event-section-card--sidebar') do %>
+  <%= course_detail_item('Language', render_language_name(course.language)) if course.language.present? %>
+  <%= course_detail_item('Licence', licence_name) if licence_name.present? %>
+  <%= course_detail_item('Affiliations') { course_pill_list(node_names, variant: :neutral) } if node_names.any? %>
+  <%= course_detail_item('Course Website') { link_to(course.url, course.url, target: '_blank', rel: 'noopener') } if course.url.present? %>
+  <% if course.user.present? && current_user&.is_admin? %>
+    <%= course_detail_item('Owner') { link_to(course.user.name, course.user) } %>
+  <% end %>
+  <%= course_detail_item('Last Updated', l(course.updated_at, format: :long)) if course.updated_at.present? %>
+<% end %>

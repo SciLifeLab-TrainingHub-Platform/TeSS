@@ -72,17 +72,21 @@ class MaterialsController < ApplicationController
   # POST /materials/check_title
   # POST /materials/check_title.json
   def check_exists
-    @material = Material.check_exists(material_params)
+    @material = Material.check_exists_candidates(material_params)
+                       .limit(50)
+                       .find { |material| material_disclosable_for_check_exists?(material) }
 
     if @material
       respond_to do |format|
         format.html { redirect_to @material }
-        format.json { render :show, location: @material }
+        format.json do
+          render json: { id: @material.id, title: @material.title }, status: :ok, location: @material
+        end
       end
     else
       respond_to do |format|
-        format.html { render :nothing => true, :status => 200, :content_type => 'text/html' }
-        format.json { render json: {}, :status => 200, :content_type => 'application/json' }
+        format.html { head :ok }
+        format.json { render json: {}, status: 200, content_type: 'application/json' }
       end
     end
   end
@@ -154,6 +158,16 @@ class MaterialsController < ApplicationController
   end
 
   private
+
+  def material_disclosable_for_check_exists?(material)
+    return false unless policy(material).show?
+
+    if material.respond_to?(:from_shadowbanned?) && material.from_shadowbanned?
+      return current_user&.shadowbanned? || current_user&.is_admin?
+    end
+
+    true
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_material

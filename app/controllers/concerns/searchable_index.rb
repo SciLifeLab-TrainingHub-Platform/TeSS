@@ -2,6 +2,7 @@
 module SearchableIndex
   extend ActiveSupport::Concern
   included EventFilter
+  include CourseFilter
 
   included do
     attr_reader :facet_fields, :search_params, :facet_params, :page, :sort_by, :index_resources
@@ -30,7 +31,14 @@ module SearchableIndex
         page: page,
         per_page: per_page,
         sort_by: @sort_by,
-        additional_filters: @model.name == Event.name ? EventFilter.event_filter(current_user) : nil
+        additional_filters: case @model.name
+                            when Event.name
+                              EventFilter.event_filter(current_user)
+                            when Course.name
+                              CourseFilter.course_filter(current_user)
+                            else
+                              nil
+                            end
       )
 
       @index_resources = @search_results.results

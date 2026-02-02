@@ -12,6 +12,7 @@ class ContentProvider < ApplicationRecord
   has_many :learning_paths, dependent: :destroy
   has_many :event_content_providers, dependent: :destroy
   has_many :events, through: :event_content_providers
+  has_and_belongs_to_many :courses
 
   belongs_to :user
   belongs_to :node, optional: true
@@ -85,18 +86,20 @@ class ContentProvider < ApplicationRecord
   end
 
   def self.check_exists(content_provider_params)
-    given_content_provider = self.new(content_provider_params)
-    content_provider = nil
+    check_exists_candidates(content_provider_params).first
+  end
+
+  def self.check_exists_candidates(content_provider_params)
+    given_content_provider = new(content_provider_params)
 
     if given_content_provider.url.present?
-      content_provider = self.find_by_url(given_content_provider.url)
+      url_matches = where(url: given_content_provider.url).order(id: :asc)
+      return url_matches if url_matches.exists?
     end
 
-    if given_content_provider.title.present?
-      content_provider ||= self.where(title: given_content_provider.title).last
-    end
+    return where(title: given_content_provider.title).order(id: :desc) if given_content_provider.title.present?
 
-    content_provider
+    none
   end
 
   def self.identifiers_dot_org_key
