@@ -9,7 +9,7 @@ on:
   
   # Also allow running independently
   push:
-    branches: ['rc-*', 'harshita_implement-test-CI']
+    branches: ['rc-*', 'harshita_implement-tests-CI']
   pull_request:
 
 jobs:
