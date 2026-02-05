@@ -15,7 +15,7 @@
           <%= t('register.buttons.events') %>
         <% end %>
         <!-- Info button-->
-        <%= info_button("What are events in #{TeSS::Config.site['title_short']}?", hide_text: true, class: 'event-info-button-popover') do %>
+        <%= info_button("What is upcoming training?", hide_text: true, class: 'event-info-button-popover') do %>
           <%= render_markdown(EventsHelper::EVENTS_INFO) %>
         <% end %>
       <% end %>
