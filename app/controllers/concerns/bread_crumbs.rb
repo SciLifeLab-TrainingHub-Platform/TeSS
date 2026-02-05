@@ -12,9 +12,21 @@ module BreadCrumbs
 
   private
 
+  # Returns the breadcrumb label for the current controller.
+  # Uses an alias if defined above, otherwise falls back to the default
+  # Rails-style humanized controller name.
+  # Example: EventsController => "Training", UsersController  => "Users"
+  def breadcrumb_controller_name
+    CONTROLLER_NAME_ALIASES.fetch(controller_name) do
+      controller_name.singularize.humanize.pluralize
+    end
+  end
+
   # Make sure this is called after the @resource is set!
   def set_breadcrumbs
-    add_base_breadcrumbs(controller_name)
+    # Instead of using controller_name directly, we now use the
+    # breadcrumb_controller_name helper so aliases are respected.
+    add_base_breadcrumbs(breadcrumb_controller_name)
 
     if params[:id]
       resource = instance_variable_get("@#{controller_name.singularize}")
