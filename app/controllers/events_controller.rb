@@ -136,7 +136,7 @@ class EventsController < ApplicationController
       if @event.update(event_report_params)
         @event.create_activity(:report, owner: current_user) if @event.log_update_activity?
 
-        format.html { redirect_to event_path(@event, anchor: 'report'), notice: 'Event report successfully updated.' }
+        format.html { redirect_to event_path(@event, anchor: 'report'), notice: 'Training session report successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :report }
@@ -198,7 +198,7 @@ class EventsController < ApplicationController
       if @event.save
 
         @event.create_activity :create, owner: current_user
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+        format.html { redirect_to @event, notice: 'Training session successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -237,7 +237,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update(event_params)
         @event.create_activity(:update, owner: current_user) if @event.log_update_activity?
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+        format.html { redirect_to @event, notice: 'Training session successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
@@ -255,7 +255,7 @@ class EventsController < ApplicationController
     @event.cities.clear
     @event.destroy
     respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
+      format.html { redirect_to events_url, notice: 'Training session successfully deleted.' }
       format.json { head :no_content }
     end
   end
@@ -275,7 +275,7 @@ class EventsController < ApplicationController
     collections_to_remove.each do |collection|
       collection.update_resources_by_id(nil, (collection.events.collect { |x| x.id } - [@event.id]).uniq)
     end
-    flash[:notice] = "Event has been included in #{pluralize(collections.count, 'collection')}"
+    flash[:notice] = "Training session has been included in #{pluralize(collections.count, 'collection')}"
     redirect_to @event
   end
 

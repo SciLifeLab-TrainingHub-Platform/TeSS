@@ -233,7 +233,7 @@ en:
   register:
     buttons:
       content_providers: 'Register content provider'
-      events: 'Register event'
+      events: 'Register training'
       materials: 'Register training material'
       workflows: 'Create workflow'
       trainers: 'Register as trainer'

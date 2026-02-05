@@ -7,8 +7,8 @@ en:
       short: Catalogue
       long: Course Catalogue
     events:
-      short: Courses
-      long: Upcoming Courses
+      short: Training
+      long: Upcoming Training
     materials:
       short: Materials
       long: Training materials
@@ -42,7 +42,7 @@ en:
     doi: 'DOI'
   activerecord:
     models:
-      event: Event
+      event: "Training"
       material: Material
       elearning_material: e-Learning Material
       workflow: Workflow
@@ -376,7 +376,7 @@ en:
       structure_duration_hint: 'The time, in hours, it takes to complete the course, and the format this time will take.'
   events:
     hints:
-      address: 'Where is this event being held?'
+      address: 'Where is this training being held?'
       capacity: >
         Provide the total number (cap) of individuals that can attend the training event.
         Leave blank if there is no limit.

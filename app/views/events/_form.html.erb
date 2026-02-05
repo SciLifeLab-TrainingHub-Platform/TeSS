@@ -3,7 +3,7 @@
   <%= render partial: 'common/error_summary', locals: { resource: @event } %>
 
   <!-- Field: Disabled -->
-  <%= f.input :visible, label: 'Show this event?', input_html: { title: t('events.hints.visible') } %>
+  <%= f.input :visible, label: 'Show training?', input_html: { title: t('events.hints.visible') } %>
 
   <%= f.hidden_field :course_id %>
   <% if f.object.course.present? %>
@@ -157,7 +157,7 @@
         <%= topic.name %>
       </option>
     <% end %>
-    <span class="help-block small">Choose one or more Topics for the event.</span>
+    <span class="help-block small">Choose one or more Topics.</span>
   </div>
 
 
@@ -212,7 +212,7 @@
       <%= @event.errors[:content_providers].join(', ') %>
     </span>
     <% else %>
-      <span class="help-block small">Choose one or more content provider for the event.</span>
+      <span class="help-block small">Choose one or more content provider.</span>
     <% end %>
   </div>
 
@@ -248,7 +248,7 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.submit (f.object.new_record? ? "Add" : "Update") + " event", :class => 'btn btn-primary' %>
+    <%= f.submit (f.object.new_record? ? "Add" : "Update"), :class => 'btn btn-primary' %>
     <%= link_to 'Back', :back, class: 'btn btn-default' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 :back, :class => 'btn btn-default' %>
