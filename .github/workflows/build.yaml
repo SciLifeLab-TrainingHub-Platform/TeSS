@@ -38,7 +38,13 @@ env:
   NAMESPACE: scilifelab-traininghub-platform
 
 jobs:
+  test:
+    name: Run Tests
+    uses: ./.github/workflows/test.yml
+
   build:
+    name: Build and Deploy
+    needs: test  
     runs-on: ubuntu-latest
 
     steps:
