@@ -35,7 +35,7 @@
   You can view more details and approve or reject the event using the link below:
 </p>
 
-<a href="<%= root_url %>admin/courses/<%= @course.id %>/edit"
+<a href="<%= "#{root_url}#{rails_admin.edit_path(model_name: 'course', id: @course.id)}" %>" target="_blank"
    style="display: inline-block; margin-top: 10px; padding: 12px 15px; background-color: #045C64; color: #ffffff; text-decoration: none; border-radius: 5px; font-size: 14px; font-weight: 500; text-align: center;">
   Review Course
 </a>
