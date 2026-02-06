@@ -30,6 +30,46 @@ class CoursesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'courses index cards render as stretched links' do
+    get :index
+    assert_response :success
+    assert_select '.course-card', minimum: 1
+    assert_select 'a.course-card__stretched-link', minimum: 1
+    assert_select '.course-card__title-text', minimum: 1
+  end
+
+  test 'courses index shows next instance link when upcoming event exists' do
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:approved])
+    template_event = events(:one)
+    future_start = Time.zone.now + 1.year
+
+    future_event = Event.create!(
+      title: 'Future course instance',
+      url: 'https://example.com/future-course-instance',
+      user: users(:regular_user),
+      course: course,
+      start: future_start,
+      end: future_start + 1.day,
+      timezone: template_event.timezone,
+      contact: template_event.contact,
+      eligibility: template_event.eligibility,
+      host_institutions: template_event.host_institutions,
+      nodes: template_event.nodes,
+      language: template_event.language,
+      prerequisites: template_event.prerequisites,
+      target_audience: template_event.target_audience,
+      content_providers: template_event.content_providers,
+      cost_basis: template_event.cost_basis,
+      learning_objectives: template_event.learning_objectives,
+      event_status: 'approved'
+    )
+
+    get :index
+    assert_response :success
+    assert_select "a.course-next-instance-link[href='#{event_path(future_event)}']", count: 1
+  end
+
   test 'should get index with solr enabled' do
     with_settings(solr_enabled: true) do
       Course.stub(:search_and_filter, MockSearch.new(Course.all)) do
