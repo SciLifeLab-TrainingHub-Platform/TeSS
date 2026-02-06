@@ -34,6 +34,12 @@ module ApplicationHelper
     cross: { icon: 'fa-times', message: 'This resource has been disabled' }
   }.freeze
 
+  def show_scilifelab_badge?(resource)
+    return false unless resource.respond_to?(:associated_nodes)
+
+    resource.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG }
+  end
+
   # Countries that have priority in the country selection menu. Using ISO 3166-1 Alpha2 code.
   PRIORITY_COUNTRIES = []
 

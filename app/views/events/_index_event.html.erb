@@ -1,64 +1,64 @@
 <% collection_item = local_assigns[:collection_item] %>
-<% event_type_titles = Array(event.event_types).flatten.compact.map { |t| EventTypeDictionary.instance.lookup_value(t, 'title') || t }.uniq %>
-<% presence_label = event.presence.present? ? t("activerecord.attributes.event.presence.#{event.presence}", default: nil) : nil %>
-<% show_scilifelab_badge = event.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
+<% presence = event.presence.presence %>
+<% presence_label = Event.presences.key?(presence) ? t("activerecord.attributes.event.presence.#{presence}", default: presence.humanize) : nil %>
+<% show_scilifelab_badge = show_scilifelab_badge?(event) %>
 
-<li class="course-card">
+<li class="course-card course-card--event">
   <%= item_order_badge(collection_item) if collection_item.present? %>
 
-  <div class="course-card__content">
-    <div class="course-card__heading">
-      <h4 class="course-card__title"><%= link_to event.title, event %></h4>
-
-      <div class="course-card__icons">
-        <% if current_user&.is_admin? %>
-          <%= missing_icon(event) %>
-          <%= scrape_status_icon(event) %>
-          <%= suggestion_icon(event) %>
-        <% end %>
-        <%= event_status_icon(event) %>
-        <%= review_status_icon(event) %>
-      </div>
-    </div>
-
-    <% if event_type_titles.any? %>
-      <div class="event-pill-list">
-        <% event_type_titles.each do |title| %>
-          <span class="event-pill event-pill--accent"><%= title %></span>
-        <% end %>
+  <div class="course-card__layout">
+    <% if presence_label.present? %>
+      <div class="course-card__leading">
+        <i class="icon icon-h2 <%= presence %>-event-icon"></i>
+        <span class="course-card__leading-label"><%= presence_label %></span>
       </div>
     <% end %>
 
-    <div class="course-card__meta-row">
-      <div>
-        <p class="course-card__meta">
-          <i class="fa fa-calendar"></i>
-          <%= neatly_printed_date_range(event.start, event.end, false) %>
-        </p>
+    <div class="course-card__content">
+      <% icons = [] %>
+      <% if current_user&.is_admin? %>
+        <% icons << missing_icon(event) %>
+        <% icons << scrape_status_icon(event) %>
+        <% icons << suggestion_icon(event) %>
+      <% end %>
+      <% icons << event_status_icon(event) %>
+      <% icons << review_status_icon(event) %>
+      <%= render partial: 'common/index_card_heading',
+                 locals: { resource: event, title: event.title, icons: safe_join(icons.compact) } %>
 
+      <div class="course-card__meta-row">
+        <% location = nil %>
         <% if event.onsite? || event.hybrid? %>
           <% location = [event.city, event.country].reject(&:blank?).join(", ") %>
-          <% if location.present? %>
-            <p class="course-card__meta dont-break-out">
-              <i class="fa fa-map-marker"></i>
-              <%= location %>
-            </p>
-          <% end %>
         <% end %>
-      </div>
 
-      <% if presence_label.present? || show_scilifelab_badge %>
-        <div class="course-card__aside">
-          <% if presence_label.present? %>
-            <span class="event-pill event-pill--primary"><%= presence_label %></span>
+        <p class="course-card__meta course-card__meta--event">
+          <span class="course-card__meta-item">
+            <i class="fa fa-calendar"></i>
+            <span><%= neatly_printed_date_range(event.start, event.end, false) %></span>
+          </span>
+          <% if location.present? %>
+            <span class="course-card__meta-item">
+              <i class="fa fa-map-marker"></i>
+              <span><%= location %></span>
+            </span>
           <% end %>
+        </p>
 
-          <% if show_scilifelab_badge %>
+        <% if show_scilifelab_badge %>
+          <div class="course-card__aside">
             <div class="course-card__badge">
               <%= elixir_node_icon %>
             </div>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
+      </div>
+
+      <% if presence_label.present? %>
+        <p class="course-card__presence-mobile">
+          <i class="icon icon-md <%= presence %>-event-icon"></i>
+          <span class="muted"><%= presence_label %></span>
+        </p>
       <% end %>
     </div>
   </div>

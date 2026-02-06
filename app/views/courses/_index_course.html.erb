@@ -1,17 +1,17 @@
+<% collection_item = local_assigns[:collection_item] %>
+
 <li class="course-card">
-  <%= item_order_badge(collection_item) if defined? collection_item %>
+  <%= item_order_badge(collection_item) if collection_item.present? %>
 
   <div class="course-card__content">
-    <div class="course-card__heading">
-      <h4 class="course-card__title"><%= link_to course.title, course %></h4>
-      <div class="course-card__icons">
-        <% if current_user&.is_admin? %>
-          <%= missing_icon(course) if course.respond_to?(:failing?) %>
-          <%= scrape_status_icon(course) if course.respond_to?(:last_scraped) %>
-        <% end %>
-        <%= review_status_icon(course) %>
-      </div>
-    </div>
+    <% icons = [] %>
+    <% if current_user&.is_admin? %>
+      <% icons << missing_icon(course) if course.respond_to?(:failing?) %>
+      <% icons << scrape_status_icon(course) if course.respond_to?(:last_scraped) %>
+    <% end %>
+    <% icons << review_status_icon(course) %>
+    <%= render partial: 'common/index_card_heading',
+               locals: { resource: course, title: course.title, icons: safe_join(icons.compact) } %>
 
     <% next_event = course_next_event(course) %>
     <div class="course-card__meta-row">
@@ -29,7 +29,7 @@
         </p>
       <% end %>
 
-      <% if course.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
+      <% if show_scilifelab_badge?(course) %>
         <div class="course-card__badge">
           <%= elixir_node_icon %>
         </div>
