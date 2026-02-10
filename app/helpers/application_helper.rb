@@ -247,6 +247,8 @@ module ApplicationHelper
       'fa fa-clock-o'
     when 'events'
       'fa fa-calendar'
+    when 'courses'
+      'fa fa-book'
     when 'users'
       'fa fa-user'
     when 'trainers'

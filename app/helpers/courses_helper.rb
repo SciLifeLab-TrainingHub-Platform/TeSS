@@ -104,6 +104,23 @@ module CoursesHelper
     end
   end
 
+  def filter_courses_by_status(courses, user)
+    return Course.none if courses.blank?
+
+    if user&.is_admin?
+      courses
+    elsif user
+      # Show approved courses and the user's courses (excluding declined)
+      courses.where(
+        "course_status = ? OR (user_id = ? AND course_status != ?)",
+        Course.course_statuses[:approved], user.id, Course.course_statuses[:declined]
+      )
+    else
+      # Show only approved courses for non-logged-in users
+      courses.where(course_status: Course.course_statuses[:approved])
+    end
+  end
+
   private
 
   def format_course_date(datetime)

@@ -21,7 +21,7 @@
 
     <% if @courses.present? %>
       <ul class="course-cards media-grid">
-        <%= render partial: 'courses/index_course', collection: @courses, as: :course %>
+        <%= render partial: 'common/masonry_grid', locals: { objects: @courses } %>
       </ul>
 
       <div class="courses-index__pagination">

@@ -39,7 +39,7 @@
         <div class="tab-content">
           <div id="home" class="tab-pane fade in active">
             <ul class="course-cards media-grid">
-              <%= render partial: 'events/index_event', collection: @events, as: :event %>
+              <%= render partial: 'common/masonry_grid', locals: { objects: @events } %>
             </ul>
 
             <%= render partial: "search/common/pagination_bar", locals: { resources: @events } %>

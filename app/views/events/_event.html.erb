@@ -1,65 +1,67 @@
-<li class="masonry-brick media-item long">
+<% collection_item = local_assigns[:collection_item] %>
+<% presence = event.presence.presence %>
+<% presence_label = Event.presences.key?(presence) ? t("activerecord.attributes.event.presence.#{presence}", default: presence.humanize) : nil %>
+<% show_scilifelab_badge = show_scilifelab_badge?(event) %>
 
-  <% if event.event_status == 'awaiting_review' %>
-    <i class="fa fa-clock-o" style="float: right; margin: 3px; color: #D9A400;" data-toggle="tooltip" title="Pending review by SciLifeLab administrators."></i>
-  <% elsif event.event_status == 'approved' %>
-    <i class="fa fa-check" style="float: right; margin: 3px; color: green;" data-toggle="tooltip" title="Approved by SciLifeLab and now publicly accessible."></i>
-  <% elsif event.event_status == 'declined' %>
-    <i class="fa fa-ban" style="float: right; margin: 3px; color: #B22222;" data-toggle="tooltip" title="Declined by SciLifeLab administrators."></i>
-  <% elsif event.event_status == 'revisions_required' %>
-    <i class="fa fa-edit" style="float: right; margin: 3px; color: #FF8C00;" data-toggle="tooltip" title="Revisions needed before approval."></i>
-  <% end %>
+<li class="course-card course-card--event">
+  <%= item_order_badge(collection_item) if collection_item.present? %>
 
-  <%= link_to event, class: 'link-overlay with-left-icon' do %>
-
-    <%= item_order_badge(collection_item) if defined? collection_item %>
-
-    <div class="with-left-icon">
-      <div class="icon-container hidden-xs">
-        <i class="icon icon-h2 <%= event.presence %>-event-icon"></i><br/>
-        <span class="muted"><%= t("activerecord.attributes.event.presence.#{event.presence}") %></span>
+  <div class="course-card__layout">
+    <% if presence_label.present? %>
+      <div class="course-card__leading">
+        <i class="icon icon-h2 <%= presence %>-event-icon"></i>
+        <span class="course-card__leading-label"><%= presence_label %></span>
       </div>
+    <% end %>
 
-      <div class="right-container">
-        <div class="masonry-brick-heading">
-          <div class="masonry-icons">
-            <% if current_user&.is_admin? %>
-              <%= missing_icon(event) %>
-              <%= scrape_status_icon(event) %>
-              <%= suggestion_icon(event) %>
-            <% end %>
+    <div class="course-card__content">
+      <% icons = [] %>
+      <% if current_user&.is_admin? %>
+        <% icons << missing_icon(event) %>
+        <% icons << scrape_status_icon(event) %>
+        <% icons << suggestion_icon(event) %>
+      <% end %>
+      <% icons << event_status_icon(event) %>
+      <% icons << review_status_icon(event) %>
+      <%= render partial: 'common/index_card_heading',
+                 locals: { resource: event, title: event.title, icons: safe_join(icons.compact) } %>
 
-            <%= event_status_icon(event) %>
-          </div>
-          <% if event.event_types.any? %>
-            <% event.event_types.each do |t| %>
-              <div class="sub-heading"><%= EventTypeDictionary.instance.lookup_value(t, 'title') %></div>
-            <% end %>
-          <% end %>
-          <h4>
-            <%= event.title %>
-          </h4>
-        </div>
-
-        <% if event.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG } %>
-          <%= elixir_node_icon %>
-        <% end -%>
-
-        <p><%= neatly_printed_date_range(event.start, event.end, false) %></p>
-
-        <% if event.onsite? %>
-          <% location = [event.city, event.country].reject { |field_value| field_value.blank? }.join(", ") %>
-          <% if location.present? %>
-            <p class="dont-break-out"><i class="fa fa-map-marker"></i> <%= location %></p>
-          <% end %>
+      <div class="course-card__meta-row">
+        <% location = nil %>
+        <% if event.onsite? || event.hybrid? %>
+          <% location = [event.city, event.country].reject(&:blank?).join(", ") %>
         <% end %>
-        <p class="visible-xs-block">
-          <i class="icon icon-md <%= event.presence %>-event-icon"></i>
-          <span class="muted"><%= t("activerecord.attributes.event.presence.#{event.presence}") %></span>
-        </p>
-      </div>
-    </div>
 
-    <%= item_comment(collection_item) if defined? collection_item %>
-  <% end %>
+        <p class="course-card__meta course-card__meta--event">
+          <span class="course-card__meta-item">
+            <i class="fa fa-calendar"></i>
+            <span><%= neatly_printed_date_range(event.start, event.end, false) %></span>
+          </span>
+          <% if location.present? %>
+            <span class="course-card__meta-item">
+              <i class="fa fa-map-marker"></i>
+              <span><%= location %></span>
+            </span>
+          <% end %>
+        </p>
+
+        <% if show_scilifelab_badge %>
+          <div class="course-card__aside">
+            <div class="course-card__badge">
+              <%= elixir_node_icon %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <% if presence_label.present? %>
+        <p class="course-card__presence-mobile">
+          <i class="icon icon-md <%= presence %>-event-icon"></i>
+          <span class="muted"><%= presence_label %></span>
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <%= item_comment(collection_item) if collection_item.present? %>
 </li>
