@@ -3,7 +3,7 @@
 <% presence_label = Event.presences.key?(presence) ? t("activerecord.attributes.event.presence.#{presence}", default: presence.humanize) : nil %>
 <% show_scilifelab_badge = show_scilifelab_badge?(event) %>
 
-<li class="course-card course-card--event">
+<li class="masonry-brick media-item long course-card course-card--event">
   <%= item_order_badge(collection_item) if collection_item.present? %>
 
   <div class="course-card__layout">
