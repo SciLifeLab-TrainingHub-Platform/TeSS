@@ -2,14 +2,9 @@
   border-top-left-radius: $footer-border-radius;
   border-top-right-radius: $footer-border-radius;
   border-top: solid 3px $footer-border;
-  margin-top: 0;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  margin-top: 30px;
   background-color: $footer-bg;
   color: $footer-text;
-  padding-top: $footer-padding-top;
   padding: $footer-padding-top 5px 5px 5px;
 
   h5, h6 {
