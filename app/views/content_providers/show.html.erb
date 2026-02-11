@@ -22,13 +22,15 @@
     <div class="my-3">
       <% resource_limit = 30 %>
       <% materials = @content_provider.materials.from_verified_users.limit(resource_limit) %>
-      <% materials_count =  @content_provider.materials.from_verified_users.count %>
+      <% materials_count = @content_provider.materials.from_verified_users.count %>
       <% upcoming_events = filter_events_by_status(@content_provider.events.from_verified_users.not_finished.not_disabled, current_user) %>
 
       <% past_events = @content_provider.events.from_verified_users.finished.not_disabled %>
       <% events = upcoming_events.limit(resource_limit) %>
-      <% events_count =  filter_events_by_status(@content_provider.events.from_verified_users.not_disabled, current_user).count %>
+      <% events_count = filter_events_by_status(@content_provider.events.from_verified_users.not_disabled, current_user).count %>
       <% sources = @content_provider.sources.order(enabled: :desc, finished_at: :desc) %>
+      <% courses = filter_courses_by_status(@content_provider.courses.limit(resource_limit), current_user) %>
+      <% courses_count = filter_courses_by_status(@content_provider.courses, current_user).count %>
       <% activator = tab_activator %>
       <ul class="nav nav-tabs">
         <%= tab('Materials', icon_class_for_model('materials'), 'materials', activator: activator,
@@ -38,6 +40,10 @@
         <%= tab('Events', icon_class_for_model('events'), 'events', activator: activator,
                 disabled: { check: events_count.zero?, message: 'No associated events' },
                 count: events_count) %>
+
+        <%= tab('Courses', icon_class_for_model('courses'), 'courses', activator: activator,
+                disabled: { check: courses.none?, message: 'No registered courses' },
+                count: courses_count) %>
 
         <% if TeSS::Config.feature['sources'] && policy(@content_provider).update? %>
           <%= tab('Sources', icon_class_for_model('sources'), 'sources', count: sources.count, activator: activator) %>
@@ -65,6 +71,17 @@
                                view_all_link: events_path(content_provider: @content_provider.title),
                                inc_expired_link: events_path(content_provider: @content_provider.title, include_expired: true) } %>
         <% end %>
+
+        <% if TeSS::Config.feature['courses'] %>
+          <%= render partial: 'common/associated_resources',
+                     locals: { model: Course,
+                               total_count: courses_count,
+                               limit: resource_limit,
+                               resources: courses,
+                               activator: activator,
+                               view_all_link: courses_path(content_provider: @content_provider.title, include_expired: true) } %>
+        <% end %>
+
         <% if policy(@content_provider).update? && TeSS::Config.feature['sources'] %>
           <div id="sources" class="tab-pane fade<%= ' in active' if activator.check_pane('sources') %>">
             <% if policy(Source).new? %>
