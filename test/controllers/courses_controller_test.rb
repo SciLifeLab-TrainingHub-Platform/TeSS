@@ -84,6 +84,8 @@ class CoursesControllerTest < ActionController::TestCase
     sign_in @user
     get :new
     assert_response :success
+    assert_select "label[for='course_event_ids']", text: 'Event(s)'
+    assert_select 'span.help-block.small', text: 'Select any potential upcoming instances of your course'
   end
 
   test 'should get new page for logged in users only' do
