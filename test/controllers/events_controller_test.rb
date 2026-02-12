@@ -46,6 +46,9 @@ class EventsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
 
+    assert_select '#home > ul.masonry.media-grid', count: 1
+    assert_select '#home > ul.course-cards', count: 0
+    assert_select '#home > ul.masonry.media-grid > ul', count: 0
     assert_select '.course-card--event', minimum: 1
     assert_select 'a.course-card__stretched-link', minimum: 1
     assert_select '.course-card__title-text', minimum: 1

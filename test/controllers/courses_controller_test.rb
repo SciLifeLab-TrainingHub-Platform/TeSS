@@ -33,6 +33,9 @@ class CoursesControllerTest < ActionController::TestCase
   test 'courses index cards render as stretched links' do
     get :index
     assert_response :success
+    assert_select 'ul.masonry.media-grid', count: 1
+    assert_select 'ul.course-cards', count: 0
+    assert_select 'ul.masonry.media-grid > ul', count: 0
     assert_select '.course-card', minimum: 1
     assert_select 'a.course-card__stretched-link', minimum: 1
     assert_select '.course-card__title-text', minimum: 1

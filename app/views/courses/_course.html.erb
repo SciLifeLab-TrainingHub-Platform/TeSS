@@ -1,6 +1,6 @@
 <% collection_item = local_assigns[:collection_item] %>
 
-<li class="course-card">
+<li class="masonry-brick media-item long course-card">
   <%= item_order_badge(collection_item) if collection_item.present? %>
 
   <div class="course-card__content">
@@ -36,4 +36,6 @@
       <% end %>
     </div>
   </div>
+
+  <%= item_comment(collection_item) if collection_item.present? %>
 </li>
