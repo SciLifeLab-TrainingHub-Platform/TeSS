@@ -106,7 +106,7 @@ module ApplicationHelper
                                                 when 'awaiting_review'
                                                   ['fa-clock-o', 'awaiting-review', 'Pending review by SciLifeLab administrators.']
                                                 when 'approved'
-                                                  ['fa-check', 'approved', 'Approved by SciLifeLab and now publicly accessible.']
+                                                  return # Approved items now do not show a status badge
                                                 when 'declined'
                                                   ['fa-ban', 'declined', 'Declined by SciLifeLab administrators.']
                                                 when 'revisions_required'
