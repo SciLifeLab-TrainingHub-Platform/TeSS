@@ -516,14 +516,14 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     #   assert_select '.collection-item-order-badge', text: '2'
     # end
 
-    assert_select '#events ul li:nth-child(1) .link-overlay' do
-      assert_select 'h4', text: 'event one'
+    assert_select '#events ul li:nth-child(1)' do
+      assert_select 'a.course-card__stretched-link', text: /event one/
       assert_select '.collection-item-comment', text: 'Start here'
       assert_select '.collection-item-order-badge', text: '1'
     end
 
-    assert_select '#events ul li:nth-child(2) .link-overlay' do
-      assert_select 'h4', text: 'event two'
+    assert_select '#events ul li:nth-child(2)' do
+      assert_select 'a.course-card__stretched-link', text: /event two/
       assert_select '.collection-item-comment', text: 'End here'
       assert_select '.collection-item-order-badge', text: '2'
     end
