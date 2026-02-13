@@ -14,12 +14,73 @@
   flex-direction: column;
   gap: 16px;
   margin-bottom: 24px;
+  position: relative;
+  z-index: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover,
+.course-card:focus-within {
+  background-color: #d2e5e7;
+  border-color: #d2e5e7;
+  box-shadow: none;
 }
 
 .course-card__content {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.course-card__layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.course-card__layout > .course-card__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.course-card--event .course-card__leading {
+  flex: 0 0 6em;
+  text-align: center;
+  font-size: 13px;
+  color: $text-muted;
+}
+
+.course-card--event .course-card__leading .icon {
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.course-card--event .course-card__leading-label {
+  display: block;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.course-card--event .course-card__presence-mobile {
+  display: none;
+  margin: 0;
+  color: $text-muted;
+  align-items: center;
+  gap: 8px;
+}
+
+.course-card--event .course-card__meta--event {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.course-card--event .course-card__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
 }
 
 .course-card__heading {
@@ -39,11 +100,48 @@
 .course-card__title a {
   color: #14324b;
   text-decoration: none;
-  display: inline-block;
+  display: block;
 }
 
 .course-card__title a:hover {
-  text-decoration: underline;
+  text-decoration: none;
+}
+
+.course-card__stretched-link::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+// IMPORTANT: The stretched-link overlay sits above most of the card content so the whole card is clickable.
+// Any interactive element inside the card must be elevated above the overlay.
+.course-card__interactive,
+.course-card a:not(.course-card__stretched-link),
+.course-card button,
+.course-card input,
+.course-card select,
+.course-card textarea,
+.course-card [role="button"],
+.course-card [role="link"],
+.course-card .has-tooltip,
+.course-card [data-toggle="tooltip"],
+.course-card [data-bs-toggle="tooltip"],
+.course-card .has-popover,
+.course-card [data-toggle="popover"],
+.course-card [data-bs-toggle="popover"] {
+  position: relative;
+  z-index: 2;
+}
+
+.course-card__title-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .course-card__icons {
@@ -82,6 +180,7 @@
 .course-card__meta-row > :first-child {
   flex: 1 1 auto;
   min-width: 0;
+  min-height: 44px;
 }
 
 .course-card__aside {
@@ -136,10 +235,26 @@
     padding: 20px;
   }
 
+  .course-card__layout {
+    gap: 16px;
+  }
+
+  .course-card--event .course-card__leading {
+    display: none;
+  }
+
+  .course-card--event .course-card__presence-mobile {
+    display: flex;
+  }
+
   .course-card__meta-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+  }
+
+  .course-card__meta-row > :first-child {
+    min-height: 0;
   }
 
   .course-card__aside {

@@ -42,8 +42,9 @@ body {
   min-width: 320px;
   position: relative;
   margin: 0;
-  padding-bottom: 500px;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
@@ -105,6 +106,11 @@ div.wrapper {
   }
 }
 
+#main-container {
+  flex: 1;
+  width: 100%;
+}
+
 #main-container,
 #header-container,
 #flash-container {
@@ -113,7 +119,6 @@ div.wrapper {
 
 #content {
   flex-grow: 1;
-  overflow: hidden;
 }
 
 #sidebar {
