@@ -60,14 +60,19 @@ function redirect_with_updated_search(param, paramVal) {
 }
 
 function reposition_tiles(container, tileClass){
-    var $container = $("." + container);
-    if (!$container.length) return;
+    var $containers = $("." + container);
+    if (!$containers.length) return;
 
-    $container.imagesLoaded(function () {
-        $container.masonry({
-            // options...
-            itemSelector: "." + tileClass,
-            columnWidth: 20
+    $containers.each(function () {
+        var $container = $(this);
+        if (!$container.find("." + tileClass).length) return;
+
+        $container.imagesLoaded(function () {
+            $container.masonry({
+                // options...
+                itemSelector: "." + tileClass,
+                columnWidth: 20
+            });
         });
     });
 }

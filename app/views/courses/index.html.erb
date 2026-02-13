@@ -20,9 +20,7 @@
                locals: { resources: @courses_results, resource_type: Course } %>
 
     <% if @courses.present? %>
-      <ul class="course-cards media-grid">
-        <%= render partial: 'courses/index_course', collection: @courses, as: :course %>
-      </ul>
+      <%= render partial: 'common/masonry_grid', locals: { objects: @courses } %>
 
       <div class="courses-index__pagination">
         <%= render partial: "search/common/pagination_bar", locals: { resources: @courses } %>
