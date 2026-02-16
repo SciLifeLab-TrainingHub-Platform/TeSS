@@ -252,7 +252,23 @@ class AdminApprovalFlowCourseTest < ActionDispatch::IntegrationTest
   test "admin rejects course" do
     sign_in @admin
 
+    pending_event = create_event_from_template(
+      title: 'Pending event released on decline',
+      url: 'https://example.com/pending-event-released-on-decline',
+      user: @user
+    )
+    CoursePendingEvent.create!(course: @pending_course, event: pending_event)
+    assert CoursePendingEvent.exists?(course_id: @pending_course.id, event_id: pending_event.id)
+
     @pending_course.update!(course_status: Course.course_statuses[:declined])
+    assert_not CoursePendingEvent.exists?(course_id: @pending_course.id, event_id: pending_event.id)
+
+    other_course = @user.courses.create!(@parameters.merge(
+      title: 'Other course can re-claim declined pending event',
+      url: 'https://example.com/other-course-can-re-claim-declined-pending-event'
+    ))
+    CoursePendingEvent.create!(course: other_course, event: pending_event)
+    assert CoursePendingEvent.exists?(course_id: other_course.id, event_id: pending_event.id)
 
     # Admin can see
     get "/courses/#{@pending_course.id}", params: { format: :json }

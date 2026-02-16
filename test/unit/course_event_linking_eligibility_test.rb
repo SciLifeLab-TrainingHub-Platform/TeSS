@@ -13,16 +13,14 @@ class CourseEventLinkingEligibilityTest < ActiveSupport::TestCase
     assert_equal [event.id], CourseEventLinkingEligibility.actor_manageable_event_ids(actor: users(:curator), request: nil, event_ids: [event.id])
   end
 
-  test 'actor_manageable_event_ids respects request-sensitive scraper_user permissions' do
+  test 'actor_manageable_event_ids does not grant scraper_user api-only permissions for course linking' do
     event = events(:one)
     scraper = users(:scraper_user)
 
     api_format = Struct.new(:json?).new(true)
     api_request = Struct.new(:post?, :put?, :patch?, :format).new(true, false, false, api_format)
-    non_api_request = Struct.new(:post?, :put?, :patch?, :format).new(false, false, false, api_format)
 
-    assert_equal [event.id], CourseEventLinkingEligibility.actor_manageable_event_ids(actor: scraper, request: api_request, event_ids: [event.id])
-    assert_equal [], CourseEventLinkingEligibility.actor_manageable_event_ids(actor: scraper, request: non_api_request, event_ids: [event.id])
+    assert_equal [], CourseEventLinkingEligibility.actor_manageable_event_ids(actor: scraper, request: api_request, event_ids: [event.id])
     assert_equal [], CourseEventLinkingEligibility.actor_manageable_event_ids(actor: scraper, request: nil, event_ids: [event.id])
   end
 

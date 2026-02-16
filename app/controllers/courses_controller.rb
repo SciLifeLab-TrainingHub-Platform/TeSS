@@ -65,12 +65,22 @@ class CoursesController < ApplicationController
             apply_direct_event_selection!(requested_event_ids)
           end
         rescue ActiveRecord::RecordInvalid => e
-          @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.') unless e.record.is_a?(Course)
+          rolled_back_errors = e.record.is_a?(Course) ? e.record.errors : nil
+
+          # If the transaction rolled back after a successful save!, @course can still appear persisted in-memory.
+          # Always rebuild for render to ensure the form posts to create (not update) and the object reflects the DB.
+          @course = Course.new(course_params.except(:event_ids))
+          @course.user = current_user if @course.respond_to?(:user=)
+
+          @course.errors.merge!(rolled_back_errors) if rolled_back_errors.present?
+          @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.') unless rolled_back_errors.present?
           set_selected_ids_for_form
           format.html { render :new }
           format.json { render json: @course.errors, status: :unprocessable_entity }
           next
         rescue ActiveRecord::RecordNotUnique
+          @course = Course.new(course_params.except(:event_ids))
+          @course.user = current_user if @course.respond_to?(:user=)
           @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.')
           set_selected_ids_for_form
           format.html { render :new }
@@ -131,67 +141,40 @@ class CoursesController < ApplicationController
     authorize @course
     normalize_authors_and_contributors
     normalize_node_ids
-    direct_event_linking = @course.approved?
+    requested_event_ids = event_ids_param_present? ? requested_event_ids_from_params : nil
+    update_params = course_params.except(:event_ids)
 
     respond_to do |format|
-      if direct_event_linking
-        requested_event_ids = event_ids_param_present? ? requested_event_ids_from_params : nil
-        update_params = course_params.except(:event_ids)
-
-        begin
-          ActiveRecord::Base.transaction do
-            @course.update!(update_params)
-            apply_direct_event_selection!(requested_event_ids) if requested_event_ids
-          end
-        rescue ActiveRecord::RecordInvalid => e
-          @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.') if requested_event_ids && !e.record.is_a?(Course)
-          set_selected_ids_for_form
-          format.html { render :edit }
-          format.json { render json: @course.errors, status: :unprocessable_entity }
-          next
-        rescue ActiveRecord::RecordNotUnique
-          @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.') if requested_event_ids
-          set_selected_ids_for_form
-          format.html { render :edit }
-          format.json { render json: @course.errors, status: :unprocessable_entity }
-          next
-        end
-
-        course_change_status_and_notify_admin
-        @course.create_activity(:update, owner: current_user) if @course.respond_to?(:create_activity)
-        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
-        format.json { render :show, status: :ok, location: @course }
-        next
-      end
-
-      requested_event_ids = event_ids_param_present? ? requested_event_ids_from_params : nil
-      update_params = course_params.except(:event_ids)
-
-      if requested_event_ids
-        existing_linked_ids = @course.event_ids
-        existing_pending_ids = @course.course_pending_events.pluck(:event_id)
-
-        unless validate_unapproved_event_selection(
-          requested_event_ids,
-          existing_linked_ids: existing_linked_ids,
-          existing_pending_ids: existing_pending_ids
-        )
-          set_selected_ids_for_form
-          format.html { render :edit }
-          format.json { render json: @course.errors, status: :unprocessable_entity }
-          next
-        end
-      end
-
       begin
         ActiveRecord::Base.transaction do
-          @course.update!(update_params)
-          apply_unapproved_event_selection!(requested_event_ids) if requested_event_ids
+          @course.lock!
+
+          if @course.approved?
+            @course.update!(update_params)
+            apply_direct_event_selection!(requested_event_ids) if requested_event_ids
+
+            # Enforce invariant: approved courses should not retain pending claims.
+            @course.course_pending_events.delete_all
+          else
+            if requested_event_ids
+              existing_linked_ids = @course.event_ids
+              existing_pending_ids = @course.course_pending_events.pluck(:event_id)
+
+              unless validate_unapproved_event_selection(
+                requested_event_ids,
+                existing_linked_ids: existing_linked_ids,
+                existing_pending_ids: existing_pending_ids
+              )
+                raise ActiveRecord::RecordInvalid.new(@course)
+              end
+            end
+
+            @course.update!(update_params)
+            apply_unapproved_event_selection!(requested_event_ids) if requested_event_ids
+          end
         end
       rescue ActiveRecord::RecordInvalid => e
-        unless e.record.is_a?(Course)
-          @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.') if requested_event_ids
-        end
+        @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.') if requested_event_ids && !e.record.is_a?(Course)
         set_selected_ids_for_form
         format.html { render :edit }
         format.json { render json: @course.errors, status: :unprocessable_entity }

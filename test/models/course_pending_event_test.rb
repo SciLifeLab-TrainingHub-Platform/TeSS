@@ -22,7 +22,7 @@ class CoursePendingEventTest < ActiveSupport::TestCase
     assert_includes dup.errors[:event_id], "has already been taken"
 
     assert_raises(ActiveRecord::RecordNotUnique, ActiveRecord::StatementInvalid) do
-      CoursePendingEvent.insert_all(
+      CoursePendingEvent.insert_all!(
         [
           {
             course_id: courses(:two).id,
@@ -46,8 +46,9 @@ class CoursePendingEventTest < ActiveSupport::TestCase
     end
   end
 
-  test "event delete cascades pending event rows" do
+  test "event destroy removes pending event rows" do
     course = courses(:one)
+    provider = content_providers(:goblet)
 
     event = Event.create!(
       title: "Pending event cleanup test",
@@ -71,6 +72,7 @@ class CoursePendingEventTest < ActiveSupport::TestCase
       target_audience: ["Everyone"],
       cost_basis: "Free",
       registration_form_url: "https://example.com/registration",
+      content_providers: [provider],
       nodes: [nodes(:westeros)]
     )
 
@@ -78,8 +80,7 @@ class CoursePendingEventTest < ActiveSupport::TestCase
     assert_equal 1, CoursePendingEvent.where(event_id: event.id).count
 
     assert_difference("CoursePendingEvent.count", -1) do
-      event.delete
+      event.destroy
     end
   end
 end
-

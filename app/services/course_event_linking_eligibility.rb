@@ -8,7 +8,11 @@ class CourseEventLinkingEligibility
   def self.actor_manageable_event_ids(actor:, request:, event_ids:)
     return [] unless actor
 
-    context = Pundit::CurrentContext.new(actor, request)
+    # Disallow scraper_user API-only manage semantics for course-event selection.
+    # Treat scraper_user actor checks as request-agnostic so they only pass if the user can manage via non-API rules.
+    effective_request = actor.respond_to?(:has_role?) && actor.has_role?(:scraper_user) ? nil : request
+
+    context = Pundit::CurrentContext.new(actor, effective_request)
     manageable_event_ids_for_context(context: context, event_ids: event_ids)
   end
 

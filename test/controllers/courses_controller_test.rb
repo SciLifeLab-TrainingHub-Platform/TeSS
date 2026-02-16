@@ -756,6 +756,28 @@ class CoursesControllerTest < ActionController::TestCase
     assert_empty course.reload.course_pending_events.pluck(:event_id)
   end
 
+  test 'approved update without event_ids clears stale pending claims on success' do
+    course = Course.create!(
+      @mandatory.merge(
+        title: 'Approved course clears stale pending claims',
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+    course.update_column(:course_status, Course.course_statuses[:approved])
+
+    pending_event = events(:one)
+    CoursePendingEvent.create!(course: course, event: pending_event)
+    assert CoursePendingEvent.exists?(course_id: course.id, event_id: pending_event.id)
+
+    sign_in course.user
+    patch :update, params: { id: course.id, course: { title: 'Updated title only' } }
+
+    assert_response :redirect
+    assert_not CoursePendingEvent.exists?(course_id: course.id, event_id: pending_event.id)
+  end
+
   test 'invalid update does not reset revisions_required status' do
     course = Course.create!(
       @mandatory.merge(

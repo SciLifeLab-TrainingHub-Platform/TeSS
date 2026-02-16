@@ -62,6 +62,7 @@ class Course < ApplicationRecord
   validate :cannot_unapprove_with_approved_events
   validate :pending_events_linkable_on_approval, if: :course_status_transitioning_to_approved?
   after_save :link_pending_events_on_approval, if: :course_status_just_approved_in_save?
+  after_save :clear_pending_events_on_decline, if: :course_status_just_declined_in_save?
 
 
   # Facet fields for search filters
@@ -173,6 +174,13 @@ class Course < ApplicationRecord
     old_status.in?(%w[awaiting_review revisions_required]) && new_status == 'approved'
   end
 
+  def course_status_just_declined_in_save?
+    return false unless saved_change_to_course_status?
+
+    _old_status, new_status = saved_change_to_course_status
+    new_status == 'declined'
+  end
+
   def pending_events_linkable_on_approval
     @pending_events_to_link = nil
 
@@ -212,5 +220,9 @@ class Course < ApplicationRecord
     course_pending_events.delete_all
   ensure
     @pending_events_to_link = nil
+  end
+
+  def clear_pending_events_on_decline
+    course_pending_events.delete_all
   end
 end

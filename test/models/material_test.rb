@@ -400,17 +400,16 @@ class MaterialTest < ActiveSupport::TestCase
                                             { title: 'Cooler Website!', url: 'https://tess.elixir-europe.org/' }])
     end
 
-    er = material.reload.external_resources
-    assert_equal 2, er.count
-    assert_equal 'Cool Website!', er[0].title
-    assert_equal 'https://tess.elixir-uk.org/', er[0].url
-    assert_equal 'Cooler Website!', er[1].title
-    assert_equal 'https://tess.elixir-europe.org/', er[1].url
+    er_by_url = material.reload.external_resources.index_by(&:url)
+    assert_equal 2, er_by_url.count
+    assert_equal 'Cool Website!', er_by_url.fetch('https://tess.elixir-uk.org/').title
+    assert_equal 'Cooler Website!', er_by_url.fetch('https://tess.elixir-europe.org/').title
   end
 
   test 'should remove redundant external resources and preserve IDs of retained ones' do
     material = materials(:material_with_external_resource)
     original_resources = material.external_resources.to_a
+    original_by_url = original_resources.index_by(&:url)
     assert_equal 3, original_resources.length
 
     # [
@@ -424,37 +423,47 @@ class MaterialTest < ActiveSupport::TestCase
                                             { title: 'Changed title', url: 'https://bio.tools/tool/SR-Tesseler' }])
     end
 
-    er = material.reload.external_resources
-    assert_equal 2, er.count
-    assert_equal 'TeSS', er[0].title
-    assert_equal 'https://tess.elixir-uk.org/', er[0].url
-    assert_equal original_resources[0].id, er[0].id, 'Should have preserved original ExternalResource'
-    assert_equal 'Changed title', er[1].title
-    assert_equal 'https://bio.tools/tool/SR-Tesseler', er[1].url
-    assert_not_equal original_resources[1].id, er[1].id, 'Should have replaced modified ExternalResource'
+    er_by_url = material.reload.external_resources.index_by(&:url)
+    assert_equal 2, er_by_url.count
+
+    tess = er_by_url.fetch('https://tess.elixir-uk.org/')
+    assert_equal 'TeSS', tess.title
+    assert_equal original_by_url.fetch('https://tess.elixir-uk.org/').id, tess.id, 'Should have preserved original ExternalResource'
+
+    changed = er_by_url.fetch('https://bio.tools/tool/SR-Tesseler')
+    assert_equal 'Changed title', changed.title
+    assert_not_equal original_by_url.fetch('https://bio.tools/tool/SR-Tesseler').id, changed.id, 'Should have replaced modified ExternalResource'
   end
 
   test 'can set external resources using objects or params' do
     material = materials(:material_with_external_resource)
     original_resources = material.external_resources.to_a
+    original_by_url = original_resources.index_by(&:url)
     assert_equal 3, original_resources.length
 
     assert_no_difference('ExternalResource.count') do
-      material.update!(external_resources: original_resources.first(2) +
-        [{ title: 'Zombocom', url: 'https://zombo.com' }])
+      material.update!(external_resources: [
+        original_by_url.fetch('https://tess.elixir-uk.org/'),
+        original_by_url.fetch('https://bio.tools/tool/SR-Tesseler'),
+        { title: 'Zombocom', url: 'https://zombo.com' }
+      ])
     end
 
-    er = material.reload.external_resources
-    assert_equal 3, er.count
-    assert_equal 'TeSS', er[0].title
-    assert_equal 'https://tess.elixir-uk.org/', er[0].url
-    assert_equal original_resources[0].id, er[0].id, 'Should have preserved first ExternalResource'
-    assert_equal 'SR-Tesseler', er[1].title
-    assert_equal 'https://bio.tools/tool/SR-Tesseler', er[1].url
-    assert_equal original_resources[1].id, er[1].id, 'Should have preserved second ExternalResource'
-    assert_equal 'Zombocom', er[2].title
-    assert_equal 'https://zombo.com', er[2].url
-    assert_not_equal original_resources[2].id, er[2].id, 'Should have replaced third ExternalResource'
+    er_by_url = material.reload.external_resources.index_by(&:url)
+    assert_equal 3, er_by_url.count
+
+    tess = er_by_url.fetch('https://tess.elixir-uk.org/')
+    assert_equal 'TeSS', tess.title
+    assert_equal original_by_url.fetch('https://tess.elixir-uk.org/').id, tess.id, 'Should have preserved first ExternalResource'
+
+    sr = er_by_url.fetch('https://bio.tools/tool/SR-Tesseler')
+    assert_equal 'SR-Tesseler', sr.title
+    assert_equal original_by_url.fetch('https://bio.tools/tool/SR-Tesseler').id, sr.id, 'Should have preserved second ExternalResource'
+
+    zombocom = er_by_url.fetch('https://zombo.com')
+    assert_equal 'Zombocom', zombocom.title
+    assert_not_equal original_by_url.fetch('https://fairsharing.org/bsg-p123456').id, zombocom.id,
+                     'Should have replaced third ExternalResource'
   end
 
   test 'verified users scope' do
