@@ -220,6 +220,185 @@ class CoursesControllerTest < ActionController::TestCase
     end
   end
 
+  test 'regular user create stores selected events as pending and does not link them' do
+    sign_in users(:regular_user)
+
+    approved_event = events(:one)
+    approved_event.update_column(:event_status, Event.event_statuses[:approved]) unless approved_event.approved?
+    assert_nil approved_event.course_id
+
+    parameters = @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [approved_event.id]
+    )
+
+    assert_difference('Course.count', 1) do
+      assert_difference('CoursePendingEvent.count', 1) do
+        post :create, params: { course: parameters }
+      end
+    end
+
+    course = assigns(:course)
+    assert_redirected_to course_path(course)
+    assert_equal 'awaiting_review', course.course_status
+    assert_empty course.event_ids
+    assert CoursePendingEvent.exists?(course_id: course.id, event_id: approved_event.id)
+    assert_nil approved_event.reload.course_id
+  end
+
+  test 'regular user can update pending event selection on unapproved course' do
+    sign_in users(:regular_user)
+
+    first_event = events(:one)
+    second_event = events(:two)
+
+    parameters = @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [first_event.id]
+    )
+    post :create, params: { course: parameters }
+    course = assigns(:course)
+
+    assert_equal [first_event.id], course.course_pending_events.pluck(:event_id).sort
+
+    patch :update, params: { id: course.id, course: { event_ids: [second_event.id] } }
+
+    assert_redirected_to course_path(course)
+    assert_equal [second_event.id], course.reload.course_pending_events.pluck(:event_id).sort
+    assert_empty course.event_ids
+    assert_nil first_event.reload.course_id
+    assert_nil second_event.reload.course_id
+  end
+
+  test 'regular user cannot select an event that is already pending for another course' do
+    sign_in users(:regular_user)
+
+    event = events(:one)
+    existing_course = Course.create!(
+      @mandatory.merge(
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+    CoursePendingEvent.create!(course: existing_course, event: event)
+
+    parameters = @mandatory.merge(
+      title: 'Another course',
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [event.id]
+    )
+
+    assert_no_difference('Course.count') do
+      post :create, params: { course: parameters }
+    end
+
+    assert_response :success
+    assert_template :new
+  end
+
+  test 'regular user cannot select an unapproved event' do
+    sign_in users(:regular_user)
+
+    unapproved_event = events(:one)
+    unapproved_event.update_column(:event_status, Event.event_statuses[:awaiting_review])
+    refute unapproved_event.approved?
+
+    parameters = @mandatory.merge(
+      title: 'Unapproved event selection course',
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [unapproved_event.id]
+    )
+
+    assert_no_difference('Course.count') do
+      post :create, params: { course: parameters }
+    end
+
+    assert_response :success
+    assert_template :new
+  end
+
+  test 'regular user cannot select an event already linked to another course' do
+    sign_in users(:regular_user)
+
+    linked_course = Course.create!(
+      @mandatory.merge(
+        title: 'Linked course',
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+    linked_course.update_column(:course_status, Course.course_statuses[:approved])
+
+    linked_event = events(:one)
+    linked_event.update!(course: linked_course)
+    assert_not_nil linked_event.course_id
+
+    parameters = @mandatory.merge(
+      title: 'Already linked event selection course',
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [linked_event.id]
+    )
+
+    assert_no_difference('Course.count') do
+      post :create, params: { course: parameters }
+    end
+
+    assert_response :success
+    assert_template :new
+  end
+
+  test 'regular user cannot select an event they do not manage' do
+    sign_in users(:regular_user)
+
+    template_event = events(:one)
+    other_users_provider = ContentProvider.create!(
+      title: 'Other users provider',
+      url: 'https://example.com/other-users-provider',
+      user: users(:another_regular_user)
+    )
+    other_users_event = Event.create!(
+      title: 'Other user event',
+      url: 'https://example.com/other-user-event',
+      user: users(:another_regular_user),
+      start: template_event.start,
+      end: template_event.end,
+      timezone: template_event.timezone,
+      contact: template_event.contact,
+      eligibility: template_event.eligibility,
+      host_institutions: template_event.host_institutions,
+      nodes: template_event.nodes,
+      language: template_event.language,
+      prerequisites: template_event.prerequisites,
+      target_audience: template_event.target_audience,
+      content_providers: [other_users_provider],
+      cost_basis: template_event.cost_basis,
+      learning_objectives: template_event.learning_objectives,
+      event_status: 'approved'
+    )
+    refute EventPolicy.new(Pundit::CurrentContext.new(users(:regular_user), nil), other_users_event).manage?
+
+    parameters = @mandatory.merge(
+      title: 'Unauthorized event selection course',
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [other_users_event.id]
+    )
+
+    assert_no_difference('Course.count') do
+      post :create, params: { course: parameters }
+    end
+
+    assert_response :success
+    assert_template :new
+  end
+
   test 'should create course for admin' do
     sign_in users(:admin)
     assert_difference('Course.count') do
@@ -292,6 +471,133 @@ class CoursesControllerTest < ActionController::TestCase
     assert_template :edit
     assert_select "select#course_content_provider_ids option[value='#{@content_providers.id}'][selected='selected']", count: 1
     assert_select "select#course_event_ids option[value='#{approved_event.id}'][selected='selected']", count: 1
+  end
+
+  test 'unapproved update without event_ids preserves pending claims and keeps selection visible on failure' do
+    sign_in users(:regular_user)
+
+    pending_event = events(:one)
+
+    post :create, params: { course: @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [pending_event.id]
+    ) }
+    course = assigns(:course)
+    assert CoursePendingEvent.exists?(course_id: course.id, event_id: pending_event.id)
+
+    patch :update, params: { id: course.id, course: { title: '' } }
+
+    assert_response :success
+    assert_template :edit
+    assert CoursePendingEvent.exists?(course_id: course.id, event_id: pending_event.id)
+    assert_select "select#course_event_ids option[value='#{pending_event.id}'][selected='selected']", count: 1
+  end
+
+  test 'unapproved update without event_ids preserves pending claims on success' do
+    sign_in users(:regular_user)
+
+    pending_event = events(:one)
+
+    post :create, params: { course: @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [pending_event.id]
+    ) }
+    course = assigns(:course)
+    assert CoursePendingEvent.exists?(course_id: course.id, event_id: pending_event.id)
+
+    patch :update, params: { id: course.id, course: { title: 'Updated title only' } }
+
+    assert_response :redirect
+    assert CoursePendingEvent.exists?(course_id: course.id, event_id: pending_event.id)
+    assert_nil pending_event.reload.course_id
+  end
+
+  test 'unapproved update with event_ids clears pending claims when empty selection submitted' do
+    sign_in users(:regular_user)
+
+    pending_event = events(:one)
+
+    post :create, params: { course: @mandatory.merge(
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [pending_event.id]
+    ) }
+    course = assigns(:course)
+    assert CoursePendingEvent.exists?(course_id: course.id, event_id: pending_event.id)
+
+    patch :update, params: { id: course.id, course: { event_ids: [''] } }
+
+    assert_response :redirect
+    assert_not CoursePendingEvent.exists?(course_id: course.id, event_id: pending_event.id)
+  end
+
+  test 'unapproved update hard-fails when trying to unlink a legacy linked event without permission' do
+    course = Course.create!(
+      @mandatory.merge(
+        title: 'Legacy linked event course',
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+
+    template_event = events(:one)
+    other_users_provider = ContentProvider.create!(
+      title: 'Legacy other users provider',
+      url: 'https://example.com/legacy-other-users-provider',
+      user: users(:another_regular_user)
+    )
+    legacy_event = Event.create!(
+      title: 'Legacy other user event',
+      url: 'https://example.com/legacy-other-user-event',
+      user: users(:another_regular_user),
+      start: template_event.start,
+      end: template_event.end,
+      timezone: template_event.timezone,
+      contact: template_event.contact,
+      eligibility: template_event.eligibility,
+      host_institutions: template_event.host_institutions,
+      nodes: template_event.nodes,
+      language: template_event.language,
+      prerequisites: template_event.prerequisites,
+      target_audience: template_event.target_audience,
+      content_providers: [other_users_provider],
+      cost_basis: template_event.cost_basis,
+      learning_objectives: template_event.learning_objectives,
+      event_status: 'approved'
+    )
+    refute EventPolicy.new(Pundit::CurrentContext.new(users(:regular_user), nil), legacy_event).manage?
+    legacy_event.update_column(:course_id, course.id)
+    assert_equal course.id, legacy_event.reload.course_id
+
+    sign_in users(:regular_user)
+    patch :update, params: { id: course.id, course: { event_ids: [''] } }
+
+    assert_response :success
+    assert_template :edit
+    assert_equal course.id, legacy_event.reload.course_id
+  end
+
+  test 'invalid update does not reset revisions_required status' do
+    course = Course.create!(
+      @mandatory.merge(
+        title: 'Revisions required course',
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+    course.update_column(:course_status, Course.course_statuses[:revisions_required])
+    assert_equal 'revisions_required', course.course_status
+
+    sign_in users(:regular_user)
+    patch :update, params: { id: course.id, course: { title: '' } }
+
+    assert_response :success
+    assert_template :edit
+    assert_equal 'revisions_required', course.reload.course_status
   end
 
   # SHOW TEST
