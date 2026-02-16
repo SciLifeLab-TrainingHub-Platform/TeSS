@@ -62,6 +62,7 @@ class CoursesController < ApplicationController
         format.html { redirect_to @course, notice: 'Course was successfully created.' }
         format.json { render :show, status: :created, location: @course }
       else
+        set_selected_ids_for_form
         format.html { render :new }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
@@ -80,6 +81,7 @@ class CoursesController < ApplicationController
         format.html { redirect_to @course, notice: 'Course was successfully updated.' }
         format.json { render :show, status: :ok, location: @course }
       else
+        set_selected_ids_for_form
         format.html { render :edit }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
@@ -157,6 +159,32 @@ class CoursesController < ApplicationController
     permitted.delete(:user_id) unless current_user&.is_admin?
 
     params.require(:course).permit(permitted)
+  end
+
+  def set_selected_ids_for_form
+    raw_params = params[:course]
+
+    content_providers_key_present =
+      raw_params.respond_to?(:key?) &&
+        (raw_params.key?(:content_provider_ids) || raw_params.key?('content_provider_ids'))
+
+    events_key_present =
+      raw_params.respond_to?(:key?) &&
+        (raw_params.key?(:event_ids) || raw_params.key?('event_ids'))
+
+    @selected_content_providers_id =
+      if content_providers_key_present
+        Array(raw_params[:content_provider_ids]).reject(&:blank?).map(&:to_i)
+      else
+        @course&.content_provider_ids || []
+      end
+
+    @selected_events_id =
+      if events_key_present
+        Array(raw_params[:event_ids]).reject(&:blank?).map(&:to_i)
+      else
+        @course&.event_ids || []
+      end
   end
 
   def course_check_exists_params

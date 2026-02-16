@@ -104,14 +104,14 @@
           title="<%= t('events.hints.content_provider_hint') %>">
     &#xe086;
   </span>
-    <%= f.collection_select :content_provider_ids, @content_providers, :id, :title,
-                            { include_blank: false },
-                            { class: "js-select2", style: "width: 100%;", multiple: true } do |content_provider| %>
-      <option value="<%= content_provider.id %>"
-              <%= 'selected="selected"' if @selected_content_providers_id.include?(content_provider.id) %>>
-        <%= content_provider.title %>
-      </option>
-    <% end %>
+	    <%= f.collection_select :content_provider_ids, @content_providers, :id, :title,
+	                            { include_blank: false },
+	                            { class: "js-select2", style: "width: 100%;", multiple: true } do |content_provider| %>
+        <option value="<%= content_provider.id %>"
+                <%= 'selected="selected"' if Array(@selected_content_providers_id).include?(content_provider.id) %>>
+          <%= content_provider.title %>
+        </option>
+      <% end %>
 
     <% if @course.errors[:content_providers].present? %>
     <span class="help-block small" style="color: #a02622;">

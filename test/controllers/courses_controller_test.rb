@@ -235,6 +235,30 @@ class CoursesControllerTest < ActionController::TestCase
     assert_redirected_to course_path(assigns(:course))
   end
 
+  test 'invalid create re-renders new and preserves content provider selection' do
+    sign_in users(:admin)
+
+    assert_no_difference('Course.count') do
+      approved_event = events(:one)
+      approved_event.update_column(:event_status, Event.event_statuses[:approved]) unless approved_event.approved?
+
+      parameters = @mandatory.merge(
+        {
+          title: '',
+          node_ids: [@node.id],
+          content_provider_ids: [@content_providers.id],
+          event_ids: [approved_event.id]
+        }
+      )
+      post :create, params: { course: parameters }
+    end
+
+    assert_response :success
+    assert_template :new
+    assert_select "select#course_content_provider_ids option[value='#{@content_providers.id}'][selected='selected']", count: 1
+    assert_select "select#course_event_ids option[value='#{events(:one).id}'][selected='selected']", count: 1
+  end
+
   test 'should not create course for non-logged in user' do
     assert_no_difference('Course.count') do
       # Create event with all mandatory fields
@@ -247,6 +271,27 @@ class CoursesControllerTest < ActionController::TestCase
       post :create, params: { course: parameters }
     end
     assert_redirected_to new_user_session_path
+  end
+
+  test 'invalid update re-renders edit and preserves content provider selection' do
+    parameters = @mandatory.merge(
+      {
+        nodes: [@node],
+        content_providers: [@content_providers],
+        user: @user
+      }
+    )
+    course = Course.create!(parameters)
+
+    sign_in course.user
+    approved_event = events(:one)
+    approved_event.update_column(:event_status, Event.event_statuses[:approved]) unless approved_event.approved?
+    patch :update, params: { id: course.id, course: { title: '', event_ids: [approved_event.id] } }
+
+    assert_response :success
+    assert_template :edit
+    assert_select "select#course_content_provider_ids option[value='#{@content_providers.id}'][selected='selected']", count: 1
+    assert_select "select#course_event_ids option[value='#{approved_event.id}'][selected='selected']", count: 1
   end
 
   # SHOW TEST
