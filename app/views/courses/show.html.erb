@@ -16,7 +16,7 @@
       <div class="content-actions">
         <div class="content-viewer-actions">
           <% if @course.url.present? %>
-            <%= external_link_button 'View course website', @course.url, track: @course,
+            <%= external_link_button 'View website', @course.url, track: @course,
                                      class: 'btn event-action__view' %>
           <% end %>
           <% if policy(Event).new? %>
