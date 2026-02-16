@@ -44,7 +44,12 @@ class CourseEventLinkingEligibility
     requested_ids = normalize_event_ids(event_ids)
     return [] if requested_ids.blank?
 
-    Event.where(id: requested_ids).order(:id).lock('FOR UPDATE').to_a
+    # Preload associations used by policies to avoid N+1 queries while evaluating manage? checks.
+    Event.preload(:user, content_providers: [:user, :editors])
+         .where(id: requested_ids)
+         .order(:id)
+         .lock('FOR UPDATE')
+         .to_a
   end
 
   def self.manageable_event_ids_for_context(context:, event_ids:)
@@ -53,7 +58,7 @@ class CourseEventLinkingEligibility
     requested_ids = normalize_event_ids(event_ids)
     return [] if requested_ids.blank?
 
-    events_by_id = Event.includes(:user, content_providers: :editors).where(id: requested_ids).index_by(&:id)
+    events_by_id = Event.includes(:user, content_providers: [:user, :editors]).where(id: requested_ids).index_by(&:id)
 
     requested_ids.select do |id|
       event = events_by_id[id]

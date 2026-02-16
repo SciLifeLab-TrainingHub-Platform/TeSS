@@ -60,6 +60,13 @@ class AdminApprovalFlowCourseTest < ActionDispatch::IntegrationTest
   test "admin approves pending course" do
     sign_in @admin
 
+    pending_event = create_event_from_template(
+      title: 'Pending approval event',
+      url: 'https://example.com/pending-approval-event',
+      user: @user
+    )
+    CoursePendingEvent.create!(course: @pending_course, event: pending_event)
+
     perform_enqueued_jobs do
       # Simulate approving course
       assert_emails 2 do
@@ -78,8 +85,167 @@ class AdminApprovalFlowCourseTest < ActionDispatch::IntegrationTest
 
     # Course should be approved
     assert_equal "approved", @pending_course.reload.course_status
+    assert_equal @pending_course.id, pending_event.reload.course_id
+    assert_empty @pending_course.course_pending_events.pluck(:event_id)
 
     sign_out @admin
+  end
+
+  test "admin cannot approve pending course when pending events are no longer linkable" do
+    sign_in @admin
+
+    pending_event = create_event_from_template(
+      title: 'Conflicting pending event',
+      url: 'https://example.com/conflicting-pending-event',
+      user: @user
+    )
+    CoursePendingEvent.create!(course: @pending_course, event: pending_event)
+
+    other_course = @user.courses.create!(@parameters.merge(
+      title: 'Other approved course',
+      url: 'https://example.com/other-approved-course'
+    ))
+    other_course.update_column(:course_status, Course.course_statuses[:approved])
+    pending_event.update_column(:course_id, other_course.id)
+
+    clear_enqueued_jobs
+    clear_performed_jobs
+    approved_events_count_before = @user.reload.approved_events_count
+
+    assert_no_enqueued_jobs do
+      assert_raises(ActiveRecord::RecordInvalid) do
+        @pending_course.update!(course_status: Course.course_statuses[:approved])
+      end
+    end
+
+    assert_equal "awaiting_review", @pending_course.reload.course_status
+    assert_equal other_course.id, pending_event.reload.course_id
+    assert CoursePendingEvent.exists?(course_id: @pending_course.id, event_id: pending_event.id)
+    assert_equal approved_events_count_before, @user.reload.approved_events_count
+  end
+
+  test "admin cannot approve pending course when pending events are no longer approved" do
+    sign_in @admin
+
+    pending_event = create_event_from_template(
+      title: 'Pending event that becomes unapproved',
+      url: 'https://example.com/pending-event-that-becomes-unapproved',
+      user: @user
+    )
+    CoursePendingEvent.create!(course: @pending_course, event: pending_event)
+    pending_event.update_column(:event_status, Event.event_statuses[:awaiting_review])
+
+    clear_enqueued_jobs
+    clear_performed_jobs
+    approved_events_count_before = @user.reload.approved_events_count
+
+    assert_no_enqueued_jobs do
+      assert_raises(ActiveRecord::RecordInvalid) do
+        @pending_course.update!(course_status: Course.course_statuses[:approved])
+      end
+    end
+
+    assert_equal "awaiting_review", @pending_course.reload.course_status
+    assert_nil pending_event.reload.course_id
+    assert CoursePendingEvent.exists?(course_id: @pending_course.id, event_id: pending_event.id)
+    assert_equal approved_events_count_before, @user.reload.approved_events_count
+  end
+
+  test "admin cannot approve pending course when owner cannot manage pending events" do
+    sign_in @admin
+
+    other_provider = ContentProvider.create!(
+      title: 'Other Provider',
+      url: 'https://example.com/other-provider',
+      user: @user2,
+      contact: 'other@example.com'
+    )
+
+    pending_event = create_event_from_template(
+      title: 'Restricted pending event',
+      url: 'https://example.com/restricted-pending-event',
+      user: @user2,
+      content_providers: [other_provider]
+    )
+    CoursePendingEvent.create!(course: @pending_course, event: pending_event)
+
+    clear_enqueued_jobs
+    clear_performed_jobs
+    approved_events_count_before = @user.reload.approved_events_count
+
+    assert_no_enqueued_jobs do
+      assert_raises(ActiveRecord::RecordInvalid) do
+        @pending_course.update!(course_status: Course.course_statuses[:approved])
+      end
+    end
+
+    assert_equal "awaiting_review", @pending_course.reload.course_status
+    assert_nil pending_event.reload.course_id
+    assert CoursePendingEvent.exists?(course_id: @pending_course.id, event_id: pending_event.id)
+    assert_equal approved_events_count_before, @user.reload.approved_events_count
+  end
+
+  test "admin cannot approve pending course when one of multiple pending events becomes invalid" do
+    sign_in @admin
+
+    ok_event = create_event_from_template(
+      title: 'Pending ok event',
+      url: 'https://example.com/pending-ok-event',
+      user: @user
+    )
+    conflicting_event = create_event_from_template(
+      title: 'Pending conflicting event',
+      url: 'https://example.com/pending-conflicting-event',
+      user: @user
+    )
+    CoursePendingEvent.create!(course: @pending_course, event: ok_event)
+    CoursePendingEvent.create!(course: @pending_course, event: conflicting_event)
+
+    other_course = @user.courses.create!(@parameters.merge(
+      title: 'Other approved course',
+      url: 'https://example.com/other-approved-course-2'
+    ))
+    other_course.update_column(:course_status, Course.course_statuses[:approved])
+    conflicting_event.update_column(:course_id, other_course.id)
+
+    clear_enqueued_jobs
+    clear_performed_jobs
+    approved_events_count_before = @user.reload.approved_events_count
+
+    assert_no_enqueued_jobs do
+      assert_raises(ActiveRecord::RecordInvalid) do
+        @pending_course.update!(course_status: Course.course_statuses[:approved])
+      end
+    end
+
+    assert_equal "awaiting_review", @pending_course.reload.course_status
+    assert_nil ok_event.reload.course_id
+    assert_equal other_course.id, conflicting_event.reload.course_id
+    assert CoursePendingEvent.exists?(course_id: @pending_course.id, event_id: ok_event.id)
+    assert CoursePendingEvent.exists?(course_id: @pending_course.id, event_id: conflicting_event.id)
+    assert_equal approved_events_count_before, @user.reload.approved_events_count
+  end
+
+  test "admin approves pending course clears pending claims when pending event is already linked" do
+    sign_in @admin
+
+    pending_event = create_event_from_template(
+      title: 'Already linked pending event',
+      url: 'https://example.com/already-linked-pending-event',
+      user: @user
+    )
+    CoursePendingEvent.create!(course: @pending_course, event: pending_event)
+    pending_event.update_column(:course_id, @pending_course.id)
+
+    perform_enqueued_jobs do
+      assert_emails 2 do
+        @pending_course.update!(course_status: Course.course_statuses[:approved])
+      end
+    end
+
+    assert_equal "approved", @pending_course.reload.course_status
+    assert_equal @pending_course.id, pending_event.reload.course_id
+    assert_empty @pending_course.course_pending_events.pluck(:event_id)
   end
 
   # Reject course
@@ -133,5 +299,30 @@ class AdminApprovalFlowCourseTest < ActionDispatch::IntegrationTest
     assert_raises(ActiveRecord::RecordNotFound) do
       get "/courses/#{@pending_course.id}", params: { format: :json }
     end
+  end
+
+  private
+
+  def create_event_from_template(title:, url:, user:, content_providers: [@content_provider], event_status: 'approved')
+    template_event = events(:one)
+    Event.create!(
+      title: title,
+      url: url,
+      user: user,
+      start: template_event.start,
+      end: template_event.end,
+      timezone: template_event.timezone,
+      contact: template_event.contact,
+      eligibility: template_event.eligibility,
+      host_institutions: template_event.host_institutions,
+      nodes: template_event.nodes,
+      language: template_event.language,
+      prerequisites: template_event.prerequisites,
+      target_audience: template_event.target_audience,
+      content_providers: content_providers,
+      cost_basis: template_event.cost_basis,
+      learning_objectives: template_event.learning_objectives,
+      event_status: event_status
+    )
   end
 end

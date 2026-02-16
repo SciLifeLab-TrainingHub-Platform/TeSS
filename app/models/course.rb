@@ -60,6 +60,8 @@ class Course < ApplicationRecord
   clean_array_fields(:keywords, :target_audience)
 
   validate :cannot_unapprove_with_approved_events
+  validate :pending_events_linkable_on_approval, if: :course_status_transitioning_to_approved?
+  after_save :link_pending_events_on_approval, if: :course_status_just_approved_in_save?
 
 
   # Facet fields for search filters
@@ -155,5 +157,60 @@ class Course < ApplicationRecord
     return unless events.where(event_status: Event.event_statuses[:approved]).exists?
 
     errors.add(:course_status, :cannot_unapprove_with_approved_instances)
+  end
+
+  def course_status_transitioning_to_approved?
+    return false unless will_save_change_to_course_status?
+
+    old_status, new_status = course_status_change_to_be_saved
+    old_status.in?(%w[awaiting_review revisions_required]) && new_status == 'approved'
+  end
+
+  def course_status_just_approved_in_save?
+    return false unless saved_change_to_course_status?
+
+    old_status, new_status = saved_change_to_course_status
+    old_status.in?(%w[awaiting_review revisions_required]) && new_status == 'approved'
+  end
+
+  def pending_events_linkable_on_approval
+    @pending_events_to_link = nil
+
+    pending_event_ids = course_pending_events.order(:event_id).lock('FOR UPDATE').pluck(:event_id)
+    return if pending_event_ids.blank?
+
+    owner = user
+    invalid = owner.blank?
+
+    # Lock event rows in deterministic order for the remainder of this transaction.
+    locked_events = CourseEventLinkingEligibility.lock_events_for_update(pending_event_ids)
+    invalid ||= locked_events.map(&:id).sort != pending_event_ids.sort
+    invalid ||= locked_events.any? { |event| !event.approved? }
+    invalid ||= locked_events.any? { |event| event.course_id.present? && event.course_id != id }
+    invalid ||= locked_events.any? { |event| !CourseEventLinkingEligibility.owner_can_manage_event?(owner: owner, event: event) }
+
+    if invalid
+      errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.')
+      return
+    end
+
+    # Pass locked events to the after_save callback via instance variable.
+    # This avoids re-querying and re-locking within the same transaction.
+    @pending_events_to_link = locked_events.select { |event| event.course_id != id }
+  end
+
+  def link_pending_events_on_approval
+    # Consumes @pending_events_to_link set by pending_events_linkable_on_approval validation.
+    return if @pending_events_to_link.nil?
+
+    @pending_events_to_link.each do |event|
+      next if event.course_id == id
+
+      event.update!(course_id: id)
+    end
+
+    course_pending_events.delete_all
+  ensure
+    @pending_events_to_link = nil
   end
 end
