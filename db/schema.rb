@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_20_120551) do
+ActiveRecord::Schema[7.0].define(version: 2026_02_16_140047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -172,6 +172,15 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_20_120551) do
     t.index ["content_provider_id", "user_id"], name: "provider_user_unique", unique: true
     t.index ["content_provider_id"], name: "index_content_providers_users_on_content_provider_id"
     t.index ["user_id"], name: "index_content_providers_users_on_user_id"
+  end
+
+  create_table "course_pending_events", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_pending_events_on_course_id"
+    t.index ["event_id"], name: "index_course_pending_events_on_event_id", unique: true
   end
 
   create_table "courses", force: :cascade do |t|
@@ -724,6 +733,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_20_120551) do
   add_foreign_key "collections", "users"
   add_foreign_key "content_providers", "nodes"
   add_foreign_key "content_providers", "users"
+  add_foreign_key "course_pending_events", "courses", on_delete: :cascade
+  add_foreign_key "course_pending_events", "events", on_delete: :cascade
   add_foreign_key "courses", "users"
   add_foreign_key "event_cities", "cities"
   add_foreign_key "event_cities", "events"

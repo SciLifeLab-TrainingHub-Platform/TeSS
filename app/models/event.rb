@@ -139,6 +139,7 @@ class Event < ApplicationRecord
 
   belongs_to :user
   belongs_to :course, optional: true
+  has_many :course_pending_events, dependent: :destroy
 
   has_one :llm_interaction, inverse_of: :event, dependent: :destroy
   accepts_nested_attributes_for :llm_interaction, allow_destroy: true
