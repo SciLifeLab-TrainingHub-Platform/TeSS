@@ -128,7 +128,7 @@ class CoursesControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     assert_select "label[for='course_event_ids']", text: 'Event(s)'
-    assert_select 'span.help-block.small', text: 'Select any potential upcoming instances of your course'
+    assert_select 'span.help-block.small', text: /Select any potential upcoming instances of your course/
   end
 
   test 'should get new page for logged in users only' do
@@ -809,6 +809,39 @@ class CoursesControllerTest < ActionController::TestCase
     assert_select '.help-block', text: I18n.t('courses.messages.not_approved_instance_help')
   end
 
+  test 'unapproved course show displays pending event selection notice to owner' do
+    sign_in users(:regular_user)
+
+    course = courses(:one)
+    pending_event = events(:one)
+    pending_event.update_column(:event_status, Event.event_statuses[:approved]) unless pending_event.approved?
+    CoursePendingEvent.create!(course: course, event: pending_event)
+
+    get :show, params: { id: course.id }
+
+    assert_response :success
+    assert_select '.course-pending-events-notice', text: I18n.t('courses.messages.pending_event_selections_notice', count: 1)
+  end
+
+  test 'unapproved course show does not display pending event selection notice when no pending selections exist' do
+    sign_in users(:regular_user)
+
+    course = courses(:one)
+    get :show, params: { id: course.id }
+
+    assert_response :success
+    assert_select '.course-pending-events-notice', count: 0
+  end
+
+  test 'non-owner cannot view unapproved course' do
+    course = courses(:one)
+    sign_in users(:another_regular_user2)
+
+    assert_raises(ActiveRecord::RecordNotFound) do
+      get :show, params: { id: course.id }
+    end
+  end
+
   test 'approved course allows creating course instances' do
     sign_in users(:regular_user)
 
@@ -819,6 +852,7 @@ class CoursesControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_select 'a', text: I18n.t('courses.actions.create_instance'), count: 1
+    assert_select '.course-pending-events-notice', count: 0
   end
 
   test 'course edit shows existing unapproved events with status' do
@@ -857,6 +891,48 @@ class CoursesControllerTest < ActionController::TestCase
     assert_includes assigns(:events).map(&:id), pending_event.id
     awaiting_review_label = I18n.t('courses.event_option_status.awaiting_review')
     assert_select "#course_event_ids option[value='#{pending_event.id}']", text: /Pending course instance\s*\(#{Regexp.escape(awaiting_review_label)}\)/
+  end
+
+  test 'course edit does not leak restricted event metadata for selected but unviewable events' do
+    sign_in users(:regular_user)
+
+    course = courses(:one)
+    other_user = users(:another_regular_user2)
+
+    other_provider = ContentProvider.create!(
+      title: 'Other Provider',
+      url: 'https://example.com/restricted-provider',
+      user: other_user,
+      contact: 'other@example.com'
+    )
+
+    template_event = events(:one)
+    restricted_event = Event.create!(
+      title: 'Restricted pending event',
+      url: 'https://example.com/restricted-pending-event',
+      user: other_user,
+      start: template_event.start,
+      end: template_event.end,
+      timezone: template_event.timezone,
+      contact: template_event.contact,
+      eligibility: template_event.eligibility,
+      host_institutions: template_event.host_institutions,
+      nodes: template_event.nodes,
+      language: template_event.language,
+      prerequisites: template_event.prerequisites,
+      target_audience: template_event.target_audience,
+      content_providers: [other_provider],
+      cost_basis: template_event.cost_basis,
+      learning_objectives: template_event.learning_objectives,
+      event_status: 'awaiting_review'
+    )
+    CoursePendingEvent.create!(course: course, event: restricted_event)
+
+    get :edit, params: { id: course.id }
+
+    assert_response :success
+    assert_select "#course_event_ids option[value='#{restricted_event.id}']", text: I18n.t('courses.event_option_restricted'), count: 1
+    assert_select "#course_event_ids option", text: /Restricted pending event/, count: 0
   end
 
   test 'should show event as json' do

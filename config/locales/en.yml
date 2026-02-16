@@ -547,8 +547,14 @@ en:
   courses:
     actions:
       create_instance: 'Create Course Instance'
+    hints:
+      event_selection_help: 'Select any potential upcoming instances of your course. If this course is awaiting approval, selections will be linked when the course is approved.'
     messages:
       not_approved_instance_help: 'This course is not approved yet. You can create course instances once the course is approved.'
+      pending_event_selections_notice:
+        one: 'This course has %{count} event selection pending. These will be linked automatically when the course is approved.'
+        other: 'This course has %{count} event selections pending. These will be linked automatically when the course is approved.'
+    event_option_restricted: 'Selected event (restricted)'
     event_option_status:
       awaiting_review: 'Pending review'
       declined: 'Declined'

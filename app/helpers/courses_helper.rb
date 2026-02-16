@@ -32,7 +32,20 @@ module CoursesHelper
   end
 
   def course_event_option_label(event)
-    return event.title if event.blank?
+    return '' if event.blank?
+
+    course_user = respond_to?(:current_user) ? current_user : nil
+
+    # Avoid leaking metadata for events the current user cannot access.
+    # Events/courses use extra access rules (approved or owner/admin) in addition to Pundit policies.
+    showable_by_access_rules =
+      event.approved? ||
+        course_user&.is_admin? ||
+        (course_user && event.user_id == course_user.id && event.event_status != 'declined')
+
+    unless showable_by_access_rules && respond_to?(:policy) && policy(event).show?
+      return I18n.t('courses.event_option_restricted', default: 'Selected event (restricted)')
+    end
 
     status = event.respond_to?(:event_status) ? event.event_status : nil
     return event.title if status.blank? || status == 'approved'

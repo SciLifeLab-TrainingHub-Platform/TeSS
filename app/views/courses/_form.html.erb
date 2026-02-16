@@ -84,14 +84,14 @@
                  { include_blank: false },
                  { class: "js-select2", style: "width: 100%;", multiple: true } %>
 
-    <% if @course.errors[:events].present? %>
-    <span class="help-block small" style="color: #a02622;">
-      <%= @course.errors[:events].join(', ') %>
-    </span>
-    <% else %>
-      <span class="help-block small">Select any potential upcoming instances of your course</span>
-    <% end %>
-  </div>
+	    <% if @course.errors[:events].present? %>
+	    <span class="help-block small" style="color: #a02622;">
+	      <%= @course.errors[:events].join(', ') %>
+	    </span>
+	    <% else %>
+	      <span class="help-block small"><%= t('courses.hints.event_selection_help') %></span>
+	    <% end %>
+	  </div>
 
 
 

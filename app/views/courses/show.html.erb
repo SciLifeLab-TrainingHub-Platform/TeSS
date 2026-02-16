@@ -41,6 +41,15 @@
         <% end %>
       </div>
 
+      <% if policy(@course).update? && !@course.approved? %>
+        <% pending_event_count = @course.course_pending_events.count %>
+        <% if pending_event_count.positive? %>
+          <div class="alert alert-info course-pending-events-notice">
+            <%= t('courses.messages.pending_event_selections_notice', count: pending_event_count) %>
+          </div>
+        <% end %>
+      <% end %>
+
       <%= render 'courses/partials/details_sections', course: @course %>
     </div>
 
