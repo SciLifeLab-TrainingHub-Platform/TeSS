@@ -12,7 +12,7 @@
 <% grouped_events = course_events_grouped(course) %>
 <% upcoming_instances_card = render('courses/partials/details/instances_card',
                                     course: course,
-                                    title: 'Upcoming Course Instances',
+                                    title: 'Upcoming Training Instances',
                                     events: grouped_events[:upcoming]).presence %>
 <% past_instances_card = render('courses/partials/details/instances_card',
                                 course: course,

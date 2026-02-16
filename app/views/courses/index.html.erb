@@ -12,7 +12,7 @@
       <p><%= t('courses.hints.index_description') %></p>
       <% content_for :buttons do %>
         <%= link_to new_course_path, class: 'btn btn-primary' do %>
-          Create new course
+          Create catalogue entry
         <% end %>
         <!-- Info button-->
         <%= info_button("The #{TeSS::Config.site['title_short']} course catalogue", hide_text: true, class: 'event-info-button-popover') do %>

@@ -5,10 +5,10 @@ en:
       long: About
     courses:
       short: Catalogue
-      long: Course Catalogue
+      long: Training Catalogue
     events:
-      short: Events
-      long: Events
+      short: Training
+      long: Upcoming Training
     materials:
       short: Materials
       long: Training materials
@@ -546,9 +546,9 @@ en:
       provide training materials of relevance to life sciences and ELIXIR.
   courses:
     actions:
-      create_instance: 'Create Course Instance'
+      create_instance: 'Announce an upcoming training'
     messages:
-      not_approved_instance_help: 'This course is not approved yet. You can create course instances once the course is approved.'
+      not_approved_instance_help: 'This catalogue entry is not approved yet. You can create training instances once it is approved.'
     event_option_status:
       awaiting_review: 'Pending review'
       declined: 'Declined'
