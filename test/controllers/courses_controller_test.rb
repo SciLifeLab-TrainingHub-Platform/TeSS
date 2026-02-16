@@ -414,6 +414,64 @@ class CoursesControllerTest < ActionController::TestCase
     assert_redirected_to course_path(assigns(:course))
   end
 
+  test 'admin create with event_ids links events directly and creates no pending claims' do
+    sign_in users(:admin)
+
+    event = events(:one)
+    event.update_column(:event_status, Event.event_statuses[:approved]) unless event.approved?
+    event.update_column(:course_id, nil)
+
+    parameters = @mandatory.merge(
+      title: 'Admin create links event',
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [event.id]
+    )
+
+    assert_difference('Course.count', 1) do
+      assert_no_difference('CoursePendingEvent.count') do
+        post :create, params: { course: parameters }
+      end
+    end
+
+    course = assigns(:course)
+    assert_redirected_to course_path(course)
+    assert_equal 'approved', course.course_status
+    assert_includes course.event_ids, event.id
+    assert_equal course.id, event.reload.course_id
+    assert_not CoursePendingEvent.exists?(course_id: course.id, event_id: event.id)
+  end
+
+  test 'admin create hard-fails when selected event is already pending for another course' do
+    sign_in users(:admin)
+
+    event = events(:one)
+    event.update_column(:event_status, Event.event_statuses[:approved]) unless event.approved?
+
+    existing_course = Course.create!(
+      @mandatory.merge(
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+    CoursePendingEvent.create!(course: existing_course, event: event)
+
+    parameters = @mandatory.merge(
+      title: 'Admin conflicting course',
+      node_ids: [@node.id],
+      content_provider_ids: [@content_providers.id],
+      event_ids: [event.id]
+    )
+
+    assert_no_difference('Course.count') do
+      post :create, params: { course: parameters }
+    end
+
+    assert_response :success
+    assert_template :new
+  end
+
   test 'invalid create re-renders new and preserves content provider selection' do
     sign_in users(:admin)
 
@@ -578,6 +636,124 @@ class CoursesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :edit
     assert_equal course.id, legacy_event.reload.course_id
+  end
+
+  test 'approved update hard-fails when trying to add an event pending for another course' do
+    course = Course.create!(
+      @mandatory.merge(
+        title: 'Approved course',
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+    course.update_column(:course_status, Course.course_statuses[:approved])
+    assert_equal 'approved', course.course_status
+
+    pending_event = events(:one)
+    pending_event.update_column(:event_status, Event.event_statuses[:approved]) unless pending_event.approved?
+    pending_event.update_column(:user_id, course.user.id) unless pending_event.user_id == course.user.id
+    assert_nil pending_event.course_id
+
+    other_course = Course.create!(
+      @mandatory.merge(
+        title: 'Other course with pending event',
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+    CoursePendingEvent.create!(course: other_course, event: pending_event)
+
+    sign_in course.user
+    patch :update, params: { id: course.id, course: { event_ids: [pending_event.id] } }
+
+    assert_response :success
+    assert_template :edit
+    assert_empty course.reload.event_ids
+    assert_nil pending_event.reload.course_id
+  end
+
+  test 'approved update hard-fails when trying to unlink an event without permission' do
+    course = Course.create!(
+      @mandatory.merge(
+        title: 'Approved course with legacy linked event',
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+    course.update_column(:course_status, Course.course_statuses[:approved])
+    assert_equal 'approved', course.course_status
+
+    template_event = events(:one)
+    other_users_provider = ContentProvider.create!(
+      title: 'Approved legacy other users provider',
+      url: 'https://example.com/approved-legacy-other-users-provider',
+      user: users(:another_regular_user)
+    )
+    legacy_event = Event.create!(
+      title: 'Approved legacy other user event',
+      url: 'https://example.com/approved-legacy-other-user-event',
+      user: users(:another_regular_user),
+      start: template_event.start,
+      end: template_event.end,
+      timezone: template_event.timezone,
+      contact: template_event.contact,
+      eligibility: template_event.eligibility,
+      host_institutions: template_event.host_institutions,
+      nodes: template_event.nodes,
+      language: template_event.language,
+      prerequisites: template_event.prerequisites,
+      target_audience: template_event.target_audience,
+      content_providers: [other_users_provider],
+      cost_basis: template_event.cost_basis,
+      learning_objectives: template_event.learning_objectives,
+      event_status: 'approved'
+    )
+    refute EventPolicy.new(Pundit::CurrentContext.new(users(:regular_user), nil), legacy_event).manage?
+    legacy_event.update_column(:course_id, course.id)
+    assert_equal course.id, legacy_event.reload.course_id
+
+    sign_in course.user
+    patch :update, params: { id: course.id, course: { event_ids: [''] } }
+
+    assert_response :success
+    assert_template :edit
+    assert_equal course.id, legacy_event.reload.course_id
+  end
+
+  test 'approved update can link and unlink events and clears pending claims on success' do
+    course = Course.create!(
+      @mandatory.merge(
+        title: 'Approved course direct update success',
+        node_ids: [@node.id],
+        content_provider_ids: [@content_providers.id],
+        user: users(:regular_user)
+      )
+    )
+    course.update_column(:course_status, Course.course_statuses[:approved])
+    assert_equal 'approved', course.course_status
+
+    first_event = events(:one)
+    second_event = events(:two)
+    [first_event, second_event].each do |event|
+      event.update_column(:event_status, Event.event_statuses[:approved]) unless event.approved?
+      event.update_column(:course_id, nil)
+      event.update_column(:user_id, course.user.id) unless event.user_id == course.user.id
+    end
+
+    first_event.update!(course: course)
+    CoursePendingEvent.create!(course: course, event: second_event)
+    assert CoursePendingEvent.exists?(course_id: course.id, event_id: second_event.id)
+
+    sign_in course.user
+    patch :update, params: { id: course.id, course: { event_ids: [second_event.id] } }
+
+    assert_response :redirect
+    assert_nil first_event.reload.course_id
+    assert_equal course.id, second_event.reload.course_id
+    assert_empty course.reload.course_pending_events.pluck(:event_id)
   end
 
   test 'invalid update does not reset revisions_required status' do

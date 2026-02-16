@@ -54,20 +54,33 @@ class CoursesController < ApplicationController
     normalize_node_ids
     requested_event_ids = requested_event_ids_from_params
     direct_event_linking = current_user&.admin_or_trusted?
-    @course = Course.new(direct_event_linking ? course_params : course_params.except(:event_ids))
+    @course = Course.new(course_params.except(:event_ids))
     @course.user = current_user if @course.respond_to?(:user=)
 
     respond_to do |format|
       if direct_event_linking
-        if @course.save
-          @course.create_activity :create, owner: current_user if @course.respond_to?(:create_activity)
-          format.html { redirect_to @course, notice: 'Course was successfully created.' }
-          format.json { render :show, status: :created, location: @course }
-        else
+        begin
+          ActiveRecord::Base.transaction do
+            @course.save!
+            apply_direct_event_selection!(requested_event_ids)
+          end
+        rescue ActiveRecord::RecordInvalid => e
+          @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.') unless e.record.is_a?(Course)
           set_selected_ids_for_form
           format.html { render :new }
           format.json { render json: @course.errors, status: :unprocessable_entity }
+          next
+        rescue ActiveRecord::RecordNotUnique
+          @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.')
+          set_selected_ids_for_form
+          format.html { render :new }
+          format.json { render json: @course.errors, status: :unprocessable_entity }
+          next
         end
+
+        @course.create_activity :create, owner: current_user if @course.respond_to?(:create_activity)
+        format.html { redirect_to @course, notice: 'Course was successfully created.' }
+        format.json { render :show, status: :created, location: @course }
         next
       end
 
@@ -122,16 +135,32 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       if direct_event_linking
-        if @course.update(course_params)
-          course_change_status_and_notify_admin
-          @course.create_activity(:update, owner: current_user) if @course.respond_to?(:create_activity)
-          format.html { redirect_to @course, notice: 'Course was successfully updated.' }
-          format.json { render :show, status: :ok, location: @course }
-        else
+        requested_event_ids = event_ids_param_present? ? requested_event_ids_from_params : nil
+        update_params = course_params.except(:event_ids)
+
+        begin
+          ActiveRecord::Base.transaction do
+            @course.update!(update_params)
+            apply_direct_event_selection!(requested_event_ids) if requested_event_ids
+          end
+        rescue ActiveRecord::RecordInvalid => e
+          @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.') if requested_event_ids && !e.record.is_a?(Course)
           set_selected_ids_for_form
           format.html { render :edit }
           format.json { render json: @course.errors, status: :unprocessable_entity }
+          next
+        rescue ActiveRecord::RecordNotUnique
+          @course.errors.add(:events, 'One or more selected events are invalid, not permitted, or unavailable.') if requested_event_ids
+          set_selected_ids_for_form
+          format.html { render :edit }
+          format.json { render json: @course.errors, status: :unprocessable_entity }
+          next
         end
+
+        course_change_status_and_notify_admin
+        @course.create_activity(:update, owner: current_user) if @course.respond_to?(:create_activity)
+        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
+        format.json { render :show, status: :ok, location: @course }
         next
       end
 
@@ -407,5 +436,39 @@ class CoursesController < ApplicationController
     to_add.each do |event_id|
       @course.course_pending_events.create!(event_id: event_id)
     end
+  end
+
+  def apply_direct_event_selection!(desired_event_ids)
+    desired_event_ids ||= []
+
+    locked_events =
+      Event.where(course_id: @course.id)
+           .or(Event.where(id: desired_event_ids))
+           .order(:id)
+           .lock('FOR UPDATE')
+           .to_a
+
+    existing_linked_ids = locked_events.select { |e| e.course_id == @course.id }.map(&:id)
+
+    unless validate_unapproved_event_selection(
+      desired_event_ids,
+      existing_linked_ids: existing_linked_ids,
+      existing_pending_ids: []
+    )
+      raise ActiveRecord::RecordInvalid.new(@course)
+    end
+
+    to_add = desired_event_ids - existing_linked_ids
+    to_unlink = existing_linked_ids - desired_event_ids
+
+    Event.where(id: to_unlink, course_id: @course.id).find_each do |event|
+      event.update!(course_id: nil)
+    end
+
+    Event.where(id: to_add, course_id: nil).find_each do |event|
+      event.update!(course_id: @course.id)
+    end
+
+    @course.course_pending_events.delete_all
   end
 end
