@@ -77,15 +77,15 @@ module SearchHelper
 
   def searchable_resource_name(resource_type, variant: :short, count: 2)
     model_key = resource_type.model_name.i18n_key
-    i18n_key  = :"features.#{model_key.to_s.pluralize}.#{variant}"
 
-    name =
-      if I18n.exists?(i18n_key)
-        I18n.t(i18n_key)
-      else
-        resource_type.model_name.human(count: count)
-      end
-    name.downcase
+    # Only use features.* translations for Event and Course
+    if [:event, :course].include?(model_key)
+      i18n_key = :"features.#{model_key.to_s.pluralize}.#{variant}"
+      I18n.t(i18n_key).downcase
+    else
+      # fallback: model human name, pluralized, downcased
+      resource_type.model_name.human(count: count).downcase.pluralize
+    end
   end
 
   # Returns a count string with custom names if model is in custom_model_entries
