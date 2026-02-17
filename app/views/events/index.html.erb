@@ -8,6 +8,7 @@
 
     <div id="content">
       <h2><%= t("features.events.long") %></h2>
+      <p><%= t('events.hints.index_description') %></p>
       <% content_for :buttons do %>
         <!-- Register button-->
         <%= link_to new_event_path, class: 'btn btn-primary' do %>
