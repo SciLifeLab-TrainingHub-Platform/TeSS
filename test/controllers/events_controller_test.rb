@@ -133,7 +133,7 @@ class EventsControllerTest < ActionController::TestCase
     @monitor.update(failed_at: DateTime.new(2003, 12, 5))
     get :show, params: { id: @failing_event }
     assert_response :success
-    assert_select '.broken-link-notice', text: /this event's URL.+since 5 December 2003/
+    assert_select '.broken-link-notice', text: /TeSS has been unable to access this training's URL since 5 December 2003 - the page may have been moved./
   end
 
   # NEW TESTS
@@ -449,7 +449,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li[class=active]', text: /Events/, count: 1
+      assert_select 'li[class=active]', text: /Training/, count: 1
     end
   end
 
@@ -458,7 +458,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li', text: /Events/, count: 1 do
+      assert_select 'li', text: /Training/, count: 1 do
         assert_select 'a[href=?]', events_url, count: 1
       end
       assert_select 'li[class=active]', text: /#{@event.title}/, count: 1
@@ -471,7 +471,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li', text: /Events/, count: 1 do
+      assert_select 'li', text: /Training/, count: 1 do
         assert_select 'a[href=?]', events_url, count: 1
       end
       assert_select 'li', text: /#{@event.title}/, count: 1 do
@@ -487,7 +487,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li', text: /Events/, count: 1 do
+      assert_select 'li', text: /Training/, count: 1 do
         assert_select 'a[href=?]', events_url, count: 1
       end
       assert_select 'li[class=active]', text: /New/, count: 1
@@ -1535,7 +1535,7 @@ class EventsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_select '.unverified-notice',
-                  text: 'This event will not be publicly visible until your registration has been approved by an administrator.'
+                  text: 'This training will not be publicly visible until your registration has been approved by an administrator.'
   end
 
   test 'should show unverified users event to admin' do
@@ -1547,7 +1547,7 @@ class EventsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_select '.unverified-notice',
-                  text: 'This event will not be publicly visible until your registration has been approved by an administrator.'
+                  text: 'This training will not be publicly visible until your registration has been approved by an administrator.'
   end
 
   test 'should not show unverified users event anon user' do
