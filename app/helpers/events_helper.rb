@@ -224,4 +224,7 @@ module EventsHelper
     end
   end
 
+  def show_event_revision_notice?(event)
+    event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required])
+  end
 end
