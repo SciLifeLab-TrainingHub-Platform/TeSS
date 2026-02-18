@@ -220,4 +220,8 @@ module CoursesHelper
       events.select { |event| event.event_status == 'approved' }
     end
   end
+
+  def show_course_revision_notice?(course)
+    course.course_status == Course.course_statuses.key(Course.course_statuses[:revisions_required])
+  end
 end
