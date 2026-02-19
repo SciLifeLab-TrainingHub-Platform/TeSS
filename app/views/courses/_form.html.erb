@@ -123,24 +123,6 @@
   </div>
 
 
-  <!-- Nodes: check feature enabled -->
-  <% if TeSS::Config.feature['nodes'] and Node.all.count > 0 %>
-    <div class="form-group">
-      <label>* My course is affiliated with SciLifeLab: </label>
-
-      <% Node.order(:name).each do |node| %>
-        <div>
-          <%= f.radio_button :node_ids, node.id, checked: (@course.node_ids.include?(node.id)) %>
-          <%= f.label :node_ids, (node.slug == Node::SCILIFE_LAB_NODE_SLUG ? "Yes" : "No"), value: node.id %>
-        </div>
-      <% end %>
-      <% if @course.errors[:node_ids].any? %>
-        <span style="color: #a02622"><%= @course.errors[:node_ids].join(", ") %></span>
-      <% end %>
-    </div>
-  <% end %>
-
-
   <div class="form-group">
     <%= f.submit (f.object.new_record? ? "Add" : "Update") + " course", :class => 'btn btn-primary' %>
     <%= link_to 'Back', :back, class: 'btn btn-default' %>

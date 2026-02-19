@@ -17,6 +17,7 @@ class Course < ApplicationRecord
   before_create :set_course_initial_status
   after_commit :run_course_approval_lifecycle_on_create, on: :create
   after_commit :run_course_approval_lifecycle_on_status_change, on: :update
+  before_validation :set_default_node, on: :create
 
   if TeSS::Config.solr_enabled
     searchable do
@@ -54,7 +55,6 @@ class Course < ApplicationRecord
 
   validates :target_audience, presence: true
   validates :content_providers, presence: true
-  validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0  }
   clean_array_fields(:keywords, :target_audience)
 
   validate :cannot_unapprove_with_approved_events
@@ -153,5 +153,13 @@ class Course < ApplicationRecord
     return unless events.where(event_status: Event.event_statuses[:approved]).exists?
 
     errors.add(:course_status, :cannot_unapprove_with_approved_instances)
+  end
+
+
+  def set_default_node
+    if TeSS::Config.feature['nodes'] && Node.all.count > 0
+      default_node = Node.find_by(slug: Node::SCILIFE_LAB_NODE_SLUG)
+      self.nodes << default_node if default_node
+    end
   end
 end
