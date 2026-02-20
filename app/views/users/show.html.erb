@@ -144,15 +144,15 @@
       <ul class="nav nav-tabs">
         <!-- Tab: Events -->
         <% if TeSS::Config.feature['events'] %>
-          <%= tab('Events', icon_class_for_model('events'), 'events', activator: activator,
-                  disabled: { check: events_count.zero?, message: 'No registered events' },
+          <%= tab('Training sessions', icon_class_for_model('events'), 'events', activator: activator,
+                  disabled: { check: events_count.zero?, message: 'No registered Trainings' },
                   count: events_count) %>
         <% end %>
 
         <!-- Tab: Courses -->
         <% if TeSS::Config.feature['courses'] %>
-          <%= tab('Courses', icon_class_for_model('courses'), 'courses', activator: activator,
-                  disabled: { check: courses.none?, message: 'No registered courses' },
+          <%= tab('Training catalogue', icon_class_for_model('courses'), 'courses', activator: activator,
+                  disabled: { check: courses.none?, message: 'No registered training catalogue' },
                   count: courses_count) %>
         <% end %>
 

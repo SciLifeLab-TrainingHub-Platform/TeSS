@@ -224,7 +224,7 @@
   <!-- Nodes: check feature enabled -->
   <% if TeSS::Config.feature['nodes'] and Node.all.count > 0 %>
     <div class="form-group">
-      <label>* My course is affiliated with SciLifeLab: </label>
+      <label>* My training is affiliated with SciLifeLab: </label>
 
       <% Node.order(:name).each do |node| %>
         <div>

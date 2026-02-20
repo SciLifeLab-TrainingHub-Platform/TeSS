@@ -33,6 +33,10 @@ en:
     our_resources:
       short: Resources
       long: Resources
+    users:
+      short: Users
+      long: Users
+
   pundit:
     default: 'You are not authorised to perform this action.'
     material_policy:

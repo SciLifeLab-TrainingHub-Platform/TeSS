@@ -9,7 +9,9 @@
   <div id="content" class="courses-index">
     <div class="courses-index__heading">
       <h2><%= t('features.courses.long') %></h2>
-      <p><%= t('courses.hints.index_description') %></p>
+      <p class="text-muted small mb-2">
+        <%= t('courses.hints.index_description') %>
+      </p>
       <% content_for :buttons do %>
         <%= link_to new_course_path, class: 'btn btn-primary' do %>
           Create catalogue entry

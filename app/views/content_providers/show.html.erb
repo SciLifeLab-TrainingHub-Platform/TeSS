@@ -37,12 +37,12 @@
                 disabled: { check: materials_count.zero?, message: 'No associated training materials' },
                 count: materials_count) %>
 
-        <%= tab('Events', icon_class_for_model('events'), 'events', activator: activator,
-                disabled: { check: events_count.zero?, message: 'No associated events' },
+        <%= tab('Training sessions', icon_class_for_model('events'), 'events', activator: activator,
+                disabled: { check: events_count.zero?, message: 'No associated Training session' },
                 count: events_count) %>
 
-        <%= tab('Courses', icon_class_for_model('courses'), 'courses', activator: activator,
-                disabled: { check: courses.none?, message: 'No registered courses' },
+        <%= tab('Training catalogue', icon_class_for_model('courses'), 'courses', activator: activator,
+                disabled: { check: courses.none?, message: 'No registered catalogue' },
                 count: courses_count) %>
 
         <% if TeSS::Config.feature['sources'] && policy(@content_provider).update? %>
