@@ -18,10 +18,12 @@ class SearchController < ApplicationController
           fulltext search_params
 
           with('end').greater_than(Time.zone.now) if model_name == 'Event'
-          if model_name == 'Event'
-              instance_eval(&EventFilter.event_filter(current_user))
-          end
 
+          if model_name == 'Event'
+            instance_eval(&EventFilter.event_filter(current_user))
+          elsif model_name == 'Course'
+            instance_eval(&CourseFilter.course_filter(current_user))
+          end
 
           # Hide failing records
           if model.method_defined?(:link_monitor)

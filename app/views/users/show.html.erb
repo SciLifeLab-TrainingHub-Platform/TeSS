@@ -1,3 +1,4 @@
+<!--user profile show page-->
 <% resource_limit = UsersHelper.user_profile_resource_limit %>
 <div class="wrapper collapsing-wrapper-tb">
   <%- model_class = Profile -%>
@@ -136,14 +137,23 @@
       <% workflows_count =  @user.workflows.visible_by(current_user).count %>
       <% collections = @user.collections.visible_by(current_user).limit(resource_limit) %>
       <% collections_count = @user.collections.visible_by(current_user).count %>
+      <% courses = filter_courses_by_status(@user.courses.limit(resource_limit), current_user) %>
+      <% courses_count = filter_courses_by_status(@user.courses, current_user).count %>
       <% activator = tab_activator %>
 
       <ul class="nav nav-tabs">
         <!-- Tab: Events -->
         <% if TeSS::Config.feature['events'] %>
-          <%= tab('Events', icon_class_for_model('events'), 'events', activator: activator,
-                  disabled: { check: events_count.zero?, message: 'No registered events' },
+          <%= tab('Training sessions', icon_class_for_model('events'), 'events', activator: activator,
+                  disabled: { check: events_count.zero?, message: 'No registered Trainings' },
                   count: events_count) %>
+        <% end %>
+
+        <!-- Tab: Courses -->
+        <% if TeSS::Config.feature['courses'] %>
+          <%= tab('Training catalogue', icon_class_for_model('courses'), 'courses', activator: activator,
+                  disabled: { check: courses.none?, message: 'No registered training catalogue' },
+                  count: courses_count) %>
         <% end %>
 
         <!-- Tab: Materials -->
@@ -179,6 +189,17 @@
                                activator: activator,
                                view_all_link: events_path(user: @user.username),
                                inc_expired_link: events_path(user: @user.username, include_expired: true) } %>
+        <% end %>
+
+        <!-- Tab: Course -->
+        <% if TeSS::Config.feature['courses'] %>
+          <%= render partial: 'common/associated_resources',
+                     locals: { model: Course,
+                               total_count: courses_count,
+                               limit: resource_limit,
+                               resources: courses,
+                               activator: activator,
+                               view_all_link: courses_path(user: @user.username) } %>
         <% end %>
 
         <!-- Tab: Materials -->

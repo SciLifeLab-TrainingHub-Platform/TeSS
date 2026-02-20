@@ -10,7 +10,7 @@
 
 <div id="<%= id %>" class="tab-pane fade<%= ' in active' if active -%>">
   <div class="search-results-count my-3">
-    Showing <%= pluralize(shown_count, name) -%>
+    Showing <%= search_result_label(shown_count, name) -%>
     <% if limit && total_count > limit %>
       out of <%= total_count -%>
       <% all_btn_text = 'View all & filter' %>

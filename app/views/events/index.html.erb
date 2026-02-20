@@ -8,6 +8,9 @@
 
     <div id="content">
       <h2><%= t("features.events.long") %></h2>
+      <p class="text-muted small mb-2">
+        <%= t('events.hints.index_description') %>
+      </p>
       <% content_for :buttons do %>
         <!-- Register button-->
         <%= link_to new_event_path, class: 'btn btn-primary' do %>
@@ -26,7 +29,7 @@
           <% if TeSS::Config.map_enabled %>
             <%= tab('Map', 'fa fa-globe', 'map',
                     disabled: { check: (search_and_facet_params[:online] == 'true'),
-                                message: 'Only showing online events.' }) %>
+                                message: 'Only showing online training.' }) %>
           <% end %>
         </ul>
       <% end %>
@@ -38,9 +41,7 @@
       <% unless @events.blank? %>
         <div class="tab-content">
           <div id="home" class="tab-pane fade in active">
-            <ul class="course-cards media-grid">
-              <%= render partial: 'events/index_event', collection: @events, as: :event %>
-            </ul>
+            <%= render partial: 'common/masonry_grid', locals: { objects: @events } %>
 
             <%= render partial: "search/common/pagination_bar", locals: { resources: @events } %>
           </div>
@@ -55,9 +56,9 @@
               <div id="map-content">
                 <%= render partial: 'events/partials/events_map' %>
                 <p id="map-notice" class="help-block">
-                  Note, this map only displays events that have geolocation information in
+                  Note, this map only displays training sessions that have geolocation information in
                   <%= TeSS::Config.site['title_short'] %>.<br>
-                  For the complete list of events in <%= TeSS::Config.site['title_short'] %>, click the grid tab.
+                  For the complete list of trainings in <%= TeSS::Config.site['title_short'] %>, click the grid tab.
                 </p>
               </div>
             </div>

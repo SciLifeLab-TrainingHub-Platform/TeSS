@@ -75,32 +75,47 @@ module SearchHelper
             ".html_safe
   end
 
-  def searchable_resource_name(resource_type, variant: :short, count: 2)
-    model_key = resource_type.model_name.i18n_key
+  def searchable_resource_name(resource_type, variant: :short)
+    model_key =
+      case resource_type
+      when Symbol, String
+        resource_type.to_s.singularize
+      else
+        resource_type.model_name.i18n_key.to_s
+      end
 
-    # Only use features.* translations for Event and Course
-    if [:event, :course].include?(model_key)
-      i18n_key = :"features.#{model_key.to_s.pluralize}.#{variant}"
-      I18n.t(i18n_key).downcase
+    i18n_key = "features.#{model_key.pluralize}.#{variant}"
+    if I18n.exists?(i18n_key)
+      I18n.t(i18n_key)
     else
-      # fallback: model human name, pluralized, downcased
-      resource_type.model_name.human(count: count).downcase.pluralize
+      model_key.humanize.pluralize
     end
   end
 
   # Returns a count string with custom names if model is in custom_model_entries
-  def search_result_label(count, resource_type, variant: :short)
+  def search_result_label(count, resource_type)
     custom_model_entries = {
-      course: "catalogue entry"
+      course: "catalogue entry",
+      event: "training session",
     }
 
-    model_key = resource_type.model_name.i18n_key
 
-    # Use custom entry if defined, otherwise fallback to default
+    # Convert resource_type to a key symbol
+    model_key =
+      case resource_type
+      when Symbol
+        resource_type.to_s.singularize.to_sym
+      when String
+        resource_type.singularize.to_sym
+      else
+        resource_type.model_name.i18n_key
+      end
+
+    # Use custom entry if defined, otherwise fallback
     if custom_model_entries.key?(model_key)
       pluralize(count, custom_model_entries[model_key])
     else
-      pluralize(count, resource_type.model_name.human.downcase)
+      pluralize(count, model_key.to_s.humanize.downcase)
     end
   end
 end

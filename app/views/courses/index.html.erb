@@ -9,9 +9,16 @@
   <div id="content" class="courses-index">
     <div class="courses-index__heading">
       <h2><%= t('features.courses.long') %></h2>
+      <p class="text-muted small mb-2">
+        <%= t('courses.hints.index_description') %>
+      </p>
       <% content_for :buttons do %>
         <%= link_to new_course_path, class: 'btn btn-primary' do %>
           Create catalogue entry
+        <% end %>
+        <!-- Info button-->
+        <%= info_button("The #{TeSS::Config.site['title_short']} course catalogue", hide_text: true, class: 'event-info-button-popover') do %>
+          <%= render_markdown(CoursesHelper::COURSE_INFO) %>
         <% end %>
       <% end %>
     </div>
@@ -20,9 +27,7 @@
                locals: { resources: @courses_results, resource_type: Course } %>
 
     <% if @courses.present? %>
-      <ul class="course-cards media-grid">
-        <%= render partial: 'courses/index_course', collection: @courses, as: :course %>
-      </ul>
+      <%= render partial: 'common/masonry_grid', locals: { objects: @courses } %>
 
       <div class="courses-index__pagination">
         <%= render partial: "search/common/pagination_bar", locals: { resources: @courses } %>

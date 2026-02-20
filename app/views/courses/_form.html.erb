@@ -89,7 +89,7 @@
       <%= @course.errors[:content_providers].join(', ') %>
     </span>
     <% else %>
-      <span class="help-block small">Choose one or more content provider for the event.</span>
+      <span class="help-block small">Select any potential upcoming instances of your catalogue entry</span>
     <% end %>
   </div>
 
@@ -118,7 +118,7 @@
       <%= @course.errors[:content_providers].join(', ') %>
     </span>
     <% else %>
-      <span class="help-block small">Choose one or more content provider for the event.</span>
+      <span class="help-block small">Choose one or more content provider.</span>
     <% end %>
   </div>
 
@@ -142,7 +142,7 @@
 
 
   <div class="form-group">
-    <%= f.submit (f.object.new_record? ? "Add" : "Update") + " course", :class => 'btn btn-primary' %>
+    <%= f.submit (f.object.new_record? ? "Add" : "Update") + " catalogue entry", :class => 'btn btn-primary' %>
     <%= link_to 'Back', :back, class: 'btn btn-default' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 :back, :class => 'btn btn-default' %>
