@@ -369,11 +369,14 @@ en:
   courses:
     hints: 
       title_hint: 'The title of your course.'
+      index_description: "A list of courses offered regularly at SciLifeLab"
       url_hint: 'The URL of your course website.'
       authors_hint: 'Add the names and persistent identifiers of those who have authored the course.'
       contributor_hint: 'The names and persistent identifiers of those hwo have contributed to the course material.'
       event_hint: 'Upcoming instances where this course will be taught or run.'
       structure_duration_hint: 'The time, in hours, it takes to complete the course, and the format this time will take.'
+      submission_notice: "After submitting this Training catalogue, you will receive a confirmation email acknowledging that your catalogue has been successfully submitted."
+      revision_notice: "After updating this Training catalogue, an email will be sent to the administrators to notify them."
   events:
     hints:
       address: 'Where is this event being held?'
@@ -420,8 +423,10 @@ en:
       url: 'Enter a valid URL for the event landing page.'
       url_hint: "The link to your course website."
       venue_hint: "The room and building your course will take place in."
+      index_description: "Upcoming training of interest to the life science community"
 
-
+      submission_notice: "After submitting this training session, you will receive a confirmation email acknowledging that your training session has been successfully submitted."
+      revision_notice: "After updating this training session, an email will be sent to the administrators to notify them."
   materials:
     hints:
       authors: >
