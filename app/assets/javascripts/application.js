@@ -110,24 +110,6 @@ document.addEventListener("turbolinks:load", function(e) {
         format: "YYYY-MM-DD"
     });
 
-    // On events form, if start date > end date, update the end date.
-    $("#event_form").on("dp.change", function (e) {
-        // Really awkward way of doing it
-        if ($(e.target).find("#event_start").length) {
-            var startPicker = $("#event_start").parents("[data-datetimepicker]").data("DateTimePicker");
-            var endPicker = $("#event_end").parents("[data-datetimepicker]").data("DateTimePicker");
-            var endDate = endPicker.date();
-            var startDate = startPicker.date();
-            if (startDate > endDate) {
-                endDate = endDate.set({
-                    "year": startDate.year(),
-                    "month": startDate.month(),
-                    "date": startDate.date()
-                });
-                endPicker.date(endDate);
-            }
-        }
-    });
 
     // Load event calendar when tab is shown for the first time
     $('.nav li a[data-calendar]').on("show.bs.tab", function(e) {

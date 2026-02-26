@@ -180,6 +180,8 @@ class Event < ApplicationRecord
   validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0 }
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, :start, :end, presence: true, on: :create
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, :start, :end, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
+  validates :end, comparison: { greater_than_or_equal_to: :start, message: "cannot be before the start time" }
+
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
   update_suggestions(:keywords, :target_audience, :host_institutions)
