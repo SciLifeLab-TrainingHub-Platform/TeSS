@@ -378,6 +378,7 @@ en:
       contributor_hint: 'The names and persistent identifiers of those hwo have contributed to the course material.'
       event_hint: 'Upcoming instances where this course will be taught or run.'
       structure_duration_hint: 'The time, in hours, it takes to complete the course, and the format this time will take.'
+      index_description: "A list of courses offered regularly at SciLifeLab"
   events:
     hints:
       address: 'Where is this training being held?'
@@ -424,7 +425,7 @@ en:
       url: 'Enter a valid URL for the event landing page.'
       url_hint: "The link to your course website."
       venue_hint: "The room and building your course will take place in."
-
+      index_description: "Upcoming training of interest to the life science community"
 
   materials:
     hints:

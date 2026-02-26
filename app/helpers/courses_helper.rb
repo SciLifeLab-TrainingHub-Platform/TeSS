@@ -1,4 +1,15 @@
 module CoursesHelper
+
+  COURSE_INFO = <<~TEXT.freeze
+    The catalogue is a registry of regularly occurring and self-paced training offered at #{TeSS::Config.site['title_short']}.
+    These are typically courses, but may also include other recurring training activities.
+
+    The purpose of the catalogue is to provide an overview of all training opportunities available at #{TeSS::Config.site['title_short']}.
+    It allows potential participants to discover and connect with courses, even when no upcoming session is currently scheduled.
+
+    To get started, click "create catalogue entry" and complete the form with the relevant information.
+  TEXT
+
   def course_section_card(title, options = {}, &block)
     options = options.present? ? options.dup : {}
     options[:class] = [options[:class], 'course-section-card'].compact.join(' ')
@@ -101,6 +112,24 @@ module CoursesHelper
     @course_next_event_cache[course.id] ||= begin
       grouped = course_events_grouped(course)
       grouped[:upcoming].first
+    end
+  end
+
+
+  def filter_courses_by_status(courses, user)
+    return Course.none if courses.blank?
+
+    if user&.is_admin?
+      courses
+    elsif user
+      # Show approved courses and the user's courses (excluding declined)
+      courses.where(
+        "course_status = ? OR (user_id = ? AND course_status != ?)",
+        Course.course_statuses[:approved], user.id, Course.course_statuses[:declined]
+      )
+    else
+      # Show only approved courses for non-logged-in users
+      courses.where(course_status: Course.course_statuses[:approved])
     end
   end
 

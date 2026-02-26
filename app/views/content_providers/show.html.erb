@@ -24,7 +24,6 @@
       <% materials = @content_provider.materials.from_verified_users.limit(resource_limit) %>
       <% materials_count = @content_provider.materials.from_verified_users.count %>
       <% upcoming_events = filter_events_by_status(@content_provider.events.from_verified_users.not_finished.not_disabled, current_user) %>
-
       <% past_events = @content_provider.events.from_verified_users.finished.not_disabled %>
       <% events = upcoming_events.limit(resource_limit) %>
       <% events_count = filter_events_by_status(@content_provider.events.from_verified_users.not_disabled, current_user).count %>
@@ -37,11 +36,11 @@
                 disabled: { check: materials_count.zero?, message: 'No associated training materials' },
                 count: materials_count) %>
 
-        <%= tab('Training sessions', icon_class_for_model('events'), 'events', activator: activator,
+        <%= tab('Trainings', icon_class_for_model('events'), 'events', activator: activator,
                 disabled: { check: events_count.zero?, message: 'No associated Training session' },
                 count: events_count) %>
 
-        <%= tab('Training catalogue', icon_class_for_model('courses'), 'courses', activator: activator,
+        <%= tab('catalogues', icon_class_for_model('courses'), 'courses', activator: activator,
                 disabled: { check: courses.none?, message: 'No registered catalogue' },
                 count: courses_count) %>
 
