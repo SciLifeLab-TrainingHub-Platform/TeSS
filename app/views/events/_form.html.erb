@@ -243,15 +243,23 @@
   <%#= f.multi_input :sponsors, errors: @event.errors[:sponsors], hint: t('events.hints.sponsors') %>
   <%# end %>
 
-  <% if @event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required]) %>
-    <p>After updating this event, an email will be sent to the admin to review and approve the changes.</p>
-  <% end %>
-
   <div class="form-group">
     <%= f.submit (f.object.new_record? ? "Add" : "Update"), :class => 'btn btn-primary' %>
     <%= link_to 'Back', :back, class: 'btn btn-default' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 :back, :class => 'btn btn-default' %>
+  </div>
+<% end %>
+
+<% notice = if @event.new_record?
+              { message: t('events.hints.submission_notice'), class: 'alert-info' }
+            elsif show_event_revision_notice?(@event)
+              { message: t('events.hints.revision_notice'), class: 'alert-warning' }
+            end %>
+
+<% if notice %>
+  <div class="alert <%= notice[:class] %> mb-4" role="alert">
+    <%= notice[:message] %>
   </div>
 <% end %>
 

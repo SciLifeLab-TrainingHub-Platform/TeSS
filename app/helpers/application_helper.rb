@@ -34,6 +34,12 @@ module ApplicationHelper
     cross: { icon: 'fa-times', message: 'This resource has been disabled' }
   }.freeze
 
+  def show_scilifelab_badge?(resource)
+    return false unless resource.respond_to?(:associated_nodes)
+
+    resource.associated_nodes.any? { |node| node.slug == Node::SCILIFE_LAB_NODE_SLUG }
+  end
+
   # Countries that have priority in the country selection menu. Using ISO 3166-1 Alpha2 code.
   PRIORITY_COUNTRIES = []
 
@@ -100,7 +106,7 @@ module ApplicationHelper
                                                 when 'awaiting_review'
                                                   ['fa-clock-o', 'awaiting-review', 'Pending review by SciLifeLab administrators.']
                                                 when 'approved'
-                                                  ['fa-check', 'approved', 'Approved by SciLifeLab and now publicly accessible.']
+                                                  return # Approved items now do not show a status badge
                                                 when 'declined'
                                                   ['fa-ban', 'declined', 'Declined by SciLifeLab administrators.']
                                                 when 'revisions_required'
@@ -241,6 +247,8 @@ module ApplicationHelper
       'fa fa-clock-o'
     when 'events'
       'fa fa-calendar'
+    when 'courses'
+      'fa fa-book'
     when 'users'
       'fa fa-user'
     when 'trainers'

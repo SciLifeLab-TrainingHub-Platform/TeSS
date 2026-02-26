@@ -42,6 +42,39 @@ class EventsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:events)
   end
 
+  test 'events index cards render as stretched links without event type pills' do
+    get :index
+    assert_response :success
+
+    assert_select '#home > ul.masonry.media-grid', count: 1
+    assert_select '#home > ul.course-cards', count: 0
+    assert_select '#home > ul.masonry.media-grid > ul', count: 0
+    assert_select '.course-card--event', minimum: 1
+    assert_select 'a.course-card__stretched-link', minimum: 1
+    assert_select '.course-card__title-text', minimum: 1
+    assert_select '.course-card__leading', minimum: 1
+    assert_select '.event-pill-list', count: 0
+  end
+
+  test 'events index handles event with nil presence gracefully' do
+    get :index
+    assert_response :success
+
+    events_on_page = assigns(:events)
+    events_on_page.each do |event|
+      event.update_column(:presence, Event.presences[:onsite])
+    end
+    events_on_page.first.update_column(:presence, nil)
+
+    get :index
+    assert_response :success
+
+    card_count = css_select('.course-card--event').size
+    assert_select '.course-card--event', minimum: 1
+    assert_select '.course-card--event .course-card__leading', count: card_count - 1
+    assert_select '.course-card--event .course-card__presence-mobile', count: card_count - 1
+  end
+
   test 'should get index with solr enabled' do
     with_settings(solr_enabled: true) do
       Event.stub(:search_and_filter, MockSearch.new(Event.all)) do

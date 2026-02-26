@@ -110,8 +110,25 @@ module CoursesHelper
   def course_next_event(course)
     @course_next_event_cache ||= {}
     @course_next_event_cache[course.id] ||= begin
-      grouped = course_events_grouped(course)
-      grouped[:upcoming].first
+                                              grouped = course_events_grouped(course)
+                                              grouped[:upcoming].first
+                                            end
+  end
+
+  def filter_courses_by_status(courses, user)
+    return Course.none if courses.blank?
+
+    if user&.is_admin?
+      courses
+    elsif user
+      # Show approved courses and the user's courses (excluding declined)
+      courses.where(
+        "course_status = ? OR (user_id = ? AND course_status != ?)",
+        Course.course_statuses[:approved], user.id, Course.course_statuses[:declined]
+      )
+    else
+      # Show only approved courses for non-logged-in users
+      courses.where(course_status: Course.course_statuses[:approved])
     end
   end
 
@@ -231,5 +248,9 @@ module CoursesHelper
     else
       events.select { |event| event.event_status == 'approved' }
     end
+  end
+
+  def show_course_revision_notice?(course)
+    course.course_status == Course.course_statuses.key(Course.course_statuses[:revisions_required])
   end
 end

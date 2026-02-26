@@ -73,7 +73,7 @@
 
   <!-- Field: Events -->
   <div class="field">
-    <%= f.label :event_ids, "* Event(s)", class: "control-label" %>
+    <%= f.label :event_ids, "Event(s)", class: "control-label" %>
     <span class="glyphicon"
           style="cursor: default; font-size: small;"
           title="<%= t('courses.hints.event_hint') %>">
@@ -146,5 +146,17 @@
     <%= link_to 'Back', :back, class: 'btn btn-default' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 :back, :class => 'btn btn-default' %>
+  </div>
+<% end %>
+
+<% notice = if @course.new_record?
+              { message: t('courses.hints.submission_notice'), class: 'alert-info' }
+            elsif show_course_revision_notice?(@course)
+              { message: t('courses.hints.revision_notice'), class: 'alert-warning' }
+            end %>
+
+<% if notice %>
+  <div class="alert <%= notice[:class] %> mb-4" role="alert">
+    <%= notice[:message] %>
   </div>
 <% end %>

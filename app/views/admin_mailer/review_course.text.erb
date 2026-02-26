@@ -15,6 +15,6 @@ User Details:
 - Sign-In Count: <%= @course.user.sign_in_count %>
 
 You can review the event using the following link:
-<%= root_url %>admin/courses/<%= @course.id %>/edit
+<%= rails_admin.edit_url(model_name: 'course', id: @course.id) %>
 
 If you have any questions, please reply to this email or contact us at <%= TeSS::Config.contact_email %>.
