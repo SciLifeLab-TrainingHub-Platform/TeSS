@@ -533,9 +533,8 @@ class EventsControllerTest < ActionController::TestCase
     get :show, params: { id: @event }
     assert_response :success
     assert_select 'h2', text: @event.title # Has Title
-    assert_select 'a.btn', text: 'View course website', count: 1 do
-      assert_select 'a[href=?]', @event.url, count: 1
-    end
+    assert_select 'a.event-action__view[href=?]', @event.url, text: 'View website', count: 1
+    assert_select 'a.event-action__register[href=?]', @event.registration_form_url, text: 'Register', count: 1
     # Should not show when not logged in
     assert_select 'a.btn[href=?]', edit_event_path(@event), count: 0 # No Edit
     assert_select 'a.btn[href=?]', event_path(@event), count: 0 # No Edit
