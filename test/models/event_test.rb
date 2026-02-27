@@ -776,7 +776,8 @@ class EventTest < ActiveSupport::TestCase
           user: users(:trusted_user),
           event_status: Event.event_statuses[:approved],
           nodes: [nodes(:good)],
-          start: DateTime.now.advance(days: 1)
+          start: DateTime.now.advance(days: 1),
+          end: DateTime.now.advance(days: 2)
         })
       event = Event.new(parameters)
       event.save
