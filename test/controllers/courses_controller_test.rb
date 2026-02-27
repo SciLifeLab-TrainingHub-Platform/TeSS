@@ -127,8 +127,8 @@ class CoursesControllerTest < ActionController::TestCase
     sign_in @user
     get :new
     assert_response :success
-    assert_select "label[for='course_event_ids']", text: 'Event(s)'
-    assert_select 'span.help-block.small', text: 'Select any potential upcoming instances of your course'
+    assert_select "label[for='course_event_ids']", text: 'Training(s)'
+    assert_select 'span.help-block.small', text: 'Select any potential upcoming instances of your catalogue entry'
   end
 
   test 'should get new page for logged in users only' do
