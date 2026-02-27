@@ -784,6 +784,54 @@ class EventTest < ActiveSupport::TestCase
     end
   end
 
+
+  test "valid when end is after start" do
+    parameters = @mandatory.merge(
+      title: 'new event',
+      url: 'https://myevent.com',
+      user: users(:trusted_user),
+      event_status: Event.event_statuses[:approved],
+      nodes: [nodes(:good)],
+      start: DateTime.now.advance(days: 1),
+      end: DateTime.now.advance(days: 2)
+    )
+
+    event = Event.new(parameters)
+    assert event.save, "Event should be valid when end is after start"
+  end
+
+  test "valid when end is equal to start" do
+    start_time = DateTime.now.advance(days: 1)
+    parameters = @mandatory.merge(
+      title: 'new event',
+      url: 'https://myevent.com',
+      user: users(:trusted_user),
+      event_status: Event.event_statuses[:approved],
+      nodes: [nodes(:good)],
+      start: start_time,
+      end: start_time
+    )
+
+    event = Event.new(parameters)
+    assert event.save, "Event should be valid when end is equal to start"
+  end
+
+  test "invalid when end is before start" do
+    parameters = @mandatory.merge(
+      title: 'new event',
+      url: 'https://myevent.com',
+      user: users(:trusted_user),
+      event_status: Event.event_statuses[:approved],
+      nodes: [nodes(:good)],
+      start: DateTime.now.advance(days: 2),
+      end: DateTime.now.advance(days: 1)
+    )
+
+    event = Event.new(parameters)
+    refute event.save, "Event should be invalid when end is before start"
+    assert_includes event.errors[:end], "cannot be before the start time"
+  end
+
   test 'slack notification job is not enqueued for non approved events' do
     assert_no_enqueued_jobs only: SlackNotificationJob do
       parameters = @mandatory.merge(
