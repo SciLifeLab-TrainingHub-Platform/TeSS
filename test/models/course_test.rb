@@ -54,7 +54,6 @@ class CourseTest < ActiveSupport::TestCase
       :prerequisites_technical,
       :target_audience,
       :content_providers,
-      :node_ids
     ]
 
     blank_fields.each do |field|
@@ -73,17 +72,89 @@ class CourseTest < ActiveSupport::TestCase
     assert_includes course.errors[:content_providers], "can't be blank"
   end
 
-  test "is invalid without nodes if nodes feature is enabled" do
+  test "attaches default node on create when nodes feature enabled" do
+    original_value = TeSS::Config.feature['nodes']
     TeSS::Config.feature['nodes'] = true
-    node = Node.new(user: @user, name: 'test course node')
-    parameters = @mandatory.merge({
-                                    content_providers: [@content_providers],
-                                    user: @user
-                                  })
 
-    course = Course.new(parameters)
-    assert_not course.valid?
-    assert_includes course.errors[:node_ids], "can't be blank"
+    default_node = Node.create!(
+      slug: Node::SCILIFE_LAB_NODE_SLUG,
+      name: "SciLifeLab",
+      user: @user
+    )
+
+    course = Course.create!(
+      @mandatory.merge(
+        content_providers: [@content_providers],
+        user: @user
+      )
+    )
+
+    assert_includes course.nodes, default_node
+  ensure
+    TeSS::Config.feature['nodes'] = original_value
+  end
+
+  test "does not attach default node when nodes feature disabled" do
+    original_value = TeSS::Config.feature['nodes']
+    TeSS::Config.feature['nodes'] = false
+
+    Node.create!(
+      slug: Node::SCILIFE_LAB_NODE_SLUG,
+      name: "SciLifeLab",
+      user: @user
+    )
+
+    course = Course.create!(
+      @mandatory.merge(
+        content_providers: [@content_providers],
+        user: @user
+      )
+    )
+
+    assert_empty course.nodes
+  ensure
+    TeSS::Config.feature['nodes'] = original_value
+  end
+
+  test "does not attach node if default node not found" do
+    original_value = TeSS::Config.feature['nodes']
+    TeSS::Config.feature['nodes'] = true
+
+    course = Course.create!(
+      @mandatory.merge(
+        content_providers: [@content_providers],
+        user: @user
+      )
+    )
+
+    assert_empty course.nodes, "Expected no nodes to be attached because default node is missing"
+  ensure
+    TeSS::Config.feature['nodes'] = original_value
+  end
+
+  test "does not attach default node on update" do
+    original_value = TeSS::Config.feature['nodes']
+    TeSS::Config.feature['nodes'] = true
+
+    default_node = Node.create!(
+      slug: Node::SCILIFE_LAB_NODE_SLUG,
+      name: "SciLifeLab",
+      user: @user
+    )
+
+    course = Course.create!(
+      @mandatory.merge(
+        content_providers: [@content_providers],
+        user: @user
+      )
+    )
+
+    course.nodes.clear
+    course.update!(title: "Updated title")
+
+    assert_empty course.nodes
+  ensure
+    TeSS::Config.feature['nodes'] = original_value
   end
 
   test "is valid without nodes if nodes feature is disabled" do

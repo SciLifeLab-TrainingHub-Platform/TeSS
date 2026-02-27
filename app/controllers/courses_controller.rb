@@ -52,10 +52,8 @@ class CoursesController < ApplicationController
   def create
     authorize Course
     normalize_authors_and_contributors
-    normalize_node_ids
     @course = Course.new(course_params)
     @course.user = current_user if @course.respond_to?(:user=)
-
     respond_to do |format|
       if @course.save
         @course.create_activity :create, owner: current_user if @course.respond_to?(:create_activity)
@@ -72,7 +70,6 @@ class CoursesController < ApplicationController
   def update
     authorize @course
     normalize_authors_and_contributors
-    normalize_node_ids
 
     respond_to do |format|
       if @course.update(course_params)
@@ -150,8 +147,7 @@ class CoursesController < ApplicationController
       { authors: [:name, :affiliation, :orcid, :email] },
       { contributors: [:name, :affiliation, :orcid, :email] },
       { event_ids: [] },
-      { content_provider_ids: [] },
-      { node_ids: [] }
+      { content_provider_ids: [] }
     ]
 
     permitted.delete(:user_id) unless current_user&.is_admin?
@@ -189,12 +185,6 @@ class CoursesController < ApplicationController
     rescue JSON::ParserError => e
       Rails.logger.warn("CoursesController#normalize_authors_and_contributors: invalid JSON for #{key}: #{e.message}")
       params[:course].delete(key)
-    end
-  end
-
-  def normalize_node_ids
-    if params[:course][:node_ids].is_a?(String)
-      params[:course][:node_ids] = [params[:course][:node_ids]]
     end
   end
 
