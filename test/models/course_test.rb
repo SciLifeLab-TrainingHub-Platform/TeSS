@@ -118,7 +118,7 @@ class CourseTest < ActiveSupport::TestCase
 
   test "does not attach node if default node not found" do
     original_value = TeSS::Config.feature['nodes']
-    TeSS::Config.feature['nodes'] = false
+    TeSS::Config.feature['nodes'] = true
 
     course = Course.create!(
       @mandatory.merge(
@@ -127,14 +127,14 @@ class CourseTest < ActiveSupport::TestCase
       )
     )
 
-    assert_empty course.nodes
+    assert_empty course.nodes, "Expected no nodes to be attached because default node is missing"
   ensure
     TeSS::Config.feature['nodes'] = original_value
   end
 
   test "does not attach default node on update" do
     original_value = TeSS::Config.feature['nodes']
-    TeSS::Config.feature['nodes'] = false
+    TeSS::Config.feature['nodes'] = true
 
     default_node = Node.create!(
       slug: Node::SCILIFE_LAB_NODE_SLUG,
