@@ -5,7 +5,7 @@ require 'rss'
 module EventsHelper
 
   EVENTS_INFO = <<~INFO.freeze
-  Fill in all required fields of this form for our training on the #{TeSS::Config.site['title_short']} portal.
+  Fill in all required fields of this form for our training on the #{TeSS::Config.site['title_short']} portal. You can also watch our [video tutorial](https://www.youtube.com/watch?v=WDMJuH1kRoMs) on how training announcements work.
 
   Provide detailed information: people browsing need to know what they will learn and whom to contact with questions.
 
