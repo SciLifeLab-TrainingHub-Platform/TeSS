@@ -7,7 +7,7 @@ module CoursesHelper
     The purpose of the catalogue is to provide an overview of all training opportunities available at #{TeSS::Config.site['title_short']}.
     It allows potential participants to discover and connect with courses, even when no upcoming session is currently scheduled.
 
-    To get started, click "create catalogue entry" and complete the form with the relevant information.
+    To get started, click "create catalogue entry" and complete the form with the relevant information. Once the form is submitted, it will be reviewed by our moderators.
   TEXT
 
   def course_section_card(title, options = {}, &block)
