@@ -5,10 +5,10 @@ en:
       long: About
     courses:
       short: Catalogue
-      long: Course Catalogue
+      long: Training Catalogue
     events:
-      short: Courses
-      long: Upcoming Courses
+      short: Training
+      long: Upcoming Training
     materials:
       short: Materials
       long: Training materials
@@ -33,6 +33,10 @@ en:
     our_resources:
       short: Resources
       long: Resources
+    users:
+      short: Users
+      long: Users
+
   pundit:
     default: 'You are not authorised to perform this action.'
     material_policy:
@@ -42,7 +46,7 @@ en:
     doi: 'DOI'
   activerecord:
     models:
-      event: Event
+      event: "Training"
       material: Material
       elearning_material: e-Learning Material
       workflow: Workflow
@@ -379,7 +383,7 @@ en:
       revision_notice: "After updating this Training catalogue, an email will be sent to the administrators to notify them."
   events:
     hints:
-      address: 'Where is this event being held?'
+      address: 'Where is this training being held?'
       capacity: >
         Provide the total number (cap) of individuals that can attend the training event.
         Leave blank if there is no limit.

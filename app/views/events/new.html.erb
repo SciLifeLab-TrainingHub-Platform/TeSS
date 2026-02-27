@@ -1,6 +1,6 @@
 <%- model_class = Event -%>
 <div class="page-header">
-  <%= page_title("New Course Announcement") %>
+  <%= page_title("New Training Announcement") %>
 </div>
 <div class="row">
   <div class="col-md-4 col-md-push-8">
@@ -10,12 +10,12 @@
     <% if @show_prefill %>
       <%= form_tag new_event_path, method: :get do %>
         <div class="form-group<%= ' has-error' if @prefill_error.present? %>">
-          <label class="control-label">Prefill course from Catalogue</label>
+          <label class="control-label">Prefill training from Catalogue</label>
           <div class="row">
             <div class="col-sm-9">
               <%= hidden_field_tag :prefill, '1' %>
               <%= select_tag :course_id,
-                             options_for_select([['Select a course (optional)', '']], params[:course_id]) +
+                             options_for_select([['Select a catalogue entry (optional)', '']], params[:course_id]) +
                                options_from_collection_for_select(@courses, 'to_param', 'title', params[:course_id]),
                              class: 'form-control js-select2',
                              id: 'prefill_course_select' %>

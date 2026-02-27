@@ -166,7 +166,7 @@ class EventsControllerTest < ActionController::TestCase
     @monitor.update(failed_at: DateTime.new(2003, 12, 5))
     get :show, params: { id: @failing_event }
     assert_response :success
-    assert_select '.broken-link-notice', text: /this event's URL.+since 5 December 2003/
+    assert_select '.broken-link-notice', text: /TeSS has been unable to access this training's URL since 5 December 2003 - the page may have been moved./
   end
 
   # NEW TESTS
@@ -180,14 +180,14 @@ class EventsControllerTest < ActionController::TestCase
     sign_in users(:regular_user)
     get :new, params: { prefill: '1', course_id: '' }
     assert_response :success
-    assert_select '.help-block', text: 'Please select a course first.'
+    assert_select '.help-block', text: 'Please select a catalogue entry first.'
   end
 
   test 'new shows inline message when course_id is invalid' do
     sign_in users(:regular_user)
     get :new, params: { prefill: '1', course_id: 'not-a-real-course' }
     assert_response :success
-    assert_select '.help-block', text: 'Course not found.'
+    assert_select '.help-block', text: 'Catalogue entry not found.'
   end
 
   test 'new shows inline message when course is not approved' do
@@ -482,7 +482,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li[class=active]', text: /Events/, count: 1
+      assert_select 'li[class=active]', text: /Training/, count: 1
     end
   end
 
@@ -491,7 +491,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li', text: /Events/, count: 1 do
+      assert_select 'li', text: /Training/, count: 1 do
         assert_select 'a[href=?]', events_url, count: 1
       end
       assert_select 'li[class=active]', text: /#{@event.title}/, count: 1
@@ -504,7 +504,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li', text: /Events/, count: 1 do
+      assert_select 'li', text: /Training/, count: 1 do
         assert_select 'a[href=?]', events_url, count: 1
       end
       assert_select 'li', text: /#{@event.title}/, count: 1 do
@@ -520,7 +520,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li', text: /Events/, count: 1 do
+      assert_select 'li', text: /Training/, count: 1 do
         assert_select 'a[href=?]', events_url, count: 1
       end
       assert_select 'li[class=active]', text: /New/, count: 1
@@ -533,9 +533,8 @@ class EventsControllerTest < ActionController::TestCase
     get :show, params: { id: @event }
     assert_response :success
     assert_select 'h2', text: @event.title # Has Title
-    assert_select 'a.btn', text: 'View course website', count: 1 do
-      assert_select 'a[href=?]', @event.url, count: 1
-    end
+    assert_select 'a.event-action__view[href=?]', @event.url, text: 'View website', count: 1
+    assert_select 'a.event-action__register[href=?]', @event.registration_form_url, text: 'Register', count: 1
     # Should not show when not logged in
     assert_select 'a.btn[href=?]', edit_event_path(@event), count: 0 # No Edit
     assert_select 'a.btn[href=?]', event_path(@event), count: 0 # No Edit
@@ -1568,7 +1567,7 @@ class EventsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_select '.unverified-notice',
-                  text: 'This event will not be publicly visible until your registration has been approved by an administrator.'
+                  text: 'This training will not be publicly visible until your registration has been approved by an administrator.'
   end
 
   test 'should show unverified users event to admin' do
@@ -1580,7 +1579,7 @@ class EventsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_select '.unverified-notice',
-                  text: 'This event will not be publicly visible until your registration has been approved by an administrator.'
+                  text: 'This training will not be publicly visible until your registration has been approved by an administrator.'
   end
 
   test 'should not show unverified users event anon user' do

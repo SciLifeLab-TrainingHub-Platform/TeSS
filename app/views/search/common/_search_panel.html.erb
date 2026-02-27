@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-6">
       <% if TeSS::Config.solr_enabled %>
-        <%= render partial: 'search/common/search_box', locals: { placeholder: "Search #{resource_type.model_name.human.downcase.pluralize}...",
+        <%= render partial: 'search/common/search_box', locals: { placeholder: "Search #{searchable_resource_name(resource_type, variant: :long)}...",
                                                                   resource_path: polymorphic_path(resource_type) } %>
       <% end %>
     </div>
@@ -25,7 +25,7 @@
           <%= render partial: 'search/common/search_filters', locals: { resources: resources } %>
         </div>
         <div class="search-results-count">
-          <%= pluralize(resources.total, resource_type.model_name.human.downcase ) %> found
+          <%= search_result_label(resources.total, resource_type) %> found
         </div>
       <% end %>
     </div>
