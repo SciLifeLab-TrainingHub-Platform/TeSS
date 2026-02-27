@@ -10,7 +10,7 @@
                  cost_basis_title
                end %>
 
-<%= event_section_card('Event Details', class: 'event-section-card--sidebar') do %>
+<%= event_section_card('Details', class: 'event-section-card--sidebar') do %>
   <%= event_detail_item('Dates', neatly_printed_date_range(event.start, event.end)) if event.start.present? %>
   <%= event_detail_item('Application deadline', event_formatted_datetime(event.application_deadline)) if event.application_deadline.present? %>
   <%= event_detail_item('Contact', simple_format(event.contact)) if event.contact.present? %>

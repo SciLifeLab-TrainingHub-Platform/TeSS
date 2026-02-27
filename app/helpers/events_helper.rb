@@ -4,11 +4,14 @@ require 'rss'
 
 module EventsHelper
 
-  EVENTS_INFO = "Fill in all required fields of this form to register an event on the #{TeSS::Config.site['title_short']}.\n\n\
-  Provide detailed information: people browsing need to know what they will learn and whom to contact with questions.\n\n\
-  Once you click 'Add Event', your event will be sent for moderation.\
-  You will see your event in your profile, and are able to edit your event up until it is approved or rejected by our admin team.\
-  ".freeze
+  EVENTS_INFO = <<~INFO.freeze
+  Fill in all required fields of this form for our training on the #{TeSS::Config.site['title_short']} portal.
+
+  Provide detailed information: people browsing need to know what they will learn and whom to contact with questions.
+
+  Once you click 'Add Training', your submission will be sent for moderation. 
+  You will see your training in your profile, and are able to edit it until it is approved or rejected by our moderators.
+INFO
 
   def google_calendar_export_url(event)
 
@@ -26,13 +29,13 @@ module EventsHelper
     end
 
     event_params = {
-        text: event.title,
-        dates: dates,
-        ctz: event.timezone,
-        details: "#{event_url(event)}",
-        location: location,
-        sf: true,
-        output: 'xml'
+      text: event.title,
+      dates: dates,
+      ctz: event.timezone,
+      details: "#{event_url(event)}",
+      location: location,
+      sf: true,
+      output: 'xml'
     }
 
     "https://www.google.com/calendar/render?action=TEMPLATE&#{event_params.to_param}"
@@ -117,7 +120,7 @@ module EventsHelper
       "&q=#{event.latitude},#{event.longitude}"
 
     content_tag(:iframe, '', width: 400, height: 250, frameborder: 0, style: 'border: 0', class: 'google-map',
-                    src: src, allowfullscreen: true)
+                src: src, allowfullscreen: true)
   end
 
   def google_maps_javascript_api_tag(event)
@@ -141,7 +144,7 @@ module EventsHelper
 
   def event_pill_list(values, variant: :accent)
     pill_list(values, variant: variant)
-    
+
   end
 
   def event_cost_value(event)
@@ -224,4 +227,7 @@ module EventsHelper
     end
   end
 
+  def show_event_revision_notice?(event)
+    event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required])
+  end
 end

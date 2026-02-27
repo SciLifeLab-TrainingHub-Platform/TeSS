@@ -3,7 +3,7 @@
 <% node_names = course.associated_nodes.map(&:name).compact.uniq %>
 <% licence_name = licence_name_for_abbreviation(course.licence) if course.licence.present? %>
 
-<%= course_section_card('Course Details', class: 'event-section-card--sidebar') do %>
+<%= course_section_card('Details', class: 'event-section-card--sidebar') do %>
   <%= course_detail_item('Language', render_language_name(course.language)) if course.language.present? %>
   <%= course_detail_item('Licence', licence_name) if licence_name.present? %>
   <%= course_detail_item('Affiliations') { course_pill_list(node_names, variant: :neutral) } if node_names.any? %>

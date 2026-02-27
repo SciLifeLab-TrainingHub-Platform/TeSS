@@ -73,7 +73,7 @@
 
   <!-- Field: Events -->
   <div class="field">
-    <%= f.label :event_ids, "* Event(s)", class: "control-label" %>
+    <%= f.label :event_ids, "Training(s)", class: "control-label" %>
     <span class="glyphicon"
           style="cursor: default; font-size: small;"
           title="<%= t('courses.hints.event_hint') %>">
@@ -89,7 +89,7 @@
       <%= @course.errors[:content_providers].join(', ') %>
     </span>
     <% else %>
-      <span class="help-block small">Choose one or more content provider for the event.</span>
+      <span class="help-block small">Select any potential upcoming instances of your catalogue entry</span>
     <% end %>
   </div>
 
@@ -118,15 +118,27 @@
       <%= @course.errors[:content_providers].join(', ') %>
     </span>
     <% else %>
-      <span class="help-block small">Choose one or more content provider for the event.</span>
+      <span class="help-block small">Choose one or more content providers for the catalogue entry.</span>
     <% end %>
   </div>
 
 
   <div class="form-group">
-    <%= f.submit (f.object.new_record? ? "Add" : "Update") + " course", :class => 'btn btn-primary' %>
+    <%= f.submit (f.object.new_record? ? "Add" : "Update") + " catalogue entry", :class => 'btn btn-primary' %>
     <%= link_to 'Back', :back, class: 'btn btn-default' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 :back, :class => 'btn btn-default' %>
+  </div>
+<% end %>
+
+<% notice = if @course.new_record?
+              { message: t('courses.hints.submission_notice'), class: 'alert-info' }
+            elsif show_course_revision_notice?(@course)
+              { message: t('courses.hints.revision_notice'), class: 'alert-warning' }
+            end %>
+
+<% if notice %>
+  <div class="alert <%= notice[:class] %> mb-4" role="alert">
+    <%= notice[:message] %>
   </div>
 <% end %>

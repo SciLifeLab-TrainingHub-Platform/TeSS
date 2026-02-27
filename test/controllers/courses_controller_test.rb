@@ -127,6 +127,8 @@ class CoursesControllerTest < ActionController::TestCase
     sign_in @user
     get :new
     assert_response :success
+    assert_select "label[for='course_event_ids']", text: 'Training(s)'
+    assert_select 'span.help-block.small', text: 'Select any potential upcoming instances of your catalogue entry'
   end
 
   test 'should get new page for logged in users only' do
@@ -530,7 +532,7 @@ class CoursesControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li[class=active]', text: /Courses/, count: 1
+      assert_select 'li[class=active]', text: /Training catalogue/, count: 1
     end
   end
 
@@ -554,7 +556,7 @@ class CoursesControllerTest < ActionController::TestCase
 
     assert_select 'div.breadcrumbs' do
       assert_select 'li > a[href$="/"] > span', text: /Home/, count: 1
-      assert_select 'li > a[href$="/courses"] > span', text: /Courses/, count: 1
+      assert_select 'li > a[href$="/courses"] > span', text: /Training catalogue/, count: 1
       assert_select 'li.active', text: /#{course.title}/, count: 1
     end
   end
@@ -576,7 +578,7 @@ class CoursesControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li', text: /Courses/, count: 1 do
+      assert_select 'li', text: /Training catalogue/, count: 1 do
         assert_select 'a[href=?]', courses_url, count: 1
       end
       assert_select 'li', text: /#{course.title}/, count: 1 do
@@ -593,7 +595,7 @@ class CoursesControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
       assert_select 'a[href=?]', root_path, count: 1
-      assert_select 'li', text: /Courses/, count: 1 do
+      assert_select 'li', text: /Training catalogue/, count: 1 do
         assert_select 'a[href=?]', courses_url, count: 1
       end
       assert_select 'li[class=active]', text: /New/, count: 1

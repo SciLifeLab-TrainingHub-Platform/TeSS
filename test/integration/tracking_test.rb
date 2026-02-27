@@ -16,7 +16,7 @@ class TrackingTest < ActionDispatch::IntegrationTest
       post cookies_consent_path, params: { allow: 'necessary_v2' }
       get event_path(event)
 
-      assert_select 'a.btn', text: /View course website/ do
+      assert_select 'a.event-action__view', text: /View website/ do
         assert_select '[data-trackable]'
         assert_select '[data-trackable-id=?]', event.id.to_s
         assert_select '[data-trackable-type=?]', 'Event'

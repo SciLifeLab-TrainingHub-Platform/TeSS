@@ -73,7 +73,7 @@
             course_menu_index = tabs.index { |t| course_tabs.include?(t[:feature]) }
             tabs = tabs.reject { |t| course_tabs.include?(t[:feature]) }
             course_menu_index ||= tabs.length
-            tabs.insert(course_menu_index, { dropdown: true, name: 'Courses', items: course_menu_items })
+            tabs.insert(course_menu_index, { dropdown: true, name: 'Training', items: course_menu_items })
           end
 
           directory_tabs, main_tabs = tabs.partition { |t| TeSS::Config.site['directory_tabs']&.include?(t[:feature]) }

@@ -4,6 +4,12 @@
 module BreadCrumbs
   extend ActiveSupport::Concern
 
+  # Maps controller names to human-friendly breadcrumb labels.
+  CONTROLLER_NAME_ALIASES = {
+    'events' => 'Training',
+    'courses' => 'Training catalogue'
+  }.freeze
+
   private
 
   # Make sure this is called after the @resource is set!
@@ -30,7 +36,9 @@ module BreadCrumbs
   end
 
   def add_index_breadcrumb(con_name, breadcrumb_name = nil)
-    breadcrumb_name ||= con_name.singularize.humanize.pluralize
+    # Use alias if defined, otherwise default humanized plural
+    breadcrumb_name ||= CONTROLLER_NAME_ALIASES.fetch(con_name) { con_name.singularize.humanize.pluralize }
+
     add_breadcrumb breadcrumb_name, url_for(controller: "/#{con_name}", action: 'index')
   end
 

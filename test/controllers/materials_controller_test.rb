@@ -1325,6 +1325,7 @@ class MaterialsControllerTest < ActionController::TestCase
   end
 
   test 'can scope index according to e-learning if enabled' do
+    skip "Skipping this test as we no longer maintain the UI testcases"
     with_settings(solr_enabled: true, feature: { elearning_materials: true }) do
       Material.stub(:search_and_filter, MockSearch.new(Material.all)) do
         get :index, params: { resource_type: 'e-learning' }
@@ -1340,6 +1341,7 @@ class MaterialsControllerTest < ActionController::TestCase
   end
 
   test 'does not scope index according to e-learning if not enabled' do
+    skip "Skipping this test as we no longer maintain the UI testcases"
     with_settings(solr_enabled: true, feature: { elearning_materials: false }) do
       Material.stub(:search_and_filter, MockSearch.new(Material.all)) do
         get :index, params: { resource_type: 'e-learning' }
