@@ -180,14 +180,14 @@ class EventsControllerTest < ActionController::TestCase
     sign_in users(:regular_user)
     get :new, params: { prefill: '1', course_id: '' }
     assert_response :success
-    assert_select '.help-block', text: 'Please select a course first.'
+    assert_select '.help-block', text: 'Please select a catalogue entry first.'
   end
 
   test 'new shows inline message when course_id is invalid' do
     sign_in users(:regular_user)
     get :new, params: { prefill: '1', course_id: 'not-a-real-course' }
     assert_response :success
-    assert_select '.help-block', text: 'Course not found.'
+    assert_select '.help-block', text: 'Catalogue entry not found.'
   end
 
   test 'new shows inline message when course is not approved' do

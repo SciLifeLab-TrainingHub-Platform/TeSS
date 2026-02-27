@@ -102,7 +102,7 @@ class EventsController < ApplicationController
     @selected_cities_ids = []
     @selected_topics_ids = []
     @selected_content_providers_id = []
-    @prefill_error = 'Please select a course first.' if params[:prefill].present? && params[:course_id].blank?
+    @prefill_error = 'Please select a catalogue entry first.' if params[:prefill].present? && params[:course_id].blank?
     @prefill_course = load_prefill_course
     apply_course_prefill if @prefill_course
   end
@@ -380,7 +380,7 @@ class EventsController < ApplicationController
     authorize course, :show?
     course
   rescue ActiveRecord::RecordNotFound, Pundit::NotAuthorizedError
-    @prefill_error = 'Course not found.'
+    @prefill_error = 'Catalogue entry not found.'
     nil
   end
 

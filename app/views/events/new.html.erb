@@ -15,7 +15,7 @@
             <div class="col-sm-9">
               <%= hidden_field_tag :prefill, '1' %>
               <%= select_tag :course_id,
-                             options_for_select([['Select a course catalogue (optional)', '']], params[:course_id]) +
+                             options_for_select([['Select a catalogue entry (optional)', '']], params[:course_id]) +
                                options_from_collection_for_select(@courses, 'to_param', 'title', params[:course_id]),
                              class: 'form-control js-select2',
                              id: 'prefill_course_select' %>
