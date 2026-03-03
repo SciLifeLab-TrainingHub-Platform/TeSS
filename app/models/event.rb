@@ -600,17 +600,13 @@ class Event < ApplicationRecord
   def course_must_be_approved_for_course_instance
     return unless course.present?
 
-    if !course.approved? && (new_record? || will_save_change_to_course_id?)
-      errors.add(:course, :must_be_approved_for_course_instance)
-    end
+    return unless new_record? || will_save_change_to_course_id?
 
-    return unless will_save_change_to_event_status?
+    course_or_event_approved = course.approved? || approved?
+    either_declined = course.declined? || declined?
+    return if course_or_event_approved && !either_declined
 
-    _old_status, new_status = event_status_change_to_be_saved
-    return unless new_status == 'approved'
-    return if course.approved?
-
-    errors.add(:event_status, :cannot_be_approved_until_course_is_approved)
+    errors.add(:course, :must_be_approved_for_course_instance)
   end
 
   def allowed_url

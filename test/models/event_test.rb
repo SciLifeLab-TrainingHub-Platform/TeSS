@@ -863,7 +863,23 @@ class EventTest < ActiveSupport::TestCase
     assert_includes event.errors[:course], I18n.t('activerecord.errors.models.event.attributes.course.must_be_approved_for_course_instance')
   end
 
-  test 'event linked to an unapproved course cannot be approved' do
+  test 'can link an approved event to an unapproved course' do
+    course = courses(:one) # awaiting_review by default
+    event = events(:one)   # approved by default
+
+    assert event.update(course: course)
+  end
+
+  test 'cannot link an event to a declined course' do
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:declined])
+    event = events(:one)
+
+    refute event.update(course: course)
+    assert_includes event.errors[:course], I18n.t('activerecord.errors.models.event.attributes.course.must_be_approved_for_course_instance')
+  end
+
+  test 'event linked to an unapproved course can be approved' do
     course = courses(:one)
     course.update_column(:course_status, Course.course_statuses[:approved])
 
@@ -879,10 +895,6 @@ class EventTest < ActiveSupport::TestCase
 
     course.update_column(:course_status, Course.course_statuses[:awaiting_review])
 
-    refute event.update(event_status: Event.event_statuses[:approved])
-    assert_includes event.errors[:event_status], I18n.t('activerecord.errors.models.event.attributes.event_status.cannot_be_approved_until_course_is_approved')
-
-    course.update_column(:course_status, Course.course_statuses[:approved])
     assert event.update(event_status: Event.event_statuses[:approved])
   end
 
