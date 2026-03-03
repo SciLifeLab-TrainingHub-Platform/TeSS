@@ -206,21 +206,20 @@ class CoursesController < ApplicationController
 
   def set_selected_ids_for_form
     raw_params = params[:course]
-    has_raw_params = raw_params.is_a?(ActionController::Parameters) || raw_params.is_a?(Hash)
 
     @selected_content_providers_id =
-      if has_raw_params && (raw_params.key?(:content_provider_ids) || raw_params.key?('content_provider_ids'))
-        Array(raw_params[:content_provider_ids]).reject(&:blank?).map(&:to_i)
-      else
-        @course&.content_provider_ids || []
-      end
+      selected_ids_for_form_field(raw_params, :content_provider_ids, fallback: @course&.content_provider_ids || [])
 
     @selected_events_id =
-      if has_raw_params && (raw_params.key?(:event_ids) || raw_params.key?('event_ids'))
-        Array(raw_params[:event_ids]).reject(&:blank?).map(&:to_i)
-      else
-        @course&.event_ids || []
-      end
+      selected_ids_for_form_field(raw_params, :event_ids, fallback: @course&.event_ids || [])
+  end
+
+  def selected_ids_for_form_field(raw_params, key, fallback:)
+    return fallback unless raw_params.is_a?(ActionController::Parameters) || raw_params.is_a?(Hash)
+    return fallback unless raw_params.key?(key) || raw_params.key?(key.to_s)
+
+    values = raw_params[key] || raw_params[key.to_s]
+    Array(values).reject(&:blank?).map(&:to_i)
   end
 
   def merge_event_linking_errors_from_exception(exception)
