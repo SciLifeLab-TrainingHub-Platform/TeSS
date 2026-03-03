@@ -82,9 +82,7 @@ en:
         event:
           attributes:
             course:
-              must_be_approved_for_course_instance: 'must be approved before you can create a course instance.'
-            event_status:
-              cannot_be_approved_until_course_is_approved: 'cannot be approved until the associated course is approved.'
+              must_be_approved_for_course_instance: 'linking is allowed only when either the catalogue entry or the training session is approved, and neither is declined.'
   about:
     registry: >
       TeSS is a platform that was developed to provide a one-stop shop for trainers and trainees to discover
@@ -551,6 +549,7 @@ en:
     actions:
       create_instance: 'Announce an upcoming training'
     messages:
+      event_linking_failed: 'One or more selected training sessions could not be linked to this catalogue entry.'
       not_approved_instance_help: 'This catalogue entry is not approved yet. You can create training instances once it is approved.'
     event_option_status:
       awaiting_review: 'Pending review'

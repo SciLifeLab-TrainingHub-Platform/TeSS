@@ -55,12 +55,20 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
     @course.user = current_user if @course.respond_to?(:user=)
     respond_to do |format|
-      if @course.save
-        @course.create_activity :create, owner: current_user if @course.respond_to?(:create_activity)
-        format.html { redirect_to @course, notice: 'Course was successfully created.' }
-        format.json { render :show, status: :created, location: @course }
-      else
-        format.html { render :new }
+      begin
+        if @course.save
+          @course.create_activity :create, owner: current_user if @course.respond_to?(:create_activity)
+          format.html { redirect_to @course, notice: 'Course was successfully created.' }
+          format.json { render :show, status: :created, location: @course }
+        else
+          set_selected_ids_for_form
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @course.errors, status: :unprocessable_entity }
+        end
+      rescue ActiveRecord::RecordNotSaved => e
+        merge_event_linking_errors_from_exception(e)
+        set_selected_ids_for_form
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
@@ -72,12 +80,20 @@ class CoursesController < ApplicationController
     normalize_authors_and_contributors
 
     respond_to do |format|
-      if @course.update(course_params)
-        @course.create_activity(:update, owner: current_user) if @course.respond_to?(:create_activity)
-        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
-        format.json { render :show, status: :ok, location: @course }
-      else
-        format.html { render :edit }
+      begin
+        if @course.update(course_params)
+          @course.create_activity(:update, owner: current_user) if @course.respond_to?(:create_activity)
+          format.html { redirect_to @course, notice: 'Course was successfully updated.' }
+          format.json { render :show, status: :ok, location: @course }
+        else
+          set_selected_ids_for_form
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @course.errors, status: :unprocessable_entity }
+        end
+      rescue ActiveRecord::RecordNotSaved => e
+        merge_event_linking_errors_from_exception(e)
+        set_selected_ids_for_form
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
@@ -185,6 +201,34 @@ class CoursesController < ApplicationController
     rescue JSON::ParserError => e
       Rails.logger.warn("CoursesController#normalize_authors_and_contributors: invalid JSON for #{key}: #{e.message}")
       params[:course].delete(key)
+    end
+  end
+
+  def set_selected_ids_for_form
+    raw_params = params[:course]
+    has_raw_params = raw_params.is_a?(ActionController::Parameters) || raw_params.is_a?(Hash)
+
+    @selected_content_providers_id =
+      if has_raw_params && (raw_params.key?(:content_provider_ids) || raw_params.key?('content_provider_ids'))
+        Array(raw_params[:content_provider_ids]).reject(&:blank?).map(&:to_i)
+      else
+        @course&.content_provider_ids || []
+      end
+
+    @selected_events_id =
+      if has_raw_params && (raw_params.key?(:event_ids) || raw_params.key?('event_ids'))
+        Array(raw_params[:event_ids]).reject(&:blank?).map(&:to_i)
+      else
+        @course&.event_ids || []
+      end
+  end
+
+  def merge_event_linking_errors_from_exception(exception)
+    record = exception.respond_to?(:record) ? exception.record : nil
+    if record&.respond_to?(:errors) && record.errors.any?
+      record.errors.full_messages.each { |message| @course.errors.add(:events, message) }
+    elsif @course.errors.empty?
+      @course.errors.add(:events, I18n.t('courses.messages.event_linking_failed'))
     end
   end
 
