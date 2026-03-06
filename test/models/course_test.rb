@@ -214,7 +214,7 @@ class CourseTest < ActiveSupport::TestCase
     assert_equal course.id, event.reload.course_id
   end
 
-  test "declining a course unlinks its events" do
+  test "declining a course keeps its linked events" do
     course = Course.create!(
       @mandatory.merge(
         nodes: [@node],
@@ -227,7 +227,7 @@ class CourseTest < ActiveSupport::TestCase
     assert event.update(course: course)
 
     assert course.update(course_status: Course.course_statuses[:declined])
-    assert_nil event.reload.course_id
+    assert_equal course.id, event.reload.course_id
   end
 
   test "has many events dependent nullify" do

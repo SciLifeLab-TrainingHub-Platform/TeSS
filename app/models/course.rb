@@ -17,7 +17,6 @@ class Course < ApplicationRecord
   before_create :set_course_initial_status
   after_commit :run_course_approval_lifecycle_on_create, on: :create
   after_commit :run_course_approval_lifecycle_on_status_change, on: :update
-  after_save :nullify_events_on_decline, if: :course_status_just_declined?
   before_validation :set_default_node, on: :create
 
   if TeSS::Config.solr_enabled
@@ -124,14 +123,6 @@ class Course < ApplicationRecord
       self,
       notifier: Notifications::CourseNotifier.new(self)
     ).after_status_change
-  end
-
-  def course_status_just_declined?
-    saved_change_to_course_status? && declined?
-  end
-
-  def nullify_events_on_decline
-    events.update_all(course_id: nil)
   end
 
   def self.extract_check_exists_attributes(course_params)
