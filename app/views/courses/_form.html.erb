@@ -84,9 +84,9 @@
                  { include_blank: false },
                  { class: "js-select2", style: "width: 100%;", multiple: true } %>
 
-    <% if @course.errors[:content_providers].present? %>
+    <% if @course.errors[:events].present? || @course.errors[:event_ids].present? %>
     <span class="help-block small" style="color: #a02622;">
-      <%= @course.errors[:content_providers].join(', ') %>
+      <%= (@course.errors[:events] + @course.errors[:event_ids]).uniq.join(', ') %>
     </span>
     <% else %>
       <span class="help-block small">Select any potential upcoming instances of your catalogue entry</span>

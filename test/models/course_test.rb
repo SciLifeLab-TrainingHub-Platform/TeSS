@@ -197,6 +197,39 @@ class CourseTest < ActiveSupport::TestCase
     assert_includes course.content_providers, @content_providers
   end
 
+  test "can attach approved events to an unapproved course" do
+    course = Course.create!(
+      @mandatory.merge(
+        nodes: [@node],
+        content_providers: [@content_providers],
+        user: @user
+      )
+    )
+    assert course.awaiting_review?
+
+    event = events(:one) # approved by default
+    assert event.approved?
+
+    assert course.update(event_ids: [event.id])
+    assert_equal course.id, event.reload.course_id
+  end
+
+  test "declining a course keeps its linked events" do
+    course = Course.create!(
+      @mandatory.merge(
+        nodes: [@node],
+        content_providers: [@content_providers],
+        user: @user
+      )
+    )
+
+    event = events(:one)
+    assert event.update(course: course)
+
+    assert course.update(course_status: Course.course_statuses[:declined])
+    assert_equal course.id, event.reload.course_id
+  end
+
   test "has many events dependent nullify" do
     course = Course.create!(@mandatory.merge(user: users(:trusted_user), content_providers: [@content_providers], nodes: [@node]))
     event = events(:one)

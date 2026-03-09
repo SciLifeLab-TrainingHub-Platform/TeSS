@@ -463,6 +463,29 @@ class CoursesControllerTest < ActionController::TestCase
     assert_redirected_to course_path(updated_course)
   end
 
+  test 'should render edit when trying to link event to declined course' do
+    sign_in users(:admin)
+
+    course = Course.create!(
+      @mandatory.merge(
+        nodes: [@node],
+        content_providers: [@content_providers],
+        user: users(:regular_user)
+      )
+    )
+    course.update_column(:course_status, Course.course_statuses[:declined])
+
+    event = events(:one)
+    assert_nil event.course_id
+
+    patch :update, params: { id: course.id, course: { event_ids: [event.id] } }
+
+    assert_response :unprocessable_entity
+    assert_template :edit
+    assert assigns(:course).errors.any?
+    assert_nil event.reload.course_id
+  end
+
   # DESTROY TESTS
   test 'should destroy course owned by user' do
     sign_in users(:regular_user)
