@@ -43,13 +43,9 @@ module CoursesHelper
   end
 
   def course_event_option_label(event)
-    return event.title if event.blank?
+    return event.title if event.approved?
 
-    status = event.respond_to?(:event_status) ? event.event_status : nil
-    return event.title if status.blank? || status == 'approved'
-
-    suffix = I18n.t("courses.event_option_status.#{status}", default: status.humanize)
-
+    suffix = I18n.t("courses.event_option_status.#{event.event_status}", default: event.event_status.humanize)
     "#{event.title} (#{suffix})"
   end
 

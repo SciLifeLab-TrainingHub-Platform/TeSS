@@ -175,9 +175,12 @@ class CoursesController < ApplicationController
     params.require(:course).permit(:title, :url, :content_provider_id, content_provider_ids: [])
   end
 
+  # Loads content providers and prepares a list of events for course forms,
+  # filtering approved events not linked to other courses
   def set_course_dependencies
     @content_providers = ContentProvider.all
-    approved_events = Event.where(event_status: Event.event_statuses[:approved])
+    approved_events = Event.where(event_status: Event.event_statuses[:approved]).where(course_id: nil)
+
     @events = if defined?(@course) && @course&.persisted?
                 approved_events.or(Event.where(id: @course.event_ids)).distinct.order(:title)
               else
