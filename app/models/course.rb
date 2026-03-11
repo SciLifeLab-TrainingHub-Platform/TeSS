@@ -49,14 +49,14 @@ class Course < ApplicationRecord
 
 
   validates :title, :url, :language, :description,
-            :structure_and_duration, :learning_outcomes,
+            :structure_and_duration, :learning_outcomes, :licence,
             :prerequisites_knowledge, :prerequisites_technical,
             presence: true
 
   validates :target_audience, presence: true
   validates :content_providers, presence: true
   clean_array_fields(:keywords, :target_audience)
-
+  validate :events_not_linked_to_other_courses
   validate :cannot_unapprove_with_approved_events
 
 
@@ -98,6 +98,7 @@ class Course < ApplicationRecord
     self.course_status = :approved if self.user.admin_or_trusted?
   end
 
+  #@todo need to refactored to more generic behaviour with arguments
   def course_status_just_approved?
     return false unless previous_changes.key?("course_status")
 
@@ -110,6 +111,7 @@ class Course < ApplicationRecord
     old_status.in?([awaiting_review, revisions_required]) &&
       new_status == approved
   end
+
   def run_course_approval_lifecycle_on_create
     ApprovalLifecycle.new(
       self,
@@ -162,4 +164,22 @@ class Course < ApplicationRecord
       self.nodes << default_node if default_node
     end
   end
+
+  def events_not_linked_to_other_courses
+    return if events.blank?
+    # Only check in the database, ignore the in-memory assignment to self
+    events.each do |event|
+      # Reload the event from DB to get its current course
+      db_event = Event.find(event.id)
+
+      # Skip if it's linked to this course (editing)
+      next if db_event.course_id == self.id
+
+      # Fail if it's linked to any other course
+      if db_event.course_id.present?
+        errors.add(:events, "Event '#{db_event.title}' is already linked to another course")
+      end
+    end
+  end
+
 end
