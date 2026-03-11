@@ -768,13 +768,13 @@ en:
   languages: # Only needed to override default names from I18nData
     el: 'Greek'
   errors:
-    500: "Apologies, Training Portal encountered an error whilst handling your request (500 Internal Server Error)."
-    503: "Apologies, Training Portal is temporarily down or unavailable due to maintenance (503 Service Unavailable)."
+    500: "Apologies, TeSS encountered an error whilst handling your request (500 Internal Server Error)."
+    503: "Apologies, TeSS is temporarily down or unavailable due to maintenance (503 Service Unavailable)."
     422: "The request you sent was well-formed but the change you wanted was rejected (422 Unprocessable Entity)."
     404: "The requested page could not be found - you may have mistyped the address or the page may have moved (404 Not Found)."
     406: "The requested format is not available (406 Not Acceptable)."
   warnings:
-    link_broken: Training Portal has been unable to access this %{resource_type}'s URL since %{fail_date} - the page may have been moved.
+    link_broken: TeSS has been unable to access this %{resource_type}'s URL since %{fail_date} - the page may have been moved.
     archived: This %{resource_type} has been archived, its content may no longer be relevant.
     unverified: This %{resource_type} will not be publicly visible until your registration has been approved by an administrator.
   footer:
