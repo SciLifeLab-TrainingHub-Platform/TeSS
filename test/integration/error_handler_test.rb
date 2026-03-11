@@ -5,8 +5,8 @@ class ErrorHandlerTest < ActionDispatch::IntegrationTest
     404 => /could not be found/,
     406 => /format is not available/,
     422 => /change you wanted was rejected/,
-    500 => /TeSS encountered an error/,
-    503 => /TeSS is temporarily down/
+    500 => /Training Portal encountered an error/,
+    503 => /Training Portal is temporarily down/
   }
 
   ERRORS.each do |code, message_matcher|
