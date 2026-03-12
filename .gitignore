@@ -39,5 +39,7 @@ config/ontologies/*.cache
 
 tess.crontab
 
-# Mac files
+app-secrets*
+node_modules/
+
 **/.DS_Store

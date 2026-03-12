@@ -5,8 +5,21 @@ Rails.application.config.assets.version = '1.0'
 
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path
-# Add Yarn node_modules folder to the asset load path.
-Rails.application.config.assets.paths << Rails.root.join('node_modules')
+# Add node_modules subdirectories to the Sprockets asset load path so that
+# JS/CSS packages installed via yarn can be referenced with //= require and @import.
+%w[
+  clipboard/dist
+  devbridge-autocomplete/dist
+  eonasdan-bootstrap-datetimepicker/src/js
+  eonasdan-bootstrap-datetimepicker/build/css
+  markdown-it/dist
+  moment
+  select2/dist/js
+  select2/dist/css
+].each do |path|
+    Rails.application.config.assets.paths << Rails.root.join("node_modules/#{path}")
+end
+
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
