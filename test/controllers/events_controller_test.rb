@@ -166,7 +166,7 @@ class EventsControllerTest < ActionController::TestCase
     @monitor.update(failed_at: DateTime.new(2003, 12, 5))
     get :show, params: { id: @failing_event }
     assert_response :success
-    assert_select '.broken-link-notice', text: /TeSS has been unable to access this training's URL since 5 December 2003 - the page may have been moved./
+    assert_select '.broken-link-notice', text: /Training Portal has been unable to access this training's URL since 5 December 2003 - the page may have been moved./
   end
 
   # NEW TESTS
