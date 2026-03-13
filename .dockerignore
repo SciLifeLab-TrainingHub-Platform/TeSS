@@ -4,6 +4,7 @@ Dockerfile-dev
 coverage/
 solr/*
 !solr/conf
+.github/
 vendor/bundle/
 log/
 tmp/

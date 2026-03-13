@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - rc-*
+      - fix-build-time-issue
   create:
     tags:
       - 'rc-v*'
@@ -147,6 +148,8 @@ jobs:
         target: ${{ env.DOCKER_TARGET }}
         tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
         labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
     
     - name: Post to a Slack channel
       id: slack
