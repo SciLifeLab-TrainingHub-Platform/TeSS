@@ -10,90 +10,74 @@ RUN apt-get update && apt-get install -y \
   gnupg2 \
   imagemagick \
   libpq-dev \
-  nodejs npm && apt-get clean && rm -rf /var/lib/apt/lists/*  # Cleanup to avoid permission issues
+  nodejs npm \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# install yarn to manage JS dependencies
+# Install yarn to manage JS dependencies
 RUN npm install --global yarn@1.22.22
 
-RUN mkdir -p /code
-# Create a non-root user with a home directory and assign ownership to the user
-RUN useradd -m -u 1001 -U -s /bin/sh -d /code appuser
-
-RUN chown -R appuser:appuser /code
-
-USER appuser
-
-# Set the working directory
-WORKDIR /code
-
-# copy package file
-COPY package.json yarn.lock ./
-
-# install js dependencies
-RUN yarn install --frozen-lockfile --non-interactive
-
-# Switch to the non-root user
-#USER appuser
-#RUN chmod u+w /code
-COPY . .
-
-
-RUN bundle check || bundle install
-USER root
-RUN if [ -n "$SOURCE_COMMIT" ] ; then echo $SOURCE_COMMIT > config/.git-revision ; fi
-RUN chown -R appuser:appuser solr config docker public /code db/schema.rb
-
-# Install supercronic - a cron alternative
+# Install supercronic (cron alternative) - before app copy so this layer is cached
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.12/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \
     SUPERCRONIC_SHA1SUM=048b95b48b708983effb2e5c935a1ef8483d9e3e
-
 RUN curl -fsSLO "$SUPERCRONIC_URL" \
- && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
- && chmod +x "$SUPERCRONIC" \
- #&& mv "$SUPERCRONIC" "/tmp/${SUPERCRONIC}" \
- #&& sudo mv "/tmp/${SUPERCRONIC}" "/usr/local/bin/${SUPERCRONIC}" \
- && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
- && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+  && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+  && chmod +x "$SUPERCRONIC" \
+  && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+  && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
 
-# Switch back to the non-root user
+# Create non-root user and set up /code
+RUN mkdir -p /code \
+  && useradd -m -u 1001 -U -s /bin/sh -d /code appuser \
+  && chown -R appuser:appuser /code
+
+USER appuser
+WORKDIR /code
+
+# Copy dependency manifests first so bundle/yarn layers are cached when only app code changes
+COPY Gemfile Gemfile.lock ./
+RUN bundle check || bundle install
+
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --non-interactive
+
+# Copy application code last (most frequently changed)
+COPY . .
+
+# Switch to root only for writing revision and fixing ownership
+USER root
+RUN if [ -n "$SOURCE_COMMIT" ]; then echo "$SOURCE_COMMIT" > config/.git-revision; fi \
+  && chown -R appuser:appuser /code
 USER appuser
 
-
-# Set the entry point
 ENTRYPOINT ["docker/entrypoint.sh"]
-
-# Expose port 3000
 EXPOSE 3000
 
 # Development stage
 FROM base AS development
-
-# Command to start the Rails server in development mode
 CMD bundle exec rails server -b 0.0.0.0
 
 # Production stage
 FROM base AS production
 USER appuser
-# Copy Gemfile and Gemfile.lock to the container
-COPY Gemfile Gemfile.lock ./
 
-# Install gems
+# Same order as base: dependency manifests first, then code last (for cache)
+COPY Gemfile Gemfile.lock ./
 RUN bundle check || bundle install
 
-# Copy the application code (includes package.json and yarn.lock)
-COPY . .
-# Install JS dependencies so assets:precompile can find them
+COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --non-interactive
 
-USER root
-RUN mkdir -p /code/public/assets && chown -R appuser:appuser /code
-RUN touch /code/tess.crontab && chown -R appuser:appuser /code/tess.crontab
-USER appuser
-# Precompile assets
-RUN bundle exec rake assets:precompile 
+COPY . .
 
-# Run the Rails server, bind for Docker
+USER root
+RUN mkdir -p /code/public/assets \
+  && touch /code/tess.crontab \
+  && chown -R appuser:appuser /code
+USER appuser
+
+RUN bundle exec rake assets:precompile
+
 CMD bundle exec whenever > /code/tess.crontab \
-    && (supercronic /code/tess.crontab &) \
-    && bundle exec rails server -b 0.0.0.0
+  && (supercronic /code/tess.crontab &) \
+  && bundle exec rails server -b 0.0.0.0

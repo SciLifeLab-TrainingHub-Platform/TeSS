@@ -2,6 +2,7 @@
 Dockerfile
 Dockerfile-dev
 coverage/
+node_modules/
 solr/*
 !solr/conf
 .github/
