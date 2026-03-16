@@ -7,7 +7,7 @@ FROM ruby:$RUBY_VERSION-slim AS base
 WORKDIR /code
 
 # install dependencies
-RUN apt-get update && apt-get install build-essential curl file git gnupg2 imagemagick libpq-dev nodejs npm -y && apt-get clean
+RUN apt-get update && apt-get install build-essential curl file git gnupg2 imagemagick libpq-dev nodejs -y
 
 # install supercronic - a cron alternative
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.12/supercronic-linux-amd64 \
@@ -38,11 +38,6 @@ COPY Gemfile Gemfile.lock ./
 # install gems
 RUN bundle check || bundle install
 
-# copy package file
-COPY package.json yarn.lock ./
-
-# install js dependencies
-RUN yarn install --frozen-lockfile --non-interactive
 # copy code
 COPY . .
 
