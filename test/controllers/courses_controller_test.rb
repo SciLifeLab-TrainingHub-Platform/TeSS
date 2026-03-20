@@ -83,6 +83,44 @@ class CoursesControllerTest < ActionController::TestCase
     end
   end
 
+  test 'courses index defaults to title ascending when sort param is missing' do
+    with_settings(solr_enabled: true) do
+      captured_sort = nil
+      search_stub = proc do |*_args, **kwargs|
+        options = kwargs.presence || (_args.last.is_a?(Hash) ? _args.last : {})
+        captured_sort = options[:sort_by]
+        MockSearch.new(Course.all)
+      end
+
+      Course.stub(:search_and_filter, search_stub) do
+        get :index
+        assert_response :success
+      end
+
+      assert_equal 'asc', captured_sort
+      assert_equal 'asc', assigns(:sort_by)
+    end
+  end
+
+  test 'courses index uses explicit sort param when provided' do
+    with_settings(solr_enabled: true) do
+      captured_sort = nil
+      search_stub = proc do |*_args, **kwargs|
+        options = kwargs.presence || (_args.last.is_a?(Hash) ? _args.last : {})
+        captured_sort = options[:sort_by]
+        MockSearch.new(Course.all)
+      end
+
+      Course.stub(:search_and_filter, search_stub) do
+        get :index, params: { sort: 'new' }
+        assert_response :success
+      end
+
+      assert_equal 'new', captured_sort
+      assert_equal 'new', assigns(:sort_by)
+    end
+  end
+
   test 'should get index as json' do
     parameters = @mandatory.merge(
       {
