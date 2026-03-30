@@ -148,15 +148,30 @@ INFO
   end
 
   def event_cost_value(event)
-    return if event.cost_value.blank?
+    return if event.event_prices.blank?
 
-    formatted_value = number_with_precision(event.cost_value, precision: 2, strip_insignificant_zeros: true)
-    parts = []
-    symbol = currency_symbol_by_iso_code(event.cost_currency)
-    parts << symbol if symbol.present?
-    parts << formatted_value
-    parts << "(#{event.cost_currency})" if event.cost_currency.present?
-    parts.join(' ').strip
+    event.event_prices.map do |price|
+      next if price.cost.blank?
+
+      # Format the numeric value
+      formatted_value = number_with_precision(
+        price.cost,
+        precision: 2,
+        strip_insignificant_zeros: true
+      )
+
+      # Get currency symbol
+      symbol = currency_symbol_by_iso_code(price.currency)
+
+      # Build the parts of the string
+      parts = []
+      parts << symbol if symbol.present?
+      parts << formatted_value
+      parts << "(#{price.currency})" if price.currency.present?
+      parts << "[#{price.audience_type}]" if price.audience_type.present?
+
+      parts.join(' ').strip
+    end.compact.join(', ') # Join multiple prices with a comma
   end
 
   def event_formatted_datetime(datetime)
