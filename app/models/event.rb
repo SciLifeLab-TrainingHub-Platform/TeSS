@@ -171,7 +171,6 @@ class Event < ApplicationRecord
   validates :url, url: true
   validates :registration_form_url, url: true, allow_blank: true
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }, allow_blank: true
-  validates :cost_value, numericality: { greater_than: 0 }, allow_blank: true
   validates :event_types, controlled_vocabulary: { dictionary: 'EventTypeDictionary' }
   validates :eligibility, controlled_vocabulary: { dictionary: 'EligibilityDictionary' }
   validates :latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90, allow_nil: true }

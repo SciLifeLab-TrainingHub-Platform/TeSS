@@ -12,11 +12,23 @@ $(document).on('turbolinks:load', function() {
 $(document).on('cocoon:after-insert', function(e, insertedItem) {
     // Only initialize if the inserted item is inside event_prices_wrapper
     if ($(insertedItem).closest('#event_prices_wrapper').length > 0) {
-        $(insertedItem).find('.js-select2-tags').select2({
+        const $select = $(insertedItem).find('.js-select2-tags');
+
+        // Disable blank option
+        $select.find('option[value=""]').prop('disabled', true);
+
+        // Initialize Select2
+        $select.select2({
             tags: true,
             tokenSeparators: [','],
             width: '100%',
-            theme: "bootstrap"
+            theme: "bootstrap",
+            placeholder: "Select or type",
+            allowClear: true,
+        });
+        // Ensure disabled option stays disabled in Select2 (Select2 may clone options)
+        $select.on('select2:opening select2:open', function() {
+            $select.find('option[value=""]').prop('disabled', true);
         });
     }
 });

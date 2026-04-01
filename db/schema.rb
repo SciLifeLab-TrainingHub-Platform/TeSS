@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_24_140102) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_31_085004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -282,7 +282,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_24_140102) do
     t.string "slug"
     t.integer "user_id"
     t.integer "presence", default: 0
-    t.decimal "cost_value"
     t.date "last_scraped"
     t.boolean "scraper_record", default: false
     t.string "keywords", default: [], array: true
@@ -305,8 +304,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_24_140102) do
     t.text "learning_objectives"
     t.text "prerequisites", null: false
     t.text "tech_requirements"
-    t.string "cost_basis"
-    t.string "cost_currency"
     t.string "fields", default: [], array: true
     t.boolean "visible", default: true
     t.string "language", null: false

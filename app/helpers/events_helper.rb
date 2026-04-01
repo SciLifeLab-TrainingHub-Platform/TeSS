@@ -148,30 +148,28 @@ INFO
   end
 
   def event_cost_value(event)
-    return if event.event_prices.blank?
+    return "" if event.event_prices.blank?
 
-    event.event_prices.map do |price|
+    lines = event.event_prices.each_with_object([]) do |price, arr|
       next if price.cost.blank?
 
-      # Format the numeric value
       formatted_value = number_with_precision(
         price.cost,
         precision: 2,
         strip_insignificant_zeros: true
       )
 
-      # Get currency symbol
-      symbol = currency_symbol_by_iso_code(price.currency)
+      currency_display = price.currency
+      audience = price.audience_type.presence&.titleize
 
-      # Build the parts of the string
-      parts = []
-      parts << symbol if symbol.present?
-      parts << formatted_value
-      parts << "(#{price.currency})" if price.currency.present?
-      parts << "[#{price.audience_type}]" if price.audience_type.present?
+      # Only add audience part if present
+      audience_part = audience.present? ? " : #{audience}" : ""
 
-      parts.join(' ').strip
-    end.compact.join(', ') # Join multiple prices with a comma
+      arr << "#{currency_display} #{formatted_value}#{audience_part}"
+    end
+
+    # Join lines with <br> and mark HTML-safe
+    lines.join("<br>").html_safe
   end
 
   def event_formatted_datetime(datetime)
@@ -244,5 +242,28 @@ INFO
 
   def show_event_revision_notice?(event)
     event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required])
+  end
+
+  def get_event_audience_types(event)
+    default_options = EventPrice::DEFAULT_AUDIENCE_TYPES
+    return default_options unless event.user
+
+    user = event.user
+
+    # get all events for the current user
+    user_events = Event.where(user_id: user.id)
+
+    # if the user has no other events, just return the default options
+    return default_options if user_events.empty?
+
+    # get distinct audience_type values from EventPrice
+    # assuming EventPrice has columns: event_id, audience_type
+    audience_types_from_user_events = EventPrice
+                                        .where(event_id: user_events.select(:id))
+                                        .distinct
+                                        .pluck(:audience_type)
+
+    # merge with default options, remove duplicates
+    (default_options + audience_types_from_user_events).uniq
   end
 end
