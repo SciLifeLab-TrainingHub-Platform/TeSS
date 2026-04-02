@@ -78,7 +78,6 @@ default: &default
     content_provider: 'placeholder-organization.svg'
     person: 'placeholder-person.svg'
   dictionaries:
-    cost_basis: 'cost_basis.yml'
     difficulty: 'difficulty.yml'
     eligibility: 'eligibility.yml'
     event_types: 'event_types.yml'

@@ -159,14 +159,15 @@
       <% end %>
     </div>
 
-    <%= link_to_add_association 'Add Price', f, :event_prices,
+    <%= link_to_add_association '+ Add another price', f, :event_prices,
                                 partial: 'events/partials/event_price_fields',
                                 locals: { currency_collection: currency_collection },
+                                class: "btn btn-outline-secondary btn-sm px-3 mb-5",
                                 data: {
                                   association_insertion_node: '#event_prices_wrapper',
                                   association_insertion_method: 'append'
                                 }
-                                 %>
+    %>
   </div>
 
   <!-- Field: Content Providers -->

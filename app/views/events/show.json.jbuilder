@@ -7,7 +7,7 @@ fields = [
 
   :start, :end, :duration, :timezone, :language,
 
-  :sponsors, :contact, :host_institutions,
+  :sponsors, :contact, :host_institutions, :event_prices,
 
   :venue, :city, :county, :country, :postcode, :latitude, :longitude, :capacity,
 

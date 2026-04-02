@@ -163,9 +163,9 @@ INFO
       audience = price.audience_type.presence&.titleize
 
       # Only add audience part if present
-      audience_part = audience.present? ? " : #{audience}" : ""
+      audience_part = audience.present? ? ": #{audience}" : ""
 
-      arr << "#{currency_display} #{formatted_value}#{audience_part}"
+      arr << "#{formatted_value} #{currency_display} #{audience_part}"
     end
 
     # Join lines with <br> and mark HTML-safe

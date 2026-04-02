@@ -2,7 +2,7 @@ class EventPrice < ApplicationRecord
   belongs_to :event
 
   # Default audience types
-  DEFAULT_AUDIENCE_TYPES = %w[academic non-academic all others].freeze
+  DEFAULT_AUDIENCE_TYPES = %w[academic non-academic].freeze
 
   # validations
   validates :cost, presence: true, numericality: { greater_than_or_equal_to: 0 }

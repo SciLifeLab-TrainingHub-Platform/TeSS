@@ -2,7 +2,7 @@ base_fields = [:id, :external_id, :title, :subtitle, :url, :registration_form_ur
                :city, :country, :postcode, :latitude, :longitude, :created_at, :updated_at, :source, :slug,
                :content_providers, :user_id, :last_scraped, :scraper_record, :keywords, :event_types,
                :target_audience, :capacity, :eligibility, :contact, :host_institutions, :prerequisites,
-               :tech_requirements, :learning_objectives, :application_deadline ]
+               :tech_requirements, :event_prices, :learning_objectives, :application_deadline ]
 
 json.array!(@events) do |event|
   fields = base_fields
