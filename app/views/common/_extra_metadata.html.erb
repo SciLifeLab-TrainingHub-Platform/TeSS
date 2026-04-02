@@ -50,18 +50,7 @@
   <%= display_attribute(resource, :tech_requirements, markdown: true) %>
   <%= display_attribute(resource, :recognition, title: 'Credit / Recognition') %>
 
-  <%= display_attribute(resource, :cost_basis) { |c| CostBasisDictionary.instance.lookup_value(c, 'title') } %>
-
-  <% if resource.cost_value.present? %>
-    <p>
-      <b>Cost:</b>
-      <%= currency_symbol_by_iso_code resource.cost_currency %>
-      <%= resource.cost_value %>
-      <% if resource.cost_currency.present? %>
-        (<%= resource.cost_currency %>)
-      <% end %>
-    </p>
-  <% end %>
+<!--  add cost here-->
 
   <%= display_attribute(resource, :sponsors) { |values| values.join(', ') } %>
 <% end %>

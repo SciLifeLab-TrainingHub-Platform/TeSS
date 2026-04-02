@@ -3,11 +3,11 @@
 one:
   event: one
   cost: 9.99
-  currency: MyString
-  audience_type: MyString
+  currency: SEK
+  audience_type: Academic
 
 two:
   event: two
   cost: 9.99
-  currency: MyString
-  audience_type: MyString
+  currency: USD
+  audience_type: Non-academic

@@ -391,7 +391,6 @@ en:
       contact: ''
       contact_hint: 'An email to which queries about the course can be directed'
       content_provider_hint: 'The organization providing the material, ie: NBIS, CryoNet, SciLifeLab Clinical Genomics, etc.'
-      cost_basis: 'Select the basis by which costs, if any, are applied.'
       cost_value: 'Input the cost of the training event.'
       cost_currency: 'Select the currency associated with the cost.'
       description: 'Provide a textual description of the training event, for additional context.'

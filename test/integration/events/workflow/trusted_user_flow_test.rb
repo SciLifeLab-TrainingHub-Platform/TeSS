@@ -36,7 +36,6 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
       prerequisites: @event_fixture.prerequisites,
       target_audience: @event_fixture.target_audience,
       content_provider_ids: [@content_provider.id],
-      cost_basis: @event_fixture.cost_basis,
       learning_objectives: @event_fixture.learning_objectives,
       description: @event_fixture.description,
       title: "Trusted user published event",

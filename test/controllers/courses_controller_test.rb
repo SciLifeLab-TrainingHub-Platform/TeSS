@@ -63,7 +63,6 @@ class CoursesControllerTest < ActionController::TestCase
       prerequisites: template_event.prerequisites,
       target_audience: template_event.target_audience,
       content_providers: template_event.content_providers,
-      cost_basis: template_event.cost_basis,
       learning_objectives: template_event.learning_objectives,
       event_status: 'approved'
     )
@@ -317,7 +316,6 @@ class CoursesControllerTest < ActionController::TestCase
       prerequisites: template_event.prerequisites,
       target_audience: template_event.target_audience,
       content_providers: template_event.content_providers,
-      cost_basis: template_event.cost_basis,
       learning_objectives: template_event.learning_objectives
     )
     assert_equal 'awaiting_review', pending_event.event_status

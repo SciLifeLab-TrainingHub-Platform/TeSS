@@ -33,9 +33,6 @@ $(document).on('change', '[data-role="online-switch"]', function () {
     Events.switchAddressFields();
 });
 
-$(document).on('change', '.event_cost_basis', function () {
-    Events.switchCostFields();
-});
 
 $(document).on('ready turbolinks:load', function () {
     Events.switchCostFields();
