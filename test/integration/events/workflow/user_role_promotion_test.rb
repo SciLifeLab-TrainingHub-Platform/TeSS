@@ -43,7 +43,8 @@ class UserRolePromotionTest < ActionDispatch::IntegrationTest
       url: @event_fixture.url,
       duration: @event_fixture.duration,
       recognition: @event_fixture.recognition,
-      event_status: Event::event_statuses[:awaiting_review]
+      event_status: Event::event_statuses[:awaiting_review],
+      event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
     }
 
     @threshold = User::EVENT_APPROVAL_THRESHOLD

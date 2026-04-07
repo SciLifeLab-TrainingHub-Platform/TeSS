@@ -11,3 +11,171 @@ two:
   cost: 9.99
   currency: USD
   audience_type: Non-academic
+
+one_price:
+  event: one
+  cost: 10.0
+  currency: USD
+  audience_type: Academic
+
+two_price:
+  event: two
+  cost: 15.0
+  currency: USD
+  audience_type: Non-academic
+
+month_long_event_price:
+  event: month_long_event
+  cost: 50.0
+  currency: USD
+  audience_type: Everyone
+
+year_long_event_price:
+  event: year_long_event
+  cost: 500.0
+  currency: USD
+  audience_type: Everyone
+
+iann_event_price:
+  event: iann_event
+  cost: 0.0
+  currency: USD
+  audience_type: Everyone
+
+scraper_user_event_price:
+  event: scraper_user_event
+  cost: 5.0
+  currency: USD
+  audience_type: Everyone
+
+event_with_external_resource_price:
+  event: event_with_external_resource
+  cost: 20.0
+  currency: USD
+  audience_type: Everyone
+
+event_with_no_start_price:
+  event: event_with_no_start
+  cost: 8.0
+  currency: USD
+  audience_type: Everyone
+
+event_with_no_end_price:
+  event: event_with_no_end
+  cost: 8.0
+  currency: USD
+  audience_type: Everyone
+
+online_event_with_no_end_price:
+  event: online_event_with_no_end
+  cost: 12.0
+  currency: USD
+  audience_type: Everyone
+
+organisation_event_price:
+  event: organisation_event
+  cost: 15.0
+  currency: USD
+  audience_type: Everyone
+
+portal_event_price:
+  event: portal_event
+  cost: 18.0
+  currency: USD
+  audience_type: Everyone
+
+dodgy_country_event_price:
+  event: dodgy_country_event
+  cost: 5.0
+  currency: USD
+  audience_type: Everyone
+
+no_description_event_price:
+  event: no_description_event
+  cost: 0.0
+  currency: USD
+  audience_type: Everyone
+
+event_with_report_price:
+  event: event_with_report
+  cost: 25.0
+  currency: USD
+  audience_type: Everyone
+
+another_event_with_report_price:
+  event: another_event_with_report
+  cost: 25.0
+  currency: USD
+  audience_type: Everyone
+
+shadowbanned_event_price:
+  event: shadowbanned_event
+  cost: 30.0
+  currency: USD
+  audience_type: Academic
+
+failing_event_price:
+  event: failing_event
+  cost: 0.0
+  currency: USD
+  audience_type: Everyone
+
+kilburn_price:
+  event: kilburn
+  cost: 15.0
+  currency: USD
+  audience_type: Everyone
+
+calendar_event_price:
+  event: calendar_event
+  cost: 10.0
+  currency: USD
+  audience_type: Everyone
+
+training_event_price:
+  event: training_event
+  cost: 12.0
+  currency: USD
+  audience_type: Everyone
+
+ical_event_1_price:
+  event: ical_event_1
+  cost: 5.0
+  currency: USD
+  audience_type: Everyone
+
+ical_event_2_price:
+  event: ical_event_2
+  cost: 5.0
+  currency: USD
+  audience_type: Everyone
+
+course_event_price:
+  event: course_event
+  cost: 100.0
+  currency: USD
+  audience_type: Everyone
+
+hybrid_event_price:
+  event: hybrid_event
+  cost: 0.0
+  currency: USD
+  audience_type: Everyone
+
+approved_event_price:
+  event: approved_event
+  cost: 20.0
+  currency: USD
+  audience_type: Everyone
+
+awaiting_review_event_price:
+  event: awaiting_review_event
+  cost: 20.0
+  currency: USD
+  audience_type: Everyone
+
+revisions_required_event_price:
+  event: revisions_required_event
+  cost: 20.0
+  currency: USD
+  audience_type: Everyone

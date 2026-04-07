@@ -23,7 +23,7 @@
 
     <div class="col-sm-3">
       <%= f.select :audience_type,
-                   get_event_audience_types,
+                   get_event_audience_types(current_user),
                    {},
                    class: "form-control js-select2-tags"
       %>

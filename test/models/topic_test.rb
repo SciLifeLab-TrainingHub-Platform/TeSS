@@ -11,7 +11,9 @@ class TopicTest < ActiveSupport::TestCase
     @mandatory = { start: Date.today, end: Date.today + 1.day, nodes: @event_one.nodes,
                    language: @event_one.language, prerequisites: @event_one.prerequisites,
                    target_audience: @event_one.target_audience, content_providers: @event_one.content_providers,
-                   learning_objectives: @event_one.learning_objectives}
+                   learning_objectives: @event_one.learning_objectives,
+                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+    }
   end
 
   test "should be valid with valid attributes" do

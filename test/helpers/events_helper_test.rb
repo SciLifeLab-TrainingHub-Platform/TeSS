@@ -6,13 +6,14 @@ class EventsHelperTest < ActionView::TestCase
     @user = users(:regular_user)
     @event_with_user = events(:one)
     @event_parameters = { start: @event_with_user.start, end: @event_with_user.end,
-                   timezone: @event_with_user.timezone, contact: @event_with_user.contact, eligibility: @event_with_user.eligibility,
-                   host_institutions: @event_with_user.host_institutions, nodes: @event_with_user.nodes,
-                   language: @event_with_user.language, prerequisites: @event_with_user.prerequisites,
-                   target_audience: @event_with_user.target_audience, content_providers: @event_with_user.content_providers,
-                   learning_objectives: @event_with_user.learning_objectives}
+                          timezone: @event_with_user.timezone, contact: @event_with_user.contact, eligibility: @event_with_user.eligibility,
+                          host_institutions: @event_with_user.host_institutions, nodes: @event_with_user.nodes,
+                          language: @event_with_user.language, prerequisites: @event_with_user.prerequisites,
+                          target_audience: @event_with_user.target_audience, content_providers: @event_with_user.content_providers,
+                          learning_objectives: @event_with_user.learning_objectives,
+                          event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+    }
   end
-
 
   test "neatly_printed_date_range" do
     assert_equal '15 April 2023',
@@ -71,14 +72,14 @@ class EventsHelperTest < ActionView::TestCase
   test "returns default options if user has no prior events with event prices" do
 
     new_user = User.create({ username: 'new_user', password: '12345678', email: 'new_user@example.com', processing_consent: '1' })
-    new_event = Event.new(@event_parameters.merge({ user: new_user}))
+    new_event = Event.new(@event_parameters.merge({ user: new_user }))
 
     expected = EventPrice::DEFAULT_AUDIENCE_TYPES
-    assert_equal expected.sort, get_event_audience_types(new_event).sort
+    assert_equal expected.sort, get_event_audience_types(new_user).sort
   end
 
   test "includes custom audience types from user's previous event prices" do
-    new_event_price_audience_type =  "vip-academic"
+    new_event_price_audience_type = "vip-academic"
     new_user = User.create!({ username: 'new_user', password: '12345678', email: 'new_user@example.com', processing_consent: '1' })
     new_event = Event.create!(@event_parameters.merge(
       {
@@ -98,7 +99,7 @@ class EventsHelperTest < ActionView::TestCase
 
     expected = (EventPrice::DEFAULT_AUDIENCE_TYPES + [new_event_price_audience_type]).uniq
 
-    assert_equal expected.sort, get_event_audience_types(new_event).sort
+    assert_equal expected.sort, get_event_audience_types(new_user).sort
   end
 
   test "merges multiple custom audience types without duplicates" do
@@ -132,7 +133,7 @@ class EventsHelperTest < ActionView::TestCase
 
     # Expected: defaults + unique custom types
     expected = (EventPrice::DEFAULT_AUDIENCE_TYPES + types).uniq
-    assert_equal expected.sort, get_event_audience_types(new_event).sort
+    assert_equal expected.sort, get_event_audience_types(new_user).sort
   end
 
 end

@@ -64,7 +64,8 @@ class CoursesControllerTest < ActionController::TestCase
       target_audience: template_event.target_audience,
       content_providers: template_event.content_providers,
       learning_objectives: template_event.learning_objectives,
-      event_status: 'approved'
+      event_status: 'approved',
+      event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
     )
 
     get :index
@@ -316,7 +317,8 @@ class CoursesControllerTest < ActionController::TestCase
       prerequisites: template_event.prerequisites,
       target_audience: template_event.target_audience,
       content_providers: template_event.content_providers,
-      learning_objectives: template_event.learning_objectives
+      learning_objectives: template_event.learning_objectives,
+      event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
     )
     assert_equal 'awaiting_review', pending_event.event_status
     assert_includes Course.find(course.id).event_ids, pending_event.id

@@ -15,7 +15,9 @@ class EventTest < ActiveSupport::TestCase
                    host_institutions: @event.host_institutions, nodes: @event.nodes,
                    language: @event.language, prerequisites: @event.prerequisites,
                    target_audience: @event.target_audience, content_providers: @event.content_providers,
-                   learning_objectives: @event.learning_objectives}
+                   learning_objectives: @event.learning_objectives,
+                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+    }
   end
 
   test 'can get associated nodes for event' do
@@ -551,7 +553,8 @@ class EventTest < ActiveSupport::TestCase
       external_resources_attributes: { '0' => { title: 'test', url: 'https://external-resource.com' } },
       materials: [material],
       scientific_topic_names: %w[Proteins DNA],
-      operation_names: ['Variant calling']
+      operation_names: ['Variant calling'],
+
     })
     event = Event.new(parameters)
 

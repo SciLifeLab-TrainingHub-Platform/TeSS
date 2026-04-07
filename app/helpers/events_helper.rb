@@ -244,7 +244,7 @@ INFO
     event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required])
   end
 
-  def get_event_audience_types()
+  def get_event_audience_types(current_user)
     default_options = EventPrice::DEFAULT_AUDIENCE_TYPES
 
     # get all events for the current user
