@@ -163,7 +163,7 @@ class Event < ApplicationRecord
   has_many :stars, as: :resource, dependent: :destroy
 
   has_many :event_prices, dependent: :destroy
-  accepts_nested_attributes_for :event_prices, allow_destroy: true, reject_if: proc { |attributes| attributes['cost'].blank? }
+  accepts_nested_attributes_for :event_prices, allow_destroy: true
 
   auto_strip_attributes :title, :description, :url, squish: false
 
@@ -182,6 +182,7 @@ class Event < ApplicationRecord
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :start, :end, presence: true, on: :create
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :start, :end, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
   validates :end, comparison: { greater_than_or_equal_to: :start, message: "cannot be before the start time" }
+  validate :at_least_one_event_price
 
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
@@ -691,5 +692,14 @@ class Event < ApplicationRecord
 
   def after_switch_to_more_mandatory_fields?
     updated_at.present? && updated_at > Time.new(2025, 4, 1)
+  end
+
+  def at_least_one_event_price
+    # Ignore records marked for destruction
+    valid_prices = event_prices.reject(&:marked_for_destruction?)
+
+    if valid_prices.empty?
+      errors.add(:base, "At least one price must be present")
+    end
   end
 end

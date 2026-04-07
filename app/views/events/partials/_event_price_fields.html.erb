@@ -2,9 +2,14 @@
   <%= f.hidden_field :_destroy %>
 
   <div class="row m-4">
-    <div class="col-sm-4 mb-2">
+    <div class="col-sm-4 mb-2 form-group <%= 'has-error' if f.object.errors[:cost].any? %>">
       <%= f.number_field :cost, class: "form-control", placeholder: "Cost" %>
       <small class="form-text text-muted">Enter the cost in your preferred currency.</small>
+      <% if f.object.errors[:cost].any? %>
+        <span class="help-block">
+          <%= f.object.errors[:cost].join(", ") %>
+        </span>
+      <% end %>
     </div>
 
     <div class="col-sm-4 mb-2">
@@ -18,7 +23,7 @@
 
     <div class="col-sm-3">
       <%= f.select :audience_type,
-                   get_event_audience_types(@event).map { |a| [a.titleize, a] },
+                   get_event_audience_types,
                    {},
                    class: "form-control js-select2-tags"
       %>

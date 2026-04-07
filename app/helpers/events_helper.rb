@@ -244,14 +244,11 @@ INFO
     event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required])
   end
 
-  def get_event_audience_types(event)
+  def get_event_audience_types()
     default_options = EventPrice::DEFAULT_AUDIENCE_TYPES
-    return default_options unless event.user
-
-    user = event.user
 
     # get all events for the current user
-    user_events = Event.where(user_id: user.id)
+    user_events = Event.where(user_id: current_user.id)
 
     # if the user has no other events, just return the default options
     return default_options if user_events.empty?

@@ -32,3 +32,14 @@ $(document).on('cocoon:after-insert', function(e, insertedItem) {
         });
     }
 });
+
+$(document).on('cocoon:before-remove', function(e, item) {
+    const $wrapper = $('#event_prices_wrapper');
+    // If only one row is visible, prevent deletion
+    if ($wrapper.find('.nested-fields:visible').length <= 1) {
+        e.preventDefault();
+        alert('You must have at least one price.');
+        e.stopImmediatePropagation();
+        return false;
+    }
+});
