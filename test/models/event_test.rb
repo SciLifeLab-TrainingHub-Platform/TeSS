@@ -582,6 +582,12 @@ class EventTest < ActiveSupport::TestCase
               assert_equal 1, dup.external_resources.length
               assert_equal 'test', dup.external_resources.first.title
               assert_equal 'https://external-resource.com', dup.external_resources.first.url
+              assert_equal 2, event.event_prices.length
+              assert_equal 2, dup.event_prices.length
+              assert_nil dup.event_prices.first.id
+              assert_equal event.event_prices.map(&:cost), dup.event_prices.map(&:cost)
+              assert_equal event.event_prices.map(&:currency), dup.event_prices.map(&:currency)
+              assert_equal event.event_prices.map(&:audience_type), dup.event_prices.map(&:audience_type)
             end
           end
         end
@@ -601,6 +607,10 @@ class EventTest < ActiveSupport::TestCase
         end
       end
     end
+
+    assert_equal 2, event.reload.event_prices.count
+    assert_equal 2, dup.reload.event_prices.count
+    refute_equal event.event_prices.pluck(:id).sort, dup.event_prices.pluck(:id).sort
   end
 
   test 'should strip attributes' do

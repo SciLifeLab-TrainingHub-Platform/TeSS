@@ -168,8 +168,7 @@ INFO
       arr << "#{formatted_value} #{currency_display} #{audience_part}"
     end
 
-    # Join lines with <br> and mark HTML-safe
-    lines.join("<br>").html_safe
+    safe_join(lines, tag.br)
   end
 
   def event_formatted_datetime(datetime)

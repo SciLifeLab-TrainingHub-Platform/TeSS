@@ -78,6 +78,19 @@ class EventsHelperTest < ActionView::TestCase
     assert_equal expected.sort, get_event_audience_types(new_user).sort
   end
 
+  test "event_cost_value escapes custom audience_type content" do
+    event = Event.new
+    event.event_prices.build(cost: 10, currency: "SEK", audience_type: '<script>alert("xss")</script>')
+
+    rendered = event_cost_value(event)
+
+    assert_includes rendered, '10 SEK'
+    assert_includes rendered, '&lt;'
+    assert_includes rendered, '&gt;'
+    assert_includes rendered, '&quot;'
+    refute_includes rendered, '<script>alert("xss")</script>'
+  end
+
   test "includes custom audience types from user's previous event prices" do
     new_event_price_audience_type = "vip-academic"
     new_user = User.create!({ username: 'new_user', password: '12345678', email: 'new_user@example.com', processing_consent: '1' })
