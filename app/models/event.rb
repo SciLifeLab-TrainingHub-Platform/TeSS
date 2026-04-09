@@ -518,8 +518,11 @@ class Event < ApplicationRecord
     external_resources.each do |er|
       c.external_resources.build(url: er.url, title: er.title)
     end
-    %i[materials scientific_topics operations nodes venues cities topics content_providers event_prices].each do |field|
+    %i[materials scientific_topics operations nodes venues cities topics content_providers].each do |field|
       c.send("#{field}=", send(field))
+    end
+    event_prices.each do |ep|
+      c.event_prices.build(cost: ep.cost, currency: ep.currency, audience_type: ep.audience_type)
     end
 
     c
