@@ -81,7 +81,6 @@ class EventCsvIngestorTest < ActiveSupport::TestCase
     assert_equal '1.3 hours', event.duration
     assert_equal 'None', event.recognition
     check_array event.event_types, %w[webinar hackathon], ['workshop']
-    assert_equal 'charge', event.cost_basis
     assert_equal 'AUD', event.cost_currency
     assert_equal 9.99, event.cost_value
     assert_equal 25, event.capacity

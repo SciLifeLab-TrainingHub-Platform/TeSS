@@ -7,11 +7,9 @@ fields = [
 
   :start, :end, :duration, :timezone, :language,
 
-  :sponsors, :contact, :host_institutions,
+  :sponsors, :contact, :host_institutions, :event_prices,
 
-  :venue, :city, :county, :country, :postcode, :latitude, :longitude,
-
-  :capacity, :cost_basis, :cost_value, :cost_currency,
+  :venue, :city, :county, :country, :postcode, :latitude, :longitude, :capacity,
 
   :target_audience, :eligibility, :recognition, :learning_objectives,
   :prerequisites, :tech_requirements, :application_deadline,

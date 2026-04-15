@@ -148,15 +148,27 @@ INFO
   end
 
   def event_cost_value(event)
-    return if event.cost_value.blank?
+    return "" if event.event_prices.blank?
 
-    formatted_value = number_with_precision(event.cost_value, precision: 2, strip_insignificant_zeros: true)
-    parts = []
-    symbol = currency_symbol_by_iso_code(event.cost_currency)
-    parts << symbol if symbol.present?
-    parts << formatted_value
-    parts << "(#{event.cost_currency})" if event.cost_currency.present?
-    parts.join(' ').strip
+    lines = event.event_prices.each_with_object([]) do |price, arr|
+      next if price.cost.blank?
+
+      formatted_value = number_with_precision(
+        price.cost,
+        precision: 2,
+        strip_insignificant_zeros: true
+      )
+
+      currency_display = price.currency
+      audience = price.audience_type.presence&.titleize
+
+      # Only add audience part if present
+      audience_part = audience.present? ? ": #{audience}" : ""
+
+      arr << "#{formatted_value} #{currency_display} #{audience_part}"
+    end
+
+    safe_join(lines, tag.br)
   end
 
   def event_formatted_datetime(datetime)
@@ -229,5 +241,25 @@ INFO
 
   def show_event_revision_notice?(event)
     event.event_status == Event.event_statuses.key(Event.event_statuses[:revisions_required])
+  end
+
+  def get_event_audience_types(current_user)
+    default_options = EventPrice::DEFAULT_AUDIENCE_TYPES
+
+    # get all events for the current user
+    user_events = Event.where(user_id: current_user.id)
+
+    # if the user has no other events, just return the default options
+    return default_options if user_events.empty?
+
+    # get distinct audience_type values from EventPrice
+    # assuming EventPrice has columns: event_id, audience_type
+    audience_types_from_user_events = EventPrice
+                                        .where(event_id: user_events.select(:id))
+                                        .distinct
+                                        .pluck(:audience_type)
+
+    # merge with default options, remove duplicates
+    (default_options + audience_types_from_user_events).uniq
   end
 end

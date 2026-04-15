@@ -14,10 +14,10 @@ class UserTest < ActiveSupport::TestCase
                                 prerequisites: @event.prerequisites,
                                 target_audience: @event.target_audience,
                                 content_providers: @event.content_providers,
-                                cost_basis: @event.cost_basis,
                                 learning_objectives: @event.learning_objectives,
                                 start: Time.new(2015, 11, 23, 0, 0, 0),
-                                end: Time.new(2015, 11, 24, 0, 0, 0)
+                                end: Time.new(2015, 11, 24, 0, 0, 0),
+                                event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
     }
   end
 

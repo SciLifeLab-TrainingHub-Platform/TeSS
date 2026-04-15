@@ -44,7 +44,6 @@ module Ingestors
           event.duration = get_column row, 'Duration'
           event.recognition = get_column row, 'Recognition'
           event.event_types = process_array row, 'Types'
-          event.cost_basis = get_column row, 'Cost Basis'
           event.cost_currency = get_column row, 'Currency'
           event.cost_value = get_column row, 'Cost'
           event.capacity = get_column row, 'Capacity'

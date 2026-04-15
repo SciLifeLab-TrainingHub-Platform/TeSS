@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_20_120551) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_31_085004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -234,6 +234,16 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_20_120551) do
     t.index ["material_id"], name: "index_event_materials_on_material_id"
   end
 
+  create_table "event_prices", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.decimal "cost", precision: 10, scale: 2
+    t.string "currency"
+    t.string "audience_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_prices_on_event_id"
+  end
+
   create_table "event_topics", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.bigint "topic_id", null: false
@@ -272,7 +282,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_20_120551) do
     t.string "slug"
     t.integer "user_id"
     t.integer "presence", default: 0
-    t.decimal "cost_value"
     t.date "last_scraped"
     t.boolean "scraper_record", default: false
     t.string "keywords", default: [], array: true
@@ -295,8 +304,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_20_120551) do
     t.text "learning_objectives"
     t.text "prerequisites", null: false
     t.text "tech_requirements"
-    t.string "cost_basis", null: false
-    t.string "cost_currency"
     t.string "fields", default: [], array: true
     t.boolean "visible", default: true
     t.string "language", null: false
@@ -731,6 +738,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_20_120551) do
   add_foreign_key "event_content_providers", "events"
   add_foreign_key "event_materials", "events"
   add_foreign_key "event_materials", "materials"
+  add_foreign_key "event_prices", "events"
   add_foreign_key "event_topics", "events"
   add_foreign_key "event_topics", "topics"
   add_foreign_key "event_venues", "events"

@@ -15,7 +15,9 @@ class EventTest < ActiveSupport::TestCase
                    host_institutions: @event.host_institutions, nodes: @event.nodes,
                    language: @event.language, prerequisites: @event.prerequisites,
                    target_audience: @event.target_audience, content_providers: @event.content_providers,
-                   cost_basis: @event.cost_basis, learning_objectives: @event.learning_objectives}
+                   learning_objectives: @event.learning_objectives,
+                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+    }
   end
 
   test 'can get associated nodes for event' do
@@ -551,11 +553,13 @@ class EventTest < ActiveSupport::TestCase
       external_resources_attributes: { '0' => { title: 'test', url: 'https://external-resource.com' } },
       materials: [material],
       scientific_topic_names: %w[Proteins DNA],
-      operation_names: ['Variant calling']
+      operation_names: ['Variant calling'],
+
     })
     event = Event.new(parameters)
 
     assert event.save
+    original_price_count = event.event_prices.count
     dup = nil
     assert event.slug
 
@@ -579,6 +583,12 @@ class EventTest < ActiveSupport::TestCase
               assert_equal 1, dup.external_resources.length
               assert_equal 'test', dup.external_resources.first.title
               assert_equal 'https://external-resource.com', dup.external_resources.first.url
+              assert_equal original_price_count, event.event_prices.length
+              assert_equal original_price_count, dup.event_prices.length
+              assert_nil dup.event_prices.first.id
+              assert_equal event.event_prices.map(&:cost), dup.event_prices.map(&:cost)
+              assert_equal event.event_prices.map(&:currency), dup.event_prices.map(&:currency)
+              assert_equal event.event_prices.map(&:audience_type), dup.event_prices.map(&:audience_type)
             end
           end
         end
@@ -598,6 +608,10 @@ class EventTest < ActiveSupport::TestCase
         end
       end
     end
+
+    assert_equal original_price_count, event.reload.event_prices.count
+    assert_equal original_price_count, dup.reload.event_prices.count
+    refute_equal event.event_prices.pluck(:id).sort, dup.event_prices.pluck(:id).sort
   end
 
   test 'should strip attributes' do

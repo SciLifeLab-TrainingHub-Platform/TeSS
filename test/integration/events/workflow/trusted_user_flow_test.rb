@@ -36,13 +36,13 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
       prerequisites: @event_fixture.prerequisites,
       target_audience: @event_fixture.target_audience,
       content_provider_ids: [@content_provider.id],
-      cost_basis: @event_fixture.cost_basis,
       learning_objectives: @event_fixture.learning_objectives,
       description: @event_fixture.description,
       title: "Trusted user published event",
       url: @event_fixture.url,
       duration: @event_fixture.duration,
-      recognition: @event_fixture.recognition
+      recognition: @event_fixture.recognition,
+      event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
     }
   end
 

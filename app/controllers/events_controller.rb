@@ -98,6 +98,7 @@ class EventsController < ApplicationController
     @event = Event.new(start: DateTime.now.change(hour: 9),
                        end: DateTime.now.change(hour: 17),
                        timezone: 'Stockholm')
+    @event.event_prices.build
     @selected_venue_ids = []
     @selected_cities_ids = []
     @selected_topics_ids = []
@@ -323,11 +324,13 @@ class EventsController < ApplicationController
                                   :timezone, { :content_provider_ids => [] }, { collection_ids: [] }, { node_ids: [] },
                                   { node_names: [] }, { target_audience: [] }, { eligibility: [] }, :visible,
                                   { host_institutions: [] }, :capacity, :contact, :recognition, :learning_objectives,
-                                  :prerequisites, :tech_requirements, :cost_basis, :cost_value, :cost_currency, :language,
+                                  :prerequisites, :tech_requirements, :cost_value, :cost_currency, :language,
                                   external_resources_attributes: %i[id url title _destroy],
                                   external_resources: [:url, :title], material_ids: [],
                                   llm_interaction_attributes: %i[id scrape_or_process model prompt input output needs_processing _destroy],
-                                  locked_fields: [])
+                                  locked_fields: [], event_prices_attributes: [:id, :cost, :currency, :audience_type, :_destroy]
+
+    )
   end
 
   def event_report_params

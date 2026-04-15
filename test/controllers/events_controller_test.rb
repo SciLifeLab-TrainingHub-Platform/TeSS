@@ -28,8 +28,10 @@ class EventsControllerTest < ActionController::TestCase
                           contact: @event.contact, eligibility: @event.eligibility,
                           node_ids: [ @event.nodes[0].id ], language: @event.language,
                           prerequisites: @event.prerequisites, target_audience: @event.target_audience,
-                          content_provider_ids: [ @event.content_providers[0].id ], cost_basis: @event.cost_basis,
-                          learning_objectives: @event.learning_objectives }
+                          content_provider_ids: [ @event.content_providers[0].id ],
+                          learning_objectives: @event.learning_objectives,
+                          event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+    }
   end
 
   # Tests

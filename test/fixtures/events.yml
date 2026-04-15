@@ -28,7 +28,6 @@ one:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   registration_form_url: http://example.com
 
 two:
@@ -57,7 +56,6 @@ two:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -79,7 +77,6 @@ month_long_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -101,7 +98,6 @@ year_long_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -117,7 +113,6 @@ iann_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   start: 2015-11-23 10:16:33
   end: 2015-11-23 10:16:33
@@ -141,7 +136,6 @@ scraper_user_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -161,7 +155,6 @@ event_with_external_resource:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -180,7 +173,6 @@ event_with_no_start:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -199,7 +191,6 @@ event_with_no_end:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -219,7 +210,6 @@ online_event_with_no_end:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -239,7 +229,6 @@ organisation_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -261,7 +250,6 @@ portal_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -281,7 +269,6 @@ dodgy_country_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -300,7 +287,6 @@ no_description_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -323,7 +309,6 @@ event_with_report:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -344,7 +329,6 @@ another_event_with_report:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -372,7 +356,6 @@ shadowbanned_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -394,7 +377,6 @@ failing_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -416,7 +398,6 @@ kilburn:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -442,7 +423,6 @@ calendar_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -470,7 +450,6 @@ training_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -496,7 +475,6 @@ ical_event_1:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -521,7 +499,6 @@ ical_event_2:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -551,7 +528,6 @@ course_event:
   event_status: 1
   language: "en"
   prerequisites: "You should be awake."
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   registration_form_url: http://example.com
 
 hybrid_event:
@@ -567,7 +543,6 @@ hybrid_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -584,7 +559,6 @@ approved_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -601,7 +575,6 @@ awaiting_review_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com
 
@@ -618,6 +591,5 @@ revisions_required_event:
   language: "en"
   prerequisites: "You should be awake."
   target_audience: ['Everyone!']
-  cost_basis: "2 monies for students, 5 monies for everyone else"
   learning_objectives: "There are some."
   registration_form_url: http://example.com

@@ -564,7 +564,6 @@ en:
         Provide the total number (cap) of individuals that can attend the training event.
         Leave blank if there is no limit.
       contact: ''
-      cost_basis: 'Select the basis by which costs, if any, are applied.'
       cost_value: 'Input the cost of the training event.'
       cost_currency: 'Select the currency associated with the cost.'
       description: 'Provide a textual description of the training event, for additional context.'

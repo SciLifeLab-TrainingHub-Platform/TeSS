@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
+//= require cocoon
 //= require bootstrap-sprockets
 //= require bootstrap-tab-history
 //= require cytoscape

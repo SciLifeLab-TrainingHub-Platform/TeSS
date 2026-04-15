@@ -14,8 +14,8 @@ class CityTest < ActiveSupport::TestCase
                    prerequisites: @event_one.prerequisites,
                    target_audience: @event_one.target_audience,
                    content_providers: @event_one.content_providers,
-                   cost_basis: @event_one.cost_basis,
-                   learning_objectives: @event_one.learning_objectives
+                   learning_objectives: @event_one.learning_objectives,
+                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
     }
 
   end

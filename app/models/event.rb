@@ -121,7 +121,6 @@ class Event < ApplicationRecord
       boolean :failing do
         failing?
       end
-      string :cost_basis
       # TODO: SOLR has a LatLonType to do geospatial searching. Have a look at that
       #       location :latitutde
       #       location :longitude
@@ -163,13 +162,15 @@ class Event < ApplicationRecord
 
   has_many :stars, as: :resource, dependent: :destroy
 
+  has_many :event_prices, dependent: :destroy
+  accepts_nested_attributes_for :event_prices, allow_destroy: true
+
   auto_strip_attributes :title, :description, :url, squish: false
 
   validates :title, :url, presence: true
   validates :url, url: true
   validates :registration_form_url, url: true, allow_blank: true
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }, allow_blank: true
-  validates :cost_value, numericality: { greater_than: 0 }, allow_blank: true
   validates :event_types, controlled_vocabulary: { dictionary: 'EventTypeDictionary' }
   validates :eligibility, controlled_vocabulary: { dictionary: 'EligibilityDictionary' }
   validates :latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90, allow_nil: true }
@@ -178,9 +179,10 @@ class Event < ApplicationRecord
   validates :presence, inclusion: { in: presences.keys, allow_blank: true }
   validate :allowed_url
   validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0 }
-  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, :start, :end, presence: true, on: :create
-  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :cost_basis, :start, :end, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
+  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :start, :end, presence: true, on: :create
+  validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :start, :end, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
   validates :end, comparison: { greater_than_or_equal_to: :start, message: "cannot be before the start time" }
+  validate :at_least_one_event_price
 
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
                      :eligibility, :host_institutions, :sponsors)
@@ -519,6 +521,9 @@ class Event < ApplicationRecord
     %i[materials scientific_topics operations nodes venues cities topics content_providers].each do |field|
       c.send("#{field}=", send(field))
     end
+    event_prices.each do |ep|
+      c.event_prices.build(cost: ep.cost, currency: ep.currency, audience_type: ep.audience_type)
+    end
 
     c
   end
@@ -690,5 +695,14 @@ class Event < ApplicationRecord
 
   def after_switch_to_more_mandatory_fields?
     updated_at.present? && updated_at > Time.new(2025, 4, 1)
+  end
+
+  def at_least_one_event_price
+    # Ignore records marked for destruction
+    valid_prices = event_prices.reject(&:marked_for_destruction?)
+
+    if valid_prices.empty?
+      errors.add(:base, "At least one price must be present")
+    end
   end
 end

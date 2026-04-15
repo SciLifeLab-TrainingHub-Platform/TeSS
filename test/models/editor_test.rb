@@ -8,8 +8,8 @@ class EditorTest < ActiveSupport::TestCase
     @mandatory_event_fields = { nodes: @event.nodes, language: @event.language,
                                 prerequisites: @event.prerequisites,
                                 target_audience: @event.target_audience,
-                                content_providers: @event.content_providers,
-                                cost_basis: @event.cost_basis }
+                                content_providers: @event.content_providers
+    }
   end
 
   test 'can create and delete editors' do

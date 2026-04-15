@@ -28,18 +28,19 @@ class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
     @content_providers = content_providers(:goblet)
 
     @parameters = { online: true, start: @event.start, end: @event.end,
-                   host_institutions: @event.host_institutions, timezone: @event.timezone,
-                   contact: @event.contact, eligibility: @event.eligibility,
-                   node_ids: [@event.nodes[0].id], language: @event.language,
-                   prerequisites: @event.prerequisites, target_audience: @event.target_audience,
-                   content_provider_ids: [@event.content_providers[0].id], cost_basis: @event.cost_basis,
-                   learning_objectives: @event.learning_objectives,
-                   description: @event.description,
-                   title: "this is the title",
-                   url: @event.url,
-                   duration: @event.duration,
-                   recognition: @event.recognition,
-                   event_status: Event.event_statuses[:awaiting_review]
+                    host_institutions: @event.host_institutions, timezone: @event.timezone,
+                    contact: @event.contact, eligibility: @event.eligibility,
+                    node_ids: [@event.nodes[0].id], language: @event.language,
+                    prerequisites: @event.prerequisites, target_audience: @event.target_audience,
+                    content_provider_ids: [@event.content_providers[0].id],
+                    learning_objectives: @event.learning_objectives,
+                    description: @event.description,
+                    title: "this is the title",
+                    url: @event.url,
+                    duration: @event.duration,
+                    recognition: @event.recognition,
+                    event_status: Event.event_statuses[:awaiting_review],
+                    event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
     }
 
   end
@@ -123,7 +124,6 @@ class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
     end
 
     sign_out @user2
-
 
     # admin
     sign_in @admin
