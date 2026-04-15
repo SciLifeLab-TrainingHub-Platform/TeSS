@@ -56,7 +56,13 @@ module SearchableIndex
 
     @facet_params = params.permit(*@model.facet_keys_with_multiple).to_h
     @search_params = params[:q] || ''
-    @sort_by = params[:sort].blank? ? 'default' : params[:sort]
+    @sort_by = if params[:sort].present?
+                 params[:sort]
+               elsif @model.name == 'Course'
+                 'asc'
+               else
+                 'default'
+               end
   end
 
   def api_collection_properties
