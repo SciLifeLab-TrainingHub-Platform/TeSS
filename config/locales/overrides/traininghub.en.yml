@@ -612,6 +612,11 @@ en:
           type: 'application'
           image: 'scilifelab/fairicon-black.png'
           url: 'https://training-certificate.serve.scilifelab.se/app/training-certificate'
+        serveteachingdoc:
+          name: 'SciLifeLab Serve Guide'
+          type: 'resource collection'
+          image: 'scilifelab/circle-infra.png'
+          url: 'https://serve.scilifelab.se/docs/teaching/'
     coursematerial:
       name: 'Course Material'
       description: 'Course materials are recommended resources that have been developed as part of an intensive course.'
