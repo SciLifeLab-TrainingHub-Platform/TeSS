@@ -21,7 +21,7 @@
               <%= link_to elements['url'], target: '_blank', style: 'text-decoration: none' do %>
                 <div class="mb-5">
                   <div class="guide-box text-center d-flex flex-column p-3">
-                    <p style="font-size:20px;"><b title="<%= elements['name'] %>"><%= truncate(elements['name'], length: 35) %></b></p>
+                    <p style="font-size:20px;"><b title="<%= elements['name'] %>"><%= truncate(elements['name'], length: 37) %></b></p>
                     <%= image_tag(asset_path(elements['image']), alt: 'guide', height: '140px') %><br><br>
                     <p id="guide-type"><%= elements['type'] %></p>
                   </div>
