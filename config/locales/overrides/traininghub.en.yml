@@ -613,7 +613,7 @@ en:
           image: 'scilifelab/fairicon-black.png'
           url: 'https://training-certificate.serve.scilifelab.se/app/training-certificate'
         serveteachingdoc:
-          name: 'SciLifeLab Serve Guide'
+          name: 'JupyterLab, RStudio & other notebooks'
           type: 'resource collection'
           image: 'scilifelab/circle-infra.png'
           url: 'https://serve.scilifelab.se/docs/teaching/'
