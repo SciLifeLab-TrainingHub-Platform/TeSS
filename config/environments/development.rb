@@ -3,7 +3,8 @@ Rails.application.configure do
 
   # Allow requests for scilifelab-2-dev.sys.kth.se and any subdomain
   # (e.g. th-dev.gw.scilifelab-2-dev.sys.kth.se). Same pattern as config.hosts << ".product.com".
-  config.hosts << ".scilifelab-2-dev.sys.kth.se"
+  config.hosts << "th-dev.gw.scilifelab-2-dev.sys.kth.se"
+  config.hosts << /.*\.scilifelab-2-dev\.sys\.kth\.se/
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
