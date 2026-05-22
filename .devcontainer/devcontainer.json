@@ -1,0 +1,115 @@
+// .devcontainer/devcontainer.json
+//
+// Entry point for GitHub Codespaces / VS Code Dev Containers.
+// Wires together our two compose files and the two lifecycle scripts.
+//
+// Architecture:
+//   ┌──────────────────────────── Codespace host (Linux VM) ────────────────────────────┐
+//   │                                                                                   │
+//   │   1) initializeCommand:  .devcontainer/pre-build.sh                               │
+//   │      └─► bootstraps .env, config/secrets.yml, config/sunspot.yml,                 │
+//   │           config/ingestion.yml from their examples, and writes                    │
+//   │           .devcontainer/tess.preview.yml + secrets.preview.yml overlays           │
+//   │                                                                                   │
+//   │   2) Docker Compose brings up:                                                    │
+//   │        docker-compose-prod.yml  +  .devcontainer/docker-compose.codespaces.yml    │
+//   │        ─► services: app, sidekiq, db, redis, solr, mailhog                        │
+//   │                                                                                   │
+//   │   3) postStartCommand (runs INSIDE the `app` container):                          │
+//   │        .devcontainer/post-start.sh                                                │
+//   │        ─► patches base_url to the forwarded Codespaces URL, ensures gems,         │
+//   │           prepares DB, precompiles assets, best-effort Solr reindex               │
+//   │                                                                                   │
+//   │   4) VS Code attaches to the `app` container at /code                             │
+//   │                                                                                   │
+//   └───────────────────────────────────────────────────────────────────────────────────┘
+//
+// IMPORTANT: docker-compose-prod.yml is NOT modified by this configuration.
+{
+  "name": "TeSS PR Preview (production-replica)",
+
+  // Layer the prod compose file with our Codespaces override. Compose merges
+  // them left-to-right; the second file always wins on conflicts.
+  // Paths are relative to THIS file (.devcontainer/).
+  "dockerComposeFile": [
+    "../docker-compose-prod.yml",
+    "docker-compose.codespaces.yml"
+  ],
+
+  // VS Code/Codespaces attaches its terminal & editor server to this service.
+  "service": "app",
+
+  // Matches `WORKDIR /code` in Dockerfile and the bind mount in
+  // docker-compose.codespaces.yml. This is where the PR source tree lives.
+  "workspaceFolder": "/code",
+
+  // Container runs as root (Dockerfile sets no USER). Match that here so VS
+  // Code's remote-server processes (bundle install during postStart, file
+  // writes, etc.) don't run into permission issues with mounted volumes.
+  "remoteUser": "root",
+
+  // Runs on the Codespace HOST (not inside any container) before Compose
+  // starts. We use it to seed gitignored config files from their examples
+  // and generate the preview overlays consumed by docker-compose.codespaces.yml.
+  // Path is relative to the workspace root, not to this file.
+  "initializeCommand": ".devcontainer/pre-build.sh",
+
+  // Runs INSIDE the `app` container, every time it starts. The script is
+  // idempotent (uses `bundle check`, `db:prepare`, conditional asset compile,
+  // best-effort Solr reindex) so re-running on each resume is safe and cheap.
+  "postStartCommand": ".devcontainer/post-start.sh",
+
+  // Ports we want Codespaces to forward to the developer's browser.
+  // 3000 → Rails app  •  8025 → MailHog UI (captured emails)
+  // Internal-only ports (5432 db, 6379 redis, 8983 solr, 1025 mailhog-smtp)
+  // intentionally not listed — they stay on the Docker network.
+  "forwardPorts": [3000, 8025],
+
+  "portsAttributes": {
+    "3000": {
+      "label": "Rails app (PR preview)",
+      "onAutoForward": "openBrowser",
+      // 'private' = only people with repo access can reach the URL.
+      // Change to 'public' in the Codespaces UI if you want to share a
+      // preview link with someone outside the repo (e.g. a designer).
+      "visibility": "private"
+    },
+    "8025": {
+      "label": "MailHog — captured emails",
+      "onAutoForward": "notify",
+      "visibility": "private"
+    }
+  },
+
+  // Editor goodies inside the Codespace. Kept minimal and noncontroversial.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Shopify.ruby-lsp",
+        "kaiwood.endwise",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "files.eol": "\n",
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "[ruby]": {
+          "editor.defaultFormatter": "Shopify.ruby-lsp",
+          "editor.formatOnSave": false
+        }
+      }
+    }
+  },
+
+  // Mount the host docker socket back into the container? — NO, intentionally
+  // skipped. The app doesn't need to spawn sibling containers, and exposing
+  // the host socket would be a security hole for a public-repo preview env.
+
+  // Default Codespaces machine type is 2-core/8GB which is sufficient for this
+  // stack (postgres + solr + redis + rails + sidekiq + mailhog all idle <1GB).
+  // Override per-user from the Codespaces "Create with options" UI if needed.
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "8gb"
+  }
+}

@@ -1,0 +1,7 @@
+# Generated preview-only config overlays.
+# These are produced by .devcontainer/pre-build.sh on every Codespace boot
+# from the tracked config/tess.yml and bootstrapped config/secrets.yml.
+# They MUST NOT be committed — they may contain MailHog SMTP details and
+# (in personal Codespaces) the patched base_url for the current Codespace URL.
+tess.preview.yml
+secrets.preview.yml
