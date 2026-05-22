@@ -15,8 +15,10 @@
 #   4. Import cities (idempotent: only runs when the cities table is empty —
 #      the rake task uses insert_all and the table has a unique index, so a
 #      naive re-run would raise a uniqueness violation).
-#   5. Precompile assets (mandatory: the host bind mount overlays the image's
-#      precompiled assets, so we have to rebuild them at runtime).
+#   5. Precompile assets on first run (the host bind mount overlays the
+#      image's precompiled assets, so we have to rebuild them at runtime).
+#      Skipped on resume when a Sprockets manifest already exists — developers
+#      rerun the precompile via the refresh command in the READY banner.
 #   6. Best-effort Solr reindex via Sunspot.
 #   7. Print a clear "ready" banner with the preview URL and refresh command.
 #
@@ -88,9 +90,21 @@ fi
 # -----------------------------------------------------------------------------
 # 5. Precompile assets — required because the host bind mount overlays the
 #    image's precompiled public/assets/.
+#    Skip on resume when a Sprockets manifest already exists (compile is slow,
+#    60-90s, and Codespaces fires postStartCommand on every resume). Asset
+#    changes still get picked up via the "refresh" command in the READY banner
+#    below, which the developer runs explicitly after editing code.
 # -----------------------------------------------------------------------------
-echo "[post-start]   rake assets:precompile..."
-bundle exec rake assets:precompile
+shopt -s nullglob
+manifest_files=(public/assets/.sprockets-manifest-*.json)
+shopt -u nullglob
+if (( ${#manifest_files[@]} > 0 )); then
+  echo "[post-start]   assets:precompile skipped (manifest present: ${manifest_files[0]##*/})"
+  echo "[post-start]     if you edited app/assets, rerun: bundle exec rake assets:precompile"
+else
+  echo "[post-start]   rake assets:precompile (first run, ~60-90s)..."
+  bundle exec rake assets:precompile
+fi
 
 # -----------------------------------------------------------------------------
 # 6. Best-effort Solr reindex (Sunspot powers most browse/search flows).
