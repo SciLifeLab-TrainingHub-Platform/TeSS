@@ -42,6 +42,13 @@ services:
       RAILS_ENV: production
       RAILS_LOG_TO_STDOUT: "true"
       RAILS_SERVE_STATIC_FILES: "true"
+      # Make Rails trust the Codespaces port-forwarding proxy as an SSL
+      # terminator. Without this, Rails sees scheme=http and the CSRF Origin
+      # check rejects POSTs from the browser (Origin: https://...) with 422.
+      # Wired in config/initializers/zz_assume_ssl_proxy.rb (the initializer
+      # is a strict no-op unless this env var is "true", so real production
+      # behind k8s ingress is unaffected).
+      RAILS_ASSUME_SSL: "true"
       # Slack passthroughs from GitHub Codespaces Secrets. Empty by default →
       # SlackNotificationJob logs an API error in its rescue block and moves on.
       # See plan-preview-env.md "Manual Setup" TODO-1/TODO-2 to enable real posts.
