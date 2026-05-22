@@ -776,7 +776,7 @@ Refresh the preview URL.
 The PR can merge with no Slack token configured (the default state). When you're ready to add Slack:
 
 - Complete [TODO-1 (create test Slack bot)](#todo-1-create-a-dedicated-test-slack-bot-recommended-path).
-- Complete [TODO-2 (add Codespaces Secrets)](#todo-2-add-the-slack-token--channel-as-github-codespaces-secrets).
+- Complete [TODO-2 (add org-level Codespaces Secrets)](#todo-2-add-the-slack-token--channel-as-github-codespaces-secrets-org-level).
 - No code change, no PR — restart any running Codespace and the env vars flow through.
 
 ### Step 12 — Update `README.md` (separate docs PR)
@@ -838,17 +838,21 @@ These are the things that cannot be automated from inside the repo, because they
 
 **Acceptance**: the bot appears in `#tess-preview-test`’s member list and nowhere else.
 
-### TODO-2: Add the Slack token + channel as GitHub Codespaces Secrets
+### TODO-2: Add the Slack token + channel as GitHub Codespaces Secrets (org-level)
 
-**Why**: this is how the token reaches the running preview container without ever touching the repo, `.env`, or compose files.
+**Why**: this is how the token reaches the running preview container without ever touching the repo, `.env`, or compose files. Org-level means every reviewer's Codespace on this repo gets the same controlled test endpoint with zero per-user setup.
+
+**Prerequisite**: org-owned Codespaces must be enabled (see TODO-7 below). This is done as of the org settings change on 2026-05-22.
 
 **Steps**:
 
-1. Go to <https://github.com/settings/codespaces> (personal) **OR** to your org settings → *Codespaces* → *Secrets* (recommended if you want all reviewers to share the same test channel).
-2. Add a secret named `SLACK_BOT_USER_OAUTH_TOKEN` with the test bot’s `xoxb-...` token from TODO-1.
-3. Add a secret named `SLACK_COURSE_NOTIFICATION_CHANNELS` with the test channel name, e.g. `#tess-preview-test`.
-4. Scope BOTH secrets to this repo (`SciLifeLab-TrainingHub-Platform/TeSS`).
+1. Go to `https://github.com/organizations/SciLifeLab-TrainingHub-Platform/settings/codespaces/secrets` (org settings → *Codespaces* → *Secrets*).
+2. Click **New secret**. Name `SLACK_BOT_USER_OAUTH_TOKEN`, paste the test bot's `xoxb-...` token from TODO-1.
+3. Under **Repository access** choose **Selected repositories** → pick `SciLifeLab-TrainingHub-Platform/TeSS` only. Do NOT use "All repositories" — keeps the blast radius scoped.
+4. Save. Repeat for `SLACK_COURSE_NOTIFICATION_CHANNELS` with value `#tess-preview-test` (or whatever channel name your test bot is invited to).
 5. If a Codespace is already running, restart it (or run `docker compose -f docker-compose-prod.yml -f .devcontainer/docker-compose.codespaces.yml restart app sidekiq` from inside it) so the new env vars are picked up.
+
+**Fallback** (if you don't have org-admin access): same flow but at `https://github.com/settings/codespaces` (personal-level) — only your own Codespaces see the token; other reviewers get the safe-default empty-token behaviour and have to set up their own.
 
 **Acceptance**: inside the Codespace, `docker compose exec app printenv SLACK_BOT_USER_OAUTH_TOKEN` shows the token (not empty), and triggering an event publish posts a message to `#tess-preview-test`.
 
@@ -860,26 +864,48 @@ When the test bot’s token is rotated/revoked, just update the value of `SLACK_
 
 If your team agrees on a specific channel like `#tess-preview-test`, set it as the value of the `SLACK_COURSE_NOTIFICATION_CHANNELS` Codespaces Secret (TODO-2) so the default in the compose override is overridden. Otherwise the placeholder `#tess-preview-test` from the override is used — which will error harmlessly if the test bot isn't invited to a channel by that exact name.
 
-### TODO-5 (optional): Pick where Codespaces Secrets live
+### TODO-5: Codespaces Secrets ownership (RESOLVED — using org-level)
 
-- **User-level** (`github.com/settings/codespaces`) — only your own Codespaces see the token. Good for solo exploration. **Currently the only option available to this org** (see plan-status note below).
-- **Org-level** (`SciLifeLab-TrainingHub-Platform` settings → *Codespaces* → *Secrets*) — every reviewer's Codespace on this repo sees the same token, no per-user setup. Better for shared previews; **requires a paid GitHub plan tier with org-managed Codespaces** (the org currently shows "Codespace ownership: User ownership" with a "please upgrade your plan" banner, meaning this is not available without an upgrade).
+**Decision**: org-level Codespaces Secrets, after enabling org-owned Codespaces on 2026-05-22.
 
-**Status as of plan creation**: org is on a tier that only supports **user-level** ownership/secrets. So each reviewer who wants Slack notifications during their preview must add their own `SLACK_BOT_USER_OAUTH_TOKEN` secret at `github.com/settings/codespaces` (one-time, 30 seconds). Compute is also billed against each reviewer's personal Codespaces quota (free tier: 120 core-hours/month on a 2-core machine).
+- **What changed**: org settings → *Codespaces* → *General* now has "Codespace ownership" set to org-owned. Any Codespace created on this repo by a member or collaborator is owned (and billed) by the org.
+- **Why this matters for secrets**: `SLACK_BOT_USER_OAUTH_TOKEN` and `SLACK_COURSE_NOTIFICATION_CHANNELS` live at the org level (see TODO-2). Set once → every reviewer's preview gets them. No per-user setup, no "why doesn't Slack work in my Codespace?" support questions.
+- **Why this matters for billing**: compute + storage are billed against the org's GitHub plan, NOT each reviewer's personal Codespaces quota. Predictable, governable. See TODO-7 below for the spending guardrails.
+- **Why this matters for governance**: org admins can list/stop/delete any Codespace from `https://github.com/organizations/SciLifeLab-TrainingHub-Platform/settings/codespaces`. Useful if a Codespace gets stuck or a contributor leaves.
 
-**Recommendation**: stick with user-level secrets for now — it works fine for a small team and is zero-cost. Revisit org-level Codespaces (and the corresponding plan upgrade) only if/when the team grows beyond ~5 people or you want a single source of truth for shared test credentials.
+**Fallback if you ever need to revert to user-level** (e.g. plan downgrade): flip the org setting back, drop the org-level secrets, and have each reviewer set their own per-user secrets at `github.com/settings/codespaces`. The codebase needs no changes — the env-var passthrough in `.devcontainer/docker-compose.codespaces.yml` works either way.
 
 ### TODO-6 (NOT required, just a reminder): Do NOT use the prod Slack bot token
 
-The override file deliberately defaults `SLACK_BOT_USER_OAUTH_TOKEN` to empty. If you ever feel tempted to set it to the prod token "just for a quick test" — don’t. Use the test bot from TODO-1. The 5 minutes of setup is cheaper than one accidental prod post.
+The override file deliberately defaults `SLACK_BOT_USER_OAUTH_TOKEN` to empty. If you ever feel tempted to set it to the prod token "just for a quick test" — don't. Use the test bot from TODO-1. The 5 minutes of setup is cheaper than one accidental prod post.
+
+### TODO-7: One-time org admin setup for org-owned Codespaces (DO BEFORE INVITING REVIEWERS)
+
+Now that Codespaces are org-owned, four small things in the org settings to make this safe + sustainable. All at `https://github.com/organizations/SciLifeLab-TrainingHub-Platform/settings/codespaces`.
+
+1. **Spending limit** → `org settings → Billing and plans → Codespaces budget` (you have it open in the screenshot we discussed). Recommended starting value: **$50/month** with `Stop usage: Yes` so usage is hard-capped, not just warned. Re-evaluate after 4 weeks of real data. ($50 ≈ ~30 PR-preview sessions on the default 2-core machine — comfortable for a small team.)
+
+2. **Email alert at 75%** of the budget — same edit page. Set recipient to whoever monitors infra cost. Gives you a week of headroom to either raise the cap or investigate runaway use before things get blocked mid-week.
+
+3. **User permissions** → `org settings → Codespaces → General → Codespaces access`. Set to **All members** so any contributor can preview their PR without you having to add them individually. Switch to "Selected members" only if you start seeing abuse.
+
+4. **Idle timeout & retention** → `org settings → Codespaces → Policies`:
+   - **Maximum idle timeout**: leave default `30 min`. Don't raise — idle Codespaces are the main cost leak.
+   - **Maximum retention period**: lower from default `30 days` to **`7 days`**. Devs can recreate a fresh Codespace from the PR in 5–10 min; no need to pay storage for stopped Codespaces for a month.
+
+**Spot check after setting all of the above**: create a Codespace yourself from the PR, confirm it boots, then check `org settings → Codespaces` — your Codespace should show up in the org-owned list. If it shows under your personal account instead, the ownership setting didn't apply (re-check).
+
+**Quick callout on the budgets dashboard**: the screenshot you shared shows `$0 budget` on Codespaces, Packages, Actions, and Git LFS. Only **Codespaces** needs to be raised for this work. The others can stay at `$0` if you're under their free allowances — quick check: if the repo `SciLifeLab-TrainingHub-Platform/TeSS` is **private** AND CI pushes images to `ghcr.io`, the Packages budget would also need raising (public-repo packages are free, private-repo packages are paid past a tiny free tier).
 
 ### Quick reference: where things live
 
 | Thing | Where it lives | Who sets it |
 | --- | --- | --- |
 | Test Slack bot + token | `api.slack.com/apps` | Repo owner (you), once |
-| `SLACK_BOT_USER_OAUTH_TOKEN` | GitHub Codespaces Secrets (user or org) | Repo owner (you) |
-| `SLACK_COURSE_NOTIFICATION_CHANNELS` | GitHub Codespaces Secrets (user or org), defaulted in `.devcontainer/docker-compose.codespaces.yml` | Repo owner (you) |
+| `SLACK_BOT_USER_OAUTH_TOKEN` | GitHub Codespaces Secrets (org-level, scoped to this repo) | Repo owner / org admin |
+| `SLACK_COURSE_NOTIFICATION_CHANNELS` | GitHub Codespaces Secrets (org-level, scoped to this repo), defaulted in `.devcontainer/docker-compose.codespaces.yml` | Repo owner / org admin |
+| Codespaces compute + storage budget | Org billing → Codespaces budget ($50/mo starting cap with hard-stop) | Org admin |
+| Codespaces ownership / access policy | Org settings → Codespaces (org-owned, all members) | Org admin |
 | MailHog SMTP host/port | Auto-injected by `pre-build.sh` into `.devcontainer/secrets.preview.yml` | Nothing — automatic |
 | `base_url` for URL helpers | Patched into `.devcontainer/tess.preview.yml` by `post-start.sh` using `${CODESPACE_NAME}` | Nothing — automatic |
 | `SECRET_KEY_BASE` | Hard-coded placeholder in `.devcontainer/docker-compose.codespaces.yml` | Nothing — automatic |
