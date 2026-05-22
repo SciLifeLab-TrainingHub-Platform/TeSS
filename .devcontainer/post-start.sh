@@ -37,15 +37,16 @@ echo "[post-start] Running inside container, RAILS_ENV=${RAILS_ENV}"
 if [[ -n "${CODESPACE_NAME:-}" ]]; then
   PREVIEW_URL="https://${CODESPACE_NAME}-3000.app.github.dev"
   # Replace any "base_url: <whatever>" line with the Codespaces URL.
-  # Use python for safe in-place edit (sed semantics differ between BSD/GNU).
-  python3 - "$PREVIEW_URL" <<'PY'
-import re, sys, pathlib
-preview_url = sys.argv[1]
-path = pathlib.Path("/code/config/tess.yml")
-text = path.read_text()
-new_text = re.sub(r"base_url:\s*\S+", f"base_url: {preview_url}", text)
-path.write_text(new_text)
-PY
+  # Use Ruby (always present in this image — it's the Rails app's runtime).
+  # The Rails image is ruby-slim and does not ship Python; previously this
+  # used python3 and failed with "python3: command not found".
+  ruby - "$PREVIEW_URL" <<'RB'
+preview_url = ARGV[0]
+path = "/code/config/tess.yml"
+text = File.read(path)
+new_text = text.gsub(/base_url:\s*\S+/, "base_url: #{preview_url}")
+File.write(path, new_text)
+RB
   echo "[post-start]   patched base_url -> ${PREVIEW_URL}"
 else
   echo "[post-start]   WARN  CODESPACE_NAME not set — base_url left as-is (URL helpers may break)"
