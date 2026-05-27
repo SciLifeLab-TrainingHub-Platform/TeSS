@@ -4,8 +4,7 @@
 #
 # Activates ONLY when RAILS_ASSUME_SSL=true is set in the process environment.
 # In real production (k8s + NGINX ingress) the env var is unset, so this file
-# is a strict no-op — the first line `return unless ...` short-circuits before
-# any middleware is touched. Currently the env var is set only by
+# is a strict no-op. Currently the env var is set only by
 # .devcontainer/docker-compose.codespaces.yml.
 #
 # Why this exists:
@@ -31,23 +30,23 @@
 # strictly require this, but it makes the inserted-before-everything intent
 # explicit.
 
-return unless ENV['RAILS_ASSUME_SSL'] == 'true'
+if ENV['RAILS_ASSUME_SSL'] == 'true'
+  assume_ssl_proxy_middleware = Class.new do
+    def initialize(app)
+      @app = app
+    end
 
-assume_ssl_proxy_middleware = Class.new do
-  def initialize(app)
-    @app = app
+    def call(env)
+      env['HTTPS'] = 'on'
+      env['rack.url_scheme'] = 'https'
+      env['HTTP_X_FORWARDED_PROTO'] = 'https'
+      @app.call(env)
+    end
+
+    def self.name
+      'AssumeSslProxyMiddleware'
+    end
   end
 
-  def call(env)
-    env['HTTPS'] = 'on'
-    env['rack.url_scheme'] = 'https'
-    env['HTTP_X_FORWARDED_PROTO'] = 'https'
-    @app.call(env)
-  end
-
-  def self.name
-    'AssumeSslProxyMiddleware'
-  end
+  Rails.application.config.middleware.insert_before 0, assume_ssl_proxy_middleware
 end
-
-Rails.application.config.middleware.insert_before 0, assume_ssl_proxy_middleware

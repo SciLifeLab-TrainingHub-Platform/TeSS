@@ -42,6 +42,9 @@ services:
       RAILS_ENV: production
       RAILS_LOG_TO_STDOUT: "true"
       RAILS_SERVE_STATIC_FILES: "true"
+      # Also write Rails logs to /code/log/preview.log so runtime errors are
+      # readable from the app-container terminal attached by Codespaces.
+      PREVIEW_FILE_LOG: "true"
       # Make Rails trust the Codespaces port-forwarding proxy as an SSL
       # terminator. Without this, Rails sees scheme=http and the CSRF Origin
       # check rejects POSTs from the browser (Origin: https://...) with 422.
