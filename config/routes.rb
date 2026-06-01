@@ -92,6 +92,18 @@ Rails.application.routes.draw do
   resources :courses, concerns: :activities do
     collection do
       get :count
+      # email for subscribe/unsubscribe course interest for non logged in user
+      post :subscribe_as_guest
+      post :request_unsubscribe_email
+    end
+
+    # course interest route for add or remove interest for logged in user
+    resource :interest, only: [:create, :destroy], controller: "course_interests"
+
+    # confirmation for subscribe/unsubscribe course interest for non logged in users
+    member do
+      get :confirm_subscription
+      get :confirm_unsubscribe
     end
   end
 

@@ -14,5 +14,7 @@
     <% elsif show_empty_state %>
       <p class="muted">No <%= title.downcase %>.</p>
     <% end %>
+    <!-- interested user section -->
+    <%= render 'courses/partials/details/interested_user_card', course: course %>
   <% end %>
 <% end %>

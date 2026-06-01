@@ -1,0 +1,2 @@
+module CourseInterestsHelper
+end
