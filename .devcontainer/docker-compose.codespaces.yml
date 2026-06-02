@@ -52,6 +52,14 @@ services:
       # is a strict no-op unless this env var is "true", so real production
       # behind k8s ingress is unaffected).
       RAILS_ASSUME_SSL: "true"
+      # Companion to RAILS_ASSUME_SSL. The Codespaces proxy rewrites the Host to
+      # localhost:3000, so request.base_url ("https://localhost:3000") never
+      # equals the browser Origin ("https://<codespace>-3000.app.github.dev"),
+      # and Rails' CSRF Origin guard 422s every POST (cookie consent, login,
+      # forms). This disables ONLY that Origin equality check; the
+      # authenticity-token check stays active. Wired in
+      # config/initializers/zz_preview_csrf_origin_check.rb (no-op unless set).
+      PREVIEW_RELAX_CSRF_ORIGIN_CHECK: "true"
       # Slack passthroughs from GitHub Codespaces Secrets. Empty by default →
       # SlackNotificationJob logs an API error in its rescue block and moves on.
       # See plan-preview-env.md "Manual Setup" TODO-1/TODO-2 to enable real posts.
