@@ -1,25 +1,31 @@
 <hr>
+
 <% if user_signed_in? %>
 
   <div class="py-2">
     <div class="d-flex align-items-center justify-content-between">
 
       <% if course.subscribed_by?(current_user) %>
-        <!-- UNREGISTER STATE -->
-        <div class="text-success">
+
+        <!-- SUBSCRIBED STATE -->
+        <div class="text-success d-flex align-items-center gap-2">
           <span>You are subscribed to notifications for this training.</span>
-          <button type="button" class="btn btn-link p-0 text-danger mb-1">
-            Unregister interest
-          </button>
+
+          <%= button_to "Unregister interest",
+                        course_interest_path(course),
+                        method: :delete,
+                        class: "btn btn-link p-0 text-danger mb-1" %>
         </div>
-    <% else %>
-        <!-- REGISTER STATE -->
-        <div class="text-muted">
+
+      <% else %>
+
+        <!-- NOT SUBSCRIBED STATE -->
+        <div class="text-muted d-flex align-items-center gap-2">
           <span>Notify me when new sessions are available</span>
           <%= button_to "Register interest",
                         course_interest_path(course),
                         method: :post,
-                        class: "btn btn-link p-0 fw-medium mb-1" %>
+                        class: "btn btn-link p-0 fw-medium text-primary mb-1" %>
         </div>
       <% end %>
     </div>
@@ -27,6 +33,7 @@
 
 <% else %>
 
+  <!-- GUEST UI -->
   <div class="py-2 m-auto" style="width: 50%; text-align: center;">
 
     <div class="fw-medium mb-2">
@@ -35,26 +42,24 @@
     <div class="mb-2">
       <input
         type="email"
+        name="email"
         class="form-control form-control-sm"
         placeholder="Email address"
       >
     </div>
-    <div class="d-flex gap-3">
-      <button
-        type="button"
-        class="btn btn-link p-0 fw-medium text-primary"
-      >
-        Subscribe
-      </button>
-      <button
-        type="button"
-        class="btn btn-link p-0 text-danger"
-      >
-        Unsubscribe
-      </button>
+
+    <div class="d-flex gap-3 justify-content-center">
+
+      <%= button_to "Subscribe",
+                    request_subscription_email_course_subscription_path(course),
+                    method: :post,
+                    class: "btn btn-link p-0 fw-medium text-primary" %>
+
+      <%= button_to "Unsubscribe",
+                    request_unsubscribe_email_course_subscription_path(course),
+                    method: :post,
+                    class: "btn btn-link p-0 text-danger" %>
 
     </div>
   </div>
 <% end %>
-
-
