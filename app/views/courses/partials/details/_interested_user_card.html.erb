@@ -1,65 +1,56 @@
-<hr>
-
+<!--in user is singed in-->
 <% if user_signed_in? %>
+  <% if course.subscribed_by?(current_user) %>
+    <!-- UNSUBSCRIBED BUTTON -->
+    <%= button_to t('courses.actions.unregister_interest'),
+                  course_interest_path(course),
+                  method: :delete,
+                  form: { class: "subscription-action-unsubscribe" },
+                  class: "btn btn-link" %>
+  <% else %>
+    <!-- SUBSCRIBED BUTTON -->
+    <%= button_to t('courses.actions.register_interest'),
+                  course_interest_path(course),
+                  method: :post,
+                  form: { class: "subscription-action-subscribe" },
+                  class: "btn btn-link" %>
+  <% end %>
 
-  <div class="py-2">
-    <div class="d-flex align-items-center justify-content-between">
-
-      <% if course.subscribed_by?(current_user) %>
-
-        <!-- SUBSCRIBED STATE -->
-        <div class="text-success d-flex align-items-center gap-2">
-          <span>You are subscribed to notifications for this training.</span>
-
-          <%= button_to "Unregister interest",
-                        course_interest_path(course),
-                        method: :delete,
-                        class: "btn btn-link p-0 text-danger mb-1" %>
-        </div>
-
-      <% else %>
-
-        <!-- NOT SUBSCRIBED STATE -->
-        <div class="text-muted d-flex align-items-center gap-2">
-          <span>Notify me when new sessions are available</span>
-          <%= button_to "Register interest",
-                        course_interest_path(course),
-                        method: :post,
-                        class: "btn btn-link p-0 fw-medium text-primary mb-1" %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
+  <!--in user not singed in-->
 <% else %>
-
   <!-- GUEST UI -->
-  <div class="py-2 m-auto" style="width: 50%; text-align: center;">
+  <button type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#courseSubscriptionModal">
+    Manage notifications
+  </button>
 
-    <div class="fw-medium mb-2">
-      Manage notifications for this training
+  <!-- Modal -->
+  <div class="modal fade"
+       id="courseSubscriptionModal"
+       tabindex="-1"
+       role="dialog"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button"
+                  class="close"
+                  data-dismiss="modal">
+            &times;
+          </button>
+          <h4 class="modal-title">
+            Manage notifications for this training
+          </h4>
+        </div>
+        <div class="modal-body">
+          <%= render partial: 'courses/partials/course_subscription_form', locals: { course: course } %>
+        </div>
+      </div>
     </div>
-    <div class="mb-2">
-      <input
-        type="email"
-        name="email"
-        class="form-control form-control-sm"
-        placeholder="Email address"
-      >
-    </div>
 
-    <div class="d-flex gap-3 justify-content-center">
-
-      <%= button_to "Subscribe",
-                    request_subscription_email_course_subscription_path(course),
-                    method: :post,
-                    class: "btn btn-link p-0 fw-medium text-primary" %>
-
-      <%= button_to "Unsubscribe",
-                    request_unsubscribe_email_course_subscription_path(course),
-                    method: :post,
-                    class: "btn btn-link p-0 text-danger" %>
-
-    </div>
   </div>
+
+
 <% end %>

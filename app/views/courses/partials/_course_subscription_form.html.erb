@@ -1,0 +1,32 @@
+<!-- _subscription_form.html.erb -->
+
+<%= form_with url: request_email_action_course_subscription_path(course),
+              method: :post,
+              local: true do |f| %>
+
+  <div class="form-group">
+    <%= f.email_field :email,
+                      value: "ad106@yopmail.com",
+                      class: "form-control",
+                      placeholder: "Email address" %>
+  </div>
+
+  <div class="btn-group" data-toggle="buttons">
+
+    <label class="btn btn-primary active">
+      <%= radio_button_tag :action_type,
+                           CourseInterest::ACTION_REQUEST_SUBSCRIBE,
+                           true %>
+      Subscribe
+    </label>
+
+    <label class="btn btn-danger">
+      <%= radio_button_tag :action_type,
+                           CourseInterest::ACTION_REQUEST_UNSUBSCRIBE %>
+      Unsubscribe
+    </label>
+  </div>
+<hr>
+  <%= f.submit "submit", class: "btn btn-primary" %>
+
+<% end %>

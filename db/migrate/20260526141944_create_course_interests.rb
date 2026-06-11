@@ -8,6 +8,8 @@ class CreateCourseInterests < ActiveRecord::Migration[7.0]
       t.datetime :subscribed_at, null: true
       t.datetime :unsubscribed_at, null: true
 
+      t.integer :status, null: false, default: 0
+
       t.timestamps
     end
     add_index :course_interests, :email

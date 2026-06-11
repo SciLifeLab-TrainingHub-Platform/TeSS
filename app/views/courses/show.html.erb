@@ -30,6 +30,9 @@
               </p>
             <% end %>
           <% end %>
+          <!-- interested user section -->
+          <%= render 'courses/partials/details/interested_user_card', course: @course %>
+
         </div>
         <% if @course.persisted? %>
           <div class="content-manager-actions">
