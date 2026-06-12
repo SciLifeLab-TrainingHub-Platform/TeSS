@@ -200,6 +200,22 @@ class EventsControllerTest < ActionController::TestCase
     assert_select '.help-block', text: I18n.t('events.prefill.course_not_approved')
   end
 
+  test 'new prefill keeps selected course in form selector when outside approved course query' do
+    sign_in users(:regular_user)
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:approved])
+
+    Course.stub(:approved, Course.none) do
+      get :new, params: { prefill: '1', course_id: course.to_param }
+    end
+
+    assert_response :success
+    assert_equal course.id, assigns(:event).course_id
+    assert_select 'select#event_course_id' do
+      assert_select "option[value=\"#{course.id}\"][selected]", text: course.title
+    end
+  end
+
   test 'should get new page for logged in users only' do
     # Redirect to login if not logged in
     get :new
@@ -393,6 +409,74 @@ class EventsControllerTest < ActionController::TestCase
     sign_in @event.user
     patch :update, params: { id: @event, event: @mandatory_fields.merge(@updated_event) }
     assert_redirected_to event_path(assigns(:event))
+  end
+
+  test 'edit event shows optional course selector with current course selected' do
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:approved])
+    @event.update!(course: course)
+
+    sign_in @event.user
+    get :edit, params: { id: @event }
+
+    assert_response :success
+    assert_select 'label[for=?]', 'event_course_id', text: 'Catalogue entry (optional)'
+    assert_select 'select#event_course_id[name=?]', 'event[course_id]' do
+      assert_select 'option[value=""]', text: 'No catalogue entry'
+      assert_select "option[value=\"#{course.id}\"][selected]", text: course.title
+    end
+  end
+
+  test 'edit event includes current unapproved course option' do
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:awaiting_review])
+    @event.update!(course: course)
+
+    sign_in @event.user
+    get :edit, params: { id: @event }
+
+    assert_response :success
+    assert_select 'select#event_course_id' do
+      assert_select "option[value=\"#{course.id}\"][selected]", text: course.title
+    end
+  end
+
+  test 'should update event course association' do
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:approved])
+    @event.update_column(:course_id, nil)
+
+    sign_in @event.user
+    patch :update, params: { id: @event, event: @mandatory_fields.merge(@updated_event).merge(course_id: course.id) }
+
+    assert_redirected_to event_path(assigns(:event))
+    assert_equal course.id, @event.reload.course_id
+  end
+
+  test 'should clear event course association' do
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:approved])
+    @event.update!(course: course)
+
+    sign_in @event.user
+    patch :update, params: { id: @event, event: @mandatory_fields.merge(@updated_event).merge(course_id: '') }
+
+    assert_redirected_to event_path(assigns(:event))
+    assert_nil @event.reload.course_id
+  end
+
+  test 'failed update keeps submitted course selected in form selector' do
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:awaiting_review])
+    @event.update_column(:course_id, nil)
+
+    sign_in @event.user
+    patch :update, params: { id: @event, event: @mandatory_fields.merge(@updated_event).merge(title: '', course_id: course.id) }
+
+    assert_response :success
+    assert_select 'select#event_course_id' do
+      assert_select "option[value=\"#{course.id}\"][selected]", text: course.title
+    end
   end
 
   test 'should update event if curator' do
@@ -1461,6 +1545,22 @@ class EventsControllerTest < ActionController::TestCase
     assert_nil assigns(:event).id
     assert_equal @event.title, assigns(:event).title
     assert_select '#event_title[value=?]', @event.title
+  end
+
+  test 'clone event shows optional course selector with copied course selected' do
+    course = courses(:one)
+    course.update_column(:course_status, Course.course_statuses[:approved])
+    @event.update!(course: course)
+
+    sign_in @event.user
+    get :clone, params: { id: @event }
+
+    assert_response :success
+    assert_nil assigns(:event).id
+    assert_equal course.id, assigns(:event).course_id
+    assert_select 'select#event_course_id' do
+      assert_select "option[value=\"#{course.id}\"][selected]", text: course.title
+    end
   end
 
   test 'should not clone event if no permission' do

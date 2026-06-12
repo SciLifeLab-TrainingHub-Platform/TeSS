@@ -358,13 +358,60 @@ class EventsController < ApplicationController
     @venues = Venue.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
-    @courses = Course.approved.select(:id, :title, :slug).order(:title).limit(100) if @show_prefill
+    @courses = courses_for_event_form
     @country_code = if @event
                       JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json'))).key(@event.country) || "SE"
                     else
                       "SE"
                     end
     @cities = City.where(country_code: @country_code).or(City.online).order(:name)
+  end
+
+  def courses_for_event_form
+    courses = Course.approved.select(:id, :title, :slug).order(:title).limit(100).to_a
+    selected_course, selected_course_source = selected_course_for_event_form
+
+    if selected_course.present? && courses.none? { |course| course.id == selected_course.id }
+      if selected_course_source == :event || visible_selected_course?(selected_course, selected_course_source)
+        courses << selected_course
+      end
+      courses.sort_by! { |course| course.title.to_s.downcase }
+    end
+
+    courses
+  end
+
+  def selected_course_for_event_form
+    if (course = selected_course_from_event_params)
+      [course, :event_params]
+    elsif @event&.course.present?
+      [@event.course, :event]
+    elsif (course = selected_course_from_prefill_params)
+      [course, :prefill_params]
+    else
+      [nil, nil]
+    end
+  end
+
+  def selected_course_from_event_params
+    course_id = params.fetch(:event, {})[:course_id].presence
+    return unless course_id.to_s.match?(/\A\d+\z/)
+
+    Course.includes(:user).find_by(id: course_id)
+  end
+
+  def selected_course_from_prefill_params
+    return unless @show_prefill && params[:course_id].present?
+
+    Course.friendly.includes(:user).find(params[:course_id])
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
+
+  def visible_selected_course?(course, source)
+    return false if source == :prefill_params && !course.approved?
+
+    policy(course).show?
   end
 
   def formatNodeIdsForRadio
