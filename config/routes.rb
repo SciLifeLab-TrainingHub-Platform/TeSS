@@ -99,8 +99,8 @@ Rails.application.routes.draw do
     # Course subscription flow for guest users (email-based system)
     resource :subscription, only: [], controller: "course_subscriptions" do
       post :request_email_action
-      get :confirm_subscription
-      get :confirm_unsubscribe
+      get :confirm_course_subscription
+      get :confirm_course_unsubscription
     end
   end
 

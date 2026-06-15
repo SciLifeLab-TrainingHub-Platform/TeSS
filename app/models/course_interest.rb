@@ -55,7 +55,7 @@ class CourseInterest < ApplicationRecord
     interest = find_by(course: course, user: user)
 
     # returns RESULT_NOT_SUBSCRIBED if:
-    # - record doesn’t exist
+    # - record doesn't exist
     # - OR already unsubscribed (even if record exists)
     return RESULT_NOT_SUBSCRIBED unless interest.present?
     return RESULT_NOT_SUBSCRIBED if interest.unsubscribed?
@@ -65,11 +65,9 @@ class CourseInterest < ApplicationRecord
       subscribed_at: nil,
       unsubscribed_at: Time.current
     )
-
     RESULT_UNSUBSCRIBED
   end
 
-  # old method
   def self.request_subscribe!(course:, email:)
     return [RESULT_INVALID, nil] if email.blank?
     email = email.to_s.strip.downcase
@@ -82,7 +80,6 @@ class CourseInterest < ApplicationRecord
     [RESULT_PENDING, interest]
   end
 
-  # old method
   def self.request_unsubscribe!(course:, email:)
     return [RESULT_INVALID, nil] if email.blank?
 
@@ -111,20 +108,23 @@ class CourseInterest < ApplicationRecord
     RESULT_SUBSCRIBED
   end
 
-  # old method
   def self.confirm_unsubscription(interest)
     return RESULT_INVALID if interest.nil?
 
-    # If the user is NOT currently subscribed, we cannot unsubscribe them.
-    return RESULT_NOT_SUBSCRIBED unless interest.subscribed?
-    # If the user is already unsubscribed
-    return RESULT_ALREADY_UNSUBSCRIBED if interest.unsubscribed?
+    # already unsubscribed (idempotent safe)
+    return RESULT_ALREADY_UNSUBSCRIBED if interest.status == "unsubscribed"
+
+    # if user is not in a state that can unsubscribe
+    return RESULT_NOT_SUBSCRIBED unless
+      interest.status == "subscribed" ||
+        interest.status == "pending_unsubscription"
 
     interest.update!(
       status: :unsubscribed,
       subscribed_at: nil,
       unsubscribed_at: Time.current
     )
+
     RESULT_UNSUBSCRIBED
   end
 

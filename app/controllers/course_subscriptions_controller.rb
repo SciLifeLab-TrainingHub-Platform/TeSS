@@ -1,7 +1,7 @@
 class CourseSubscriptionsController < ApplicationController
 
   skip_before_action :authenticate_user!, :authenticate_user_from_token!,
-                     only: [:request_email_action, :confirm_subscription, :confirm_unsubscribe]
+                     only: [:request_email_action, :confirm_course_subscription, :confirm_course_unsubscription]
 
   def request_email_action
     course = Course.friendly.find(params[:course_id])
@@ -13,13 +13,13 @@ class CourseSubscriptionsController < ApplicationController
     result =
       case params[:action_type]
       when CourseInterest::ACTION_REQUEST_SUBSCRIBE
-        CourseInterestService.request_subscription(
+        CourseInterestService.request_subscription!(
           course: course,
           email: params[:email]
         )
 
       when CourseInterest::ACTION_REQUEST_UNSUBSCRIBE
-        CourseInterestService.request_unsubscription(
+        CourseInterestService.request_unsubscription!(
           course: course,
           email: params[:email]
         )
@@ -41,7 +41,7 @@ class CourseSubscriptionsController < ApplicationController
     redirect_to course_path(course), alert: "Something went wrong. Please try again."
   end
 
-  def confirm_subscription
+  def confirm_course_subscription
     course = Course.friendly.find(params[:course_id])
     token = params[:token]
 
@@ -55,15 +55,12 @@ class CourseSubscriptionsController < ApplicationController
       return redirect_to course_path(course), alert: "Invalid confirmation link"
     end
 
-    result = CourseInterestService.confirm_subscription(interest)
+    response = CourseInterestService.confirm_subscription!(interest: interest)
 
-    case result
-    when CourseInterest::RESULT_SUBSCRIBED
-      redirect_to course_path(course), notice: "Subscription confirmed successfully"
-    when CourseInterest::RESULT_ALREADY_SUBSCRIBED
-      redirect_to course_path(course), notice: "You are already subscribed"
+    if response[:status] == :error
+      redirect_to course_path(course), alert: response[:message]
     else
-      redirect_to course_path(course), alert: "Something went wrong. Please try again."
+      redirect_to course_path(course), notice: response[:message]
     end
 
   rescue ActiveSupport::MessageVerifier::InvalidSignature
@@ -73,13 +70,38 @@ class CourseSubscriptionsController < ApplicationController
     redirect_to courses_path, alert: "Course not found"
 
   rescue StandardError => e
-    pp "error im adsasd"
-    pp e
     redirect_to course_path(course), alert: "Something went wrong. Please try again."
   end
 
-  def confirm_unsubscribe
+  def confirm_course_unsubscription
+    course = Course.friendly.find(params[:course_id])
+    token = params[:token]
 
-    pp "in 123 confirm_unsubscribe"
+    interest = CourseInterest.find_signed!(
+      token,
+      purpose: CourseInterest::TOKEN_PURPOSE_UNSUBSCRIPTION
+    )
+
+    # safety check (token might belong to another course/email)
+    unless interest.course_id == course.id
+      return redirect_to course_path(course), alert: "Invalid confirmation link"
+    end
+
+    response = CourseInterestService.confirm_unsubscription(interest)
+
+    if response[:status] == :error
+      redirect_to course_path(course), alert: response[:message]
+    else
+      redirect_to course_path(course), notice: response[:message]
+    end
+
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    redirect_to course_path(course), alert: "Invalid or expired confirmation link"
+
+  rescue ActiveRecord::RecordNotFound
+    redirect_to courses_path, alert: "Course not found"
+
+  rescue StandardError => e
+    redirect_to course_path(course), alert: "Something went wrong. Please try again."
   end
 end

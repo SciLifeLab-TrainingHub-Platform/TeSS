@@ -2,7 +2,7 @@ class CourseSubscriptionMailer < ApplicationMailer
 
   def subscription_confirmation(email, course, token)
     @course = course
-    @confirmation_url = confirm_subscription_course_subscription_url(
+    @confirmation_url = confirm_course_subscription_course_subscription_url(
       course,
       token: token
     )
@@ -16,7 +16,7 @@ class CourseSubscriptionMailer < ApplicationMailer
 
   def unsubscription_confirmation(email, course, token)
     @course = course
-    @confirmation_url = confirm_unsubscription_course_subscription_url(
+    @confirmation_url = confirm_course_unsubscription_course_subscription_url(
       course,
       token: token
     )
@@ -26,5 +26,5 @@ class CourseSubscriptionMailer < ApplicationMailer
       to: email,
       subject: "Confirm your unsubscription for #{@course.title}"
     )
-    end
+  end
 end

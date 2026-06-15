@@ -4,12 +4,13 @@ class CourseInterestService
 
   COURSE_INTEREST_TOKEN_EXPIRY = 7.days
 
+  # tested
   def self.subscribe_user!(course:, user:)
-
     result = CourseInterest.subscribe!(
       course: course,
       user: user
     )
+
     case result
     when CourseInterest::RESULT_SUBSCRIBED
       {
@@ -38,11 +39,13 @@ class CourseInterestService
     end
   end
 
+  # tested
   def self.unsubscribe_user!(course:, user:)
     result = CourseInterest.unsubscribe!(
       course: course,
       user: user
     )
+
     case result
     when CourseInterest::RESULT_UNSUBSCRIBED
       {
@@ -71,17 +74,20 @@ class CourseInterestService
     end
   end
 
+
   def self.request_subscription!(course:, email:)
     result, interest = CourseInterest.request_subscribe!(
       course: course,
       email: email
     )
+
     case result
     when CourseInterest::RESULT_PENDING
       token = generate_subscription_token(
         interest,
         CourseInterest::TOKEN_PURPOSE_SUBSCRIPTION
       )
+
       CourseSubscriptionMailer
         .subscription_confirmation(email, course, token)
         .deliver_later
@@ -158,7 +164,6 @@ class CourseInterestService
   end
 
   def self.confirm_subscription!(interest:)
-
     result = CourseInterest.confirm_subscription(interest)
 
     case result
@@ -206,7 +211,14 @@ class CourseInterestService
     when CourseInterest::RESULT_ALREADY_UNSUBSCRIBED
       {
         status: :ok,
-        message: "Subscription state conflict detected",
+        message: "This course is already unsubscribed for the email provided.",
+        result: result
+      }
+
+    when CourseInterest::RESULT_NOT_SUBSCRIBED
+      {
+        status: :ok,
+        message: "Course subscription not found",
         result: result
       }
 
@@ -225,7 +237,6 @@ class CourseInterestService
       }
     end
   end
-
 
   def self.generate_subscription_token(interest, purpose)
     interest.signed_id(

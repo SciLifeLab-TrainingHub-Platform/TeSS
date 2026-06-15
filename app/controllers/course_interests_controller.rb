@@ -7,7 +7,7 @@ class CourseInterestsController < ApplicationController
                          alert: "You must be logged in to register interest."
     end
 
-    result = CourseInterestService.subscribe(
+    result = CourseInterestService.subscribe_user!(
       course: course,
       user: current_user
     )
@@ -31,7 +31,7 @@ class CourseInterestsController < ApplicationController
                          alert: "You must be logged in to unsubscribe."
     end
 
-    result = CourseInterestService.unsubscribe(
+    result = CourseInterestService.unsubscribe_user!(
       course: course,
       user: current_user
     )
