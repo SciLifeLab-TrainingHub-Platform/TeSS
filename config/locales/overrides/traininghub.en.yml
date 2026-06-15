@@ -44,6 +44,40 @@ en:
   attributes:
     url: 'URL'
     doi: 'DOI'
+  our_resources:
+    landing:
+      title: Where do you find yourself?
+      intro: >
+        No matter if you're designing a new course from scratch, are structuring a research school program,
+        or have finished the 6th iteration of your workshop, we have resources to support effective
+        knowledge transfer at SciLifeLab.
+      lifecycle:
+        label: Training lifecycle resource stages
+        stages:
+          design_develop:
+            timeframe: 6-12 MONTHS PRIOR
+            title: Design & Develop
+            description: >
+              Define learning outcomes, structure learning experiences, and get input from teaching and
+              learning frameworks to create effective training.
+          plan:
+            timeframe: 1-4 MONTHS PRIOR
+            title: Plan
+            description: >
+              Set up a course or workshop website, announce your training, manage registrations, and set
+              up your material so that it is ready for delivery.
+          deliver:
+            timeframe: THE TRAINING!
+            title: Deliver
+            description: >
+              Generate participant certificates, and get short term feedback to ensure your training is
+              effective through learning about your participants' experience.
+          evaluate_archive:
+            timeframe: 1-6 MONTHS AFTER
+            title: Evaluate & Archive
+            description: >
+              Plan for feedback from participants to improve future iterations, and archive your materials
+              so that they are Open and FAIR.
   activerecord:
     models:
       event: "Training"

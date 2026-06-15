@@ -1,0 +1,22 @@
+@import "bootstrap/mixins";
+
+#trainer_community_accordion {
+  .panel-heading {
+    background-color: $scilifelab-color-lime;
+  }
+  .panel-heading:has(+ .panel-collapse.collapse.in) {
+    color: $body-bg;
+    background-color: $scilifelab-color-grape;
+  }
+}
+
+.btn.btn-large {
+  text-align: left;
+  font-size: larger;
+  color: $scilifelab-color-grape;
+}
+
+.resources_training_items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 250px));
+}
