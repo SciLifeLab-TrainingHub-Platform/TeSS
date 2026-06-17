@@ -2,10 +2,10 @@
 
 one:
   course: one
-  user: one
+  user: regular_user
   email: MyString
 
 two:
   course: two
-  user: two
+  user: another_regular_user
   email: MyString
