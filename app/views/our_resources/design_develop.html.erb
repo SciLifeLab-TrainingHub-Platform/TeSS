@@ -1,0 +1,32 @@
+<section class="resources-stage-page resources-stage-page--design-develop">
+  <header class="resources-stage-page__hero">
+    <div class="resources-stage-page__intro">
+      <h1><%= t('our_resources.stage_pages.design_develop.title') %></h1>
+      <p><%= t('our_resources.stage_pages.design_develop.summary') %></p>
+    </div>
+
+    <%= render 'our_resources/stage_pages/stage_nav', active_key: :design_develop %>
+  </header>
+
+  <%= render 'our_resources/stage_pages/resources',
+             title: t('our_resources.stage_pages.resources_heading'),
+             resources: design_develop_resources %>
+
+  <div class="resources-stage-page__content">
+    <% design_develop_sections.each_with_index do |section, index| %>
+      <section class="resources-stage-page__section">
+        <h2><%= index + 1 %>. <%= section[:title] %></h2>
+        <p><%= section[:body] %></p>
+      </section>
+    <% end %>
+  </div>
+
+  <figure class="resources-stage-page__figure">
+    <%= image_tag('scilifelab/resources/participants_image.png',
+                  alt: t('our_resources.stage_pages.design_develop.participant_image_alt')) %>
+  </figure>
+
+  <%= render 'our_resources/stage_pages/contributors',
+             title: t('our_resources.stage_pages.contributors_heading'),
+             contributors: design_develop_contributors %>
+</section>

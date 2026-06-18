@@ -13,6 +13,10 @@ class OurResourcesController < ApplicationController
     def our_resources
     end
 
+    def design_develop
+      @breadcrumbs += [{ name: 'Design & Develop', url: design_develop_path }]
+    end
+
     def guides
       set_breadcrumbs
       @breadcrumbs += [{ name: 'Training Assets', url: guides_path }]
@@ -33,4 +37,3 @@ class OurResourcesController < ApplicationController
       @breadcrumbs += [{ name: 'FAIR', url: fair_path }]
     end
   end
-  

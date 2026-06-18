@@ -1,0 +1,14 @@
+<nav class="resources-stage-nav" aria-label="<%= t('our_resources.stage_pages.nav_label') %>">
+  <ol class="resources-stage-nav__list">
+    <% resource_lifecycle_stages(active_key: active_key).each do |stage| %>
+      <li class="resources-stage-nav__item <%= 'resources-stage-nav__item--active' if stage[:active] %>">
+        <%= link_to stage[:path],
+                    class: 'resources-stage-nav__link',
+                    aria: (stage[:active] ? { current: 'page' } : {}) do %>
+          <span class="resources-stage-nav__label"><%= stage[:title] %></span>
+          <span class="resources-stage-nav__marker" aria-hidden="true"></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+</nav>

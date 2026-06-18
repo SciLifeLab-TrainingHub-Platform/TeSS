@@ -1,0 +1,14 @@
+<section class="resources-stage-contributors" aria-labelledby="resources-stage-contributors-title">
+  <h2 id="resources-stage-contributors-title"><%= title %></h2>
+
+  <div class="resources-stage-contributors__panel">
+    <ul class="resources-stage-contributors__list">
+      <% contributors.each do |contributor| %>
+        <li class="resources-stage-contributors__item">
+          <span class="resources-stage-contributors__dot" aria-hidden="true"></span>
+          <span><%= contributor[:name] %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</section>

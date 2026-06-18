@@ -1,0 +1,15 @@
+<section class="resources-stage-resources" aria-labelledby="resources-stage-resources-title">
+  <h2 id="resources-stage-resources-title"><%= title %></h2>
+
+  <div class="resources-stage-resources__grid">
+    <% resources.each do |resource| %>
+      <%= link_to resource[:url],
+                  class: 'resources-stage-resource',
+                  target: '_blank',
+                  rel: 'noopener noreferrer' do %>
+        <%= image_tag(asset_path(resource[:image]), alt: '', class: 'resources-stage-resource__image') %>
+        <span class="resources-stage-resource__title"><%= resource[:title] %></span>
+      <% end %>
+    <% end %>
+  </div>
+</section>

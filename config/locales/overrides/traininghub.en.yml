@@ -78,6 +78,45 @@ en:
             description: >
               Plan for feedback from participants to improve future iterations, and archive your materials
               so that they are Open and FAIR.
+    stage_pages:
+      nav_label: Training lifecycle stages
+      resources_heading: Resources
+      contributors_heading: Contributors
+      design_develop:
+        title: Design & Develop
+        summary: >
+          Define learning outcomes, structure learning experiences, and get input from teaching and
+          learning frameworks to create effective training.
+        participant_image_alt: Presenter and participants interaction diagram
+        sections:
+          target_audience:
+            title: Identify your Target Audience
+            body: >
+              Who are you wanting to share your knowledge with? It's important to match the level of ideas,
+              technology, or expertise you present with the level of pre-training understanding and background
+              of your participants. This way, you can design your materials so that the participants can grasp
+              the concepts and be challenged in implementing them.
+          learning_outcomes:
+            title: Develop Learning Outcomes
+            body: >
+              By combining the principles of Bloom's Taxonomy, KSAs, PLDs and SMARTIE goals together in your
+              learning outcomes, it becomes easier to communicate the function and expectations of your training
+              to your participants as well as other instructors. As Learning Pathways and tailored curriculum
+              become available for advanced life science training, having accurate learning outcomes also helps
+              organize and connect your training within the larger ecosystem!
+          engagement:
+            title: Choose engaging learning experiences
+            body: >
+              Engagement deepens learning and creates a more positive and enjoyable experience. Understanding a
+              topic is a much less cognitively complex process than applying or analyzing the same topic. Moving
+              away from the traditional lecture format and incorporating collaborative learning and engagement
+              into your courses, workshops, or lectures can help participants gain and retain the knowledge you
+              are sharing.
+        contributors:
+          oliver_onions:
+            name: Oliver Onions
+          ineke_luijten:
+            name: Ineke Luijten
   activerecord:
     models:
       event: "Training"
