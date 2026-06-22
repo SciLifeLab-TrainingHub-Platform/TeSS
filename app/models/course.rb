@@ -186,11 +186,9 @@ class Course < ApplicationRecord
   # check if the user is subscribed to the course
   def subscribed_by?(user)
     return false unless user
-
     course_interests.exists?(
       user: user,
-      unsubscribed_at: nil
+      status: :subscribed
     )
   end
-
 end

@@ -14,11 +14,10 @@ class CourseSubscriptionMailerPreview < ActionMailer::Preview
   def unsubscription_confirmation
     course = Course.first
 
-    CourseSubscriptionMailer.subscription_confirmation(
+    CourseSubscriptionMailer.unsubscription_confirmation(
       "test@example.com",
       course,
       "sample-token-123"
     )
-
   end
 end

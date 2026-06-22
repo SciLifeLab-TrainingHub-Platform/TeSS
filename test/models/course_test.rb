@@ -246,4 +246,50 @@ class CourseTest < ActiveSupport::TestCase
     refute course.update(course_status: Course.course_statuses[:awaiting_review])
     assert_includes course.errors[:course_status], I18n.t('activerecord.errors.models.course.attributes.course_status.cannot_unapprove_with_approved_instances')
   end
+
+  test "subscribed_by? returns false when user is nil" do
+    course = courses(:one)
+    assert_not course.subscribed_by?(nil)
+  end
+
+  test "subscribed_by? returns true for subscribed user" do
+    course = courses(:one)
+    user = users(:regular_user)
+    course.course_interests.create!(
+      user: user,
+      status: :subscribed
+    )
+    assert course.subscribed_by?(user)
+  end
+
+  test "subscribed_by? returns false for unsubscribed user" do
+    course = courses(:one)
+    user = users(:regular_user)
+    course.course_interests.create!(
+      user: user,
+      status: :unsubscribed
+    )
+    assert_not course.subscribed_by?(user)
+  end
+
+  test "subscribed_by? returns false for user with pending subscription" do
+    course = courses(:one)
+    user = users(:regular_user)
+    course.course_interests.create!(
+      user: user,
+      status: :pending_subscription
+    )
+    assert_not course.subscribed_by?(user)
+  end
+
+  test "subscribed_by? returns false for different user" do
+    course = courses(:one)
+    subscribed_user = users(:regular_user)
+    other_user = users(:another_regular_user)
+    course.course_interests.create!(
+      user: subscribed_user,
+      status: :subscribed
+    )
+    assert_not course.subscribed_by?(other_user)
+  end
 end
