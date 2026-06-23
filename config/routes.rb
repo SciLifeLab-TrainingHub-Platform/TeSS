@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   # Add resource page
   get 'our_resources' => 'our_resources#our_resources', as: 'our_resources'
   get 'our_resources/design_develop' => 'our_resources#design_develop', as: 'design_develop'
+  get 'our_resources/plan' => 'our_resources#plan', as: 'plan_stage'
   get 'our_resources/guides' => 'our_resources#guides', as: 'guides'
   get 'our_resources/pedagogic_support' => 'our_resources#pedagogic_support', as: 'pedagogic'
   get 'our_resources/trainer_community' => 'our_resources#trainer_community', as: 'community'

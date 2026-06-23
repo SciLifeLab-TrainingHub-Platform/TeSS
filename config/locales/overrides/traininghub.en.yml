@@ -117,6 +117,39 @@ en:
             name: Oliver Onions
           ineke_luijten:
             name: Ineke Luijten
+      plan:
+        title: Plan
+        summary: >
+          Set up a course or workshop website, announce your training, manage registrations, and set
+          up your material so that it is ready for delivery.
+        video:
+          title: Announcing your course on the Training Portal
+          iframe_title: Announcing your course on the Training Portal webinar
+          caption: Watch our webinar on how to announce your courses on the training portal!
+          url: https://www.youtube.com/watch?v=_AQN4pqvZ3o
+        course_page:
+          title: Setting up a GitHub Course Page
+          body: >
+            The Training Hub offers GitHub Templates as part of the SciLifeLab Training GitHub Organization.
+          examples_heading: "See example course pages:"
+          examples:
+            open_science:
+              title: Open Science in the Swedish Context
+              url:
+            bge_hic:
+              title: BGE Hi-C Introductory Course
+              url:
+        resources_heading: "Related Resources:"
+        resources:
+          course_planning:
+            title: Resources for Course Planning
+            image: scilifelab/guides/TH-planningguides-image.png
+            url: https://doi.org/10.17044/scilifelab.28194329.v1
+        contributors:
+          oliver_onions:
+            name: Oliver Onions
+          ineke_luijten:
+            name: Ineke Luijten
   activerecord:
     models:
       event: "Training"

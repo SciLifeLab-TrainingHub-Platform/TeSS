@@ -3,12 +3,19 @@
 
   <div class="resources-stage-resources__grid">
     <% resources.each do |resource| %>
-      <%= link_to resource[:url],
-                  class: 'resources-stage-resource',
-                  target: '_blank',
-                  rel: 'noopener noreferrer' do %>
-        <%= image_tag(asset_path(resource[:image]), alt: '', class: 'resources-stage-resource__image') %>
-        <span class="resources-stage-resource__title"><%= resource[:title] %></span>
+      <% if resource[:url].present? %>
+        <%= link_to resource[:url],
+                    class: 'resources-stage-resource',
+                    target: '_blank',
+                    rel: 'noopener noreferrer' do %>
+          <%= image_tag(asset_path(resource[:image]), alt: '', class: 'resources-stage-resource__image') %>
+          <span class="resources-stage-resource__title"><%= resource[:title] %></span>
+        <% end %>
+      <% else %>
+        <div class="resources-stage-resource resources-stage-resource--static">
+          <%= image_tag(asset_path(resource[:image]), alt: '', class: 'resources-stage-resource__image') %>
+          <span class="resources-stage-resource__title"><%= resource[:title] %></span>
+        </div>
       <% end %>
     <% end %>
   </div>

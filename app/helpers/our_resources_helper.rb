@@ -2,7 +2,7 @@ module OurResourcesHelper
   def resource_lifecycle_stages(active_key: nil)
     [
       { key: :design_develop, path: design_develop_path },
-      { key: :plan, path: guides_path },
+      { key: :plan, path: plan_stage_path },
       { key: :deliver, path: community_path },
       { key: :evaluate_archive, path: fair_path }
     ].map do |stage|
@@ -23,14 +23,56 @@ module OurResourcesHelper
   end
 
   def design_develop_sections
-    t('our_resources.stage_pages.design_develop.sections').with_indifferent_access.values
+    stage_page_sections(:design_develop)
   end
 
   def design_develop_contributors
-    t('our_resources.stage_pages.design_develop.contributors').with_indifferent_access.values
+    stage_page_contributors(:design_develop)
+  end
+
+  def plan_video
+    t('our_resources.stage_pages.plan.video').with_indifferent_access
+  end
+
+  def plan_video_embed_url
+    youtube_embed_url(plan_video[:url])
+  end
+
+  def plan_course_page
+    t('our_resources.stage_pages.plan.course_page').with_indifferent_access
+  end
+
+  def plan_course_page_examples
+    plan_course_page.fetch(:examples, {}).with_indifferent_access.values
+  end
+
+  def plan_resources
+    stage_page_resources(:plan)
+  end
+
+  def plan_contributors
+    stage_page_contributors(:plan)
   end
 
   private
+
+  def stage_page_sections(stage_key)
+    t("our_resources.stage_pages.#{stage_key}.sections", default: {}).with_indifferent_access.values
+  end
+
+  def stage_page_contributors(stage_key)
+    t("our_resources.stage_pages.#{stage_key}.contributors", default: {}).with_indifferent_access.values
+  end
+
+  def stage_page_resources(stage_key)
+    t("our_resources.stage_pages.#{stage_key}.resources", default: {}).with_indifferent_access.values.map do |resource|
+      {
+        title: resource[:title],
+        image: resource[:image],
+        url: resource[:url]
+      }
+    end
+  end
 
   def guide_resources_for(category_key)
     category = t("guides.#{category_key}", default: {}).with_indifferent_access
@@ -42,5 +84,27 @@ module OurResourcesHelper
         url: resource[:url]
       }
     end
+  end
+
+  def youtube_embed_url(url)
+    return if url.blank?
+
+    parsed_url = URI.parse(url)
+    host = parsed_url.host.to_s.downcase
+
+    return unless %w[http https].include?(parsed_url.scheme)
+    return unless %w[youtube.com youtu.be m.youtube.com www.youtube.com].include?(host)
+
+    video_id = if host == 'youtu.be'
+                 parsed_url.path.delete_prefix('/').split('/').first
+               else
+                 url.match(/[\?&]v[i]?=([-_a-zA-Z0-9]+)/)&.captures&.first ||
+                   url.match(%r{/v/([-_a-zA-Z0-9]+)})&.captures&.first ||
+                   url.match(%r{/embed/([-_a-zA-Z0-9]+)})&.captures&.first
+               end
+
+    "https://www.youtube.com/embed/#{video_id}" if video_id.present?
+  rescue URI::InvalidURIError
+    nil
   end
 end

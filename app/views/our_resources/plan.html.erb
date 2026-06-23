@@ -1,0 +1,65 @@
+<section class="resources-stage-page resources-stage-page--plan">
+  <header class="resources-stage-page__hero">
+    <div class="resources-stage-page__intro">
+      <h1><%= t('our_resources.stage_pages.plan.title') %></h1>
+      <p><%= t('our_resources.stage_pages.plan.summary') %></p>
+    </div>
+
+    <%= render 'our_resources/stage_pages/stage_nav', active_key: :plan %>
+  </header>
+
+  <div class="resources-stage-plan">
+    <% video = plan_video %>
+    <section class="resources-stage-plan__section resources-stage-plan__video">
+      <h2><%= video[:title] %></h2>
+
+      <% if (embed_url = plan_video_embed_url).present? %>
+        <figure class="resources-stage-plan__media">
+          <div class="resources-stage-plan__embed">
+            <iframe src="<%= embed_url %>"
+                    title="<%= video[:iframe_title] || video[:title] %>"
+                    loading="lazy"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen></iframe>
+          </div>
+        </figure>
+      <% end %>
+
+      <p class="resources-stage-plan__caption"><%= video[:caption] %></p>
+    </section>
+
+    <% course_page = plan_course_page %>
+    <section class="resources-stage-plan__section">
+      <h2><%= course_page[:title] %></h2>
+      <p><%= course_page[:body] %></p>
+
+      <h3><%= course_page[:examples_heading] %></h3>
+      <div class="resources-stage-plan__actions">
+        <% plan_course_page_examples.each do |example| %>
+          <% if example[:url].present? %>
+            <%= link_to example[:title],
+                        example[:url],
+                        class: 'resources-stage-plan__button',
+                        target: '_blank',
+                        rel: 'noopener noreferrer' %>
+          <% else %>
+            <%= content_tag(:span,
+                            example[:title],
+                            class: 'resources-stage-plan__button resources-stage-plan__button--disabled',
+                            aria: { disabled: true }) %>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+  </div>
+
+  <%= render 'our_resources/stage_pages/resources',
+             title: t('our_resources.stage_pages.plan.resources_heading'),
+             resources: plan_resources %>
+
+  <%= render 'our_resources/stage_pages/contributors',
+             title: t('our_resources.stage_pages.contributors_heading'),
+             contributors: plan_contributors %>
+</section>
