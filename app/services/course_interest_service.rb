@@ -74,7 +74,6 @@ class CourseInterestService
     end
   end
 
-
   def self.request_subscription!(course:, email:)
     result, interest = CourseInterest.request_subscribe!(
       course: course,
