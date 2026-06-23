@@ -10,7 +10,7 @@ class Course < ApplicationRecord
 
   has_and_belongs_to_many :content_providers
   has_many :events, dependent: :nullify
-  has_many :course_interests
+  has_many :course_interests, dependent: :destroy
   belongs_to :user
 
   enum course_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3}

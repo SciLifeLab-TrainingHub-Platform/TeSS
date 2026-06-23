@@ -53,7 +53,7 @@ class User < ApplicationRecord
   has_many :activities_as_owner,
            class_name: '::PublicActivity::Activity',
            as: :owner
-  has_many :course_interests
+  has_many :course_interests, dependent: :destroy
 
   has_and_belongs_to_many :editables, class_name: "ContentProvider"
 
