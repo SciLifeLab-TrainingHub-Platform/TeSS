@@ -1,6 +1,15 @@
 class CourseInterest < ApplicationRecord
 
   # the subscription status a course_interest can have
+  # it should follow the following logic
+  # for logged in user
+  #  - record is created/changed status to "subscribed status"
+  #  - and then changed to "unsubscribed status" when user unsubscribed
+  # for non logged in user with email
+  #  - record is created with pending subscription
+  #  - it transition to subscribed once the confirm_subscription hits
+  #  - it transition to pending_unsubscription once the request_unsubscribe hits
+  #  - finally transition to unsubscribed once the confirm_unsubscription hits
   enum :status, {
     pending_subscription: 0,
     subscribed: 1,
@@ -34,7 +43,14 @@ class CourseInterest < ApplicationRecord
   # Validations.
   validate :must_have_user_or_email
 
-  # new method
+  # only for logged in user
+  # Make user subscribed no matter what, unless already subscribed
+  # record transition should be as follow
+  #  - nil -> "subscribed" (for new subscription)
+  #  - "unsubscribed" -> "subscribed"
+  #  - "subscribed" -> no status change return with RESULT_ALREADY_SUBSCRIBED
+  #  - "pending_unsubscription" (should not exist but if it exist)  -> "subscribed"
+  #  - "pending_subscription" (should not exist but if it exist)  -> "subscribed"
   def self.subscribe!(course:, user:)
     return RESULT_INVALID unless user.present?
 
@@ -48,7 +64,14 @@ class CourseInterest < ApplicationRecord
     RESULT_SUBSCRIBED
   end
 
-  # old method
+  # only for logged in user
+  # Make user unsubscribed unless already unsubscribed or missing
+  # record transition should be as follow
+  #  - "subscribed" -> "unsubscribed" (for un-subscription)
+  #  - "unsubscribed" -> no status change return with RESULT_NOT_SUBSCRIBED
+  #  - nil -> no status change return with RESULT_NOT_SUBSCRIBED
+  #  - "pending_unsubscription" (should not exist but if it exist)  -> "unsubscribed"
+  #  - "pending_subscription" (should not exist but if it exist)  -> "unsubscribed"
   def self.unsubscribe!(course:, user:)
     return RESULT_INVALID unless user.present?
 
@@ -68,11 +91,20 @@ class CourseInterest < ApplicationRecord
     RESULT_UNSUBSCRIBED
   end
 
+  # only for non-logged in user
+  # Force set state to pending_subscription unless already subscribed
+  # record transition should be as follow
+  #  - nil ->  "pending_subscription" (for new subscription)
+  #  - "subscribed" -> no status change return with RESULT_ALREADY_SUBSCRIBED
+  #  - "unsubscribed" -> "pending_subscription"
+  #  - "pending_unsubscription" -> "pending_subscription" (if user want to resubscribe)
+  #  - "pending_subscription" -> "pending_subscription" (so that new email can be sent)
   def self.request_subscribe!(course:, email:)
     return [RESULT_INVALID, nil] if email.blank?
     email = email.to_s.strip.downcase
 
     interest = find_or_initialize_by(course: course, email: email)
+    # if interest status is already in subscribed
     return [RESULT_ALREADY_SUBSCRIBED, interest] if interest.subscribed?
 
     interest.status = :pending_subscription
@@ -80,25 +112,41 @@ class CourseInterest < ApplicationRecord
     [RESULT_PENDING, interest]
   end
 
+  # only for non-logged in user
+  # record transition should be as follow
+  #  - nil ->  no status change return with RESULT_NOT_SUBSCRIBED
+  #  - "subscribed" -> "pending_unsubscription"
+  #  - "unsubscribed" -> no status change return with RESULT_NOT_SUBSCRIBED
+  #  - "pending_unsubscription" -> "pending_unsubscription" (so that new email can be sent)
+  #  - "pending_subscription" -> "pending_unsubscription" (if user want to unsubscribe without confirmation of previous subscription)
   def self.request_unsubscribe!(course:, email:)
     return [RESULT_INVALID, nil] if email.blank?
 
     email = email.to_s.strip.downcase
     interest = find_by(course: course, email: email)
 
-    return [RESULT_NOT_SUBSCRIBED, nil] unless interest&.subscribed?
+    return [RESULT_NOT_SUBSCRIBED, nil] if interest.blank?
+    return [RESULT_NOT_SUBSCRIBED, nil] if interest.unsubscribed?
     return [RESULT_PENDING, interest] if interest.pending_unsubscription?
 
+    # subscribed or pending_subscription
     interest.update!(status: :pending_unsubscription)
 
     [RESULT_PENDING, interest]
   end
 
+  # only for non-logged in user
+  # record transition should be as follow
+  #  - nil -> no status change return with RESULT_INVALID
+  #  - "subscribed" -> no status change return with RESULT_ALREADY_SUBSCRIBED
+  #  - "unsubscribed" -> no status change return with RESULT_ALREADY_UNSUBSCRIBED
+  #  - "pending_unsubscription" -> "subscribed" (latest intent wins)
+  #  - "pending_subscription" -> "subscribed" (latest intent wins)
   def self.confirm_subscription(interest)
     return RESULT_INVALID if interest.nil?
 
-    # already confirmed subscription
-    return RESULT_ALREADY_SUBSCRIBED if interest.subscribed?
+    return RESULT_ALREADY_UNSUBSCRIBED if interest.status == "unsubscribed"
+    return RESULT_ALREADY_SUBSCRIBED if interest.status == "subscribed"
 
     interest.update!(
       status: :subscribed,
@@ -108,16 +156,18 @@ class CourseInterest < ApplicationRecord
     RESULT_SUBSCRIBED
   end
 
+  # only for non-logged in user
+  # record transition should be as follow
+  #  - nil -> no status change return with RESULT_INVALID
+  #  - "subscribed" -> no status change return with RESULT_ALREADY_SUBSCRIBED
+  #  - "unsubscribed" -> no status change return with RESULT_ALREADY_UNSUBSCRIBED
+  #  - "pending_unsubscription" -> "unsubscribed" (latest intent wins)
+  #  - "pending_subscription" -> "unsubscribed" (latest intent wins)
   def self.confirm_unsubscription(interest)
     return RESULT_INVALID if interest.nil?
 
-    # already unsubscribed (idempotent safe)
     return RESULT_ALREADY_UNSUBSCRIBED if interest.status == "unsubscribed"
-
-    # if user is not in a state that can unsubscribe
-    return RESULT_NOT_SUBSCRIBED unless
-      interest.status == "subscribed" ||
-        interest.status == "pending_unsubscription"
+    return RESULT_ALREADY_SUBSCRIBED if interest.status == "subscribed"
 
     interest.update!(
       status: :unsubscribed,
@@ -127,7 +177,6 @@ class CourseInterest < ApplicationRecord
 
     RESULT_UNSUBSCRIBED
   end
-
 
   private
 
