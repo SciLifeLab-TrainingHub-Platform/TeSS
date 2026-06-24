@@ -4,7 +4,6 @@ class CourseInterestService
 
   COURSE_INTEREST_TOKEN_EXPIRY = 7.days
 
-  # tested
   def self.subscribe_user!(course:, user:)
     result = CourseInterest.subscribe!(
       course: course,
@@ -39,7 +38,6 @@ class CourseInterestService
     end
   end
 
-  # tested
   def self.unsubscribe_user!(course:, user:)
     result = CourseInterest.unsubscribe!(
       course: course,
