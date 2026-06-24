@@ -1,0 +1,60 @@
+<section class="resources-stage-page resources-stage-page--deliver">
+  <header class="resources-stage-page__hero">
+    <div class="resources-stage-page__intro">
+      <h1><%= t('our_resources.stage_pages.deliver.title') %></h1>
+      <p><%= t('our_resources.stage_pages.deliver.summary') %></p>
+    </div>
+
+    <%= render 'our_resources/stage_pages/stage_nav', active_key: :deliver %>
+  </header>
+
+  <div class="resources-stage-deliver">
+    <section class="resources-stage-deliver__tools" aria-labelledby="resources-stage-deliver-tools-title">
+      <h2 id="resources-stage-deliver-tools-title"><%= t('our_resources.stage_pages.deliver.tools.title') %></h2>
+
+      <ul class="resources-stage-deliver__tool-list">
+        <% deliver_tools.each do |tool| %>
+          <li class="resources-stage-deliver__tool-item">
+            <% if tool[:url].present? %>
+              <%= link_to tool[:url],
+                          class: 'resources-stage-deliver__tool',
+                          target: '_blank',
+                          rel: 'noopener noreferrer' do %>
+                <%= image_tag(asset_path(tool[:image]), alt: '', class: 'resources-stage-deliver__tool-image') %>
+                <span class="resources-stage-deliver__tool-title"><%= tool[:title] %></span>
+                <% if tool[:description].present? %>
+                  <span class="resources-stage-deliver__tool-description"><%= tool[:description] %></span>
+                <% end %>
+              <% end %>
+            <% else %>
+              <div class="resources-stage-deliver__tool resources-stage-deliver__tool--static">
+                <%= image_tag(asset_path(tool[:image]), alt: '', class: 'resources-stage-deliver__tool-image') %>
+                <span class="resources-stage-deliver__tool-title"><%= tool[:title] %></span>
+                <% if tool[:description].present? %>
+                  <span class="resources-stage-deliver__tool-description"><%= tool[:description] %></span>
+                <% end %>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+
+    <div class="resources-stage-deliver__content">
+      <% deliver_sections.each do |section| %>
+        <section class="resources-stage-deliver__section">
+          <h2><%= section[:title] %></h2>
+          <p><%= section[:body] %></p>
+        </section>
+      <% end %>
+    </div>
+  </div>
+
+  <%= render 'our_resources/stage_pages/resources',
+             title: t('our_resources.stage_pages.deliver.resources_heading'),
+             resources: deliver_resources %>
+
+  <%= render 'our_resources/stage_pages/contributors',
+             title: t('our_resources.stage_pages.contributors_heading'),
+             contributors: deliver_contributors %>
+</section>

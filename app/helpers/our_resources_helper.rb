@@ -3,7 +3,7 @@ module OurResourcesHelper
     [
       { key: :design_develop, path: design_develop_path },
       { key: :plan, path: plan_stage_path },
-      { key: :deliver, path: community_path },
+      { key: :deliver, path: deliver_stage_path },
       { key: :evaluate_archive, path: fair_path }
     ].map do |stage|
       locale_key = "our_resources.landing.lifecycle.stages.#{stage[:key]}"
@@ -52,6 +52,22 @@ module OurResourcesHelper
 
   def plan_contributors
     stage_page_contributors(:plan)
+  end
+
+  def deliver_tools
+    t('our_resources.stage_pages.deliver.tools.items', default: {}).with_indifferent_access.values
+  end
+
+  def deliver_sections
+    stage_page_sections(:deliver)
+  end
+
+  def deliver_resources
+    stage_page_resources(:deliver)
+  end
+
+  def deliver_contributors
+    stage_page_contributors(:deliver)
   end
 
   private

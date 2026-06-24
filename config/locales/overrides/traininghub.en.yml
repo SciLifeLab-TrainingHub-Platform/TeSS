@@ -135,16 +135,66 @@ en:
           examples:
             open_science:
               title: Open Science in the Swedish Context
-              url:
+              url: https://scilifelab-training.github.io/open-science/
             bge_hic:
               title: BGE Hi-C Introductory Course
-              url:
+              url: https://scilifelab-training.github.io/BGE-HiC-course/module1.html
         resources_heading: "Related Resources:"
         resources:
           course_planning:
             title: Resources for Course Planning
             image: scilifelab/guides/TH-planningguides-image.png
             url: https://doi.org/10.17044/scilifelab.28194329.v1
+        contributors:
+          oliver_onions:
+            name: Oliver Onions
+          ineke_luijten:
+            name: Ineke Luijten
+      deliver:
+        title: Deliver
+        summary: >
+          Generate participant certificates, and get short term feedback to ensure your training is
+          effective through learning about your participants' experience.
+        tools:
+          title: Tools for training delivery
+          items:
+            certificate_app:
+              title: Course Certificate App
+              image: scilifelab/resources/deliver_tool.png
+              url: https://training-certificate.serve.scilifelab.se/app/training-certificate
+            whisper_ai:
+              title: WhisperAI
+              image: scilifelab/resources/deliver_tool.png
+              url: https://whisper-ai.serve.scilifelab.se/
+            teaching_notebooks:
+              title: JupyterLab, RStudio & other notebooks
+              image: scilifelab/resources/deliver_tool.png
+              url: https://serve.scilifelab.se/docs/teaching/
+            menti:
+              title: Menti
+              description: Use SSO via your university login.
+              image: scilifelab/resources/deliver_tool.png
+              url: https://www.menti.com/
+        sections:
+          facilitation:
+            title: Facilitation Techniques
+            body: >
+              A successful facilitator takes responsibility for the environment a course exercise,
+              discussion, or workshop is held in, which involves working to build a culture of respect,
+              sharing, and inclusivity. These techniques can assist in achieving that goal, but it's
+              important to remember facilitation is a learned and practiced skill. Asking for feedback
+              from participants, colleagues, or the Training Hub is invaluable in developing as a
+              facilitator.
+        resources_heading: "Related Resources:"
+        resources:
+          delivering_learning:
+            title: Resources for Delivering Learning Experiences
+            image: scilifelab/guides/TH-EngagementGuide-image.png
+            url: https://doi.org/10.17044/scilifelab.24599829.v1
+          course_delivery:
+            title: Course Delivery & Teaching Practice
+            image: scilifelab/guides/TH-ttt-image.png
+            url: https://scilifelab-training.github.io/train-the-trainer/2403/module1.html
         contributors:
           oliver_onions:
             name: Oliver Onions
