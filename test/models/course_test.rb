@@ -292,4 +292,76 @@ class CourseTest < ActiveSupport::TestCase
     )
     assert_not course.subscribed_by?(other_user)
   end
+
+  # interested_by tests
+  test "interested_by returns courses where user is subscribed" do
+    course1 = courses(:one)
+    course2 = courses(:two)
+    course3 = courses(:three)
+
+    CourseInterest.create!(
+      course: course1,
+      user: @user,
+      status: :subscribed
+    )
+
+    CourseInterest.create!(
+      course: course2,
+      user: @user,
+      status: :subscribed
+    )
+
+    CourseInterest.create!(
+      course: course3,
+      user: @user,
+      status: :unsubscribed
+    )
+
+    result = Course.interested_by(@user)
+
+    assert_includes result, course1
+    assert_includes result, course2
+    assert_not_includes result, course3
+  end
+
+  test "interested_by does not return courses of other users" do
+    course = courses(:one)
+
+    other_user = users(:another_regular_user)
+
+    CourseInterest.create!(
+      course: course,
+      user: other_user,
+      status: :subscribed
+    )
+
+    result = Course.interested_by(@user)
+
+    assert_not_includes result, course
+  end
+
+  test "interested_by returns distinct courses" do
+    course = courses(:one)
+
+    CourseInterest.create!(
+      course: course,
+      user: @user,
+      status: :subscribed
+    )
+
+    CourseInterest.create!(
+      course: course,
+      user: @user,
+      status: :subscribed
+    )
+
+    result = Course.interested_by(@user)
+    assert_equal 1, result.where(id: course.id).count
+  end
+
+  test "interested_by returns empty when user has no subscribed courses" do
+    other_user = users(:another_regular_user2)
+    result = Course.interested_by(other_user)
+    assert_equal 0, result.count
+  end
 end
