@@ -1,0 +1,58 @@
+<%= link_to(root_url) do %>
+  <%= image_tag(TeSS::Config.site['logo_email'], alt: TeSS::Config.site['title_short'],
+                title: "Visit #{TeSS::Config.site['title_short']}",
+                style: 'width: 100%;', target: '_blank') %>
+<% end %>
+<br>
+
+<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+  <p>Hello,</p>
+
+  <p>
+    A new training opportunity related to the course
+    <strong><%= @course.title %></strong>
+    that you’ve shown interest in has been published.
+  </p>
+
+  <h3 style="color: #045C64;">Training Event summary</h3>
+
+  <ul>
+    <li><strong>Event:</strong> <%= @event.title %></li>
+
+    <% if @event.description.present? %>
+      <li>
+        <strong>Description:</strong><br>
+        <%= truncate(strip_tags(render_markdown(@event.description)), length: 300) %>
+      </li>
+    <% end %>
+
+    <% if @event.duration.present? %>
+      <li><strong>Duration:</strong> <%= @event.duration %></li>
+    <% end %>
+
+    <% if @event.start.present? %>
+      <li><strong>Start date:</strong> <%= @event.start.strftime('%d %B %Y') %></li>
+    <% end %>
+
+    <% if @event.end.present? %>
+      <li><strong>End date:</strong> <%= @event.end.strftime('%d %B %Y') %></li>
+    <% end %>
+
+    <% if @event.venue.present? %>
+      <li><strong>Location:</strong> <%= @event.venue %></li>
+    <% end %>
+  </ul>
+
+  <p style="margin-top: 20px;">
+    You can view full details of this training event using the link below:
+    <a href="<%= event_url(@event) %>"
+       style="color: #045C64; text-decoration: underline; font-weight: bold;">
+      View Event
+    </a>
+  </p>
+
+  <p>
+    Best regards,<br>
+    The Training Hub Team
+  </p>
+</div>

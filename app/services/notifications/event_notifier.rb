@@ -7,10 +7,20 @@ module Notifications
     end
 
     def publish
+      # event publishing email
       UserMailer.event_published(@event).deliver_later
+      # content providers notification email
       @event.content_providers&.each do |cp|
         ContentProviderMailer.event_content_provider_notification(@event, cp).deliver_later
       end
+      # course interest email to all subscribers
+      if @event.course.present?
+        emails = CourseInterest.find_all_subscribed_emails(@event.course)
+        emails.each do |email|
+          CourseInterestMailer.announce_event(@event, email).deliver_later
+        end
+      end
+        # event publishing message on slack
       Notifications::Slack::SlackEventPublished.new(@event).call
     end
 
