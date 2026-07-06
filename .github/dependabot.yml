@@ -8,13 +8,11 @@
 # truth — the GitHub "default branch" setting — pointed at whatever rc-* is
 # currently active. When the release cycle moves (rc-1.6.0 -> rc-1.7.0), we just
 # update the default branch in GitHub settings ONCE; this file never changes.
-# (The default branch is currently rc-1.6.0, i.e. the active branch — good.
-# Remember to move it when a new release cycle starts.)
 #
 # COOLDOWN: `cooldown.default-days: 7` tells Dependabot to wait 7 days after a
 # version is published before proposing it. This dodges compromised releases
 # (usually yanked within a day or two) and buggy .0 releases — supply-chain
-# safety. Urgent CVE fixes still come via the separate "security updates" toggle.
+# safety.
 #
 # Docs: https://docs.github.com/code-security/dependabot/dependabot-version-updates
 version: 2
@@ -28,9 +26,9 @@ updates:
   - package-ecosystem: bundler
     directory: "/"                 # Gemfile lives at the repo root
     schedule:
-      interval: weekly             # one batch of update PRs per week (not daily noise)
+      interval: weekly             
     cooldown:
-      default-days: 7              # wait 7 days after a release before bumping
+      default-days: 7              
     open-pull-requests-limit: 10   # cap concurrent dependency PRs so it can't flood us
     ignore:
       # Rails MAJOR upgrades (7 -> 8) are a deliberate manual project, not an
