@@ -42,8 +42,8 @@ updates:
     labels:
       - dependencies
     groups:
-      # Bundle all Rails framework gems into ONE PR instead of ~7 separate ones,
-      # because they must move together (same version) or the build breaks.
+      # If the Gemfile ever lists Rails component gems directly, keep them grouped into one PR.
+      # (Today Gemfile lists only `rails`, so this is mostly a no-op but harmless.)
       rails:
         patterns:
           - "rails"
