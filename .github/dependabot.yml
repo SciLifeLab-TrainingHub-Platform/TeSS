@@ -87,14 +87,6 @@ updates:
       - docker
 
   # ---------------------------------------------------------------------------
-  # 4) npm — JavaScript deps in package.json (we have package-lock.json).
+  # 4) (Optional) npm — enable if/when we add a package.json + lockfile.
   # ---------------------------------------------------------------------------
-  - package-ecosystem: npm
-    directory: "/"
-    schedule:
-      interval: weekly
-    cooldown:
-      default-days: 7
-    labels:
-      - dependencies
-      - javascript
+
