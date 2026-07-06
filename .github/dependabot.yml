@@ -86,6 +86,16 @@ updates:
       - dependencies
       - docker
 
+  - package-ecosystem: docker
+    directory: "/pg-backup"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    labels:
+      - dependencies
+      - docker
+
   # ---------------------------------------------------------------------------
   # 4) (Optional) npm — enable if/when we add a package.json + lockfile.
   # ---------------------------------------------------------------------------
