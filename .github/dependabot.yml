@@ -32,6 +32,13 @@ updates:
     cooldown:
       default-days: 7              # wait 7 days after a release before bumping
     open-pull-requests-limit: 10   # cap concurrent dependency PRs so it can't flood us
+    ignore:
+      # Rails MAJOR upgrades (7 -> 8) are a deliberate manual project, not an
+      # auto-merge (they need code/config/gem-compat changes). Dependabot still
+      # auto-bumps Rails 7.x patches/minors (which fix most CVEs); it just won't
+      # open the un-mergeable major-version PR. Remove this when we do the 8.x jump.
+      - dependency-name: "rails"
+        update-types: ["version-update:semver-major"]
     labels:
       - dependencies
     groups:
