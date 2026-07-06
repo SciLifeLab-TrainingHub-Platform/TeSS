@@ -53,3 +53,26 @@ three:
   contributors:
     - { "name": "Contributor 2", "orcid": "1234-1234-1234-1234", "affiliation": "Contributor 2 Affiliation" }
   user: regular_user
+
+approved_course:
+  title: "Introduction to Data Ethics"
+  description: "A foundational course on ethical data use and responsible AI practices."
+  language: "en"
+  keywords: ["ethics", "data", "ai"]
+  url: "https://www.example.com/data-ethics"
+  learning_outcomes: "Understand core principles of data ethics and responsible AI usage."
+  structure_and_duration: "5 modules over 3 weeks"
+  target_audience:
+    - Students
+    - Data Scientists
+    - AI Practitioners
+  prerequisites_knowledge: "Basic understanding of data systems"
+  prerequisites_technical: "None"
+  licence: "CC-BY-4.0"
+  course_status: approved
+  authors:
+    - { name: "Dr. Elena Rossi", email: "elena.rossi@example.com", orcid: "0000-0001-2345-6789", affiliation: "University of Example" }
+    - { name: "John Smith", email: "john.smith@example.com", orcid: "1234-5678-9012-3456", affiliation: "Tech Institute" }
+  contributors:
+    - { name: "Sarah Lee", orcid: "1111-2222-3333-4444", affiliation: "AI Ethics Lab" }
+  user: regular_user
