@@ -173,6 +173,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    csv (3.3.5)
     date (3.3.4)
     debug_inspector (1.1.0)
     device_detector (1.1.1)
@@ -238,7 +239,8 @@ GEM
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
-    httparty (0.21.0)
+    httparty (0.24.2)
+      csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     i18n (1.14.5)
@@ -376,7 +378,8 @@ GEM
       railties (>= 3.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
-    multi_xml (0.6.0)
+    multi_xml (0.9.1)
+      bigdecimal (>= 3.1, < 5)
     multipart-post (2.4.0)
     nested_form (0.3.2)
     net-http-persistent (4.0.4)
