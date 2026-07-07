@@ -87,18 +87,16 @@ module Ingestors
           event.timezone = tzid.first.to_s if tzid.present?
         end
 
+        # icalendar >= 2.10 returns location as an Icalendar::Values wrapper, not a
+        # String — coerce to a plain String once for the string operations.
         if calevent.location.present?
-          event.venue = calevent.location.to_s
-          if calevent.location.downcase.include?('online')
+          location = calevent.location.to_s
+          event.venue = location
+          if location.downcase.include?('online')
             event.online = true
             event.city = nil
             event.postcode = nil
             event.country = nil
-          else
-            location = convert_location(calevent.location)
-            event.city = location['suburb'] unless location['suburb'].nil?
-            event.country = location['country'] unless location['country'].nil?
-            event.postcode = location['postcode'] unless location['postcode'].nil?
           end
         end
 
