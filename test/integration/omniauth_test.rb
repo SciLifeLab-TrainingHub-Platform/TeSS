@@ -131,9 +131,12 @@ class OmniauthTest < ActionDispatch::IntegrationTest
         }
       })
 
-    get '/users/auth/oidc'
-
-    assert_response :not_found
+    # Devise 5 no longer registers a GET request-phase route (POST-only, via
+    # omniauth-rails_csrf_protection), so a GET raises RoutingError in tests
+    # instead of returning 404. Either way, a GET cannot initiate authentication.
+    assert_raises(ActionController::RoutingError) do
+      get '/users/auth/oidc'
+    end
   end
 
   test 'Can log in through AAF with multiple email addresses' do
@@ -338,9 +341,12 @@ class OmniauthTest < ActionDispatch::IntegrationTest
         }
       })
 
-    get '/users/auth/elixir_aai'
-
-    assert_response :not_found
+    # Devise 5 no longer registers a GET request-phase route (POST-only, via
+    # omniauth-rails_csrf_protection), so a GET raises RoutingError in tests
+    # instead of returning 404. Either way, a GET cannot initiate authentication.
+    assert_raises(ActionController::RoutingError) do
+      get '/users/auth/elixir_aai'
+    end
   end
 
   test 'Can log in through ELIXIR AAI with multiple email addresses' do
