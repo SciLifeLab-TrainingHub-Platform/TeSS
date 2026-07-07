@@ -1,0 +1,100 @@
+# Dependabot keeps our dependencies up to date automatically.
+# It checks each "ecosystem" below on a schedule, and when a newer version
+# (or a security fix) exists, it opens a Pull Request bumping it. We review
+# the PR, let CI run, and merge — instead of manually chasing updates.
+#
+# TARGET BRANCH: we deliberately do NOT set `target-branch` here. Dependabot
+# defaults to the repository's DEFAULT branch, so we keep a single source of
+# truth — the GitHub "default branch" setting — pointed at whatever rc-* is
+# currently active. When the release cycle moves (rc-1.6.0 -> rc-1.7.0), we just
+# update the default branch in GitHub settings ONCE; this file never changes.
+#
+# COOLDOWN: `cooldown.default-days: 7` tells Dependabot to wait 7 days after a
+# version is published before proposing it. This dodges compromised releases
+# (usually yanked within a day or two) and buggy .0 releases — supply-chain
+# safety.
+#
+# Docs: https://docs.github.com/code-security/dependabot/dependabot-version-updates
+version: 2
+
+updates:
+  # ---------------------------------------------------------------------------
+  # 1) Ruby gems (Gemfile / Gemfile.lock) — the most important one.
+  #    This is what keeps Rails and every gem on the latest stable release,
+  #    and delivers security patches as soon as they're published.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: bundler
+    directory: "/"                 # Gemfile lives at the repo root
+    schedule:
+      interval: weekly             
+    cooldown:
+      default-days: 7              
+    open-pull-requests-limit: 10   # cap concurrent dependency PRs so it can't flood us
+    ignore:
+      # Rails MAJOR upgrades (7 -> 8) are a deliberate manual project, not an
+      # auto-merge (they need code/config/gem-compat changes). Dependabot still
+      # auto-bumps Rails 7.x patches/minors (which fix most CVEs); it just won't
+      # open the un-mergeable major-version PR. Remove this when we do the 8.x jump.
+      - dependency-name: "rails"
+        update-types: ["version-update:semver-major"]
+    labels:
+      - dependencies
+    groups:
+      # If the Gemfile ever lists Rails component gems directly, keep them grouped into one PR.
+      # (Today Gemfile lists only `rails`, so this is mostly a no-op but harmless.)
+      rails:
+        patterns:
+          - "rails"
+          - "actioncable"
+          - "actionmailer"
+          - "actionpack"
+          - "actionview"
+          - "activejob"
+          - "activemodel"
+          - "activerecord"
+          - "activestorage"
+          - "activesupport"
+          - "railties"
+
+  # ---------------------------------------------------------------------------
+  # 2) GitHub Actions — the versions pinned in .github/workflows/*.yml
+  #    (e.g. actions/checkout@v4). Keeps our CI actions current and patched.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    labels:
+      - dependencies
+      - ci
+
+  # ---------------------------------------------------------------------------
+  # 3) Docker — base images in our Dockerfile (e.g. ruby:3.2.5-slim).
+  #    Picks up patched base images (security fixes in the OS layer).
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    labels:
+      - dependencies
+      - docker
+
+  - package-ecosystem: docker
+    directory: "/pg-backup"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    labels:
+      - dependencies
+      - docker
+
+  # ---------------------------------------------------------------------------
+  # 4) (Optional) npm — enable if/when we add a package.json + lockfile.
+  # ---------------------------------------------------------------------------
+
