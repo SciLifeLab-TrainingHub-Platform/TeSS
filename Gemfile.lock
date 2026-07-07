@@ -189,6 +189,7 @@ GEM
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    drb (2.2.3)
     ebnf (2.4.0)
       htmlentities (~> 4.3)
       rdf (~> 3.3)
@@ -363,7 +364,9 @@ GEM
     mime-types-data (3.2023.0808)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
-    minitest (5.19.0)
+    minitest (6.0.6)
+      drb (~> 2.0)
+      prism (~> 1.5)
     minitest-reporters (1.6.1)
       ansi
       builder
@@ -432,6 +435,7 @@ GEM
       racc
     pg (1.5.3)
     pr_geohash (1.0.0)
+    prism (1.9.0)
     private_address_check (0.5.0)
     pry (0.14.2)
       coderay (~> 1.1)
