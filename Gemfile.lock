@@ -776,7 +776,7 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
-    will_paginate (4.0.0)
+    will_paginate (4.0.1)
     yaml-ld (0.0.3)
       json-ld (~> 3.3)
       psych (>= 3.3)
