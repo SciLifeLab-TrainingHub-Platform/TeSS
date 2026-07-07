@@ -5,17 +5,21 @@
   <!-- Field: Disabled -->
   <%= f.input :visible, label: 'Show training?', input_html: { title: t('events.hints.visible') } %>
 
-  <div class="field <%= 'has-error' if @event.errors[:course].present? %>">
-    <%= f.label :course_id, "Catalogue entry (optional)", class: "control-label" %>
-    <%= f.collection_select :course_id, @courses, :id, :title,
-                            { include_blank: 'No catalogue entry' },
-                            { class: "js-select2", style: "width: 100%;" } %>
-    <% if @event.errors[:course].present? %>
-      <span class="help-block small">
-        <%= @event.errors[:course].join(', ') %>
-      </span>
-    <% end %>
-  </div>
+  <% if @show_prefill %>
+    <%= f.hidden_field :course_id %>
+  <% else %>
+    <div class="field <%= 'has-error' if @event.errors[:course].present? %>">
+      <%= f.label :course_id, "Catalogue entry (optional)", class: "control-label" %>
+      <%= f.collection_select :course_id, @courses, :id, :title,
+                              { include_blank: 'No catalogue entry' },
+                              { class: "js-select2", style: "width: 100%;" } %>
+      <% if @event.errors[:course].present? %>
+        <span class="help-block small">
+          <%= @event.errors[:course].join(', ') %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
 
   <!-- Field: presence -->
   <div class="form-group">

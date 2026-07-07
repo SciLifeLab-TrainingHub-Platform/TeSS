@@ -371,10 +371,10 @@ class EventsController < ApplicationController
     courses = Course.approved.select(:id, :title, :slug).order(:title).limit(100).to_a
     selected_course, selected_course_source = selected_course_for_event_form
 
-    if selected_course.present? && courses.none? { |course| course.id == selected_course.id }
-      if selected_course_source == :event || visible_selected_course?(selected_course, selected_course_source)
-        courses << selected_course
-      end
+    if selected_course.present? &&
+       courses.none? { |course| course.id == selected_course.id } &&
+       (selected_course_source == :event || visible_selected_course?(selected_course, selected_course_source))
+      courses << selected_course
       courses.sort_by! { |course| course.title.to_s.downcase }
     end
 

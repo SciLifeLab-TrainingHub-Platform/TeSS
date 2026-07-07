@@ -200,7 +200,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_select '.help-block', text: I18n.t('events.prefill.course_not_approved')
   end
 
-  test 'new prefill keeps selected course in form selector when outside approved course query' do
+  test 'new prefill keeps selected course in hidden event form field when outside approved course query' do
     sign_in users(:regular_user)
     course = courses(:one)
     course.update_column(:course_status, Course.course_statuses[:approved])
@@ -211,9 +211,10 @@ class EventsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_equal course.id, assigns(:event).course_id
-    assert_select 'select#event_course_id' do
-      assert_select "option[value=\"#{course.id}\"][selected]", text: course.title
-    end
+    assert_select 'select#prefill_course_select'
+    assert_select 'select#event_course_id', count: 0
+    assert_select 'label[for=?]', 'event_course_id', count: 0
+    assert_select 'input#event_course_id[type=hidden][name=?][value=?]', 'event[course_id]', course.id.to_s
   end
 
   test 'should get new page for logged in users only' do
@@ -465,15 +466,20 @@ class EventsControllerTest < ActionController::TestCase
     assert_nil @event.reload.course_id
   end
 
-  test 'failed update keeps submitted course selected in form selector' do
+  test 'failed update keeps submitted visible unapproved course selected in form selector' do
     course = courses(:one)
     course.update_column(:course_status, Course.course_statuses[:awaiting_review])
     @event.update_column(:course_id, nil)
+
+    assert_equal 'awaiting_review', course.reload.course_status
+    assert_not Course.approved.exists?(course.id)
 
     sign_in @event.user
     patch :update, params: { id: @event, event: @mandatory_fields.merge(@updated_event).merge(title: '', course_id: course.id) }
 
     assert_response :success
+    assert assigns(:event).errors[:title].present?
+    assert_equal course.id, assigns(:event).course_id
     assert_select 'select#event_course_id' do
       assert_select "option[value=\"#{course.id}\"][selected]", text: course.title
     end
