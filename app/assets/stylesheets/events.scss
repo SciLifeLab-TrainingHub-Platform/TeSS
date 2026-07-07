@@ -36,6 +36,31 @@
   }
 }
 
+#course-interest-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #666;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+
+#course-interest-toggle:checked::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #337ab7;
+  top: 2px;
+  left: 2px;
+  border-radius: 50%;
+}
+
 @import "events/details/actions";
 @import "events/details/layout";
 @import "events/details/typography";

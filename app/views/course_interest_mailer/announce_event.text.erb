@@ -22,5 +22,8 @@ A new training opportunity related to the course "<%= @course.title %>" that you
 You can view full details of this training event here:
 <%= event_url(@event) %>
 
+If you no longer wish to receive notifications for the course “<%= @course.title %>”, you can unsubscribe using the link below:
+<%= @confirmation_cancellation_url %>
+
 Best regards,
 The Training Hub Team

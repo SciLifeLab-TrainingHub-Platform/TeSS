@@ -15,9 +15,11 @@ module Notifications
       end
       # course interest email to all subscribers
       if @event.course.present?
-        emails = CourseInterest.find_all_subscribed_emails(@event.course)
-        emails.each do |email|
-          CourseInterestMailer.announce_event(@event, email).deliver_later
+        CourseInterest.subscribed_for_course(@event.course).find_each do |interest|
+          # no expiry
+          token = interest.signed_id(CourseInterest::TOKEN_PURPOSE_UNSUBSCRIPTION)
+          email = interest.user&.email.presence || interest.email
+          CourseInterestMailer.announce_event(@event, email, token).deliver_later
         end
       end
         # event publishing message on slack

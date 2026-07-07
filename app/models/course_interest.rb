@@ -178,22 +178,8 @@ class CourseInterest < ApplicationRecord
     RESULT_UNSUBSCRIBED
   end
 
-  def self.find_all_subscribed_emails(course)
-    interested_interests = CourseInterest.where(course: course)
-                                         .includes(:user)
-
-    subscribed_interest = interested_interests.select(&:subscribed?)
-    subscriber_emails = subscribed_interest.map do |interest|
-
-      if interest.user_id.present? && interest.user&.email.present?
-        interest.user.email
-      elsif interest.email.present?
-        interest.email
-      else
-        nil
-      end
-    end.compact.uniq
-    return subscriber_emails
+  def self.subscribed_for_course(course)
+    where(course: course).includes(:user).select(&:subscribed?)
   end
 
   private

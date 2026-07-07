@@ -44,12 +44,23 @@
   </ul>
 
   <p style="margin-top: 20px;">
-    You can view full details of this training event using the link below:
+    You can view full details of this training event using the link:
     <a href="<%= event_url(@event) %>"
        style="color: #045C64; text-decoration: underline; font-weight: bold;">
       View Event
     </a>
   </p>
+
+  <p style="margin-top: 24px;">
+    If you no longer wish to receive notifications for the course
+    <strong><%= @course.title %></strong>,
+    you can unsubscribe by clicking the link below.
+  </p>
+
+  <a href="<%= @confirmation_cancellation_url %>"
+     style="color: #045C64; text-decoration: underline; font-weight: bold;">
+    Unsubscribe from this course
+  </a>
 
   <p>
     Best regards,<br>
