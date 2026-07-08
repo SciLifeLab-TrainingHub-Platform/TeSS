@@ -93,5 +93,19 @@ jobs:
           rm -rf db/migrate
           mv db/migrate.bkp db/migrate
 
+      - name: Restore this PR's schema.rb
+        # After loading the previous schema above, put this PR's committed
+        # schema.rb back as the baseline for the drift check below.
+        run: git checkout HEAD -- db/schema.rb
+
       - name: Run migrations
         run: bundle exec rails db:migrate
+
+      - name: Fail if db/schema.rb drifted from the migrations
+        # db:migrate re-dumps db/schema.rb; if it differs from the committed one,
+        # the schema is out of sync with the migrations.
+        run: |
+          if ! git diff --exit-code db/schema.rb; then
+            echo "::error::db/schema.rb is out of sync with the migrations. Run 'bin/rails db:migrate' locally and commit the updated db/schema.rb."
+            exit 1
+          fi
