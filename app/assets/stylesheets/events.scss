@@ -61,6 +61,11 @@
   border-radius: 50%;
 }
 
+#courseSubscriptionModal .modal-header {
+  border-bottom: none;
+  text-align: center;
+}
+
 @import "events/details/actions";
 @import "events/details/layout";
 @import "events/details/typography";

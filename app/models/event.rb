@@ -690,7 +690,7 @@ class Event < ApplicationRecord
     ApprovalLifecycle.new(
       self,
       notifier: Notifications::EventNotifier.new(self)
-    ).after_status_change if publishable?
+    ).after_status_change
   end
 
   def after_switch_to_more_mandatory_fields?

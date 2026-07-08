@@ -593,16 +593,18 @@ class CourseInterestTest < ActiveSupport::TestCase
     )
   end
 
-  test "returns emails only for subscribed interests with user email" do
+  test "returns subscribed interests with both user and anonymous emails" do
     remove_existing_interest
     CourseInterest.create!(course: @course, user: @user1, status: :subscribed)
     CourseInterest.create!(course: @course, user: @user2, status: :subscribed)
     CourseInterest.create!(course: @course, email: 'test@example.com', status: :subscribed)
 
-    result = CourseInterest.find_all_subscribed_emails(@course)
-    assert_includes result, @user1.email
-    assert_includes result, @user2.email
-    assert_includes result, "test@example.com"
+    result = CourseInterest.subscribed_for_course(@course)
+
+    emails = result.map { |interest| interest.user&.email || interest.email }
+    assert_includes emails, @user1.email
+    assert_includes emails, @user2.email
+    assert_includes emails, "test@example.com"
   end
 
   test "ignores non subscribed interests" do
@@ -610,8 +612,8 @@ class CourseInterestTest < ActiveSupport::TestCase
     CourseInterest.create!(course: @course, user: @user1, status: :pending_subscription)
     CourseInterest.create!(course: @course, user: @user2, status: :unsubscribed)
     CourseInterest.create!(course: @course, email: 'test@example.com', status: :pending_unsubscription)
-    result = CourseInterest.find_all_subscribed_emails(@course)
-    assert_equal [], result
+    result = CourseInterest.subscribed_for_course(@course)
+    assert_equal [], result.to_a
   end
 
   test "only fetches interests for given course" do
@@ -619,8 +621,8 @@ class CourseInterestTest < ActiveSupport::TestCase
     other_course = courses(:two)
     CourseInterest.create!(course: @course, user: @user1, status: :subscribed)
     CourseInterest.create!(course: other_course, user: @user2, status: :subscribed)
-    result = CourseInterest.find_all_subscribed_emails(@course)
-    assert_equal [@user1.email], result
+    result = CourseInterest.subscribed_for_course(@course)
+    assert_equal [@user1.email], result.map { |interest| interest.user.email }
   end
 
   private

@@ -179,7 +179,7 @@ class CourseInterest < ApplicationRecord
   end
 
   def self.subscribed_for_course(course)
-    where(course: course).includes(:user).select(&:subscribed?)
+    where(course: course, status: :subscribed).includes(:user)
   end
 
   private
