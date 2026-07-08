@@ -610,3 +610,5 @@ course_interest_mail_event:
   target_audience: ["Students", "Participants"]
   learning_objectives: "Notify users about course updates"
   registration_form_url: "http://example.com/register"
+  start: 2015-11-23 10:16:33
+  end: 2015-11-23 10:16:33
