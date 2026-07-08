@@ -9,6 +9,9 @@ name: Gem audit
 # findings for visibility; once the backlog is cleared, remove `continue-on-error`
 # to make it a required, blocking gate.
 
+permissions:
+  contents: read
+
 on:
   push:
     paths:
