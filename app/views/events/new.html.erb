@@ -7,7 +7,7 @@
     <%= render :partial => "events/partials/general_event_info" %>
   </div>
   <div class="col-md-8 col-md-pull-4">
-    <% if @show_prefill %>
+    <% if @show_prefill_picker %>
       <%= form_tag new_event_path, method: :get do %>
         <div class="form-group<%= ' has-error' if @prefill_error.present? %>">
           <label class="control-label">Prefill training from Catalogue</label>

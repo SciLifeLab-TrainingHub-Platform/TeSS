@@ -211,7 +211,9 @@ class EventsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_equal course.id, assigns(:event).course_id
-    assert_select 'select#prefill_course_select'
+    assert_select 'select#prefill_course_select' do
+      assert_select 'option[value=?][selected]', course.to_param, text: course.title
+    end
     assert_select 'select#event_course_id', count: 0
     assert_select 'label[for=?]', 'event_course_id', count: 0
     assert_select 'input#event_course_id[type=hidden][name=?][value=?]', 'event[course_id]', course.id.to_s

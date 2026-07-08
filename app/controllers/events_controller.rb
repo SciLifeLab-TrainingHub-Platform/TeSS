@@ -354,7 +354,8 @@ class EventsController < ApplicationController
   end
 
   def set_event_dependencies
-    @show_prefill = params[:id].blank?
+    @show_prefill_picker = params[:id].blank?
+    @show_catalogue_entry_selector = !@show_prefill_picker
     @venues = Venue.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
@@ -371,14 +372,21 @@ class EventsController < ApplicationController
     courses = Course.approved.select(:id, :title, :slug).order(:title).limit(100).to_a
     selected_course, selected_course_source = selected_course_for_event_form
 
-    if selected_course.present? &&
-       courses.none? { |course| course.id == selected_course.id } &&
-       (selected_course_source == :event || visible_selected_course?(selected_course, selected_course_source))
-      courses << selected_course
-      courses.sort_by! { |course| course.title.to_s.downcase }
-    end
+    return courses unless append_selected_course_to_form_options?(courses, selected_course, selected_course_source)
+
+    courses << selected_course
+    courses.sort_by! { |course| course.title.to_s.downcase }
 
     courses
+  end
+
+  def append_selected_course_to_form_options?(courses, selected_course, selected_course_source)
+    return false if selected_course.blank?
+    return false if courses.any? { |course| course.id == selected_course.id }
+    return false if selected_course_source == :prefill_params && !selected_course.approved?
+    return true if selected_course_source == :event
+
+    policy(selected_course).show?
   end
 
   def selected_course_for_event_form
@@ -401,17 +409,11 @@ class EventsController < ApplicationController
   end
 
   def selected_course_from_prefill_params
-    return unless @show_prefill && params[:course_id].present?
+    return unless @show_prefill_picker && params[:course_id].present?
 
     Course.friendly.includes(:user).find(params[:course_id])
   rescue ActiveRecord::RecordNotFound
     nil
-  end
-
-  def visible_selected_course?(course, source)
-    return false if source == :prefill_params && !course.approved?
-
-    policy(course).show?
   end
 
   def formatNodeIdsForRadio
