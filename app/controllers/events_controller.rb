@@ -104,7 +104,6 @@ class EventsController < ApplicationController
     @selected_topics_ids = []
     @selected_content_providers_id = []
     @prefill_error = 'Please select a catalogue entry first.' if params[:prefill].present? && params[:course_id].blank?
-    @prefill_course = load_prefill_course
     apply_course_prefill if @prefill_course
   end
 
@@ -356,6 +355,7 @@ class EventsController < ApplicationController
   def set_event_dependencies
     @show_prefill_picker = params[:id].blank?
     @show_catalogue_entry_selector = !@show_prefill_picker
+    @prefill_course = load_prefill_course if @show_prefill_picker
     @venues = Venue.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
@@ -383,8 +383,7 @@ class EventsController < ApplicationController
   def append_selected_course_to_form_options?(courses, selected_course, selected_course_source)
     return false if selected_course.blank?
     return false if courses.any? { |course| course.id == selected_course.id }
-    return false if selected_course_source == :prefill_params && !selected_course.approved?
-    return true if selected_course_source == :event
+    return true if %i[event prefill].include?(selected_course_source)
 
     policy(selected_course).show?
   end
@@ -394,8 +393,8 @@ class EventsController < ApplicationController
       [course, :event_params]
     elsif @event&.course.present?
       [@event.course, :event]
-    elsif (course = selected_course_from_prefill_params)
-      [course, :prefill_params]
+    elsif @prefill_course
+      [@prefill_course, :prefill]
     else
       [nil, nil]
     end
@@ -408,14 +407,6 @@ class EventsController < ApplicationController
     Course.includes(:user).find_by(id: course_id)
   end
 
-  def selected_course_from_prefill_params
-    return unless @show_prefill_picker && params[:course_id].present?
-
-    Course.friendly.includes(:user).find(params[:course_id])
-  rescue ActiveRecord::RecordNotFound
-    nil
-  end
-
   def formatNodeIdsForRadio
     params[:event][:node_ids] = Array(params[:event][:node_ids])
   end
@@ -424,7 +415,7 @@ class EventsController < ApplicationController
     return nil if params[:event].present?
     return nil if params[:course_id].blank?
 
-    course = Course.friendly.includes(:content_providers).find(params[:course_id])
+    course = Course.friendly.includes(:content_providers, :user).find(params[:course_id])
     unless course.approved?
       @prefill_error = I18n.t('events.prefill.course_not_approved')
       return nil
