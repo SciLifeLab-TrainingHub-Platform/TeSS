@@ -7,7 +7,7 @@ name: Gem audit
 # a pre-existing backlog of advisories (some only fixable via the Rails 7 -> 8
 # upgrade), so failing every PR now would block all work. The job reports the
 # findings for visibility; once the backlog is cleared, remove `continue-on-error`
-# to make it a required, blocking gate. Tracked in engineering-standards-todo.md.
+# to make it a required, blocking gate.
 
 on:
   push:
