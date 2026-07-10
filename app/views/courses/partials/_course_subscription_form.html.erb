@@ -3,58 +3,53 @@
               local: true,
               id: "subscription-form" do |f| %>
 
+  <!-- Email + button -->
   <div class="input-group">
-
-    <!-- Visible checkbox -->
-    <span class="input-group-addon">
-      <input type="checkbox"
-             id="course-interest-toggle"
-             checked>
-    </span>
-
-    <!-- Email -->
     <%= f.email_field :email,
                       class: "form-control",
                       placeholder: "Email address",
                       required: true %>
 
-
-    <!-- Hidden checkbox submitted with the form -->
     <%= check_box_tag :action_type,
                       CourseInterest::ACTION_REQUEST_SUBSCRIBE,
                       true,
                       id: "course-interest-action-type",
                       hidden: true %>
 
-    <!-- Button -->
     <span class="input-group-btn">
       <button type="submit"
               class="btn btn-primary"
-              id="course-interest-submit-button"
-      >
+              id="course-interest-submit-button">
         Subscribe
       </button>
     </span>
+  </div>
 
+  <!-- Checkbox underneath -->
+  <div class="course-interest-toggle">
+    <label for="course-interest-toggle" class="checkbox-label">
+      <input type="checkbox"
+             id="course-interest-toggle"
+             checked>
+      Email me when new training events for this course are published
+    </label>
   </div>
 
 <% end %>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("turbolinks:load", function () {
         const toggle = document.getElementById("course-interest-toggle");
         const actionType = document.getElementById("course-interest-action-type");
         const button = document.getElementById("course-interest-submit-button");
+        if (!toggle || !actionType || !button) return;
 
         function updateUI() {
-            actionType.checked = true; // Always submit the field
+            actionType.checked = true;
             actionType.value = toggle.checked
                 ? "<%= CourseInterest::ACTION_REQUEST_SUBSCRIBE %>"
                 : "<%= CourseInterest::ACTION_REQUEST_UNSUBSCRIBE %>";
-
-            button.textContent = toggle.checked
-                ? "Subscribe"
-                : "Unsubscribe";
+            button.textContent = toggle.checked ? "Subscribe" : "Unsubscribe";
         }
 
         updateUI();

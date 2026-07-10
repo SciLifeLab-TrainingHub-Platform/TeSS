@@ -132,7 +132,7 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
     course.save!
     course.reload
 
-    # these interest are status: :subscribed and should recieve email
+    # these interest are status: :subscribed and should receive email
     course_interest1 = CourseInterest.create!(
       course: course,
       email: "alice@example.com",

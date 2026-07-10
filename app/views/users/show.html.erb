@@ -139,8 +139,9 @@
       <% collections_count = @user.collections.visible_by(current_user).count %>
       <% courses = filter_courses_by_status(@user.courses.limit(resource_limit), current_user) %>
       <% courses_count = filter_courses_by_status(@user.courses, current_user).count %>
-      <% interested_user_courses = Course.interested_by(@user) %>
-      <% interested_user_courses_count = interested_user_courses.size %>
+      <% interested_user_courses_scope = Course.interested_by(@user) %>
+      <% interested_user_courses = interested_user_courses_scope.limit(resource_limit) %>
+      <% interested_user_courses_count = interested_user_courses_scope.count %>
       <% activator = tab_activator %>
 
       <ul class="nav nav-tabs">
@@ -211,6 +212,7 @@
                                view_all_link: courses_path(user: @user.username) } %>
         <% end %>
 
+
         <!-- Tab: Interested Courses -->
         <% if TeSS::Config.feature['courses'] %>
           <%= render partial: 'common/associated_resources',
@@ -220,7 +222,7 @@
                                resources: interested_user_courses,
                                activator: activator,
                                name: "Training Interests",
-                               view_all_link: courses_path(user: @user.username) } %>
+                               view_all_link: nil } %>
         <% end %>
 
         <!-- Tab: Materials -->

@@ -18,7 +18,7 @@ class CourseInterestTest < ActiveSupport::TestCase
 
   test 'is valid with user' do
     interest = @course.course_interests.create!(
-      user: @user
+      user: @user1
     )
     assert interest.persisted?
   end
@@ -345,6 +345,7 @@ class CourseInterestTest < ActiveSupport::TestCase
   end
 
   test 'request_subscribe! converts pending unsubscription to pending subscription' do
+    remove_existing_interest
     email = 'test5@example.com'
     interest = @course.course_interests.create!(
       email: email,
@@ -371,82 +372,53 @@ class CourseInterestTest < ActiveSupport::TestCase
       course: @course,
       email: nil
     )
+
     assert_equal CourseInterest::RESULT_INVALID, result
     assert_nil interest
   end
 
-  test 'request_unsubscribe! returns not subscribed when interest does not exist' do
+  test 'request_unsubscribe! returns not subscribed when no interest exists' do
     result, interest = CourseInterest.request_unsubscribe!(
       course: @course,
-      email: 'missinginterest_email@example.com'
+      email: 'missing@example.com'
     )
+
     assert_equal CourseInterest::RESULT_NOT_SUBSCRIBED, result
     assert_nil interest
   end
 
-  test 'request_unsubscribe! returns pending when interest is already pending unsubscription' do
-    email = 'test_pending_unsubscription@example.com'
+  test 'request_unsubscribe! returns not subscribed for an unsubscribed interest' do
     interest = @course.course_interests.create!(
-      email: email,
-      status: :pending_unsubscription
-    )
-    result, returned_interest = CourseInterest.request_unsubscribe!(
-      course: @course,
-      email: email
-    )
-    assert_equal CourseInterest::RESULT_PENDING, result
-    assert_equal interest, returned_interest
-  end
-
-  test 'request_unsubscribe! converts pending subscription to pending unsubscription' do
-    email = 'test_pending_subscription@example.com'
-    interest = @course.course_interests.create!(
-      email: email,
-      status: :pending_subscription
-    )
-    assert_no_difference('CourseInterest.count') do
-      result, returned_interest = CourseInterest.request_unsubscribe!(
-        course: @course,
-        email: email
-      )
-      assert_equal CourseInterest::RESULT_PENDING, result
-      assert_equal interest, returned_interest
-    end
-    interest.reload
-    assert_equal 'pending_unsubscription', interest.status
-  end
-
-  test 'request_unsubscribe! returns not subscribed when interest is unsubscribed' do
-    email = 'test_not_subscribed@example.com'
-    @course.course_interests.create!(
-      email: email,
+      email: 'user@example.com',
       status: :unsubscribed
     )
-    result, interest = CourseInterest.request_unsubscribe!(
+
+    result, returned_interest = CourseInterest.request_unsubscribe!(
       course: @course,
-      email: email
+      email: interest.email
     )
+
     assert_equal CourseInterest::RESULT_NOT_SUBSCRIBED, result
-    assert_nil interest
+    assert_nil returned_interest
   end
 
-  test 'request_unsubscribe! updates subscribed interest to pending unsubscription' do
-    email = 'test_updates_subscribed@example.com'
+  test 'request_unsubscribe! returns pending without changing the interest status' do
     interest = @course.course_interests.create!(
-      email: email,
+      email: 'user@example.com',
       status: :subscribed,
       subscribed_at: Time.current
     )
-    assert_no_difference('CourseInterest.count') do
-      result, returned_interest = CourseInterest.request_unsubscribe!(
-        course: @course,
-        email: email
-      )
-      assert_equal CourseInterest::RESULT_PENDING, result
-      assert_equal interest, returned_interest
-    end
+
+    result, returned_interest = CourseInterest.request_unsubscribe!(
+      course: @course,
+      email: interest.email
+    )
+
+    assert_equal CourseInterest::RESULT_PENDING, result
+    assert_equal interest, returned_interest
+
     interest.reload
-    assert_equal 'pending_unsubscription', interest.status
+    assert_equal 'subscribed', interest.status
   end
 
   # confirm_subscription
@@ -532,21 +504,6 @@ class CourseInterestTest < ActiveSupport::TestCase
     assert_not_nil interest.unsubscribed_at
   end
 
-  test 'confirm_unsubscription returns already subscribed when interest is already subscribed' do
-    interest = @course.course_interests.create!(
-      email: 'test9@example.com',
-      status: :subscribed,
-      subscribed_at: Time.current
-    )
-
-    result = CourseInterest.confirm_unsubscription(interest)
-
-    assert_equal CourseInterest::RESULT_ALREADY_SUBSCRIBED, result
-
-    interest.reload
-    assert_equal 'subscribed', interest.status
-    assert_not_nil interest.subscribed_at
-  end
 
   test 'confirm_unsubscription unsubscribes a pending subscription interest' do
     interest = @course.course_interests.create!(
@@ -564,10 +521,11 @@ class CourseInterestTest < ActiveSupport::TestCase
     assert_not_nil interest.unsubscribed_at
   end
 
-  test 'confirm_unsubscription unsubscribes a pending unsubscription interest' do
+  test 'confirm_unsubscription unsubscribes a subscribed interest' do
     interest = @course.course_interests.create!(
       email: 'test11@example.com',
-      status: :pending_unsubscription
+      status: :subscribed,
+      subscribed_at: Time.current
     )
 
     result = CourseInterest.confirm_unsubscription(interest)

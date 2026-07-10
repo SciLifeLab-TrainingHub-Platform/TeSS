@@ -183,9 +183,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_26_141944) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id", "user_id"], name: "index_course_interests_on_course_id_and_user_id"
+    t.index ["course_id", "email"], name: "index_course_interests_on_course_id_and_email", unique: true, where: "(email IS NOT NULL)"
+    t.index ["course_id", "user_id"], name: "index_course_interests_on_course_id_and_user_id", unique: true, where: "(user_id IS NOT NULL)"
     t.index ["course_id"], name: "index_course_interests_on_course_id"
-    t.index ["email"], name: "index_course_interests_on_email"
     t.index ["user_id"], name: "index_course_interests_on_user_id"
   end
 

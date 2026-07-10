@@ -8,26 +8,26 @@ module Notifications
 
     def publish
       # event publishing email
-      UserMailer.event_published(@event).deliver_later if @event.publishable?
+      UserMailer.event_published(@event).deliver_later
       # content providers notification email
-      if @event.publishable?
-        @event.content_providers&.each do |cp|
-          ContentProviderMailer.event_content_provider_notification(@event, cp).deliver_later
-        end
+      @event.content_providers&.each do |cp|
+        ContentProviderMailer.event_content_provider_notification(@event, cp).deliver_later
       end
+      # event publishing message on slack
+      Notifications::Slack::SlackEventPublished.new(@event).call
+
       # course interest email to all subscribers
       if @event.course.present?
         CourseInterest.subscribed_for_course(@event.course).find_each do |interest|
           # no expiry
           token = interest.signed_id(
-            purpose: CourseInterest::TOKEN_PURPOSE_UNSUBSCRIPTION
+            purpose: CourseInterest::TOKEN_PURPOSE_UNSUBSCRIPTION,
+            expires_in: CourseInterestService::COURSE_INTEREST_TOKEN_EXPIRY
           )
           email = interest.user&.email.presence || interest.email
           CourseInterestMailer.announce_event(@event, email, token).deliver_later
         end
       end
-      # event publishing message on slack
-      Notifications::Slack::SlackEventPublished.new(@event).call if @event.publishable?
     end
 
     def review

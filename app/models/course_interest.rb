@@ -127,11 +127,10 @@ class CourseInterest < ApplicationRecord
 
     return [RESULT_NOT_SUBSCRIBED, nil] if interest.blank?
     return [RESULT_NOT_SUBSCRIBED, nil] if interest.unsubscribed?
-    return [RESULT_PENDING, interest] if interest.pending_unsubscription?
-
-    # subscribed or pending_subscription
-    interest.update!(status: :pending_unsubscription)
-
+    # Do not change the interest status here.
+    # The unsubscribe request must be confirmed via email before the subscription is cancelled.
+    # Keeping the current status prevents unauthorised users from affecting another user's
+    # subscription by submitting their email address.
     [RESULT_PENDING, interest]
   end
 
@@ -159,15 +158,13 @@ class CourseInterest < ApplicationRecord
   # only for non-logged in user
   # record transition should be as follow
   #  - nil -> no status change return with RESULT_INVALID
-  #  - "subscribed" -> no status change return with RESULT_ALREADY_SUBSCRIBED
-  #  - "unsubscribed" -> no status change return with RESULT_ALREADY_UNSUBSCRIBED
-  #  - "pending_unsubscription" -> "unsubscribed" (latest intent wins)
+  #  - "subscribed" -> "unsubscribed"
+  #  - "unsubscribed" -> no status change return RESULT_ALREADY_UNSUBSCRIBED
   #  - "pending_subscription" -> "unsubscribed" (latest intent wins)
   def self.confirm_unsubscription(interest)
     return RESULT_INVALID if interest.nil?
 
     return RESULT_ALREADY_UNSUBSCRIBED if interest.status == "unsubscribed"
-    return RESULT_ALREADY_SUBSCRIBED if interest.status == "subscribed"
 
     interest.update!(
       status: :unsubscribed,

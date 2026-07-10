@@ -29,36 +29,23 @@
   padding-top: 100px;
 }
 
-.event-info-button-popover + .popover[role = tooltip] {
-  margin-right: 20px;
-  .arrow {
-    left: 90%;
-  }
+.course-interest-toggle {
+  margin-top: 10px;
 }
 
-#course-interest-toggle {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #666;
-  border-radius: 50%;
-  background: #fff;
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: normal;
   cursor: pointer;
-  display: inline-block;
-  vertical-align: middle;
-  position: relative;
 }
 
-#course-interest-toggle:checked::after {
-  content: "";
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: #337ab7;
-  top: 2px;
-  left: 2px;
-  border-radius: 50%;
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
 }
 
 #courseSubscriptionModal .modal-header {

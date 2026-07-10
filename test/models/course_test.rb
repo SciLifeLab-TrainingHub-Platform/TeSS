@@ -253,6 +253,7 @@ class CourseTest < ActiveSupport::TestCase
   end
 
   test "subscribed_by? returns true for subscribed user" do
+    CourseInterest.delete_all
     course = courses(:one)
     user = users(:regular_user)
     course.course_interests.create!(
@@ -263,6 +264,7 @@ class CourseTest < ActiveSupport::TestCase
   end
 
   test "subscribed_by? returns false for unsubscribed user" do
+    CourseInterest.delete_all
     course = courses(:one)
     user = users(:regular_user)
     course.course_interests.create!(
@@ -273,6 +275,7 @@ class CourseTest < ActiveSupport::TestCase
   end
 
   test "subscribed_by? returns false for user with pending subscription" do
+    CourseInterest.delete_all
     course = courses(:one)
     user = users(:regular_user)
     course.course_interests.create!(
@@ -283,6 +286,7 @@ class CourseTest < ActiveSupport::TestCase
   end
 
   test "subscribed_by? returns false for different user" do
+    CourseInterest.delete_all
     course = courses(:one)
     subscribed_user = users(:regular_user)
     other_user = users(:another_regular_user)
@@ -295,6 +299,7 @@ class CourseTest < ActiveSupport::TestCase
 
   # interested_by tests
   test "interested_by returns courses where user is subscribed" do
+    CourseInterest.delete_all
     course1 = courses(:one)
     course2 = courses(:two)
     course3 = courses(:three)
@@ -341,6 +346,7 @@ class CourseTest < ActiveSupport::TestCase
   end
 
   test "interested_by returns distinct courses" do
+    CourseInterest.delete_all
     course = courses(:one)
 
     CourseInterest.create!(
@@ -351,7 +357,7 @@ class CourseTest < ActiveSupport::TestCase
 
     CourseInterest.create!(
       course: course,
-      user: @user,
+      user: users(:another_regular_user),
       status: :subscribed
     )
 
