@@ -89,4 +89,15 @@ Rails.application.configure do
   config.action_dispatch.default_headers = {
     'X-Frame-Options' => 'SAMEORIGIN'
   }
+
+  # Opt-in local email testing: when MAILPIT_ENABLED=true, route all mail to the
+  # Mailpit container (see docker-compose.yml). View the inbox at
+  # http://localhost:8025. This works with deliver_later because Sidekiq delivers
+  # over SMTP to the mailpit host. Leaving it unset preserves the delivery
+  # settings configured above.
+  if ENV['MAILPIT_ENABLED'] == 'true'
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = { address: ENV.fetch('MAILPIT_HOST', 'mailpit'), port: 1025 }
+    config.action_mailer.perform_deliveries = true
+  end
 end
