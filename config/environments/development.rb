@@ -97,7 +97,7 @@ Rails.application.configure do
   # settings configured above.
   if ENV['MAILPIT_ENABLED'] == 'true'
     config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = { address: ENV.fetch('MAILPIT_HOST', 'mailpit'), port: 1025 }
+    config.action_mailer.smtp_settings = { address: ENV['MAILPIT_HOST'].presence || 'mailpit', port: 1025 }
     config.action_mailer.perform_deliveries = true
   end
 end

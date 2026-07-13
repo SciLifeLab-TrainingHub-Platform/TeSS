@@ -51,7 +51,7 @@ services:
     ports:
       - '8984:8983'
   # Local email testing: fake SMTP server + web inbox at http://localhost:8025.
-  # Enable delivery to it by setting MAILPIT_ENABLED=true (see env.sample).
+  # Set MAILPIT_ENABLED=true to route development mail to it (see env.sample).
   mailpit:
     container_name: ${PREFIX}-mailpit
     image: axllent/mailpit:v1.30
