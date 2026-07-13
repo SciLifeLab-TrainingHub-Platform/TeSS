@@ -40,7 +40,6 @@ reviews:
       - "WIP"
       - "DO NOT MERGE"
       - "[skip ci]"
-      
     base_branches:
       - "rc-.*"
     # Bots open mechanical PRs that do not benefit from AI review.
