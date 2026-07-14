@@ -20,7 +20,8 @@ class CourseInterestsController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     redirect_to courses_path, alert: "Course not found"
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.error "Course interest creation error: #{e.class} - #{e.message}"
     redirect_to course_path(params[:course_id]), alert: "Something went wrong. Please try again."
   end
 
@@ -44,8 +45,8 @@ class CourseInterestsController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     redirect_to courses_path, alert: "Course not found"
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.error "Course interest destroy error: #{e.class} - #{e.message}"
     redirect_to course_path(params[:course_id]), alert: "Something went wrong. Please try again."
   end
-
 end

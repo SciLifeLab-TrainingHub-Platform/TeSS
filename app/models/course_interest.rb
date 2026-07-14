@@ -1,5 +1,11 @@
 class CourseInterest < ApplicationRecord
 
+  # Email is required and must be valid format only for guest interests (no linked user);
+  # registered users' emails come from the User record instead
+  validates :email, presence: true,
+            format: { with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email address" },
+            if: -> { user_id.blank? }
+
   # the subscription status a course_interest can have
   # it should follow the following logic
   # for logged in user

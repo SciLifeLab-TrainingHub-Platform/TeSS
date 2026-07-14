@@ -36,8 +36,10 @@ class CourseSubscriptionsController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     redirect_to courses_path, alert: "Course not found"
-
-  rescue StandardError
+  rescue ActiveRecord::RecordInvalid => e
+    redirect_to course_path(course), alert: e.record.errors.full_messages.to_sentence
+  rescue StandardError => e
+    Rails.logger.error "Course subscription request error: #{e.class} - #{e.message}"
     redirect_to course_path(course), alert: "Something went wrong. Please try again."
   end
 
@@ -65,11 +67,10 @@ class CourseSubscriptionsController < ApplicationController
 
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     redirect_to course_path(course), alert: "Invalid or expired confirmation link"
-
   rescue ActiveRecord::RecordNotFound
     redirect_to courses_path, alert: "Course not found"
-
   rescue StandardError => e
+    Rails.logger.error "Course subscription error: #{e.class} - #{e.message}\n#{e.backtrace&.join("\n")}"
     redirect_to course_path(course), alert: "Something went wrong. Please try again."
   end
 
@@ -102,6 +103,7 @@ class CourseSubscriptionsController < ApplicationController
     redirect_to courses_path, alert: "Course not found"
 
   rescue StandardError => e
+    Rails.logger.error "Course unsubscription confirmation error: #{e.class} - #{e.message}"
     redirect_to course_path(course), alert: "Something went wrong. Please try again."
   end
 end

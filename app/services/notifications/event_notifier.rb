@@ -19,12 +19,13 @@ module Notifications
       # course interest email to all subscribers
       if @event.course.present?
         CourseInterest.subscribed_for_course(@event.course).find_each do |interest|
-          # no expiry
+          email = interest.user&.email.presence || interest.email
+          next if email.blank?
+
           token = interest.signed_id(
             purpose: CourseInterest::TOKEN_PURPOSE_UNSUBSCRIPTION,
             expires_in: CourseInterestService::COURSE_INTEREST_TOKEN_EXPIRY
           )
-          email = interest.user&.email.presence || interest.email
           CourseInterestMailer.announce_event(@event, email, token).deliver_later
         end
       end
