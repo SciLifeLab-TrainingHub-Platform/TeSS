@@ -353,9 +353,8 @@ class EventsController < ApplicationController
   end
 
   def set_event_dependencies
-    @show_prefill_picker = params[:id].blank?
-    @show_catalogue_entry_selector = !@show_prefill_picker
-    @prefill_course = load_prefill_course if @show_prefill_picker
+    @course_selection_mode = course_selection_mode
+    @prefill_course = load_prefill_course if @course_selection_mode == :prefill
     @venues = Venue.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
@@ -401,10 +400,20 @@ class EventsController < ApplicationController
   end
 
   def selected_course_from_event_params
-    course_id = params.fetch(:event, {})[:course_id].presence
+    submitted_event_params = params[:event]
+    return unless submitted_event_params.is_a?(ActionController::Parameters)
+
+    course_id = submitted_event_params[:course_id].presence
     return unless course_id.to_s.match?(/\A\d+\z/)
 
     Course.includes(:user).find_by(id: course_id)
+  end
+
+  def course_selection_mode
+    return :selector if action_name.in?(%w[edit update clone])
+    return :selector if action_name == 'create' && params[:course_selection_mode].to_s == 'selector'
+
+    :prefill
   end
 
   def formatNodeIdsForRadio
