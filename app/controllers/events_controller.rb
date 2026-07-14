@@ -358,7 +358,7 @@ class EventsController < ApplicationController
     @venues = Venue.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
-    @courses = courses_for_event_form
+    @courses = courses_for_event_form if request.format.html?
     @country_code = if @event
                       JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json'))).key(@event.country) || "SE"
                     else
