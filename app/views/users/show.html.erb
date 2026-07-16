@@ -161,7 +161,7 @@
 
         <!-- Tab: Interested Courses -->
         <% if TeSS::Config.feature['courses'] %>
-          <%= tab('Training Interests', icon_class_for_model('courses'), 'course_interests', activator: activator,
+          <%= tab('Training Interests', icon_class_for_model('course_interest'), 'course_interests', activator: activator,
                   disabled: { check: interested_user_courses_count.zero?, message: 'No course catalogue interest found' },
                   count: interested_user_courses_count) %>
         <% end %>
