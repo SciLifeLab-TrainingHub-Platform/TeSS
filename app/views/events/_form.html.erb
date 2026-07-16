@@ -1,15 +1,21 @@
 <%= simple_form_for @event, html: { id: 'event_form', class: 'prevent-enter-submit' } do |f| %>
 
   <%= render partial: 'common/error_summary', locals: { resource: @event } %>
+  <%= hidden_field_tag :course_selection_mode, @course_selection_mode %>
 
   <!-- Field: Disabled -->
   <%= f.input :visible, label: 'Show training?', input_html: { title: t('events.hints.visible') } %>
 
-  <%= f.hidden_field :course_id %>
-  <% if f.object.course.present? %>
-    <p class="help-block">
-      <small>Currently associated course: <%= f.object.course.title %></small>
-    </p>
+  <% if @course_selection_mode == :selector %>
+    <%= f.association :course,
+                      collection: @courses,
+                      label: 'Catalogue entry (optional)',
+                      label_method: :title,
+                      value_method: :id,
+                      include_blank: 'No catalogue entry',
+                      input_html: { class: 'js-select2', style: 'width: 100%;' } %>
+  <% else %>
+    <%= f.hidden_field :course_id %>
   <% end %>
 
   <!-- Field: presence -->

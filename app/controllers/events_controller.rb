@@ -104,7 +104,6 @@ class EventsController < ApplicationController
     @selected_topics_ids = []
     @selected_content_providers_id = []
     @prefill_error = 'Please select a catalogue entry first.' if params[:prefill].present? && params[:course_id].blank?
-    @prefill_course = load_prefill_course
     apply_course_prefill if @prefill_course
   end
 
@@ -354,17 +353,67 @@ class EventsController < ApplicationController
   end
 
   def set_event_dependencies
-    @show_prefill = params[:id].blank?
+    @course_selection_mode = course_selection_mode
+    @prefill_course = load_prefill_course if @course_selection_mode == :prefill
     @venues = Venue.all
     @topics = Topic.all
     @content_providers = ContentProvider.all
-    @courses = Course.approved.select(:id, :title, :slug).order(:title).limit(100) if @show_prefill
+    @courses = courses_for_event_form if request.format.html?
     @country_code = if @event
                       JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json'))).key(@event.country) || "SE"
                     else
                       "SE"
                     end
     @cities = City.where(country_code: @country_code).or(City.online).order(:name)
+  end
+
+  def courses_for_event_form
+    courses = Course.approved.select(:id, :title, :slug).order(:title).limit(100).to_a
+    selected_course, selected_course_source = selected_course_for_event_form
+
+    return courses unless append_selected_course_to_form_options?(courses, selected_course, selected_course_source)
+
+    courses << selected_course
+    courses.sort_by! { |course| course.title.to_s.downcase }
+
+    courses
+  end
+
+  def append_selected_course_to_form_options?(courses, selected_course, selected_course_source)
+    return false if selected_course.blank?
+    return false if courses.any? { |course| course.id == selected_course.id }
+    return true if %i[event prefill].include?(selected_course_source)
+
+    policy(selected_course).show?
+  end
+
+  def selected_course_for_event_form
+    if (course = selected_course_from_event_params)
+      [course, :event_params]
+    elsif @event&.course.present?
+      [@event.course, :event]
+    elsif @prefill_course
+      [@prefill_course, :prefill]
+    else
+      [nil, nil]
+    end
+  end
+
+  def selected_course_from_event_params
+    submitted_event_params = params[:event]
+    return unless submitted_event_params.is_a?(ActionController::Parameters)
+
+    course_id = submitted_event_params[:course_id].presence
+    return unless course_id.to_s.match?(/\A\d+\z/)
+
+    Course.includes(:user).find_by(id: course_id)
+  end
+
+  def course_selection_mode
+    return :selector if action_name.in?(%w[edit update clone])
+    return :selector if action_name == 'create' && params[:course_selection_mode].to_s == 'selector'
+
+    :prefill
   end
 
   def formatNodeIdsForRadio
@@ -375,7 +424,7 @@ class EventsController < ApplicationController
     return nil if params[:event].present?
     return nil if params[:course_id].blank?
 
-    course = Course.friendly.includes(:content_providers).find(params[:course_id])
+    course = Course.friendly.includes(:content_providers, :user).find(params[:course_id])
     unless course.approved?
       @prefill_error = I18n.t('events.prefill.course_not_approved')
       return nil
