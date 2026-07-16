@@ -7,20 +7,22 @@
     <%= render :partial => "events/partials/general_event_info" %>
   </div>
   <div class="col-md-8 col-md-pull-4">
-    <% if @show_prefill %>
+    <% if @course_selection_mode == :prefill %>
+      <% selected_course = @courses.find { |course| course.id == @event.course_id } %>
+      <% prefill_errors = Array(@prefill_error) + @event.errors[:course] %>
       <%= form_tag new_event_path, method: :get do %>
-        <div class="form-group<%= ' has-error' if @prefill_error.present? %>">
+        <div class="form-group<%= ' has-error' if prefill_errors.present? %>">
           <label class="control-label">Prefill training from Catalogue</label>
           <div class="row">
             <div class="col-sm-9">
               <%= hidden_field_tag :prefill, '1' %>
               <%= select_tag :course_id,
-                             options_for_select([['Select a catalogue entry (optional)', '']], params[:course_id]) +
-                               options_from_collection_for_select(@courses, 'to_param', 'title', params[:course_id]),
+                             options_for_select([['Select a catalogue entry (optional)', '']], selected_course&.to_param) +
+                               options_from_collection_for_select(@courses, 'to_param', 'title', selected_course&.to_param),
                              class: 'form-control js-select2',
                              id: 'prefill_course_select' %>
-              <% if @prefill_error.present? %>
-                <p class="help-block"><%= @prefill_error %></p>
+              <% prefill_errors.each do |error| %>
+                <p class="help-block"><%= error %></p>
               <% end %>
             </div>
             <div class="col-sm-3">
