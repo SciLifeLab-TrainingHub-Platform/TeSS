@@ -1,4 +1,78 @@
-Metrics/LineLength:
+inherit_from: .rubocop_todo.yml
+
+# Merge (not replace) Exclude lists across the inherited todo file, so the
+# baseline excludes for cops we override below (LineLength, MethodLength,
+# ClassAndModuleChildren) combine with the excludes set here.
+inherit_mode:
+  merge:
+    - Exclude
+
+require:
+  - rubocop-minitest
+  - rubocop-rails
+
+AllCops:
+  NewCops: enable
+
+# Kept at the team's existing threshold (200) rather than upstream's 120;
+# matches the limits referenced in .coderabbit.yaml.
+Layout/LineLength:
   Max: 200
+  Exclude:
+    - 'test/**/*'
+    - 'db/migrate/*'
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+# Enforced at the team's existing threshold (upstream disables this cop).
 Metrics/MethodLength:
   Max: 20
+  Exclude:
+    - 'test/*'
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Minitest/AssertPredicate:
+  Enabled: false
+
+Minitest/MultipleAssertions:
+  Enabled: false
+
+Minitest/RefutePredicate:
+  Enabled: false
+
+Rails/OutputSafety:
+  Enabled: false
+
+Rails/RefuteMethods:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'test/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false

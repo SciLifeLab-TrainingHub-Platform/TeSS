@@ -86,7 +86,9 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'pry-byebug'
-  gem 'rubocop'
+  gem 'rubocop', require: false
+  gem 'rubocop-minitest', require: false
+  gem 'rubocop-rails', require: false
   gem 'simplecov'
   gem 'simplecov-lcov', require: false
 end
