@@ -18,7 +18,7 @@ jobs:
       - name: Set up Ruby and install gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: .ruby-version # pin to the repo's exact Ruby (3.2.5) for reproducibility
           bundler-cache: true # runs 'bundle install' and caches installed gems
 
       - name: Run Rubocop

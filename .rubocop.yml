@@ -38,7 +38,7 @@ Metrics/CyclomaticComplexity:
 Metrics/MethodLength:
   Max: 20
   Exclude:
-    - 'test/*'
+    - 'test/**/*'
 
 Metrics/ParameterLists:
   Enabled: false
@@ -66,7 +66,7 @@ Rails/SkipsModelValidations:
 
 Style/ClassAndModuleChildren:
   Exclude:
-    - 'test/*'
+    - 'test/**/*'
 
 Style/Documentation:
   Enabled: false
