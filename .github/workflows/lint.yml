@@ -14,6 +14,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # Rubocop only reads the code; don't persist the token in git config.
+          persist-credentials: false
 
       - name: Set up Ruby and install gems
         uses: ruby/setup-ruby@v1
