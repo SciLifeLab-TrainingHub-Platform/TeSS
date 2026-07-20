@@ -31,6 +31,7 @@ class CourseInterest < ApplicationRecord
 
   # Possible outcomes returned by subscription operations.
   RESULT_INVALID = :invalid
+  RESULT_UNAUTHENTICATED = :unauthenticated
   RESULT_SUBSCRIBED = :subscribed
   RESULT_ALREADY_SUBSCRIBED = :already_subscribed
   RESULT_ALREADY_UNSUBSCRIBED = :already_unsubscribed
@@ -58,9 +59,9 @@ class CourseInterest < ApplicationRecord
   #  - "pending_unsubscription" (should not exist but if it exist)  -> "subscribed"
   #  - "pending_subscription" (should not exist but if it exist)  -> "subscribed"
   def self.subscribe!(course:, user:)
-    return RESULT_INVALID unless user.present?
+    return RESULT_UNAUTHENTICATED unless user.present?
 
-    interest = find_or_initialize_by(course: course, user: user)
+    interest = create_or_find_by!(course: course, user: user)
     return RESULT_ALREADY_SUBSCRIBED if interest.subscribed?
     interest.update!(
       status: :subscribed,
@@ -79,7 +80,7 @@ class CourseInterest < ApplicationRecord
   #  - "pending_unsubscription" (should not exist but if it exist)  -> "unsubscribed"
   #  - "pending_subscription" (should not exist but if it exist)  -> "unsubscribed"
   def self.unsubscribe!(course:, user:)
-    return RESULT_INVALID unless user.present?
+    return RESULT_UNAUTHENTICATED unless user.present?
 
     interest = find_by(course: course, user: user)
 

@@ -3,6 +3,7 @@
 class CourseInterestService
 
   COURSE_INTEREST_TOKEN_EXPIRY = 7.days
+  GENERIC_SUBSCRIBE_MESSAGE = "If that email isn't already subscribed, we've sent a confirmation link."
 
   def self.subscribe_user!(course:, user:)
     result = CourseInterest.subscribe!(
@@ -13,6 +14,9 @@ class CourseInterestService
     case result
     when CourseInterest::RESULT_SUBSCRIBED
       { status: :ok, message: "You have subscribed successfully", result: result }
+
+    when CourseInterest::RESULT_UNAUTHENTICATED
+      { status: :error, message: "You must be logged in to register interest", result: result }
 
     when CourseInterest::RESULT_ALREADY_SUBSCRIBED
       { status: :ok, message: "You are already subscribed", result: result }
@@ -42,6 +46,9 @@ class CourseInterestService
 
     when CourseInterest::RESULT_NOT_SUBSCRIBED
       { status: :ok, message: "You are not currently subscribed", result: result }
+
+    when CourseInterest::RESULT_UNAUTHENTICATED
+      { status: :error, message: "You must be logged in to un-register interest", result: result }
 
     when CourseInterest::RESULT_INVALID
       { status: :error, message: "Invalid request", result: result }
@@ -73,21 +80,21 @@ class CourseInterestService
         .subscription_confirmation(email, course, token)
         .deliver_later
 
-      { status: :ok, message: "Subscription confirmation email sent", result: result }
+      { status: :ok, message: GENERIC_SUBSCRIBE_MESSAGE, result: result }
 
     when CourseInterest::RESULT_ALREADY_SUBSCRIBED
-      { status: :ok, message: "You are already subscribed", result: result }
+      { status: :ok, message: GENERIC_SUBSCRIBE_MESSAGE, result: result }
 
     when CourseInterest::RESULT_INVALID
       { status: :error, message: "Invalid request", result: result }
 
     else
-      Rails.logger.error "Unexpected CourseInterest.request_subscribe! result: #{result.inspect} for course ##{course.id}, email #{email}"
+      Rails.logger.error "Unexpected CourseInterest.request_subscribe! result: #{result.inspect} for course ##{course.id}, email_hash=#{email_log_id(email)}"
       { status: :error, message: "Something went wrong", result: result }
     end
 
   rescue StandardError => e
-    Rails.logger.error "CourseInterestService.request_subscription! failed for course ##{course&.id}, email #{email}: #{e.class} - #{e.message}"
+    Rails.logger.error "CourseInterestService.request_subscription! failed for course ##{course&.id}, email_hash=#{email_log_id(email)}: #{e.class} - #{e.message}"
     { status: :error, message: "Something went wrong", result: nil }
   end
 
@@ -117,12 +124,12 @@ class CourseInterestService
       { status: :error, message: "Invalid request", result: result }
 
     else
-      Rails.logger.error "Unexpected CourseInterest.request_unsubscribe! result: #{result.inspect} for course ##{course.id}, email #{email}"
+      Rails.logger.error "Unexpected CourseInterest.request_unsubscribe! result: #{result.inspect} for course ##{course.id}, email_hash=#{email_log_id(email)}"
       { status: :error, message: "Something went wrong", result: result }
     end
 
   rescue StandardError => e
-    Rails.logger.error "CourseInterestService.request_unsubscription! failed for course ##{course&.id}, email #{email}: #{e.class} - #{e.message}"
+    Rails.logger.error "CourseInterestService.request_unsubscription! failed for course ##{course&.id}, email_hash=#{email_log_id(email)}: #{e.class} - #{e.message}"
     { status: :error, message: "Something went wrong", result: nil }
   end
 
