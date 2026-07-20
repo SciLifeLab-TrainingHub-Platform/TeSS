@@ -143,6 +143,9 @@ class CourseInterestService
     when CourseInterest::RESULT_ALREADY_SUBSCRIBED
       { status: :ok, message: "You are already subscribed", result: result }
 
+    when CourseInterest::RESULT_ALREADY_UNSUBSCRIBED
+      { status: :error, message: "This subscription link is no longer valid", result: result }
+
     when CourseInterest::RESULT_INVALID
       { status: :error, message: "Invalid subscription link", result: result }
 

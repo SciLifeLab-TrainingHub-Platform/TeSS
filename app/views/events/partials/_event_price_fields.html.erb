@@ -3,7 +3,7 @@
 
   <div class="row m-4">
     <div class="col-sm-4 mb-2 form-group <%= 'has-error' if f.object.errors[:cost].any? %>">
-      <%= f.number_field :cost, value: 0, class: "form-control", placeholder: "Cost" %>
+      <%= f.number_field :cost, value: f.object.cost || 0, class: "form-control", placeholder: "Cost" %>
       <small class="form-text text-muted">Enter the cost in your preferred currency.</small>
       <% if f.object.errors[:cost].any? %>
         <span class="help-block">
