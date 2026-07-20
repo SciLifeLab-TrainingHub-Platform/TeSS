@@ -36,7 +36,7 @@ class CourseInterestTest < ActiveSupport::TestCase
       course: @course,
       user: nil
     )
-    assert_equal CourseInterest::RESULT_INVALID, result
+    assert_equal CourseInterest::RESULT_UNAUTHENTICATED, result
   end
 
   test 'subscribe! creates and subscribes a new interest' do
@@ -153,7 +153,7 @@ class CourseInterestTest < ActiveSupport::TestCase
       course: @course,
       user: nil
     )
-    assert_equal CourseInterest::RESULT_INVALID, result
+    assert_equal CourseInterest::RESULT_UNAUTHENTICATED, result
   end
 
   test 'unsubscribe! returns not subscribed when interest does not exist' do

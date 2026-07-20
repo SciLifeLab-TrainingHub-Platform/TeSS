@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CourseInterestService
+  extend LogRedactor
 
   COURSE_INTEREST_TOKEN_EXPIRY = 7.days
   GENERIC_SUBSCRIBE_MESSAGE = "If that email isn't already subscribed, we've sent a confirmation link."

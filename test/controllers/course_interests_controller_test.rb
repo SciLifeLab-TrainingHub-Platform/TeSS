@@ -23,8 +23,9 @@ class CourseInterestsControllerTest  < ActionController::TestCase
       assert_equal @course, course
       assert_equal @user, user
       {
-        status: :success,
-        message: "You have subscribed successfully"
+        status: :ok,
+        message: "You have subscribed successfully",
+        result: CourseInterest::RESULT_SUBSCRIBED
       }
     end
     CourseInterestService.stub(:subscribe_user!, service_stub) do

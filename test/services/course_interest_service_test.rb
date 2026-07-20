@@ -140,7 +140,7 @@ class CourseInterestServiceTest < ActiveSupport::TestCase
         )
 
         assert_equal :ok, result[:status]
-        assert_equal 'Subscription confirmation email sent', result[:message]
+        assert_equal CourseInterestService::GENERIC_SUBSCRIBE_MESSAGE, result[:message]
         assert_equal CourseInterest::RESULT_PENDING, result[:result]
       end
     end
@@ -165,7 +165,7 @@ class CourseInterestServiceTest < ActiveSupport::TestCase
       )
 
       assert_equal :ok, result[:status]
-      assert_equal 'You are already subscribed', result[:message]
+      assert_equal CourseInterestService::GENERIC_SUBSCRIBE_MESSAGE, result[:message]
       assert_equal CourseInterest::RESULT_ALREADY_SUBSCRIBED, result[:result]
     end
   end
