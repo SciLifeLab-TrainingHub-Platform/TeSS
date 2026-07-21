@@ -1,10 +1,10 @@
 module OurResourcesHelper
   def resource_lifecycle_stages(active_key: nil)
     [
-      { key: :design_develop, path: design_develop_path },
-      { key: :plan, path: plan_stage_path },
+      { key: :plan_design, path: plan_design_stage_path },
+      { key: :develop, path: develop_stage_path },
       { key: :deliver, path: deliver_stage_path },
-      { key: :evaluate_archive, path: fair_path }
+      { key: :evaluate_archive, path: evaluate_archive_stage_path }
     ].map do |stage|
       locale_key = "our_resources.landing.lifecycle.stages.#{stage[:key]}"
 

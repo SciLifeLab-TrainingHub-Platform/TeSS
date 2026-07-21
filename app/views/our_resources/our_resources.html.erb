@@ -18,4 +18,16 @@
       </li>
     <% end %>
   </ol>
+
+  <section class="resources-consultation" aria-labelledby="resources-consultation-title">
+    <div class="resources-consultation__copy">
+      <h2 id="resources-consultation-title"><%= t('our_resources.landing.consultation.title') %></h2>
+      <p><%= t('our_resources.landing.consultation.paragraphs.introduction') %></p>
+      <p><%= t('our_resources.landing.consultation.paragraphs.support') %></p>
+    </div>
+
+    <%= render 'our_resources/booking_embed',
+               namespace: 'support-consult',
+               cal_link: 'scilifelab-traininghub/support-consult' %>
+  </section>
 </section>

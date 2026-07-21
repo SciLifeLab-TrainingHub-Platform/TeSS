@@ -46,44 +46,59 @@ en:
     doi: 'DOI'
   our_resources:
     landing:
-      title: Where do you find yourself?
+      title: What stage are you at?
       intro: >
-        No matter if you're designing a new course from scratch, are structuring a research school program,
+        No matter if you’re designing a new course from scratch, are structuring a research school program,
         or have finished the 6th iteration of your workshop, we have resources to support effective
         knowledge transfer at SciLifeLab.
+      consultation:
+        title: Book a consultation or apply for support
+        paragraphs:
+          introduction: >
+            Have specific questions? Want to pick the brain of someone with experience in SciLifeLab Training?
+            Book a consultation with one of our Scientific Training Officers to discuss your project and how we
+            can assist you.
+          support: >
+            The SciLifeLab Training Hub also offers support contracts, where a member of our team can assist you
+            in developing, delivering, and/or evaluating your training. To begin the process of applying for
+            support, please book a support consult where we can discuss our support framework further.
+        booking:
+          loading: Loading available appointments…
+          external: Open booking page on Cal.com
+          failure: The booking calendar could not be loaded. Please use the direct booking link instead.
       lifecycle:
         label: Training lifecycle resource stages
         stages:
-          design_develop:
+          plan_design:
             timeframe: 6-12 MONTHS PRIOR
-            title: Design & Develop
+            title: Plan & Design
             description: >
-              Define learning outcomes, structure learning experiences, and get input from teaching and
+              Define learning outcomes, structure learning experiences, and get input from teaching &
               learning frameworks to create effective training.
-          plan:
+          develop:
             timeframe: 1-4 MONTHS PRIOR
-            title: Plan
+            title: Develop
             description: >
-              Set up a course or workshop website, announce your training, manage registrations, and set
-              up your material so that it is ready for delivery.
+              Set up a course or workshop website, announce your training, and set up your material so that
+              it is ready for delivery.
           deliver:
             timeframe: THE TRAINING!
             title: Deliver
             description: >
-              Generate participant certificates, and get short term feedback to ensure your training is
-              effective through learning about your participants' experience.
+              Generate participant certificates and see if your training is effective by getting feedback from
+              your participants.
           evaluate_archive:
             timeframe: 1-6 MONTHS AFTER
             title: Evaluate & Archive
             description: >
-              Plan for feedback from participants to improve future iterations, and archive your materials
-              so that they are Open and FAIR.
+              Integrate feedback from participants to improve future iterations, and archive your materials so
+              that they are Open and FAIR.
     stage_pages:
       nav_label: Training lifecycle stages
       resources_heading: Resources
       contributors_heading: Contributors
       design_develop:
-        title: Design & Develop
+        title: Plan & Design
         summary: >
           Define learning outcomes, structure learning experiences, and get input from teaching and
           learning frameworks to create effective training.
@@ -118,10 +133,10 @@ en:
           ineke_luijten:
             name: Ineke Luijten
       plan:
-        title: Plan
+        title: Develop
         summary: >
-          Set up a course or workshop website, announce your training, manage registrations, and set
-          up your material so that it is ready for delivery.
+          Set up a course or workshop website, announce your training, and set up your material so that
+          it is ready for delivery.
         video:
           title: Announcing your course on the Training Portal
           iframe_title: Announcing your course on the Training Portal webinar

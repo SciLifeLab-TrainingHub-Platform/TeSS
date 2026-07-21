@@ -7,22 +7,32 @@ class OurResourcesControllerTest < ActionController::TestCase
     get :our_resources
 
     assert_response :success
-    assert_select 'h1', 'Where do you find yourself?'
+    assert_select 'h1', 'What stage are you at?'
     assert_select '.resources-lifecycle__card', count: 4
-    assert_select '.resources-lifecycle__card h2', text: 'Design & Develop'
-    assert_select '.resources-lifecycle__card h2', text: 'Plan'
+    assert_select '.resources-lifecycle__card h2', text: 'Plan & Design'
+    assert_select '.resources-lifecycle__card h2', text: 'Develop'
     assert_select '.resources-lifecycle__card h2', text: 'Deliver'
     assert_select '.resources-lifecycle__card h2', text: 'Evaluate & Archive'
-    assert_select '.resources-lifecycle__card[href=?]', design_develop_path, count: 1
-    assert_select '.resources-lifecycle__card[href=?]', plan_stage_path, count: 1
+    assert_select '.resources-lifecycle__card[href=?]', plan_design_stage_path, count: 1
+    assert_select '.resources-lifecycle__card[href=?]', develop_stage_path, count: 1
     assert_select '.resources-lifecycle__card[href=?]', deliver_stage_path, count: 1
+    assert_select '.resources-lifecycle__card[href=?]', evaluate_archive_stage_path, count: 1
+    assert_select '.resources-consultation h2', text: 'Book a consultation or apply for support'
+    assert_select '[data-cal-embed][data-cal-namespace=?]', 'support-consult', count: 1
+    assert_select '[data-cal-load]', count: 0
+    assert_select '[data-cal-calendar][hidden]', count: 1
+    assert_select '[data-cal-status][role=?]', 'status', count: 1
+    assert_select '.resources-booking__fallback a[href=?]',
+                  'https://cal.com/scilifelab-traininghub/support-consult',
+                  text: 'Open booking page on Cal.com'
   end
 
   test 'should get design develop page' do
     get :design_develop
 
     assert_response :success
-    assert_select 'h1', 'Design & Develop'
+    assert_select 'h1', 'Plan & Design'
+    assert_select '.resources-stage-nav__item--active .resources-stage-nav__label', text: 'Plan & Design'
     assert_select '.resources-stage-resource', count: 6
     assert_select '.resources-stage-page__section h2', text: /Identify your Target Audience/
     assert_select 'img[alt=?]', 'Presenter and participants interaction diagram'
@@ -34,8 +44,8 @@ class OurResourcesControllerTest < ActionController::TestCase
     get :plan
 
     assert_response :success
-    assert_select 'h1', 'Plan'
-    assert_select '.resources-stage-nav__item--active .resources-stage-nav__label', text: 'Plan'
+    assert_select 'h1', 'Develop'
+    assert_select '.resources-stage-nav__item--active .resources-stage-nav__label', text: 'Develop'
     assert_select '.resources-stage-plan__section h2', text: 'Announcing your course on the Training Portal'
     assert_select '.resources-stage-plan__media iframe[src=?]',
                   'https://www.youtube.com/embed/_AQN4pqvZ3o'
@@ -86,5 +96,14 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: /Course Delivery & Teaching Practice/
     assert_select '.resources-stage-contributors__item', text: /Oliver Onions/
     assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
+  end
+
+  test 'should get pedagogic support page with the shared booking calendar' do
+    get :pedagogic_support
+
+    assert_response :success
+    assert_select '[data-cal-embed][data-cal-namespace=?]', 'support-consult', count: 1
+    assert_select '[data-cal-calendar][hidden]', count: 1
+    assert_select 'script', text: /Cal\("init"/, count: 0
   end
 end

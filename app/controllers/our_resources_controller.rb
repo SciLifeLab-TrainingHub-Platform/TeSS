@@ -11,18 +11,24 @@ class OurResourcesController < ApplicationController
     end
     
     def our_resources
+      @breadcrumbs = nil
     end
 
     def design_develop
-      @breadcrumbs += [{ name: 'Design & Develop', url: design_develop_path }]
+      @breadcrumbs += [{ name: 'Plan & Design', url: plan_design_stage_path }]
     end
 
     def plan
-      @breadcrumbs += [{ name: 'Plan', url: plan_stage_path }]
+      @breadcrumbs += [{ name: 'Develop', url: develop_stage_path }]
     end
 
     def deliver
       @breadcrumbs += [{ name: 'Deliver', url: deliver_stage_path }]
+    end
+
+    def evaluate_archive
+      @breadcrumbs += [{ name: 'Evaluate & Archive', url: evaluate_archive_stage_path }]
+      render :fair_training
     end
 
     def guides

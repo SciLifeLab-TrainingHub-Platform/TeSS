@@ -1,43 +1,48 @@
 .resources-landing {
   color: $dark-color;
-  margin: 44px auto 76px;
-  max-width: 1160px;
+  margin: 43px auto 78px;
+  max-width: 1320px;
   padding: 0 15px;
+}
 
-  .resources-landing__intro {
-    margin-bottom: 36px;
-    max-width: 760px;
-  }
+.resources-landing__intro,
+.resources-consultation__copy {
+  max-width: 844px;
+}
+
+.resources-landing__intro {
+  margin-bottom: 26px;
 
   h1 {
     color: $dark-color;
-    font-size: 46px;
-    font-weight: 900;
-    letter-spacing: 0;
-    line-height: 1.15;
-    margin: 0 0 20px;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 12px;
   }
 
-  .resources-landing__intro p {
-    color: rgba($dark-color, 0.72);
+  p {
+    color: rgba($dark-color, 0.82);
     font-size: 18px;
-    line-height: 1.55;
+    line-height: 1.5;
     margin: 0;
   }
 }
 
 .resources-lifecycle {
+  --lifecycle-axis: 206px;
   list-style: none;
-  margin: 0;
-  max-width: 1120px;
+  margin: 0 auto;
+  max-width: 895px;
   padding: 0;
   position: relative;
 
   &::before {
     background: $scilifelab-color-teal;
-    bottom: 0;
+    bottom: -18px;
     content: "";
-    left: 170px;
+    left: var(--lifecycle-axis);
     position: absolute;
     top: 0;
     width: 5px;
@@ -46,11 +51,10 @@
 
 .resources-lifecycle__item {
   align-items: center;
-  column-gap: 20px;
   display: grid;
-  grid-template-columns: 122px 56px minmax(0, 1fr);
-  margin-bottom: 22px;
-  min-height: 144px;
+  grid-template-columns: 156px 127px minmax(0, 558px);
+  margin-bottom: 14px;
+  min-height: 104px;
   position: relative;
 
   &:last-child {
@@ -60,9 +64,10 @@
 
 .resources-lifecycle__timeframe {
   color: $dark-color;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 900;
-  letter-spacing: 0;
+  grid-column: 1;
+  letter-spacing: -0.02em;
   line-height: 1.15;
   margin: 0;
   text-align: right;
@@ -71,60 +76,66 @@
 
 .resources-lifecycle__marker {
   background: $body-bg;
-  border: 5px solid $scilifelab-color-teal;
+  border: 4px solid $scilifelab-color-teal;
   border-radius: 50%;
-  height: 36px;
-  justify-self: center;
-  position: relative;
-  width: 36px;
+  height: 40px;
+  left: calc(var(--lifecycle-axis) - 20px);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
   z-index: 1;
 
   &::after {
     background: $scilifelab-color-grape;
     content: "";
-    height: 2px;
-    left: 100%;
+    height: 3px;
+    left: 36px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 31px;
+    width: 57px;
   }
 }
 
 .resources-lifecycle__card {
+  align-self: stretch;
   background: $body-bg;
-  border: 2px solid $scilifelab-color-grape;
-  border-radius: 6px;
-  box-shadow: 0 3px 5px rgba($dark-color, 0.18);
+  border: 3px solid $scilifelab-color-grape;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgba($dark-color, 0.25);
   color: $dark-color;
-  display: block;
-  min-height: 116px;
-  padding: 20px 28px 22px;
+  display: flex;
+  flex-direction: column;
+  grid-column: 3;
+  justify-content: center;
+  min-height: 104px;
+  padding: 9px 16px 11px;
   text-decoration: none;
   transition: box-shadow 150ms ease, transform 150ms ease;
 
   h2 {
     color: $scilifelab-color-aqua;
-    font-size: 32px;
-    font-weight: 900;
-    letter-spacing: 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     line-height: 1.15;
-    margin: 0 0 12px;
+    margin: 0 0 3px;
   }
 
   p {
     color: $dark-color;
-    font-size: 17px;
-    line-height: 1.4;
+    font-size: 16px;
+    line-height: 1.25;
     margin: 0;
   }
 
   &:hover,
   &:focus {
-    box-shadow: 0 6px 10px rgba($dark-color, 0.18);
+    box-shadow: 0 7px 10px rgba($dark-color, 0.22);
     color: $dark-color;
     text-decoration: none;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
   }
 
   &:focus {
@@ -133,105 +144,206 @@
   }
 }
 
+.resources-consultation {
+  margin-top: 70px;
+}
+
+.resources-consultation__copy {
+  h2 {
+    color: $dark-color;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 13px;
+  }
+
+  p {
+    color: rgba($dark-color, 0.82);
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0 0 23px;
+  }
+}
+
+.resources-booking {
+  margin: 38px auto 0;
+  max-width: 935px;
+  width: 100%;
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+.resources-booking__calendar {
+  min-height: 507px;
+  width: 100%;
+}
+
+.resources-booking__status {
+  color: $dark-color;
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0 0 16px;
+  text-align: center;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.resources-booking__fallback {
+  font-size: 15px;
+  line-height: 1.4;
+  margin: 10px 0 0;
+  text-align: center;
+
+  a {
+    color: $scilifelab-color-teal;
+    text-decoration: underline;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-grape;
+    }
+
+    &:focus {
+      outline: 3px solid $scilifelab-color-lime;
+      outline-offset: 3px;
+    }
+  }
+}
+
 @media screen and (max-width: 991px) {
   .resources-landing {
-    margin-top: 34px;
-
-    h1 {
-      font-size: 40px;
-    }
+    margin-top: 36px;
   }
 
   .resources-lifecycle {
-    &::before {
-      left: 150px;
-    }
+    --lifecycle-axis: 150px;
+    max-width: 860px;
   }
 
   .resources-lifecycle__item {
-    grid-template-columns: 104px 56px minmax(0, 1fr);
+    grid-template-columns: 104px 92px minmax(0, 1fr);
+  }
+
+  .resources-lifecycle__timeframe {
+    font-size: 17px;
+  }
+
+  .resources-lifecycle__marker::after {
+    width: 42px;
   }
 
   .resources-lifecycle__card {
     h2 {
-      font-size: 28px;
+      font-size: 26px;
     }
 
     p {
-      font-size: 16px;
+      font-size: 15px;
     }
   }
 }
 
 @media screen and (max-width: 767px) {
   .resources-landing {
-    margin: 26px auto 56px;
+    margin: 28px auto 58px;
+    padding: 0;
+  }
 
-    .resources-landing__intro {
-      margin-bottom: 30px;
-    }
+  .resources-landing__intro {
+    margin-bottom: 30px;
 
     h1 {
-      font-size: 34px;
-      line-height: 1.15;
-      margin-bottom: 16px;
+      font-size: 32px;
+      margin-bottom: 13px;
     }
 
-    .resources-landing__intro p {
+    p {
       font-size: 16px;
     }
   }
 
   .resources-lifecycle {
+    --lifecycle-axis: 20px;
+
     &::before {
-      bottom: 14px;
-      left: 22px;
+      bottom: 16px;
       top: 10px;
-      width: 5px;
+      width: 4px;
     }
   }
 
   .resources-lifecycle__item {
     align-items: start;
-    column-gap: 16px;
-    grid-template-columns: 52px minmax(0, 1fr);
-    margin-bottom: 22px;
+    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    margin-bottom: 24px;
     min-height: 0;
   }
 
   .resources-lifecycle__timeframe {
-    font-size: 13px;
+    font-size: 14px;
     grid-column: 2;
-    line-height: 1.2;
-    margin: 0 0 7px;
+    grid-row: 1;
+    margin: 0 0 8px;
     text-align: left;
   }
 
   .resources-lifecycle__marker {
-    grid-column: 1;
-    grid-row: 1 / 3;
+    border-width: 4px;
     height: 32px;
-    margin-top: 6px;
+    left: 4px;
+    top: 4px;
+    transform: none;
     width: 32px;
 
     &::after {
-      width: 17px;
+      left: 28px;
+      width: 16px;
     }
   }
 
   .resources-lifecycle__card {
     grid-column: 2;
+    grid-row: 2;
     min-height: 0;
-    padding: 16px 20px 18px;
+    padding: 15px 18px 17px;
 
     h2 {
-      font-size: 25px;
-      margin-bottom: 10px;
+      font-size: 24px;
+      margin-bottom: 7px;
     }
 
     p {
       font-size: 15px;
-      line-height: 1.45;
+      line-height: 1.4;
     }
+  }
+
+  .resources-consultation {
+    margin-top: 56px;
+  }
+
+  .resources-consultation__copy {
+    h2 {
+      font-size: 30px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .resources-booking {
+    margin-top: 30px;
+  }
+
+  .resources-booking__calendar {
+    min-height: 650px;
   }
 }
