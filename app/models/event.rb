@@ -181,7 +181,7 @@ class Event < ApplicationRecord
   validates :node_ids, presence: true, if: -> { TeSS::Config.feature['nodes'] && Node.all.count > 0 }
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :start, :end, presence: true, on: :create
   validates :language, :prerequisites, :target_audience, :content_providers, :learning_objectives, :start, :end, presence: true, on: :update, if: :after_switch_to_more_mandatory_fields?
-  validates :end, comparison: { greater_than_or_equal_to: :start, message: "cannot be before the start time" }
+  validates :end, comparison: { greater_than_or_equal_to: :start, message: 'cannot be before the start time' }
   validate :at_least_one_event_price
 
   clean_array_fields(:keywords, :fields, :event_types, :target_audience,
@@ -257,7 +257,7 @@ class Event < ApplicationRecord
   end
 
   def to_csv_event
-    cp = content_providers_titles("; ")
+    cp = content_providers_titles('; ')
 
     [title.tr(',', ' '),
      start.strftime('%d %b %Y'),
@@ -566,7 +566,7 @@ class Event < ApplicationRecord
     topics.pluck(:name).join(', ')
   end
 
-  def content_providers_titles(separator = ", ")
+  def content_providers_titles(separator = ', ')
     content_providers.pluck(:title).join(separator)
   end
 
@@ -584,9 +584,9 @@ class Event < ApplicationRecord
   end
 
   def event_status_just_approved?
-    return false unless previous_changes.key?("event_status")
+    return false unless previous_changes.key?('event_status')
 
-    old_status, new_status = previous_changes["event_status"]
+    old_status, new_status = previous_changes['event_status']
 
     awaiting_review = Event.event_statuses.key(0)
     revisions_required = Event.event_statuses.key(3)
@@ -702,7 +702,7 @@ class Event < ApplicationRecord
     valid_prices = event_prices.reject(&:marked_for_destruction?)
 
     if valid_prices.empty?
-      errors.add(:base, "At least one price must be present")
+      errors.add(:base, 'At least one price must be present')
     end
   end
 end

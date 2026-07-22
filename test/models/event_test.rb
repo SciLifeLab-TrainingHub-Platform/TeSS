@@ -16,7 +16,7 @@ class EventTest < ActiveSupport::TestCase
                    language: @event.language, prerequisites: @event.prerequisites,
                    target_audience: @event.target_audience, content_providers: @event.content_providers,
                    learning_objectives: @event.learning_objectives,
-                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+                   event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     }
   end
 
@@ -754,7 +754,7 @@ class EventTest < ActiveSupport::TestCase
       e.destroy!
     end
   end
-  test "should have cities" do
+  test 'should have cities' do
     assert_equal 1, @event.city.split(', ').count
     assert_equal @city_one, @event.cities.first
 
@@ -762,8 +762,8 @@ class EventTest < ActiveSupport::TestCase
     assert_equal @city_two, @event_two.cities.first
   end
 
-  test "should add city to event" do
-    new_city = City.create(name: "new city")
+  test 'should add city to event' do
+    new_city = City.create(name: 'new city')
     @event.cities << new_city
 
     # Convert @event.city to an array of city names and check inclusion
@@ -771,17 +771,17 @@ class EventTest < ActiveSupport::TestCase
     assert_includes city_names, new_city.name
   end
 
-  test "should remove city from event" do
+  test 'should remove city from event' do
     @event.cities.delete(@city_one)
     assert_not_includes @event.cities, @city_one
   end
 
-  test "should destroy event and keep city" do
+  test 'should destroy event and keep city' do
     @event.destroy
     assert City.exists?(@city_one.id)
   end
 
-  test "slack notification job is enqueued when event is approved" do
+  test 'slack notification job is enqueued when event is approved' do
     assert_enqueued_with(job: SlackNotificationJob) do
       parameters = @mandatory.merge(
         {
@@ -799,7 +799,7 @@ class EventTest < ActiveSupport::TestCase
   end
 
 
-  test "valid when end is after start" do
+  test 'valid when end is after start' do
     parameters = @mandatory.merge(
       title: 'new event',
       url: 'https://myevent.com',
@@ -811,10 +811,10 @@ class EventTest < ActiveSupport::TestCase
     )
 
     event = Event.new(parameters)
-    assert event.save, "Event should be valid when end is after start"
+    assert event.save, 'Event should be valid when end is after start'
   end
 
-  test "valid when end is equal to start" do
+  test 'valid when end is equal to start' do
     start_time = DateTime.now.advance(days: 1)
     parameters = @mandatory.merge(
       title: 'new event',
@@ -827,10 +827,10 @@ class EventTest < ActiveSupport::TestCase
     )
 
     event = Event.new(parameters)
-    assert event.save, "Event should be valid when end is equal to start"
+    assert event.save, 'Event should be valid when end is equal to start'
   end
 
-  test "invalid when end is before start" do
+  test 'invalid when end is before start' do
     parameters = @mandatory.merge(
       title: 'new event',
       url: 'https://myevent.com',
@@ -842,8 +842,8 @@ class EventTest < ActiveSupport::TestCase
     )
 
     event = Event.new(parameters)
-    refute event.save, "Event should be invalid when end is before start"
-    assert_includes event.errors[:end], "cannot be before the start time"
+    refute event.save, 'Event should be invalid when end is before start'
+    assert_includes event.errors[:end], 'cannot be before the start time'
   end
 
   test 'slack notification job is not enqueued for non approved events' do

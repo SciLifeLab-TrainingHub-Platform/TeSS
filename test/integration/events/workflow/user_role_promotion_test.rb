@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 # Tests for automatic user promotion to trusted role based on approved events.
 # Covers:
@@ -39,18 +39,18 @@ class UserRolePromotionTest < ActionDispatch::IntegrationTest
       content_provider_ids: [@content_provider.id],
       learning_objectives: @event_fixture.learning_objectives,
       description: @event_fixture.description,
-      title: "Trusted user published event",
+      title: 'Trusted user published event',
       url: @event_fixture.url,
       duration: @event_fixture.duration,
       recognition: @event_fixture.recognition,
       event_status: Event::event_statuses[:awaiting_review],
-      event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+      event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     }
 
     @threshold = User::EVENT_APPROVAL_THRESHOLD
   end
 
-  test "user is promoted to trusted after reaching event approval threshold" do
+  test 'user is promoted to trusted after reaching event approval threshold' do
     sign_in @admin
 
     perform_enqueued_jobs do
@@ -62,10 +62,10 @@ class UserRolePromotionTest < ActionDispatch::IntegrationTest
 
     # Reload user and check role
     @user.reload
-    assert_equal @trusted_user_role.name, @user.role.name, "User should be promoted to trusted after threshold approvals"
+    assert_equal @trusted_user_role.name, @user.role.name, 'User should be promoted to trusted after threshold approvals'
   end
 
-  test "future events by promoted user are automatically approved" do
+  test 'future events by promoted user are automatically approved' do
     sign_in @admin
 
     (@threshold + 1).times do |i|
@@ -78,32 +78,32 @@ class UserRolePromotionTest < ActionDispatch::IntegrationTest
 
     sign_in @user
     perform_enqueued_jobs do
-      new_event = @user.events.create!(@event_params.merge(title: "Future Event Auto-Approved"))
+      new_event = @user.events.create!(@event_params.merge(title: 'Future Event Auto-Approved'))
       assert_equal Event.event_statuses.key(Event.event_statuses[:approved]), new_event.event_status
     end
   end
 
-  test "user below threshold is not promoted" do
+  test 'user below threshold is not promoted' do
     sign_in @admin
     (@threshold - 1).times do |i|
       event = @user2.events.create!(@event_params.merge(title: "Approved Event #{i+1}"))
-      event.update!(event_status: "approved")
+      event.update!(event_status: 'approved')
     end
     @user2.reload
-    assert_equal @user_role.name, @user2.role.name, "User should not be promoted before reaching threshold"
+    assert_equal @user_role.name, @user2.role.name, 'User should not be promoted before reaching threshold'
   end
 
-  test "database reflects correct roles after promotion and non-promotion" do
+  test 'database reflects correct roles after promotion and non-promotion' do
     sign_in @admin
     (@threshold + 1).times do |i|
       event = @user.events.create!(@event_params.merge(title: "Approved Event #{i+1}"))
-      event.update!(event_status: "approved")
+      event.update!(event_status: 'approved')
     end
 
     # @user2 still below threshold
     (@threshold - 1).times do |i|
       event = @user2.events.create!(@event_params.merge(title: "Approved Event #{i+1}"))
-      event.update!(event_status: "approved")
+      event.update!(event_status: 'approved')
     end
 
     @user.reload

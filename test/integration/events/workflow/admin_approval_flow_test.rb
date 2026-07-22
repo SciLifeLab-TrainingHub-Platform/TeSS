@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 # Tests for admin actions on events.
 # Covers all moderation workflows:
@@ -44,18 +44,18 @@ class AdminApprovalFlowTest < ActionDispatch::IntegrationTest
       content_provider_ids: [@content_provider.id],
       learning_objectives: @event_fixture.learning_objectives,
       description: @event_fixture.description,
-      title: "Trusted user published event",
+      title: 'Trusted user published event',
       url: @event_fixture.url,
       duration: @event_fixture.duration,
       recognition: @event_fixture.recognition,
       event_status: Event.event_statuses[:awaiting_review],
-      event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+      event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     }
     @pending_event = @user.events.create!(@parameters)
   end
 
   # Approve pending event
-  test "admin approves pending event" do
+  test 'admin approves pending event' do
     channels = ENV.fetch('SLACK_COURSE_NOTIFICATION_CHANNELS').split(',').map(&:strip)
     sign_in @admin
 
@@ -88,13 +88,13 @@ class AdminApprovalFlowTest < ActionDispatch::IntegrationTest
     assert_includes provider_email.subject, @pending_event.title
 
     # Event should be published
-    assert_equal "approved", @pending_event.reload.event_status
+    assert_equal 'approved', @pending_event.reload.event_status
 
     sign_out @admin
   end
 
   # Reject event
-  test "admin rejects event" do
+  test 'admin rejects event' do
     sign_in @admin
 
     @pending_event.update!(event_status: Event.event_statuses[:declined])
@@ -120,7 +120,7 @@ class AdminApprovalFlowTest < ActionDispatch::IntegrationTest
   end
 
   # Request revisions
-  test "admin requests revisions" do
+  test 'admin requests revisions' do
     sign_in @admin
 
     @pending_event.update!(event_status: Event.event_statuses[:awaiting_review])

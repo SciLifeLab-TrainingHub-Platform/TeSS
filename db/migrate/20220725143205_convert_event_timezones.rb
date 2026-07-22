@@ -16,18 +16,18 @@ class ConvertEventTimezones < ActiveRecord::Migration[6.1]
   def mapping
     return @map if @map
     @map = {
-      "CET" => "Amsterdam",
-      "CEST" => "Amsterdam",
-      "GMT" => "London",
-      "BST" => "London"
+      'CET' => 'Amsterdam',
+      'CEST' => 'Amsterdam',
+      'GMT' => 'London',
+      'BST' => 'London'
     }
 
     ActiveSupport::TimeZone::MAPPING.each do |label, zone|
       tzinfo = TZInfo::Timezone.get(zone)
       # Pick two dates to get the DST and non-DST versions of the timezone.
       # These two dates should account for all the different DST boundaries across the world.
-      winter = tzinfo.local_time(2020, 1, 1).strftime("%Z")
-      summer = tzinfo.local_time(2020, 8, 1).strftime("%Z")
+      winter = tzinfo.local_time(2020, 1, 1).strftime('%Z')
+      summer = tzinfo.local_time(2020, 8, 1).strftime('%Z')
       @map[winter] ||= label unless winter =~ (/[-+]/)
       @map[summer] ||= label unless summer =~ (/[-+]/)
     end

@@ -191,7 +191,7 @@ class LearningPathsControllerTest < ActionController::TestCase
     assert_redirected_to learning_path_path(assigns(:learning_path))
   end
 
-  test "should add topics to learning_path" do
+  test 'should add topics to learning_path' do
     sign_in @learning_path.user
     learning_path = learning_paths(:two)
     assert_no_difference('LearningPathTopic.count') do
@@ -212,7 +212,7 @@ class LearningPathsControllerTest < ActionController::TestCase
     assert_equal learning_path_topics(:goblet_things), links[1].topic
   end
 
-  test "should remove topic from learning_path" do
+  test 'should remove topic from learning_path' do
     sign_in @learning_path.user
     learning_path = learning_paths(:two)
     assert_no_difference('LearningPathTopic.count') do
@@ -228,7 +228,7 @@ class LearningPathsControllerTest < ActionController::TestCase
     assert_empty assigns(:learning_path).topic_links
   end
 
-  test "should modify items in learning_path" do
+  test 'should modify items in learning_path' do
     sign_in @learning_path.user
 
     l1 = @learning_path.topic_links[0]

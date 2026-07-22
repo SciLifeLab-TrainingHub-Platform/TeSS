@@ -360,9 +360,9 @@ class EventsController < ApplicationController
     @content_providers = ContentProvider.all
     @courses = courses_for_event_form if request.format.html?
     @country_code = if @event
-                      JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json'))).key(@event.country) || "SE"
+                      JSON.parse(File.read(File.join(Rails.root, 'config', 'data', 'countries.json'))).key(@event.country) || 'SE'
                     else
-                      "SE"
+                      'SE'
                     end
     @cities = City.where(country_code: @country_code).or(City.online).order(:name)
   end

@@ -54,7 +54,7 @@ class User < ApplicationRecord
            class_name: '::PublicActivity::Activity',
            as: :owner
 
-  has_and_belongs_to_many :editables, class_name: "ContentProvider"
+  has_and_belongs_to_many :editables, class_name: 'ContentProvider'
 
   has_many :collaborations, dependent: :destroy
 
@@ -105,7 +105,7 @@ class User < ApplicationRecord
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions.to_h).where(['lower(username) = :value OR lower(email) = :value', { :value => login.downcase }]).first
     else
       where(conditions.to_h).first
     end
@@ -403,8 +403,8 @@ class User < ApplicationRecord
   private
 
   def promote_to_trusted_if_needed
-    registered_role = Role.find_by!(title: "Registered user")
-    trusted_role    = Role.find_by!(title: "Trusted user")
+    registered_role = Role.find_by!(title: 'Registered user')
+    trusted_role    = Role.find_by!(title: 'Trusted user')
 
     return unless approved_events_count > User::EVENT_APPROVAL_THRESHOLD &&
       role_id == registered_role.id
@@ -421,7 +421,7 @@ class User < ApplicationRecord
   end
 
   def consents_to_processing
-    if processing_consent!="1"
+    if processing_consent!='1'
       errors.add(:base, "You must consent to #{TeSS::Config.site['title_short']} processing your data in order to register")
 
       false

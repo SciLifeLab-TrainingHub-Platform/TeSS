@@ -4,7 +4,7 @@ class SlackNotificationJob < ApplicationJob
   def perform(message, channels)
 
     unless Rails.env.production?
-      Rails.logger.info("Slack notification skipped: Not in production environment")
+      Rails.logger.info('Slack notification skipped: Not in production environment')
       return
     end
 

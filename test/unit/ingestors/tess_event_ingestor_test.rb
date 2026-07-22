@@ -57,7 +57,7 @@ class TessEventIngestorTest < ActiveSupport::TestCase
     assert_equal 0, event.host_institutions.size
     assert_equal 0, event.keywords.size
     assert_not event.online?
-    assert_equal "", event.city
+    assert_equal '', event.city
     assert_nil event.country
     assert_equal 'Belval Campus, Luxembourg', event.venue
 

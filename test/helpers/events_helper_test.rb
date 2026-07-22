@@ -11,11 +11,11 @@ class EventsHelperTest < ActionView::TestCase
                           language: @event_with_user.language, prerequisites: @event_with_user.prerequisites,
                           target_audience: @event_with_user.target_audience, content_providers: @event_with_user.content_providers,
                           learning_objectives: @event_with_user.learning_objectives,
-                          event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+                          event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     }
   end
 
-  test "neatly_printed_date_range" do
+  test 'neatly_printed_date_range' do
     assert_equal '15 April 2023',
                  neatly_printed_date_range(DateTime.new(2023, 4, 15, 0)),
                  'Should display single date without time if time is midnight'
@@ -69,7 +69,7 @@ class EventsHelperTest < ActionView::TestCase
     assert_equal 'No start date', neatly_printed_date_range(nil, DateTime.new(2024, 5, 16, 17))
   end
 
-  test "returns default options if user has no prior events with event prices" do
+  test 'returns default options if user has no prior events with event prices' do
 
     new_user = User.create({ username: 'new_user', password: '12345678', email: 'new_user@example.com', processing_consent: '1' })
     new_event = Event.new(@event_parameters.merge({ user: new_user }))
@@ -78,9 +78,9 @@ class EventsHelperTest < ActionView::TestCase
     assert_equal expected.sort, get_event_audience_types(new_user).sort
   end
 
-  test "event_cost_value escapes custom audience_type content" do
+  test 'event_cost_value escapes custom audience_type content' do
     event = Event.new
-    event.event_prices.build(cost: 10, currency: "SEK", audience_type: '<script>alert("xss")</script>')
+    event.event_prices.build(cost: 10, currency: 'SEK', audience_type: '<script>alert("xss")</script>')
 
     rendered = event_cost_value(event)
 
@@ -92,7 +92,7 @@ class EventsHelperTest < ActionView::TestCase
   end
 
   test "includes custom audience types from user's previous event prices" do
-    new_event_price_audience_type = "vip-academic"
+    new_event_price_audience_type = 'vip-academic'
     new_user = User.create!({ username: 'new_user', password: '12345678', email: 'new_user@example.com', processing_consent: '1' })
     new_event = Event.create!(@event_parameters.merge(
       {
@@ -106,7 +106,7 @@ class EventsHelperTest < ActionView::TestCase
     EventPrice.create!(
       event: new_event,
       cost: 50,
-      currency: "SEK",
+      currency: 'SEK',
       audience_type: new_event_price_audience_type
     )
 
@@ -115,7 +115,7 @@ class EventsHelperTest < ActionView::TestCase
     assert_equal expected.sort, get_event_audience_types(new_user).sort
   end
 
-  test "merges multiple custom audience types without duplicates" do
+  test 'merges multiple custom audience types without duplicates' do
     new_user = User.create!(
       username: 'new_user_2',
       password: '12345678',
@@ -139,7 +139,7 @@ class EventsHelperTest < ActionView::TestCase
       EventPrice.create!(
         event: new_event,
         cost: rand(10..100),
-        currency: "SEK",
+        currency: 'SEK',
         audience_type: aud_type
       )
     end

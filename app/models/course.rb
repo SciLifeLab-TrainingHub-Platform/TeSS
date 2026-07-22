@@ -100,9 +100,9 @@ class Course < ApplicationRecord
 
   #@todo need to refactored to more generic behaviour with arguments
   def course_status_just_approved?
-    return false unless previous_changes.key?("course_status")
+    return false unless previous_changes.key?('course_status')
 
-    old_status, new_status = previous_changes["course_status"]
+    old_status, new_status = previous_changes['course_status']
 
     awaiting_review = Course.course_statuses.key(0)
     revisions_required = Course.course_statuses.key(3)

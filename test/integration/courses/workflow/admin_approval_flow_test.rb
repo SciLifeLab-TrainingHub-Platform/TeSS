@@ -1,5 +1,5 @@
 # test/integration/courses/workflow/admin_approval_flow_test.rb
-require "test_helper"
+require 'test_helper'
 
 # Tests for admin actions on courses.
 # Covers all moderation workflows:
@@ -30,24 +30,24 @@ class AdminApprovalFlowCourseTest < ActionDispatch::IntegrationTest
     @node = nodes(:good)
 
     @parameters = {
-      title: "Test Course",
-      url: "https://example.com/test_course",
-      language: "en",
-      licence: "Glide",
-      description: "A test description",
-      target_audience: ["students"],
-      prerequisites_knowledge: "None",
-      prerequisites_technical: "None",
-      structure_and_duration: "1 week",
-      learning_outcomes: "Learn testing",
-      keywords: ["test", "ruby"],
+      title: 'Test Course',
+      url: 'https://example.com/test_course',
+      language: 'en',
+      licence: 'Glide',
+      description: 'A test description',
+      target_audience: ['students'],
+      prerequisites_knowledge: 'None',
+      prerequisites_technical: 'None',
+      structure_and_duration: '1 week',
+      learning_outcomes: 'Learn testing',
+      keywords: ['test', 'ruby'],
       authors: [
-        { "name" => "John Doe", "affiliation" => "Uni X", "orcid" => "0000-0001-5109-3700", "email" => "johndoe@example.com" },
-        { "name" => "Jane Doe", "affiliation" => "Uni Y", "orcid" => "0000-0002-5109-3700", "email" => "janedoe@example.com" }
+        { 'name' => 'John Doe', 'affiliation' => 'Uni X', 'orcid' => '0000-0001-5109-3700', 'email' => 'johndoe@example.com' },
+        { 'name' => 'Jane Doe', 'affiliation' => 'Uni Y', 'orcid' => '0000-0002-5109-3700', 'email' => 'janedoe@example.com' }
       ],
       contributors: [
-        { "name" => "Jane Doe", "affiliation" => "Uni Y", "orcid" => "0000-0001-5109-3700" },
-        { "name" => "Jane Doe", "affiliation" => "Uni Y", "orcid" => "0000-0002-5109-3700" }
+        { 'name' => 'Jane Doe', 'affiliation' => 'Uni Y', 'orcid' => '0000-0001-5109-3700' },
+        { 'name' => 'Jane Doe', 'affiliation' => 'Uni Y', 'orcid' => '0000-0002-5109-3700' }
       ],
       content_providers: [@content_provider],
       nodes: [@node],
@@ -57,7 +57,7 @@ class AdminApprovalFlowCourseTest < ActionDispatch::IntegrationTest
   end
 
   # Approve pending course
-  test "admin approves pending course" do
+  test 'admin approves pending course' do
     sign_in @admin
 
     perform_enqueued_jobs do
@@ -77,13 +77,13 @@ class AdminApprovalFlowCourseTest < ActionDispatch::IntegrationTest
     assert_includes provider_email.subject, @pending_course.title
 
     # Course should be approved
-    assert_equal "approved", @pending_course.reload.course_status
+    assert_equal 'approved', @pending_course.reload.course_status
 
     sign_out @admin
   end
 
   # Reject course
-  test "admin rejects course" do
+  test 'admin rejects course' do
     sign_in @admin
 
     @pending_course.update!(course_status: Course.course_statuses[:declined])
@@ -107,7 +107,7 @@ class AdminApprovalFlowCourseTest < ActionDispatch::IntegrationTest
   end
 
   # Request revisions
-  test "admin requests revisions" do
+  test 'admin requests revisions' do
     sign_in @admin
 
     @pending_course.update!(course_status: Course.course_statuses[:awaiting_review])

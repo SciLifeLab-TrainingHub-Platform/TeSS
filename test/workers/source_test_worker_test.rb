@@ -68,7 +68,7 @@ class SourceTestWorkerTest < ActiveSupport::TestCase
     assert results
     assert_equal 0, results[:events].length
     assert_equal 0, results[:materials].length
-    assert_includes results[:messages], "Ingestor encountered an unexpected error"
+    assert_includes results[:messages], 'Ingestor encountered an unexpected error'
     assert results[:run_time] > 0
     assert results[:finished_at] > 1.day.ago
   ensure

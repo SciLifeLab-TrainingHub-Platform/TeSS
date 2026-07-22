@@ -148,7 +148,7 @@ INFO
   end
 
   def event_cost_value(event)
-    return "" if event.event_prices.blank?
+    return '' if event.event_prices.blank?
 
     lines = event.event_prices.each_with_object([]) do |price, arr|
       next if price.cost.blank?
@@ -163,7 +163,7 @@ INFO
       audience = price.audience_type.presence&.titleize
 
       # Only add audience part if present
-      audience_part = audience.present? ? ": #{audience}" : ""
+      audience_part = audience.present? ? ": #{audience}" : ''
 
       arr << "#{formatted_value} #{currency_display} #{audience_part}"
     end
@@ -230,7 +230,7 @@ INFO
     else
       if user
         # Show approved events and the user's events (excluding declined)
-        events.where("event_status = ? OR (user_id = ? AND event_status != ?)",
+        events.where('event_status = ? OR (user_id = ? AND event_status != ?)',
                      Event.event_statuses[:approved], user.id, Event.event_statuses[:declined])
       else
         # Show only approved events for non-logged-in users

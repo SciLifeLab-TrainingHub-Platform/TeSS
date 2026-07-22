@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 # Tests for trusted users creating events.
 # Workflow:
@@ -38,15 +38,15 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
       content_provider_ids: [@content_provider.id],
       learning_objectives: @event_fixture.learning_objectives,
       description: @event_fixture.description,
-      title: "Trusted user published event",
+      title: 'Trusted user published event',
       url: @event_fixture.url,
       duration: @event_fixture.duration,
       recognition: @event_fixture.recognition,
-      event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+      event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     }
   end
 
-  test "trusted user creates approved event and triggers notifications" do
+  test 'trusted user creates approved event and triggers notifications' do
     sign_in @trusted_user
 
     channels = ENV.fetch('SLACK_COURSE_NOTIFICATION_CHANNELS').split(',').map(&:strip)
@@ -62,8 +62,8 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
       end
 
       assert event.persisted?
-      assert_equal "Trusted user published event", event.title
-      assert_equal "approved", event.event_status
+      assert_equal 'Trusted user published event', event.title
+      assert_equal 'approved', event.event_status
       assert_equal @trusted_user, event.user
     end
 
@@ -91,31 +91,31 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
   end
 
 
-  test "approved event visibility for all users and public" do
+  test 'approved event visibility for all users and public' do
     sign_in @trusted_user
     event = @trusted_user.events.create!(@parameters)
     sign_out @trusted_user
 
-    assert_equal "approved", event.event_status
+    assert_equal 'approved', event.event_status
 
     # Public index
-    get "/events", params: { format: :json }
+    get '/events', params: { format: :json }
     assert_response :success
     events_index = JSON.parse(response.body)
-    assert_includes events_index.map { |e| e["id"] }, event.id
+    assert_includes events_index.map { |e| e['id'] }, event.id
 
     # Public show
     get "/events/#{event.id}", params: { format: :json }
     assert_response :success
     event_show = JSON.parse(response.body)
-    assert_equal event.id, event_show["id"]
+    assert_equal event.id, event_show['id']
 
     # Regular user
     sign_in @regular_user
 
-    get "/events", params: { format: :json }
+    get '/events', params: { format: :json }
     events_index = JSON.parse(response.body)
-    assert_includes events_index.map { |e| e["id"] }, event.id
+    assert_includes events_index.map { |e| e['id'] }, event.id
 
     get "/events/#{event.id}", params: { format: :json }
     assert_response :success

@@ -465,7 +465,7 @@ class ContentProvidersControllerTest < ActionController::TestCase
 
   # Event count on content provider page
   test 'show consistent count on content provider page' do
-    skip "Skipping this test as we no longer maintain the UI testcases"
+    skip 'Skipping this test as we no longer maintain the UI testcases'
     sign_in users(:admin)
 
     # Ensure events and their associated events_venues are deleted
@@ -663,7 +663,7 @@ class ContentProvidersControllerTest < ActionController::TestCase
     assert_difference('ContentProvider.count', 1) do
       post :create, params: {
         content_provider: {
-          title: "New Provider Without Approval Email",
+          title: 'New Provider Without Approval Email',
           url: @content_provider.url,
           image_url: @content_provider.image_url,
           description: @content_provider.description,

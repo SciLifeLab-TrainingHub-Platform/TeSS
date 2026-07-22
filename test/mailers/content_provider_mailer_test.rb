@@ -2,7 +2,7 @@
 require 'test_helper'
 
 class ContentProviderMailerTest < ActionMailer::TestCase
-  test "event_content_provider_notification" do
+  test 'event_content_provider_notification' do
     event = events(:one)
     content_provider = content_providers(:approval_notification_email_contact_provider)
 
@@ -27,7 +27,7 @@ class ContentProviderMailerTest < ActionMailer::TestCase
     assert_match content_provider.approval_notification_email, mail.body.encoded
   end
 
-  test "does not send email for event if approval_notification_email is blank" do
+  test 'does not send email for event if approval_notification_email is blank' do
     event = events(:one)
     content_provider = content_providers(:no_approval_notification_email_contact_provider)
     mail = ContentProviderMailer.event_content_provider_notification(event, content_provider)
@@ -37,7 +37,7 @@ class ContentProviderMailerTest < ActionMailer::TestCase
     end
   end
 
-  test "course_content_provider_notification" do
+  test 'course_content_provider_notification' do
     course = courses(:one)
     content_provider = content_providers(:approval_notification_email_contact_provider)
 
@@ -63,7 +63,7 @@ class ContentProviderMailerTest < ActionMailer::TestCase
     assert_match content_provider.approval_notification_email, mail.body.encoded
   end
 
-  test "does not send email for course if approval_notification_email is blank" do
+  test 'does not send email for course if approval_notification_email is blank' do
     course = courses(:one)
     content_provider = content_providers(:no_approval_notification_email_contact_provider)
 

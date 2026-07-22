@@ -1,9 +1,9 @@
 class MakeMoreEventFieldsMandatory < ActiveRecord::Migration[7.0]
   def up
-    Event.where(language: nil).update_all(language: "en")
-    Event.where(prerequisites: nil).update_all(prerequisites: "N/A")
-    Event.where(target_audience: nil).update_all(target_audience: "Everyone")
-    Event.where(cost_basis: nil).update_all(cost_basis: "N/A")
+    Event.where(language: nil).update_all(language: 'en')
+    Event.where(prerequisites: nil).update_all(prerequisites: 'N/A')
+    Event.where(target_audience: nil).update_all(target_audience: 'Everyone')
+    Event.where(cost_basis: nil).update_all(cost_basis: 'N/A')
     # this migration does not handle the default value for content providers
     # even though in the real world it should. due to both time constraints and
     # the size of the existing data in production (small), as well as the

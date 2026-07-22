@@ -29,7 +29,7 @@ class OmniauthTest < ActionDispatch::IntegrationTest
     follow_redirect! # OmniAuth redirect
     follow_redirect! # CallbacksController edit profile redirect
 
-    assert_equal "/users/aaf_user/edit", path
+    assert_equal '/users/aaf_user/edit', path
     assert_select '#user-menu .dropdown-toggle', 'aaf_user'
     assert_select '#user_profile_attributes_firstname[value=?]', 'AAF'
     assert_select '#user_profile_attributes_surname[value=?]', 'User'
@@ -161,8 +161,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
         provider: 'oidc',
         uid: user.uid,
         info: {
-          email: "blablablablalbal@emaildomain.golf",
-          nickname: "bieberfan1997",
+          email: 'blablablablalbal@emaildomain.golf',
+          nickname: 'bieberfan1997',
         }
       })
 
@@ -250,7 +250,7 @@ class OmniauthTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     # check redirect to sign in page
-    assert_equal "/users/sign_in", path
+    assert_equal '/users/sign_in', path
     assert_equal 'Login failed: Email has already been taken', flash[:notice]
   end
 
@@ -272,7 +272,7 @@ class OmniauthTest < ActionDispatch::IntegrationTest
     follow_redirect! # OmniAuth redirect
     follow_redirect! # CallbacksController edit profile redirect
 
-    assert_equal "/users/aai_user/edit", path
+    assert_equal '/users/aai_user/edit', path
     assert_select '#user-menu .dropdown-toggle', 'aai_user'
     assert_select '#user_profile_attributes_firstname[value=?]', 'AAI'
     assert_select '#user_profile_attributes_surname[value=?]', 'User'
@@ -368,8 +368,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
         provider: 'elixir_aai',
         uid: user.uid,
         info: {
-          email: "blablablablalbal@emaildomain.golf",
-          nickname: "bieberfan1997",
+          email: 'blablablablalbal@emaildomain.golf',
+          nickname: 'bieberfan1997',
         }
       })
 

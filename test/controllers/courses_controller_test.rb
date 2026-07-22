@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class CoursesControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
@@ -9,23 +9,23 @@ class CoursesControllerTest < ActionController::TestCase
     @content_providers = content_providers(:goblet)
 
     @mandatory = {
-      title: "Test Course",
-      description: "A test description",
-      language: "en",
+      title: 'Test Course',
+      description: 'A test description',
+      language: 'en',
       keywords: %w[test ruby],
-      authors: [{ "name" => "John Doe", "affiliation" => "Uni X", "orcid" => "0000-0001", "email" => "johndoe@example.com" }],
-      contributors: [{ "name" => "Jane Doe", "affiliation" => "Uni Y", "orcid" => "0000-0002", "email" => "janedoe@example.com" }],
-      url: "https://example.com/test_course",
-      learning_outcomes: "Learn testing",
-      structure_and_duration: "1 week",
-      target_audience: ["students"],
-      prerequisites_knowledge: "None",
-      prerequisites_technical: "None",
-      licence: "Glide",
+      authors: [{ 'name' => 'John Doe', 'affiliation' => 'Uni X', 'orcid' => '0000-0001', 'email' => 'johndoe@example.com' }],
+      contributors: [{ 'name' => 'Jane Doe', 'affiliation' => 'Uni Y', 'orcid' => '0000-0002', 'email' => 'janedoe@example.com' }],
+      url: 'https://example.com/test_course',
+      learning_outcomes: 'Learn testing',
+      structure_and_duration: '1 week',
+      target_audience: ['students'],
+      prerequisites_knowledge: 'None',
+      prerequisites_technical: 'None',
+      licence: 'Glide',
     }
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
   end
@@ -65,7 +65,7 @@ class CoursesControllerTest < ActionController::TestCase
       content_providers: template_event.content_providers,
       learning_objectives: template_event.learning_objectives,
       event_status: 'approved',
-      event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+      event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     )
 
     get :index
@@ -356,7 +356,7 @@ class CoursesControllerTest < ActionController::TestCase
       target_audience: template_event.target_audience,
       content_providers: template_event.content_providers,
       learning_objectives: template_event.learning_objectives,
-      event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+      event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     )
     assert_equal 'awaiting_review', pending_event.event_status
     assert_includes Course.find(course.id).event_ids, pending_event.id
@@ -771,7 +771,7 @@ class CoursesControllerTest < ActionController::TestCase
   end
 
   test 'should return nothing when course does not exist' do
-    post :check_exists, params: { format: :json, course: { url: "http://no-such-site.com" } }
+    post :check_exists, params: { format: :json, course: { url: 'http://no-such-site.com' } }
     assert_response :success
     assert_equal '{}', response.body
   end

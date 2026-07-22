@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class CityTest < ActiveSupport::TestCase
   setup do
@@ -15,12 +15,12 @@ class CityTest < ActiveSupport::TestCase
                    target_audience: @event_one.target_audience,
                    content_providers: @event_one.content_providers,
                    learning_objectives: @event_one.learning_objectives,
-                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+                   event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     }
 
   end
 
-  test "should have events" do
+  test 'should have events' do
     assert_equal 1, @city_one.events.count
     assert_equal @event_one, @city_one.events.first
 
@@ -28,7 +28,7 @@ class CityTest < ActiveSupport::TestCase
     assert_equal @event_two, @city_two.events.first
   end
 
-  test "should add event to city" do
+  test 'should add event to city' do
     parameters = @mandatory.merge({ user: users(:regular_user), title: 'New event', url: 'http://example.com',
                                     online: false, description: 'A new event',
                                     country: 'UK', postcode: 'M16 0TH' })
@@ -37,12 +37,12 @@ class CityTest < ActiveSupport::TestCase
     assert_includes @city_one.events, new_event
   end
 
-  test "should remove event from city" do
+  test 'should remove event from city' do
     @city_one.events.delete(@event_one)
     assert_not_includes @city_one.events, @event_one
   end
 
-  test "should destroy city and keep event" do
+  test 'should destroy city and keep event' do
     @city_two.destroy
     assert Event.exists?(@event_two.id)
   end

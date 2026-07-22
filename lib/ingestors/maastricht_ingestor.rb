@@ -50,7 +50,7 @@ module Ingestors
           event.set_default_times
           event.venue = ical_event.try(:location)&.split(',')&.first
           event.city = 'Maastricht'
-          event.event_types = "workshops_and_courses" #ical_event.categories # these event types are quite verbose and most are workshops
+          event.event_types = 'workshops_and_courses' #ical_event.categories # these event types are quite verbose and most are workshops
           # see https://www.openscience-maastricht.nl/wp-sitemap-taxonomies-event-categories-1.xml 
           event.timezone = 'Europe/Amsterdam' # how to get this from Icalendar Event object?
 

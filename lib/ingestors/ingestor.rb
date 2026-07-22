@@ -154,8 +154,8 @@ module Ingestors
 
         if not resource.valid?
           unless resource.valid?
-            puts "Validation errors:"
-            puts resource.errors.full_messages.join(", ") if resource.errors
+            puts 'Validation errors:'
+            puts resource.errors.full_messages.join(', ') if resource.errors
           end
         end
 

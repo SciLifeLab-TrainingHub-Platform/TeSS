@@ -1,5 +1,5 @@
 # test/integration/courses/workflow/trusted_user_flow_test.rb
-require "test_helper"
+require 'test_helper'
 
 # Tests for trusted users creating courses.
 # Workflow:
@@ -25,31 +25,31 @@ class TrustedUserCourseFlowTest < ActionDispatch::IntegrationTest
     @node = nodes(:good)
 
     @parameters = {
-      title: "Trusted user published course",
-      url: "https://example.com/test_course",
-      language: "en",
-      licence: "Glide",
-      description: "A test description",
-      target_audience: ["students"],
-      prerequisites_knowledge: "None",
-      prerequisites_technical: "None",
-      structure_and_duration: "1 week",
-      learning_outcomes: "Learn testing",
+      title: 'Trusted user published course',
+      url: 'https://example.com/test_course',
+      language: 'en',
+      licence: 'Glide',
+      description: 'A test description',
+      target_audience: ['students'],
+      prerequisites_knowledge: 'None',
+      prerequisites_technical: 'None',
+      structure_and_duration: '1 week',
+      learning_outcomes: 'Learn testing',
       keywords: %w[test ruby],
       authors: [
-        { "name" => "John Doe", "affiliation" => "Uni X", "orcid" => "0000-0001-5109-3700", "email" => "johndoe@example.com" },
-        { "name" => "Jane Doe", "affiliation" => "Uni Y", "orcid" => "0000-0002-5109-3700", "email" => "janedoe@example.com" }
+        { 'name' => 'John Doe', 'affiliation' => 'Uni X', 'orcid' => '0000-0001-5109-3700', 'email' => 'johndoe@example.com' },
+        { 'name' => 'Jane Doe', 'affiliation' => 'Uni Y', 'orcid' => '0000-0002-5109-3700', 'email' => 'janedoe@example.com' }
       ],
       contributors: [
-        { "name" => "Jane Doe", "affiliation" => "Uni Y", "orcid" => "0000-0001-5109-3700" },
-        { "name" => "Jane Doe", "affiliation" => "Uni Y", "orcid" => "0000-0002-5109-3700" }
+        { 'name' => 'Jane Doe', 'affiliation' => 'Uni Y', 'orcid' => '0000-0001-5109-3700' },
+        { 'name' => 'Jane Doe', 'affiliation' => 'Uni Y', 'orcid' => '0000-0002-5109-3700' }
       ],
       content_providers: [@content_provider],
       nodes: [@node],
     }
   end
 
-  test "trusted user creates approved course and triggers notifications" do
+  test 'trusted user creates approved course and triggers notifications' do
     sign_in @trusted_user
 
     course = nil
@@ -60,8 +60,8 @@ class TrustedUserCourseFlowTest < ActionDispatch::IntegrationTest
       end
 
       assert course.persisted?
-      assert_equal "Trusted user published course", course.title
-      assert_equal "approved", course.course_status
+      assert_equal 'Trusted user published course', course.title
+      assert_equal 'approved', course.course_status
       assert_equal @trusted_user, course.user
     end
 
@@ -78,30 +78,30 @@ class TrustedUserCourseFlowTest < ActionDispatch::IntegrationTest
     sign_out @trusted_user
   end
 
-  test "approved course visibility for all users and public" do
+  test 'approved course visibility for all users and public' do
     sign_in @trusted_user
     course = @trusted_user.courses.create!(@parameters)
     sign_out @trusted_user
 
-    assert_equal "approved", course.course_status
+    assert_equal 'approved', course.course_status
 
     # Public index
-    get "/courses", params: { format: :json }
+    get '/courses', params: { format: :json }
     assert_response :success
     courses_index = JSON.parse(response.body)
-    assert_includes courses_index.map { |c| c["id"] }, course.id
+    assert_includes courses_index.map { |c| c['id'] }, course.id
 
     # Public show
     get "/courses/#{course.id}", params: { format: :json }
     assert_response :success
     course_show = JSON.parse(response.body)
-    assert_equal course.id, course_show["id"]
+    assert_equal course.id, course_show['id']
 
     # Regular user
     sign_in @regular_user
-    get "/courses", params: { format: :json }
+    get '/courses', params: { format: :json }
     courses_index = JSON.parse(response.body)
-    assert_includes courses_index.map { |c| c["id"] }, course.id
+    assert_includes courses_index.map { |c| c['id'] }, course.id
 
     get "/courses/#{course.id}", params: { format: :json }
     assert_response :success

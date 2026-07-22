@@ -32,7 +32,7 @@ class AboutControllerTest < ActionController::TestCase
   end
 
   test 'should not list learning path help if feature disabled' do
-    skip "Skipping this test due to ActionController::UrlGenerationError issue"
+    skip 'Skipping this test due to ActionController::UrlGenerationError issue'
 
     # This test is throwing an ActionController::UrlGenerationError due to a
     # temporary blocking call in test/test_helper.rb at line 72. The block

@@ -1,7 +1,7 @@
-require "test_helper"
+require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
-  test "event_published_test" do
+  test 'event_published_test' do
     event = events(:one)
     mail = UserMailer.event_published(event)
 
@@ -20,7 +20,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match event.user.username, mail.body.encoded
   end
 
-  test "event_submitted_test" do
+  test 'event_submitted_test' do
     event = events(:one)
     mail = UserMailer.event_submitted(event)
 
@@ -42,11 +42,11 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match event.end.strftime('%d %B %Y'), mail.body.encoded
   end
 
-  test "course_published email" do
+  test 'course_published email' do
   #   write test for this in the end
   end
 
-  test "course_submitted email" do
+  test 'course_submitted email' do
   #   write test for this in the end
   end
 end

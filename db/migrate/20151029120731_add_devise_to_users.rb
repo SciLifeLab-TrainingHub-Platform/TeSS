@@ -3,8 +3,8 @@ class AddDeviseToUsers < ActiveRecord::Migration[4.2]
     #return # renaming this file in a merge broke migrations
     change_table(:users) do |t|
       ## Database authenticatable
-      t.string :email,              null: false, default: ""
-      t.string :encrypted_password, null: false, default: ""
+      t.string :email,              null: false, default: ''
+      t.string :encrypted_password, null: false, default: ''
 
       ## Recoverable
       t.string   :reset_password_token

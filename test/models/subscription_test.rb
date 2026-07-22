@@ -170,6 +170,6 @@ class SubscriptionTest < ActiveSupport::TestCase
     assert_equal({ type: ['fruit', 'veg'], max_age: '1 month' }.with_indifferent_access, sub.facets_with_max_age)
 
     sub = subscriptions(:event_subscription)
-    assert_equal({ times: ["good", "great"], max_age: '1 week' }.with_indifferent_access, sub.facets_with_max_age)
+    assert_equal({ times: ['good', 'great'], max_age: '1 week' }.with_indifferent_access, sub.facets_with_max_age)
   end
 end

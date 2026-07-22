@@ -7,7 +7,7 @@ class CommunityTest < ActiveSupport::TestCase
     assert_equal 'UK training', c.name
     assert_equal({ 'node' => 'United Kingdom' }, c.filters)
     assert_equal 'Some text about what the community is bla bla bla', c.description
-    assert_equal "🇬🇧", c.flag
+    assert_equal '🇬🇧', c.flag
     assert_equal 'GB', c.country_code
 
     c = Community.find('be')

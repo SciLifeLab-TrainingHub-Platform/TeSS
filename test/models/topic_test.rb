@@ -1,9 +1,9 @@
-require "test_helper"
+require 'test_helper'
 
 class TopicTest < ActiveSupport::TestCase
 
   setup do
-    @topic = Topic.new(name: "DevOps")
+    @topic = Topic.new(name: 'DevOps')
     @topic_one = topics(:one)
     @topic_two = topics(:two)
     @event_one = events(:one)
@@ -12,15 +12,15 @@ class TopicTest < ActiveSupport::TestCase
                    language: @event_one.language, prerequisites: @event_one.prerequisites,
                    target_audience: @event_one.target_audience, content_providers: @event_one.content_providers,
                    learning_objectives: @event_one.learning_objectives,
-                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+                   event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     }
   end
 
-  test "should be valid with valid attributes" do
+  test 'should be valid with valid attributes' do
     assert @topic.valid?
   end
 
-  test "should add event to topic" do
+  test 'should add event to topic' do
     parameters = @mandatory.merge({ user: users(:regular_user), title: 'New event', url: 'http://example.com',
                                     online: false, description: 'A new event',
                                     country: 'UK', postcode: 'M16 0TH' })
@@ -29,12 +29,12 @@ class TopicTest < ActiveSupport::TestCase
     assert_includes @topic_one.events, new_event
   end
 
-  test "should remove event from topic" do
+  test 'should remove event from topic' do
     @topic_one.events.delete(@event_one)
     assert_not_includes @topic_one.events, @event_one
   end
 
-  test "should destroy topic and keep event" do
+  test 'should destroy topic and keep event' do
     @topic_two.destroy
     assert Event.exists?(@event_two.id)
   end

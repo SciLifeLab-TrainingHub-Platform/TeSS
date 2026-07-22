@@ -173,7 +173,7 @@ class BioschemasControllerTest < ActionController::TestCase
     output = assigns(:output)
     assert_equal 1, output[:totals]['LearningResources']
     assert_equal 1, output[:resources][:materials].count
-    assert_equal "https://test.url", output[:resources][:materials].first[:url]
+    assert_equal 'https://test.url', output[:resources][:materials].first[:url]
   end
 
   private

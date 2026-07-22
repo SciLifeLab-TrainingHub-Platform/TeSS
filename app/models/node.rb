@@ -67,8 +67,8 @@ class Node < ApplicationRecord
   end
 
   def self.load_from_hash(hash, verbose: false)
-    hash["nodes"].map do |node_data|
-      node = Node.find_or_initialize_by(name: node_data["name"])
+    hash['nodes'].map do |node_data|
+      node = Node.find_or_initialize_by(name: node_data['name'])
       puts "#{node.new_record? ? 'Creating' : 'Updating'}: #{node_data['name']}" if verbose
       staff_data = node_data.delete('staff')
       node.attributes = node_data

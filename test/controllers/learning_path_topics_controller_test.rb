@@ -164,7 +164,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     assert_redirected_to learning_path_topic_path(assigns(:learning_path_topic))
   end
 
-  test "should add items to learning_path_topic" do
+  test 'should add items to learning_path_topic' do
     sign_in users(:curator)
     learning_path_topic = learning_path_topics(:good_and_bad)
 
@@ -201,7 +201,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should remove items from learning_path_topic" do
+  test 'should remove items from learning_path_topic' do
     sign_in users(:curator)
     learning_path_topic = learning_path_topics(:goblet_things)
 
@@ -234,7 +234,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should modify items in learning_path_topic" do
+  test 'should modify items in learning_path_topic' do
     sign_in users(:curator)
     learning_path_topic = learning_path_topics(:goblet_things)
 
@@ -401,7 +401,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
   end
 
   #API Actions
-  test "should add materials to learning_path_topic" do
+  test 'should add materials to learning_path_topic' do
     sign_in users(:admin)
     learning_path_topic = learning_path_topics(:empty_topic)
     assert_difference('LearningPathTopicItem.count', 2) do
@@ -411,7 +411,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should remove materials from learning_path_topic" do
+  test 'should remove materials from learning_path_topic' do
     sign_in users(:curator)
     learning_path_topic = learning_path_topics(:goblet_things)
     assert_difference('LearningPathTopicItem.count', -3) do
@@ -421,7 +421,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should add events to learning_path_topic" do
+  test 'should add events to learning_path_topic' do
     sign_in users(:curator)
     assert_difference('LearningPathTopicItem.count', 2) do
       assert_difference('@learning_path_topic.events.count', 2) do
@@ -430,7 +430,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should remove events from learning_path_topic" do
+  test 'should remove events from learning_path_topic' do
     sign_in users(:admin)
     learning_path_topic = learning_path_topics(:empty_topic)
     learning_path_topic.events = [events(:one), events(:two)]

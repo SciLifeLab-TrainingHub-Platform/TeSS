@@ -19,7 +19,7 @@ class SubscriptionsController < ApplicationController
         format.html { redirect_to subscriptions_path }
       end
     else
-      flash[:error] = @subscription.errors.full_messages.join(", ")
+      flash[:error] = @subscription.errors.full_messages.join(', ')
       respond_to do |format|
         format.html { redirect_back(fallback_location: subscriptions_path) }
       end

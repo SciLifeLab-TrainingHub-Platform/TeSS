@@ -30,7 +30,7 @@ class EventsControllerTest < ActionController::TestCase
                           prerequisites: @event.prerequisites, target_audience: @event.target_audience,
                           content_provider_ids: [ @event.content_providers[0].id ],
                           learning_objectives: @event.learning_objectives,
-                          event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+                          event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     }
   end
 
@@ -1827,7 +1827,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should show logo in events' do
-    skip "Skipping this test as we no longer maintain the UI testcases"
+    skip 'Skipping this test as we no longer maintain the UI testcases'
     with_settings({ site: { show_provider_logo_in_event: true } }) do
       get :index
       assert_response :success
@@ -1895,8 +1895,8 @@ class EventsControllerTest < ActionController::TestCase
     event = users(:regular_user).events.create!(parameters)
     event2 = users(:trusted_user).events.create!(parameters)
 
-    assert event.persisted?, "Event was not successfully created for regular_user"
-    assert event2.persisted?, "Event was not successfully created for another_regular_user"
+    assert event.persisted?, 'Event was not successfully created for regular_user'
+    assert event2.persisted?, 'Event was not successfully created for another_regular_user'
 
     sign_in users(:regular_user)
     get :index
@@ -1913,8 +1913,8 @@ class EventsControllerTest < ActionController::TestCase
     event = users(:regular_user).events.create!(parameters)
     event2 = users(:another_regular_user).events.create!(parameters)
 
-    assert event.persisted?, "Event was not successfully created for regular_user"
-    assert event2.persisted?, "Event was not successfully created for another_regular_user"
+    assert event.persisted?, 'Event was not successfully created for regular_user'
+    assert event2.persisted?, 'Event was not successfully created for another_regular_user'
 
     sign_in users(:regular_user)
     get :index
@@ -1936,8 +1936,8 @@ class EventsControllerTest < ActionController::TestCase
     event = users(:regular_user).events.create!(parameters)
     event2 = users(:another_regular_user).events.create!(parameters)
 
-    assert event.persisted?, "Event was not successfully created for regular_user"
-    assert event2.persisted?, "Event was not successfully created for another_regular_user"
+    assert event.persisted?, 'Event was not successfully created for regular_user'
+    assert event2.persisted?, 'Event was not successfully created for another_regular_user'
 
     sign_in users(:regular_user)
     get :index
@@ -2045,7 +2045,7 @@ class EventsControllerTest < ActionController::TestCase
     get :edit, params: { id: event.id }
 
     assert_response :forbidden
-    assert_select "div#error-message", text: "You are not authorised to perform this action."
+    assert_select 'div#error-message', text: 'You are not authorised to perform this action.'
 
   end
 
