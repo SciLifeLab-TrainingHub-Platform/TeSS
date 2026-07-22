@@ -10,7 +10,6 @@ require "test_helper"
 # - Ensures workflow behavior changes after promotion (trusted user flow applies)
 
 class UserRolePromotionTest < ActionDispatch::IntegrationTest
-
   include Devise::Test::IntegrationHelpers
   include ActionMailer::TestHelper
   include ActiveJob::TestHelper
@@ -55,7 +54,7 @@ class UserRolePromotionTest < ActionDispatch::IntegrationTest
 
     perform_enqueued_jobs do
       (@threshold + 1).times do |i|
-        event = @user.events.create!(@event_params.merge(title: "Approved Event #{i+1}"))
+        event = @user.events.create!(@event_params.merge(title: "Approved Event #{i + 1}"))
         event.update!(event_status: Event.event_statuses[:approved])
       end
     end
@@ -69,7 +68,7 @@ class UserRolePromotionTest < ActionDispatch::IntegrationTest
     sign_in @admin
 
     (@threshold + 1).times do |i|
-      event = @user.events.create!(@event_params.merge(title: "Approved Event #{i+1}"))
+      event = @user.events.create!(@event_params.merge(title: "Approved Event #{i + 1}"))
       event.update!(event_status: Event.event_statuses[:approved])
     end
 
@@ -86,7 +85,7 @@ class UserRolePromotionTest < ActionDispatch::IntegrationTest
   test "user below threshold is not promoted" do
     sign_in @admin
     (@threshold - 1).times do |i|
-      event = @user2.events.create!(@event_params.merge(title: "Approved Event #{i+1}"))
+      event = @user2.events.create!(@event_params.merge(title: "Approved Event #{i + 1}"))
       event.update!(event_status: "approved")
     end
     @user2.reload
@@ -96,13 +95,13 @@ class UserRolePromotionTest < ActionDispatch::IntegrationTest
   test "database reflects correct roles after promotion and non-promotion" do
     sign_in @admin
     (@threshold + 1).times do |i|
-      event = @user.events.create!(@event_params.merge(title: "Approved Event #{i+1}"))
+      event = @user.events.create!(@event_params.merge(title: "Approved Event #{i + 1}"))
       event.update!(event_status: "approved")
     end
 
     # @user2 still below threshold
     (@threshold - 1).times do |i|
-      event = @user2.events.create!(@event_params.merge(title: "Approved Event #{i+1}"))
+      event = @user2.events.create!(@event_params.merge(title: "Approved Event #{i + 1}"))
       event.update!(event_status: "approved")
     end
 

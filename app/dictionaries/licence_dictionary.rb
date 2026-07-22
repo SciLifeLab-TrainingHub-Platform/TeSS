@@ -4,7 +4,6 @@
 # Inspired by SEEK's ImageFileDictionary
 # https://github.com/seek4science/seek/blob/master/lib/seek/image_file_dictionary.rb
 class LicenceDictionary < Dictionary
-
   DEFAULT_FILE = 'licences.yml'
 
   def licence_abbreviations
@@ -65,5 +64,4 @@ class LicenceDictionary < Dictionary
     end
     d
   end
-
 end

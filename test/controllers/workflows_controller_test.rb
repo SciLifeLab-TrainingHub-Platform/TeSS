@@ -67,11 +67,11 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     assert_difference('Workflow.count') do
       post :create, params: {
-          workflow: {
-              description: @workflow.description,
-              title: @workflow.title,
-              workflow_content: @workflow.workflow_content
-          }
+        workflow: {
+          description: @workflow.description,
+          title: @workflow.title,
+          workflow_content: @workflow.workflow_content
+        }
       }
     end
 
@@ -132,12 +132,12 @@ class WorkflowsControllerTest < ActionController::TestCase
     sign_in users(:admin)
 
     patch :update, params: {
-        id: @workflow,
-        workflow: {
-            description: @workflow.description,
-            title: 'hello',
-            workflow_content: @workflow.workflow_content
-        }
+      id: @workflow,
+      workflow: {
+        description: @workflow.description,
+        title: 'hello',
+        workflow_content: @workflow.workflow_content
+      }
     }
     assert_redirected_to workflow_path(assigns(:workflow))
     assert_equal 'hello', assigns(:workflow).title
@@ -234,13 +234,13 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     assert_difference(-> { @workflow.activities.count }) do
       patch :update, params: {
-          id: @workflow,
-          workflow: {
-              description: @workflow.description,
-              title: @workflow.title,
-              public: @workflow.public,
-              workflow_content: workflows(:two).workflow_content.to_json
-          }
+        id: @workflow,
+        workflow: {
+          description: @workflow.description,
+          title: @workflow.title,
+          public: @workflow.public,
+          workflow_content: workflows(:two).workflow_content.to_json
+        }
       }
     end
 

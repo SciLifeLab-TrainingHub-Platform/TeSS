@@ -7,5 +7,3 @@ json.array!(@materials) do |material|
 
   json.external_resources material.external_resources, partial: 'common/external_resource', as: :external_resource
 end
-
-

@@ -40,9 +40,7 @@ class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
                     duration: @event.duration,
                     recognition: @event.recognition,
                     event_status: Event.event_statuses[:awaiting_review],
-                    event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
-    }
-
+                    event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }] }
   end
 
   test "registered user creates pending event and triggers emails" do
@@ -79,7 +77,6 @@ class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
   end
 
   test "pending event visibility" do
-
     # user 1
     sign_in @user
 
@@ -141,7 +138,6 @@ class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
     assert_equal event.id, event_show["id"]
 
     sign_out @admin
-
   end
   test "owner updating revisions_required event resets status and notifies admin" do
     sign_in @user

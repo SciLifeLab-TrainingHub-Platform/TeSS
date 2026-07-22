@@ -15,6 +15,6 @@ class LearningPathTopicLink < ApplicationRecord
 
   def log_activity
     self.learning_path.create_activity(:add_topic, owner: User.current_user,
-                                       parameters: { topic_id: topic.id, topic_title: topic.title })
+                                                   parameters: { topic_id: topic.id, topic_title: topic.title })
   end
 end

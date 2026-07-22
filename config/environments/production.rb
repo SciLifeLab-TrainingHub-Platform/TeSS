@@ -58,7 +58,7 @@ Rails.application.configure do
   config.log_level = :error
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -66,7 +66,7 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "te_ss_#{Rails.env}"
-  config.active_job.queue_adapter     = :sidekiq
+  config.active_job.queue_adapter = :sidekiq
 
   # action mailer smtp settings
   if TeSS::Config.mailer['delivery_method'] == 'test'

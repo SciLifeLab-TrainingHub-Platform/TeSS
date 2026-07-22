@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class I18nTest < ActionDispatch::IntegrationTest
-
   setup do
     @original_load_path = I18n.load_path
     apply_overrides

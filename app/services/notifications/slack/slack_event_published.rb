@@ -1,6 +1,5 @@
 # app/services/notifications/slack_event_published.rb
 module Notifications
-
   module Slack
     class SlackEventPublished
       def initialize(record)

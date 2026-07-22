@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class StarsControllerTest < ActionController::TestCase
-
   include Devise::Test::ControllerHelpers
 
   test "can star a resource" do

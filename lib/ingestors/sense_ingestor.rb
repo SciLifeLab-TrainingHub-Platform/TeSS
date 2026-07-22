@@ -54,7 +54,7 @@ module Ingestors
           end
           event.venue = location
           time ||= nil
-          times = date_parsing(date, time) 
+          times = date_parsing(date, time)
           event.start = times[0]
           event.end = times[1]
 
@@ -80,27 +80,27 @@ def date_parsing(date, time)
 end
 
 def date_parsing_with_time(date, time)
-    times = time.split('-')
-    d = Date.parse(date)
-    ts = times.map{ |t| Time.zone.parse(t) }
-    start_time = DateTime.new(d.year, d.month, d.day, ts[0].hour, ts[0].min)
-    end_time = DateTime.new(d.year, d.month, d.day, ts[1].hour, ts[1].min)
-    return [start_time, end_time]
+  times = time.split('-')
+  d = Date.parse(date)
+  ts = times.map { |t| Time.zone.parse(t) }
+  start_time = DateTime.new(d.year, d.month, d.day, ts[0].hour, ts[0].min)
+  end_time = DateTime.new(d.year, d.month, d.day, ts[1].hour, ts[1].min)
+  return [start_time, end_time]
 end
 
 def date_parsing_without_time(date)
-    dates = date.split('-')
-    ds = [nil, nil]
-    ds[1] = Date.parse(dates[1])
-    start_list = [nil, nil, nil]
-    end_list = dates[1].strip.split(' ')
-    dates[0].strip.split(' ').each_with_index.map{ |x, i| start_list[i] = x }
-    start_list.each_with_index do |x, i|
-      start_list[i] ||= end_list[i]
-    end
-    d = Time.zone.parse(start_list.join(' '))
-    start_time = DateTime.new(d.year, d.month, d.day, 9)
-    d = Time.zone.parse(end_list.join(' '))
-    end_time = DateTime.new(d.year, d.month, d.day, 17)
-    return [start_time, end_time]
+  dates = date.split('-')
+  ds = [nil, nil]
+  ds[1] = Date.parse(dates[1])
+  start_list = [nil, nil, nil]
+  end_list = dates[1].strip.split(' ')
+  dates[0].strip.split(' ').each_with_index.map { |x, i| start_list[i] = x }
+  start_list.each_with_index do |x, i|
+    start_list[i] ||= end_list[i]
+  end
+  d = Time.zone.parse(start_list.join(' '))
+  start_time = DateTime.new(d.year, d.month, d.day, 9)
+  d = Time.zone.parse(end_list.join(' '))
+  end_time = DateTime.new(d.year, d.month, d.day, 17)
+  return [start_time, end_time]
 end

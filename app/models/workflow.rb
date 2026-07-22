@@ -1,5 +1,4 @@
 class Workflow < ApplicationRecord
-
   include PublicActivity::Common
   include Collaboratable
   include LogParameterChanges
@@ -57,7 +56,7 @@ class Workflow < ApplicationRecord
 
   has_ontology_terms(:scientific_topics, branch: EDAM.topics)
 
-  has_many :stars,  as: :resource, dependent: :destroy
+  has_many :stars, as: :resource, dependent: :destroy
 
   auto_strip_attributes :title, squish: false
 
@@ -104,11 +103,11 @@ class Workflow < ApplicationRecord
 
       if added_node_ids.any? || removed_node_ids.any? || modified_node_ids.any?
         self.create_activity :modify_diagram, owner: User.current_user,
-                             parameters: {
-                                 added_nodes: added_nodes,
-                                 removed_nodes: removed_nodes,
-                                 modified_nodes: modified_nodes
-                             }
+                                              parameters: {
+                                                added_nodes: added_nodes,
+                                                removed_nodes: removed_nodes,
+                                                modified_nodes: modified_nodes
+                                              }
       end
     end
   end
@@ -130,9 +129,9 @@ class Workflow < ApplicationRecord
     if user&.is_admin?
       all
     elsif user
-      references(:collaborations).includes(:collaborations).
-        where("#{self.table_name}.public = :public OR #{self.table_name}.user_id = :user OR collaborations.user_id = :user",
-              public: true, user: user)
+      references(:collaborations).includes(:collaborations)
+                                 .where("#{self.table_name}.public = :public OR #{self.table_name}.user_id = :user OR collaborations.user_id = :user",
+                                        public: true, user: user)
     else
       where(public: true)
     end

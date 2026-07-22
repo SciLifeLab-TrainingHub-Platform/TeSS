@@ -1,6 +1,5 @@
 # The helper for searches
 module SearchHelper
-
   def search_and_facet_params
     params.permit(*@model.search_and_facet_keys)
   end
@@ -98,7 +97,6 @@ module SearchHelper
       course: "catalogue entry",
       event: "training session",
     }
-
 
     # Convert resource_type to a key symbol
     model_key =

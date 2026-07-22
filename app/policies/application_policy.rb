@@ -1,5 +1,4 @@
 class ApplicationPolicy
-
   attr_reader :user, :record
   attr_accessor :request
 
@@ -29,7 +28,7 @@ class ApplicationPolicy
 
   def create?
     # Only admin, scraper_user or curator roles can create
-    #@user.has_role?(:admin) or @user.has_role?(:scraper_user) or @user.has_role?(:curator)
+    # @user.has_role?(:admin) or @user.has_role?(:scraper_user) or @user.has_role?(:curator)
     # Any registered user user can create
     @user && !@user.role.blank?
   end
@@ -57,6 +56,7 @@ class ApplicationPolicy
 
   def request_is_api?(request)
     return false if request.nil?
+
     return ((request.post? or request.put? or request.patch?) and request.format.json?)
   end
 
@@ -83,5 +83,4 @@ class ApplicationPolicy
       scope
     end
   end
-
 end

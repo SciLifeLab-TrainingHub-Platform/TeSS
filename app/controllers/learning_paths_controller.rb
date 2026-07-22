@@ -89,7 +89,6 @@ class LearningPathsController < ApplicationController
     end
   end
 
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -108,5 +107,4 @@ class LearningPathsController < ApplicationController
                                           { node_ids: [] }, { node_names: [] },
                                           { topic_links_attributes: [:id, :topic_id, :order, :_destroy] }, :public)
   end
-
 end

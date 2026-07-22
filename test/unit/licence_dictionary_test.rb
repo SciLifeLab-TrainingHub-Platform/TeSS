@@ -24,11 +24,11 @@ class LicenceDictionaryTest < ActiveSupport::TestCase
     assert (dic.licence_abbreviations.include? "Apache-2.0"),
            "'Apache-2.0' should be among the licence abbreviations"
     assert_not (dic.licence_abbreviations.include? "licence_that_will_never_exist"),
-           "'licence_that_will_never_exist' should not be among licences"
+               "'licence_that_will_never_exist' should not be among licences"
     assert (dic.licence_names.include? "Apache License 2.0"),
            "'Apache License 2.0' should be among the licence names"
     assert_includes dic.lookup("Apache-2.0")['see_also'], "http://www.opensource.org/licenses/Apache-2.0",
-                 "'http://www.opensource.org/licenses/Apache-2.0' should be among the licence URLs"
+                    "'http://www.opensource.org/licenses/Apache-2.0' should be among the licence URLs"
   end
 
   test 'group licences according to priority' do

@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   # Should allow token authentication for API calls
   acts_as_token_authentication_handler_for User, except: [:index, :show, :embed, :calendar, :check_exists, :handle_error, :count,
-                                                          :redirect] #only: [:new, :create, :edit, :update, :destroy]
+                                                          :redirect] # only: [:new, :create, :edit, :update, :destroy]
 
   # User auth should be required in the web interface as well; it's here rather than in routes so that it
   # doesn't override the token auth, above.
@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     status_code = status_code.to_i
     @message = message
     respond_to do |format|
-      format.html  { render 'static/error', status: status_code }
+      format.html { render 'static/error', status: status_code }
       format.json { render json: { error: { message: message, code: status_code } }, status: status_code }
       format.json_api { render json: { error: { message: message, code: status_code } }, status: status_code }
       format.any { head status_code }
@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
         body = { message: 'Invalid URL - Make sure the URL starts with "https://" or "http://"' }
       end
     rescue PrivateAddressCheck::PrivateConnectionAttemptedError, Net::OpenTimeout, Net::ReadTimeout, SocketError,
-      Errno::ECONNREFUSED, Errno::EHOSTUNREACH, OpenSSL::SSL::SSLError, URI::InvalidURIError
+           Errno::ECONNREFUSED, Errno::EHOSTUNREACH, OpenSSL::SSL::SSLError, URI::InvalidURIError
       body = { message: 'Could not access the given URL' }
     end
 
@@ -133,11 +133,12 @@ class ApplicationController < ActionController::Base
     raise ActiveRecord::RecordNotFound
   end
 
-
   def from_blocked_country?
     return unless TeSS::Config.blocked_countries.present?
+
     user_country = current_user_country
     return unless user_country
+
     TeSS::Config.blocked_countries.include?(user_country['iso_code'].downcase)
   end
 
@@ -146,12 +147,14 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up) do |u| u.permit(:username, :email, :password, :password_confirmation,
-                                                                :remember_me, :publicize_email, :processing_consent)
+    devise_parameter_sanitizer.permit(:sign_up) do |u|
+      u.permit(:username, :email, :password, :password_confirmation,
+               :remember_me, :publicize_email, :processing_consent)
     end
     devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:login, :username, :email, :password, :remember_me) }
-    devise_parameter_sanitizer.permit(:account_update) do |u| u.permit(:username, :email, :password,
-                                                                       :password_confirmation, :current_password)
+    devise_parameter_sanitizer.permit(:account_update) do |u|
+      u.permit(:username, :email, :password,
+               :password_confirmation, :current_password)
     end
   end
 

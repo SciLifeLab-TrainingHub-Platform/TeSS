@@ -1,7 +1,6 @@
 require 'redis'
 
 namespace :tess do
-
   desc 'Update lat/lon for events'
   task update_lat_lon: :environment do
     events = Event.where(:latitude => nil, :longitude => nil).where(["#{Event.table_name}.nominatim_count < ?", Event::NOMINATIM_MAX_ATTEMPTS])
@@ -14,5 +13,4 @@ namespace :tess do
     end
     events.each(&:enqueue_geocoding_worker)
   end
-
 end

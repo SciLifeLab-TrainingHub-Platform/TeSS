@@ -2,13 +2,11 @@ require 'private_address_check'
 require 'private_address_check/tcpsocket_ext'
 
 module HasImage
-
   def self.included(mod)
     mod.extend(ClassMethods)
   end
 
   module ClassMethods
-
     def has_image(placeholder:)
       has_attached_file :image, styles: { media: "150x150>" }, default_url: placeholder
 
@@ -18,11 +16,9 @@ module HasImage
       before_validation :resolve_image_url
       include HasImage::InstanceMethods
     end
-
   end
 
   module InstanceMethods
-
     private
 
     def resolve_image_url
@@ -32,6 +28,7 @@ module HasImage
           begin
             uri = URI.parse(self.image_url)
             return unless uri.absolute? # Error message will be added by the `image_url` validator
+
             #
             # if PrivateAddressCheck.resolves_to_private_address?(uri.host)
             #   self.errors.add(:image_url, 'is not accessible')
@@ -49,7 +46,7 @@ module HasImage
           rescue URI::InvalidURIError
             return
           rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, OpenURI::HTTPError, OpenSSL::SSL::SSLError,
-            Net::OpenTimeout, Net::ReadTimeout, SocketError
+                 Net::OpenTimeout, Net::ReadTimeout, SocketError
             self.errors.add(:image_url, 'could not be accessed')
           rescue PrivateAddressCheck::PrivateConnectionAttemptedError
             self.errors.add(:image_url, 'could not be accessed') # Keep the error message the same as above

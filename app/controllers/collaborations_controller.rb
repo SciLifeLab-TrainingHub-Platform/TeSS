@@ -1,6 +1,5 @@
 # The controller for actions related to the Collaborations model
 class CollaborationsController < ApplicationController
-
   before_action :get_resource
   before_action :authorize_resource
 
@@ -51,5 +50,4 @@ class CollaborationsController < ApplicationController
   def collaboration_params
     params.require(:collaboration).permit(:user_id)
   end
-
 end

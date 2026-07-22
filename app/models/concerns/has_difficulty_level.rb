@@ -1,5 +1,4 @@
 module HasDifficultyLevel
-
   extend ActiveSupport::Concern
 
   included do
@@ -22,5 +21,4 @@ module HasDifficultyLevel
 
     super(id || id_or_title)
   end
-
 end

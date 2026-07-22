@@ -1,5 +1,4 @@
 module HasAssociatedNodes
-
   extend ActiveSupport::Concern
 
   included do
@@ -40,5 +39,4 @@ module HasAssociatedNodes
   def associated_node_names
     associated_nodes.map(&:name)
   end
-
 end

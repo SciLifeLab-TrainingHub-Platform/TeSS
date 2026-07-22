@@ -54,6 +54,7 @@ class ActiveSupport::TestCase
     rescue Redis::CannotConnectError, Redis::TimeoutError, SocketError
       attempts += 1
       raise if attempts >= 20
+
       sleep 0.1
       retry
     end

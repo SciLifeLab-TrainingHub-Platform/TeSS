@@ -7,7 +7,6 @@ class ConvertEventTimezones < ActiveRecord::Migration[6.1]
   end
 
   def down
-
   end
 
   private
@@ -15,6 +14,7 @@ class ConvertEventTimezones < ActiveRecord::Migration[6.1]
   # Produce a mapping of time zone abbreviations (CEST, CET, GMT etc.) to Rails' time zone names.
   def mapping
     return @map if @map
+
     @map = {
       "CET" => "Amsterdam",
       "CEST" => "Amsterdam",

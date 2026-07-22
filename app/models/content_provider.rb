@@ -1,5 +1,4 @@
 class ContentProvider < ApplicationRecord
-
   include PublicActivity::Common
   include LogParameterChanges
   include Searchable
@@ -78,7 +77,7 @@ class ContentProvider < ApplicationRecord
   # title:text url:text image_url:text description:text
 
   def self.facet_fields
-    %w( keywords node )
+    %w(keywords node)
   end
 
   def node_name= name
@@ -137,13 +136,12 @@ class ContentProvider < ApplicationRecord
       editor.reload
       editor.save!
     end
-
   end
 
   def approved_editors
     result = []
     editors.each { |editor| result << editor.username }
-    #puts "get approved_editors: found #{result.size} editors"
+    # puts "get approved_editors: found #{result.size} editors"
     return result
   end
 

@@ -1,5 +1,4 @@
 module HasLanguage
-
   extend ActiveSupport::Concern
 
   included do
@@ -16,5 +15,4 @@ module HasLanguage
       # :nocov:
     end
   end
-
 end

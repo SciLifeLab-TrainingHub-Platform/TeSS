@@ -146,6 +146,6 @@ class SourceTestWorkerTest < ActiveSupport::TestCase
 
   def mock_bioschemas(url, filename)
     file = Rails.root.join('test', 'fixtures', 'files', 'ingestion', filename)
-    WebMock.stub_request(:get, url).to_return(status: 200, headers: {}, body: file.read )
+    WebMock.stub_request(:get, url).to_return(status: 200, headers: {}, body: file.read)
   end
 end

@@ -15,21 +15,23 @@ module Bioschemas
     property :keywords, :keywords
     property :startDate, :start
     property :endDate, :end
-    property :location, -> (event) { address(event) },
-             condition: -> (event) { event.venue.present? || event.city.present? || event.county.present? ||
-               event.country.present? || event.postcode.present? }
+    property :location, ->(event) { address(event) },
+             condition: ->(event) {
+                          event.venue.present? || event.city.present? || event.county.present? ||
+                            event.country.present? || event.postcode.present?
+                        }
     property :hostInstitution, :host_institutions
     property :contact, :contact
-    property :funder, -> (event) {
+    property :funder, ->(event) {
       event.sponsors.map { |sponsor| { '@type' => 'Organization', 'name' => sponsor } }
     }
-    property :audience, -> (event) {
+    property :audience, ->(event) {
       event.target_audience.map { |audience| { '@type' => 'Audience', 'audienceType' => audience } }
     }
     property :maximumAttendeeCapacity, :capacity
     property :event_types, :event_types
     property :eligibility, :eligibility
-    property :about, -> (event) {
+    property :about, ->(event) {
       event.scientific_topics.map { |t| term(t) }
     }
   end

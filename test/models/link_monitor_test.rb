@@ -79,13 +79,13 @@ class LinkMonitorTest < ActiveSupport::TestCase
 
     assert @link_monitor.failing?
   end
-  
+
   test 'link failure updates fail count' do
     assert_difference(-> { @link_monitor.fail_count }, 1) do
       @link_monitor.fail!(404)
     end
   end
-  
+
   test 'link success resets fail count' do
     @link_monitor.update_column(:fail_count, 4)
     assert @link_monitor.failing?

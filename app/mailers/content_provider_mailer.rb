@@ -15,7 +15,6 @@ class ContentProviderMailer < ApplicationMailer
     )
   end
 
-
   def course_content_provider_notification(course, content_provider)
     return if content_provider.approval_notification_email.blank?
 

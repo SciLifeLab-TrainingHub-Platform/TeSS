@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class SourcesControllerTest < ActionController::TestCase
-
   include Devise::Test::ControllerHelpers
   include ActiveJob::TestHelper
   include ActionMailer::TestHelper
@@ -578,7 +577,8 @@ class SourcesControllerTest < ActionController::TestCase
     source.test_results = {
       events: [{ title: 'test 123', url: 'https://tess.elixir-europe.org', some_random_field: 'hello' }],
       materials: [],
-      messages: [], run_time: 120, finished_at: Time.now }
+      messages: [], run_time: 120, finished_at: Time.now
+    }
     assert source.test_results
 
     get :test_results, params: { id: source }, xhr: true

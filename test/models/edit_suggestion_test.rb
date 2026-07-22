@@ -121,5 +121,4 @@ class EditSuggestionTest < ActiveSupport::TestCase
 
     assert_not_equal 'banana', event.reload.title
   end
-
 end

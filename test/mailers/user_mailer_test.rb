@@ -43,10 +43,10 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   test "course_published email" do
-  #   write test for this in the end
+    #   write test for this in the end
   end
 
   test "course_submitted email" do
-  #   write test for this in the end
+    #   write test for this in the end
   end
 end

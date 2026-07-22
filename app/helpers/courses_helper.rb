@@ -1,5 +1,4 @@
 module CoursesHelper
-
   COURSE_INFO = <<~TEXT.freeze
     The catalogue is a registry of regularly occurring and self-paced training offered at #{TeSS::Config.site['title_short']}.
     These are typically courses, but may also include other recurring training activities.
@@ -106,9 +105,9 @@ module CoursesHelper
   def course_next_event(course)
     @course_next_event_cache ||= {}
     @course_next_event_cache[course.id] ||= begin
-                                              grouped = course_events_grouped(course)
-                                              grouped[:upcoming].first
-                                            end
+      grouped = course_events_grouped(course)
+      grouped[:upcoming].first
+    end
   end
 
   def filter_courses_by_status(courses, user)
@@ -127,7 +126,6 @@ module CoursesHelper
       courses.where(course_status: Course.course_statuses[:approved])
     end
   end
-
 
   def filter_courses_by_status(courses, user)
     return Course.none if courses.blank?

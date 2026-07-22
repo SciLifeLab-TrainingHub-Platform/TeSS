@@ -29,7 +29,6 @@ class UuIngestorTest < ActiveSupport::TestCase
     new_url = 'https://www.uu.nl/agenda/inloopspreekuur-voor-alle-vragen-over-research-data-en-software-230327'
     refute Event.where(title: new_title, url: new_url).any?
 
-
     # run task
     assert_difference 'Event.count', 57 do
       freeze_time(2016) do

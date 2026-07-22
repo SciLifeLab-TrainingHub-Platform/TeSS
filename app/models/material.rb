@@ -94,7 +94,7 @@ class Material < ApplicationRecord
   has_ontology_terms(:scientific_topics, branch: EDAM.topics)
   has_ontology_terms(:operations, branch: EDAM.operations)
 
-  has_many :stars,  as: :resource, dependent: :destroy
+  has_many :stars, as: :resource, dependent: :destroy
 
   # Remove trailing and squeezes (:squish option) white spaces inside the string (before_validation):
   # e.g. "James     Bond  " => "James Bond"

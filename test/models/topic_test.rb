@@ -1,7 +1,6 @@
 require "test_helper"
 
 class TopicTest < ActiveSupport::TestCase
-
   setup do
     @topic = Topic.new(name: "DevOps")
     @topic_one = topics(:one)
@@ -12,8 +11,7 @@ class TopicTest < ActiveSupport::TestCase
                    language: @event_one.language, prerequisites: @event_one.prerequisites,
                    target_audience: @event_one.target_audience, content_providers: @event_one.content_providers,
                    learning_objectives: @event_one.learning_objectives,
-                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
-    }
+                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }] }
   end
 
   test "should be valid with valid attributes" do

@@ -31,7 +31,7 @@ module Ingestors
         unless (Rails.env.test? and File.exist?('test/vcr_cassettes/ingestors/maastricht.yml'))
           sleep(1)
         end
-        event_links = Nokogiri::HTML5.parse(open_url("#{url}?_page=#{i+1}", raise: true)).css('.pt-cv-page h3 > a')
+        event_links = Nokogiri::HTML5.parse(open_url("#{url}?_page=#{i + 1}", raise: true)).css('.pt-cv-page h3 > a')
         return if event_links.empty?
 
         event_links.each do |event_link|
@@ -45,13 +45,13 @@ module Ingestors
           event.url = ical_event.url
           # TeSS timezone handling is a bit special.
           # remove the timezone shift since else TeSS will shift it too much
-          event.start = Time.zone.parse(ical_event.dtstart.to_s.split[0,2].join(' '))
-          event.end = Time.zone.parse(ical_event.dtend.to_s.split[0,2].join(' '))
+          event.start = Time.zone.parse(ical_event.dtstart.to_s.split[0, 2].join(' '))
+          event.end = Time.zone.parse(ical_event.dtend.to_s.split[0, 2].join(' '))
           event.set_default_times
           event.venue = ical_event.try(:location)&.split(',')&.first
           event.city = 'Maastricht'
-          event.event_types = "workshops_and_courses" #ical_event.categories # these event types are quite verbose and most are workshops
-          # see https://www.openscience-maastricht.nl/wp-sitemap-taxonomies-event-categories-1.xml 
+          event.event_types = "workshops_and_courses" # ical_event.categories # these event types are quite verbose and most are workshops
+          # see https://www.openscience-maastricht.nl/wp-sitemap-taxonomies-event-categories-1.xml
           event.timezone = 'Europe/Amsterdam' # how to get this from Icalendar Event object?
 
           event.source = 'Maastricht University'

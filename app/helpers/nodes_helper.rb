@@ -1,17 +1,15 @@
 # The helper for Nodes classes
 module NodesHelper
-
-  NODES_INFO = "ELIXIR is a pan-European research infrastructure consisting of the Hub and a number of, primarily,national nodes that provide services to their local communities.\n\n"+
-
-      "Select a node to find out more about its training events, training provision, staff and member institutions."
+  NODES_INFO = "ELIXIR is a pan-European research infrastructure consisting of the Hub and a number of, primarily,national nodes that provide services to their local communities.\n\n" +
+               "Select a node to find out more about its training events, training provision, staff and member institutions."
 
   def add_node_staff_button(form, target)
     link_to('#', data: { role: 'add-node-staff-button', target: target }, class: 'btn btn-default') do
       '<i class="fa fa-plus"></i> Add staff'.html_safe
     end +
-    content_tag(:div, style: 'display: none', data: { role: 'add-node-staff-template' }) do
-      render partial: 'staff_form', locals: { form: form, staff_member: StaffMember.new }
-    end
+      content_tag(:div, style: 'display: none', data: { role: 'add-node-staff-template' }) do
+        render partial: 'staff_form', locals: { form: form, staff_member: StaffMember.new }
+      end
   end
 
   def node_staff_list(staff, show_role = true, link: true)
@@ -31,7 +29,7 @@ module NodesHelper
   end
 
   def countries_options_for_select
-    Node::COUNTRIES.map {|k, v| [v + " (#{k})", k] }.sort_by { |o| o[0] }
+    Node::COUNTRIES.map { |k, v| [v + " (#{k})", k] }.sort_by { |o| o[0] }
   end
 
   def elixir_node_icon(opts = {})
@@ -39,8 +37,8 @@ module NodesHelper
                           alt: 'ELIXIR node event',
                           title: 'ELIXIR node event',
                           class: 'elixir-node-icon',
-                          style: 'float: right;',})
+                          style: 'float: right;',
+                        })
     image_tag ApplicationHelper::DEFAULT_IMAGE_FOR_MODEL['Node'], opts
   end
-
 end

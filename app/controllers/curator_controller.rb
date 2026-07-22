@@ -7,7 +7,7 @@ class CuratorController < ApplicationController
 
   # Hacky stub to make breadcrumbs work
   def index
-   redirect_to '/curate/topic_suggestions'
+    redirect_to '/curate/topic_suggestions'
   end
 
   def topic_suggestions
@@ -18,15 +18,15 @@ class CuratorController < ApplicationController
       action_count.each do |user, count|
         if user
           if @leaderboard[user].nil?
-            @leaderboard[user] = {curator_action => count}
+            @leaderboard[user] = { curator_action => count }
           else
             @leaderboard[user].merge!(curator_action => count)
           end
         end
       end
     end
-    @leaderboard.each{|user, values| @leaderboard[user]['total'] = values.values.inject(0){|sum,x| sum + x }}
-    @leaderboard = @leaderboard.sort_by{|x, y| -y['total']}.first(5)
+    @leaderboard.each { |user, values| @leaderboard[user]['total'] = values.values.inject(0) { |sum, x| sum + x } }
+    @leaderboard = @leaderboard.sort_by { |x, y| -y['total'] }.first(5)
 
     respond_to do |format|
       format.html
@@ -51,7 +51,7 @@ class CuratorController < ApplicationController
   private
 
   def action_count_for(action)
-    return PublicActivity::Activity.where(key: action).group_by{|logs| logs.owner}.sort_by{|user, logs| -logs.count}.map{|user,logs| [user, logs.count]}.to_h
+    return PublicActivity::Activity.where(key: action).group_by { |logs| logs.owner }.sort_by { |user, logs| -logs.count }.map { |user, logs| [user, logs.count] }.to_h
   end
 
   def check_curator

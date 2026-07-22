@@ -16,12 +16,14 @@ SitemapGenerator::Sitemap.create(compress: false, sitemaps_path: Rails.env.test?
     add about_path, priority: 0.4
     types.each do |type, options|
       next unless TeSS::Config.feature[type.to_s]
+
       add polymorphic_path(type), lastmod: options[:resources].maximum(:updated_at), **options.except(:resources)
     end
   end
 
   types.each do |type, options|
     next unless TeSS::Config.feature[type.to_s]
+
     group(filename: type) do
       options[:resources].find_each do |resource|
         add polymorphic_path(resource), lastmod: resource.updated_at

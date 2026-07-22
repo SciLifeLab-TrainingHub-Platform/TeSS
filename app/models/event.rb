@@ -133,6 +133,7 @@ class Event < ApplicationRecord
 
   alias_attribute(:learning_outcomes, :learning_objectives)
   attr_accessor :new_venues
+
   enum presence: { onsite: 0, online: 1, hybrid: 2 }
   enum event_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3 }
 
@@ -241,7 +242,7 @@ class Event < ApplicationRecord
   end
 
   def self.facet_fields
-    field_list = %w[ content_providers keywords scientific_topics topics  operations tools fields online event_types
+    field_list = %w[ content_providers keywords scientific_topics topics operations tools fields online event_types
                      start venue city country sponsors target_audience eligibility language
                      user node collections ]
 
@@ -463,6 +464,7 @@ class Event < ApplicationRecord
         redis.set(location, [latitude, longitude].to_json)
       rescue Redis::BaseError => e
         raise e unless Rails.env.production?
+
         puts "Redis error: #{e.message}"
       end
     else
@@ -475,8 +477,8 @@ class Event < ApplicationRecord
   def enqueue_geocoding_worker
     return unless TeSS::Config.feature['geocoding']
     return if (latitude.present? && longitude.present?) ||
-      (address.blank? && postcode.blank?) ||
-      nominatim_count >= NOMINATIM_MAX_ATTEMPTS
+              (address.blank? && postcode.blank?) ||
+              nominatim_count >= NOMINATIM_MAX_ATTEMPTS
 
     location = address
 
@@ -687,6 +689,7 @@ class Event < ApplicationRecord
   # it only sends the mail to user when event is approved
   def run_event_approval_lifecycle_on_status_change
     return unless event_status_just_approved?
+
     ApprovalLifecycle.new(
       self,
       notifier: Notifications::EventNotifier.new(self)

@@ -17,8 +17,7 @@ class UserTest < ActiveSupport::TestCase
                                 learning_objectives: @event.learning_objectives,
                                 start: Time.new(2015, 11, 23, 0, 0, 0),
                                 end: Time.new(2015, 11, 24, 0, 0, 0),
-                                event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
-    }
+                                event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }] }
   end
 
   test "should save new user" do
@@ -317,30 +316,30 @@ class UserTest < ActiveSupport::TestCase
   test 'merge users' do
     user1 = User.create!(username: 'base_user', password: '12345678', email: 'base-user@example.com',
                          processing_consent: '1', profile_attributes: {
-        expertise_technical: ['Python', 'Ruby', 'R'],
-        firstname: 'John', surname: 'Userton'
-      })
+                           expertise_technical: ['Python', 'Ruby', 'R'],
+                           firstname: 'John', surname: 'Userton'
+                         })
     user1_id = user1.id
     user2 = User.create!(username: 'merge_user', password: 'xyz123456', email: 'merge-user@example.com',
                          processing_consent: '1', profile_attributes: {
-        firstname: 'J', surname: 'U',
-        expertise_technical: ['Java', 'Python', 'R'],
-        orcid: 'https://orcid.org/0000-0002-1825-0097'
-      })
+                           firstname: 'J', surname: 'U',
+                           expertise_technical: ['Java', 'Python', 'R'],
+                           orcid: 'https://orcid.org/0000-0002-1825-0097'
+                         })
     user3 = User.create!(username: 'merge_user2', password: 'qwertyqwerty', email: 'merge-user2@example.com',
                          processing_consent: '1', profile_attributes: {
-        orcid: 'https://orcid.org/0000-0001-9842-9718',
-        description: 'Cool guy',
-        expertise_technical: []
-      })
+                           orcid: 'https://orcid.org/0000-0001-9842-9718',
+                           description: 'Cool guy',
+                           expertise_technical: []
+                         })
 
     # Resources
     material1 = user1.materials.create!(title: 'material 1', url: 'https://training.com/materials/1', description: 'material1')
     material2 = user2.materials.create!(title: 'material 2', url: 'https://training.com/materials/2', description: 'material2')
 
     node = nodes(:good)
-    event1_params = @mandatory_event_fields.merge( {title: 'event 1', url: 'https://training.com/events/1', node_ids: [node.id]} )
-    event2_params = @mandatory_event_fields.merge( {title: 'event 2', url: 'https://training.com/events/2', node_ids: [node.id]} )
+    event1_params = @mandatory_event_fields.merge({ title: 'event 1', url: 'https://training.com/events/1', node_ids: [node.id] })
+    event2_params = @mandatory_event_fields.merge({ title: 'event 2', url: 'https://training.com/events/2', node_ids: [node.id] })
     event1 = user2.events.create!(event1_params)
     event2 = user3.events.create!(event2_params)
 

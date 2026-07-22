@@ -20,7 +20,7 @@ IO.readlines("#{Rails.root}/scripts/users.csv").each do |line|
       lastname = nameparts[2]
     end
   end
-  #puts "#{firstname},#{lastname},#{username},#{email}"
+  # puts "#{firstname},#{lastname},#{username},#{email}"
   u = User.find_by_username(username)
   if u.nil?
     u = User.new(:username => username, :email => email)
@@ -32,6 +32,4 @@ IO.readlines("#{Rails.root}/scripts/users.csv").each do |line|
     u.profile.surname = lastname
     u.save!
   end
-
-
 end

@@ -14,7 +14,6 @@ class RugIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from rug' do
-
     user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.rug.nl/about-ug/latest-news/events/calendar/',
@@ -59,7 +58,6 @@ class RugIngestorTest < ActiveSupport::TestCase
     assert_equal Time.zone.parse('Mon, 08 May 2023 21:30:00.000000000 UTC +00:00'), event.end
     assert_equal 'Academy Building, Broerstraat 5, Groningen', event.venue
   end
-
 
   test 'can ingest events from rug in various timezones' do
     user = users(:regular_user)

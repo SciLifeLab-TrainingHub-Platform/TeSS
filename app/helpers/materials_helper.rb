@@ -7,7 +7,7 @@ module MaterialsHelper
   If your website contains training materials that you wish to include in #{TeSS::Config.site['title_short']},\
   %{link}.".freeze
 
-  ELEARNING_MATERIALS_INFO = "e-Learning materials are curated materials focused on e-Learning.\n\n"\
+  ELEARNING_MATERIALS_INFO = "e-Learning materials are curated materials focused on e-Learning.\n\n" \
   "If your website contains e-Learning materials that you wish to include in #{TeSS::Config.site['title_short']},\
   %{link}.".freeze
 
@@ -36,12 +36,12 @@ where each topic has one competency level for all its materials. \n\n\
 
   def materials_info
     MATERIALS_INFO % { link: link_to('see here for details on automatic registration',
-                                  registering_resources_path(anchor: 'automatic')) }
+                                     registering_resources_path(anchor: 'automatic')) }
   end
 
   def elearning_materials_info
     ELEARNING_MATERIALS_INFO % { link: link_to('see here for details on automatic registration',
-                                  registering_resources_path(anchor: 'automatic')) }
+                                               registering_resources_path(anchor: 'automatic')) }
   end
 
   def learning_paths_info
@@ -127,6 +127,7 @@ where each topic has one competency level for all its materials. \n\n\
   def embed_youtube(material)
     renderer = Renderers::Youtube.new(material)
     return unless renderer.can_render?
+
     content_tag(:div, class: 'embedded-content') do
       renderer.render_content.html_safe
     end

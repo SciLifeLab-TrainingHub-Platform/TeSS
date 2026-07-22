@@ -25,5 +25,4 @@ class MakeMoreEventFieldsMandatory < ActiveRecord::Migration[7.0]
     change_column_null :events, :target_audience, true
     change_column_null :events, :cost_basis, true
   end
-
 end

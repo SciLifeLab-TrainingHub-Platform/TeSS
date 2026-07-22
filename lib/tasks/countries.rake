@@ -2,14 +2,12 @@ require 'json'
 require 'httparty'
 
 namespace :tess do
-
   desc 'Get a list of country synonyms from restcountries.eu'
   task get_country_synonyms: :environment do
     url = 'https://restcountries.eu/rest/v2/all'
     response = HTTParty.get(url)
     countries = response.parsed_response
     output = {}
-
 
     # Use both alternate names and translations
     countries.each do |line|
@@ -56,7 +54,6 @@ namespace :tess do
     end
     puts "Updated #{count} countries out of #{Event.all.length}"
   end
-
 end
 
 def clean_text(text)

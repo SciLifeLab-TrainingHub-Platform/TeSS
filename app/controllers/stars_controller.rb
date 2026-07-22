@@ -1,6 +1,5 @@
 # The controller for actions related to the Stars model
 class StarsController < ApplicationController
-
   before_action :authenticate_user!
 
   def index
@@ -35,11 +34,10 @@ class StarsController < ApplicationController
       end
     end
   end
-  
+
   private
 
   def star_params
     params.require(:star).permit(:resource_type, :resource_id)
   end
-
 end

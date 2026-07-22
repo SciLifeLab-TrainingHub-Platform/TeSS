@@ -1,5 +1,4 @@
 module HasExternalResources
-
   extend ActiveSupport::Concern
 
   included do

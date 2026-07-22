@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ApplicationHelperTest < ActionView::TestCase
-
   setup do
     @old_material = materials(:bad_material)
     @old_material.last_scraped = Time.parse('1912-04-14 23:40')
@@ -57,7 +56,6 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal(missing_icon(@failing_material, 'large'), expected_result)
     assert_match /missing-icon/, expected_result
     assert_match /fa-chain-broken/, expected_result
-
   end
 
   test "get country alpha2 from codes" do
@@ -133,14 +131,14 @@ class ApplicationHelperTest < ActionView::TestCase
 
   test "check aus codes" do
     code = 'AU'
-    %w{ Australia au AUS AU aus }.each do |name|
+    %w{Australia au AUS AU aus}.each do |name|
       alpha2 = country_alpha2_by_name(name)
       assert_not_nil alpha2, "alpha2 from name[#{name}] is nil"
       assert_equal code, alpha2, "alpha2[#{alpha2}] and code[#{code}] from name[#{name}] not matched"
     end
   end
 
-  # This test is failing because the content_provider isn't found, but the code runs anyway
+# This test is failing because the content_provider isn't found, but the code runs anyway
 =begin
   test "no icon should be shown for an iAnn event which has not been scraped recently" do
     assert_not_nil(current_user)
@@ -149,5 +147,4 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal(scrape_status_icon(@old_iann_event, 'large'),nil)
   end
 =end
-
 end

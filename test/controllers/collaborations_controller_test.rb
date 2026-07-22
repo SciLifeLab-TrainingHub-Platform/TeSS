@@ -85,5 +85,4 @@ class CollaborationsControllerTest < ActionController::TestCase
 
     assert_response :forbidden
   end
-
 end

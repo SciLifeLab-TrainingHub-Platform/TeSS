@@ -1,10 +1,8 @@
 $fairsharing_url = 'https://fairsharing.org/'
 
 namespace :fairsharing do
-
   desc 'Adds links to FAIRsharing records as external resources of materials'
   task :create_links => [:environment] do
-
     # Parse data file manually imported from FAIRsharing
     datafile = "#{Rails.root}/config/data/tess_links.csv"
     begin
@@ -16,7 +14,7 @@ namespace :fairsharing do
 
     # Add external resources, checking first for existence
     lines.each do |line|
-      bid,bname,turl = line.split(/\|/)
+      bid, bname, turl = line.split(/\|/)
       tslug = turl.chomp.split(/\//)[-1]
       m = Material.find_by_slug(tslug)
       if !m.nil?
@@ -31,7 +29,5 @@ namespace :fairsharing do
         end
       end
     end
-
   end
 end
-

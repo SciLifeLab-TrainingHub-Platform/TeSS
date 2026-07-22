@@ -13,7 +13,7 @@ class Role < ApplicationRecord
 
   def self.unverified
     fetch('unverified_user')
-    end
+  end
 
   def self.trusted
     fetch('trusted_user')
@@ -39,5 +39,4 @@ class Role < ApplicationRecord
       r.save! if r.changed?
     end
   end
-
 end

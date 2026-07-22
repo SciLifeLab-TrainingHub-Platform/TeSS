@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ImageAttachmentTest < ActiveSupport::TestCase
-
   setup do
     mock_images
   end

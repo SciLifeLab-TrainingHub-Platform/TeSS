@@ -20,7 +20,6 @@ class SlackNotificationJobTest < ActiveJob::TestCase
     end
   end
 
-
   test 'job enqueues correctly with valid channels' do
     message = 'Test message'
     channels = ['#traininghub-dev']
@@ -29,7 +28,6 @@ class SlackNotificationJobTest < ActiveJob::TestCase
       SlackNotificationJob.perform_later(message, channels)
     end
   end
-
 
   test "should log errors for failed notifications" do
     Rails.stub(:env, ActiveSupport::StringInquirer.new("production")) do

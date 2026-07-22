@@ -5,6 +5,7 @@ class EventContentProvider < ApplicationRecord
   before_destroy :destroy_event_if_orphaned
 
   private
+
   def destroy_event_if_orphaned
     event.destroy if event.event_content_providers.count == 1
   end

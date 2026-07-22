@@ -5,11 +5,11 @@ class LearningPathTopic < ApplicationRecord
   include Collaboratable
 
   has_many :items, -> { order(:order) }, class_name: 'LearningPathTopicItem', inverse_of: :topic, foreign_key: :topic_id,
-           dependent: :destroy
+                                         dependent: :destroy
   has_many :material_items, -> { where(resource_type: 'Material').order(:order) }, class_name: 'LearningPathTopicItem',
-           inverse_of: :topic, foreign_key: :topic_id
+                                                                                   inverse_of: :topic, foreign_key: :topic_id
   has_many :event_items, -> { where(resource_type: 'Event').order(:order) }, class_name: 'LearningPathTopicItem',
-           inverse_of: :topic, foreign_key: :topic_id
+                                                                             inverse_of: :topic, foreign_key: :topic_id
   has_many :events, through: :items, source: :resource, source_type: 'Event'
   has_many :materials, through: :items, source: :resource, source_type: 'Material'
 
@@ -51,7 +51,7 @@ class LearningPathTopic < ApplicationRecord
   end
 
   def self.facet_fields
-    %w( keywords user )
+    %w(keywords user)
   end
 
   # implement methods to allow processing as resource
@@ -70,6 +70,7 @@ class LearningPathTopic < ApplicationRecord
     indexes = Hash.new(0)
     items.sort_by(&:order).each do |item|
       next if item.marked_for_destruction?
+
       item.order = indexes[item.resource_type] += 1
     end
   end

@@ -53,6 +53,7 @@ module Ingestors
         if date_s.length == 1
           next
         end
+
         start_date = Time.zone.parse("#{date_s[1]}/#{date_s[0]} #{start_hours}:00")
         end_date = Time.zone.parse("#{date_s[1]}/#{date_s[0]} #{end_hours}:00")
         if start_date < Time.zone.now - 2.months
@@ -65,7 +66,7 @@ module Ingestors
         event.set_default_times
 
         # location
-        location = el.css('td')[5].css('h5').map{ |e| e.text.strip}.join(' ')
+        location = el.css('td')[5].css('h5').map { |e| e.text.strip }.join(' ')
         event.venue = location
 
         # title & description
@@ -76,13 +77,13 @@ module Ingestors
         elsif title_el&.css('a')&.first&.text
           title = title_el&.css('a')&.first&.text
         elsif title_el&.css('a')&.first&.css('#text').length
-          title = title_el&.css('a')&.first&.css('#text').map{ |e| e.text.strip}.join(' ')
+          title = title_el&.css('a')&.first&.css('#text').map { |e| e.text.strip }.join(' ')
         else
           next
         end
         # weird case where multiple types of space character where used in same title
-        event.title = title.gsub("\n\t\t\t", ' ').strip.chars.map{ |ch| ch.ord == 160 ? ' ' : ch }.join('')
-        hash = "#{event.title}#{event.start.strftime('%y%m%d')}#{event.venue}".gsub(' ', '').strip.chars.filter{ |ch| (ch.to_i(36) > 0) || (ch == '0') }.join('')
+        event.title = title.gsub("\n\t\t\t", ' ').strip.chars.map { |ch| ch.ord == 160 ? ' ' : ch }.join('')
+        hash = "#{event.title}#{event.start.strftime('%y%m%d')}#{event.venue}".gsub(' ', '').strip.chars.filter { |ch| (ch.to_i(36) > 0) || (ch == '0') }.join('')
         event.url = url.split('#').first + '#' + hash
 
         event.source = 'UHasselt'
@@ -95,4 +96,3 @@ module Ingestors
     end
   end
 end
-

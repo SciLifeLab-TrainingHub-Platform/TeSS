@@ -1,3 +1,2 @@
 class ContentProviderPolicy < ScrapedResourcePolicy
-
 end

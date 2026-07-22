@@ -12,7 +12,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
       description: 'New description'
     }
   end
-  #INDEX TESTS
+  # INDEX TESTS
   test 'should get index' do
     get :index
     assert_response :success
@@ -46,8 +46,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     assert_equal learning_path_topics_path, body['links']['self']
   end
 
-
-  #NEW TESTS
+  # NEW TESTS
 
   test 'should get new page for curators and admins only' do
     get :new
@@ -66,14 +65,14 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  #EDIT TESTS
+  # EDIT TESTS
   test 'should not get edit page for not logged in users' do
-    #Not logged in = Redirect to login
+    # Not logged in = Redirect to login
     get :edit, params: { id: @learning_path_topic }
     assert_redirected_to new_user_session_path
   end
 
-  #logged in but insufficient permissions = ERROR
+  # logged in but insufficient permissions = ERROR
   test 'should get edit for learning_path_topic owner' do
     sign_in @learning_path_topic.user
     get :edit, params: { id: @learning_path_topic }
@@ -81,20 +80,20 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
   end
 
   test 'should get edit for admin' do
-    #Owner of learning_path_topic logged in = SUCCESS
+    # Owner of learning_path_topic logged in = SUCCESS
     sign_in users(:admin)
     get :edit, params: { id: @learning_path_topic }
     assert_response :success
   end
 
   test 'should not get edit page for regular user' do
-    #Administrator = SUCCESS
+    # Administrator = SUCCESS
     sign_in users(:another_regular_user)
     get :edit, params: { id: @learning_path_topic }
     assert :forbidden
   end
 
-  #CREATE TEST
+  # CREATE TEST
   test 'should create learning_path_topic for curator' do
     sign_in users(:curator)
     assert_difference('LearningPathTopic.count') do
@@ -126,7 +125,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_path
   end
 
-  #SHOW TEST
+  # SHOW TEST
   test 'should show learning_path_topic' do
     get :show, params: { id: @learning_path_topic }
     assert_response :success
@@ -157,7 +156,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     assert_equal learning_path_topic_path(assigns(:learning_path_topic)), body['data']['links']['self']
   end
 
-  #UPDATE TEST
+  # UPDATE TEST
   test 'should update learning_path_topic' do
     sign_in @learning_path_topic.user
     patch :update, params: { id: @learning_path_topic, learning_path_topic: @updated_learning_path_topic }
@@ -271,7 +270,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     end
   end
 
-  #DESTROY TEST
+  # DESTROY TEST
   test 'should destroy learning_path_topic owned by user' do
     sign_in @learning_path_topic.user
     assert_difference('LearningPathTopic.count', -1) do
@@ -296,9 +295,8 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-
-  #CONTENT TESTS
-  #BREADCRUMBS
+  # CONTENT TESTS
+  # BREADCRUMBS
   test 'breadcrumbs for learning_path_topics index' do
     get :index
     assert_response :success
@@ -349,7 +347,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     end
   end
 
-  #OTHER CONTENT
+  # OTHER CONTENT
   test 'learning_path_topic has correct tabs' do
     topic = learning_path_topics(:empty_topic)
     get :show, params: { id: topic }
@@ -373,17 +371,16 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
   test 'learning_path_topic has correct layout' do
     get :show, params: { id: @learning_path_topic }
     assert_response :success
-    assert_select 'div.search-results-count', count: 2 #Has results
-    assert_select 'a.btn[href=?]', edit_learning_path_topic_path(@learning_path_topic), count: 0 #No Edit
-    assert_select 'a.btn[href=?]', learning_path_topic_path(@learning_path_topic), count: 0 #No Edit
-
+    assert_select 'div.search-results-count', count: 2 # Has results
+    assert_select 'a.btn[href=?]', edit_learning_path_topic_path(@learning_path_topic), count: 0 # No Edit
+    assert_select 'a.btn[href=?]', learning_path_topic_path(@learning_path_topic), count: 0 # No Edit
   end
 
   test 'do not show action buttons when not owner or admin' do
     sign_in users(:another_regular_user)
     get :show, params: { id: @learning_path_topic }
-    assert_select 'a.btn[href=?]', edit_learning_path_topic_path(@learning_path_topic), count: 0 #No Edit
-    assert_select 'a.btn[href=?]', learning_path_topic_path(@learning_path_topic), count: 0 #No Edit
+    assert_select 'a.btn[href=?]', edit_learning_path_topic_path(@learning_path_topic), count: 0 # No Edit
+    assert_select 'a.btn[href=?]', learning_path_topic_path(@learning_path_topic), count: 0 # No Edit
   end
 
   test 'show action buttons when owner' do
@@ -400,7 +397,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     assert_select 'a.btn[href=?]', learning_path_topic_path(@learning_path_topic), text: 'Delete', count: 1
   end
 
-  #API Actions
+  # API Actions
   test "should add materials to learning_path_topic" do
     sign_in users(:admin)
     learning_path_topic = learning_path_topics(:empty_topic)
@@ -425,7 +422,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     sign_in users(:curator)
     assert_difference('LearningPathTopicItem.count', 2) do
       assert_difference('@learning_path_topic.events.count', 2) do
-        patch :update, params: { learning_path_topic: { event_ids: [events(:one), events(:two)]}, id: @learning_path_topic.id }
+        patch :update, params: { learning_path_topic: { event_ids: [events(:one), events(:two)] }, id: @learning_path_topic.id }
       end
     end
   end
@@ -437,7 +434,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     learning_path_topic.save!
     assert_difference('LearningPathTopicItem.count', -2) do
       assert_difference('learning_path_topic.events.count', -2) do
-        patch :update, params: { learning_path_topic: { event_ids: ['']}, id: learning_path_topic.id }
+        patch :update, params: { learning_path_topic: { event_ids: [''] }, id: learning_path_topic.id }
       end
     end
   end
@@ -478,7 +475,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     sign_in user
 
     assert_difference('LearningPathTopicItem.count', 2) do
-      patch :update, params: { learning_path_topic: { event_ids: [events(:one), events(:two)]}, id: @learning_path_topic.id }
+      patch :update, params: { learning_path_topic: { event_ids: [events(:one), events(:two)] }, id: @learning_path_topic.id }
     end
     assert_redirected_to learning_path_topic_path(assigns(:learning_path_topic))
   end
@@ -488,7 +485,7 @@ class LearningPathTopicsControllerTest < ActionController::TestCase
     sign_in user
 
     assert_no_difference('LearningPathTopicItem.count') do
-      patch :update, params: { learning_path_topic: { event_ids: [events(:one), events(:two)]}, id: @learning_path_topic.id }
+      patch :update, params: { learning_path_topic: { event_ids: [events(:one), events(:two)] }, id: @learning_path_topic.id }
     end
     assert_response :forbidden
   end

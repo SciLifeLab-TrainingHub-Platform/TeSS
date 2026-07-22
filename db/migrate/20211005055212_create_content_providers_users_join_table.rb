@@ -11,5 +11,4 @@ class CreateContentProvidersUsersJoinTable < ActiveRecord::Migration[5.2]
 
     add_index :content_providers_users, [:content_provider_id, :user_id], unique: true, name: :provider_user_unique
   end
-
 end

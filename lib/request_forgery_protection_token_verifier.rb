@@ -31,5 +31,6 @@ class RequestForgeryProtectionTokenVerifier
   private
 
   attr_reader :request
+
   delegate :params, :session, to: :request
 end

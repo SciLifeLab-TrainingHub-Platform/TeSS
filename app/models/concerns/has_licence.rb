@@ -1,5 +1,4 @@
 module HasLicence
-
   extend ActiveSupport::Concern
 
   included do
@@ -24,5 +23,4 @@ module HasLicence
 
     super(id || key_or_uri)
   end
-
 end

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class NodeTest < ActiveSupport::TestCase
-
   test 'can create a node and staff' do
     node = Node.new(user: users(:admin), name: 'Kilburn', country_code: 'ES')
     node.staff.build(name: 'Tom', email: 'tk@example.com', role: 'Training coordinator')
@@ -126,5 +125,4 @@ class NodeTest < ActiveSupport::TestCase
   def node_data_hash
     JSON.parse(File.read(File.join(Rails.root, 'test', 'fixtures', 'files', 'node_test_data.json')))
   end
-
 end

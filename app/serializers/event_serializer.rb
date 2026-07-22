@@ -1,17 +1,11 @@
 class EventSerializer < ApplicationSerializer
   attributes :id, :external_id, :title, :subtitle, :url, :description,
-
              :keywords, :event_types, :scientific_topics, :operations, :fields, :external_resources,
-
              :start, :end, :duration, :timezone,
-
              :sponsors, :contact, :host_institutions,
-
              :online, :presence, :venue, :city, :county, :country, :postcode, :latitude, :longitude, :capacity,
-
              :target_audience, :eligibility, :recognition, :learning_objectives,
              :prerequisites, :tech_requirements,
-
              :slug, :last_scraped, :scraper_record, :created_at, :updated_at
 
   attribute :report, if: -> { policy(object).view_report? }

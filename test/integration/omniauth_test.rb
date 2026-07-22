@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class OmniauthTest < ActionDispatch::IntegrationTest
-
   setup do
     OmniAuth.config.test_mode = true
     OmniAuth.config.mock_auth[:oidc] = nil
@@ -22,7 +21,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           first_name: 'AAF',
           last_name: 'User'
         }
-      })
+      }
+    )
 
     post '/users/auth/oidc'
 
@@ -45,7 +45,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           email: user.email,
           nickname: user.username,
         }
-      })
+      }
+    )
 
     post '/users/auth/oidc'
 
@@ -68,7 +69,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           first_name: 'AAF',
           last_name: 'User'
         }
-      })
+      }
+    )
 
     post '/users/auth/oidc'
 
@@ -129,7 +131,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           first_name: 'AAF',
           last_name: 'User'
         }
-      })
+      }
+    )
 
     get '/users/auth/oidc'
 
@@ -146,7 +149,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           email: user.email,
           nickname: user.username,
         }
-      })
+      }
+    )
 
     post '/users/auth/oidc'
 
@@ -164,7 +168,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           email: "blablablablalbal@emaildomain.golf",
           nickname: "bieberfan1997",
         }
-      })
+      }
+    )
 
     post '/users/auth/oidc'
 
@@ -185,7 +190,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           email: user.email,
           nickname: user.username,
         }
-      })
+      }
+    )
 
     post '/users/auth/oidc2'
 
@@ -208,7 +214,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           email: new_email,
           nickname: existing_user.username,
         }
-      })
+      }
+    )
 
     post '/users/auth/oidc2'
     follow_redirect!
@@ -243,7 +250,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           email: existing_user.email,
           nickname: existing_user.username,
         }
-      })
+      }
+    )
 
     post '/users/auth/oidc2'
     follow_redirect!
@@ -265,7 +273,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           first_name: 'AAI',
           last_name: 'User'
         }
-      })
+      }
+    )
 
     post '/users/auth/elixir_aai'
 
@@ -288,7 +297,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           email: user.email,
           nickname: user.username,
         }
-      })
+      }
+    )
 
     post '/users/auth/elixir_aai'
 
@@ -312,7 +322,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           first_name: 'AAI',
           last_name: 'User'
         }
-      })
+      }
+    )
 
     post '/users/auth/elixir_aai'
 
@@ -336,7 +347,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           first_name: 'AAI',
           last_name: 'User'
         }
-      })
+      }
+    )
 
     get '/users/auth/elixir_aai'
 
@@ -353,7 +365,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           email: user.email,
           nickname: user.username,
         }
-      })
+      }
+    )
 
     post '/users/auth/elixir_aai'
 
@@ -371,7 +384,8 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           email: "blablablablalbal@emaildomain.golf",
           nickname: "bieberfan1997",
         }
-      })
+      }
+    )
 
     post '/users/auth/elixir_aai'
 
@@ -393,11 +407,11 @@ class OmniauthTest < ActionDispatch::IntegrationTest
           first_name: 'AAI',
           last_name: 'User'
         }
-      })
+      }
+    )
 
     assert_raises(ActionController::RoutingError) do
       post '/users/auth/not_a_real_provider'
     end
   end
-
 end

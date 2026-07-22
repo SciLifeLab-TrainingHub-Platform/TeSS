@@ -1,5 +1,4 @@
 class LearningPathPolicy < ScrapedResourcePolicy
-
   def show?
     @record.public? || manage?
   end
@@ -21,5 +20,4 @@ class LearningPathPolicy < ScrapedResourcePolicy
       LearningPath.visible_by(@user)
     end
   end
-
 end
