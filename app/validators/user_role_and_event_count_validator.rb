@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class UserRoleAndEventCountValidator < ActiveModel::Validator
-
   def validate(record)
     # Get the changes
     changes_hash = record.changes

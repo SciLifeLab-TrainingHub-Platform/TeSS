@@ -52,5 +52,4 @@ class AdminMailerTest < ActionMailer::TestCase
   test "course_updated_by_user test" do
     #   write test for this in the end
   end
-
 end

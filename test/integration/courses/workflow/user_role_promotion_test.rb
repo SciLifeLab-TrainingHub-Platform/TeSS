@@ -57,7 +57,7 @@ class UserRolePromotionCourseTest < ActionDispatch::IntegrationTest
     assert_equal @registered_user_role.name, @user.role.name, "User should be registered user"
     perform_enqueued_jobs do
       (@threshold + 1).times do |i|
-        course = @user.courses.create!(@course_params.merge(title: "Approved Course #{i+1}"))
+        course = @user.courses.create!(@course_params.merge(title: "Approved Course #{i + 1}"))
         course.update!(course_status: Course.course_statuses[:approved])
       end
     end
@@ -70,7 +70,7 @@ class UserRolePromotionCourseTest < ActionDispatch::IntegrationTest
     sign_in @admin
     assert_equal @registered_user_role.name, @user.role.name, "User should be registered user"
     (@threshold + 1).times do |i|
-      course = @user.courses.create!(@course_params.merge(title: "Approved Course #{i+1}"))
+      course = @user.courses.create!(@course_params.merge(title: "Approved Course #{i + 1}"))
       course.update!(course_status: Course.course_statuses[:approved])
     end
 
@@ -87,7 +87,7 @@ class UserRolePromotionCourseTest < ActionDispatch::IntegrationTest
   test "user below threshold is not promoted" do
     sign_in @admin
     (@threshold - 1).times do |i|
-      course = @user2.courses.create!(@course_params.merge(title: "Approved Course #{i+1}"))
+      course = @user2.courses.create!(@course_params.merge(title: "Approved Course #{i + 1}"))
       course.update!(course_status: "approved")
     end
     @user2.reload
@@ -97,13 +97,13 @@ class UserRolePromotionCourseTest < ActionDispatch::IntegrationTest
   test "database reflects correct roles after promotion and non-promotion" do
     sign_in @admin
     (@threshold + 1).times do |i|
-      course = @user.courses.create!(@course_params.merge(title: "Approved Course #{i+1}"))
+      course = @user.courses.create!(@course_params.merge(title: "Approved Course #{i + 1}"))
       course.update!(course_status: "approved")
     end
 
     # @user2 still below threshold
     (@threshold - 1).times do |i|
-      course = @user2.courses.create!(@course_params.merge(title: "Approved Course #{i+1}"))
+      course = @user2.courses.create!(@course_params.merge(title: "Approved Course #{i + 1}"))
       course.update!(course_status: "approved")
     end
 

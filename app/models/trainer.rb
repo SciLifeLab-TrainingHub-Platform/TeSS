@@ -2,7 +2,6 @@ require 'i18n_data'
 
 # define model for Trainer as subset of Profile
 class Trainer < Profile
-
   after_update_commit :reindex
   after_destroy_commit :reindex
 
@@ -92,5 +91,4 @@ class Trainer < Profile
   def self.finder_needs_type_condition?
     true
   end
-
 end

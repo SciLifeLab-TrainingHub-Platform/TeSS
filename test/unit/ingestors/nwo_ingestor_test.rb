@@ -14,7 +14,6 @@ class NwoIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from nwo' do
-
     user = users(:regular_user)
     source = @content_provider.sources.build(
       url: 'https://www.nwo.nl/en/meetings',

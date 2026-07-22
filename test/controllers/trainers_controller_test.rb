@@ -10,5 +10,4 @@ class TrainersControllerTest < ActionController::TestCase
     assert_not_nil trainers
     assert_equal 1, trainers.size
   end
-
 end

@@ -10,8 +10,7 @@ class CuratorControllerTest < ActionController::TestCase
                                 target_audience: @event.target_audience,
                                 content_providers: @event.content_providers,
                                 learning_objectives: @event.learning_objectives,
-                                event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
-    }
+                                event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }] }
   end
 
   test 'should get topic suggestions if curator' do
@@ -92,10 +91,11 @@ class CuratorControllerTest < ActionController::TestCase
     assert_not_includes assigns(:users), new_user
 
     parameters = @mandatory_event_fields.merge({
-      title: 'Spam event', url: 'http://cool-event.pancakes', start: 10.days.from_now,
-      description: "test event", end: 11.days.from_now,
-      eligibility: [ 'registration_of_interest' ], host_institutions: [ "MIT" ],
-      contact: "me", online: true, timezone: 'UTC'})
+                                                 title: 'Spam event', url: 'http://cool-event.pancakes', start: 10.days.from_now,
+                                                 description: "test event", end: 11.days.from_now,
+                                                 eligibility: ['registration_of_interest'], host_institutions: ["MIT"],
+                                                 contact: "me", online: true, timezone: 'UTC'
+                                               })
     e = new_user.events.create!(parameters)
     e.create_activity(:create, owner: new_user)
 
@@ -146,10 +146,11 @@ class CuratorControllerTest < ActionController::TestCase
     course = nil
     4.times do |i|
       parameters = @mandatory_event_fields.merge({
-       title: "Spam event #{i}", url: "http://cool-event.pancakes/#{i}", start: 10.days.from_now,
-       description: "test event", end: 11.days.from_now,
-       eligibility: [ 'registration_of_interest' ], host_institutions: [ "MIT" ],
-       contact: "me", online: true, timezone: 'UTC'})
+                                                   title: "Spam event #{i}", url: "http://cool-event.pancakes/#{i}", start: 10.days.from_now,
+                                                   description: "test event", end: 11.days.from_now,
+                                                   eligibility: ['registration_of_interest'], host_institutions: ["MIT"],
+                                                   contact: "me", online: true, timezone: 'UTC'
+                                                 })
       e = new_user.events.create!(parameters)
       e.create_activity(:create, owner: new_user)
       event = e
@@ -216,7 +217,6 @@ class CuratorControllerTest < ActionController::TestCase
     assert_select '.panel-heading a[href=?]', @controller.user_path(new_user), text: new_user.username
 
     (User::CREATED_RESOURCE_TYPES - [:learning_paths, :learning_path_topics, :nodes]).each do |type|
-
       klass = type.to_s.classify.constantize
       assert_select '.curate-user strong', { text: klass.model_name.human },
                     "#{klass.name.pluralize} missing from list of resources"

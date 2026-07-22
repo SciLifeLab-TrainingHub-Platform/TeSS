@@ -59,10 +59,11 @@ class EdamControllerTest < ActionController::TestCase
     # <Edam::Term @ontology=Edam::OldOntology, @uri=http://edamontology.org/operation_3088, label: Protein property calculation (from sequence)>
     # <Edam::Term @ontology=Edam::OldOntology, @uri=http://edamontology.org/operation_2506, label: Protein sequence alignment analysis>
     deprecated_protein_operation_uris = %w(
-    http://edamontology.org/operation_0467
-    http://edamontology.org/operation_0421
-    http://edamontology.org/operation_3088
-    http://edamontology.org/operation_2506)
+      http://edamontology.org/operation_0467
+      http://edamontology.org/operation_0421
+      http://edamontology.org/operation_3088
+      http://edamontology.org/operation_2506
+    )
 
     deprecated_protein_operation_uris.each do |uri|
       term = Edam::Ontology.instance.lookup(uri)

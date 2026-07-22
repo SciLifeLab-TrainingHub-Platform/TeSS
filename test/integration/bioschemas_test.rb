@@ -228,7 +228,7 @@ class BioschemasTest < ActionDispatch::IntegrationTest
     assert_equal ['Training Material with All Optionals'], props['name']
     assert_equal ['This is a Training Material produced by an example organization'], props['description']
     assert_equal ['https://training.com/material/023'], props['url']
-    assert_equal ['material','with','optionals'].sort, props['keywords'].sort
+    assert_equal ['material', 'with', 'optionals'].sort, props['keywords'].sort
     assert_equal ['https://spdx.org/licenses/CC-BY-4.0.html'], props['license']
     assert_equal ['2021-07-12'], props['dateCreated']
     assert_equal ['2021-07-13'], props['dateModified']

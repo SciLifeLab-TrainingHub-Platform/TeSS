@@ -128,7 +128,7 @@ module Ingestors
     end
 
     def write_resources(type, resources, user, provider)
-        resources.each_with_index do |resource, i|
+      resources.each_with_index do |resource, i|
         key = type.model_name.collection.to_sym
         @stats[key][:processed] += 1
 
@@ -144,7 +144,6 @@ module Ingestors
 
         existing_resource = find_existing(type, resource)
 
-
         update = existing_resource
         resource = if update
                      update_resource(existing_resource, resource.to_h)
@@ -159,10 +158,7 @@ module Ingestors
           end
         end
 
-
-
         resource = set_resource_defaults(resource)
-
 
         if resource.valid?
           resource.save!

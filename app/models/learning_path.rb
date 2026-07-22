@@ -66,7 +66,7 @@ class LearningPath < ApplicationRecord
   has_ontology_terms(:scientific_topics, branch: EDAM.topics)
   # has_ontology_terms(:operations, branch: EDAM.operations)
 
-  has_many :stars,  as: :resource, dependent: :destroy
+  has_many :stars, as: :resource, dependent: :destroy
   has_many :topic_links, -> { order(:order) }, class_name: 'LearningPathTopicLink', dependent: :destroy
   has_many :topics, through: :topic_links, class_name: 'LearningPathTopic'
   has_many :topics_materials, through: :topics, source: :materials, class_name: 'Material'
@@ -104,9 +104,9 @@ class LearningPath < ApplicationRecord
     if user&.is_admin?
       all
     elsif user
-      references(:collaborations).includes(:collaborations).
-        where("#{self.table_name}.public = :public OR #{self.table_name}.user_id = :user OR collaborations.user_id = :user",
-              public: true, user: user)
+      references(:collaborations).includes(:collaborations)
+                                 .where("#{self.table_name}.public = :public OR #{self.table_name}.user_id = :user OR collaborations.user_id = :user",
+                                        public: true, user: user)
     else
       where(public: true)
     end
@@ -119,6 +119,7 @@ class LearningPath < ApplicationRecord
     i = 0
     topic_links.sort_by(&:order).each do |topic|
       next if topic.marked_for_destruction?
+
       topic.order = (i += 1)
     end
   end

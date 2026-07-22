@@ -11,12 +11,12 @@ class LearningPathTopicItem < ApplicationRecord
 
   def log_activity
     self.topic.create_activity(:add_item, owner: User.current_user,
-                               parameters: { resource_id: self.resource_id,
-                                             resource_type: self.resource_type,
-                                             resource_title: self.resource.title })
+                                          parameters: { resource_id: self.resource_id,
+                                                        resource_type: self.resource_type,
+                                                        resource_title: self.resource.title })
     self.resource.create_activity(:add_to_topic, owner: User.current_user,
-                                  parameters: { topic_id: self.topic_id,
-                                                topic_title: self.topic.title })
+                                                 parameters: { topic_id: self.topic_id,
+                                                               topic_title: self.topic.title })
   end
 
   private

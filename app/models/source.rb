@@ -20,14 +20,13 @@ class Source < ApplicationRecord
   validates :url, :method, presence: true
   validates :url, url: true
   validates :approval_status, inclusion: { in: APPROVAL_STATUS.values }
-  validates :method, inclusion: { in: -> (_) { TeSS::Config.user_ingestion_methods } },
-            unless: -> { User.current_user&.is_admin? || User.current_user&.has_role?(:scraper_user) }
+  validates :method, inclusion: { in: ->(_) { TeSS::Config.user_ingestion_methods } },
+                     unless: -> { User.current_user&.is_admin? || User.current_user&.has_role?(:scraper_user) }
   validate :check_method
 
   before_create :set_approval_status
   before_update :log_approval_status_change
   before_update :reset_approval_status
-
 
   if TeSS::Config.solr_enabled
     # :nocov:
@@ -71,7 +70,7 @@ class Source < ApplicationRecord
   end
 
   def self.facet_fields
-    field_list = %w( content_provider node method enabled approval_status )
+    field_list = %w(content_provider node method enabled approval_status)
     field_list.delete('node') unless TeSS::Config.feature['nodes']
     field_list
   end

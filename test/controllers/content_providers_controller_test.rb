@@ -21,8 +21,7 @@ class ContentProvidersControllerTest < ActionController::TestCase
                                    content_providers: @event.content_providers,
                                    learning_objectives: @event.learning_objectives,
                                    start: Time.new(2015, 11, 23, 0, 0, 0),
-                                   end: Time.new(2015, 11, 24, 0, 0, 0)
-    }
+                                   end: Time.new(2015, 11, 24, 0, 0, 0) }
   end
 
   # Tests
@@ -324,7 +323,6 @@ class ContentProvidersControllerTest < ActionController::TestCase
     assert_response :success
     # assert_select 'h4.nav-heading', :text => /Content provider/
     assert_select 'a[href=?]', @content_provider.url do
-      #
       assert_select 'img[src=?]', ActionController::Base.helpers.asset_path(@content_provider.image.url), count: 1
     end
     # assert_select 'a.btn-info[href=?]', content_providers_path, :count => 1 #Back button
@@ -477,18 +475,21 @@ class ContentProvidersControllerTest < ActionController::TestCase
     good_user = users(:admin)
     past_event_parameters = @mandatory_fields_of_event.merge(
       { title: 'past', url: 'http://example.com/good-stuff', end: 3.days.ago,
-        content_providers: [@content_provider] })
+        content_providers: [@content_provider] }
+    )
     past_event = good_user.events.build(past_event_parameters)
     past_event.save!
 
     future_event_parameters = @mandatory_fields_of_event.merge({
                                                                  title: 'future', url: 'http://example.com/good-stuff', end: 4.days.from_now,
-                                                                 content_providers: [@content_provider] })
+                                                                 content_providers: [@content_provider]
+                                                               })
     future_event = good_user.events.build(future_event_parameters)
     future_event.save!
 
     dateless_event_parameters = @mandatory_fields_of_event.merge({
-                                                                   title: 'dateless', url: 'http://example.com/good-stuff', content_providers: [@content_provider] })
+                                                                   title: 'dateless', url: 'http://example.com/good-stuff', content_providers: [@content_provider]
+                                                                 })
     dateless_event = good_user.events.build(dateless_event_parameters)
     dateless_event.save!
 

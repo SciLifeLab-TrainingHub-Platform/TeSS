@@ -5,6 +5,7 @@ class OrcidValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     return if value.nil? || valid_orcid_id?(value.sub(ORCID_DOMAIN_REGEX, ''))
+
     record.errors.add(attribute, options[:message] || "isn't a valid ORCID identifier")
   end
 

@@ -1,13 +1,11 @@
 # From http://pastebin.com/4p6aN7n0
 # in lib/tess/array_field_cleaner.rb
 module ArrayFieldCleaner
-
   def self.included(mod)
     mod.extend(ClassMethods)
   end
 
   module ClassMethods
-
     # Remove empty array elements
     def clean_array_fields(*fields)
       cattr_accessor :fields_to_clean
@@ -18,11 +16,9 @@ module ArrayFieldCleaner
 
       include ArrayFieldCleaner::InstanceMethods
     end
-
   end
 
   module InstanceMethods
-
     private
 
     def clean_fields
@@ -30,7 +26,7 @@ module ArrayFieldCleaner
         if self[field].nil?
           self[field] = []
         else
-          self[field] = self[field].reject{ |element| element.blank? }.map(&:strip)
+          self[field] = self[field].reject { |element| element.blank? }.map(&:strip)
         end
       end
     end

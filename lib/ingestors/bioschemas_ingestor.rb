@@ -21,10 +21,10 @@ module Ingestors
       sources = if source_url.downcase.match?(/sitemap(.*)?.xml\Z/)
                   sitemap_message = "Parsing sitemap: #{source_url}\n"
                   urls = SitemapParser.new(source_url, {
-                    recurse: true,
-                    url_regex: sitemap_regex,
-                    headers: { 'User-Agent' => config[:user_agent] }
-                  }).to_a.uniq.map(&:strip)
+                                             recurse: true,
+                                             url_regex: sitemap_regex,
+                                             headers: { 'User-Agent' => config[:user_agent] }
+                                           }).to_a.uniq.map(&:strip)
                   sitemap_message << "\n - #{urls.count} URLs found"
                   @messages << sitemap_message
                   urls

@@ -49,6 +49,7 @@ module HasTestJob
       end
       extras.each do |key, value|
         next if key == :content_provider # Skip, already handled
+
         resource.send("#{key}=", value) if resource.respond_to?("#{key}=")
       end
       resource

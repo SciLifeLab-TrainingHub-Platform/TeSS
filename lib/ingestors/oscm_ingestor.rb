@@ -48,7 +48,7 @@ module Ingestors
           event.set_default_times
           event.venue = ical_event.try(:venue)
           event.keywords = ical_event.categories # fair-coffee pre-registration-workshop fair-essentials-workshop fair-for-qualitative-data reproducibilitea
-          # see https://www.openscience-maastricht.nl/wp-sitemap-taxonomies-event-categories-1.xml 
+          # see https://www.openscience-maastricht.nl/wp-sitemap-taxonomies-event-categories-1.xml
           event.timezone = 'Europe/Amsterdam' # how to get this from Icalendar Event object?
           # it's not really needed since dtstart and dtend contain timezone information
           event.source = 'OSCM'

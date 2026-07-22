@@ -1,14 +1,12 @@
 namespace :tess do
-
   $api_key = Rails.application.secrets.bioportal_api_key
-
 
   desc 'Query BioPortal for scientific topics'
   task get_topics: :environment do
     outfile = File.open('scientific_topics.csv', 'w')
     index = 1
     for material in Material.all
-    #for material in Material.limit(2)
+      # for material in Material.limit(2)
 
       # Don't bother if there are already some topics.
       if material.scientific_topic_names.length > 0
@@ -29,12 +27,12 @@ namespace :tess do
       # See String#encode documentation
 
       encoding_options = {
-          :invalid           => :replace,
-          :undef             => :replace,
-          :replace           => '',
-          :universal_newline => true
+        :invalid => :replace,
+        :undef => :replace,
+        :replace => '',
+        :universal_newline => true
       }
-      clean_desc = desc.encode(Encoding.find('ASCII'), encoding_options).gsub(/[\n#]/,'')
+      clean_desc = desc.encode(Encoding.find('ASCII'), encoding_options).gsub(/[\n#]/, '')
 
       url = "http://data.bioontology.org/annotator?include=prefLabel&text=#{clean_desc}&ontologies=EDAM&longest_only=false&exclude_numbers=false&whole_word_only=true&exclude_synonyms=false&apikey=#{$api_key}"
 
@@ -70,5 +68,4 @@ namespace :tess do
     end
     outfile.close
   end
-
 end

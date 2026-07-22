@@ -22,7 +22,6 @@ class ConvertScientificTopicLinksIdToUri < ActiveRecord::Migration[4.2]
     remove_reference :scientific_topic_links, :scientific_topic
   end
 
-
   def down
     add_reference :scientific_topic_links, :scientific_topic
     remove_index :scientific_topic_links, :term_uri

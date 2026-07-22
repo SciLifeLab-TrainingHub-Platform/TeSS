@@ -1,5 +1,4 @@
 module LogParameterChanges
-
   extend ActiveSupport::Concern
 
   IGNORED_ATTRIBUTES = ['id', 'updated_at', 'last_scraped', 'remote_updated_date']
@@ -11,6 +10,7 @@ module LogParameterChanges
   class_methods do
     def is_foreign_key?(attr)
       return false unless attr.end_with?('_id')
+
       self.reflections.keys.include?(attr.chomp('_id'))
     end
   end
@@ -42,5 +42,4 @@ module LogParameterChanges
       self.create_activity :update_parameter, parameters: parameters
     end
   end
-
 end

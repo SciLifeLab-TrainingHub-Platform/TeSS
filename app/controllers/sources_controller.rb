@@ -56,8 +56,8 @@ class SourcesController < ApplicationController
   # POST /sources/check_exists.json
   def check_exists
     @source = Source.check_exists_candidates(source_params)
-                   .limit(50)
-                   .find { |source| source_disclosable_for_check_exists?(source) }
+                    .limit(50)
+                    .find { |source| source_disclosable_for_check_exists?(source) }
 
     if @source
       respond_to do |format|
@@ -97,8 +97,10 @@ class SourcesController < ApplicationController
     @source.create_activity :destroy, owner: current_user
     @source.destroy
     respond_to do |format|
-      format.html { redirect_to policy(Source).index? ? sources_path : content_provider_path(@content_provider),
-                                notice: 'Source was successfully deleted.' }
+      format.html {
+        redirect_to policy(Source).index? ? sources_path : content_provider_path(@content_provider),
+                    notice: 'Source was successfully deleted.'
+      }
       format.json { head :no_content }
     end
   end
@@ -109,7 +111,7 @@ class SourcesController < ApplicationController
     @source.test_job_id = job_id
 
     respond_to do |format|
-      format.json { render json: { id: job_id }}
+      format.json { render json: { id: job_id } }
     end
   end
 
@@ -187,5 +189,4 @@ class SourcesController < ApplicationController
       super
     end
   end
-
 end

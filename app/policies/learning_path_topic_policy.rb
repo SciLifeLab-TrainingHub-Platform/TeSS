@@ -1,5 +1,4 @@
 class LearningPathTopicPolicy < ResourcePolicy
-
   def update?
     super || @record.collaborator?(@user)
   end
@@ -11,5 +10,4 @@ class LearningPathTopicPolicy < ResourcePolicy
   def create?
     curators_and_admin
   end
-
 end

@@ -72,14 +72,14 @@ class EditSuggestionWorker
         end
       end
     rescue StandardError => exception
-      error = "Suggestible #{suggestible.inspect} threw an exception when checking BioPortal: #{exception}\n"+
-        "Trace: \n\t#{exception.backtrace.join("\n\t")}"
+      error = "Suggestible #{suggestible.inspect} threw an exception when checking BioPortal: #{exception}\n" +
+              "Trace: \n\t#{exception.backtrace.join("\n\t")}"
       error += "\n\nBioPortal response (#{response.code}):\n#{response.body}" if response
       logger.error(error)
     end
 
     # Create some topics and an edit_suggestion if some annotations were returned
-    #logger.info("ANNOTATION: #{annotations}")
+    # logger.info("ANNOTATION: #{annotations}")
     [[topic_uris, 'scientific_topic'], [operation_uris, 'operation']].each do |ids, type|
       if ids.any?
         terms = ids.map { |id| Edam::Ontology.instance.lookup(id) }.compact
@@ -87,7 +87,7 @@ class EditSuggestionWorker
         if terms.any?
           suggestion = suggestible.build_edit_suggestion
           terms.each do |term|
-            #logger.info("Added topic #{term} to #{suggestible.inspect}")
+            # logger.info("Added topic #{term} to #{suggestible.inspect}")
             suggestion.ontology_term_links.build(term_uri: term.uri, field: type.pluralize)
           end
           unless suggestion.save

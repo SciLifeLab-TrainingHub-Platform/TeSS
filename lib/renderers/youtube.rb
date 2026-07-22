@@ -21,9 +21,9 @@ module Renderers
       return unless is_youtube_url?(url)
 
       match = url.match(/[\?\&]v[i]?\=([-_a-zA-Z0-9]+)/) ||
-        url.match(/youtu\.be\/([-_a-zA-Z0-9]+)/) ||
-        url.match(/\/v\/([-_a-zA-Z0-9]+)/) ||
-        url.match(/\/embed\/([-_a-zA-Z0-9]+)/)
+              url.match(/youtu\.be\/([-_a-zA-Z0-9]+)/) ||
+              url.match(/\/v\/([-_a-zA-Z0-9]+)/) ||
+              url.match(/\/embed\/([-_a-zA-Z0-9]+)/)
       match[1] if match
     end
 

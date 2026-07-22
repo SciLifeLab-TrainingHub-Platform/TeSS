@@ -1,12 +1,12 @@
 class Subscription < ApplicationRecord
   CHECK_WINDOW = 1.hour # Window to add to subscription period to avoid synchronization issues with cronjob to process
-                        # subscriptions.
-                        # e.g. A window of 1 hour will make a daily subscription "due" 23 hours after it was last checked.
+  # subscriptions.
+  # e.g. A window of 1 hour will make a daily subscription "due" 23 hours after it was last checked.
 
   FREQUENCY = [
-      { key: :daily, id: 1, period: 1.day, title: '24 hours' }.with_indifferent_access,
-      { key: :weekly, id: 2, period: 1.week, title: '1 week' }.with_indifferent_access,
-      { key: :monthly, id: 3, period: 1.month, title: '1 month' }.with_indifferent_access
+    { key: :daily, id: 1, period: 1.day, title: '24 hours' }.with_indifferent_access,
+    { key: :weekly, id: 2, period: 1.week, title: '1 week' }.with_indifferent_access,
+    { key: :monthly, id: 3, period: 1.month, title: '1 month' }.with_indifferent_access
   ].freeze
 
   validates :frequency, presence: true, inclusion: { in: FREQUENCY.map { |f| f[:key] } }
@@ -103,5 +103,4 @@ class Subscription < ApplicationRecord
   def set_last_checked_at
     self.last_checked_at = Time.now
   end
-
 end

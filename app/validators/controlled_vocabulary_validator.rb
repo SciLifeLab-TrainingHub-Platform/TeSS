@@ -1,5 +1,4 @@
 class ControlledVocabularyValidator < ActiveModel::EachValidator
-
   def validate_each(record, attribute, value)
     if value.respond_to?(:each)
       bad_terms = value.reject { |v| lookup(options[:dictionary], v) }
@@ -18,5 +17,4 @@ class ControlledVocabularyValidator < ActiveModel::EachValidator
   def lookup(dictionary, value)
     dictionary.constantize.instance.lookup(value)
   end
-
 end

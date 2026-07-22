@@ -28,10 +28,10 @@ module BreadCrumbs
   end
 
   def add_base_breadcrumbs(con_name = controller_name)
-    #Home
+    # Home
     add_breadcrumb 'Home', root_path
 
-    #Index
+    # Index
     add_index_breadcrumb(con_name)
   end
 

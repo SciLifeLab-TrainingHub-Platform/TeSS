@@ -26,17 +26,17 @@ module Ingestors
 
     def process_utwente(url)
       response = get_json_response(url, method: :post, referrer: url,
-        headers: {
-          content_type: :json,
-          accept: :json
-        },
-        payload: {
-          id: 1,
-          method: 'GetItems',
-          # there may be an issue with multiple categories here...
-          params: [{ categories: url.split('=').last }]
-        }.to_json)
-      
+                                        headers: {
+                                          content_type: :json,
+                                          accept: :json
+                                        },
+                                        payload: {
+                                          id: 1,
+                                          method: 'GetItems',
+                                          # there may be an issue with multiple categories here...
+                                          params: [{ categories: url.split('=').last }]
+                                        }.to_json)
+
       response['result']['items'].each do |item|
         event = OpenStruct.new
 
@@ -46,7 +46,7 @@ module Ingestors
         event.set_default_times
         event.venue = item['location']
 
-        event.keywords = item['tags'].map{ |t| t['tag'] }
+        event.keywords = item['tags'].map { |t| t['tag'] }
         event.description = convert_description item['description']
         event.timezone = 'Amsterdam'
         event.source = 'University of Twente'

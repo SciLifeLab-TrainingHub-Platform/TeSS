@@ -327,9 +327,7 @@ class EventsController < ApplicationController
                                   external_resources_attributes: %i[id url title _destroy],
                                   external_resources: [:url, :title], material_ids: [],
                                   llm_interaction_attributes: %i[id scrape_or_process model prompt input output needs_processing _destroy],
-                                  locked_fields: [], event_prices_attributes: [:id, :cost, :currency, :audience_type, :_destroy]
-
-    )
+                                  locked_fields: [], event_prices_attributes: [:id, :cost, :currency, :audience_type, :_destroy])
   end
 
   def event_report_params
@@ -337,7 +335,7 @@ class EventsController < ApplicationController
   end
 
   def disable_pagination
-    params[:per_page] = 2 ** 10
+    params[:per_page] = 2**10
   end
 
   def preload_index_associations

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CitiesControllerTest  < ActionController::TestCase
+class CitiesControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
   setup do
@@ -47,5 +47,4 @@ class CitiesControllerTest  < ActionController::TestCase
     assert_equal 1, response_body["cities"].length
     assert_includes response_body["cities"], { "id" => @online_city.id, "name" => City::ONLINE_CITY }
   end
-
 end

@@ -90,7 +90,7 @@ class EventCsvIngestorTest < ActiveSupport::TestCase
     assert_equal 'To provide a basic intro to supercomputing on the **Gadi** system',
                  event.learning_objectives
     assert_equal "To get the most of this session, it would be good to have a basic awareness of:\n\n" +
-                   "- Supercomputing\n" + "- Bioinformatics\n" + '- Software Design',
+                 "- Supercomputing\n" + "- Bioinformatics\n" + '- Software Design',
                  event.prerequisites
     assert_equal 'There are no technical requirements.',
                  event.tech_requirements

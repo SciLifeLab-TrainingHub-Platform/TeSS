@@ -52,7 +52,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should not be able create user if not admin" do
-    #because you use users#sign_up in devise
+    # because you use users#sign_up in devise
     assert_no_difference('User.count') do
       post :create, params: { user: { username: 'frank', email: 'frank@notarealdomain.org', password: 'franksreallylongpass' } }
     end
@@ -73,7 +73,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should show other users page if not admin or self" do
     sign_in users(:another_regular_user)
     get :show, params: { id: @user }
-    assert_response :success #FORBIDDEN PAGE!?
+    assert_response :success # FORBIDDEN PAGE!?
   end
 
   test "should show user with email address as username" do
@@ -86,7 +86,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should show user as json" do
     sign_in users(:another_regular_user)
     get :show, params: { id: @user, format: 'json' }
-    assert_response :success #FORBIDDEN PAGE!?
+    assert_response :success # FORBIDDEN PAGE!?
   end
 
   test 'should show user as json-api' do
@@ -114,7 +114,7 @@ class UsersControllerTest < ActionController::TestCase
 
     sign_in users(:another_regular_user)
     get :edit, params: { id: @user }
-    #assert_redirected_to root_path
+    # assert_redirected_to root_path
   end
 
   test "should update profile" do
@@ -268,7 +268,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal 1, profile.errors.full_messages_for(:surname).size, 'missing message for: surname'
     assert_equal 1, profile.errors.full_messages_for(:description).size, 'missing message for: description'
     assert_equal "Description can't be blank", profile.errors.full_messages_for(:description).first
-
   end
 
   test 'check orcid' do

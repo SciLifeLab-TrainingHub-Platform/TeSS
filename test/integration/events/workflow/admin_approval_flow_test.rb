@@ -147,5 +147,4 @@ class AdminApprovalFlowTest < ActionDispatch::IntegrationTest
       get "/events/#{@pending_event.id}", params: { format: :json }
     end
   end
-
 end

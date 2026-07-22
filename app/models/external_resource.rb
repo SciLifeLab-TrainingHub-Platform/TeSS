@@ -41,6 +41,7 @@ class ExternalResource < ApplicationRecord
 
   def failing?
     return false unless link_monitor
+
     link_monitor.failing?
   end
 

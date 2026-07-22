@@ -1,6 +1,6 @@
 class AddDeviseToUsers < ActiveRecord::Migration[4.2]
   def self.up
-    #return # renaming this file in a merge broke migrations
+    # return # renaming this file in a merge broke migrations
     change_table(:users) do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
@@ -32,7 +32,7 @@ class AddDeviseToUsers < ActiveRecord::Migration[4.2]
       t.datetime :locked_at
 
       # Uncomment below if timestamps were not included in your original model.
-      #t.timestamps null: false
+      # t.timestamps null: false
     end
 
     add_index :users, :email,                unique: true

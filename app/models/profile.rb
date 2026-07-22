@@ -52,7 +52,7 @@ class Profile < ApplicationRecord
   end
 
   def self.facet_fields
-    field_list = %w( full_name )
+    field_list = %w(full_name)
   end
 
   def full_name
@@ -81,6 +81,7 @@ class Profile < ApplicationRecord
 
   def normalize_orcid
     return if orcid.blank?
+
     self.orcid = orcid.strip
     if orcid =~ OrcidValidator::ORCID_ID_REGEX
       self.orcid = "#{OrcidValidator::ORCID_PREFIX}#{orcid}"
@@ -102,5 +103,4 @@ class Profile < ApplicationRecord
   def should_generate_new_friendly_id?
     firstname_changed? or surname_changed?
   end
-
 end

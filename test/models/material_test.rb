@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class MaterialTest < ActiveSupport::TestCase
-
   setup do
     @user = users :regular_user
     @event = events :kilburn
@@ -15,8 +14,7 @@ class MaterialTest < ActiveSupport::TestCase
                                  keywords: ['goblet'],
                                  contact: 'default contact',
                                  content_provider: content_providers(:goblet),
-                                 status: 'active'
-    )
+                                 status: 'active')
     assert_not_nil @user
     assert_not_nil @event
     assert_not_nil @material
@@ -135,7 +133,7 @@ class MaterialTest < ActiveSupport::TestCase
     owner = @material.user
     assert_not_equal 'default_user', owner.role.name
     owner.destroy
-    #Reload the material
+    # Reload the material
     material = @material.reload
     assert_equal 'default_user', material.user.role.name
   end
@@ -461,7 +459,7 @@ class MaterialTest < ActiveSupport::TestCase
     bad_user = users(:unverified_user)
     bad_material = bad_user.materials.build(title: 'bla', url: 'http://example.com/spam', description: 'vvv',
                                             doi: 'https://doi.org/10.1111/123.1235', contact: 'default contact',
-                                            licence: 'Fair', keywords: %w{ key words }, status: 'active')
+                                            licence: 'Fair', keywords: %w{key words}, status: 'active')
     assert bad_material.user_requires_approval?
     bad_material.save!
 
@@ -469,7 +467,7 @@ class MaterialTest < ActiveSupport::TestCase
     good_material = good_user.materials.build(title: 'h', url: 'http://example.com/good-stuff',
                                               description: 'vvv', contact: 'default contact',
                                               doi: 'https://doi.org/10.1111/123.1235', status: 'active',
-                                              licence: 'Fair', keywords: %w{ key words })
+                                              licence: 'Fair', keywords: %w{key words})
     refute good_material.user_requires_approval?
     good_material.save!
 
@@ -517,7 +515,6 @@ class MaterialTest < ActiveSupport::TestCase
                                 status: 'archived')
     refute_match(/\A\d+\Z/, material.friendly_id)
   end
-
 
   test 'validates URL format' do
     material = Material.new(title: 'Test', description: 'desc', user: users(:regular_user))

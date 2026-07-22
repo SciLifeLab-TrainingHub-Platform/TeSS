@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AutocompleteControllerTest < ActionController::TestCase
-
   include Devise::Test::ControllerHelpers
 
   setup do

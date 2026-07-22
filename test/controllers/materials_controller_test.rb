@@ -31,10 +31,10 @@ class MaterialsControllerTest < ActionController::TestCase
     @monitor = @failing_material.create_link_monitor(url: @failing_material.url, code: 404, fail_count: 5)
   end
 
-  #Tests
+  # Tests
   # INDEX, NEW, EDIT, CREATE, SHOW, BREADCRUMBS, TABS, API CHECKS
 
-  #INDEX TESTS
+  # INDEX TESTS
   test 'should get index' do
     get :index
     assert_response :success
@@ -128,7 +128,7 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_select '.broken-link-notice', text: /this material's URL.+since 2 April 2023/
   end
 
-  #NEW TESTS
+  # NEW TESTS
   test 'should get new' do
     sign_in users(:regular_user)
     get :new
@@ -136,11 +136,11 @@ class MaterialsControllerTest < ActionController::TestCase
   end
 
   test 'should get new page for logged in users only' do
-    #Redirect to login if not logged in
+    # Redirect to login if not logged in
     get :new
     assert_response :redirect
     sign_in users(:regular_user)
-    #Success for everyone else
+    # Success for everyone else
     get :new
     assert_response :success
     sign_in users(:admin)
@@ -154,14 +154,14 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  #EDIT TESTS
+  # EDIT TESTS
   test 'should not get edit page for not logged in users' do
-    #Not logged in = Redirect to login
+    # Not logged in = Redirect to login
     get :edit, params: { id: @material }
     assert_redirected_to new_user_session_path
   end
 
-  #logged in but insufficient permissions = ERROR
+  # logged in but insufficient permissions = ERROR
   test 'should get edit for material owner' do
     sign_in users(:regular_user)
     get :edit, params: { id: @material }
@@ -169,7 +169,7 @@ class MaterialsControllerTest < ActionController::TestCase
   end
 
   test 'should get edit for admin' do
-    #Owner of material logged in = SUCCESS
+    # Owner of material logged in = SUCCESS
     sign_in users(:admin)
     get :edit, params: { id: @material }
     assert_response :success
@@ -188,7 +188,7 @@ class MaterialsControllerTest < ActionController::TestCase
   end
 
   test 'should not get edit page for non-owner user' do
-    #Administrator = SUCCESS
+    # Administrator = SUCCESS
     sign_in users(:another_regular_user)
     get :edit, params: { id: @material }
     assert_response :forbidden
@@ -201,7 +201,7 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  #CREATE TEST
+  # CREATE TEST
   test 'should create material for user' do
     sign_in users(:regular_user)
     assert_difference('Material.count') do
@@ -302,8 +302,7 @@ class MaterialsControllerTest < ActionController::TestCase
       format: :json,
       material: { title: test_title,
                   url: test_url,
-                  content_provider_id: test_provider.id
-      }
+                  content_provider_id: test_provider.id }
     }
     assert_response :success
     assert_equal 'application/json; charset=utf-8', response.content_type, 'response content type not matched'
@@ -353,7 +352,7 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_path
   end
 
-  #SHOW TEST
+  # SHOW TEST
   test 'should show material' do
     get :show, params: { id: @material } do
       assert_response :success
@@ -401,7 +400,7 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_equal @collection.id.to_s, body['data']['relationships']['collections']['data'][0]['id']
   end
 
-  #UPDATE TEST
+  # UPDATE TEST
   test 'should update material' do
     sign_in @material.user
     patch :update, params: { id: @material, material: @updated_material }
@@ -462,7 +461,7 @@ class MaterialsControllerTest < ActionController::TestCase
     end
   end
 
-  #DESTROY TEST
+  # DESTROY TEST
   test 'should destroy material owned by user' do
     sign_in users(:regular_user)
     assert_difference('Material.count', -1) do
@@ -515,8 +514,8 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_redirected_to materials_path
   end
 
-  #CONTENT TESTS
-  #BREADCRUMBS
+  # CONTENT TESTS
+  # BREADCRUMBS
   test 'breadcrumbs for materials index' do
     get :index
     assert_response :success
@@ -567,25 +566,25 @@ class MaterialsControllerTest < ActionController::TestCase
     end
   end
 
-  #OTHER CONTENT
+  # OTHER CONTENT
 
   test 'material has correct layout' do
     get :show, params: { id: @material }
     assert_response :success
-    assert_select 'h2', :text => @material.title #Has Title
+    assert_select 'h2', :text => @material.title # Has Title
     assert_select 'a.btn', text: 'View material', count: 1 do
       assert_select 'a[href=?]', @material.url, count: 1
     end
-    #Should not show when not logged in
-    assert_select 'a.btn[href=?]', edit_material_path(@material), :count => 0 #No Edit
-    assert_select 'a.btn[href=?]', material_path(@material), :count => 0 #No Edit
+    # Should not show when not logged in
+    assert_select 'a.btn[href=?]', edit_material_path(@material), :count => 0 # No Edit
+    assert_select 'a.btn[href=?]', material_path(@material), :count => 0 # No Edit
   end
 
   test 'do not show action buttons when not owner or admin' do
     sign_in users(:another_regular_user)
     get :show, params: { id: @material }
-    assert_select 'a.btn[href=?]', edit_material_path(@material), :count => 0 #No Edit
-    assert_select 'a.btn[href=?]', material_path(@material), :count => 0 #No Edit
+    assert_select 'a.btn[href=?]', edit_material_path(@material), :count => 0 # No Edit
+    assert_select 'a.btn[href=?]', material_path(@material), :count => 0 # No Edit
   end
 
   test 'show action buttons when owner' do
@@ -610,14 +609,13 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_select 'a.btn[href=?]', material_path(@material), :text => 'Delete', :count => 1
   end
 
-  #API Actions
+  # API Actions
   test 'should find existing material by title and content provider' do
     post :check_exists, params: {
       format: :json,
       material: { title: @material.title,
                   url: 'whatever.com',
-                  content_provider_id: @material.content_provider_id
-      }
+                  content_provider_id: @material.content_provider_id }
     }
     assert_response :success
     assert_equal(JSON.parse(response.body)['id'], @material.id)
@@ -882,7 +880,7 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_equal 'http://www.reddit.com', resource.url
   end
 
-  # TODO: SOLR tests will not run on TRAVIS. Explore stratergy for testing solr
+# TODO: SOLR tests will not run on TRAVIS. Explore stratergy for testing solr
 =begin
       test 'should return matching materials' do
         get 'index', :format => :json, :q => 'training'
@@ -944,8 +942,7 @@ class MaterialsControllerTest < ActionController::TestCase
                     licence: 'CC-BY-4.0',
                     keywords: ['insanity', 'sanitized', 'sanitary'],
                     contact: 'default contact',
-                    status: 'development'
-        }
+                    status: 'development' }
       }
     end
 
@@ -1230,10 +1227,9 @@ class MaterialsControllerTest < ActionController::TestCase
                       url: 'http://example.com/dodgy-event',
                       doi: 'https://doi.org/10.10067/SEA.2019.22',
                       licence: 'CC-BY-4.0',
-                      keywords: %w{ dodgy event },
+                      keywords: %w{dodgy event},
                       contact: 'default contact',
-                      status: 'archived'
-          }
+                      status: 'archived' }
         }
       end
     end
@@ -1248,7 +1244,7 @@ class MaterialsControllerTest < ActionController::TestCase
                                               title: @material.title, url: 'http://example.com/dodgy-event',
                                               doi: 'https://doi.org/10.10067/SEA.2019.22', status: 'active',
                                               licence: 'CC-BY-4.0', contact: 'default contact',
-                                              keywords: %w{ dodgy event unverified user })
+                                              keywords: %w{dodgy event unverified user})
 
     assert_enqueued_jobs 0 do
       assert_difference('Material.count') do
@@ -1257,8 +1253,7 @@ class MaterialsControllerTest < ActionController::TestCase
                       title: @material.title, url: 'http://example.com/dodgy-event-2',
                       licence: 'CC-BY-4.0', contact: 'default contact', status: 'active',
                       doi: 'https://doi.org/10.10067/SEA.2019.22',
-                      keywords: %w{ another dodgy event }
-          }
+                      keywords: %w{another dodgy event} }
         }
       end
     end
@@ -1413,8 +1408,7 @@ class MaterialsControllerTest < ActionController::TestCase
                                              description: 'hey',
                                              external_resources_attributes: [
                                                { title: 'A tool perhaps', url: 'https://bio.tools/some_tool' }
-                                             ]
-        }}
+                                             ] } }
 
         assert_response :success
         assert_select 'h2', text: 'Potential material'
@@ -1438,10 +1432,10 @@ class MaterialsControllerTest < ActionController::TestCase
   test 'should show unverified users material to themselves' do
     sign_in users(:unverified_user)
     material = users(:unverified_user).materials.create!(description: @material.description,
-                                              title: @material.title, url: 'http://example.com/dodgy-event',
-                                              doi: 'https://doi.org/10.10067/SEA.2019.22', status: 'active',
-                                              licence: 'CC-BY-4.0', contact: 'default contact',
-                                              keywords: %w{ dodgy event unverified user })
+                                                         title: @material.title, url: 'http://example.com/dodgy-event',
+                                                         doi: 'https://doi.org/10.10067/SEA.2019.22', status: 'active',
+                                                         licence: 'CC-BY-4.0', contact: 'default contact',
+                                                         keywords: %w{dodgy event unverified user})
 
     get :show, params: { id: material }
 
@@ -1452,10 +1446,10 @@ class MaterialsControllerTest < ActionController::TestCase
 
   test 'should show unverified users material to admin' do
     material = users(:unverified_user).materials.create!(description: @material.description,
-                                              title: @material.title, url: 'http://example.com/dodgy-event',
-                                              doi: 'https://doi.org/10.10067/SEA.2019.22', status: 'active',
-                                              licence: 'CC-BY-4.0', contact: 'default contact',
-                                              keywords: %w{ dodgy event unverified user })
+                                                         title: @material.title, url: 'http://example.com/dodgy-event',
+                                                         doi: 'https://doi.org/10.10067/SEA.2019.22', status: 'active',
+                                                         licence: 'CC-BY-4.0', contact: 'default contact',
+                                                         keywords: %w{dodgy event unverified user})
     sign_in users(:admin)
 
     get :show, params: { id: material }
@@ -1467,10 +1461,10 @@ class MaterialsControllerTest < ActionController::TestCase
 
   test 'should not show unverified users material anon user' do
     material = users(:unverified_user).materials.create!(description: @material.description,
-                                              title: @material.title, url: 'http://example.com/dodgy-event',
-                                              doi: 'https://doi.org/10.10067/SEA.2019.22', status: 'active',
-                                              licence: 'CC-BY-4.0', contact: 'default contact',
-                                              keywords: %w{ dodgy event unverified user })
+                                                         title: @material.title, url: 'http://example.com/dodgy-event',
+                                                         doi: 'https://doi.org/10.10067/SEA.2019.22', status: 'active',
+                                                         licence: 'CC-BY-4.0', contact: 'default contact',
+                                                         keywords: %w{dodgy event unverified user})
 
     get :show, params: { id: material }
     assert_response :forbidden

@@ -1,7 +1,6 @@
 # A policy specific to things that have been scraped. Events and Materials
 
 class ScrapedResourcePolicy < ResourcePolicy
-
   def manage?
     super || (@user && @user.is_curator?) || is_content_provider_editor?
   end
@@ -31,5 +30,4 @@ class ScrapedResourcePolicy < ResourcePolicy
       provider.user == @user || provider.editors.include?(@user)
     end
   end
-
 end

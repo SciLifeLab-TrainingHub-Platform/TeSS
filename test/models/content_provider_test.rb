@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ContentProviderTest < ActiveSupport::TestCase
-
   setup do
     mock_images
   end
@@ -46,7 +45,6 @@ class ContentProviderTest < ActiveSupport::TestCase
     assert !content_providers(:name_and_email_contact_provider).contact.nil?
     assert_equal 'Jim (jim@provider.com)',
                  content_providers(:name_and_email_contact_provider).contact
-
   end
 
   test 'should strip attributes' do

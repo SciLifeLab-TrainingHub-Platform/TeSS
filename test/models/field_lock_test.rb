@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class FieldLockTest < ActiveSupport::TestCase
-
   test 'can add field locks to a model' do
     event = events(:one)
 
@@ -28,5 +27,4 @@ class FieldLockTest < ActiveSupport::TestCase
       event.save
     end
   end
-
 end

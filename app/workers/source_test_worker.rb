@@ -9,6 +9,7 @@ class SourceTestWorker
   def perform(source_id)
     source = Source.find_by_id(source_id)
     return unless source
+
     results = {
       events: [],
       materials: [],

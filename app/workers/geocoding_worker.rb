@@ -29,4 +29,3 @@ class GeocodingWorker
     event.save!
   end
 end
-

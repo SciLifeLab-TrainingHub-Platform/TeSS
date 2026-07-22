@@ -1,5 +1,4 @@
 class SubscriptionMailer < ApplicationMailer
-
   include ActionView::Helpers::TextHelper
   helper(SubscriptionsHelper)
   helper(EventsHelper)
@@ -20,5 +19,4 @@ class SubscriptionMailer < ApplicationMailer
       format.text
     end
   end
-
 end

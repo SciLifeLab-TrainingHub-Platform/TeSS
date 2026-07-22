@@ -20,6 +20,7 @@ class SvgRecolourer
 
   def self.run(filename, source, context)
     return source unless PATHS.any? { |p| filename.include?(p) }
+
     source.gsub(regexp) do |match|
       mapping[match.downcase] || match # Look for replacement, or do nothing
     end
@@ -27,6 +28,7 @@ class SvgRecolourer
 
   def self.mapping
     return @mapping if @mapping && Rails.env.production?
+
     @mapping = {}
     MAPPING.each do |key, value|
       @mapping[key.downcase] = value.respond_to?(:call) ? value.call : value
@@ -36,7 +38,8 @@ class SvgRecolourer
 
   def self.regexp
     return @regex if @regex && Rails.env.production?
-    @regex = Regexp.new('(' + mapping.keys.map { |k| Regexp.quote(k) }.join('|') + ')',  Regexp::IGNORECASE)
+
+    @regex = Regexp.new('(' + mapping.keys.map { |k| Regexp.quote(k) }.join('|') + ')', Regexp::IGNORECASE)
   end
 
   def self.call(input)

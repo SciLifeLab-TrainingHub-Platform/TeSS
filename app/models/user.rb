@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-
   include PublicActivity::Common
 
   acts_as_token_authenticatable
@@ -84,7 +83,7 @@ class User < ApplicationRecord
   validate :consents_to_processing, on: :create, unless: ->(user) { user.using_omniauth? || User.current_user.try(:is_admin?) }
 
   validates_with UserRoleAndEventCountValidator, on: :update
-  
+
   accepts_nested_attributes_for :profile
 
   attr_accessor :publicize_email
@@ -100,7 +99,6 @@ class User < ApplicationRecord
 
   scope :visible, -> { not_banned.non_default.not_rejected.where(invitation_token: nil).or(accepteds) }
   # ---
-
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
@@ -162,10 +160,10 @@ class User < ApplicationRecord
 
   def self.create_default_user
     u = User.new(role_id: Role.fetch('default_user').id,
-             username: 'default_user',
-             email: TeSS::Config.contact_email,
-             password: SecureRandom.base64,
-             processing_consent: '1')
+                 username: 'default_user',
+                 email: TeSS::Config.contact_email,
+                 password: SecureRandom.base64,
+                 processing_consent: '1')
     u.skip_confirmation!
     u.save!
     u
@@ -235,8 +233,7 @@ class User < ApplicationRecord
                       uid: auth.uid,
                       email: auth.info.email,
                       username: username,
-                      profile_attributes: { firstname: first_name, surname: last_name },
-      )
+                      profile_attributes: { firstname: first_name, surname: last_name },)
       user.skip_confirmation!
     end
 
@@ -336,7 +333,7 @@ class User < ApplicationRecord
   end
 
   # Override the gravatar URL to first check for a locally uploaded image
-  def avatar_url(image_params={}, gravatar_params={})
+  def avatar_url(image_params = {}, gravatar_params = {})
     if image.present?
       image.url(**image_params)
     else
@@ -407,7 +404,7 @@ class User < ApplicationRecord
     trusted_role    = Role.find_by!(title: "Trusted user")
 
     return unless approved_events_count > User::EVENT_APPROVAL_THRESHOLD &&
-      role_id == registered_role.id
+                  role_id == registered_role.id
 
     update!(role: trusted_role)
   end
@@ -421,7 +418,7 @@ class User < ApplicationRecord
   end
 
   def consents_to_processing
-    if processing_consent!="1"
+    if processing_consent != "1"
       errors.add(:base, "You must consent to #{TeSS::Config.site['title_short']} processing your data in order to register")
 
       false

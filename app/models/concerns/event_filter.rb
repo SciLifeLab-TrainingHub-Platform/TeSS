@@ -6,7 +6,6 @@ module EventFilter
   # https://scilifelab.atlassian.net/wiki/spaces/TI/pages/3183640604/Workflows
   # this function will execute as part of code of search_and_filter of module Searchable
   def event_filter(user)
-
     Proc.new do
       if user
         # If the user is an admin, include every event

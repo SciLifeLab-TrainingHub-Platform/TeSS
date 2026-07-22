@@ -3,18 +3,16 @@
 require 'rss'
 
 module EventsHelper
-
   EVENTS_INFO = <<~INFO.freeze
-  Fill in all required fields of this form for our training on the #{TeSS::Config.site['title_short']} portal. You can also watch our [video tutorial](https://www.youtube.com/watch?v=WDMJuH1kRoMs) on how training announcements work.
+    Fill in all required fields of this form for our training on the #{TeSS::Config.site['title_short']} portal. You can also watch our [video tutorial](https://www.youtube.com/watch?v=WDMJuH1kRoMs) on how training announcements work.
 
-  Provide detailed information: people browsing need to know what they will learn and whom to contact with questions.
+    Provide detailed information: people browsing need to know what they will learn and whom to contact with questions.
 
-  Once you click 'Add Training', your submission will be sent for moderation. 
-  You will see your training in your profile, and are able to edit it until it is approved or rejected by our moderators.
-INFO
+    Once you click 'Add Training', your submission will be sent for moderation.#{' '}
+    You will see your training in your profile, and are able to edit it until it is approved or rejected by our moderators.
+  INFO
 
   def google_calendar_export_url(event)
-
     if event.all_day?
       # Need to add 1 day for all day events apparently
       dates = "#{event.start.strftime('%Y%m%d')}/#{event.end.tomorrow.strftime('%Y%m%d')}"
@@ -116,22 +114,22 @@ INFO
 
   def google_maps_embed_api_tag(event)
     src = 'https://www.google.com/maps/embed/v1/place' +
-      "?key=#{Rails.application.secrets.google_maps_api_key}" +
-      "&q=#{event.latitude},#{event.longitude}"
+          "?key=#{Rails.application.secrets.google_maps_api_key}" +
+          "&q=#{event.latitude},#{event.longitude}"
 
     content_tag(:iframe, '', width: 400, height: 250, frameborder: 0, style: 'border: 0', class: 'google-map',
-                src: src, allowfullscreen: true)
+                             src: src, allowfullscreen: true)
   end
 
   def google_maps_javascript_api_tag(event)
     content_tag(:div, 'Loading map...', id: 'map', class: 'google-map', data: {
-      'map-latitude': event.latitude,
-      'map-longitude': event.longitude,
-      'map-suggested-latitude': event.suggested_latitude,
-      'map-suggested-longitude': event.suggested_longitude,
-      'map-marker-title': event.title,
-      'map-suggested-marker-image': image_url('suggestion.png')
-    })
+                  'map-latitude': event.latitude,
+                  'map-longitude': event.longitude,
+                  'map-suggested-latitude': event.suggested_latitude,
+                  'map-suggested-longitude': event.suggested_longitude,
+                  'map-marker-title': event.title,
+                  'map-suggested-marker-image': image_url('suggestion.png')
+                })
   end
 
   def event_section_card(title, options = {}, &block)
@@ -144,7 +142,6 @@ INFO
 
   def event_pill_list(values, variant: :accent)
     pill_list(values, variant: variant)
-
   end
 
   def event_cost_value(event)
@@ -225,6 +222,7 @@ INFO
 
   def filter_events_by_status(events, user)
     return Event.none if events.blank?
+
     if user&.is_admin?
       events
     else
@@ -255,9 +253,9 @@ INFO
     # get distinct audience_type values from EventPrice
     # assuming EventPrice has columns: event_id, audience_type
     audience_types_from_user_events = EventPrice
-                                        .where(event_id: user_events.select(:id))
-                                        .distinct
-                                        .pluck(:audience_type)
+                                      .where(event_id: user_events.select(:id))
+                                      .distinct
+                                      .pluck(:audience_type)
 
     # merge with default options, remove duplicates
     (default_options + audience_types_from_user_events).uniq

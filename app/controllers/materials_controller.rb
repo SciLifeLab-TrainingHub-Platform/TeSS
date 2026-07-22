@@ -73,8 +73,8 @@ class MaterialsController < ApplicationController
   # POST /materials/check_title.json
   def check_exists
     @material = Material.check_exists_candidates(material_params)
-                       .limit(50)
-                       .find { |material| material_disclosable_for_check_exists?(material) }
+                        .limit(50)
+                        .find { |material| material_disclosable_for_check_exists?(material) }
 
     if @material
       respond_to do |format|
@@ -191,5 +191,4 @@ class MaterialsController < ApplicationController
                                      external_resources: [:url, :title],
                                      event_ids: [], locked_fields: [])
   end
-
 end

@@ -1,6 +1,5 @@
 # The controller for actions related to Resolution actions
 class ResolutionController < ApplicationController
-
   before_action :parse_identifier
   skip_before_action :authenticate_user!, :authenticate_user_from_token!
 
@@ -36,7 +35,7 @@ class ResolutionController < ApplicationController
     if matches
       @identifier = matches
     else
-      raise ActionController:RoutingError
+      raise ActionController: RoutingError
     end
   end
 end

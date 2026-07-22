@@ -29,10 +29,10 @@ class CourseTest < ActiveSupport::TestCase
   test "does not throw error when creating" do
     assert_nothing_raised do
       parameters = @mandatory.merge({
-          nodes: [@node],
-          content_providers: [@content_providers],
-          user: @user
-        })
+                                      nodes: [@node],
+                                      content_providers: [@content_providers],
+                                      user: @user
+                                    })
 
       course = Course.create!(parameters)
       assert course.persisted?, "Course should be saved successfully"
@@ -62,7 +62,6 @@ class CourseTest < ActiveSupport::TestCase
     assert_includes course.errors[:licence], "must be a controlled vocabulary term"
     assert_includes course.errors[:user], "must exist", "user should have 'must exist' error"
   end
-
 
   test "is invalid without content providers" do
     params = @mandatory.merge(user: @user, nodes: [@node])
@@ -178,20 +177,21 @@ class CourseTest < ActiveSupport::TestCase
         nodes: [@node],
         content_providers: [@content_providers],
         user: @user
-      })
+      }
+    )
 
     course = Course.new(parameters)
     assert_equal @user, course.user
   end
 
   test "has and belongs to many content providers" do
-
     parameters = @mandatory.merge(
       {
         nodes: [@node],
         content_providers: [@content_providers],
         user: @user
-      })
+      }
+    )
 
     course = Course.create!(parameters)
     assert_includes course.content_providers, @content_providers

@@ -12,7 +12,7 @@ class Course < ApplicationRecord
   has_many :events, dependent: :nullify
   belongs_to :user
 
-  enum course_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3}
+  enum course_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3 }
 
   before_create :set_course_initial_status
   after_commit :run_course_approval_lifecycle_on_create, on: :create
@@ -47,7 +47,6 @@ class Course < ApplicationRecord
     end
   end
 
-
   validates :title, :url, :language, :description,
             :structure_and_duration, :learning_outcomes, :licence,
             :prerequisites_knowledge, :prerequisites_technical,
@@ -58,7 +57,6 @@ class Course < ApplicationRecord
   clean_array_fields(:keywords, :target_audience)
   validate :events_not_linked_to_other_courses
   validate :cannot_unapprove_with_approved_events
-
 
   # Facet fields for search filters
   def self.facet_fields
@@ -98,7 +96,7 @@ class Course < ApplicationRecord
     self.course_status = :approved if self.user.admin_or_trusted?
   end
 
-  #@todo need to refactored to more generic behaviour with arguments
+  # @todo need to refactored to more generic behaviour with arguments
   def course_status_just_approved?
     return false unless previous_changes.key?("course_status")
 
@@ -121,6 +119,7 @@ class Course < ApplicationRecord
 
   def run_course_approval_lifecycle_on_status_change
     return unless course_status_just_approved?
+
     ApprovalLifecycle.new(
       self,
       notifier: Notifications::CourseNotifier.new(self)
@@ -157,7 +156,6 @@ class Course < ApplicationRecord
     errors.add(:course_status, :cannot_unapprove_with_approved_instances)
   end
 
-
   def set_default_node
     if TeSS::Config.feature['nodes'] && Node.all.count > 0
       default_node = Node.find_by(slug: Node::SCILIFE_LAB_NODE_SLUG)
@@ -167,6 +165,7 @@ class Course < ApplicationRecord
 
   def events_not_linked_to_other_courses
     return if events.blank?
+
     # Only check in the database, ignore the in-memory assignment to self
     events.each do |event|
       # Reload the event from DB to get its current course
@@ -181,5 +180,4 @@ class Course < ApplicationRecord
       end
     end
   end
-
 end

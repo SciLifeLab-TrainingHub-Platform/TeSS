@@ -7,19 +7,19 @@ class NodesControllerTest < ActionController::TestCase
     mock_images
     @node = nodes(:good)
     @node_attributes = {
-        carousel_images: '',
-        country_code: 'FI',
-        home_page: 'http://www.example.com', #institutions: '',
-        member_status: 'Member',
-        name: 'Finnland',
-        twitter: '@finnlandnode',
-        staff_attributes:
+      carousel_images: '',
+      country_code: 'FI',
+      home_page: 'http://www.example.com', # institutions: '',
+      member_status: 'Member',
+      name: 'Finnland',
+      twitter: '@finnlandnode',
+      staff_attributes:
             {
-                "948593" => { name: 'Finn',
-                              email: 'f@example.com',
-                              role: 'Training coordinator',
-                              image_url: 'http://example.com/gorgeouspic.png',
-                              _destroy: '0'  }
+              "948593" => { name: 'Finn',
+                            email: 'f@example.com',
+                            role: 'Training coordinator',
+                            image_url: 'http://example.com/gorgeouspic.png',
+                            _destroy: '0' }
             }
     }
   end
@@ -158,12 +158,11 @@ class NodesControllerTest < ActionController::TestCase
     sign_in users(:admin)
 
     patch :update, params: {
-        id: @node,
-        node: { carousel_images: @node.carousel_images, country_code: 'EE',
-                home_page: @node.home_page, #institutions: @node.institutions,
-                member_status: @node.member_status, name: @node.name,
-                twitter: @node.twitter
-        }
+      id: @node,
+      node: { carousel_images: @node.carousel_images, country_code: 'EE',
+              home_page: @node.home_page, # institutions: @node.institutions,
+              member_status: @node.member_status, name: @node.name,
+              twitter: @node.twitter }
     }
     assert_redirected_to node_path(assigns(:node))
     assert_equal 'EE', assigns(:node).country_code
@@ -200,21 +199,20 @@ class NodesControllerTest < ActionController::TestCase
       # https://app.zenhub.com/workspaces/th-developmentdesigning-board-6565ea6f792dae0625b5c739/issues/gh/scilifelab-traininghub-platform/tess/184
       skip "Node routes are disabled; skipping this test."
       patch :update, params: {
-          id: @node,
-          node: { carousel_images: @node.carousel_images, country_code: @node.country_code,
-                  home_page: @node.home_page, #institutions: @node.institutions,
-                  member_status: @node.member_status, name: @node.name,
-                  twitter: @node.twitter, staff_attributes:
+        id: @node,
+        node: { carousel_images: @node.carousel_images, country_code: @node.country_code,
+                home_page: @node.home_page, # institutions: @node.institutions,
+                member_status: @node.member_status, name: @node.name,
+                twitter: @node.twitter, staff_attributes:
                       {
-                          "0" => @node.staff[0].attributes.merge(_destroy: '0' ),
-                          "1" => @node.staff[1].attributes.merge(_destroy: '0' ),
-                          "1256161262" => { name: 'New Staff Member',
-                                            email: 'nsm@example.com',
-                                            role: 'Training coordinator',
-                                            image_url: 'http://example.com/newb.png',
-                                            _destroy: '0'  },
-                      }
-          }
+                        "0" => @node.staff[0].attributes.merge(_destroy: '0'),
+                        "1" => @node.staff[1].attributes.merge(_destroy: '0'),
+                        "1256161262" => { name: 'New Staff Member',
+                                          email: 'nsm@example.com',
+                                          role: 'Training coordinator',
+                                          image_url: 'http://example.com/newb.png',
+                                          _destroy: '0' },
+                      } }
       }
     end
     assert_redirected_to node_path(assigns(:node))
@@ -229,16 +227,15 @@ class NodesControllerTest < ActionController::TestCase
 
     assert_difference('StaffMember.count', -1) do
       patch :update, params: {
-          id: @node,
-          node: { carousel_images: @node.carousel_images, country_code: @node.country_code,
-                  home_page: @node.home_page, #institutions: @node.institutions,
-                  member_status: @node.member_status, name: @node.name,
-                  twitter: @node.twitter, staff_attributes:
+        id: @node,
+        node: { carousel_images: @node.carousel_images, country_code: @node.country_code,
+                home_page: @node.home_page, # institutions: @node.institutions,
+                member_status: @node.member_status, name: @node.name,
+                twitter: @node.twitter, staff_attributes:
                       {
-                          "0" => @node.staff[0].attributes.merge(_destroy: '0' ),
-                          "1" => @node.staff[1].attributes.merge(_destroy: '1' ),
-                      }
-          }
+                        "0" => @node.staff[0].attributes.merge(_destroy: '0'),
+                        "1" => @node.staff[1].attributes.merge(_destroy: '1'),
+                      } }
       }
     end
     assert_redirected_to node_path(assigns(:node))
@@ -252,19 +249,18 @@ class NodesControllerTest < ActionController::TestCase
     sign_in users(:admin)
 
     patch :update, params: {
-        id: @node,
-        node: { carousel_images: @node.carousel_images, country_code: @node.country_code,
-                home_page: @node.home_page, #institutions: @node.institutions,
-                member_status: @node.member_status, name: @node.name,
-                twitter: @node.twitter, staff_attributes:
+      id: @node,
+      node: { carousel_images: @node.carousel_images, country_code: @node.country_code,
+              home_page: @node.home_page, # institutions: @node.institutions,
+              member_status: @node.member_status, name: @node.name,
+              twitter: @node.twitter, staff_attributes:
                     {
-                        "0" => @node.staff[0].attributes.merge(_destroy: '0' ),
-                        "1" => { _destroy: '0',
-                                 name: 'Updated name',
-                                 email: 'u@example.com',
-                                 role: 'Nobody' },
-                    }
-        }
+                      "0" => @node.staff[0].attributes.merge(_destroy: '0'),
+                      "1" => { _destroy: '0',
+                               name: 'Updated name',
+                               email: 'u@example.com',
+                               role: 'Nobody' },
+                    } }
     }
 
     assert_redirected_to node_path(assigns(:node))

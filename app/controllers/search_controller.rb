@@ -61,6 +61,7 @@ class SearchController < ApplicationController
 
   def search_models
     return @_models if @_models
+
     @_models = ['User']
     @_models << 'Event' if TeSS::Config.feature['events']
     @_models << 'Material' if TeSS::Config.feature['materials']

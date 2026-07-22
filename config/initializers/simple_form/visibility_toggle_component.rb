@@ -13,7 +13,6 @@ module SimpleForm
         visibility_toggle = options[:visibility_toggle] || TeSS::Config&.feature&.dig("#{@builder&.object_name&.to_s&.pluralize}_disabled") || []
         visibility_toggle.include?(attribute_name.to_s)
       end
-
     end
   end
 end

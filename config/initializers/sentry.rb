@@ -13,9 +13,9 @@ Rails.configuration.after_initialize do
     end
     Sentry.configure_scope do |scope|
       scope.set_context('app', {
-        app_name: TeSS::Config.site['title_short'],
-        app_version: APP_VERSION
-      })
+                          app_name: TeSS::Config.site['title_short'],
+                          app_version: APP_VERSION
+                        })
     end
   end
 end

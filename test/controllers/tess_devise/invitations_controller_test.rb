@@ -2,7 +2,6 @@ require 'test_helper'
 
 module TessDevise
   class InvitationsControllerTest < ActionController::TestCase
-
     include Devise::Test::ControllerHelpers
 
     setup do

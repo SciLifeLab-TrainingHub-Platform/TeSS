@@ -11,11 +11,11 @@ Rails.application.routes.draw do
   get 'edam/topics' => 'edam#topics'
   get 'edam/operations' => 'edam#operations'
 
-  #get 'static/home'
+  # get 'static/home'
   get 'about' => 'about#us', as: 'about'
   get 'about/registering' => 'about#registering', as: 'registering_resources'
   get 'about/learning_paths' => 'about#learning_paths', as: 'registering_learning_paths'
-  #get 'about/developers' => 'about#developers', as: 'developers'
+  # get 'about/developers' => 'about#developers', as: 'developers'
   get 'about/portal' => 'about#portal', as: 'portal'
   get 'about/us' => 'about#us', as: 'us'
 
@@ -34,8 +34,7 @@ Rails.application.routes.draw do
   post 'sources/check_exists' => 'sources#check_exists'
   post 'courses/check_exists' => 'courses#check_exists'
 
-
-  #devise_for :users
+  # devise_for :users
   # Use custom invitations and registrations controllers that subclasses devise's
   # Devise will try to connect to the DB at initialization, which we don't want
   # to happen when precompiling assets in the docker build script.
@@ -46,7 +45,7 @@ Rails.application.routes.draw do
       :omniauth_callbacks => 'callbacks'
     }
   end
-  #Redirect to users index page after devise user account update
+  # Redirect to users index page after devise user account update
   # as :user do
   #   get 'users', :to => 'users#index', :as => :user_root
   # end
@@ -63,7 +62,7 @@ Rails.application.routes.draw do
     resource :ban, only: [:create, :new, :destroy]
   end
 
-  post 'cities/cities_by_country(.:format)',  to: 'cities#cities_by_country', as: :cities_by_country
+  post 'cities/cities_by_country(.:format)', to: 'cities#cities_by_country', as: :cities_by_country
 
   resources :trainers, only: [:show, :index]
 
@@ -138,7 +137,7 @@ Rails.application.routes.draw do
   end
 
   resources :our_resources, only: [:index]
-  #upstream repo change for learning path routes
+  # upstream repo change for learning path routes
   resources :learning_paths, concerns: %i[collaboratable activities]
   resources :learning_path_topics, concerns: %i[collaboratable activities]
 
@@ -166,7 +165,7 @@ Rails.application.routes.draw do
   get 'job_status' => 'application#job_status'
 
   # error pages
-  %w( 404 406 422 500 503 ).each do |code|
+  %w(404 406 422 500 503).each do |code|
     get code, to: 'application#handle_error', status_code: code
   end
 

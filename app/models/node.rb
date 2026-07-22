@@ -24,7 +24,7 @@ class Node < ApplicationRecord
 
   accepts_nested_attributes_for :staff, allow_destroy: true
 
-  clean_array_fields(:carousel_images) #, :institutions
+  clean_array_fields(:carousel_images) # , :institutions
 
   validates :name, presence: true, uniqueness: true
   validates :home_page, format: { with: URI.regexp }, if: Proc.new { |a| a.home_page.present? }
@@ -83,7 +83,7 @@ class Node < ApplicationRecord
         puts 'Success' if verbose
       elsif verbose
         puts 'Failure:'
-        node.errors.full_messages.each { |msg|  puts " * #{msg}" }
+        node.errors.full_messages.each { |msg| puts " * #{msg}" }
       end
       puts if verbose
 
@@ -92,7 +92,7 @@ class Node < ApplicationRecord
   end
 
   def self.facet_fields
-    %w( member_status )
+    %w(member_status)
   end
 
   private
@@ -102,5 +102,4 @@ class Node < ApplicationRecord
       errors.add(:base, 'Requires at least one training coordinator to be defined')
     end
   end
-
 end

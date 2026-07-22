@@ -37,8 +37,8 @@ class ContentProvidersController < ApplicationController
   # POST /events/check_exists.json
   def check_exists
     @content_provider = ContentProvider.check_exists_candidates(content_provider_params)
-                                     .limit(50)
-                                     .find { |content_provider| content_provider_disclosable_for_check_exists?(content_provider) }
+                                       .limit(50)
+                                       .find { |content_provider| content_provider_disclosable_for_check_exists?(content_provider) }
 
     if @content_provider
       respond_to do |format|

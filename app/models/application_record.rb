@@ -5,5 +5,4 @@ class ApplicationRecord < ActiveRecord::Base
   include HasImage
   include AutocompleteManager
   include ArrayFieldCleaner
-
 end

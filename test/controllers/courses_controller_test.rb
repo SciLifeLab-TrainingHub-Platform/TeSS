@@ -127,7 +127,8 @@ class CoursesControllerTest < ActionController::TestCase
         nodes: [@node],
         content_providers: [@content_providers],
         user: @user
-      })
+      }
+    )
     course = Course.create!(parameters)
 
     get :index, params: { format: :json }
@@ -139,11 +140,11 @@ class CoursesControllerTest < ActionController::TestCase
 
     # List of expected fields in each course
     expected_fields = %w[
-    id title description language keywords authors contributors url
-    learning_outcomes structure_and_duration target_audience
-    prerequisites_knowledge prerequisites_technical licence slug
-    nodes events content_providers
-  ]
+      id title description language keywords authors contributors url
+      learning_outcomes structure_and_duration target_audience
+      prerequisites_knowledge prerequisites_technical licence slug
+      nodes events content_providers
+    ]
 
     # Check each course in the response
     json_response.each do |course_json|
@@ -188,13 +189,13 @@ class CoursesControllerTest < ActionController::TestCase
 
   # EDIT TESTS
   test 'should not get edit page for not logged in users' do
-
     parameters = @mandatory.merge(
       {
         nodes: [@node],
         content_providers: [@content_providers],
         user: @user
-      })
+      }
+    )
     course = Course.create!(parameters)
 
     get :edit, params: { id: course }
@@ -202,13 +203,13 @@ class CoursesControllerTest < ActionController::TestCase
   end
 
   test 'should get edit for course owner' do
-
     parameters = @mandatory.merge(
       {
         nodes: [@node],
         content_providers: [@content_providers],
         user: @user
-      })
+      }
+    )
     course = Course.create!(parameters)
 
     sign_in course.user
@@ -222,7 +223,8 @@ class CoursesControllerTest < ActionController::TestCase
         nodes: [@node],
         content_providers: [@content_providers],
         user: @user
-      })
+      }
+    )
     course = Course.create!(parameters)
     sign_in users(:admin)
     get :edit, params: { id: course }
@@ -235,7 +237,8 @@ class CoursesControllerTest < ActionController::TestCase
         nodes: [@node],
         content_providers: [@content_providers],
         user: @user
-      })
+      }
+    )
     course = Course.create!(parameters)
     course.update_column(:course_status, Course.course_statuses[:approved])
     sign_in users(:another_regular_user)
@@ -392,11 +395,11 @@ class CoursesControllerTest < ActionController::TestCase
 
     # List of expected fields in each course
     expected_fields = %w[
-    id title description language keywords authors contributors url
-    learning_outcomes structure_and_duration target_audience
-    prerequisites_knowledge prerequisites_technical licence slug
-    nodes events content_providers
-  ]
+      id title description language keywords authors contributors url
+      learning_outcomes structure_and_duration target_audience
+      prerequisites_knowledge prerequisites_technical licence slug
+      nodes events content_providers
+    ]
 
     # If the controller returns a single course as a hash
     expected_fields.each do |field|
@@ -471,7 +474,6 @@ class CoursesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-
   test 'should update course if admin' do
     sign_in users(:regular_user)
     parameters = @mandatory.merge(
@@ -541,7 +543,6 @@ class CoursesControllerTest < ActionController::TestCase
       delete :destroy, params: { id: course.id }
     end
     assert_redirected_to courses_path
-
   end
 
   test 'should destroy course when administrator' do
@@ -647,7 +648,6 @@ class CoursesControllerTest < ActionController::TestCase
       end
       assert_select 'li[class=active]', text: /Edit/, count: 1
     end
-
   end
 
   test 'breadcrumbs for creating new event' do
@@ -765,7 +765,7 @@ class CoursesControllerTest < ActionController::TestCase
     course = assigns(:course)
     sign_out users(:regular_user)
 
-    post :check_exists, params: { format: :json, course: {url: course.url}}
+    post :check_exists, params: { format: :json, course: { url: course.url } }
     assert_response :success
     assert_equal(JSON.parse(response.body)['id'], course.id)
   end
@@ -851,5 +851,4 @@ class CoursesControllerTest < ActionController::TestCase
   end
 
   # todo: add reporting test cases and feature
-
 end

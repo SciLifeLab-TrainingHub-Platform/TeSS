@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ApplicationControllerTest < ActionController::TestCase
-
   include Devise::Test::ControllerHelpers
 
   setup do
@@ -39,5 +38,4 @@ class ApplicationControllerTest < ActionController::TestCase
     get :test_url, params: { url: 'http://127.0.0.1', format: :json }
     assert_equal 'Could not access the given URL', JSON.parse(response.body)['message']
   end
-
 end

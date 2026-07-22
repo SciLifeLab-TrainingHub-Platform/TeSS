@@ -54,7 +54,6 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
 
     # Check job enqueue and emails
     perform_enqueued_jobs do
-
       assert_emails 2 do
         assert_enqueued_with(job: SlackNotificationJob) do
           event = @trusted_user.events.create!(@parameters)
@@ -89,7 +88,6 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
 
     sign_out @trusted_user
   end
-
 
   test "approved event visibility for all users and public" do
     sign_in @trusted_user

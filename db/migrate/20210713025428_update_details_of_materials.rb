@@ -12,6 +12,6 @@ class UpdateDetailsOfMaterials < ActiveRecord::Migration[5.2]
 
     # This is a lossy operation :(
 
-    add_column :materials, :short_description , :string
+    add_column :materials, :short_description, :string
   end
 end

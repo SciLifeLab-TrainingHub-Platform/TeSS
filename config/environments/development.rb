@@ -45,10 +45,10 @@ Rails.application.configure do
     config.action_mailer.default_options = {
       from: TeSS::Config.sender_email
     }
-    #config.action_mailer.sendmail_settings = {
+    # config.action_mailer.sendmail_settings = {
     #  location: TeSS::Config.mailer['location'],
     #  arguments: TeSS::Config.mailer['arguments']
-    #}
+    # }
   end
 
   # action mailer other options

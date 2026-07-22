@@ -312,5 +312,4 @@ class DictionariesTest < ActiveSupport::TestCase
 
     I18n.locale = saved_locale
   end
-
 end

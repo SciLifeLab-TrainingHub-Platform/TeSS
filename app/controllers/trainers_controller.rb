@@ -45,5 +45,4 @@ class TrainersController < ApplicationController
                                     { :expertise_technical => [] }, { :interest => [] }, { :activity => [] },
                                     { :fields => [] }, { :social_media => [] })
   end
-
 end

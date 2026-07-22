@@ -6,6 +6,7 @@ module SearchableIndex
 
   included do
     attr_reader :facet_fields, :search_params, :facet_params, :page, :sort_by, :index_resources
+
     before_action :set_params, only: [:index, :count]
     before_action :fetch_resources, only: [:index, :count]
 
@@ -67,7 +68,7 @@ module SearchableIndex
 
   def api_collection_properties
     links = {
-        self: polymorphic_path(@model, search_and_facet_params)
+      self: polymorphic_path(@model, search_and_facet_params)
     }
     if TeSS::Config.solr_enabled
       # Transform facets so value is always an array
@@ -76,8 +77,8 @@ module SearchableIndex
 
       available_facets = Hash[@search_results.facets.map do |f|
         [
-            f.field_name,
-            f.rows.map { |r| { value: r.value, count: r.count } }
+          f.field_name,
+          f.rows.map { |r| { value: r.value, count: r.count } }
         ]
       end]
       total = @search_results.total
@@ -94,15 +95,14 @@ module SearchableIndex
       total = @index_resources.count
     end
 
-
     {
-        links: links,
-        meta: {
-            facets: facets,
-            available_facets: available_facets,
-            query: @search_params,
-            results_count: total
-        }
+      links: links,
+      meta: {
+        facets: facets,
+        available_facets: available_facets,
+        query: @search_params,
+        results_count: total
+      }
     }
   end
 

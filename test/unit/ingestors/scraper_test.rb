@@ -236,7 +236,7 @@ class ScraperTest < ActiveSupport::TestCase
 
   test 'does not scrape disabled or unapproved sources' do
     WebMock.stub_request(:get, /https:\/\/app.com\/\d/).to_return(status: 200,
-      body: File.open(Rails.root.join('test', 'fixtures', 'files', 'ingestion', 'events.csv')))
+                                                                  body: File.open(Rails.root.join('test', 'fixtures', 'files', 'ingestion', 'events.csv')))
 
     scraper = Scraper.new(load_scraper_config('test_ingestion_disabled.yml'))
     provider = content_providers(:goblet)

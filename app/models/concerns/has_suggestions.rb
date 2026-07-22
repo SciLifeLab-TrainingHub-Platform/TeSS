@@ -16,6 +16,7 @@ module HasSuggestions
 
   def enqueue_edit_suggestion_worker
     return unless TeSS::Config.feature['edit_suggestions']
+
     EditSuggestionWorker.perform_in(1.second, [id, self.class.name])
   end
 

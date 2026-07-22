@@ -57,7 +57,6 @@ class CommunitiesController < ApplicationController
       sort_by: 'early',
       per_page: 5 * n_events
     ).results.group_by { |event| event.content_providers.first&.id }.map { |_p_id, p_events| p_events.first }.first(n_events)
-
   end
 
   def set_community

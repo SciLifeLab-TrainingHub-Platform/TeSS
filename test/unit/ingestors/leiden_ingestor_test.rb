@@ -20,7 +20,7 @@ class LeidenIngestorTest < ActiveSupport::TestCase
       method: 'bioschemas',
       enabled: true,
       user: user,
-      )
+    )
 
     ingestor = Ingestors::LeidenIngestor.new
 

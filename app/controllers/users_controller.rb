@@ -70,7 +70,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
-  #THIS IS FOR UPDATING PROFILES
+  # THIS IS FOR UPDATING PROFILES
   def update
     authorize @user
     respond_to do |format|
@@ -104,6 +104,7 @@ class UsersController < ApplicationController
     if @user.authentication_token.nil?
       handle_error(:unprocessable_entity, "Authentication token cannot be set to nil - action not allowed (status code: 422 Unprocessable Entity).") and return
     end
+
     @user.authentication_token = Devise.friendly_token
     if @user.save
       flash[:notice] = "Authentication token successfully regenerated."
@@ -130,8 +131,8 @@ class UsersController < ApplicationController
                            :description, :location, :orcid, :experience,
                            { :expertise_academic => [] }, { :expertise_technical => [] },
                            { :interest => [] }, { :activity => [] }, { :language => [] },
-                           { :fields => [] }, { :social_media => [] }
-      ] }]
+                           { :fields => [] }, { :social_media => [] }]
+    }]
     allowed_parameters << :role_id if policy(@user).change_role?
     params.require(:user).permit(allowed_parameters)
   end

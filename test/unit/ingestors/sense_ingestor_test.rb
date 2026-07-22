@@ -14,7 +14,6 @@ class SenseIngestorTest < ActiveSupport::TestCase
   end
 
   test 'can ingest events from sense' do
-
     user = users(:regular_user)
 
     source = @content_provider.sources.build(
@@ -22,7 +21,6 @@ class SenseIngestorTest < ActiveSupport::TestCase
       method: 'bioschemas',
       enabled: true,
       user: user
-
     )
 
     ingestor = Ingestors::SenseIngestor.new

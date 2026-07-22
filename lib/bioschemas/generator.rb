@@ -32,6 +32,7 @@ module Bioschemas
         attr_or_proc = opts[:attr]
         condition = opts[:condition]
         next if condition && !condition.call(resource)
+
         if attr_or_proc.respond_to?(:call)
           value = attr_or_proc.call(resource)
         else
@@ -39,6 +40,7 @@ module Bioschemas
         end
 
         next if value.blank?
+
         template[prop] = value
       end
 

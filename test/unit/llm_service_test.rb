@@ -10,8 +10,7 @@ class LlmServiceTest < ActiveSupport::TestCase
                                 target_audience: @event.target_audience,
                                 content_providers: @event.content_providers,
                                 learning_objectives: @event.learning_objectives,
-                                event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
-    }
+                                event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }] }
   end
 
   test 'service_hash_contains_all_subclasses' do
@@ -46,15 +45,15 @@ class LlmServiceTest < ActiveSupport::TestCase
 
   test 'check event filtering in post_processing' do
     u = users(:scraper_user)
-    parameters = @mandatory_event_fields.merge({title: 'needs_processing', start: Time.zone.now - 5.hours, end: Time.zone.now + 5.hours, url: 'https://www.google.com#1', user_id: u.id})
+    parameters = @mandatory_event_fields.merge({ title: 'needs_processing', start: Time.zone.now - 5.hours, end: Time.zone.now + 5.hours, url: 'https://www.google.com#1', user_id: u.id })
     event1 = Event.create!(parameters)
     event1.llm_interaction = llm_interactions(:needs_processing)
     event1.save!
-    parameters = @mandatory_event_fields.merge({title: 'different_prompt', start: Time.zone.now - 5.hours, end: Time.zone.now + 5.hours, url: 'https://www.google.com#2', user_id: u.id})
+    parameters = @mandatory_event_fields.merge({ title: 'different_prompt', start: Time.zone.now - 5.hours, end: Time.zone.now + 5.hours, url: 'https://www.google.com#2', user_id: u.id })
     event2 = Event.create!(parameters)
     event2.llm_interaction = llm_interactions(:different_prompt)
     event2.save!
-    parameters = @mandatory_event_fields.merge({title: 'finished', start: Time.zone.now - 5.hours, end: Time.zone.now - 4.hours, url: 'https://www.google.com#3', user_id: u.id})
+    parameters = @mandatory_event_fields.merge({ title: 'finished', start: Time.zone.now - 5.hours, end: Time.zone.now - 4.hours, url: 'https://www.google.com#3', user_id: u.id })
     event3 = Event.create!(parameters)
     event3.llm_interaction = llm_interactions(:scrape)
     event3.save!

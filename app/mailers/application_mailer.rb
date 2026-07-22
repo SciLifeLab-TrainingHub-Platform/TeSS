@@ -7,6 +7,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def set_headers
     return unless TeSS::Config.mailer
+
     (TeSS::Config.mailer['headers'] || {}).each do |key, value|
       headers[key] = value
     end

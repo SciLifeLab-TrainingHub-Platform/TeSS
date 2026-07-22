@@ -1,5 +1,4 @@
 class EventPolicy < ScrapedResourcePolicy
-
   def edit_report?
     manage?
   end
@@ -11,5 +10,4 @@ class EventPolicy < ScrapedResourcePolicy
   def clone?
     manage?
   end
-
 end

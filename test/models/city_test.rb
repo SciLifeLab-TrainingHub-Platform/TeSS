@@ -15,9 +15,7 @@ class CityTest < ActiveSupport::TestCase
                    target_audience: @event_one.target_audience,
                    content_providers: @event_one.content_providers,
                    learning_objectives: @event_one.learning_objectives,
-                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
-    }
-
+                   event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }] }
   end
 
   test "should have events" do

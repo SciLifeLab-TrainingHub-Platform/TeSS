@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class EventsHelperTest < ActionView::TestCase
-
   setup do
     @user = users(:regular_user)
     @event_with_user = events(:one)
@@ -11,8 +10,7 @@ class EventsHelperTest < ActionView::TestCase
                           language: @event_with_user.language, prerequisites: @event_with_user.prerequisites,
                           target_audience: @event_with_user.target_audience, content_providers: @event_with_user.content_providers,
                           learning_objectives: @event_with_user.learning_objectives,
-                          event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
-    }
+                          event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }] }
   end
 
   test "neatly_printed_date_range" do
@@ -70,7 +68,6 @@ class EventsHelperTest < ActionView::TestCase
   end
 
   test "returns default options if user has no prior events with event prices" do
-
     new_user = User.create({ username: 'new_user', password: '12345678', email: 'new_user@example.com', processing_consent: '1' })
     new_event = Event.new(@event_parameters.merge({ user: new_user }))
 
@@ -95,13 +92,13 @@ class EventsHelperTest < ActionView::TestCase
     new_event_price_audience_type = "vip-academic"
     new_user = User.create!({ username: 'new_user', password: '12345678', email: 'new_user@example.com', processing_consent: '1' })
     new_event = Event.create!(@event_parameters.merge(
-      {
-        user: new_user,
-        title: 'Good event',
-        url: 'http://good-domain.example/event',
-        description: 'event for does not block non-disallowed domain', online: true
-      }
-    ))
+                                {
+                                  user: new_user,
+                                  title: 'Good event',
+                                  url: 'http://good-domain.example/event',
+                                  description: 'event for does not block non-disallowed domain', online: true
+                                }
+                              ))
 
     EventPrice.create!(
       event: new_event,
@@ -148,5 +145,4 @@ class EventsHelperTest < ActionView::TestCase
     expected = (EventPrice::DEFAULT_AUDIENCE_TYPES + types).uniq
     assert_equal expected.sort, get_event_audience_types(new_user).sort
   end
-
 end

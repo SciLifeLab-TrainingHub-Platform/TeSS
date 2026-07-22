@@ -1,6 +1,5 @@
 # The controller for callback actions
 class CallbacksController < Devise::OmniauthCallbacksController
-
   Devise.omniauth_configs.each do |provider, config|
     define_method(provider) do
       handle_callback(provider, config)
@@ -36,5 +35,4 @@ class CallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user
     end
   end
-
 end

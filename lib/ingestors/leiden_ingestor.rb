@@ -30,7 +30,7 @@ module Ingestors
         unless Rails.env.test? and File.exist?('test/vcr_cassettes/ingestors/leiden.yml')
           sleep(1)
         end
-        event_links = Nokogiri::HTML5.parse(open_url("#{url}?pageNumber=#{i+1}", raise: true)).css('#content > ul > li > a')
+        event_links = Nokogiri::HTML5.parse(open_url("#{url}?pageNumber=#{i + 1}", raise: true)).css('#content > ul > li > a')
         return if event_links.empty?
 
         event_links.each do |event_link|
@@ -66,7 +66,7 @@ module Ingestors
             when 'Room'
               if event.venue
                 # skip the info for now
-                #event.venue += " - #{value.text.strip}"
+                # event.venue += " - #{value.text.strip}"
               else
                 event.venue = value.text.strip
               end

@@ -1,5 +1,4 @@
 class AdminMailer < ApplicationMailer
-
   ADMIN_EMAIL_ADDRESS = 'traininghub@scilifelab.se'.freeze
 
   def review_event(event)

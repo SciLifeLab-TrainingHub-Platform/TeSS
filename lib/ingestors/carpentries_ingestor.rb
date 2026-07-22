@@ -25,6 +25,7 @@ module Ingestors
 
     def process_workshop(workshop)
       return if workshop['curriculum'].nil? || workshop['curriculum'] == 'unknown'
+
       event = OpenStruct.new
       event.url = workshop['url']
       event.start = Date.parse(workshop['start_date']) if workshop['start_date']

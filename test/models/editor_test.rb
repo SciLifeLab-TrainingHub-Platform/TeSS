@@ -1,15 +1,13 @@
 require 'test_helper'
 
 class EditorTest < ActiveSupport::TestCase
-
   setup do
     mock_images
     @event = events(:one)
     @mandatory_event_fields = { nodes: @event.nodes, language: @event.language,
                                 prerequisites: @event.prerequisites,
                                 target_audience: @event.target_audience,
-                                content_providers: @event.content_providers
-    }
+                                content_providers: @event.content_providers }
   end
 
   test 'can create and delete editors' do
@@ -95,7 +93,7 @@ class EditorTest < ActiveSupport::TestCase
     prov1 = content_providers :iann
     prov2 = content_providers :goblet
 
-    #check empty list
+    # check empty list
     assert trainer.editables
     assert_equal 0, trainer.editables.size
 
@@ -173,7 +171,7 @@ class EditorTest < ActiveSupport::TestCase
     assert_equal 0, provider.approved_editors.size
 
     # add an approved editor
-    provider.approved_editors = [ owner.username, trainer.username ]
+    provider.approved_editors = [owner.username, trainer.username]
     provider.save
     assert_equal 1, provider.approved_editors.size
     assert_equal trainer.username, provider.approved_editors.first

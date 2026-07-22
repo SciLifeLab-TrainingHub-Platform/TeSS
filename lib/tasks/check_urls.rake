@@ -1,5 +1,4 @@
 namespace :tess do
-
   # At present the records aren't logging when they were last checked.
   # This must eventually be added, perhaps with some means of marking
   # those which have failed, e.g. with a badge.
@@ -85,6 +84,7 @@ def get_bad_response(url)
     @prev_host = host
     response = HTTParty.head(url, verify: false)
     return nil if response.code >= 200 && response.code < 400 # Success or redirects are OK
+
     return response.code
   rescue EOFError => e
     puts "  #{e.class.name}: #{e}"
@@ -100,4 +100,3 @@ def get_bad_response(url)
     return 493
   end
 end
-

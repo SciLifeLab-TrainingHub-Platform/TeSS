@@ -2,7 +2,6 @@ class BioschemasController < ApplicationController
   before_action -> { feature_enabled?('bioschemas_testing') }
 
   def test
-
   end
 
   def run_test
@@ -52,10 +51,9 @@ class BioschemasController < ApplicationController
         nil
       end
     rescue PrivateAddressCheck::PrivateConnectionAttemptedError, Net::OpenTimeout, SocketError, Errno::ECONNREFUSED,
-      Errno::EHOSTUNREACH
+           Errno::EHOSTUNREACH
       flash[:error] = 'Could not access the given URL.'
       nil
     end
   end
-
 end
