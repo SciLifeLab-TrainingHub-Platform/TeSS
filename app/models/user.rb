@@ -53,6 +53,7 @@ class User < ApplicationRecord
   has_many :activities_as_owner,
            class_name: '::PublicActivity::Activity',
            as: :owner
+  has_many :course_interests, dependent: :destroy
 
   has_and_belongs_to_many :editables, class_name: "ContentProvider"
 
@@ -64,6 +65,7 @@ class User < ApplicationRecord
   before_destroy :reassign_resources
   after_update :react_to_role_change
   before_save :set_username_for_invitee
+  after_create_commit :link_course_interests
 
   # Include default devise modules. Others available are: :lockable, :timeoutable
   if TeSS::Config.feature['registration']
@@ -432,5 +434,10 @@ class User < ApplicationRecord
     if !self.invitation_token.nil? and !self.email.nil? and self.username.nil?
       self.username = self.email
     end
+  end
+
+  # Links anonymous course interests (matched by email) to the newly created user.
+  def link_course_interests
+    CourseInterest.where(user_id: nil, email: email).update_all(user_id: id)
   end
 end

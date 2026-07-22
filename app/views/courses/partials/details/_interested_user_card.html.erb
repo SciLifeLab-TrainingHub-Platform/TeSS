@@ -1,0 +1,57 @@
+<!--in user is singed in-->
+<% if user_signed_in? %>
+  <% if course.subscribed_by?(current_user) %>
+    <!-- UNSUBSCRIBED BUTTON -->
+    <%= button_to t('courses.actions.unregister_interest'),
+                  course_interest_path(course),
+                  method: :delete,
+                  form: { class: "subscription-action-unsubscribe" },
+                  class: "btn btn-link" %>
+  <% else %>
+    <!-- SUBSCRIBED BUTTON -->
+    <%= button_to t('courses.actions.register_interest'),
+                  course_interest_path(course),
+                  method: :post,
+                  form: { class: "subscription-action-subscribe" },
+                  class: "btn btn-link" %>
+  <% end %>
+
+  <!--in user not singed in-->
+<% else %>
+  <!-- GUEST UI -->
+  <button type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#courseSubscriptionModal">
+    Manage notifications
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade"
+       id="courseSubscriptionModal"
+       tabindex="-1"
+       role="dialog"
+       aria-labelledby="courseSubscriptionModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close">
+            &times;
+          </button>
+          <h4 class="modal-title" id="courseSubscriptionModalTitle">
+            Manage notifications for this training
+          </h4>
+        </div>
+        <div class="modal-body">
+          <%= render partial: 'courses/partials/course_subscription_form', locals: { course: course } %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+<% end %>

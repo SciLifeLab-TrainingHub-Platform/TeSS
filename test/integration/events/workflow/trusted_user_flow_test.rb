@@ -8,6 +8,7 @@ require "test_helper"
 # - Emails are sent to:
 #   - The user (confirmation)
 #   - The content provider
+#   - Subscribed users interested in the course (if applicable)
 # - Slack notification is sent
 # - Visibility rules:
 #   - All users and public can see the event
@@ -90,7 +91,6 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
     sign_out @trusted_user
   end
 
-
   test "approved event visibility for all users and public" do
     sign_in @trusted_user
     event = @trusted_user.events.create!(@parameters)
@@ -121,5 +121,130 @@ class TrustedUserFlowTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     sign_out @regular_user
+  end
+
+  test "trusted user approved course event emails subscribed course interests" do
+    sign_in @trusted_user
+
+    course = courses(:approved_course)
+    content_provider = content_providers(:goblet)
+    course.content_providers << content_provider
+    course.save!
+    course.reload
+
+    # these interest are status: :subscribed and should receive email
+    course_interest1 = CourseInterest.create!(
+      course: course,
+      email: "alice@example.com",
+      status: :subscribed
+    )
+
+    course_interest2 = CourseInterest.create!(
+      course: course,
+      email: "bob@example.com",
+      status: :subscribed
+    )
+
+    course_interest3 = CourseInterest.create!(
+      course: course,
+      user: @regular_user,
+      status: :subscribed
+    )
+
+    # negative cases (should NOT receive emails)
+    course_interest4 = CourseInterest.create!(
+      course: course,
+      email: "charlie@example.com",
+      status: :pending_subscription
+    )
+
+    course_interest5 = CourseInterest.create!(
+      course: course,
+      email: "david@example.com",
+      status: :pending_unsubscription
+    )
+
+    course_interest6 = CourseInterest.create!(
+      course: course,
+      user: users(:another_regular_user),
+      status: :unsubscribed
+    )
+
+    perform_enqueued_jobs do
+      @trusted_user.events.create!(
+        @parameters.merge(
+          course: course,
+        )
+      )
+    end
+
+    deliveries = ActionMailer::Base.deliveries
+
+    expected_subject = "New training event for: #{course.title}"
+
+    # should receive emails
+    expected_recipients = [
+      course_interest1.email,
+      course_interest2.email,
+      course_interest3.user.email
+    ]
+
+    expected_recipients.each do |email|
+      mail = deliveries.find { |m| m.to.include?(email) }
+      assert_not_nil mail, "Expected email for #{email}"
+      assert_equal expected_subject, mail.subject
+    end
+
+    # should NOT receive emails
+    negative_recipients = [
+      course_interest4.email,
+      course_interest5.email,
+      course_interest6.user.email
+    ]
+    negative_recipients.each do |email|
+      refute deliveries.any? { |m| m.to.include?(email) },
+             "Unexpected email received for #{email} (this recipient should not have been notified)"
+    end
+    sign_out @trusted_user
+  end
+
+  test "approved event without course does not send course interest emails" do
+    sign_in @trusted_user
+
+    course = courses(:approved_course)
+    content_provider = content_providers(:goblet)
+
+    course.content_providers << content_provider
+    course.save!
+
+    CourseInterest.create!(
+      course: course,
+      email: "alice@example.com",
+      status: :subscribed
+    )
+
+    CourseInterest.create!(
+      course: course,
+      email: "bob@example.com",
+      status: :subscribed
+    )
+
+    perform_enqueued_jobs do
+      @trusted_user.events.create!(
+        @parameters.merge(course: nil)
+      )
+    end
+
+    deliveries = ActionMailer::Base.deliveries
+
+    refute deliveries.any? { |m|
+      m.to.include?("alice@example.com") &&
+        m.subject == "New training event for: #{course.title}"
+    }, "Unexpected course interest email received for alice@example.com (event had no course)"
+
+    refute deliveries.any? { |m|
+      m.to.include?("bob@example.com") &&
+        m.subject == "New training event for: #{course.title}"
+    }, "Unexpected course interest email received for bob@example.com (event had no course)"
   end
 end

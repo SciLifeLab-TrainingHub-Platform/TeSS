@@ -1,0 +1,58 @@
+<%= form_with url: request_email_action_course_subscription_path(course),
+              method: :post,
+              local: true,
+              id: "subscription-form" do |f| %>
+
+  <!-- Email + button -->
+  <div class="input-group">
+    <%= f.email_field :email,
+                      class: "form-control",
+                      placeholder: "Email address",
+                      required: true %>
+
+    <%= check_box_tag :action_type,
+                      CourseInterest::ACTION_REQUEST_SUBSCRIBE,
+                      true,
+                      id: "course-interest-action-type",
+                      hidden: true %>
+
+    <span class="input-group-btn">
+      <button type="submit"
+              class="btn btn-primary"
+              id="course-interest-submit-button">
+        Subscribe
+      </button>
+    </span>
+  </div>
+
+  <!-- Checkbox underneath -->
+  <div class="course-interest-toggle">
+    <label for="course-interest-toggle" class="checkbox-label">
+      <input type="checkbox"
+             id="course-interest-toggle"
+             checked>
+      Email me when new training events for this course are published
+    </label>
+  </div>
+
+<% end %>
+
+<script>
+    document.addEventListener("turbolinks:load", function () {
+        const toggle = document.getElementById("course-interest-toggle");
+        const actionType = document.getElementById("course-interest-action-type");
+        const button = document.getElementById("course-interest-submit-button");
+        if (!toggle || !actionType || !button) return;
+
+        function updateUI() {
+            actionType.checked = true;
+            actionType.value = toggle.checked
+                ? "<%= CourseInterest::ACTION_REQUEST_SUBSCRIBE %>"
+                : "<%= CourseInterest::ACTION_REQUEST_UNSUBSCRIBE %>";
+            button.textContent = toggle.checked ? "Subscribe" : "Unsubscribe";
+        }
+
+        updateUI();
+        toggle.addEventListener("change", updateUI);
+    });
+</script>

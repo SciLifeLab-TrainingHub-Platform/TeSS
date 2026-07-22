@@ -593,3 +593,22 @@ revisions_required_event:
   target_audience: ['Everyone!']
   learning_objectives: "There are some."
   registration_form_url: http://example.com
+
+course_interest_mail_event:
+  title: "Course Announcement Event"
+  url: "http://mycourseevent.com"
+  description: "This event is linked to a course and used for course-related announcements"
+  user: regular_user
+  course: one
+  host_institutions: ["MyHost"]
+  timezone: UTC
+  contact: "MyContact"
+  eligibility: [registration_of_interest]
+  event_status: 1
+  language: "en"
+  prerequisites: "Basic understanding of the course"
+  target_audience: ["Students", "Participants"]
+  learning_objectives: "Notify users about course updates"
+  registration_form_url: "http://example.com/register"
+  start: 2015-11-23 10:16:33
+  end: 2015-11-23 10:16:33

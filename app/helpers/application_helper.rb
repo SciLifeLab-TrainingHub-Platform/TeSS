@@ -249,6 +249,8 @@ module ApplicationHelper
       'fa fa-calendar'
     when 'courses'
       'fa fa-book'
+    when 'course_interest'
+      'fa fa-star-o'
     when 'users'
       'fa fa-user'
     when 'trainers'

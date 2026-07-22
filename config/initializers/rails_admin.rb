@@ -8,4 +8,19 @@ RailsAdmin.config do |config|
   end
 
   config.current_user_method(&:current_user)
+
+  config.model 'Course' do
+    navigation_label 'Course/Event'
+    weight -4
+  end
+
+  config.model 'CourseInterest' do
+    navigation_label 'Course/Event'
+    weight -3
+  end
+
+  config.model 'Event' do
+    navigation_label 'Course/Event'
+    weight -2
+  end
 end

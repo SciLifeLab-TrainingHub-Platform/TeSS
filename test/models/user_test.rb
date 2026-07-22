@@ -339,8 +339,8 @@ class UserTest < ActiveSupport::TestCase
     material2 = user2.materials.create!(title: 'material 2', url: 'https://training.com/materials/2', description: 'material2')
 
     node = nodes(:good)
-    event1_params = @mandatory_event_fields.merge( {title: 'event 1', url: 'https://training.com/events/1', node_ids: [node.id]} )
-    event2_params = @mandatory_event_fields.merge( {title: 'event 2', url: 'https://training.com/events/2', node_ids: [node.id]} )
+    event1_params = @mandatory_event_fields.merge({ title: 'event 1', url: 'https://training.com/events/1', node_ids: [node.id] })
+    event2_params = @mandatory_event_fields.merge({ title: 'event 2', url: 'https://training.com/events/2', node_ids: [node.id] })
     event1 = user2.events.create!(event1_params)
     event2 = user3.events.create!(event2_params)
 
@@ -533,5 +533,49 @@ class UserTest < ActiveSupport::TestCase
     @registered_user_role = Role.find_by!(title: 'Registered user')
     @user = users(:trusted_user)
     assert_not @user.update(role: @registered_user_role)
+  end
+
+  # test for callback link_course_interests
+  test 'links course interests with matching email' do
+    course = courses(:one)
+    interest = CourseInterest.create!(course: course, email: 'new-user@example.com')
+
+    user = User.create!(
+      @user_params.merge(email: 'new-user@example.com')
+    )
+    assert_equal user.id, interest.reload.user_id
+  end
+
+  # test for callback link_course_interests
+  test 'only links course interests with a matching email address' do
+    course = courses(:one)
+    interest = CourseInterest.create!(
+      course: course,
+      email: 'someone@example.com'
+    )
+    User.create!(
+      @user_params.merge(email: 'another@example.com')
+    )
+    assert_nil interest.reload.user_id
+  end
+
+  # test for callback link_course_interests
+  test 'links multiple course interests with matching email' do
+    new_user_email = 'new-user@example.com'
+    course1 = courses(:one)
+    course2 = courses(:two)
+    interest1 = CourseInterest.create!(
+      course: course1,
+      email: new_user_email
+    )
+    interest2 = CourseInterest.create!(
+      course: course2,
+      email: new_user_email
+    )
+    user = User.create!(
+      @user_params.merge(email: new_user_email)
+    )
+    assert_equal user.id, interest1.reload.user_id
+    assert_equal user.id, interest2.reload.user_id
   end
 end

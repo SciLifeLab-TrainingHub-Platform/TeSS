@@ -143,6 +143,7 @@ class RegisteredUserFlowTest < ActionDispatch::IntegrationTest
     sign_out @admin
 
   end
+
   test "owner updating revisions_required event resets status and notifies admin" do
     sign_in @user
     event = @user.events.create!(@parameters)
