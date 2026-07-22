@@ -20,14 +20,14 @@ class ApplicationHelperTest < ActionView::TestCase
     @monitor = @failing_material.create_link_monitor(url: @failing_material.url, code: 404, fail_count: 5)
   end
 
-  test "icon should be correct for material scraped today" do
+  test 'icon should be correct for material scraped today' do
     expected_result = "<span class='fresh-icon pull-right'>#{icon_for(:scraped_today, 'large')}</span>".html_safe
     assert_equal(scrape_status_icon(@new_material, 'large'), expected_result)
     assert_match /fresh-icon/, expected_result
     assert_match /fa-check-circle-o/, expected_result
   end
 
-  test "icon should be correct for material not scraped for a while" do
+  test 'icon should be correct for material not scraped for a while' do
     expected_result = "<span class='stale-icon pull-right'>#{icon_for(:not_scraped_recently, 'large')}</span>".html_safe
     expected_result.gsub!(/%SUB%/, (@old_material.last_scraped.to_s))
     assert_equal(scrape_status_icon(@old_material, 'large'), expected_result)
@@ -39,7 +39,7 @@ class ApplicationHelperTest < ActionView::TestCase
     users(:admin)
   end
 
-  test "icon should be correct for event not scraped for a while" do
+  test 'icon should be correct for event not scraped for a while' do
     assert_not_nil(current_user)
     assert_equal(current_user.is_admin?, true)
     expected_result = "<span class='stale-icon pull-right'>#{icon_for(:not_scraped_recently, 'large')}</span>".html_safe
@@ -49,7 +49,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_match /fa-exclamation-circle/, expected_result
   end
 
-  test "icon should be correct for missing event" do
+  test 'icon should be correct for missing event' do
     assert_not_nil(current_user)
     assert_equal(current_user.is_admin?, true)
     expected_result = "<span class='missing-icon pull-right'>#{icon_for(:missing, 'large')}</span>".html_safe
@@ -60,7 +60,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   end
 
-  test "get country alpha2 from codes" do
+  test 'get country alpha2 from codes' do
     valid_alpha2_a = 'GB'
     valid_alpha2_b = 'NZ'
     invalid_alpha2 = 'XX'
@@ -81,7 +81,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal '', alpha2, "invalid name[#{invalid_alpha2}] did not return blank."
   end
 
-  test "get country alpha3 from codes" do
+  test 'get country alpha3 from codes' do
     valid_alpha2_a = 'AU'
     valid_alpha3_a = 'aus'
     valid_alpha2_b = 'NZ'
@@ -105,7 +105,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal failed, alpha2, "invalid name[#{invalid_alpha3}] did not return blank."
   end
 
-  test "get country alpha2 from names" do
+  test 'get country alpha2 from names' do
     valid_alpha2_a = 'GB'
     valid_alpha2_b = 'NZ'
     valid_name_a = 'United Kingdom of Great Britain and Northern Ireland'
@@ -131,7 +131,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal failed, alpha2, "expected[#{failed}] and alpha2[#{alpha2}] from name[#{invalid_name}] not matched"
   end
 
-  test "check aus codes" do
+  test 'check aus codes' do
     code = 'AU'
     %w{ Australia au AUS AU aus }.each do |name|
       alpha2 = country_alpha2_by_name(name)

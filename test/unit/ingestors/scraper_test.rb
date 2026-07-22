@@ -255,8 +255,8 @@ class ScraperTest < ActiveSupport::TestCase
 
     logfile = scraper.log_file
     # From Config
-    assert logfile_contains(logfile, "Source URL[https://app.com/events/sitemap.xml]")
-    refute logfile_contains(logfile, "Source URL[https://app.com/events/disabled.xml]")
+    assert logfile_contains(logfile, 'Source URL[https://app.com/events/sitemap.xml]')
+    refute logfile_contains(logfile, 'Source URL[https://app.com/events/disabled.xml]')
     # From Database
     assert logfile_contains(logfile, "Source URL[#{enabled_source.url}]")
     refute logfile_contains(logfile, "Source URL[#{disabled_source.url}]")

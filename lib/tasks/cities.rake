@@ -18,7 +18,7 @@ namespace :city do
     puts "Reading city data from #{file_path}..."
     cities = JSON.parse(File.read(file_path))
 
-    puts "Processing city data..."
+    puts 'Processing city data...'
     city_records = cities.map { |city|
       {
         name: city['name'],
@@ -41,7 +41,7 @@ namespace :city do
     progress = (current.to_f / total * progress_width).round
     percentage = (current.to_f / total * 100).round
 
-    bar = "=" * progress + " " * (progress_width - progress)
+    bar = '=' * progress + ' ' * (progress_width - progress)
     print "\r[#{bar}] #{percentage}% (#{current}/#{total})"
     $stdout.flush
   end

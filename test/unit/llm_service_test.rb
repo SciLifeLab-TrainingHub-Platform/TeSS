@@ -10,7 +10,7 @@ class LlmServiceTest < ActiveSupport::TestCase
                                 target_audience: @event.target_audience,
                                 content_providers: @event.content_providers,
                                 learning_objectives: @event.learning_objectives,
-                                event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
+                                event_prices_attributes: [{ cost: 9.99, currency: 'SEK', audience_type: 'Academic' }]
     }
   end
 

@@ -30,7 +30,7 @@ module Ingestors
         unless Rails.env.test? and File.exist?('test/vcr_cassettes/ingestors/nwo.yml')
           sleep(1)
         end
-        event_page = Nokogiri::HTML5.parse(open_url("#{url}?page=#{i}", raise: true)).css(".overviewContent > .listing-cards > li.list-item > a")
+        event_page = Nokogiri::HTML5.parse(open_url("#{url}?page=#{i}", raise: true)).css('.overviewContent > .listing-cards > li.list-item > a')
         event_page.each do |event_data|
           event = OpenStruct.new
 

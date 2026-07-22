@@ -87,15 +87,15 @@ where each topic has one competency level for all its materials. \n\n\
   end
 
   def display_difficulty_level(resource)
-    value = resource.send("difficulty_level")
+    value = resource.send('difficulty_level')
     if value == 'beginner'
-      "• " + value
+      '• ' + value
     elsif value == 'intermediate'
-      "•• " + value
+      '•• ' + value
     elsif value == 'advanced'
-      "••• " + value
+      '••• ' + value
     else
-      ""
+      ''
     end
   end
 
@@ -107,11 +107,11 @@ where each topic has one competency level for all its materials. \n\n\
     unless value.blank? || value.try(:strip) == 'License Not Specified'
       string << "<strong class='text-primary'> #{title || resource.class.human_attribute_name(attribute)}: </strong>" if show_label
       if list
-        string << "<ul>"
+        string << '<ul>'
         value.each do |v|
           string << "<li>#{block_given? ? yield(v) : v}</li>"
         end
-        string << "</ul>"
+        string << '</ul>'
       else
         string << value.to_s
       end

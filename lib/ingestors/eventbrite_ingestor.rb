@@ -159,7 +159,7 @@ module Ingestors
 
     def populate_eventbrite_formats
       # get formats from Eventbrite
-      url = "https://www.eventbriteapi.com/v3/formats/"
+      url = 'https://www.eventbriteapi.com/v3/formats/'
       response = get_json_response url
       # process formats
       response['formats'].each do |format|
@@ -210,7 +210,7 @@ module Ingestors
     def populate_eventbrite_categories
       # initialise pagination
       has_more_items = true
-      url = "https://www.eventbriteapi.com/v3/categories/"
+      url = 'https://www.eventbriteapi.com/v3/categories/'
 
       # query until no more pages
       while has_more_items

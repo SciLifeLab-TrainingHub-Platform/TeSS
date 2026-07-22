@@ -1,7 +1,7 @@
-require "test_helper"
+require 'test_helper'
 
 class AdminMailerTest < ActionMailer::TestCase
-  test "review_event_test" do
+  test 'review_event_test' do
     event = events(:one)
     mail = AdminMailer.review_event(event)
 
@@ -23,7 +23,7 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_match event.user.email, mail.body.encoded
   end
 
-  test "event_updated_by_user" do
+  test 'event_updated_by_user' do
     event = events(:one)
     mail = AdminMailer.event_updated_by_user(event)
 
@@ -45,11 +45,11 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_match event.user.email, mail.body.encoded
   end
 
-  test "review_course email" do
+  test 'review_course email' do
     #   write test for this in the end
   end
 
-  test "course_updated_by_user test" do
+  test 'course_updated_by_user test' do
     #   write test for this in the end
   end
 

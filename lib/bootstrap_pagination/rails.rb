@@ -22,7 +22,7 @@ require 'will_paginate/view_helpers/action_view'
 
 module BootstrapPagination
   class Rails < WillPaginate::ActionView::LinkRenderer
-    ELLIPSIS = "&hellip;"
+    ELLIPSIS = '&hellip;'
 
     def to_html
       list_items = pagination.map do |item|
@@ -66,7 +66,7 @@ module BootstrapPagination
       if page
         tag('li', link(text, page, link_options), class: classname)
       else
-        tag('li', tag('span', text), class: "%s disabled" % classname)
+        tag('li', tag('span', text), class: '%s disabled' % classname)
       end
     end
 

@@ -119,7 +119,7 @@ module CoursesHelper
     elsif user
       # Show approved courses and the user's courses (excluding declined)
       courses.where(
-        "course_status = ? OR (user_id = ? AND course_status != ?)",
+        'course_status = ? OR (user_id = ? AND course_status != ?)',
         Course.course_statuses[:approved], user.id, Course.course_statuses[:declined]
       )
     else
@@ -137,7 +137,7 @@ module CoursesHelper
     elsif user
       # Show approved courses and the user's courses (excluding declined)
       courses.where(
-        "course_status = ? OR (user_id = ? AND course_status != ?)",
+        'course_status = ? OR (user_id = ? AND course_status != ?)',
         Course.course_statuses[:approved], user.id, Course.course_statuses[:declined]
       )
     else
@@ -216,7 +216,7 @@ module CoursesHelper
         events_source
       elsif current_user
         events_source.where(
-          "event_status = :approved OR (user_id = :user_id AND event_status != :declined)",
+          'event_status = :approved OR (user_id = :user_id AND event_status != :declined)',
           approved: Event.event_statuses[:approved],
           user_id: current_user.id,
           declined: Event.event_statuses[:declined]

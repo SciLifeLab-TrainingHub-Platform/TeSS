@@ -736,7 +736,7 @@ class MaterialsControllerTest < ActionController::TestCase
     user = users(:scraper_user)
     material = materials(:scraper_user_material)
 
-    new_title = "totally new title"
+    new_title = 'totally new title'
     assert_no_difference('Material.count') do
       patch :update, params: {
         user_token: user.authentication_token,
@@ -759,7 +759,7 @@ class MaterialsControllerTest < ActionController::TestCase
     other_user = users(:another_regular_user)
     material = user.materials.first
 
-    new_title = "totally new title"
+    new_title = 'totally new title'
     assert_no_difference('Material.count') do
       patch :update, params: {
         user_token: other_user.authentication_token,
@@ -824,7 +824,7 @@ class MaterialsControllerTest < ActionController::TestCase
           description: 'New description',
           url: 'http://new.url.com',
           content_provider_id: ContentProvider.first.id,
-          external_resources_attributes: { "1" => { title: 'Cool link', url: 'https://tess.elixir-uk.org/', _destroy: '0' } }
+          external_resources_attributes: { '1' => { title: 'Cool link', url: 'https://tess.elixir-uk.org/', _destroy: '0' } }
         }
       }
     end
@@ -849,7 +849,7 @@ class MaterialsControllerTest < ActionController::TestCase
           description: 'New description',
           url: 'http://new.url.com',
           content_provider_id: ContentProvider.first.id,
-          external_resources_attributes: { "0" => { id: resource.id, _destroy: '1' } }
+          external_resources_attributes: { '0' => { id: resource.id, _destroy: '1' } }
         }
       }
     end
@@ -871,7 +871,7 @@ class MaterialsControllerTest < ActionController::TestCase
           description: 'New description',
           url: 'http://new.url.com',
           content_provider_id: ContentProvider.first.id,
-          external_resources_attributes: { "1" => { id: resource.id, title: 'Cool link',
+          external_resources_attributes: { '1' => { id: resource.id, title: 'Cool link',
                                                     url: 'http://www.reddit.com', _destroy: '0' } }
         }
       }
@@ -1325,7 +1325,7 @@ class MaterialsControllerTest < ActionController::TestCase
   end
 
   test 'can scope index according to e-learning if enabled' do
-    skip "Skipping this test as we no longer maintain the UI testcases"
+    skip 'Skipping this test as we no longer maintain the UI testcases'
     with_settings(solr_enabled: true, feature: { elearning_materials: true }) do
       Material.stub(:search_and_filter, MockSearch.new(Material.all)) do
         get :index, params: { resource_type: 'e-learning' }
@@ -1341,7 +1341,7 @@ class MaterialsControllerTest < ActionController::TestCase
   end
 
   test 'does not scope index according to e-learning if not enabled' do
-    skip "Skipping this test as we no longer maintain the UI testcases"
+    skip 'Skipping this test as we no longer maintain the UI testcases'
     with_settings(solr_enabled: true, feature: { elearning_materials: false }) do
       Material.stub(:search_and_filter, MockSearch.new(Material.all)) do
         get :index, params: { resource_type: 'e-learning' }

@@ -6,7 +6,7 @@ class CitiesController < ApplicationController
     if country_code.blank?
       # 400 Bad Request: Missing country code
       respond_to do |format|
-        format.json { render json: { error: "Country code is required" }, status: 400 }
+        format.json { render json: { error: 'Country code is required' }, status: 400 }
       end
       return
     end
@@ -23,7 +23,7 @@ class CitiesController < ApplicationController
     # 500 Internal Server Error: Unexpected issue
     Rails.logger.error("CitiesController#cities_by_country error: #{e.class}: #{e.message}")
     respond_to do |format|
-      format.json { render json: { error: "Internal server error" }, status: 500 }
+      format.json { render json: { error: 'Internal server error' }, status: 500 }
     end
   end
 end

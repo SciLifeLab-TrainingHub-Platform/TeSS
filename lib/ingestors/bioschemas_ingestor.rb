@@ -125,7 +125,7 @@ module Ingestors
         if url.present? && url != 'https://example.com'
           message << ": #{url} "
         else
-          message << " the source"
+          message << ' the source'
         end
         message << ". #{comment}" if comment
         @messages << message

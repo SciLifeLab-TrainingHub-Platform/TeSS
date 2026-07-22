@@ -71,18 +71,18 @@ module Bioschemas
 
     def self.term(term)
       {
-        "@type" => "DefinedTerm",
-        "@id" => term.uri,
-        "inDefinedTermSet" => term.ontology.uri,
-        "name" => term.label,
-        "url" => term.uri
+        '@type' => 'DefinedTerm',
+        '@id' => term.uri,
+        'inDefinedTermSet' => term.ontology.uri,
+        'name' => term.label,
+        'url' => term.uri
       }
     end
 
     def self.person(person)
       {
-        "@type" => "Person",
-        "name" => person
+        '@type' => 'Person',
+        'name' => person
       }
     end
 

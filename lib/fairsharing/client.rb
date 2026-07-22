@@ -7,7 +7,7 @@ module Fairsharing
     end
 
     def search(query:, type: 'any', page: 1, per_page: 25)
-      path = "/search/fairsharing_records"
+      path = '/search/fairsharing_records'
       params = {
         'q': query,
         'page[number]': page.to_i,

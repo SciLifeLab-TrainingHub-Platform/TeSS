@@ -74,6 +74,6 @@ class EdamControllerTest < ActionController::TestCase
     assert_response :success
     res = JSON.parse(response.body)
     uris = res.map { |t| t['uri'] }
-    refute (uris & deprecated_protein_operation_uris).any?, "Response should not contain any deprecated URIs"
+    refute (uris & deprecated_protein_operation_uris).any?, 'Response should not contain any deprecated URIs'
   end
 end

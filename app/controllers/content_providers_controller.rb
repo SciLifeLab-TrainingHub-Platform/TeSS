@@ -135,7 +135,7 @@ class ContentProvidersController < ApplicationController
 
   def handle_paperclip_error(exception)
     logger.error("Paperclip error: #{exception.message}")
-    flash[:alert] = "There was an error processing the image. Please try a different image format or file."
+    flash[:alert] = 'There was an error processing the image. Please try a different image format or file.'
     redirect_back(fallback_location: root_path)
   end
 end

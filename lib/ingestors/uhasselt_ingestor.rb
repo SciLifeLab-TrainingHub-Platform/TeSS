@@ -40,7 +40,7 @@ module Ingestors
         if datetime_text.include?('(')
           datetime_list = datetime_text.split('(')
           date_text = datetime_list[0].strip
-          time_text = datetime_list[1].gsub(")", '').strip
+          time_text = datetime_list[1].gsub(')', '').strip
           time_list = time_text.split('-')
           start_hours = time_list[0]
           end_hours = time_list[1]

@@ -26,7 +26,7 @@ class SourceTestWorker
         messages: ingestor.messages,
       }
     rescue StandardError => e
-      results[:messages] << "Ingestor encountered an unexpected error"
+      results[:messages] << 'Ingestor encountered an unexpected error'
       exception = e
     end
 

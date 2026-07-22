@@ -198,7 +198,7 @@ class MaterialTest < ActiveSupport::TestCase
     refute m.save
     assert_equal 1, m.errors.count
     # no longer valid - assert_equal ["must be a controlled vocabulary term"], m.errors[:difficulty_level]
-    assert_equal ["must be a controlled vocabulary term"], m.errors[:licence]
+    assert_equal ['must be a controlled vocabulary term'], m.errors[:licence]
 
     # no longer valid - m.difficulty_level = 'beginner'
     m.licence = 'GPL-3.0'

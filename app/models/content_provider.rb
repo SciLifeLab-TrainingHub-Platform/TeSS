@@ -17,7 +17,7 @@ class ContentProvider < ApplicationRecord
   belongs_to :user
   belongs_to :node, optional: true
 
-  has_and_belongs_to_many :editors, class_name: "User"
+  has_and_belongs_to_many :editors, class_name: 'User'
 
   attribute :contact, :string
 

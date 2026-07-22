@@ -95,8 +95,8 @@ module SearchHelper
   # Returns a count string with custom names if model is in custom_model_entries
   def search_result_label(count, resource_type)
     custom_model_entries = {
-      course: "catalogue entry",
-      event: "training session",
+      course: 'catalogue entry',
+      event: 'training session',
     }
 
 

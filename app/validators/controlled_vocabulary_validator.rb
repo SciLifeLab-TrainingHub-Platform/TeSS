@@ -8,7 +8,7 @@ class ControlledVocabularyValidator < ActiveModel::EachValidator
       end
     else
       unless lookup(options[:dictionary], value)
-        record.errors.add(attribute, (options[:message] || "must be a controlled vocabulary term"))
+        record.errors.add(attribute, (options[:message] || 'must be a controlled vocabulary term'))
       end
     end
   end

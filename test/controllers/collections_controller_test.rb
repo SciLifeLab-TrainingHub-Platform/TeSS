@@ -189,7 +189,7 @@ class CollectionsControllerTest < ActionController::TestCase
     assert_redirected_to collection_path(assigns(:collection))
   end
 
-  test "should add items to collection" do
+  test 'should add items to collection' do
     sign_in users(:regular_user)
     collection = collections(:with_resources)
     assert_difference('CollectionItem.count', 3) do
@@ -220,7 +220,7 @@ class CollectionsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should remove items from collection" do
+  test 'should remove items from collection' do
     sign_in users(:regular_user)
     collection = collections(:with_resources)
     ci1 = collection.items.create!(resource: materials(:biojs), order: 2, comment: 'hello')
@@ -255,7 +255,7 @@ class CollectionsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should modify items in collection" do
+  test 'should modify items in collection' do
     sign_in users(:regular_user)
     collection = collections(:with_resources)
     ci1 = collection.items.create!(resource: materials(:biojs), order: 2, comment: 'hello')
@@ -459,7 +459,7 @@ class CollectionsControllerTest < ActionController::TestCase
   end
 
   #API Actions
-  test "should add materials to collection" do
+  test 'should add materials to collection' do
     sign_in users(:regular_user)
     collection = collections(:with_resources)
     assert_difference('CollectionItem.count', 2) do
@@ -469,7 +469,7 @@ class CollectionsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should remove materials from collection" do
+  test 'should remove materials from collection' do
     sign_in users(:regular_user)
     collection = collections(:with_resources)
     collection.materials = [materials(:biojs), materials(:interpro)]
@@ -481,7 +481,7 @@ class CollectionsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should add events to collection" do
+  test 'should add events to collection' do
     sign_in users(:regular_user)
     assert_difference('CollectionItem.count', 2) do
       assert_difference('@collection.events.count', 2) do
@@ -490,7 +490,7 @@ class CollectionsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should remove events from collection" do
+  test 'should remove events from collection' do
     sign_in users(:regular_user)
     collection = collections(:with_resources)
     collection.events = [events(:one), events(:two)]

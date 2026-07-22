@@ -38,18 +38,18 @@ module Ingestors
           event.url = event_data.css('a')[0].get_attribute('href')
 
           event_page2 = Nokogiri::HTML5.parse(open_url(event.url.to_s, raise: true)).css("div[class='news-banner-content']")[0]
-          event.title = event_page2.css("h1")[0].text.strip
+          event.title = event_page2.css('h1')[0].text.strip
           location = nil
           date = nil
           time = nil
           event_page2.css("ul[class='dissertation-meta-info']")[0].css('li').each do |li|
-            case li.css("label").text.strip
+            case li.css('label').text.strip
             when 'Date'
-              date = li.css("span").text.strip
+              date = li.css('span').text.strip
             when 'Time'
-              time = li.css("span").text.strip
+              time = li.css('span').text.strip
             when 'Location'
-              location = li.css("span").text.strip
+              location = li.css('span').text.strip
             end
           end
           event.venue = location

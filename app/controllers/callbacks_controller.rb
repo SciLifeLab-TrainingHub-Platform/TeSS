@@ -10,7 +10,7 @@ class CallbacksController < Devise::OmniauthCallbacksController
   private
 
   def handle_callback(provider, config)
-    @user = User.from_omniauth(request.env["omniauth.auth"])
+    @user = User.from_omniauth(request.env['omniauth.auth'])
 
     if @user.new_record?
       # new user
@@ -21,7 +21,7 @@ class CallbacksController < Devise::OmniauthCallbacksController
           if @user.errors.full_messages.size > 0
             raise @user.errors.full_messages.first.to_s
           else
-            raise "unknown error"
+            raise 'unknown error'
           end
         end
 
