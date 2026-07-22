@@ -1,0 +1,661 @@
+@font-face {
+  font-display: swap;
+  font-family: "Lato Plan Design ExtraBold";
+  font-style: normal;
+  font-weight: 800;
+  src: font-url("Lato-Black.ttf") format("truetype");
+}
+
+.resources-stage-page--plan-design {
+  margin: 42px auto 80px;
+  max-width: 1180px;
+}
+
+.resources-stage-shell {
+  align-items: start;
+  display: grid;
+  gap: 58px;
+  grid-template-columns: 260px minmax(0, 820px);
+}
+
+.resources-stage-shell__main {
+  min-width: 0;
+}
+
+.resources-stage-shell__hero {
+  margin: 0 0 42px;
+
+  h1 {
+    color: $dark-color;
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 16px;
+  }
+
+  p {
+    color: rgba($dark-color, 0.82);
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0 0 14px;
+    max-width: 790px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .resources-stage-shell__lead {
+    color: $dark-color;
+  }
+}
+
+.resources-stage-page--plan-design {
+  .resources-stage-nav {
+    align-self: start;
+    padding: 8px 0 0;
+    position: sticky;
+    top: 24px;
+    transform: translateX(clamp(-106px, calc(614px - 50vw), 24px));
+    width: 100%;
+  }
+
+  .resources-stage-nav__list {
+    display: block;
+    position: relative;
+
+    &::before {
+      background: linear-gradient(
+        to bottom,
+        $scilifelab-color-lime 0%,
+        $scilifelab-color-aqua 54.8077%,
+        $scilifelab-color-teal 100%
+      );
+      bottom: 26px;
+      content: "";
+      left: 19.5px;
+      position: absolute;
+      top: -72px;
+      width: 5px;
+    }
+  }
+
+  .resources-stage-nav__item {
+    min-height: 82px;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .resources-stage-nav__link {
+    align-items: flex-start;
+    display: flex;
+    font-size: 18px;
+    font-weight: 600;
+    justify-content: flex-start;
+    line-height: 1.25;
+    min-height: 82px;
+    padding: 7px 6px 15px 60px;
+    text-align: left;
+  }
+
+  .resources-stage-nav__label {
+    display: block;
+    min-height: 0;
+  }
+
+  .resources-stage-nav__marker {
+    background: $body-bg;
+    border: 6px solid $scilifelab-color-teal;
+    height: 40px;
+    left: 2px;
+    top: 0;
+    transform: none;
+    width: 40px;
+  }
+
+  .resources-stage-nav__item--active {
+    > .resources-stage-nav__link {
+      color: $scilifelab-color-aqua;
+      font-family: "Lato Plan Design ExtraBold", $font-family-base;
+      font-weight: 800;
+    }
+
+    .resources-stage-nav__marker {
+      background: $scilifelab-color-aqua;
+    }
+  }
+}
+
+.resources-stage-nav__sections {
+  list-style: none;
+  margin: -33px 0 9px;
+  padding: 0;
+}
+
+.resources-stage-nav__section {
+  min-height: 30px;
+  position: relative;
+
+  &::before {
+    background: $dark-color;
+    border-radius: 50%;
+    content: "";
+    height: 8px;
+    left: 18px;
+    position: absolute;
+    top: 9px;
+    width: 8px;
+    z-index: 2;
+  }
+
+  a {
+    color: $dark-color;
+    display: block;
+    font-size: 15px;
+    line-height: 1.1;
+    padding: 4px 4px 6px 60px;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-teal;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: 3px solid $scilifelab-color-lime;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.resources-plan-design__section {
+  margin: 0 0 48px;
+  scroll-margin-top: 20px;
+
+  > h2 {
+    color: $dark-color;
+    display: block;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin: 0 0 22px;
+  }
+
+  p {
+    color: $dark-color;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0 0 18px;
+  }
+
+  a {
+    color: $scilifelab-color-teal;
+    text-decoration: underline;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-grape;
+    }
+
+    &:focus {
+      outline: 3px solid $scilifelab-color-lime;
+      outline-offset: 3px;
+    }
+  }
+}
+
+.resources-plan-design__section > h2,
+.resources-further-learning > h2,
+.resources-stage-page--plan-design .resources-stage-contributors h2 {
+  &::after {
+    background: linear-gradient(
+      to right,
+      $scilifelab-color-grape 0%,
+      rgba($scilifelab-color-grape, 0.5) 38%,
+      rgba($scilifelab-color-grape, 0.08) 78%,
+      rgba($scilifelab-color-grape, 0) 100%
+    );
+    content: "";
+    display: block;
+    height: 3px;
+    margin-top: 10px;
+    width: 100%;
+  }
+}
+
+.resources-plan-design__prose {
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.resources-plan-design__outcomes-layout {
+  align-items: center;
+  display: grid;
+  gap: 42px;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  margin-top: 30px;
+}
+
+.resources-plan-design__formula,
+.resources-plan-design__example {
+  span {
+    display: inline;
+  }
+}
+
+.resources-plan-design__outcomes-structure {
+  margin-bottom: 24px !important;
+}
+
+.resources-plan-design__formula {
+  font-size: 17px !important;
+  font-weight: 700;
+  line-height: 1.4 !important;
+  margin-bottom: 24px !important;
+}
+
+.resources-plan-design__example {
+  line-height: 1.45 !important;
+  margin-bottom: 26px !important;
+
+  .resources-plan-design__example-label {
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .resources-plan-design__formula-term {
+    font-weight: 500;
+  }
+}
+
+.resources-plan-design__formula-term {
+  font-weight: inherit;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+.resources-plan-design__formula-term--teal {
+  color: $scilifelab-color-aqua;
+}
+
+.resources-plan-design__formula-term--lime {
+  color: darken($scilifelab-color-lime, 14%);
+}
+
+.resources-plan-design__formula-term--grape {
+  color: $scilifelab-color-grape;
+}
+
+.resources-plan-design__guidance {
+  line-height: 1.55 !important;
+
+  a {
+    color: rgba($dark-color, 0.82);
+    text-decoration-thickness: 1px;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-teal;
+    }
+  }
+}
+
+.resources-plan-design__visual-intro {
+  margin-top: 20px !important;
+}
+
+.resources-taxonomy {
+  margin: 0;
+}
+
+.resources-taxonomy__image {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 260px;
+}
+
+.resources-digital-learning {
+  margin: 22px 0 0;
+}
+
+.resources-digital-learning__image {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.resources-plan-design__video {
+  margin: 28px auto 0;
+  max-width: 540px;
+  width: 100%;
+}
+
+.resources-plan-design__video-embed {
+  aspect-ratio: 16 / 9;
+  background: $dark-color;
+  width: 100%;
+
+  iframe {
+    border: 0;
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.resources-further-learning {
+  margin: 8px 0 48px;
+
+  > h2 {
+    color: $dark-color;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin: 0 0 24px;
+  }
+}
+
+.resources-further-learning__grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.resources-further-learning__card {
+  border: 1px solid rgba($dark-color, 0.22);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 290px;
+  padding: 26px 24px 22px;
+
+  h3 {
+    color: $dark-color;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.18;
+    margin: 0 0 14px;
+  }
+
+  p {
+    color: rgba($dark-color, 0.66);
+    font-size: 17px;
+    line-height: 1.35;
+    margin: 0 0 22px;
+  }
+}
+
+.resources-further-learning__link {
+  align-items: center;
+  background: $scilifelab-color-aqua-50;
+  border: 1px solid $scilifelab-color-teal;
+  border-radius: 5px;
+  color: $dark-color;
+  display: flex;
+  font-size: 17px;
+  justify-content: center;
+  line-height: 1.2;
+  margin-top: auto;
+  min-height: 42px;
+  padding: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    background: $scilifelab-color-teal;
+    color: $body-bg;
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: 3px solid $scilifelab-color-lime;
+    outline-offset: 3px;
+  }
+}
+
+.resources-stage-contributors__icon {
+  display: block;
+  flex: 0 0 auto;
+  height: 28px;
+  object-fit: contain;
+  width: 28px;
+}
+
+.resources-stage-page--plan-design {
+  .resources-stage-contributors {
+    margin-bottom: 36px;
+
+    h2 {
+      font-size: 30px;
+      font-weight: 400;
+      margin: 0 0 14px;
+    }
+  }
+
+  .resources-stage-contributors__panel {
+    background: $scilifelab-color-grape-50;
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .resources-stage-contributors__list {
+    gap: 10px 14px;
+  }
+
+  .resources-stage-contributors__item {
+    background: rgba($body-bg, 0.82);
+    border-radius: 999px;
+    font-size: 14px;
+    gap: 7px;
+    min-width: 210px;
+    padding: 5px 12px 5px 7px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .resources-stage-shell {
+    gap: 28px;
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+
+  .resources-stage-shell__hero {
+    h1 {
+      font-size: 34px;
+    }
+  }
+
+  .resources-plan-design__section > h2,
+  .resources-further-learning > h2,
+  .resources-stage-page--plan-design .resources-stage-contributors h2 {
+    font-size: 27px;
+  }
+
+  .resources-plan-design__outcomes-layout {
+    display: block;
+  }
+
+  .resources-taxonomy {
+    margin: 30px 0 0;
+  }
+
+  .resources-taxonomy__image {
+    width: 240px;
+  }
+
+  .resources-further-learning__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .resources-stage-page--plan-design {
+    margin: 28px auto 58px;
+  }
+
+  .resources-stage-shell {
+    display: block;
+  }
+
+  .resources-stage-page--plan-design {
+    .resources-stage-nav {
+      margin-bottom: 36px;
+      padding: 0;
+      position: static;
+      transform: none;
+    }
+
+    .resources-stage-nav__list {
+      display: block;
+
+      &::before {
+        bottom: 22px;
+        left: 17.5px;
+        top: -50px;
+      }
+    }
+
+    .resources-stage-nav__item {
+      min-height: 76px;
+    }
+
+    .resources-stage-nav__link {
+      align-items: flex-start;
+      border: 0;
+      border-radius: 0;
+      display: flex;
+      font-size: 16px;
+      min-height: 76px;
+      padding: 6px 6px 13px 56px;
+    }
+
+    .resources-stage-nav__marker {
+      border-width: 5px;
+      display: block;
+      height: 38px;
+      left: 1px;
+      width: 38px;
+    }
+
+    .resources-stage-nav__item--active > .resources-stage-nav__link {
+      background: transparent;
+      color: $scilifelab-color-aqua;
+    }
+  }
+
+  .resources-stage-nav__sections {
+    background: transparent;
+    border-radius: 0;
+    margin: -33px 0 15px;
+    padding: 0;
+  }
+
+  .resources-stage-nav__section {
+    min-height: 34px;
+
+    &::before {
+      height: 8px;
+      left: 16px;
+      top: 8px;
+      width: 8px;
+    }
+
+    a {
+      font-size: 14px;
+      padding: 3px 4px 10px 56px;
+    }
+  }
+
+  .resources-stage-shell__hero {
+    margin-bottom: 36px;
+
+    h1 {
+      font-size: 32px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .resources-plan-design__section {
+    margin-bottom: 42px;
+
+    > h2 {
+      align-items: flex-start;
+      display: block;
+      font-size: 25px;
+      margin-bottom: 18px;
+
+      &::after {
+        display: block;
+        margin-top: 9px;
+        width: 100%;
+      }
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+  }
+
+  .resources-plan-design__outcomes-layout {
+    display: block;
+  }
+
+  .resources-taxonomy {
+    margin: 28px 0 0;
+  }
+
+  .resources-taxonomy__image {
+    width: 220px;
+  }
+
+  .resources-digital-learning {
+    margin-top: 18px;
+  }
+
+  .resources-plan-design__video {
+    margin-top: 24px;
+  }
+
+  .resources-further-learning {
+    margin-bottom: 42px;
+
+    > h2 {
+      font-size: 25px;
+      margin-bottom: 18px;
+    }
+  }
+
+  .resources-further-learning__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resources-further-learning__card {
+    min-height: 0;
+  }
+
+  .resources-stage-page--plan-design {
+    .resources-stage-contributors h2 {
+      font-size: 25px;
+    }
+
+    .resources-stage-contributors__item {
+      min-width: 0;
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<section class="resources-stage-page resources-stage-page--<%= modifier %>">
+  <div class="resources-stage-shell">
+    <%= render 'our_resources/stage_pages/stage_nav',
+               active_key: active_key,
+               section_links: section_links %>
+
+    <div class="resources-stage-shell__main">
+      <header class="resources-stage-shell__hero">
+        <h1><%= title %></h1>
+        <% intro_paragraphs.each_with_index do |paragraph, index| %>
+          <p class="<%= 'resources-stage-shell__lead' if index.zero? %>"><%= paragraph %></p>
+        <% end %>
+      </header>
+
+      <%= yield %>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,13 @@
+<figure class="resources-digital-learning" aria-describedby="resources-digital-learning-description">
+  <%= image_tag 'scilifelab/resources/digitalmethods.png',
+                alt: "Infographic mapping digital learning activities to the six levels of Bloom's taxonomy",
+                class: 'resources-digital-learning__image' %>
+  <figcaption class="sr-only" id="resources-digital-learning-description">
+    Training Hub: Using digital technology to enhance learning.
+    <ol>
+      <% levels.each do |level| %>
+        <li><%= level[:name] %>: <%= level[:description] %></li>
+      <% end %>
+    </ol>
+  </figcaption>
+</figure>

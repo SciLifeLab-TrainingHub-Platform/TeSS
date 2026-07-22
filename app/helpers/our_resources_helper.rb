@@ -18,12 +18,21 @@ module OurResourcesHelper
     end
   end
 
-  def design_develop_resources
-    guide_resources_for(:resource_collections)
+  def plan_design_section_links
+    %i[target_audience learning_outcomes engagement].map do |section_key|
+      section = t("our_resources.stage_pages.design_develop.sections.#{section_key}").with_indifferent_access
+
+      {
+        anchor: section[:anchor],
+        title: section[:title]
+      }
+    end
   end
 
-  def design_develop_sections
-    stage_page_sections(:design_develop)
+  def plan_design_further_learning
+    t('our_resources.stage_pages.design_develop.further_learning.items', default: {})
+      .with_indifferent_access
+      .values
   end
 
   def design_develop_contributors

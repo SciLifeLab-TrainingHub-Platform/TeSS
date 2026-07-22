@@ -15,7 +15,7 @@ class OurResourcesController < ApplicationController
     end
 
     def design_develop
-      @breadcrumbs += [{ name: 'Plan & Design', url: plan_design_stage_path }]
+      @breadcrumbs = nil
     end
 
     def plan

@@ -5,7 +5,9 @@
     <ul class="resources-stage-contributors__list">
       <% contributors.each do |contributor| %>
         <li class="resources-stage-contributors__item">
-          <span class="resources-stage-contributors__dot" aria-hidden="true"></span>
+          <%= image_tag contributor[:image].presence || 'scilifelab/SciLifeLab_symbol_green.png',
+                        alt: '',
+                        class: 'resources-stage-contributors__icon' %>
           <span><%= contributor[:name] %></span>
         </li>
       <% end %>

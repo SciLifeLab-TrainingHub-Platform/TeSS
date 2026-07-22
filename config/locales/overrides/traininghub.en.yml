@@ -100,38 +100,151 @@ en:
       design_develop:
         title: Plan & Design
         summary: >
-          Define learning outcomes, structure learning experiences, and get input from teaching and
-          learning frameworks to create effective training.
-        participant_image_alt: Presenter and participants interaction diagram
+          Define learning outcomes, structure learning experiences, and get input from teaching frameworks
+          to create effective training.
+        introduction: >
+          Our team presents best practices from educational research and practice, holds hands-on training for
+          upskilling our community in teaching and mentoring, and participates in the international community
+          working to develop lifelong learning in life sciences.
         sections:
           target_audience:
-            title: Identify your Target Audience
-            body: >
-              Who are you wanting to share your knowledge with? It's important to match the level of ideas,
-              technology, or expertise you present with the level of pre-training understanding and background
-              of your participants. This way, you can design your materials so that the participants can grasp
-              the concepts and be challenged in implementing them.
+            anchor: target-audience
+            title: Identify your target audience
+            paragraphs:
+              - >
+                Training high school internship students in genomics technology will look different to training
+                expert staff scientists, so it’s important to match the level of ideas, technology, or expertise
+                you present with the level of pre-training understanding and background of your participants. The
+                ideal is to design materials where participants can grasp the concepts and be challenged in
+                implementing them.
+              - >
+                Common target audiences at SciLifeLab are PhD students, postdocs, principal investigators, staff
+                scientists, and research engineers. Some training in the SciLifeLab catalogue is designed for a
+                general scientific audience, while other training is specific to PhD research schools or staff
+                scientists in a platform.
+              - >
+                Target audience is a required field when announcing training, and to aid in findability we
+                recommend being clear about who the course is designed for.
           learning_outcomes:
-            title: Develop Learning Outcomes
-            body: >
-              By combining the principles of Bloom's Taxonomy, KSAs, PLDs and SMARTIE goals together in your
-              learning outcomes, it becomes easier to communicate the function and expectations of your training
-              to your participants as well as other instructors. As Learning Pathways and tailored curriculum
-              become available for advanced life science training, having accurate learning outcomes also helps
-              organize and connect your training within the larger ecosystem!
+            anchor: learning-outcomes
+            title: Develop learning outcomes
+            introduction: >
+              In education, Learning Outcomes are a formalized, learner-centric way of communicating the purpose
+              and expectations of training. Learning outcomes make use of Bloom’s taxonomy, a hierarchical
+              framework of verbs arranged by cognitive complexity, as well as performance level descriptors and
+              the knowledge, skills, or abilities that the participants will be learning.
+            structure_intro: "The form of learning outcomes is structured as follows:"
+            formula:
+              before_timeframe: By the end of the
+              timeframe: time frame,
+              after_timeframe: participants will be able to
+              verb: Bloom’s taxonomy verb
+              subject: the knowledge, skill and/or ability
+              before_level: at a
+              level: performance level descriptor
+              after_level: level.
+            example:
+              label: "As an example:"
+              before_workshop: By the end of the
+              workshop: workshop,
+              after_workshop: participants will be able to
+              verb: apply
+              subject: metabolomics analysis pipelines
+              after_subject: on their own research
+              level: independently.
+            guidance_before_link: >
+              Learning outcomes are a required field when announcing training at SciLifeLab, and we encourage all
+              instructors to follow this structure. For a detailed description of levels and descriptors on each
+              part of the learning outcome structure, consult the
+            guide_label: Training Hub Learning Outcomes Guide
+            guide_url: https://doi.org/10.17044/scilifelab.28473218.v1
+            guidance_between_links: or the
+            module_label: SciLifeLab Train-the-Trainer module on Learning Outcomes
+            module_url: https://scilifelab-training.github.io/train-the-trainer/2403/module1.html
+            visual_intro: >
+              For inspiration on using Bloom’s taxonomy at SciLifeLab, see our resource on using technology to
+              enhance learning:
+            digital_methods:
+              - key: remember
+                name: Remember
+                description: Bookmark and revisit useful digital resources.
+              - key: understand
+                name: Understand
+                description: Share explanations and examples in more than one format.
+              - key: apply
+                name: Apply
+                description: Let learners practise with interactive tools and guided exercises.
+              - key: analyze
+                name: Analyze
+                description: Compare approaches, results, and patterns collaboratively.
+              - key: evaluate
+                name: Evaluate
+                description: Review evidence, methods, and peer work using clear criteria.
+              - key: create
+                name: Create
+                description: Produce and publish original work in reusable formats.
           engagement:
+            anchor: engaging-experiences
             title: Choose engaging learning experiences
-            body: >
-              Engagement deepens learning and creates a more positive and enjoyable experience. Understanding a
-              topic is a much less cognitively complex process than applying or analyzing the same topic. Moving
-              away from the traditional lecture format and incorporating collaborative learning and engagement
-              into your courses, workshops, or lectures can help participants gain and retain the knowledge you
-              are sharing.
+            paragraphs:
+              - >
+                Researchers have limited time and ask for efficient, practical learning experiences that increase
+                their knowledge, skills, and/or abilities. Engagement deepens learning and creates a more positive
+                and enjoyable learning experience. Moving away from the traditional lecture and incorporating
+                collaborative learning and engagement into learning experiences can help participants gain and
+                retain what you are teaching.
+              - >
+                The following video is a short introduction to designing and assessing learning outcomes and
+                experiences using Python programming as an example.
+            video:
+              caption: Introduction to designing and assessing learning outcomes and experiences
+              iframe_title: Introduction to designing and assessing learning outcomes and experiences
+              url: https://www.youtube.com/watch?v=_AQN4pqvZ3o
+        further_learning:
+          title: Further Learning
+          items:
+            train_the_trainer:
+              title: Train-the-Trainer course
+              description: A course from the SciLifeLab Training Hub on teaching for lifelong learning.
+              cta: Training Catalogue
+              url: /events
+            organizational_learning:
+              title: Organizational Learning course
+              description: A course from the SciLifeLab Training Hub on how learning in groups and teams occurs.
+              cta: Training Catalogue
+              url: /events
+            learning_outcomes:
+              title: Training Hub Resources for Learning Outcomes
+              description: Templates and information on writing learning outcomes.
+              cta: Resource Collection
+              url: https://doi.org/10.17044/scilifelab.28473218.v1
+            goblet_course_design:
+              title: GOBLET Course Design Guide
+              description: A guide for designing courses targeted at advanced life science training.
+              cta: Creation Guide
+              url: https://f1000research.com/documents/9-1377
+            course_planning:
+              title: Training Hub Resources for Course Planning
+              description: Timelines, checklists and templates for structuring courses.
+              cta: Resource Collection
+              url: https://doi.org/10.17044/scilifelab.28194329.v1
+            bicycle_principles:
+              title: Bicycle Principles for Short-form Training
+              description: Principles for designing effective short-format training for researchers and career scientists.
+              cta: Training Framework
+              url: https://www.bikeprinciples.org/
         contributors:
-          oliver_onions:
-            name: Oliver Onions
+          kristen_schroeder:
+            name: Kristen Schroeder
+            image: scilifelab/staff/kristen-resize.png
+          nina_norgren:
+            name: Nina Norgren
           ineke_luijten:
             name: Ineke Luijten
+          jill_jaworski:
+            name: Jill Jaworski
+          jessica_lindvall:
+            name: Jessica Lindvall
       plan:
         title: Develop
         summary: >

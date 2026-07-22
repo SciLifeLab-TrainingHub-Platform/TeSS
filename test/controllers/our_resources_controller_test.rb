@@ -31,13 +31,32 @@ class OurResourcesControllerTest < ActionController::TestCase
     get :design_develop
 
     assert_response :success
+    assert_select '.breadcrumbs', count: 0
     assert_select 'h1', 'Plan & Design'
     assert_select '.resources-stage-nav__item--active .resources-stage-nav__label', text: 'Plan & Design'
-    assert_select '.resources-stage-resource', count: 6
-    assert_select '.resources-stage-page__section h2', text: /Identify your Target Audience/
-    assert_select 'img[alt=?]', 'Presenter and participants interaction diagram'
-    assert_select '.resources-stage-contributors__item', text: /Oliver Onions/
+    assert_select '.resources-stage-nav__sections a', count: 3
+    assert_select '.resources-stage-nav__sections a[href=?]', '#target-audience', count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]', '#learning-outcomes', count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]', '#engaging-experiences', count: 1
+    assert_select '.resources-plan-design__section', count: 3
+    assert_select '.resources-plan-design__section h2', text: 'Identify your target audience'
+    assert_select '.resources-plan-design__section h2', text: 'Develop learning outcomes'
+    assert_select '.resources-plan-design__section h2', text: 'Choose engaging learning experiences'
+    assert_select 'img.resources-taxonomy__image[alt=?]',
+                  "Bloom's taxonomy pyramid, from remember through understand, apply, analyze, evaluate, and create"
+    assert_select 'img.resources-digital-learning__image[alt=?]',
+                  "Infographic mapping digital learning activities to the six levels of Bloom's taxonomy"
+    assert_select '.resources-plan-design__video iframe[src=?]',
+                  'https://www.youtube.com/embed/_AQN4pqvZ3o'
+    assert_select '.resources-further-learning__card', count: 6
+    assert_select '.resources-further-learning__card h3', text: 'Train-the-Trainer course'
+    assert_select '.resources-further-learning__card h3', text: 'Bicycle Principles for Short-form Training'
+    assert_select '.resources-stage-contributors__item', count: 5
+    assert_select '.resources-stage-contributors__item', text: /Kristen Schroeder/
+    assert_select '.resources-stage-contributors__item', text: /Nina Norgren/
     assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
+    assert_select '.resources-stage-contributors__item', text: /Jill Jaworski/
+    assert_select '.resources-stage-contributors__item', text: /Jessica Lindvall/
   end
 
   test 'should get plan page' do

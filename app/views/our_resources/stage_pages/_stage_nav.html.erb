@@ -8,6 +8,16 @@
           <span class="resources-stage-nav__label"><%= stage[:title] %></span>
           <span class="resources-stage-nav__marker" aria-hidden="true"></span>
         <% end %>
+
+        <% if stage[:active] && local_assigns.fetch(:section_links, []).present? %>
+          <ol class="resources-stage-nav__sections" aria-label="<%= stage[:title] %> sections">
+            <% section_links.each do |section| %>
+              <li class="resources-stage-nav__section">
+                <%= link_to section[:title], "##{section[:anchor]}" %>
+              </li>
+            <% end %>
+          </ol>
+        <% end %>
       </li>
     <% end %>
   </ol>
