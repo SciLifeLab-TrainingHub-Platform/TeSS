@@ -4,7 +4,7 @@ class User < ApplicationRecord
 
   acts_as_token_authenticatable
   include Gravtastic
-  gravtastic :secure => true, :size => 250
+  gravtastic secure: true, size: 250
   has_image(placeholder: TeSS::Config.placeholder['person'])
 
   extend FriendlyId
@@ -68,13 +68,13 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are: :lockable, :timeoutable
   if TeSS::Config.feature['registration']
     devise :database_authenticatable, :confirmable, :registerable, :invitable, :recoverable, :rememberable, :trackable,
-           :validatable, :omniauthable, :authentication_keys => [:login]
+           :validatable, :omniauthable, authentication_keys: [:login]
   elsif TeSS::Config.feature['invitation']
     devise :database_authenticatable, :confirmable, :invitable, :recoverable, :rememberable, :trackable,
-           :validatable, :omniauthable, :authentication_keys => [:login]
+           :validatable, :omniauthable, authentication_keys: [:login]
   else
     devise :database_authenticatable, :confirmable, :recoverable, :rememberable, :trackable, :validatable,
-           :omniauthable, :authentication_keys => [:login]
+           :omniauthable, authentication_keys: [:login]
   end
 
   auto_strip_attributes :username, squish: false
@@ -105,7 +105,7 @@ class User < ApplicationRecord
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { value: login.downcase }]).first
     else
       where(conditions.to_h).first
     end

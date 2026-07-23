@@ -3,7 +3,7 @@ class CuratorController < ApplicationController
   CURATION_ACTIONS = %w(material.add_term event.add_term material.reject_term event.reject_term)
 
   before_action :check_curator
-  before_action :set_breadcrumbs, :only => [:topic_suggestions]
+  before_action :set_breadcrumbs, only: [:topic_suggestions]
 
   # Hacky stub to make breadcrumbs work
   def index

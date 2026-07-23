@@ -45,18 +45,18 @@ class Material < ApplicationRecord
       end
       # other fields
       string :title
-      string :authors, :multiple => true
-      string :scientific_topics, :multiple => true do
+      string :authors, multiple: true
+      string :scientific_topics, multiple: true do
         scientific_topics_and_synonyms
       end
-      string :operations, :multiple => true do
+      string :operations, multiple: true do
         operations_and_synonyms
       end
-      string :target_audience, :multiple => true
-      string :keywords, :multiple => true
-      string :fields, :multiple => true
-      string :resource_type, :multiple => true
-      string :contributors, :multiple => true
+      string :target_audience, multiple: true
+      string :keywords, multiple: true
+      string :fields, multiple: true
+      string :resource_type, multiple: true
+      string :contributors, multiple: true
       string :content_provider do
         self.content_provider.try(:title)
       end

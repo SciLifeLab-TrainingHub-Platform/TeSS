@@ -41,9 +41,9 @@ class TrainersController < ApplicationController
   def trainer_params
     params.require(:trainer).permit(:id, :firstname, :surname, :website,
                                     :orcid, :email, :public, :description,
-                                    :location, :experience, { :language => [] }, { :expertise_academic => [] },
-                                    { :expertise_technical => [] }, { :interest => [] }, { :activity => [] },
-                                    { :fields => [] }, { :social_media => [] })
+                                    :location, :experience, { language: [] }, { expertise_academic: [] },
+                                    { expertise_technical: [] }, { interest: [] }, { activity: [] },
+                                    { fields: [] }, { social_media: [] })
   end
 
 end

@@ -23,7 +23,7 @@ module BreadCrumbs
 
       add_breadcrumb action_name.capitalize.humanize, url_for(resource) unless action_name == 'show'
     elsif action_name != 'index'
-      add_breadcrumb action_name.capitalize.humanize, url_for(:controller => controller_name, :action => action_name)
+      add_breadcrumb action_name.capitalize.humanize, url_for(controller: controller_name, action: action_name)
     end
   end
 

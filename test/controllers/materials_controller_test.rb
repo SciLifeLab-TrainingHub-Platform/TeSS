@@ -447,14 +447,14 @@ class MaterialsControllerTest < ActionController::TestCase
     assert_not_equal @material_with_suggestions.edit_suggestion, nil
     get :show, params: { id: @material_with_suggestions } do
       assert_response :success
-      assert_select 'Training Material Example', :count => 1
-      assert_select 'fa-commenting-o', :count => 1
+      assert_select 'Training Material Example', count: 1
+      assert_select 'fa-commenting-o', count: 1
     end
     get :edit, params: { id: @material_with_suggestions } do
       assert_response :success
-      assert_select 'fa-commenting-o', :count => 0
-      assert_select 'a#add-topic-topiconename', :count => 1
-      assert_select 'a#add-topic-topictwoname', :count => 1
+      assert_select 'fa-commenting-o', count: 0
+      assert_select 'a#add-topic-topiconename', count: 1
+      assert_select 'a#add-topic-topictwoname', count: 1
     end
     patch :update, params: { id: @material_with_suggestions, material: @updated_material_with_suggestions } do
       assert_redirected_to material_path(assigns(:material))
@@ -520,21 +520,21 @@ class MaterialsControllerTest < ActionController::TestCase
   test 'breadcrumbs for materials index' do
     get :index
     assert_response :success
-    assert_select 'div.breadcrumbs', :text => /Home/, :count => 1 do
-      assert_select 'a[href=?]', root_path, :count => 1
-      assert_select 'li[class=active]', :text => /Materials/, :count => 1
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li[class=active]', text: /Materials/, count: 1
     end
   end
 
   test 'breadcrumbs for showing material' do
     get :show, params: { id: @material }
     assert_response :success
-    assert_select 'div.breadcrumbs', :text => /Home/, :count => 1 do
-      assert_select 'a[href=?]', root_path, :count => 1
-      assert_select 'li', :text => /Materials/, :count => 1 do
-        assert_select 'a[href=?]', materials_url, :count => 1
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li', text: /Materials/, count: 1 do
+        assert_select 'a[href=?]', materials_url, count: 1
       end
-      assert_select 'li[class=active]', :text => /#{@material.title}/, :count => 1
+      assert_select 'li[class=active]', text: /#{@material.title}/, count: 1
     end
   end
 
@@ -542,15 +542,15 @@ class MaterialsControllerTest < ActionController::TestCase
     sign_in users(:regular_user)
     get :edit, params: { id: @material }
     assert_response :success
-    assert_select 'div.breadcrumbs', :text => /Home/, :count => 1 do
-      assert_select 'a[href=?]', root_path, :count => 1
-      assert_select 'li', :text => /Materials/, :count => 1 do
-        assert_select 'a[href=?]', materials_url, :count => 1
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li', text: /Materials/, count: 1 do
+        assert_select 'a[href=?]', materials_url, count: 1
       end
-      assert_select 'li', :text => /#{@material.title}/, :count => 1 do
-        assert_select 'a[href=?]', material_url(@material), :count => 1
+      assert_select 'li', text: /#{@material.title}/, count: 1 do
+        assert_select 'a[href=?]', material_url(@material), count: 1
       end
-      assert_select 'li[class=active]', :text => /Edit/, :count => 1
+      assert_select 'li[class=active]', text: /Edit/, count: 1
     end
   end
 
@@ -558,12 +558,12 @@ class MaterialsControllerTest < ActionController::TestCase
     sign_in users(:regular_user)
     get :new
     assert_response :success
-    assert_select 'div.breadcrumbs', :text => /Home/, :count => 1 do
-      assert_select 'a[href=?]', root_path, :count => 1
-      assert_select 'li', :text => /Materials/, :count => 1 do
-        assert_select 'a[href=?]', materials_url, :count => 1
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li', text: /Materials/, count: 1 do
+        assert_select 'a[href=?]', materials_url, count: 1
       end
-      assert_select 'li[class=active]', :text => /New/, :count => 1
+      assert_select 'li[class=active]', text: /New/, count: 1
     end
   end
 
@@ -572,42 +572,42 @@ class MaterialsControllerTest < ActionController::TestCase
   test 'material has correct layout' do
     get :show, params: { id: @material }
     assert_response :success
-    assert_select 'h2', :text => @material.title #Has Title
+    assert_select 'h2', text: @material.title #Has Title
     assert_select 'a.btn', text: 'View material', count: 1 do
       assert_select 'a[href=?]', @material.url, count: 1
     end
     #Should not show when not logged in
-    assert_select 'a.btn[href=?]', edit_material_path(@material), :count => 0 #No Edit
-    assert_select 'a.btn[href=?]', material_path(@material), :count => 0 #No Edit
+    assert_select 'a.btn[href=?]', edit_material_path(@material), count: 0 #No Edit
+    assert_select 'a.btn[href=?]', material_path(@material), count: 0 #No Edit
   end
 
   test 'do not show action buttons when not owner or admin' do
     sign_in users(:another_regular_user)
     get :show, params: { id: @material }
-    assert_select 'a.btn[href=?]', edit_material_path(@material), :count => 0 #No Edit
-    assert_select 'a.btn[href=?]', material_path(@material), :count => 0 #No Edit
+    assert_select 'a.btn[href=?]', edit_material_path(@material), count: 0 #No Edit
+    assert_select 'a.btn[href=?]', material_path(@material), count: 0 #No Edit
   end
 
   test 'show action buttons when owner' do
     sign_in users(:regular_user)
     get :show, params: { id: @material }
-    assert_select 'a.btn[href=?]', edit_material_path(@material), :count => 1
-    assert_select 'a.btn[href=?]', material_path(@material), :text => 'Delete', :count => 1
+    assert_select 'a.btn[href=?]', edit_material_path(@material), count: 1
+    assert_select 'a.btn[href=?]', material_path(@material), text: 'Delete', count: 1
   end
 
   test 'show action buttons when admin' do
     sign_in users(:admin)
     get :show, params: { id: @material }
-    assert_select 'a.btn[href=?]', edit_material_path(@material), :count => 1
-    assert_select 'a.btn[href=?]', material_path(@material), :text => 'Delete', :count => 1
+    assert_select 'a.btn[href=?]', edit_material_path(@material), count: 1
+    assert_select 'a.btn[href=?]', material_path(@material), text: 'Delete', count: 1
   end
 
   test 'show action buttons when approved editor' do
     @material.content_provider.add_editor users(:another_regular_user)
     sign_in users(:another_regular_user)
     get :show, params: { id: @material }
-    assert_select 'a.btn[href=?]', edit_material_path(@material), :count => 1
-    assert_select 'a.btn[href=?]', material_path(@material), :text => 'Delete', :count => 1
+    assert_select 'a.btn[href=?]', edit_material_path(@material), count: 1
+    assert_select 'a.btn[href=?]', material_path(@material), text: 'Delete', count: 1
   end
 
   #API Actions
@@ -684,7 +684,7 @@ class MaterialsControllerTest < ActionController::TestCase
 
   test 'should create new material through API' do
     scraper_role = Role.fetch('scraper_user')
-    scraper_user = User.where(:role_id => scraper_role.id).first
+    scraper_user = User.where(role_id: scraper_role.id).first
     material_title = 'horse'
     assert scraper_user
     assert_difference('Material.count') do
@@ -709,7 +709,7 @@ class MaterialsControllerTest < ActionController::TestCase
 
   test 'should not create new material without valid authentication token' do
     scraper_role = Role.fetch('scraper_user')
-    scraper_user = User.where(:role_id => scraper_role.id).first
+    scraper_user = User.where(role_id: scraper_role.id).first
     assert scraper_user
 
     assert_no_difference('Material.count') do

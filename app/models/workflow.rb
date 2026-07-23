@@ -32,16 +32,16 @@ class Workflow < ApplicationRecord
       text :scientific_topics do
         scientific_topics_and_synonyms
       end
-      string :authors, :multiple => true
-      string :scientific_topics, :multiple => true do
+      string :authors, multiple: true
+      string :scientific_topics, multiple: true do
         scientific_topics_and_synonyms
       end
       text :target_audience
-      string :target_audience, :multiple => true
+      string :target_audience, multiple: true
       text :keywords
-      string :keywords, :multiple => true
+      string :keywords, multiple: true
       text :contributors
-      string :contributors, :multiple => true
+      string :contributors, multiple: true
 
       integer :user_id
       boolean :public
