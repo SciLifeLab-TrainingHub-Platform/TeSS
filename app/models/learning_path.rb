@@ -30,13 +30,13 @@ class LearningPath < ApplicationRecord
       end
       # other fields
       string :title
-      string :authors, :multiple => true
-      string :scientific_topics, :multiple => true do
+      string :authors, multiple: true
+      string :scientific_topics, multiple: true do
         self.scientific_topic_names
       end
-      string :target_audience, :multiple => true
-      string :keywords, :multiple => true
-      string :contributors, :multiple => true
+      string :target_audience, multiple: true
+      string :keywords, multiple: true
+      string :contributors, multiple: true
       string :content_provider do
         self.content_provider.try(:title)
       end

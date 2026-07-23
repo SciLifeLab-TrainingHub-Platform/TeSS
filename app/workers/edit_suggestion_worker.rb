@@ -37,10 +37,10 @@ class EditSuggestionWorker
     # See String#encode documentation
 
     encoding_options = {
-      :invalid => :replace,
-      :undef => :replace,
-      :replace => '',
-      :universal_newline => true
+      invalid: :replace,
+      undef: :replace,
+      replace: '',
+      universal_newline: true
     }
     clean_desc = desc.encode(Encoding.find('ASCII'), **encoding_options).gsub(/[\n#]/, '')
 

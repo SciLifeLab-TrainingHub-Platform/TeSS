@@ -71,6 +71,11 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
+# Convert hash-rocket symbol keys to ruby19 style, but allow both explicit
+# ({ x: x }) and Ruby 3.1 shorthand ({ x: }) rather than forcing the shorthand.
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either
+
 Style/SymbolArray:
   Enabled: false
 

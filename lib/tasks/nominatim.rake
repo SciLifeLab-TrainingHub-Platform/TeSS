@@ -4,7 +4,7 @@ namespace :tess do
 
   desc 'Update lat/lon for events'
   task update_lat_lon: :environment do
-    events = Event.where(:latitude => nil, :longitude => nil).where(["#{Event.table_name}.nominatim_count < ?", Event::NOMINATIM_MAX_ATTEMPTS])
+    events = Event.where(latitude: nil, longitude: nil).where(["#{Event.table_name}.nominatim_count < ?", Event::NOMINATIM_MAX_ATTEMPTS])
 
     puts "Found #{events.count} events to query with Nominatim"
 

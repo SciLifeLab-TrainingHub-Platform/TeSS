@@ -54,8 +54,8 @@ class ContentProvider < ApplicationRecord
       # other fields
       string :title
       string :approval_notification_email
-      string :keywords, :multiple => true
-      string :node, :multiple => true do
+      string :keywords, multiple: true
+      string :node, multiple: true do
         unless self.node.blank?
           self.node.name
         end

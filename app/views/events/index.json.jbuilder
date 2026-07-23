@@ -14,7 +14,7 @@ json.array!(@events) do |event|
   json.partial! 'common/ontology_terms', type: 'scientific_topics', resource: event
   json.partial! 'common/ontology_terms', type: 'operations', resource: event
 
-  json.nodes event.associated_nodes.collect { |x| { :name => x[:name], :node_id => x[:id] } }
+  json.nodes event.associated_nodes.collect { |x| { name: x[:name], node_id: x[:id] } }
 
   json.url
 

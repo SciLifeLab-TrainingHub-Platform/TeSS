@@ -359,21 +359,21 @@ class CollectionsControllerTest < ActionController::TestCase
   test 'breadcrumbs for collections index' do
     get :index
     assert_response :success
-    assert_select 'div.breadcrumbs', :text => /Home/, :count => 1 do
-      assert_select 'a[href=?]', root_path, :count => 1
-      assert_select 'li[class=active]', :text => /Collections/, :count => 1
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li[class=active]', text: /Collections/, count: 1
     end
   end
 
   test 'breadcrumbs for showing collection' do
-    get :show, params: { :id => @collection }
+    get :show, params: { id: @collection }
     assert_response :success
-    assert_select 'div.breadcrumbs', :text => /Home/, :count => 1 do
-      assert_select 'a[href=?]', root_path, :count => 1
-      assert_select 'li', :text => /Collections/, :count => 1 do
-        assert_select 'a[href=?]', collections_url, :count => 1
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li', text: /Collections/, count: 1 do
+        assert_select 'a[href=?]', collections_url, count: 1
       end
-      assert_select 'li[class=active]', :text => /#{@collection.title}/, :count => 1
+      assert_select 'li[class=active]', text: /#{@collection.title}/, count: 1
     end
   end
 
@@ -381,15 +381,15 @@ class CollectionsControllerTest < ActionController::TestCase
     sign_in users(:admin)
     get :edit, params: { id: @collection }
     assert_response :success
-    assert_select 'div.breadcrumbs', :text => /Home/, :count => 1 do
-      assert_select 'a[href=?]', root_path, :count => 1
-      assert_select 'li', :text => /Collections/, :count => 1 do
-        assert_select 'a[href=?]', collections_url, :count => 1
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li', text: /Collections/, count: 1 do
+        assert_select 'a[href=?]', collections_url, count: 1
       end
-      assert_select 'li', :text => /#{@collection.title}/, :count => 1 do
-        assert_select 'a[href=?]', collection_url(@collection), :count => 1
+      assert_select 'li', text: /#{@collection.title}/, count: 1 do
+        assert_select 'a[href=?]', collection_url(@collection), count: 1
       end
-      assert_select 'li[class=active]', :text => /Edit/, :count => 1
+      assert_select 'li[class=active]', text: /Edit/, count: 1
     end
   end
 
@@ -397,65 +397,65 @@ class CollectionsControllerTest < ActionController::TestCase
     sign_in users(:regular_user)
     get :new
     assert_response :success
-    assert_select 'div.breadcrumbs', :text => /Home/, :count => 1 do
-      assert_select 'a[href=?]', root_path, :count => 1
-      assert_select 'li', :text => /Collections/, :count => 1 do
-        assert_select 'a[href=?]', collections_url, :count => 1
+    assert_select 'div.breadcrumbs', text: /Home/, count: 1 do
+      assert_select 'a[href=?]', root_path, count: 1
+      assert_select 'li', text: /Collections/, count: 1 do
+        assert_select 'a[href=?]', collections_url, count: 1
       end
-      assert_select 'li[class=active]', :text => /New/, :count => 1
+      assert_select 'li[class=active]', text: /New/, count: 1
     end
   end
 
   #OTHER CONTENT
   test 'collection has correct tabs' do
-    get :show, params: { :id => @collection }
+    get :show, params: { id: @collection }
     assert_response :success
     assert_select 'ul.nav-tabs' do
-      assert_select 'li.disabled', :count => 2 # This collection has no events, materials
+      assert_select 'li.disabled', count: 2 # This collection has no events, materials
     end
 
     collections(:with_resources).materials << materials(:good_material)
     collections(:with_resources).events << events(:one)
 
-    get :show, params: { :id => collections(:with_resources) }
+    get :show, params: { id: collections(:with_resources) }
     assert_response :success
     assert_select 'ul.nav-tabs' do
       assert_select 'li' do
-        assert_select 'a[data-toggle="tab"]', :count => 2 # Events, Materials
+        assert_select 'a[data-toggle="tab"]', count: 2 # Events, Materials
       end
     end
   end
 
   test 'collection has correct layout' do
-    get :show, params: { :id => @collection }
+    get :show, params: { id: @collection }
     assert_response :success
-    assert_select 'div.search-results-count', :count => 2 #Has results
+    assert_select 'div.search-results-count', count: 2 #Has results
     # assert_select 'a.btn-info', :text => 'Back', :count => 1 #No Edit
     #Should not show when not logged in
-    assert_select 'a.btn[href=?]', edit_collection_path(@collection), :count => 0 #No Edit
-    assert_select 'a.btn[href=?]', collection_path(@collection), :count => 0 #No Edit
+    assert_select 'a.btn[href=?]', edit_collection_path(@collection), count: 0 #No Edit
+    assert_select 'a.btn[href=?]', collection_path(@collection), count: 0 #No Edit
 
   end
 
   test 'do not show action buttons when not owner or admin' do
     sign_in users(:another_regular_user)
-    get :show, params: { :id => @collection }
-    assert_select 'a.btn[href=?]', edit_collection_path(@collection), :count => 0 #No Edit
-    assert_select 'a.btn[href=?]', collection_path(@collection), :count => 0 #No Edit
+    get :show, params: { id: @collection }
+    assert_select 'a.btn[href=?]', edit_collection_path(@collection), count: 0 #No Edit
+    assert_select 'a.btn[href=?]', collection_path(@collection), count: 0 #No Edit
   end
 
   test 'show action buttons when owner' do
     sign_in @collection.user
-    get :show, params: { :id => @collection }
-    assert_select 'a.btn[href=?]', edit_collection_path(@collection), :count => 1
-    assert_select 'a.btn[href=?]', collection_path(@collection), :text => 'Delete', :count => 1
+    get :show, params: { id: @collection }
+    assert_select 'a.btn[href=?]', edit_collection_path(@collection), count: 1
+    assert_select 'a.btn[href=?]', collection_path(@collection), text: 'Delete', count: 1
   end
 
   test 'show action buttons when admin' do
     sign_in users(:admin)
-    get :show, params: { :id => @collection }
-    assert_select 'a.btn[href=?]', edit_collection_path(@collection), :count => 1
-    assert_select 'a.btn[href=?]', collection_path(@collection), :text => 'Delete', :count => 1
+    get :show, params: { id: @collection }
+    assert_select 'a.btn[href=?]', edit_collection_path(@collection), count: 1
+    assert_select 'a.btn[href=?]', collection_path(@collection), text: 'Delete', count: 1
   end
 
   #API Actions

@@ -3,7 +3,7 @@ $fairsharing_url = 'https://fairsharing.org/'
 namespace :fairsharing do
 
   desc 'Adds links to FAIRsharing records as external resources of materials'
-  task :create_links => [:environment] do
+  task create_links: [:environment] do
 
     # Parse data file manually imported from FAIRsharing
     datafile = "#{Rails.root}/config/data/tess_links.csv"
@@ -22,7 +22,7 @@ namespace :fairsharing do
       if !m.nil?
         existing = m.external_resources.find_by_url($fairsharing_url + bid)
         if existing.nil?
-          enew = ExternalResource.new(:title => bname, :url => $fairsharing_url + bid)
+          enew = ExternalResource.new(title: bname, url: $fairsharing_url + bid)
           enew.save
           m.external_resources << enew
           puts "Adding link for: #{bid}/#{tslug}"
