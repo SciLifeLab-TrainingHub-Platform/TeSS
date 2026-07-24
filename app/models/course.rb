@@ -10,9 +10,10 @@ class Course < ApplicationRecord
 
   has_and_belongs_to_many :content_providers
   has_many :events, dependent: :nullify
+  has_many :course_interests, dependent: :destroy
   belongs_to :user
 
-  enum course_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3}
+  enum course_status: { awaiting_review: 0, approved: 1, declined: 2, revisions_required: 3 }
 
   before_create :set_course_initial_status
   after_commit :run_course_approval_lifecycle_on_create, on: :create
@@ -47,7 +48,6 @@ class Course < ApplicationRecord
     end
   end
 
-
   validates :title, :url, :language, :description,
             :structure_and_duration, :learning_outcomes, :licence,
             :prerequisites_knowledge, :prerequisites_technical,
@@ -58,7 +58,6 @@ class Course < ApplicationRecord
   clean_array_fields(:keywords, :target_audience)
   validate :events_not_linked_to_other_courses
   validate :cannot_unapprove_with_approved_events
-
 
   # Facet fields for search filters
   def self.facet_fields
@@ -144,6 +143,7 @@ class Course < ApplicationRecord
 
     [title, url, provider_ids]
   end
+
   private_class_method :extract_check_exists_attributes
 
   def cannot_unapprove_with_approved_events
@@ -156,7 +156,6 @@ class Course < ApplicationRecord
 
     errors.add(:course_status, :cannot_unapprove_with_approved_instances)
   end
-
 
   def set_default_node
     if TeSS::Config.feature['nodes'] && Node.all.count > 0
@@ -182,4 +181,19 @@ class Course < ApplicationRecord
     end
   end
 
+  # check if the user is subscribed to the course
+  def subscribed_by?(user)
+    return false unless user
+    course_interests.exists?(
+      user: user,
+      status: :subscribed
+    )
+  end
+
+  # Returns courses the user is interested in.
+  def self.interested_by(user)
+    joins(:course_interests)
+      .where(course_interests: { user_id: user.id, status: :subscribed })
+      .distinct
+  end
 end

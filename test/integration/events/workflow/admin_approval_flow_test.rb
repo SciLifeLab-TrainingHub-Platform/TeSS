@@ -6,6 +6,7 @@ require "test_helper"
 #   - Event status changes to approved
 #   - Event is published on the events index
 #   - Emails sent to user and content provider
+#   - Subscribed users interested in the course (if applicable)
 #   - Slack notification sent
 # - Rejecting events:
 #   - Event status changes to rejected
@@ -148,4 +149,59 @@ class AdminApprovalFlowTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "admin approval sends course interest emails to subscribed users" do
+    sign_in @admin
+
+    course = courses(:approved_course)
+    content_provider = content_providers(:goblet)
+
+    course.content_providers << content_provider
+    course.save!
+
+    course_interest1 = CourseInterest.create!(
+      course: course,
+      email: "alice@example.com",
+      status: :subscribed
+    )
+
+    course_interest2 = CourseInterest.create!(
+      course: course,
+      email: "bob@example.com",
+      status: :subscribed
+    )
+
+    course_interest3 = CourseInterest.create!(
+      course: course,
+      user: users(:regular_user),
+      status: :subscribed
+    )
+
+    perform_enqueued_jobs do
+      @pending_event.update!(
+        event_status: Event.event_statuses[:approved],
+        course: course
+      )
+    end
+
+    deliveries = ActionMailer::Base.deliveries
+
+    expected_subject = "New training event for: #{course.title}"
+
+    expected_recipients = [
+      course_interest1.email,
+      course_interest2.email,
+      course_interest3.user.email
+    ]
+
+    expected_recipients.each do |email|
+      mail = deliveries.find do |m|
+        m.to.include?(email) && m.subject == expected_subject
+      end
+
+      assert_not_nil mail, "Expected course interest email for #{email}"
+      assert_equal expected_subject, mail.subject
+    end
+
+    sign_out @admin
+  end
 end

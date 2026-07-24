@@ -596,10 +596,6 @@ class Event < ApplicationRecord
       new_status == approved
   end
 
-  def publishable?
-    self.start.present? && self.start.to_datetime >= DateTime.current
-  end
-
   private
 
   def course_must_be_approved_for_course_instance
@@ -687,10 +683,11 @@ class Event < ApplicationRecord
   # it only sends the mail to user when event is approved
   def run_event_approval_lifecycle_on_status_change
     return unless event_status_just_approved?
+
     ApprovalLifecycle.new(
       self,
       notifier: Notifications::EventNotifier.new(self)
-    ).after_status_change if publishable?
+    ).after_status_change if start.present? && start >= Time.current
   end
 
   def after_switch_to_more_mandatory_fields?

@@ -50,6 +50,15 @@ services:
       - /opt/solr/server/solr/configsets/development
     ports:
       - '8984:8983'
+  # Local email testing: fake SMTP server + web inbox at http://localhost:8025.
+  # Set MAILPIT_ENABLED=true to route development mail to it (see env.sample).
+  mailpit:
+    container_name: ${PREFIX}-mailpit
+    image: axllent/mailpit:v1.30
+    restart: unless-stopped
+    ports:
+      - '8025:8025'
+      - '1025:1025'
   redis:
     container_name: ${PREFIX}-redis
     image: redis:6
