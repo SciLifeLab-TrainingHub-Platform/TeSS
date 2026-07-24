@@ -3,7 +3,9 @@
 class CourseInterestService
   extend LogRedactor
 
+  EMAIL_RATE_LIMIT_DURATION = 1.minute
   COURSE_INTEREST_TOKEN_EXPIRY = 7.days
+
   GENERIC_SUBSCRIBE_MESSAGE = "If that email isn't already subscribed, we've sent a confirmation link."
 
   def self.subscribe_user!(course:, user:)
@@ -67,8 +69,8 @@ class CourseInterestService
   def self.request_subscription!(course:, email:)
     key = rate_limit_key(course: course, email: email, action_type: CourseInterest::ACTION_REQUEST_SUBSCRIBE)
 
-    unless CacheService.claim_once(key)
-      return { status: :error, message: "Please wait a moment before trying again.", result: :rate_limited }
+    unless CacheService.claim_once(key, expires_in: EMAIL_RATE_LIMIT_DURATION)
+      return { status: :error, message: "Please wait a minute before requesting another verification email.", result: :rate_limited }
     end
 
 
@@ -109,8 +111,8 @@ class CourseInterestService
   def self.request_unsubscription!(course:, email:)
     key = rate_limit_key(course: course, email: email, action_type: CourseInterest::ACTION_REQUEST_UNSUBSCRIBE)
 
-    unless CacheService.claim_once(key, expires_in: RATE_LIMIT_WINDOW)
-      return { status: :error, message: "Please wait a moment before trying again.", result: :rate_limited }
+    unless CacheService.claim_once(key, expires_in: EMAIL_RATE_LIMIT_DURATION)
+      return { status: :error, message: "Please wait a minute before requesting another verification email.", result: :rate_limited }
     end
 
     result, interest = CourseInterest.request_unsubscribe!(
