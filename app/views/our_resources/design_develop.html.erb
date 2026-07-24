@@ -14,7 +14,7 @@
   <% target_audience = t('our_resources.stage_pages.design_develop.sections.target_audience').with_indifferent_access %>
   <section class="resources-plan-design__section" id="<%= target_audience[:anchor] %>">
     <h2><%= target_audience[:title] %></h2>
-    <div class="resources-plan-design__prose">
+    <div class="resources-plan-design__section-body resources-plan-design__prose">
       <% target_audience[:paragraphs].each do |paragraph| %>
         <p><%= paragraph %></p>
       <% end %>
@@ -24,69 +24,73 @@
   <% learning_outcomes = t('our_resources.stage_pages.design_develop.sections.learning_outcomes').with_indifferent_access %>
   <section class="resources-plan-design__section" id="<%= learning_outcomes[:anchor] %>">
     <h2><%= learning_outcomes[:title] %></h2>
-    <p><%= learning_outcomes[:introduction] %></p>
-    <div class="resources-plan-design__outcomes-layout">
-      <div class="resources-plan-design__prose">
-        <p class="resources-plan-design__outcomes-structure"><%= learning_outcomes[:structure_intro] %></p>
-        <p class="resources-plan-design__formula">
-          <span><%= learning_outcomes.dig(:formula, :before_timeframe) %></span>
-          <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:formula, :timeframe) %></span>
-          <span><%= learning_outcomes.dig(:formula, :after_timeframe) %></span>
-          <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= learning_outcomes.dig(:formula, :verb) %></span>
-          <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:formula, :subject) %></span>
-          <span><%= learning_outcomes.dig(:formula, :before_level) %></span>
-          <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= learning_outcomes.dig(:formula, :level) %></span>
-          <span><%= learning_outcomes.dig(:formula, :after_level) %></span>
-        </p>
-        <p class="resources-plan-design__example">
-          <span class="resources-plan-design__example-label"><%= learning_outcomes.dig(:example, :label) %></span>
-          <span><%= learning_outcomes.dig(:example, :before_workshop) %></span>
-          <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:example, :workshop) %></span>
-          <span><%= learning_outcomes.dig(:example, :after_workshop) %></span>
-          <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= learning_outcomes.dig(:example, :verb) %></span>
-          <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:example, :subject) %></span>
-          <span><%= learning_outcomes.dig(:example, :after_subject) %></span>
-          <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= learning_outcomes.dig(:example, :level) %></span>
-        </p>
-        <p class="resources-plan-design__guidance">
-          <%= learning_outcomes[:guidance_before_link] %>
-          <%= link_to learning_outcomes[:guide_label], learning_outcomes[:guide_url], target: '_blank', rel: 'noopener noreferrer' %>,
-          <%= learning_outcomes[:guidance_between_links] %>
-          <%= link_to learning_outcomes[:module_label], learning_outcomes[:module_url], target: '_blank', rel: 'noopener noreferrer' %>.
-        </p>
+    <div class="resources-plan-design__section-body">
+      <p><%= learning_outcomes[:introduction] %></p>
+      <div class="resources-plan-design__outcomes-layout">
+        <div class="resources-plan-design__prose">
+          <p class="resources-plan-design__outcomes-structure"><%= learning_outcomes[:structure_intro] %></p>
+          <p class="resources-plan-design__formula">
+            <span><%= learning_outcomes.dig(:formula, :before_timeframe) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:formula, :timeframe) %></span>
+            <span><%= learning_outcomes.dig(:formula, :after_timeframe) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= learning_outcomes.dig(:formula, :verb) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:formula, :subject) %></span>
+            <span><%= learning_outcomes.dig(:formula, :before_level) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= learning_outcomes.dig(:formula, :level) %></span>
+            <span><%= learning_outcomes.dig(:formula, :after_level) %></span>
+          </p>
+          <p class="resources-plan-design__example">
+            <span class="resources-plan-design__example-label"><%= learning_outcomes.dig(:example, :label) %></span>
+            <span><%= learning_outcomes.dig(:example, :before_workshop) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:example, :workshop) %></span>
+            <span><%= learning_outcomes.dig(:example, :after_workshop) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= learning_outcomes.dig(:example, :verb) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:example, :subject) %></span>
+            <span><%= learning_outcomes.dig(:example, :after_subject) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= learning_outcomes.dig(:example, :level) %></span>
+          </p>
+          <p class="resources-plan-design__guidance">
+            <%= learning_outcomes[:guidance_before_link] %>
+            <%= link_to learning_outcomes[:guide_label], learning_outcomes[:guide_url], target: '_blank', rel: 'noopener noreferrer' %>,
+            <%= learning_outcomes[:guidance_between_links] %>
+            <%= link_to learning_outcomes[:module_label], learning_outcomes[:module_url], target: '_blank', rel: 'noopener noreferrer' %>.
+          </p>
+        </div>
+
+        <%= render 'our_resources/stage_pages/taxonomy_pyramid' %>
       </div>
 
-      <%= render 'our_resources/stage_pages/taxonomy_pyramid' %>
+      <p class="resources-plan-design__visual-intro"><%= learning_outcomes[:visual_intro] %></p>
+      <%= render 'our_resources/stage_pages/digital_learning_map',
+                 levels: learning_outcomes[:digital_methods] %>
     </div>
-
-    <p class="resources-plan-design__visual-intro"><%= learning_outcomes[:visual_intro] %></p>
-    <%= render 'our_resources/stage_pages/digital_learning_map',
-               levels: learning_outcomes[:digital_methods] %>
   </section>
 
   <% engagement = t('our_resources.stage_pages.design_develop.sections.engagement').with_indifferent_access %>
   <section class="resources-plan-design__section" id="<%= engagement[:anchor] %>">
     <h2><%= engagement[:title] %></h2>
-    <div class="resources-plan-design__prose">
-      <% engagement[:paragraphs].each do |paragraph| %>
-        <p><%= paragraph %></p>
+    <div class="resources-plan-design__section-body">
+      <div class="resources-plan-design__prose">
+        <% engagement[:paragraphs].each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      </div>
+      <% video = engagement[:video] %>
+      <% if (embed_url = youtube_embed_url(video[:url])).present? %>
+        <figure class="resources-plan-design__video">
+          <div class="resources-plan-design__video-embed">
+            <iframe src="<%= embed_url %>"
+                    title="<%= video[:iframe_title] || video[:caption] %>"
+                    loading="lazy"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen></iframe>
+          </div>
+          <figcaption class="sr-only"><%= video[:caption] %></figcaption>
+        </figure>
       <% end %>
     </div>
-    <% video = engagement[:video] %>
-    <% if (embed_url = youtube_embed_url(video[:url])).present? %>
-      <figure class="resources-plan-design__video">
-        <div class="resources-plan-design__video-embed">
-          <iframe src="<%= embed_url %>"
-                  title="<%= video[:iframe_title] || video[:caption] %>"
-                  loading="lazy"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen></iframe>
-        </div>
-        <figcaption class="sr-only"><%= video[:caption] %></figcaption>
-      </figure>
-    <% end %>
   </section>
 
   <%= render 'our_resources/stage_pages/learning_cards',
