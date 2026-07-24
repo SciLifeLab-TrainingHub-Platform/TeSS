@@ -1,3 +1,9 @@
+$resources-contributor-pill-background: mix(
+  $scilifelab-color-light-gray,
+  $scilifelab-color-medium-gray,
+  81%
+);
+
 .resources-stage-page--plan-design {
   margin: 42px auto 80px;
   max-width: 1180px;
@@ -16,7 +22,7 @@
 }
 
 .resources-stage-shell__hero {
-  margin: 0 0 60px;
+  margin: 0 0 64px;
 
   h1 {
     color: $dark-color;
@@ -24,16 +30,16 @@
     font-size: 36px;
     font-weight: 800;
     letter-spacing: -0.02em;
-    line-height: 1.15;
-    margin: 0 0 16px;
+    line-height: normal;
+    margin: 0 0 20px;
   }
 
   p {
-    color: rgba($dark-color, 0.82);
-    font-size: 16px;
+    color: $scilifelab-color-dark-gray;
+    font-size: 18px;
     line-height: 1.5;
-    margin: 0 0 14px;
-    max-width: 790px;
+    margin: 0 0 8px;
+    max-width: 752px;
 
     &:last-child {
       margin-bottom: 0;
@@ -41,30 +47,21 @@
   }
 
   .resources-stage-shell__lead {
-    color: $dark-color;
+    color: $scilifelab-color-dark-gray;
   }
 }
 
 .resources-plan-design__section {
-  margin: 0 0 60px;
+  margin: 0 0 64px;
   padding: 0;
   scroll-margin-top: 20px;
 
-  > h2 {
-    color: $dark-color;
-    display: block;
-    font-size: 30px;
-    font-weight: 400;
-    letter-spacing: -0.015em;
-    line-height: 1.2;
-    margin: 0 0 22px;
-  }
-
   p {
-    color: $dark-color;
+    color: $scilifelab-color-dark-gray;
     font-size: 16px;
+    letter-spacing: -0.02em;
     line-height: 1.5;
-    margin: 0 0 18px;
+    margin: 0 0 24px;
   }
 
   a {
@@ -84,12 +81,24 @@
 }
 
 .resources-plan-design__section-body {
-  margin-left: 40px;
+  margin-left: 34px;
+  max-width: 785px;
 }
 
 .resources-plan-design__section > h2,
 .resources-further-learning > h2,
 .resources-stage-page--plan-design .resources-stage-contributors h2 {
+  color: $dark-color;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: normal;
+  margin: 0 0 24px;
+}
+
+.resources-plan-design__section > h2 {
+  display: block;
+
   &::after {
     background: linear-gradient(
       to right,
@@ -107,6 +116,8 @@
 }
 
 .resources-plan-design__prose {
+  max-width: 739px;
+
   p:last-child {
     margin-bottom: 0;
   }
@@ -115,32 +126,44 @@
 .resources-plan-design__outcomes-layout {
   align-items: center;
   display: grid;
-  gap: 42px;
-  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 54px;
+  grid-template-columns: minmax(0, 490px) 241px;
+  max-width: 785px;
   margin-top: 30px;
+
+  .resources-plan-design__prose {
+    max-width: 490px;
+  }
 }
 
-.resources-plan-design__formula,
-.resources-plan-design__example {
+p.resources-plan-design__formula,
+p.resources-plan-design__example {
   span {
     display: inline;
   }
 }
 
-.resources-plan-design__outcomes-structure {
-  margin-bottom: 24px !important;
+p.resources-plan-design__outcomes-structure {
+  margin-bottom: 24px;
 }
 
-.resources-plan-design__formula {
-  font-size: 17px !important;
+.resources-plan-design__section--learning-outcomes {
+  .resources-plan-design__section-body > p {
+    max-width: 739px;
+  }
+}
+
+p.resources-plan-design__formula {
+  font-family: "Lato Resources Bold", $font-family-base;
+  font-size: 18px;
   font-weight: 700;
-  line-height: 1.4 !important;
-  margin-bottom: 24px !important;
+  line-height: 1.4;
+  margin-bottom: 24px;
 }
 
-.resources-plan-design__example {
-  line-height: 1.45 !important;
-  margin-bottom: 26px !important;
+p.resources-plan-design__example {
+  line-height: 1.45;
+  margin-bottom: 26px;
 
   .resources-plan-design__example-label {
     display: block;
@@ -148,7 +171,8 @@
   }
 
   .resources-plan-design__formula-term {
-    font-weight: 500;
+    font-family: "Lato Resources Bold", $font-family-base;
+    font-weight: 700;
   }
 }
 
@@ -160,20 +184,24 @@
   text-underline-offset: 0.18em;
 }
 
-.resources-plan-design__formula-term--teal {
+.resources-plan-design__formula-term--aqua {
   color: $scilifelab-color-aqua;
 }
 
 .resources-plan-design__formula-term--lime {
-  color: darken($scilifelab-color-lime, 14%);
+  color: $scilifelab-color-lime;
+}
+
+.resources-plan-design__formula-term--teal {
+  color: $scilifelab-color-teal;
 }
 
 .resources-plan-design__formula-term--grape {
   color: $scilifelab-color-grape;
 }
 
-.resources-plan-design__guidance {
-  line-height: 1.55 !important;
+p.resources-plan-design__guidance {
+  line-height: 1.55;
 
   a {
     color: rgba($dark-color, 0.82);
@@ -186,8 +214,9 @@
   }
 }
 
-.resources-plan-design__visual-intro {
-  margin-top: 20px !important;
+p.resources-plan-design__visual-intro {
+  margin-top: 20px;
+  max-width: 739px;
 }
 
 .resources-taxonomy {
@@ -199,11 +228,12 @@
   height: auto;
   margin: 0 auto;
   max-width: 100%;
-  width: 260px;
+  width: 241px;
 }
 
 .resources-digital-learning {
   margin: 22px 0 0;
+  max-width: 785px;
 }
 
 .resources-digital-learning__image {
@@ -232,63 +262,59 @@
 }
 
 .resources-further-learning {
-  margin: 8px 0 48px;
+  margin: 0 0 64px;
   padding: 0;
-
-  > h2 {
-    color: $dark-color;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    line-height: 1.2;
-    margin: 0 0 24px;
-  }
 }
 
 .resources-further-learning__grid {
+  box-sizing: border-box;
   display: grid;
-  gap: 18px;
+  gap: 12px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-left: 40px;
+  margin-left: 0;
+  max-width: 762px;
+  padding: 0 12px;
 }
 
 .resources-further-learning__card {
-  border: 1px solid rgba($dark-color, 0.22);
+  background: $body-bg;
+  border: 1px solid $scilifelab-color-light-gray;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  min-height: 290px;
-  padding: 26px 24px 22px;
+  min-height: 238px;
+  padding: 24px 24px 16px;
 
   h3 {
     color: $dark-color;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.18;
-    margin: 0 0 14px;
+    font-family: $font-family-base;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0 0 10px;
   }
 
   p {
-    color: rgba($dark-color, 0.66);
-    font-size: 17px;
+    color: $dark-60-color;
+    font-size: 16px;
     line-height: 1.35;
-    margin: 0 0 22px;
+    margin: 0 0 16px;
   }
 }
 
 .resources-further-learning__link {
   align-items: center;
   background: $scilifelab-color-aqua-50;
-  border: 1px solid $scilifelab-color-teal;
+  border: 1px solid $dark-60-color;
   border-radius: 5px;
   color: $dark-color;
   display: flex;
-  font-size: 17px;
+  font-size: 16px;
   justify-content: center;
   line-height: 1.2;
   margin-top: auto;
-  min-height: 42px;
-  padding: 8px 12px;
+  min-height: 32px;
+  padding: 5px 10px;
   text-align: center;
   text-decoration: none;
 
@@ -305,44 +331,58 @@
   }
 }
 
-.resources-stage-contributors__icon {
-  display: block;
-  flex: 0 0 auto;
-  height: 28px;
-  object-fit: contain;
-  width: 28px;
-}
-
 .resources-stage-page--plan-design {
   .resources-stage-contributors {
     margin-bottom: 36px;
     padding: 0;
-
-    h2 {
-      font-size: 30px;
-      font-weight: 400;
-      margin: 0 0 14px;
-    }
   }
 
   .resources-stage-contributors__panel {
     background: $scilifelab-color-grape-50;
-    margin-left: 40px;
-    min-height: 0;
-    padding: 16px;
+    box-sizing: border-box;
+    margin-left: 0;
+    max-width: 766px;
+    min-height: 151px;
+    padding: 24px 16px 15px;
+    width: 100%;
   }
 
   .resources-stage-contributors__list {
-    gap: 10px 14px;
+    gap: 10px 20px;
+    justify-content: center;
+    width: 100%;
   }
 
   .resources-stage-contributors__item {
-    background: rgba($body-bg, 0.82);
+    background: $resources-contributor-pill-background;
     border-radius: 999px;
-    font-size: 14px;
-    gap: 7px;
-    min-width: 210px;
-    padding: 5px 12px 5px 7px;
+    box-sizing: border-box;
+    flex: 0 0 231px;
+    font-size: 20px;
+    font-weight: 400;
+    gap: 8px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    min-height: 51px;
+    padding: 5px 12px 5px 6px;
+    width: 231px;
+  }
+
+  .resources-stage-contributors__icon {
+    background: $body-bg;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: block;
+    flex: 0 0 auto;
+    height: 40px;
+    object-fit: contain;
+    padding: 4px;
+    width: 40px;
+  }
+
+  .resources-stage-contributors__icon--portrait {
+    object-fit: cover;
+    padding: 0;
   }
 }
 
@@ -365,13 +405,16 @@
   }
 
   .resources-plan-design__section-body,
-  .resources-further-learning__grid,
-  .resources-stage-page--plan-design .resources-stage-contributors__panel {
+  .resources-further-learning__grid {
     margin-left: 24px;
   }
 
   .resources-plan-design__outcomes-layout {
     display: block;
+
+    .resources-plan-design__prose {
+      max-width: 739px;
+    }
   }
 
   .resources-taxonomy {
@@ -415,7 +458,7 @@
       align-items: flex-start;
       display: block;
       font-size: 25px;
-      margin-bottom: 18px;
+      margin-bottom: 24px;
 
       &::after {
         display: block;
@@ -431,8 +474,7 @@
   }
 
   .resources-plan-design__section-body,
-  .resources-further-learning__grid,
-  .resources-stage-page--plan-design .resources-stage-contributors__panel {
+  .resources-further-learning__grid {
     margin-left: 0;
   }
 
@@ -461,7 +503,7 @@
 
     > h2 {
       font-size: 25px;
-      margin-bottom: 18px;
+      margin-bottom: 24px;
     }
   }
 
@@ -479,8 +521,14 @@
     }
 
     .resources-stage-contributors__item {
+      flex-basis: 100%;
       min-width: 0;
       width: 100%;
+    }
+
+    .resources-stage-contributors__panel {
+      min-height: 0;
+      padding: 16px;
     }
   }
 }

@@ -22,7 +22,8 @@
   </section>
 
   <% learning_outcomes = t('our_resources.stage_pages.design_develop.sections.learning_outcomes').with_indifferent_access %>
-  <section class="resources-plan-design__section" id="<%= learning_outcomes[:anchor] %>">
+  <section class="resources-plan-design__section resources-plan-design__section--learning-outcomes"
+           id="<%= learning_outcomes[:anchor] %>">
     <h2><%= learning_outcomes[:title] %></h2>
     <div class="resources-plan-design__section-body">
       <p><%= learning_outcomes[:introduction] %></p>
@@ -31,8 +32,7 @@
           <p class="resources-plan-design__outcomes-structure"><%= learning_outcomes[:structure_intro] %></p>
           <p class="resources-plan-design__formula">
             <span><%= learning_outcomes.dig(:formula, :before_timeframe) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:formula, :timeframe) %></span>
-            <span><%= learning_outcomes.dig(:formula, :after_timeframe) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--aqua"><%= learning_outcomes.dig(:formula, :timeframe) %></span><span><%= learning_outcomes.dig(:formula, :after_timeframe) %></span>
             <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= learning_outcomes.dig(:formula, :verb) %></span>
             <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:formula, :subject) %></span>
             <span><%= learning_outcomes.dig(:formula, :before_level) %></span>
@@ -42,12 +42,11 @@
           <p class="resources-plan-design__example">
             <span class="resources-plan-design__example-label"><%= learning_outcomes.dig(:example, :label) %></span>
             <span><%= learning_outcomes.dig(:example, :before_workshop) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:example, :workshop) %></span>
-            <span><%= learning_outcomes.dig(:example, :after_workshop) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--aqua"><%= learning_outcomes.dig(:example, :workshop) %></span><span><%= learning_outcomes.dig(:example, :after_workshop) %></span>
             <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= learning_outcomes.dig(:example, :verb) %></span>
             <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:example, :subject) %></span>
             <span><%= learning_outcomes.dig(:example, :after_subject) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= learning_outcomes.dig(:example, :level) %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= learning_outcomes.dig(:example, :level) %></span><span><%= learning_outcomes.dig(:example, :after_level) %></span>
           </p>
           <p class="resources-plan-design__guidance">
             <%= learning_outcomes[:guidance_before_link] %>

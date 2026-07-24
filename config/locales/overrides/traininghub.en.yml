@@ -95,6 +95,7 @@ en:
               that they are Open and FAIR.
     stage_pages:
       nav_label: Training lifecycle stages
+      sections_label: "%{stage} sections"
       resources_heading: Resources
       contributors_heading: Contributors
       design_develop:
@@ -136,8 +137,8 @@ en:
             structure_intro: "The form of learning outcomes is structured as follows:"
             formula:
               before_timeframe: By the end of the
-              timeframe: time frame,
-              after_timeframe: participants will be able to
+              timeframe: time frame
+              after_timeframe: ", participants will be able to"
               verb: Bloom’s taxonomy verb
               subject: the knowledge, skill and/or ability
               before_level: at a
@@ -146,12 +147,13 @@ en:
             example:
               label: "As an example:"
               before_workshop: By the end of the
-              workshop: workshop,
-              after_workshop: participants will be able to
+              workshop: workshop
+              after_workshop: ", participants will be able to"
               verb: apply
               subject: metabolomics analysis pipelines
               after_subject: on their own research
-              level: independently.
+              level: independently
+              after_level: "."
             guidance_before_link: >
               Learning outcomes are a required field when announcing training at SciLifeLab, and we encourage all
               instructors to follow this structure. For a detailed description of levels and descriptors on each

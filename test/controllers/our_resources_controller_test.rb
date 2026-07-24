@@ -32,8 +32,10 @@ class OurResourcesControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_select '.breadcrumbs', count: 0
+    assert_select 'title', "Plan & Design - #{TeSS::Config.site['title']}"
     assert_select 'h1', 'Plan & Design'
     assert_select '.resources-stage-nav__item--active .resources-stage-nav__label', text: 'Plan & Design'
+    assert_select '.resources-stage-nav__sections[aria-label=?]', 'Plan & Design sections', count: 1
     assert_select '.resources-stage-nav__sections a', count: 3
     assert_select '.resources-stage-nav__sections a[href=?]', '#target-audience', count: 1
     assert_select '.resources-stage-nav__sections a[href=?]', '#learning-outcomes', count: 1
@@ -53,6 +55,7 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-further-learning__card h3', text: 'Bicycle Principles for Short-form Training'
     assert_select '.resources-stage-contributors__item', count: 5
     assert_select '.resources-stage-contributors__item', text: /Kristen Schroeder/
+    assert_select '.resources-stage-contributors__icon--portrait', count: 1
     assert_select '.resources-stage-contributors__item', text: /Nina Norgren/
     assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
     assert_select '.resources-stage-contributors__item', text: /Jill Jaworski/

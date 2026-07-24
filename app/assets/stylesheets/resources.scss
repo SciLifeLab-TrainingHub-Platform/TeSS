@@ -1,3 +1,19 @@
+@font-face {
+  font-display: swap;
+  font-family: "Lato Resources Bold";
+  font-style: normal;
+  font-weight: 700;
+  src: font-url("Lato-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Lato Resources ExtraBold";
+  font-style: normal;
+  font-weight: 800;
+  src: font-url("Lato-Black.ttf") format("truetype");
+}
+
 @import "resources/shared";
 @import "resources/our_resources_landing";
 @import "resources/stage_page";

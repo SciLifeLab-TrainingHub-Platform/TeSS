@@ -7,7 +7,9 @@
         <li class="resources-stage-contributors__item">
           <%= image_tag contributor[:image].presence || 'scilifelab/SciLifeLab_symbol_green.png',
                         alt: '',
-                        class: 'resources-stage-contributors__icon' %>
+                        class: "resources-stage-contributors__icon#{
+                          ' resources-stage-contributors__icon--portrait' if contributor[:image].present?
+                        }" %>
           <span><%= contributor[:name] %></span>
         </li>
       <% end %>
