@@ -15,13 +15,15 @@ class CourseSubscriptionsController < ApplicationController
       when CourseInterest::ACTION_REQUEST_SUBSCRIBE
         CourseInterestService.request_subscription!(
           course: course,
-          email: params[:email]
+          email: params[:email],
+          ip: request.remote_ip
         )
 
       when CourseInterest::ACTION_REQUEST_UNSUBSCRIBE
         CourseInterestService.request_unsubscription!(
           course: course,
-          email: params[:email]
+          email: params[:email],
+          ip: request.remote_ip
         )
 
       else

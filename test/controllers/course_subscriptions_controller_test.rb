@@ -30,7 +30,7 @@ class CourseSubscriptionsControllerTest < ActionController::TestCase
   test "request_email_action should request subscription and redirect with notice" do
     sign_out @user
 
-    service_stub = lambda do |course:, email:|
+    service_stub = lambda do |course:, email:, ip: nil|
       assert_equal @course, course
       assert_equal "test@example.com", email
 
@@ -78,7 +78,7 @@ class CourseSubscriptionsControllerTest < ActionController::TestCase
   test "request_email_action should request unsubscription and redirect with notice" do
     sign_out @user
 
-    service_stub = lambda do |course:, email:|
+    service_stub = lambda do |course:, email:, ip: nil|
       assert_equal @course, course
       assert_equal "test@example.com", email
 
@@ -130,7 +130,7 @@ class CourseSubscriptionsControllerTest < ActionController::TestCase
   test "request_email_action should redirect with generic error when exception occurs" do
     sign_out @user
 
-    service_stub = lambda do |course:, email:|
+    service_stub = lambda do |course:, email:, ip: nil|
       raise StandardError
     end
 

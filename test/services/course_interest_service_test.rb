@@ -9,6 +9,11 @@ class CourseInterestServiceTest < ActiveSupport::TestCase
   def setup
     @course = courses(:one)
     @user = users(:regular_user)
+    clear_rate_limits
+  end
+
+  def teardown
+    clear_rate_limits
   end
 
   # subscribe_user!
@@ -467,4 +472,41 @@ class CourseInterestServiceTest < ActiveSupport::TestCase
     end
   end
 
+  # rate limiting
+  test 'request_subscription! is blocked by the per-email cooldown on the second immediate call' do
+    CourseInterest.stub(:request_subscribe!, [CourseInterest::RESULT_PENDING, CourseInterest.new(course: @course, email: @user.email)]) do
+      first = CourseInterestService.request_subscription!(course: @course, email: @user.email)
+      second = CourseInterestService.request_subscription!(course: @course, email: @user.email)
+
+      assert_equal :ok, first[:status]
+      assert_equal :error, second[:status]
+      assert_equal :rate_limited, second[:result]
+    end
+  end
+
+  test 'request_subscription! is blocked once the per-IP limit is exceeded' do
+    CourseInterest.stub(:request_subscribe!, [CourseInterest::RESULT_PENDING, CourseInterest.new(course: @course, email: 'x@example.com')]) do
+      ip = '203.0.113.7'
+      # Different email each time so the per-email cooldown never trips; only the IP window matters.
+      CourseInterestService::IP_RATE_LIMIT.times do |i|
+        res = CourseInterestService.request_subscription!(course: @course, email: "user#{i}@example.com", ip: ip)
+        assert_equal :ok, res[:status], "call #{i + 1} should be under the IP limit"
+      end
+
+      blocked = CourseInterestService.request_subscription!(course: @course, email: 'overflow@example.com', ip: ip)
+      assert_equal :rate_limited, blocked[:result]
+    end
+  end
+
+  private
+
+  # RateLimiter uses real Redis (test DB), so cooldown keys survive across
+  # examples; clear them so each test starts from a clean window.
+  def clear_rate_limits
+    redis = Redis.new(url: TeSS::Config.redis_url)
+    keys = redis.keys('ratelimit:*')
+    redis.del(*keys) if keys.any?
+  rescue StandardError
+    # Redis unavailable here; the RateLimiter tests will surface connectivity issues.
+  end
 end

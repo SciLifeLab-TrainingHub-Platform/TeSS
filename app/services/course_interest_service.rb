@@ -3,10 +3,15 @@
 class CourseInterestService
   extend LogRedactor
 
+  # Cooldown per (email, course, action): stops rapid resends to one address.
   EMAIL_RATE_LIMIT_DURATION = 1.minute
+  # Per-IP window: stops one actor spraying confirmation emails to many addresses.
+  IP_RATE_LIMIT = 10
+  IP_RATE_LIMIT_WINDOW = 1.hour
   COURSE_INTEREST_TOKEN_EXPIRY = 7.days
 
   GENERIC_SUBSCRIBE_MESSAGE = "If that email isn't already subscribed, we've sent a confirmation link."
+  RATE_LIMITED_MESSAGE = "Please wait a moment before requesting another email for this course."
 
   def self.subscribe_user!(course:, user:)
     result = CourseInterest.subscribe!(
@@ -66,13 +71,10 @@ class CourseInterestService
     { status: :error, message: "Something went wrong", result: nil }
   end
 
-  def self.request_subscription!(course:, email:)
-    key = rate_limit_key(course: course, email: email, action_type: CourseInterest::ACTION_REQUEST_SUBSCRIBE)
-
-    unless CacheService.claim_once(key, expires_in: EMAIL_RATE_LIMIT_DURATION)
-      return { status: :error, message: "Please wait a minute before requesting another verification email.", result: :rate_limited }
+  def self.request_subscription!(course:, email:, ip: nil)
+    if rate_limited?(course: course, email: email, ip: ip, action_type: CourseInterest::ACTION_REQUEST_SUBSCRIBE)
+      return rate_limited_response
     end
-
 
     result, interest = CourseInterest.request_subscribe!(
       course: course,
@@ -108,11 +110,9 @@ class CourseInterestService
     { status: :error, message: "Something went wrong", result: nil }
   end
 
-  def self.request_unsubscription!(course:, email:)
-    key = rate_limit_key(course: course, email: email, action_type: CourseInterest::ACTION_REQUEST_UNSUBSCRIBE)
-
-    unless CacheService.claim_once(key, expires_in: EMAIL_RATE_LIMIT_DURATION)
-      return { status: :error, message: "Please wait a minute before requesting another verification email.", result: :rate_limited }
+  def self.request_unsubscription!(course:, email:, ip: nil)
+    if rate_limited?(course: course, email: email, ip: ip, action_type: CourseInterest::ACTION_REQUEST_UNSUBSCRIBE)
+      return rate_limited_response
     end
 
     result, interest = CourseInterest.request_unsubscribe!(
@@ -208,10 +208,40 @@ class CourseInterestService
     )
   end
 
-  private_class_method def self.rate_limit_key(course:, email:, action_type:)
-    normalized = email.to_s.strip.downcase
-    "course_interest_rl:#{action_type}:#{course.id}:#{Digest::SHA256.hexdigest(normalized)}"
+  # Returns true if this request should be blocked (and no email sent).
+  # Two independent gates, checked cheapest-first:
+  #   1. per-IP window  - stops one actor spraying many different addresses
+  #   2. per-email cooldown - stops rapid resends to a single address
+  def self.rate_limited?(course:, email:, ip:, action_type:)
+    if ip.present? &&
+       !RateLimiter.within_limit?(ip_rate_limit_key(ip: ip, action_type: action_type),
+                                  limit: IP_RATE_LIMIT, ttl: IP_RATE_LIMIT_WINDOW)
+      Rails.logger.warn "CourseInterest IP rate limit hit for action=#{action_type}"
+      return true
+    end
+
+    unless RateLimiter.allow_once?(email_rate_limit_key(course: course, email: email, action_type: action_type),
+                                   ttl: EMAIL_RATE_LIMIT_DURATION)
+      Rails.logger.info "CourseInterest email cooldown hit for action=#{action_type}, course=##{course.id}, " \
+                        "email_hash=#{email_log_id(email)}"
+      return true
+    end
+
+    false
   end
 
+  def self.rate_limited_response
+    { status: :error, message: RATE_LIMITED_MESSAGE, result: :rate_limited }
+  end
 
+  def self.email_rate_limit_key(course:, email:, action_type:)
+    normalized = email.to_s.strip.downcase
+    "course_interest:email:#{action_type}:#{course.id}:#{Digest::SHA256.hexdigest(normalized)}"
+  end
+
+  def self.ip_rate_limit_key(ip:, action_type:)
+    "course_interest:ip:#{action_type}:#{ip}"
+  end
+
+  private_class_method :rate_limited?, :rate_limited_response, :email_rate_limit_key, :ip_rate_limit_key
 end
