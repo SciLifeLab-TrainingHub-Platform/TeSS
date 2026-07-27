@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CacheService
-  DEFAULT_EXPIRY = 1.hour
+  DEFAULT_EXPIRY = 2.hour
 
   def self.read(key)
     Rails.cache.read(namespaced(key))
