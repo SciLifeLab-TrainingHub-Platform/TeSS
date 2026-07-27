@@ -1,128 +1,3 @@
-$resources-contributor-pill-background: mix(
-  $scilifelab-color-light-gray,
-  $scilifelab-color-medium-gray,
-  81%
-);
-
-.resources-stage-page--plan-design {
-  margin: 42px auto 80px;
-  max-width: 1180px;
-}
-
-.resources-stage-shell {
-  align-items: start;
-  display: grid;
-  gap: 58px;
-  grid-template-columns: 260px minmax(0, 820px);
-}
-
-.resources-stage-shell__main {
-  margin-left: clamp(-89px, calc((992px - 100vw) * 0.2), 0px);
-  min-width: 0;
-}
-
-.resources-stage-shell__hero {
-  margin: 0 0 64px;
-
-  h1 {
-    color: $dark-color;
-    font-family: "Lato Resources ExtraBold", $font-family-base;
-    font-size: 36px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: normal;
-    margin: 0 0 20px;
-  }
-
-  p {
-    color: $scilifelab-color-dark-gray;
-    font-size: 18px;
-    line-height: 1.5;
-    margin: 0 0 8px;
-    max-width: 752px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .resources-stage-shell__lead {
-    color: $scilifelab-color-dark-gray;
-  }
-}
-
-.resources-plan-design__section {
-  margin: 0 0 64px;
-  padding: 0;
-  scroll-margin-top: 20px;
-
-  p {
-    color: $scilifelab-color-dark-gray;
-    font-size: 16px;
-    letter-spacing: -0.02em;
-    line-height: 1.5;
-    margin: 0 0 24px;
-  }
-
-  a {
-    color: $scilifelab-color-teal;
-    text-decoration: underline;
-
-    &:hover,
-    &:focus {
-      color: $scilifelab-color-grape;
-    }
-
-    &:focus {
-      outline: 3px solid $scilifelab-color-lime;
-      outline-offset: 3px;
-    }
-  }
-}
-
-.resources-plan-design__section-body {
-  margin-left: 34px;
-  max-width: 785px;
-}
-
-.resources-plan-design__section > h2,
-.resources-further-learning > h2,
-.resources-stage-page--plan-design .resources-stage-contributors h2 {
-  color: $dark-color;
-  font-size: 30px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: normal;
-  margin: 0 0 24px;
-}
-
-.resources-plan-design__section > h2 {
-  display: block;
-
-  &::after {
-    background: linear-gradient(
-      to right,
-      $scilifelab-color-grape 0%,
-      rgba($scilifelab-color-grape, 0.5) 38%,
-      rgba($scilifelab-color-grape, 0.08) 78%,
-      rgba($scilifelab-color-grape, 0) 100%
-    );
-    content: "";
-    display: block;
-    height: 3px;
-    margin-top: 10px;
-    width: 100%;
-  }
-}
-
-.resources-plan-design__prose {
-  max-width: 739px;
-
-  p:last-child {
-    margin-bottom: 0;
-  }
-}
-
 .resources-plan-design__outcomes-layout {
   align-items: center;
   display: grid;
@@ -131,7 +6,7 @@ $resources-contributor-pill-background: mix(
   max-width: 785px;
   margin-top: 30px;
 
-  .resources-plan-design__prose {
+  .resources-stage-prose {
     max-width: 490px;
   }
 }
@@ -148,7 +23,7 @@ p.resources-plan-design__outcomes-structure {
 }
 
 .resources-plan-design__section--learning-outcomes {
-  .resources-plan-design__section-body > p {
+  .resources-stage-section__body > p {
     max-width: 739px;
   }
 }
@@ -242,177 +117,11 @@ p.resources-plan-design__visual-intro {
   width: 100%;
 }
 
-.resources-plan-design__video {
-  margin: 28px auto 0;
-  max-width: 540px;
-  width: 100%;
-}
-
-.resources-plan-design__video-embed {
-  aspect-ratio: 16 / 9;
-  background: $dark-color;
-  width: 100%;
-
-  iframe {
-    border: 0;
-    display: block;
-    height: 100%;
-    width: 100%;
-  }
-}
-
-.resources-further-learning {
-  margin: 0 0 64px;
-  padding: 0;
-}
-
-.resources-further-learning__grid {
-  box-sizing: border-box;
-  display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-left: 0;
-  max-width: 762px;
-  padding: 0 12px;
-}
-
-.resources-further-learning__card {
-  background: $body-bg;
-  border: 1px solid $scilifelab-color-light-gray;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  min-height: 238px;
-  padding: 24px 24px 16px;
-
-  h3 {
-    color: $dark-color;
-    font-family: $font-family-base;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 1.2;
-    margin: 0 0 10px;
-  }
-
-  p {
-    color: $dark-60-color;
-    font-size: 16px;
-    line-height: 1.35;
-    margin: 0 0 16px;
-  }
-}
-
-.resources-further-learning__link {
-  align-items: center;
-  background: $scilifelab-color-aqua-50;
-  border: 1px solid $dark-60-color;
-  border-radius: 5px;
-  color: $dark-color;
-  display: flex;
-  font-size: 16px;
-  justify-content: center;
-  line-height: 1.2;
-  margin-top: auto;
-  min-height: 32px;
-  padding: 5px 10px;
-  text-align: center;
-  text-decoration: none;
-
-  &:hover,
-  &:focus {
-    background: $scilifelab-color-teal;
-    color: $body-bg;
-    text-decoration: none;
-  }
-
-  &:focus {
-    outline: 3px solid $scilifelab-color-lime;
-    outline-offset: 3px;
-  }
-}
-
-.resources-stage-page--plan-design {
-  .resources-stage-contributors {
-    margin-bottom: 36px;
-    padding: 0;
-  }
-
-  .resources-stage-contributors__panel {
-    background: $scilifelab-color-grape-50;
-    box-sizing: border-box;
-    margin-left: 0;
-    max-width: 766px;
-    min-height: 151px;
-    padding: 24px 16px 15px;
-    width: 100%;
-  }
-
-  .resources-stage-contributors__list {
-    gap: 10px 20px;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .resources-stage-contributors__item {
-    background: $resources-contributor-pill-background;
-    border-radius: 999px;
-    box-sizing: border-box;
-    flex: 0 0 231px;
-    font-size: 20px;
-    font-weight: 400;
-    gap: 8px;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    min-height: 51px;
-    padding: 5px 12px 5px 6px;
-    width: 231px;
-  }
-
-  .resources-stage-contributors__icon {
-    background: $body-bg;
-    border-radius: 50%;
-    box-sizing: border-box;
-    display: block;
-    flex: 0 0 auto;
-    height: 40px;
-    object-fit: contain;
-    padding: 4px;
-    width: 40px;
-  }
-
-  .resources-stage-contributors__icon--portrait {
-    object-fit: cover;
-    padding: 0;
-  }
-}
-
 @media screen and (max-width: 991px) {
-  .resources-stage-shell {
-    gap: 28px;
-    grid-template-columns: 250px minmax(0, 1fr);
-  }
-
-  .resources-stage-shell__hero {
-    h1 {
-      font-size: 34px;
-    }
-  }
-
-  .resources-plan-design__section > h2,
-  .resources-further-learning > h2,
-  .resources-stage-page--plan-design .resources-stage-contributors h2 {
-    font-size: 27px;
-  }
-
-  .resources-plan-design__section-body,
-  .resources-further-learning__grid {
-    margin-left: 24px;
-  }
-
   .resources-plan-design__outcomes-layout {
     display: block;
 
-    .resources-plan-design__prose {
+    .resources-stage-prose {
       max-width: 739px;
     }
   }
@@ -424,60 +133,9 @@ p.resources-plan-design__visual-intro {
   .resources-taxonomy__image {
     width: 240px;
   }
-
-  .resources-further-learning__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media screen and (max-width: 767px) {
-  .resources-stage-page--plan-design {
-    margin: 28px auto 58px;
-  }
-
-  .resources-stage-shell {
-    display: block;
-  }
-
-  .resources-stage-shell__hero {
-    margin-bottom: 36px;
-
-    h1 {
-      font-size: 32px;
-    }
-
-    p {
-      font-size: 16px;
-    }
-  }
-
-  .resources-plan-design__section {
-    margin-bottom: 42px;
-
-    > h2 {
-      align-items: flex-start;
-      display: block;
-      font-size: 25px;
-      margin-bottom: 24px;
-
-      &::after {
-        display: block;
-        margin-top: 9px;
-        width: 100%;
-      }
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 1.5;
-    }
-  }
-
-  .resources-plan-design__section-body,
-  .resources-further-learning__grid {
-    margin-left: 0;
-  }
-
   .resources-plan-design__outcomes-layout {
     display: block;
   }
@@ -492,43 +150,5 @@ p.resources-plan-design__visual-intro {
 
   .resources-digital-learning {
     margin-top: 18px;
-  }
-
-  .resources-plan-design__video {
-    margin-top: 24px;
-  }
-
-  .resources-further-learning {
-    margin-bottom: 42px;
-
-    > h2 {
-      font-size: 25px;
-      margin-bottom: 24px;
-    }
-  }
-
-  .resources-further-learning__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .resources-further-learning__card {
-    min-height: 0;
-  }
-
-  .resources-stage-page--plan-design {
-    .resources-stage-contributors h2 {
-      font-size: 25px;
-    }
-
-    .resources-stage-contributors__item {
-      flex-basis: 100%;
-      min-width: 0;
-      width: 100%;
-    }
-
-    .resources-stage-contributors__panel {
-      min-height: 0;
-      padding: 16px;
-    }
   }
 }

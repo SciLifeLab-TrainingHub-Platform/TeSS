@@ -12,9 +12,9 @@
              section_links: plan_design_section_links
            } do %>
   <% target_audience = t('our_resources.stage_pages.design_develop.sections.target_audience').with_indifferent_access %>
-  <section class="resources-plan-design__section" id="<%= target_audience[:anchor] %>">
+  <section class="resources-stage-section" id="<%= target_audience[:anchor] %>">
     <h2><%= target_audience[:title] %></h2>
-    <div class="resources-plan-design__section-body resources-plan-design__prose">
+    <div class="resources-stage-section__body resources-stage-prose">
       <% target_audience[:paragraphs].each do |paragraph| %>
         <p><%= paragraph %></p>
       <% end %>
@@ -22,13 +22,13 @@
   </section>
 
   <% learning_outcomes = t('our_resources.stage_pages.design_develop.sections.learning_outcomes').with_indifferent_access %>
-  <section class="resources-plan-design__section resources-plan-design__section--learning-outcomes"
+  <section class="resources-stage-section resources-plan-design__section--learning-outcomes"
            id="<%= learning_outcomes[:anchor] %>">
     <h2><%= learning_outcomes[:title] %></h2>
-    <div class="resources-plan-design__section-body">
+    <div class="resources-stage-section__body">
       <p><%= learning_outcomes[:introduction] %></p>
       <div class="resources-plan-design__outcomes-layout">
-        <div class="resources-plan-design__prose">
+        <div class="resources-stage-prose">
           <p class="resources-plan-design__outcomes-structure"><%= learning_outcomes[:structure_intro] %></p>
           <p class="resources-plan-design__formula">
             <span><%= learning_outcomes.dig(:formula, :before_timeframe) %></span>
@@ -66,29 +66,15 @@
   </section>
 
   <% engagement = t('our_resources.stage_pages.design_develop.sections.engagement').with_indifferent_access %>
-  <section class="resources-plan-design__section" id="<%= engagement[:anchor] %>">
+  <section class="resources-stage-section" id="<%= engagement[:anchor] %>">
     <h2><%= engagement[:title] %></h2>
-    <div class="resources-plan-design__section-body">
-      <div class="resources-plan-design__prose">
+    <div class="resources-stage-section__body">
+      <div class="resources-stage-prose">
         <% engagement[:paragraphs].each do |paragraph| %>
           <p><%= paragraph %></p>
         <% end %>
       </div>
-      <% video = engagement[:video] %>
-      <% if (embed_url = youtube_embed_url(video[:url])).present? %>
-        <figure class="resources-plan-design__video">
-          <div class="resources-plan-design__video-embed">
-            <iframe src="<%= embed_url %>"
-                    title="<%= video[:iframe_title] || video[:caption] %>"
-                    loading="lazy"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen></iframe>
-          </div>
-          <figcaption class="sr-only"><%= video[:caption] %></figcaption>
-        </figure>
-      <% end %>
+      <%= render 'our_resources/stage_pages/video', video: engagement[:video] %>
     </div>
   </section>
 

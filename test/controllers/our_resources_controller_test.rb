@@ -40,15 +40,15 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-nav__sections a[href=?]', '#target-audience', count: 1
     assert_select '.resources-stage-nav__sections a[href=?]', '#learning-outcomes', count: 1
     assert_select '.resources-stage-nav__sections a[href=?]', '#engaging-experiences', count: 1
-    assert_select '.resources-plan-design__section', count: 3
-    assert_select '.resources-plan-design__section h2', text: 'Identify your target audience'
-    assert_select '.resources-plan-design__section h2', text: 'Develop learning outcomes'
-    assert_select '.resources-plan-design__section h2', text: 'Choose engaging learning experiences'
+    assert_select '.resources-stage-section', count: 3
+    assert_select '.resources-stage-section h2', text: 'Identify your target audience'
+    assert_select '.resources-stage-section h2', text: 'Develop learning outcomes'
+    assert_select '.resources-stage-section h2', text: 'Choose engaging learning experiences'
     assert_select 'img.resources-taxonomy__image[alt=?]',
                   "Bloom's taxonomy pyramid, from remember through understand, apply, analyze, evaluate, and create"
     assert_select 'img.resources-digital-learning__image[alt=?]',
                   "Infographic mapping digital learning activities to the six levels of Bloom's taxonomy"
-    assert_select '.resources-plan-design__video iframe[src=?]',
+    assert_select '.resources-stage-video iframe[src=?]',
                   'https://www.youtube.com/embed/_AQN4pqvZ3o'
     assert_select '.resources-further-learning__card', count: 6
     assert_select '.resources-further-learning__card h3', text: 'Train-the-Trainer course'
