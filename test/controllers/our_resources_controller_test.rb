@@ -62,10 +62,12 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-contributors__item', text: /Jessica Lindvall/
   end
 
-  test 'should get plan page' do
-    get :plan
+  test 'should get develop page' do
+    get :develop
 
     assert_response :success
+    assert_select '.breadcrumbs', count: 0
+    assert_select 'title', "Develop - #{TeSS::Config.site['title']}"
     assert_select 'h1', 'Develop'
     assert_select '.resources-stage-nav__item--active .resources-stage-nav__label', text: 'Develop'
     assert_select '.resources-stage-plan__section h2', text: 'Announcing your course on the Training Portal'

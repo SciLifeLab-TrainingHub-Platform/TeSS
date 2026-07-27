@@ -1,19 +1,21 @@
+<% content_for :title, raw(t('our_resources.stage_pages.develop.title')) %>
+
 <section class="resources-stage-page resources-stage-page--plan">
   <header class="resources-stage-page__hero">
     <div class="resources-stage-page__intro">
-      <h1><%= t('our_resources.stage_pages.plan.title') %></h1>
-      <p><%= t('our_resources.stage_pages.plan.summary') %></p>
+      <h1><%= t('our_resources.stage_pages.develop.title') %></h1>
+      <p><%= t('our_resources.stage_pages.develop.summary') %></p>
     </div>
 
     <%= render 'our_resources/stage_pages/stage_nav', active_key: :develop %>
   </header>
 
   <div class="resources-stage-plan">
-    <% video = plan_video %>
+    <% video = develop_video %>
     <section class="resources-stage-plan__section resources-stage-plan__video">
       <h2><%= video[:title] %></h2>
 
-      <% if (embed_url = plan_video_embed_url).present? %>
+      <% if (embed_url = develop_video_embed_url).present? %>
         <figure class="resources-stage-plan__media">
           <div class="resources-stage-plan__embed">
             <iframe src="<%= embed_url %>"
@@ -30,14 +32,14 @@
       <p class="resources-stage-plan__caption"><%= video[:caption] %></p>
     </section>
 
-    <% course_page = plan_course_page %>
+    <% course_page = develop_course_page %>
     <section class="resources-stage-plan__section">
       <h2><%= course_page[:title] %></h2>
       <p><%= course_page[:body] %></p>
 
       <h3><%= course_page[:examples_heading] %></h3>
       <div class="resources-stage-plan__actions">
-        <% plan_course_page_examples.each do |example| %>
+        <% develop_course_page_examples.each do |example| %>
           <% if example[:url].present? %>
             <%= link_to example[:title],
                         example[:url],
@@ -56,10 +58,10 @@
   </div>
 
   <%= render 'our_resources/stage_pages/resources',
-             title: t('our_resources.stage_pages.plan.resources_heading'),
-             resources: plan_resources %>
+             title: t('our_resources.stage_pages.develop.resources_heading'),
+             resources: develop_resources %>
 
   <%= render 'our_resources/stage_pages/contributors',
              title: t('our_resources.stage_pages.contributors_heading'),
-             contributors: plan_contributors %>
+             contributors: develop_contributors %>
 </section>

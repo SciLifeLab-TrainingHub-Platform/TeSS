@@ -18,8 +18,8 @@ class OurResourcesController < ApplicationController
       @breadcrumbs = nil
     end
 
-    def plan
-      @breadcrumbs += [{ name: 'Develop', url: develop_stage_path }]
+    def develop
+      @breadcrumbs = nil
     end
 
     def deliver

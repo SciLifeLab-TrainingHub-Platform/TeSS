@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   # Add resource page
   get 'our_resources' => 'our_resources#our_resources', as: 'our_resources'
   get 'our_resources/plan-design' => 'our_resources#design_develop', as: 'plan_design_stage'
-  get 'our_resources/develop' => 'our_resources#plan', as: 'develop_stage'
+  get 'our_resources/develop' => 'our_resources#develop', as: 'develop_stage'
   get 'our_resources/deliver' => 'our_resources#deliver', as: 'deliver_stage'
   get 'our_resources/evaluate-archive' => 'our_resources#evaluate_archive', as: 'evaluate_archive_stage'
   get 'our_resources/design_develop' => redirect('/our_resources/plan-design'), as: 'design_develop'

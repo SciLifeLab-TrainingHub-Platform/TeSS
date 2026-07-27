@@ -39,28 +39,28 @@ module OurResourcesHelper
     stage_page_contributors(:design_develop)
   end
 
-  def plan_video
-    t('our_resources.stage_pages.plan.video').with_indifferent_access
+  def develop_video
+    t('our_resources.stage_pages.develop.video').with_indifferent_access
   end
 
-  def plan_video_embed_url
-    youtube_embed_url(plan_video[:url])
+  def develop_video_embed_url
+    youtube_embed_url(develop_video[:url])
   end
 
-  def plan_course_page
-    t('our_resources.stage_pages.plan.course_page').with_indifferent_access
+  def develop_course_page
+    t('our_resources.stage_pages.develop.course_page').with_indifferent_access
   end
 
-  def plan_course_page_examples
-    plan_course_page.fetch(:examples, {}).with_indifferent_access.values
+  def develop_course_page_examples
+    develop_course_page.fetch(:examples, {}).with_indifferent_access.values
   end
 
-  def plan_resources
-    stage_page_resources(:plan)
+  def develop_resources
+    stage_page_resources(:develop)
   end
 
-  def plan_contributors
-    stage_page_contributors(:plan)
+  def develop_contributors
+    stage_page_contributors(:develop)
   end
 
   def deliver_tools
