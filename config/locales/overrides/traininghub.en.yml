@@ -251,35 +251,51 @@ en:
         title: Develop
         summary: >
           Set up a course or workshop website, announce your training, and set up your material so that
-          it is ready for delivery.
-        video:
-          title: Announcing your course on the Training Portal
-          iframe_title: Announcing your course on the Training Portal webinar
-          caption: Watch our webinar on how to announce your courses on the training portal!
-          url: https://www.youtube.com/watch?v=_AQN4pqvZ3o
-        course_page:
-          title: Setting up a GitHub Course Page
-          body: >
-            The Training Hub offers GitHub Templates as part of the SciLifeLab Training GitHub Organization.
-          examples_heading: "See example course pages:"
-          examples:
-            open_science:
-              title: Open Science in the Swedish Context
-              url: https://scilifelab-training.github.io/open-science/
-            bge_hic:
-              title: BGE Hi-C Introductory Course
-              url: https://scilifelab-training.github.io/BGE-HiC-course/module1.html
-        resources_heading: "Related Resources:"
-        resources:
-          course_planning:
-            title: Resources for Course Planning
-            image: scilifelab/guides/TH-planningguides-image.png
-            url: https://doi.org/10.17044/scilifelab.28194329.v1
-        contributors:
-          oliver_onions:
-            name: Oliver Onions
-          ineke_luijten:
-            name: Ineke Luijten
+          it’s ready for delivery.
+        introduction: >
+          Our team develops and maintains the SciLifeLab Training Portal, provides assistance with creating
+          training websites, and supports in implementing FAIR practices in training material development.
+        sections:
+          announcement:
+            anchor: announcing-training
+            title: Announcing your training on the Training Portal
+            paragraphs:
+              - >
+                As soon as your training has been planned, we recommend announcing it on the SciLifeLab
+                Training Portal. In this short tutorial we go through all the steps of how to do this.
+                Announcing your training via the Training Portal will automatically include it in the
+                SciLifeLab Events & Training Newsletter, the SciLifeLab Slack, and other connected outlets.
+          training_page:
+            anchor: training-page
+            title: Setting up a training page or website
+            paragraphs:
+              - >
+                The SciLifeLab Training Hub offers different ways to host your training material so that
+                participants are able to access it during and after the training occurs. The SciLifeLab Canvas
+                is a learning management system that admits participants regardless of University, and can be
+                used to create lessons and quizzes. SciLifeLab GitHub Templates are also available to be used
+                for simple versioning and more customization of your material, though require some technical
+                skill. Below you can find our organizations and example websites.
+          computational_tools:
+            anchor: computational-teaching-tools
+            title: Computational teaching tools from SciLifeLab Serve
+            paragraphs:
+              - >
+                Training at SciLifeLab often involves participants performing computational tasks. To support
+                this, SciLifeLab Serve offers the use of JupyterLab, RStudio, and VSCode notebooks as a service
+                for teaching of workshops, courses, and other training formats. If your teaching could benefit
+                from this service, read more from SciLifeLab Serve and fill in the application form.
+          fair_materials:
+            anchor: fair-training-materials
+            nav_title: Preparing FAIR training material
+            title: Preparing FAIR Training Materials
+            paragraphs:
+              - >
+                Sweden has committed to the development of Open Educational Resources (OER) in support of the
+                aim of increasing the Open-ness of science. As part of this, materials should be made available
+                with clearly defined metadata. As you develop your training, ensure you include a plan for
+                collecting the required information and prepare for licensing your materials by adhering to
+                rights restrictions on images.
       deliver:
         title: Deliver
         summary: >

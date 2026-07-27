@@ -19,14 +19,17 @@ module OurResourcesHelper
   end
 
   def plan_design_section_links
-    %i[target_audience learning_outcomes engagement].map do |section_key|
-      section = t("our_resources.stage_pages.design_develop.sections.#{section_key}").with_indifferent_access
+    stage_page_section_links(
+      :design_develop,
+      section_keys: %i[target_audience learning_outcomes engagement]
+    )
+  end
 
-      {
-        anchor: section[:anchor],
-        title: section[:title]
-      }
-    end
+  def develop_section_links
+    stage_page_section_links(
+      :develop,
+      section_keys: %i[announcement training_page computational_tools fair_materials]
+    )
   end
 
   def plan_design_further_learning
@@ -37,30 +40,6 @@ module OurResourcesHelper
 
   def design_develop_contributors
     stage_page_contributors(:design_develop)
-  end
-
-  def develop_video
-    t('our_resources.stage_pages.develop.video').with_indifferent_access
-  end
-
-  def develop_video_embed_url
-    youtube_embed_url(develop_video[:url])
-  end
-
-  def develop_course_page
-    t('our_resources.stage_pages.develop.course_page').with_indifferent_access
-  end
-
-  def develop_course_page_examples
-    develop_course_page.fetch(:examples, {}).with_indifferent_access.values
-  end
-
-  def develop_resources
-    stage_page_resources(:develop)
-  end
-
-  def develop_contributors
-    stage_page_contributors(:develop)
   end
 
   def deliver_tools
@@ -80,6 +59,17 @@ module OurResourcesHelper
   end
 
   private
+
+  def stage_page_section_links(stage_key, section_keys:)
+    section_keys.map do |section_key|
+      section = t("our_resources.stage_pages.#{stage_key}.sections.#{section_key}").with_indifferent_access
+
+      {
+        anchor: section[:anchor],
+        title: section[:nav_title] || section[:title]
+      }
+    end
+  end
 
   def stage_page_sections(stage_key)
     t("our_resources.stage_pages.#{stage_key}.sections", default: {}).with_indifferent_access.values

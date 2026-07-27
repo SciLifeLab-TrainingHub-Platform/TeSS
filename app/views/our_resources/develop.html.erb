@@ -1,67 +1,53 @@
 <% content_for :title, raw(t('our_resources.stage_pages.develop.title')) %>
 
-<section class="resources-stage-page resources-stage-page--plan">
-  <header class="resources-stage-page__hero">
-    <div class="resources-stage-page__intro">
-      <h1><%= t('our_resources.stage_pages.develop.title') %></h1>
-      <p><%= t('our_resources.stage_pages.develop.summary') %></p>
-    </div>
-
-    <%= render 'our_resources/stage_pages/stage_nav', active_key: :develop %>
-  </header>
-
-  <div class="resources-stage-plan">
-    <% video = develop_video %>
-    <section class="resources-stage-plan__section resources-stage-plan__video">
-      <h2><%= video[:title] %></h2>
-
-      <% if (embed_url = develop_video_embed_url).present? %>
-        <figure class="resources-stage-plan__media">
-          <div class="resources-stage-plan__embed">
-            <iframe src="<%= embed_url %>"
-                    title="<%= video[:iframe_title] || video[:title] %>"
-                    loading="lazy"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen></iframe>
-          </div>
-        </figure>
+<%= render layout: 'our_resources/stage_pages/shell',
+           locals: {
+             modifier: 'develop',
+             active_key: :develop,
+             title: t('our_resources.stage_pages.develop.title'),
+             intro_paragraphs: [
+               t('our_resources.stage_pages.develop.summary'),
+               t('our_resources.stage_pages.develop.introduction')
+             ],
+             section_links: develop_section_links
+           } do %>
+  <% announcement = t('our_resources.stage_pages.develop.sections.announcement').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= announcement[:anchor] %>">
+    <h2><%= announcement[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <% announcement[:paragraphs].each do |paragraph| %>
+        <p><%= paragraph %></p>
       <% end %>
+    </div>
+  </section>
 
-      <p class="resources-stage-plan__caption"><%= video[:caption] %></p>
-    </section>
+  <% training_page = t('our_resources.stage_pages.develop.sections.training_page').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= training_page[:anchor] %>">
+    <h2><%= training_page[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <% training_page[:paragraphs].each do |paragraph| %>
+        <p><%= paragraph %></p>
+      <% end %>
+    </div>
+  </section>
 
-    <% course_page = develop_course_page %>
-    <section class="resources-stage-plan__section">
-      <h2><%= course_page[:title] %></h2>
-      <p><%= course_page[:body] %></p>
+  <% computational_tools = t('our_resources.stage_pages.develop.sections.computational_tools').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= computational_tools[:anchor] %>">
+    <h2><%= computational_tools[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <% computational_tools[:paragraphs].each do |paragraph| %>
+        <p><%= paragraph %></p>
+      <% end %>
+    </div>
+  </section>
 
-      <h3><%= course_page[:examples_heading] %></h3>
-      <div class="resources-stage-plan__actions">
-        <% develop_course_page_examples.each do |example| %>
-          <% if example[:url].present? %>
-            <%= link_to example[:title],
-                        example[:url],
-                        class: 'resources-stage-plan__button',
-                        target: '_blank',
-                        rel: 'noopener noreferrer' %>
-          <% else %>
-            <%= content_tag(:span,
-                            example[:title],
-                            class: 'resources-stage-plan__button resources-stage-plan__button--disabled',
-                            aria: { disabled: true }) %>
-          <% end %>
-        <% end %>
-      </div>
-    </section>
-  </div>
-
-  <%= render 'our_resources/stage_pages/resources',
-             title: t('our_resources.stage_pages.develop.resources_heading'),
-             resources: develop_resources %>
-
-  <%= render 'our_resources/stage_pages/contributors',
-             title: t('our_resources.stage_pages.contributors_heading'),
-             contributors: develop_contributors %>
-</section>
+  <% fair_materials = t('our_resources.stage_pages.develop.sections.fair_materials').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= fair_materials[:anchor] %>">
+    <h2><%= fair_materials[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <% fair_materials[:paragraphs].each do |paragraph| %>
+        <p><%= paragraph %></p>
+      <% end %>
+    </div>
+  </section>
+<% end %>

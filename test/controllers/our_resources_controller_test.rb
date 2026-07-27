@@ -69,25 +69,19 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.breadcrumbs', count: 0
     assert_select 'title', "Develop - #{TeSS::Config.site['title']}"
     assert_select 'h1', 'Develop'
+    assert_select '.resources-stage-page--shell.resources-stage-page--develop', count: 1
     assert_select '.resources-stage-nav__item--active .resources-stage-nav__label', text: 'Develop'
-    assert_select '.resources-stage-plan__section h2', text: 'Announcing your course on the Training Portal'
-    assert_select '.resources-stage-plan__media iframe[src=?]',
-                  'https://www.youtube.com/embed/_AQN4pqvZ3o'
-    assert_select '.resources-stage-plan__section h2', text: 'Setting up a GitHub Course Page'
-    assert_select '.resources-stage-plan__section h3', text: 'See example course pages:'
-    assert_select '.resources-stage-plan__button[href=?]',
-                  'https://scilifelab-training.github.io/open-science/',
-                  text: 'Open Science in the Swedish Context'
-    assert_select '.resources-stage-plan__button[href=?]',
-                  'https://scilifelab-training.github.io/BGE-HiC-course/module1.html',
-                  text: 'BGE Hi-C Introductory Course'
-    assert_select '.resources-stage-plan__button--disabled', count: 0
-    assert_select '.resources-stage-resources h2', text: 'Related Resources:'
-    assert_select '.resources-stage-resource[href=?]',
-                  'https://doi.org/10.17044/scilifelab.28194329.v1',
-                  text: /Resources for Course Planning/
-    assert_select '.resources-stage-contributors__item', text: /Oliver Onions/
-    assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
+    assert_select '.resources-stage-nav__sections[aria-label=?]', 'Develop sections', count: 1
+    assert_select '.resources-stage-nav__sections a', count: 4
+    assert_select '.resources-stage-nav__sections a[href=?]', '#announcing-training', count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]', '#training-page', count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]', '#computational-teaching-tools', count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]', '#fair-training-materials', count: 1
+    assert_select '.resources-stage-section', count: 4
+    assert_select '.resources-stage-section h2', text: 'Announcing your training on the Training Portal'
+    assert_select '.resources-stage-section h2', text: 'Setting up a training page or website'
+    assert_select '.resources-stage-section h2', text: 'Computational teaching tools from SciLifeLab Serve'
+    assert_select '.resources-stage-section h2', text: 'Preparing FAIR Training Materials'
   end
 
   test 'should get deliver page' do

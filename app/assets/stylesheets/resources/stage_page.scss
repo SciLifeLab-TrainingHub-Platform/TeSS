@@ -218,138 +218,6 @@
   }
 }
 
-.resources-stage-plan {
-  display: grid;
-  gap: 58px;
-  margin: 0 0 72px;
-  max-width: 1120px;
-}
-
-.resources-stage-plan__section {
-  h2 {
-    color: $dark-color;
-    font-size: 34px;
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1.2;
-    margin: 0 0 24px;
-  }
-
-  p {
-    color: $dark-color;
-    font-size: 20px;
-    line-height: 1.4;
-    margin: 0;
-    max-width: 1120px;
-  }
-
-  h3 {
-    color: $dark-color;
-    font-size: 24px;
-    font-weight: 900;
-    letter-spacing: 0;
-    line-height: 1.2;
-    margin: 28px 0 18px;
-  }
-}
-
-.resources-stage-plan__media {
-  margin: 0 auto 30px;
-  max-width: 760px;
-  width: 100%;
-
-  a {
-    color: inherit;
-    border: 3px solid $dark-color;
-    display: block;
-    text-decoration: none;
-
-    &:focus {
-      outline: 3px solid $scilifelab-color-lime;
-      outline-offset: 8px;
-    }
-  }
-}
-
-.resources-stage-plan__embed {
-  aspect-ratio: 16 / 9;
-  background: $dark-color;
-  border: 3px solid $dark-color;
-  width: 100%;
-
-  iframe {
-    border: 0;
-    display: block;
-    height: 100%;
-    width: 100%;
-  }
-}
-
-.resources-stage-plan__caption {
-  font-size: 18px;
-  line-height: 1.4;
-}
-
-.resources-stage-plan__actions {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.resources-stage-plan__button {
-  align-items: center;
-  background: $scilifelab-color-teal;
-  border: 2px solid $dark-color;
-  border-radius: 10px;
-  box-sizing: border-box;
-  color: $body-bg;
-  display: inline-flex;
-  font-size: 20px;
-  font-weight: 400;
-  justify-content: center;
-  letter-spacing: 0;
-  line-height: 1.2;
-  min-height: 62px;
-  max-width: 100%;
-  padding: 0 28px;
-  text-align: center;
-  text-decoration: none;
-  width: 520px;
-
-  &:hover,
-  &:focus {
-    background: $scilifelab-color-aqua;
-    border-color: $dark-color;
-    color: $body-bg;
-    text-decoration: none;
-  }
-
-  &:focus {
-    outline: 3px solid $scilifelab-color-lime;
-    outline-offset: 4px;
-  }
-}
-
-.resources-stage-plan__button--disabled {
-  cursor: default;
-
-  &:hover,
-  &:focus {
-    background: $scilifelab-color-teal;
-    border-color: $dark-color;
-    color: $body-bg;
-  }
-}
-
-.resources-stage-page--plan {
-  .resources-stage-resources__grid {
-    grid-template-columns: minmax(0, 240px);
-    margin-left: 0;
-    max-width: 240px;
-  }
-}
-
 .resources-stage-deliver {
   display: grid;
   gap: 70px;
@@ -592,16 +460,6 @@
     }
   }
 
-  .resources-stage-plan__section {
-    h2 {
-      font-size: 32px;
-    }
-
-    p {
-      font-size: 19px;
-    }
-  }
-
   .resources-stage-deliver__tool-list {
     gap: 36px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -710,51 +568,6 @@
     p {
       font-size: 17px;
       line-height: 1.45;
-    }
-  }
-
-  .resources-stage-plan {
-    gap: 46px;
-    margin-bottom: 56px;
-  }
-
-  .resources-stage-plan__section {
-    h2 {
-      font-size: 26px;
-      margin-bottom: 18px;
-    }
-
-    p {
-      font-size: 17px;
-      line-height: 1.45;
-    }
-
-    h3 {
-      font-size: 20px;
-      margin: 24px 0 16px;
-    }
-  }
-
-  .resources-stage-plan__media {
-    margin-bottom: 24px;
-  }
-
-  .resources-stage-plan__caption {
-    font-size: 16px;
-  }
-
-  .resources-stage-plan__button {
-    font-size: 16px;
-    min-height: 56px;
-    min-width: 0;
-    padding: 0 18px;
-    width: 100%;
-  }
-
-  .resources-stage-page--plan {
-    .resources-stage-resources__grid {
-      grid-template-columns: minmax(0, 180px);
-      max-width: 180px;
     }
   }
 
