@@ -82,6 +82,43 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-section h2', text: 'Setting up a training page or website'
     assert_select '.resources-stage-section h2', text: 'Computational teaching tools from SciLifeLab Serve'
     assert_select '.resources-stage-section h2', text: 'Preparing FAIR Training Materials'
+    assert_select '.resources-develop__announcement-action .resources-stage-action[href=?]',
+                  'https://training.scilifelab.se/events/new',
+                  text: /Announce your upcoming training here/
+    assert_select '.resources-develop__announcement-cta .fa-star-o', count: 1
+    assert_select '.resources-stage-video iframe[src=?]',
+                  'https://www.youtube.com/embed/_AQN4pqvZ3o',
+                  count: 1
+    assert_select '.resources-develop__hosting-panel', count: 1
+    assert_select '.resources-develop__hosting-column', count: 2
+    assert_select '.resources-develop__hosting-column h3', text: 'SciLifeLab Canvas'
+    assert_select '.resources-develop__hosting-column h3', text: 'SciLifeLab Training GitHub'
+    assert_select '.resources-develop__hosting-panel .resources-stage-action', count: 6
+    assert_select '.resources-develop__hosting-panel .resources-stage-action[href=?]',
+                  'https://github.com/SciLifeLab-Training/scilifelab-training-template/',
+                  text: /GitHub Template Repository/
+    assert_select '.resources-develop__hosting-panel .resources-stage-action--grape .fa-star-o',
+                  count: 1
+    assert_select '.resources-develop__hosting-panel .resources-stage-action--grape img.resources-stage-action__icon--github-template-star[src*=?]',
+                  'github-template-star',
+                  count: 1
+    assert_select '.resources-develop__hosting-panel .resources-stage-action--teal .resources-stage-action__icon',
+                  count: 0
+    assert_select '.resources-develop__serve-actions .resources-stage-action', count: 2
+    assert_select '.resources-develop__serve-actions .resources-stage-action[href=?]',
+                  'https://serve.scilifelab.se/docs/teaching/',
+                  text: /Guide for using SciLifeLab Serve in teaching/
+    assert_select '.resources-develop__serve-actions .resources-stage-action[href=?]',
+                  'https://serve.scilifelab.se/teaching/#application',
+                  text: /Application form for SciLifeLab Serve notebooks/
+    assert_select '.resources-stage-action[href=?]',
+                  'https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing',
+                  text: /Checklist for Training Material Metadata/
+    assert_select '.resources-develop__link-list a[href=?]', 'https://unsplash.com/', text: /Unsplash/
+    assert_select '.resources-develop__link-list a[href=?]', 'https://pixabay.com/', text: /Pixabay/
+    assert_select '.resources-develop__link-list a[href=?]', 'https://canvascommons.io/', text: /Canvas Commons/
+    assert_select '.resources-develop__link-list a[href=?]', 'https://obsproject.com/', text: /OBS Studio/
+    assert_select '.resources-develop__link-list a[href=?]', 'https://www.blender.org/', text: /Blender/
   end
 
   test 'should get deliver page' do

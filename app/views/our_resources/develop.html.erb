@@ -14,40 +14,137 @@
   <% announcement = t('our_resources.stage_pages.develop.sections.announcement').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= announcement[:anchor] %>">
     <h2><%= announcement[:title] %></h2>
-    <div class="resources-stage-section__body resources-stage-prose">
-      <% announcement[:paragraphs].each do |paragraph| %>
-        <p><%= paragraph %></p>
-      <% end %>
+    <div class="resources-stage-section__body">
+      <div class="resources-develop__section-visual resources-develop__section-visual--announcement-action">
+        <div class="resources-stage-actions resources-develop__announcement-action">
+          <%= render 'our_resources/stage_pages/action_link',
+                     label: announcement.dig(:action, :label),
+                     url: announcement.dig(:action, :url),
+                     variant: 'lime',
+                     icon: 'star-o',
+                     class_name: 'resources-develop__announcement-cta' %>
+        </div>
+      </div>
+      <div class="resources-stage-prose">
+        <% announcement[:paragraphs].each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      </div>
+      <div class="resources-develop__section-visual resources-develop__section-visual--video">
+        <%= render 'our_resources/stage_pages/video', video: announcement[:video] %>
+      </div>
     </div>
   </section>
 
   <% training_page = t('our_resources.stage_pages.develop.sections.training_page').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= training_page[:anchor] %>">
     <h2><%= training_page[:title] %></h2>
-    <div class="resources-stage-section__body resources-stage-prose">
-      <% training_page[:paragraphs].each do |paragraph| %>
-        <p><%= paragraph %></p>
-      <% end %>
+    <div class="resources-stage-section__body">
+      <div class="resources-stage-prose">
+        <% training_page[:paragraphs].each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      </div>
+
+      <div class="resources-develop__section-visual resources-develop__section-visual--hosting">
+        <div class="resources-develop__hosting-panel">
+          <% training_page[:hosting].each_value do |hosting_column| %>
+            <section class="resources-develop__hosting-column">
+              <h3><%= hosting_column[:title] %></h3>
+              <% hosting_column[:actions].each_value do |action| %>
+                <%= render 'our_resources/stage_pages/action_link',
+                           label: action[:label],
+                           url: action[:url],
+                           variant: action[:variant],
+                           icon: action[:icon] %>
+              <% end %>
+            </section>
+          <% end %>
+        </div>
+      </div>
     </div>
   </section>
 
   <% computational_tools = t('our_resources.stage_pages.develop.sections.computational_tools').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= computational_tools[:anchor] %>">
     <h2><%= computational_tools[:title] %></h2>
-    <div class="resources-stage-section__body resources-stage-prose">
-      <% computational_tools[:paragraphs].each do |paragraph| %>
-        <p><%= paragraph %></p>
-      <% end %>
+    <div class="resources-stage-section__body">
+      <div class="resources-stage-prose">
+        <% computational_tools[:paragraphs].each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      </div>
+      <div class="resources-stage-actions resources-develop__serve-actions">
+        <% computational_tools[:actions].each_value do |action| %>
+          <%= render 'our_resources/stage_pages/action_link',
+                     label: action[:label],
+                     url: action[:url],
+                     variant: 'teal',
+                     icon: 'star-o',
+                     class_name: 'resources-stage-action--pill resources-develop__serve-action' %>
+        <% end %>
+      </div>
     </div>
   </section>
 
   <% fair_materials = t('our_resources.stage_pages.develop.sections.fair_materials').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= fair_materials[:anchor] %>">
     <h2><%= fair_materials[:title] %></h2>
-    <div class="resources-stage-section__body resources-stage-prose">
-      <% fair_materials[:paragraphs].each do |paragraph| %>
-        <p><%= paragraph %></p>
-      <% end %>
+    <div class="resources-stage-section__body">
+      <div class="resources-stage-prose">
+        <p>
+          <%= link_to fair_materials[:oer_link_label],
+                      fair_materials[:oer_url],
+                      target: '_blank',
+                      rel: 'noopener noreferrer' %>
+          <%= fair_materials[:introduction_after_link] %>
+        </p>
+      </div>
+
+      <div class="resources-stage-actions">
+        <%= render 'our_resources/stage_pages/action_link',
+                   label: fair_materials.dig(:checklist, :label),
+                   url: fair_materials.dig(:checklist, :url),
+                   variant: 'grape',
+                   icon: false,
+                   class_name: 'resources-develop__checklist-action' %>
+      </div>
+
+      <h3 class="resources-develop__fair-heading"><%= fair_materials[:help_title] %></h3>
+      <div class="resources-stage-prose">
+        <p><%= fair_materials[:royalty_free_text] %></p>
+      </div>
+      <ul class="resources-develop__link-list resources-develop__link-list--sources">
+        <% fair_materials[:royalty_free_sources].each_value do |source| %>
+          <li>
+            <%= link_to source[:url], target: '_blank', rel: 'noopener noreferrer' do %>
+              <i class="fa fa-link" aria-hidden="true"></i>
+              <span><%= source[:label] %></span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+
+      <div class="resources-stage-prose">
+        <p>
+          <%= fair_materials[:software_before_link] %>
+          <%= link_to fair_materials.dig(:software_community, :label),
+                      fair_materials.dig(:software_community, :url),
+                      target: '_blank',
+                      rel: 'noopener noreferrer' %>
+          <%= fair_materials[:software_after_link] %>
+        </p>
+      </div>
+      <ul class="resources-develop__link-list resources-develop__link-list--tools">
+        <% fair_materials[:software_tools].each_value do |tool| %>
+          <li>
+            <%= link_to tool[:url], target: '_blank', rel: 'noopener noreferrer' do %>
+              <i class="fa fa-link" aria-hidden="true"></i>
+              <span><%= tool[:label] %></span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </section>
 <% end %>

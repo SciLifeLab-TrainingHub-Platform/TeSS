@@ -259,12 +259,19 @@ en:
           announcement:
             anchor: announcing-training
             title: Announcing your training on the Training Portal
+            action:
+              label: Announce your upcoming training here
+              url: https://training.scilifelab.se/events/new
             paragraphs:
               - >
                 As soon as your training has been planned, we recommend announcing it on the SciLifeLab
                 Training Portal. In this short tutorial we go through all the steps of how to do this.
                 Announcing your training via the Training Portal will automatically include it in the
                 SciLifeLab Events & Training Newsletter, the SciLifeLab Slack, and other connected outlets.
+            video:
+              iframe_title: How to announce training on the SciLifeLab Training Portal
+              caption: How to announce training on the SciLifeLab Training Portal
+              url: https://www.youtube.com/watch?v=_AQN4pqvZ3o
           training_page:
             anchor: training-page
             title: Setting up a training page or website
@@ -276,6 +283,43 @@ en:
                 used to create lessons and quizzes. SciLifeLab GitHub Templates are also available to be used
                 for simple versioning and more customization of your material, though require some technical
                 skill. Below you can find our organizations and example websites.
+            hosting:
+              canvas:
+                title: SciLifeLab Canvas
+                actions:
+                  login:
+                    label: SciLifeLab Canvas Login
+                    url: https://scilifelab.instructure.com/login/canvas
+                    variant: grape
+                    icon: star-o
+                  example:
+                    label: Sample Canvas Course
+                    url: https://scilifelab.instructure.com/courses/208
+                    variant: teal
+                    icon: false
+              github:
+                title: SciLifeLab Training GitHub
+                actions:
+                  template:
+                    label: GitHub Template Repository
+                    url: https://github.com/SciLifeLab-Training/scilifelab-training-template/
+                    variant: grape
+                    icon: github-template-star
+                  open_science:
+                    label: "Example: Open Science Course"
+                    url: https://scilifelab-training.github.io/open-science/2605/
+                    variant: teal
+                    icon: false
+                  bge_hic:
+                    label: "Example: BGE Hi-C Online Course"
+                    url: https://scilifelab-training.github.io/BGE-HiC-course/module1.html
+                    variant: teal
+                    icon: false
+                  pulse:
+                    label: "Example: SciLifeLab PULSE Training"
+                    url: https://scilifelab-training.github.io/PULSE/0001/
+                    variant: teal
+                    icon: false
           computational_tools:
             anchor: computational-teaching-tools
             title: Computational teaching tools from SciLifeLab Serve
@@ -285,17 +329,57 @@ en:
                 this, SciLifeLab Serve offers the use of JupyterLab, RStudio, and VSCode notebooks as a service
                 for teaching of workshops, courses, and other training formats. If your teaching could benefit
                 from this service, read more from SciLifeLab Serve and fill in the application form.
+            actions:
+              guide:
+                label: Guide for using SciLifeLab Serve in teaching
+                url: https://serve.scilifelab.se/docs/teaching/
+              application:
+                label: Application form for SciLifeLab Serve notebooks
+                url: https://serve.scilifelab.se/teaching/#application
           fair_materials:
             anchor: fair-training-materials
             nav_title: Preparing FAIR training material
             title: Preparing FAIR Training Materials
-            paragraphs:
-              - >
-                Sweden has committed to the development of Open Educational Resources (OER) in support of the
-                aim of increasing the Open-ness of science. As part of this, materials should be made available
-                with clearly defined metadata. As you develop your training, ensure you include a plan for
-                collecting the required information and prepare for licensing your materials by adhering to
-                rights restrictions on images.
+            oer_link_label: Sweden has committed to the development of Open Educational Resources (OER)
+            oer_url: https://doi.org/10.7557/11.8391
+            introduction_after_link: >
+              in support of the aim of increasing the Open-ness of science. As part of this, materials should
+              be made available with clearly defined metadata. As you develop your training, ensure you include
+              a plan for collecting the required information and prepare for licensing your materials by
+              adhering to rights restrictions on images.
+            checklist:
+              label: Checklist for Training Material Metadata
+              url: https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing
+            help_title: Help for developing FAIR training materials
+            royalty_free_text: >
+              To assist in creating materials you can release under a CC-BY license, Unsplash and Pixabay have
+              images, videos, and music that are royalty-free and can be used with or without attribution
+              according to their license.
+            royalty_free_sources:
+              unsplash:
+                label: Unsplash
+                url: https://unsplash.com/
+              pixabay:
+                label: Pixabay
+                url: https://pixabay.com/
+            software_before_link: >
+              For Free and Open Source Software, Canvas Commons can be used for creating simple animations
+              through code, and OBS Studio can be used for simple recordings. Blender is a powerful tool for
+              more complex operations - check out the
+            software_community:
+              label: NBIS Research Software Engineering Tools group
+              url: https://nbisweden.github.io/Training-Tech-shorts/schedule.html
+            software_after_link: to find experts who are using Blender in research applications.
+            software_tools:
+              canvas_commons:
+                label: Canvas Commons
+                url: https://canvascommons.io/
+              obs:
+                label: OBS Studio
+                url: https://obsproject.com/
+              blender:
+                label: Blender
+                url: https://www.blender.org/
       deliver:
         title: Deliver
         summary: >

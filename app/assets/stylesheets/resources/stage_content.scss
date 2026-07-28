@@ -119,6 +119,83 @@ $resources-contributor-pill-background: mix(
   }
 }
 
+.resources-stage-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 24px;
+}
+
+a.resources-stage-action {
+  align-items: center;
+  border: 0;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: inline-flex;
+  font-size: 15px;
+  font-weight: 600;
+  gap: 8px;
+  justify-content: center;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  min-height: 40px;
+  padding: 8px 18px;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: $body-bg;
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: 3px solid $scilifelab-color-lime;
+    outline-offset: 3px;
+  }
+}
+
+a.resources-stage-action--lime {
+  background: $scilifelab-color-lime;
+  color: $dark-color;
+
+  &:hover,
+  &:focus {
+    background: $scilifelab-color-lime-75;
+    color: $dark-color;
+  }
+}
+
+a.resources-stage-action--grape {
+  background: $scilifelab-color-grape;
+  color: $body-bg;
+
+  &:hover,
+  &:focus {
+    background: $scilifelab-color-grape-75;
+  }
+}
+
+a.resources-stage-action--teal {
+  background: $scilifelab-color-teal;
+  color: $body-bg;
+
+  &:hover,
+  &:focus {
+    background: $scilifelab-color-aqua;
+  }
+}
+
+.resources-stage-action--pill {
+  border-radius: 999px;
+}
+
+.resources-stage-action__icon {
+  flex: 0 0 auto;
+  font-size: 13px;
+}
+
 .resources-stage-video {
   margin: 28px auto 0;
   max-width: 540px;
@@ -359,6 +436,15 @@ $resources-contributor-pill-background: mix(
 
   .resources-stage-video {
     margin-top: 24px;
+  }
+
+  .resources-stage-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .resources-stage-action {
+    width: 100%;
   }
 
   .resources-further-learning {
