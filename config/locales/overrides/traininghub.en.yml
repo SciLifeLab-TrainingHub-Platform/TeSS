@@ -201,7 +201,7 @@ en:
             video:
               caption: Introduction to designing and assessing learning outcomes and experiences
               iframe_title: Introduction to designing and assessing learning outcomes and experiences
-              url: https://www.youtube.com/watch?v=_AQN4pqvZ3o
+              url: https://youtu.be/IWDtFrMD298?si=nxkTdFB3VMf8FuyJ
         further_learning:
           title: Further Learning
           items:
@@ -241,12 +241,16 @@ en:
             image: scilifelab/staff/kristen-resize.png
           nina_norgren:
             name: Nina Norgren
+            image: scilifelab/staff/nina-resize.png
           ineke_luijten:
             name: Ineke Luijten
+            image: scilifelab/staff/ineke-resize.png
           jill_jaworski:
             name: Jill Jaworski
+            image: scilifelab/staff/jill-resize.png
           jessica_lindvall:
             name: Jessica Lindvall
+            image: scilifelab/staff/jessica-resize.png
       develop:
         title: Develop
         summary: >
@@ -413,8 +417,10 @@ en:
             image: scilifelab/staff/kristen-resize.png
           nina_norgren:
             name: Nina Norgren
+            image: scilifelab/staff/nina-resize.png
           ineke_luijten:
             name: Ineke Luijten
+            image: scilifelab/staff/ineke-resize.png
       deliver:
         title: Deliver
         summary: >
@@ -465,6 +471,7 @@ en:
             name: Oliver Onions
           ineke_luijten:
             name: Ineke Luijten
+            image: scilifelab/staff/ineke-resize.png
   activerecord:
     models:
       event: "Training"

@@ -196,9 +196,18 @@ a.resources-stage-action--teal {
   font-size: 13px;
 }
 
+.resources-stage-video-frame {
+  margin-left: -34px;
+  width: 100%;
+}
+
+.resources-stage-video-frame--develop {
+  transform: translateX(-7px);
+}
+
 .resources-stage-video {
   margin: 28px auto 0;
-  max-width: 540px;
+  max-width: 533px;
   width: 100%;
 }
 
@@ -358,6 +367,21 @@ a.resources-stage-action--teal {
   }
 }
 
+@media screen and (min-width: 1200px) {
+  .resources-further-learning__grid {
+    column-gap: 11px;
+    grid-template-columns: repeat(3, 240px);
+    padding-left: 11px;
+    padding-right: 9px;
+    row-gap: 12px;
+  }
+
+  .resources-further-learning__card {
+    padding-left: 23px;
+    padding-right: 23px;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .resources-stage-shell {
     gap: 28px;
@@ -379,6 +403,10 @@ a.resources-stage-action--teal {
   .resources-stage-section__body,
   .resources-further-learning__grid {
     margin-left: 24px;
+  }
+
+  .resources-stage-video-frame {
+    margin-left: -24px;
   }
 
   .resources-further-learning__grid {
@@ -432,6 +460,11 @@ a.resources-stage-action--teal {
   .resources-stage-section__body,
   .resources-further-learning__grid {
     margin-left: 0;
+  }
+
+  .resources-stage-video-frame {
+    margin-left: 0;
+    transform: none;
   }
 
   .resources-stage-video {

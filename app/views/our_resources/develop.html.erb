@@ -30,9 +30,9 @@
           <p><%= paragraph %></p>
         <% end %>
       </div>
-      <div class="resources-develop__section-visual resources-develop__section-visual--video">
-        <%= render 'our_resources/stage_pages/video', video: announcement[:video] %>
-      </div>
+      <%= render 'our_resources/stage_pages/video',
+                 video: announcement[:video],
+                 frame_class: 'resources-stage-video-frame--develop' %>
     </div>
   </section>
 
@@ -88,7 +88,8 @@
   </section>
 
   <% fair_materials = t('our_resources.stage_pages.develop.sections.fair_materials').with_indifferent_access %>
-  <section class="resources-stage-section" id="<%= fair_materials[:anchor] %>">
+  <section class="resources-stage-section resources-develop__fair-materials"
+           id="<%= fair_materials[:anchor] %>">
     <h2><%= fair_materials[:title] %></h2>
     <div class="resources-stage-section__body">
       <div class="resources-stage-prose">

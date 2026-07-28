@@ -4,14 +4,6 @@
   width: 100%;
 }
 
-.resources-develop__section-visual--video {
-  transform: translateX(-7px);
-
-  .resources-stage-video {
-    max-width: 533px;
-  }
-}
-
 .resources-develop__section-visual--hosting {
   transform: translateX(-10px);
 }
@@ -175,6 +167,17 @@ a.resources-develop__checklist-action {
   margin: 28px 0 12px;
 }
 
+.resources-develop__fair-materials {
+  .resources-stage-prose a {
+    color: $scilifelab-color-dark-gray;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-grape;
+    }
+  }
+}
+
 .resources-develop__link-list {
   display: grid;
   gap: 11px;
@@ -216,21 +219,6 @@ a.resources-develop__checklist-action {
 .resources-develop__link-list--tools {
   margin-bottom: 0;
   margin-top: 16px;
-}
-
-@media screen and (min-width: 1200px) {
-  .resources-stage-page--develop .resources-further-learning__grid {
-    column-gap: 11px;
-    grid-template-columns: repeat(3, 240px);
-    padding-left: 11px;
-    padding-right: 9px;
-    row-gap: 8px;
-  }
-
-  .resources-stage-page--develop .resources-further-learning__card {
-    padding-left: 23px;
-    padding-right: 23px;
-  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 991px) {
