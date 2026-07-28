@@ -61,10 +61,21 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
     assert_select '.resources-stage-contributors__item', text: /Jill Jaworski/
     assert_select '.resources-stage-contributors__item', text: /Jessica Lindvall/
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]', 'nina-resize', count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]', 'ineke-resize', count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]', 'jill-resize', count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]', 'jessica-resize', count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'kristen-resources-thumbnail',
+                  count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'nina-resources-thumbnail',
+                  count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'ineke-resources-thumbnail',
+                  count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'jill-resources-thumbnail',
+                  count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'jessica-resources-thumbnail',
+                  count: 1
   end
 
   test 'should get develop page' do
@@ -141,6 +152,15 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-contributors__item', text: /Kristen Schroeder/
     assert_select '.resources-stage-contributors__item', text: /Nina Norgren/
     assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'kristen-resources-thumbnail',
+                  count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'nina-resources-thumbnail',
+                  count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'ineke-resources-thumbnail',
+                  count: 1
   end
 
   test 'should get deliver page' do
@@ -173,7 +193,9 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: /Course Delivery & Teaching Practice/
     assert_select '.resources-stage-contributors__item', text: /Oliver Onions/
     assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]', 'ineke-resize', count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'ineke-resources-thumbnail',
+                  count: 1
   end
 
   test 'should get pedagogic support page with the shared booking calendar' do

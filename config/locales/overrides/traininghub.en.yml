@@ -238,19 +238,19 @@ en:
         contributors:
           kristen_schroeder:
             name: Kristen Schroeder
-            image: scilifelab/staff/kristen-resize.png
+            image: scilifelab/staff/kristen-resources-thumbnail.webp
           nina_norgren:
             name: Nina Norgren
-            image: scilifelab/staff/nina-resize.png
+            image: scilifelab/staff/nina-resources-thumbnail.webp
           ineke_luijten:
             name: Ineke Luijten
-            image: scilifelab/staff/ineke-resize.png
+            image: scilifelab/staff/ineke-resources-thumbnail.webp
           jill_jaworski:
             name: Jill Jaworski
-            image: scilifelab/staff/jill-resize.png
+            image: scilifelab/staff/jill-resources-thumbnail.webp
           jessica_lindvall:
             name: Jessica Lindvall
-            image: scilifelab/staff/jessica-resize.png
+            image: scilifelab/staff/jessica-resources-thumbnail.webp
       develop:
         title: Develop
         summary: >
@@ -414,13 +414,13 @@ en:
         contributors:
           kristen_schroeder:
             name: Kristen Schroeder
-            image: scilifelab/staff/kristen-resize.png
+            image: scilifelab/staff/kristen-resources-thumbnail.webp
           nina_norgren:
             name: Nina Norgren
-            image: scilifelab/staff/nina-resize.png
+            image: scilifelab/staff/nina-resources-thumbnail.webp
           ineke_luijten:
             name: Ineke Luijten
-            image: scilifelab/staff/ineke-resize.png
+            image: scilifelab/staff/ineke-resources-thumbnail.webp
       deliver:
         title: Deliver
         summary: >
@@ -471,7 +471,7 @@ en:
             name: Oliver Onions
           ineke_luijten:
             name: Ineke Luijten
-            image: scilifelab/staff/ineke-resize.png
+            image: scilifelab/staff/ineke-resources-thumbnail.webp
   activerecord:
     models:
       event: "Training"
