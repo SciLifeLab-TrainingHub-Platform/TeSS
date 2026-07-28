@@ -147,4 +147,12 @@
       </ul>
     </div>
   </section>
+
+  <%= render 'our_resources/stage_pages/learning_cards',
+             title: t('our_resources.stage_pages.develop.further_learning.title'),
+             resources: develop_further_learning %>
+
+  <%= render 'our_resources/stage_pages/contributors',
+             title: t('our_resources.stage_pages.contributors_heading'),
+             contributors: develop_contributors %>
 <% end %>

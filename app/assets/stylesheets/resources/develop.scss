@@ -218,6 +218,21 @@ a.resources-develop__checklist-action {
   margin-top: 16px;
 }
 
+@media screen and (min-width: 1200px) {
+  .resources-stage-page--develop .resources-further-learning__grid {
+    column-gap: 11px;
+    grid-template-columns: repeat(3, 240px);
+    padding-left: 11px;
+    padding-right: 9px;
+    row-gap: 8px;
+  }
+
+  .resources-stage-page--develop .resources-further-learning__card {
+    padding-left: 23px;
+    padding-right: 23px;
+  }
+}
+
 @media screen and (min-width: 768px) and (max-width: 991px) {
   .resources-develop__section-visual {
     margin-left: -24px;

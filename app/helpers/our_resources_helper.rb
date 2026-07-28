@@ -33,13 +33,19 @@ module OurResourcesHelper
   end
 
   def plan_design_further_learning
-    t('our_resources.stage_pages.design_develop.further_learning.items', default: {})
-      .with_indifferent_access
-      .values
+    stage_page_further_learning(:design_develop)
   end
 
   def design_develop_contributors
     stage_page_contributors(:design_develop)
+  end
+
+  def develop_further_learning
+    stage_page_further_learning(:develop)
+  end
+
+  def develop_contributors
+    stage_page_contributors(:develop)
   end
 
   def deliver_tools
@@ -77,6 +83,12 @@ module OurResourcesHelper
 
   def stage_page_contributors(stage_key)
     t("our_resources.stage_pages.#{stage_key}.contributors", default: {}).with_indifferent_access.values
+  end
+
+  def stage_page_further_learning(stage_key)
+    t("our_resources.stage_pages.#{stage_key}.further_learning.items", default: {})
+      .with_indifferent_access
+      .values
   end
 
   def stage_page_resources(stage_key)

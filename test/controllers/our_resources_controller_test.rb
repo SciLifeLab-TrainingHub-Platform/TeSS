@@ -119,6 +119,20 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-develop__link-list a[href=?]', 'https://canvascommons.io/', text: /Canvas Commons/
     assert_select '.resources-develop__link-list a[href=?]', 'https://obsproject.com/', text: /OBS Studio/
     assert_select '.resources-develop__link-list a[href=?]', 'https://www.blender.org/', text: /Blender/
+    assert_select '.resources-further-learning__card', count: 4
+    assert_select '.resources-further-learning__card h3', text: 'FAIR by design course'
+    assert_select '.resources-further-learning__card h3',
+                  text: 'Training Hub Resources for Course Planning'
+    assert_select '.resources-further-learning__card h3',
+                  text: 'Training Hub Resources for Recording Webinars'
+    assert_select '.resources-further-learning__card h3', text: 'Video Training Production Guide'
+    assert_select '.resources-further-learning__link[href=?]',
+                  'https://doi.org/10.17044/scilifelab.28194329.v1',
+                  text: /Resource Collection/
+    assert_select '.resources-stage-contributors__item', count: 3
+    assert_select '.resources-stage-contributors__item', text: /Kristen Schroeder/
+    assert_select '.resources-stage-contributors__item', text: /Nina Norgren/
+    assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
   end
 
   test 'should get deliver page' do

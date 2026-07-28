@@ -380,6 +380,41 @@ en:
               blender:
                 label: Blender
                 url: https://www.blender.org/
+        further_learning:
+          title: Further Learning
+          items:
+            fair_by_design:
+              title: FAIR by design course
+              description: >
+                A two-day course from VIB, NBIS, and the SciLifeLab Training Hub on developing materials
+                that are release-ready.
+              cta: Training Catalogue
+              url: /events
+            course_planning:
+              title: Training Hub Resources for Course Planning
+              description: Timelines, checklists and templates for structuring courses.
+              cta: Resource Collection
+              url: https://doi.org/10.17044/scilifelab.28194329.v1
+            recording_webinars:
+              title: Training Hub Resources for Recording Webinars
+              description: Basic guidelines for delivering and capturing training with Zoom.
+              cta: Resource Collection
+              url: https://doi.org/10.17044/scilifelab.24512674
+            video_training:
+              title: Video Training Production Guide
+              description: >
+                Basic guidelines from the SciLifeLab Training Hub on preparing, capturing, and editing
+                training video.
+              cta: Resource Collection
+              url: https://doi.org/10.17044/scilifelab.24599835
+        contributors:
+          kristen_schroeder:
+            name: Kristen Schroeder
+            image: scilifelab/staff/kristen-resize.png
+          nina_norgren:
+            name: Nina Norgren
+          ineke_luijten:
+            name: Ineke Luijten
       deliver:
         title: Deliver
         summary: >
