@@ -71,45 +71,38 @@ module Ingestors
       # puts "calevent: #{calevent.inspect}"
       begin
         # set fields
+        # icalendar >= 2.10 returns properties as wrapped Icalendar::Values types
+        # (or nil when absent), so access them nil-safely.
         event = OpenStruct.new
-        event.url = calevent.url.to_s
-        event.title = calevent.summary.to_s
+        event.url = calevent.url&.to_s
+        event.title = calevent.summary&.to_s
         event.description = process_description calevent.description
-
-        # puts "\n\ncalevent.description = #{calevent.description}"
-        # puts "\n\n...        converted = #{event.description}"
 
         event.end = calevent.dtend&.to_time
         unless calevent.dtstart.nil?
           dtstart = calevent.dtstart
           event.start = dtstart&.to_time
+          # icalendar >= 2.11 always returns the tzid param as an array.
           tzid = dtstart.ical_params['tzid']
-          event.timezone = tzid.first.to_s if !tzid.nil? and tzid.size > 0
+          event.timezone = tzid.first.to_s if tzid.present?
         end
 
-        event.venue = calevent.location.to_s
-        if calevent.location.downcase.include?('online')
-          event.online = true
-          event.city = nil
-          event.postcode = nil
-          event.country = nil
-        else
-          location = convert_location(calevent.location)
-          event.city = location['suburb'] unless location['suburb'].nil?
-          event.country = location['country'] unless location['country'].nil?
-          event.postcode = location['postcode'] unless location['postcode'].nil?
-        end
-        event.keywords = []
-        unless calevent.categories.nil? or calevent.categories.first.nil?
-          cats = calevent.categories.first
-          if cats.is_a?(Icalendar::Values::Array)
-            cats.each do |item|
-              event.keywords << item.to_s.lstrip
-            end
-          else
-            event.keywords << cats.to_s.strip
+        # icalendar >= 2.10 returns location as an Icalendar::Values wrapper, not a
+        # String — coerce to a plain String once for the string operations.
+        if calevent.location.present?
+          location = calevent.location.to_s
+          event.venue = location
+          if location.downcase.include?('online')
+            event.online = true
+            event.city = nil
+            event.postcode = nil
+            event.country = nil
           end
         end
+
+        # icalendar >= 2.10 returns categories as a plain (possibly nested) Array
+        # of strings; the old Icalendar::Values::Array wrapper moved to Helpers.
+        event.keywords = Array(calevent.categories).flatten.map { |c| c.to_s.strip }.reject(&:blank?)
 
         # store event
         @events << event

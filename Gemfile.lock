@@ -249,8 +249,11 @@ GEM
       concurrent-ruby (~> 1.0)
     i18n_data (0.17.1)
       simple_po_parser (~> 1.1)
-    icalendar (2.9.0)
+    icalendar (2.12.3)
+      base64
       ice_cube (~> 0.16)
+      logger
+      ostruct
     ice_cube (0.16.4)
     iso_country_codes (0.7.8)
     jbuilder (2.11.5)
