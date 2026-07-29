@@ -27,7 +27,7 @@ jobs:
       DB_NAME: tess
       DB_USER: tess
       DB_PASSWORD: password
-      SECRET_BASE_KEY: test_key
+      SECRET_KEY_BASE: test_key
       REDIS_TEST_URL: redis://localhost:6379/0
       PREV_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
 
