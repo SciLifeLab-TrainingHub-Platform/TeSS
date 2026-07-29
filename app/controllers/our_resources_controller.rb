@@ -23,7 +23,7 @@ class OurResourcesController < ApplicationController
     end
 
     def deliver
-      @breadcrumbs += [{ name: 'Deliver', url: deliver_stage_path }]
+      @breadcrumbs = nil
     end
 
     def evaluate_archive

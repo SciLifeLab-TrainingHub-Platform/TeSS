@@ -32,6 +32,13 @@ module OurResourcesHelper
     )
   end
 
+  def deliver_section_links
+    stage_page_section_links(
+      :deliver,
+      section_keys: %i[facilitation tools feedback]
+    )
+  end
+
   def plan_design_further_learning
     stage_page_further_learning(:design_develop)
   end
@@ -49,7 +56,7 @@ module OurResourcesHelper
   end
 
   def deliver_tools
-    t('our_resources.stage_pages.deliver.tools.items', default: {}).with_indifferent_access.values
+    t('our_resources.stage_pages.deliver.sections.tools.items', default: {}).with_indifferent_access.values
   end
 
   def deliver_sections

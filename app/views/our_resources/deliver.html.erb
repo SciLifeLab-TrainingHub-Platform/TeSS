@@ -1,17 +1,28 @@
-<section class="resources-stage-page resources-stage-page--deliver">
-  <header class="resources-stage-page__hero">
-    <div class="resources-stage-page__intro">
-      <h1><%= t('our_resources.stage_pages.deliver.title') %></h1>
-      <p><%= t('our_resources.stage_pages.deliver.summary') %></p>
+<% content_for :title, raw(t('our_resources.stage_pages.deliver.title')) %>
+
+<%= render layout: 'our_resources/stage_pages/shell',
+           locals: {
+             modifier: 'deliver',
+             active_key: :deliver,
+             title: t('our_resources.stage_pages.deliver.title'),
+             intro_paragraphs: [
+               t('our_resources.stage_pages.deliver.summary'),
+               t('our_resources.stage_pages.deliver.introduction')
+             ],
+             section_links: deliver_section_links
+           } do %>
+  <% facilitation = t('our_resources.stage_pages.deliver.sections.facilitation').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= facilitation[:anchor] %>">
+    <h2><%= facilitation[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p><%= facilitation[:body] %></p>
     </div>
+  </section>
 
-    <%= render 'our_resources/stage_pages/stage_nav', active_key: :deliver %>
-  </header>
-
-  <div class="resources-stage-deliver">
-    <section class="resources-stage-deliver__tools" aria-labelledby="resources-stage-deliver-tools-title">
-      <h2 id="resources-stage-deliver-tools-title"><%= t('our_resources.stage_pages.deliver.tools.title') %></h2>
-
+  <% tools = t('our_resources.stage_pages.deliver.sections.tools').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= tools[:anchor] %>">
+    <h2><%= tools[:title] %></h2>
+    <div class="resources-stage-section__body">
       <ul class="resources-stage-deliver__tool-list">
         <% deliver_tools.each do |tool| %>
           <li class="resources-stage-deliver__tool-item">
@@ -38,17 +49,13 @@
           </li>
         <% end %>
       </ul>
-    </section>
-
-    <div class="resources-stage-deliver__content">
-      <% deliver_sections.each do |section| %>
-        <section class="resources-stage-deliver__section">
-          <h2><%= section[:title] %></h2>
-          <p><%= section[:body] %></p>
-        </section>
-      <% end %>
     </div>
-  </div>
+  </section>
+
+  <% feedback = t('our_resources.stage_pages.deliver.sections.feedback').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= feedback[:anchor] %>">
+    <h2><%= feedback[:title] %></h2>
+  </section>
 
   <%= render 'our_resources/stage_pages/resources',
              title: t('our_resources.stage_pages.deliver.resources_heading'),
@@ -57,4 +64,4 @@
   <%= render 'our_resources/stage_pages/contributors',
              title: t('our_resources.stage_pages.contributors_heading'),
              contributors: deliver_contributors %>
-</section>
+<% end %>

@@ -167,9 +167,29 @@ class OurResourcesControllerTest < ActionController::TestCase
     get :deliver
 
     assert_response :success
+    assert_select '.breadcrumbs', count: 0
+    assert_select 'title', "Deliver - #{TeSS::Config.site['title']}"
     assert_select 'h1', 'Deliver'
+    assert_select '.resources-stage-page--shell.resources-stage-page--deliver', count: 1
     assert_select '.resources-stage-nav__item--active .resources-stage-nav__label', text: 'Deliver'
-    assert_select '.resources-stage-deliver__tools h2', text: 'Tools for training delivery'
+    assert_select '.resources-stage-nav__sections[aria-label=?]', 'Deliver sections', count: 1
+    assert_select '.resources-stage-nav__sections a', count: 3
+    assert_select '.resources-stage-nav__sections a[href=?]',
+                  '#facilitation-collaborative-learning',
+                  count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]',
+                  '#tools-for-training-delivery',
+                  count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]',
+                  '#feedback-forms-certificates',
+                  count: 1
+    assert_select '.resources-stage-section', count: 3
+    assert_select '#facilitation-collaborative-learning.resources-stage-section h2',
+                  text: 'Facilitation and collaborative learning'
+    assert_select '#tools-for-training-delivery.resources-stage-section h2',
+                  text: 'Tools for training delivery'
+    assert_select '#feedback-forms-certificates.resources-stage-section h2',
+                  text: 'Feedback surveys and certificates'
     assert_select '.resources-stage-deliver__tool[href=?]',
                   'https://training-certificate.serve.scilifelab.se/app/training-certificate',
                   text: /Course Certificate App/
@@ -182,8 +202,7 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-deliver__tool[href=?]', 'https://www.menti.com/', text: /Menti/
     assert_select '.resources-stage-deliver__tool-description', text: 'Use SSO via your university login.'
     assert_select '.resources-stage-deliver__tool[href=?]', 'https://miro.com/', count: 0
-    assert_select '.resources-stage-deliver__section h2', text: 'Facilitation Techniques'
-    assert_select '.resources-stage-deliver__section p', text: /A successful facilitator/
+    assert_select '#facilitation-collaborative-learning p', text: /A successful facilitator/
     assert_select '.resources-stage-resources h2', text: 'Related Resources:'
     assert_select '.resources-stage-resource[href=?]',
                   'https://doi.org/10.17044/scilifelab.24599829.v1',

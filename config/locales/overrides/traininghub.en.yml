@@ -424,31 +424,16 @@ en:
       deliver:
         title: Deliver
         summary: >
-          Generate participant certificates, and get short term feedback to ensure your training is
-          effective through learning about your participants' experience.
-        tools:
-          title: Tools for training delivery
-          items:
-            certificate_app:
-              title: Course Certificate App
-              image: scilifelab/resources/deliver_tool.png
-              url: https://training-certificate.serve.scilifelab.se/app/training-certificate
-            whisper_ai:
-              title: WhisperAI
-              image: scilifelab/resources/deliver_tool.png
-              url: https://whisper-ai.serve.scilifelab.se/
-            teaching_notebooks:
-              title: JupyterLab, RStudio & other notebooks
-              image: scilifelab/resources/deliver_tool.png
-              url: https://serve.scilifelab.se/docs/teaching/
-            menti:
-              title: Menti
-              description: Use SSO via your university login.
-              image: scilifelab/resources/deliver_tool.png
-              url: https://www.menti.com/
+          Access tools to make your training more engaging, generate participant certificates, and get
+          short term feedback to find out what your participants learned.
+        introduction: >
+          Our team provides assistance with developing templates and infrastructure to simplify and
+          harmonize training delivery, as well as developmental support and feedback on delivery formats
+          of training at SciLifeLab.
         sections:
           facilitation:
-            title: Facilitation Techniques
+            anchor: facilitation-collaborative-learning
+            title: Facilitation and collaborative learning
             body: >
               A successful facilitator takes responsibility for the environment a course exercise,
               discussion, or workshop is held in, which involves working to build a culture of respect,
@@ -456,6 +441,31 @@ en:
               important to remember facilitation is a learned and practiced skill. Asking for feedback
               from participants, colleagues, or the Training Hub is invaluable in developing as a
               facilitator.
+          tools:
+            anchor: tools-for-training-delivery
+            title: Tools for training delivery
+            items:
+              certificate_app:
+                title: Course Certificate App
+                image: scilifelab/resources/deliver_tool.png
+                url: https://training-certificate.serve.scilifelab.se/app/training-certificate
+              whisper_ai:
+                title: WhisperAI
+                image: scilifelab/resources/deliver_tool.png
+                url: https://whisper-ai.serve.scilifelab.se/
+              teaching_notebooks:
+                title: JupyterLab, RStudio & other notebooks
+                image: scilifelab/resources/deliver_tool.png
+                url: https://serve.scilifelab.se/docs/teaching/
+              menti:
+                title: Menti
+                description: Use SSO via your university login.
+                image: scilifelab/resources/deliver_tool.png
+                url: https://www.menti.com/
+          feedback:
+            anchor: feedback-forms-certificates
+            nav_title: Feedback forms and certificates
+            title: Feedback surveys and certificates
         resources_heading: "Related Resources:"
         resources:
           delivering_learning:

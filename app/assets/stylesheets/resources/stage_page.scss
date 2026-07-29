@@ -419,6 +419,14 @@
       font-size: 18px;
     }
   }
+
+  // Keep the legacy Deliver tool grid inside the shared shell until it is replaced.
+  .resources-stage-page--shell.resources-stage-page--deliver {
+    .resources-stage-deliver__tool-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 560px;
+    }
+  }
 }
 
 @media screen and (max-width: 991px) {
