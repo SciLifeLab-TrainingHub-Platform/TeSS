@@ -79,7 +79,7 @@ jobs:
         # migrations so only the previous schema is loaded.
         if: env.PREV_SHA != '0000000000000000000000000000000000000000'
         run: |
-          git fetch origin ${{ env.PREV_SHA }}
+          git fetch --no-tags --depth=1 origin "${{ env.PREV_SHA }}"
           git checkout ${{ env.PREV_SHA }} -- db/schema.rb
           mv db/migrate db/migrate.bkp
           git checkout ${{ env.PREV_SHA }} -- db/migrate
