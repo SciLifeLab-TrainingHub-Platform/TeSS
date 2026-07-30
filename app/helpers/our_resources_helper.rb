@@ -55,14 +55,6 @@ module OurResourcesHelper
     stage_page_contributors(:develop)
   end
 
-  def deliver_tools
-    t('our_resources.stage_pages.deliver.sections.tools.items', default: {}).with_indifferent_access.values
-  end
-
-  def deliver_sections
-    stage_page_sections(:deliver)
-  end
-
   def deliver_resources
     stage_page_resources(:deliver)
   end
@@ -82,10 +74,6 @@ module OurResourcesHelper
         title: section[:nav_title] || section[:title]
       }
     end
-  end
-
-  def stage_page_sections(stage_key)
-    t("our_resources.stage_pages.#{stage_key}.sections", default: {}).with_indifferent_access.values
   end
 
   def stage_page_contributors(stage_key)

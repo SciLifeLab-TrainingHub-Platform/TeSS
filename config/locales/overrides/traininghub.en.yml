@@ -464,24 +464,32 @@ en:
           tools:
             anchor: tools-for-training-delivery
             title: Tools for training delivery
-            items:
-              certificate_app:
-                title: Course Certificate App
-                image: scilifelab/resources/deliver_tool.png
-                url: https://training-certificate.serve.scilifelab.se/app/training-certificate
-              whisper_ai:
-                title: WhisperAI
-                image: scilifelab/resources/deliver_tool.png
-                url: https://whisper-ai.serve.scilifelab.se/
-              teaching_notebooks:
-                title: JupyterLab, RStudio & other notebooks
-                image: scilifelab/resources/deliver_tool.png
-                url: https://serve.scilifelab.se/docs/teaching/
-              menti:
-                title: Menti
-                description: Use SSO via your university login.
-                image: scilifelab/resources/deliver_tool.png
-                url: https://www.menti.com/
+            introduction:
+              before_link: >
+                In addition to planning for engaging learning experiences, tools are available to assist
+                in actively engaging your participants to help foster their learning. Tools such as
+              link_label: Mentimeter
+              url: https://www.mentimeter.com
+              after_link: >
+                or the Google suite can be used to get instant feedback on the learning process of your
+                participants as they follow your training. Most Universities in Sweden have an institutional
+                Mentimeter license. Follow the link below to sign in using your institutional credentials.
+            action:
+              label: Log in to Mentimeter using SSO
+              url: https://www.mentimeter.com/auth/saml
+            follow_up: >
+              There are a wide range of tools that can be used during training delivery to facilitate the
+              learning experience. A few that are used regularly in SciLifeLab training are linked below:
+            links:
+              miro:
+                label: Miro - collaborative canvases
+                url: https://miro.com/
+              kahoot:
+                label: Kahoot! - quizzes
+                url: https://create.kahoot.it/page/en/make
+              slido:
+                label: Slido - surveys, quizzes, etc.
+                url: https://www.slido.com/
           feedback:
             anchor: feedback-forms-certificates
             nav_title: Feedback forms and certificates

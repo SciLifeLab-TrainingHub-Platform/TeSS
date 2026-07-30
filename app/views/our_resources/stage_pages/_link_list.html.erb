@@ -1,0 +1,16 @@
+<% list_classes = ['resources-stage-link-list'] %>
+<% list_classes << local_assigns[:class_name] if local_assigns[:class_name].present? %>
+
+<ul class="<%= list_classes.join(' ') %>">
+  <% links.each do |link| %>
+    <% external = link[:url].to_s.start_with?('http://', 'https://') %>
+    <li>
+      <%= link_to link[:url],
+                  target: (external ? '_blank' : nil),
+                  rel: (external ? 'noopener noreferrer' : nil) do %>
+        <i class="fa fa-link" aria-hidden="true"></i>
+        <span><%= link[:label] %></span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

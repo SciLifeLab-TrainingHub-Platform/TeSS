@@ -132,11 +132,12 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-action[href=?]',
                   'https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing',
                   text: /Checklist for Training Material Metadata/
-    assert_select '.resources-develop__link-list a[href=?]', 'https://unsplash.com/', text: /Unsplash/
-    assert_select '.resources-develop__link-list a[href=?]', 'https://pixabay.com/', text: /Pixabay/
-    assert_select '.resources-develop__link-list a[href=?]', 'https://canvascommons.io/', text: /Canvas Commons/
-    assert_select '.resources-develop__link-list a[href=?]', 'https://obsproject.com/', text: /OBS Studio/
-    assert_select '.resources-develop__link-list a[href=?]', 'https://www.blender.org/', text: /Blender/
+    assert_select '#fair-training-materials .resources-stage-link-list', count: 2
+    assert_select '.resources-stage-link-list a[href=?]', 'https://unsplash.com/', text: /Unsplash/
+    assert_select '.resources-stage-link-list a[href=?]', 'https://pixabay.com/', text: /Pixabay/
+    assert_select '.resources-stage-link-list a[href=?]', 'https://canvascommons.io/', text: /Canvas Commons/
+    assert_select '.resources-stage-link-list a[href=?]', 'https://obsproject.com/', text: /OBS Studio/
+    assert_select '.resources-stage-link-list a[href=?]', 'https://www.blender.org/', text: /Blender/
     assert_select '.resources-further-learning__card', count: 4
     assert_select '.resources-further-learning__card h3', text: 'FAIR by design course'
     assert_select '.resources-further-learning__card h3',
@@ -190,18 +191,33 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: 'Tools for training delivery'
     assert_select '#feedback-forms-certificates.resources-stage-section h2',
                   text: 'Feedback surveys and certificates'
-    assert_select '.resources-stage-deliver__tool[href=?]',
-                  'https://training-certificate.serve.scilifelab.se/app/training-certificate',
-                  text: /Course Certificate App/
-    assert_select '.resources-stage-deliver__tool[href=?]',
-                  'https://whisper-ai.serve.scilifelab.se/',
-                  text: /WhisperAI/
-    assert_select '.resources-stage-deliver__tool[href=?]',
-                  'https://serve.scilifelab.se/docs/teaching/',
-                  text: /JupyterLab, RStudio & other notebooks/
-    assert_select '.resources-stage-deliver__tool[href=?]', 'https://www.menti.com/', text: /Menti/
-    assert_select '.resources-stage-deliver__tool-description', text: 'Use SSO via your university login.'
-    assert_select '.resources-stage-deliver__tool[href=?]', 'https://miro.com/', count: 0
+    assert_select '#tools-for-training-delivery .resources-stage-prose p',
+                  text: /tools are available to assist in actively engaging your participants/
+    assert_select '#tools-for-training-delivery a[href=?]',
+                  'https://www.mentimeter.com',
+                  text: 'Mentimeter'
+    assert_select '#tools-for-training-delivery .resources-deliver__mentimeter-action[href=?]',
+                  'https://www.mentimeter.com/auth/saml',
+                  text: 'Log in to Mentimeter using SSO'
+    assert_select '#tools-for-training-delivery .resources-deliver__mentimeter-action .fa-star-o',
+                  count: 1
+    assert_select '#tools-for-training-delivery .resources-stage-prose p',
+                  text: /A few that are used regularly in SciLifeLab training are linked below:/
+    assert_select '#tools-for-training-delivery .resources-stage-link-list li', count: 3
+    assert_select '#tools-for-training-delivery .resources-stage-link-list a[href=?]',
+                  'https://miro.com/',
+                  text: 'Miro - collaborative canvases'
+    assert_select '#tools-for-training-delivery .resources-stage-link-list a[href=?]',
+                  'https://create.kahoot.it/page/en/make',
+                  text: 'Kahoot! - quizzes'
+    assert_select '#tools-for-training-delivery .resources-stage-link-list a[href=?]',
+                  'https://www.slido.com/',
+                  text: 'Slido - surveys, quizzes, etc.'
+    assert_select '#tools-for-training-delivery .resources-stage-link-list a[target=?][rel=?]',
+                  '_blank',
+                  'noopener noreferrer',
+                  count: 3
+    assert_select '#tools-for-training-delivery .resources-stage-deliver__tool-list', count: 0
     assert_select '#facilitation-collaborative-learning p',
                   text: /Training at SciLifeLab often involves facilitating discussions/
     assert_select '#facilitation-collaborative-learning p',

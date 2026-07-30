@@ -167,53 +167,9 @@ a.resources-develop__checklist-action {
   margin: 28px 0 12px;
 }
 
-.resources-develop__fair-materials {
-  .resources-stage-prose a {
-    color: $scilifelab-color-dark-gray;
-
-    &:hover,
-    &:focus {
-      color: $scilifelab-color-grape;
-    }
-  }
-}
-
 .resources-develop__link-list {
-  display: grid;
-  gap: 11px;
-  list-style: none;
-  margin: 22px 0 18px;
-  padding: 0 0 0 7px;
-
-  a {
-    align-items: center;
-    color: $gray-base;
-    display: inline-flex;
-    font-size: 18px;
-    font-weight: 600;
-    gap: 12px;
-    letter-spacing: -0.02em;
-    line-height: 1.25;
-    min-height: 31px;
-    text-decoration: none;
-
-    &:hover,
-    &:focus {
-      color: $scilifelab-color-teal;
-      text-decoration: underline;
-    }
-  }
-
-  .fa {
-    align-items: center;
-    display: inline-flex;
-    flex: 0 0 25px;
-    font-size: 21px;
-    height: 25px;
-    justify-content: center;
-    line-height: 25px;
-    width: 25px;
-  }
+  margin-bottom: 18px;
+  padding-left: 7px;
 }
 
 .resources-develop__link-list--tools {
@@ -294,9 +250,5 @@ a.resources-develop__checklist-action {
 
   .resources-develop__fair-heading {
     font-size: 21px;
-  }
-
-  .resources-develop__link-list a {
-    font-size: 17px;
   }
 }

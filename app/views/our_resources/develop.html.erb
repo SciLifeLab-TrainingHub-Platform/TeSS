@@ -115,16 +115,9 @@
       <div class="resources-stage-prose">
         <p><%= fair_materials[:royalty_free_text] %></p>
       </div>
-      <ul class="resources-develop__link-list resources-develop__link-list--sources">
-        <% fair_materials[:royalty_free_sources].each_value do |source| %>
-          <li>
-            <%= link_to source[:url], target: '_blank', rel: 'noopener noreferrer' do %>
-              <i class="fa fa-link" aria-hidden="true"></i>
-              <span><%= source[:label] %></span>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
+      <%= render 'our_resources/stage_pages/link_list',
+                 links: fair_materials[:royalty_free_sources].values,
+                 class_name: 'resources-develop__link-list resources-develop__link-list--sources' %>
 
       <div class="resources-stage-prose">
         <p>
@@ -136,16 +129,9 @@
           <%= fair_materials[:software_after_link] %>
         </p>
       </div>
-      <ul class="resources-develop__link-list resources-develop__link-list--tools">
-        <% fair_materials[:software_tools].each_value do |tool| %>
-          <li>
-            <%= link_to tool[:url], target: '_blank', rel: 'noopener noreferrer' do %>
-              <i class="fa fa-link" aria-hidden="true"></i>
-              <span><%= tool[:label] %></span>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
+      <%= render 'our_resources/stage_pages/link_list',
+                 links: fair_materials[:software_tools].values,
+                 class_name: 'resources-develop__link-list resources-develop__link-list--tools' %>
     </div>
   </section>
 

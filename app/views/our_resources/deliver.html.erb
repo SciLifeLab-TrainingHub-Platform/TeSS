@@ -47,32 +47,33 @@
   <section class="resources-stage-section" id="<%= tools[:anchor] %>">
     <h2><%= tools[:title] %></h2>
     <div class="resources-stage-section__body">
-      <ul class="resources-stage-deliver__tool-list">
-        <% deliver_tools.each do |tool| %>
-          <li class="resources-stage-deliver__tool-item">
-            <% if tool[:url].present? %>
-              <%= link_to tool[:url],
-                          class: 'resources-stage-deliver__tool',
-                          target: '_blank',
-                          rel: 'noopener noreferrer' do %>
-                <%= image_tag(asset_path(tool[:image]), alt: '', class: 'resources-stage-deliver__tool-image') %>
-                <span class="resources-stage-deliver__tool-title"><%= tool[:title] %></span>
-                <% if tool[:description].present? %>
-                  <span class="resources-stage-deliver__tool-description"><%= tool[:description] %></span>
-                <% end %>
-              <% end %>
-            <% else %>
-              <div class="resources-stage-deliver__tool resources-stage-deliver__tool--static">
-                <%= image_tag(asset_path(tool[:image]), alt: '', class: 'resources-stage-deliver__tool-image') %>
-                <span class="resources-stage-deliver__tool-title"><%= tool[:title] %></span>
-                <% if tool[:description].present? %>
-                  <span class="resources-stage-deliver__tool-description"><%= tool[:description] %></span>
-                <% end %>
-              </div>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
+      <div class="resources-stage-prose">
+        <p>
+          <%= tools.dig(:introduction, :before_link) %>
+          <%= link_to tools.dig(:introduction, :link_label),
+                      tools.dig(:introduction, :url),
+                      target: '_blank',
+                      rel: 'noopener noreferrer' %>
+          <%= tools.dig(:introduction, :after_link) %>
+        </p>
+      </div>
+
+      <div class="resources-stage-actions resources-deliver__mentimeter-action-row">
+        <%= render 'our_resources/stage_pages/action_link',
+                   label: tools.dig(:action, :label),
+                   url: tools.dig(:action, :url),
+                   variant: 'lime',
+                   icon: 'star-o',
+                   class_name: 'resources-deliver__mentimeter-action' %>
+      </div>
+
+      <div class="resources-stage-prose">
+        <p><%= tools[:follow_up] %></p>
+      </div>
+
+      <%= render 'our_resources/stage_pages/link_list',
+                 links: tools[:links].values,
+                 class_name: 'resources-deliver__tool-links' %>
     </div>
   </section>
 
