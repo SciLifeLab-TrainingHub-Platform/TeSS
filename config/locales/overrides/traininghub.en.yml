@@ -541,11 +541,22 @@ en:
               cta: Resource Collection
               url: https://doi.org/10.17044/scilifelab.28512722.v1
         contributors:
-          oliver_onions:
-            name: Oliver Onions
+          kristen_schroeder:
+            name: Kristen Schroeder
+            image: scilifelab/staff/kristen-resources-thumbnail.webp
+            url: https://training.scilifelab.se/users/kschroeder
+          nina_norgren:
+            name: Nina Norgren
+            image: scilifelab/staff/nina-resources-thumbnail.webp
+            url: https://training.scilifelab.se/users/ninanorgren
           ineke_luijten:
             name: Ineke Luijten
             image: scilifelab/staff/ineke-resources-thumbnail.webp
+            url: https://training.scilifelab.se/users/inekeluijten
+          jill_jaworski:
+            name: Jill Jaworski
+            image: scilifelab/staff/jill-resources-thumbnail.webp
+            url: https://training.scilifelab.se/users/j-jaworski
   activerecord:
     models:
       event: "Training"

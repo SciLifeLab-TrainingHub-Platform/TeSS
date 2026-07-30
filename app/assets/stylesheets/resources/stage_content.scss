@@ -473,12 +473,38 @@ a.resources-stage-action--teal {
     flex: 0 0 231px;
     font-size: 20px;
     font-weight: 400;
-    gap: 8px;
     letter-spacing: -0.02em;
     line-height: 1.2;
     min-height: 51px;
-    padding: 5px 12px 5px 6px;
+    padding: 0;
     width: 231px;
+  }
+
+  .resources-stage-contributors__content {
+    align-items: center;
+    box-sizing: border-box;
+    color: $dark-color;
+    display: flex;
+    gap: 8px;
+    min-height: 51px;
+    padding: 5px 12px 5px 6px;
+    text-decoration: none;
+    width: 100%;
+  }
+
+  a.resources-stage-contributors__content {
+    border-radius: 999px;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-teal;
+      text-decoration: none;
+    }
+
+    &:focus {
+      outline: 3px solid $scilifelab-color-lime;
+      outline-offset: 3px;
+    }
   }
 
   .resources-stage-contributors__icon {
@@ -500,6 +526,13 @@ a.resources-stage-action--teal {
 }
 
 @media screen and (min-width: 1200px) {
+  .resources-stage-page--shell {
+    .resources-stage-contributors__list--count-4::after {
+      content: "";
+      flex: 0 0 213px;
+    }
+  }
+
   .resources-further-learning__grid {
     column-gap: 11px;
     grid-template-columns: repeat(3, 240px);

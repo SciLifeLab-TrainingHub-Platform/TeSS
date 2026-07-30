@@ -294,10 +294,36 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '_blank',
                   'noopener noreferrer',
                   count: 3
-    assert_select '.resources-stage-contributors__item', text: /Oliver Onions/
+    assert_select '.resources-stage-contributors__item', count: 4
+    assert_select '.resources-stage-contributors__item', text: /Kristen Schroeder/
+    assert_select '.resources-stage-contributors__item', text: /Nina Norgren/
     assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
+    assert_select '.resources-stage-contributors__item', text: /Jill Jaworski/
+    assert_select '.resources-stage-contributors__content[href=?]',
+                  'https://training.scilifelab.se/users/kschroeder',
+                  count: 1
+    assert_select '.resources-stage-contributors__content[href=?]',
+                  'https://training.scilifelab.se/users/ninanorgren',
+                  count: 1
+    assert_select '.resources-stage-contributors__content[href=?]',
+                  'https://training.scilifelab.se/users/inekeluijten',
+                  count: 1
+    assert_select '.resources-stage-contributors__content[href=?]',
+                  'https://training.scilifelab.se/users/j-jaworski',
+                  count: 1
+    assert_select '.resources-stage-contributors__content[target]', count: 0
+    assert_select '.resources-stage-contributors__icon--portrait', count: 4
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'kristen-resources-thumbnail',
+                  count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'nina-resources-thumbnail',
+                  count: 1
     assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
                   'ineke-resources-thumbnail',
+                  count: 1
+    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
+                  'jill-resources-thumbnail',
                   count: 1
   end
 
