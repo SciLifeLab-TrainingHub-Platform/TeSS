@@ -5,21 +5,13 @@
     <ul class="resources-stage-contributors__list resources-stage-contributors__list--count-<%= contributors.size %>">
       <% contributors.each do |contributor| %>
         <li class="resources-stage-contributors__item">
-          <% contributor_content = capture do %>
+          <%= link_to contributor[:url], class: 'resources-stage-contributors__content' do %>
             <%= image_tag contributor[:image].presence || 'scilifelab/SciLifeLab_symbol_green.png',
                           alt: '',
                           class: "resources-stage-contributors__icon#{
                             ' resources-stage-contributors__icon--portrait' if contributor[:image].present?
                           }" %>
             <span><%= contributor[:name] %></span>
-          <% end %>
-
-          <% if contributor[:url].present? %>
-            <%= link_to contributor[:url], class: 'resources-stage-contributors__content' do %>
-              <%= contributor_content %>
-            <% end %>
-          <% else %>
-            <span class="resources-stage-contributors__content"><%= contributor_content %></span>
           <% end %>
         </li>
       <% end %>

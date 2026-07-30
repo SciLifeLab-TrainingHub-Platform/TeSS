@@ -77,7 +77,16 @@ module OurResourcesHelper
   end
 
   def stage_page_contributors(stage_key)
-    t("our_resources.stage_pages.#{stage_key}.contributors", default: {}).with_indifferent_access.values
+    contributor_profiles = t(
+      'our_resources.stage_pages.contributor_profiles',
+      default: {}
+    ).with_indifferent_access
+    contributor_keys = t(
+      "our_resources.stage_pages.#{stage_key}.contributors",
+      default: []
+    )
+
+    contributor_keys.map { |key| contributor_profiles.fetch(key) }
   end
 
   def stage_page_further_learning(stage_key)

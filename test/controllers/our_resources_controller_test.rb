@@ -3,6 +3,34 @@ require 'test_helper'
 class OurResourcesControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
+  CONTRIBUTORS = {
+    kristen_schroeder: {
+      name: 'Kristen Schroeder',
+      image: 'kristen-resources-thumbnail',
+      url: 'https://training.scilifelab.se/users/kschroeder'
+    },
+    nina_norgren: {
+      name: 'Nina Norgren',
+      image: 'nina-resources-thumbnail',
+      url: 'https://training.scilifelab.se/users/ninanorgren'
+    },
+    ineke_luijten: {
+      name: 'Ineke Luijten',
+      image: 'ineke-resources-thumbnail',
+      url: 'https://training.scilifelab.se/users/inekeluijten'
+    },
+    jill_jaworski: {
+      name: 'Jill Jaworski',
+      image: 'jill-resources-thumbnail',
+      url: 'https://training.scilifelab.se/users/j-jaworski'
+    },
+    jessica_lindvall: {
+      name: 'Jessica Lindvall',
+      image: 'jessica-resources-thumbnail',
+      url: 'https://training.scilifelab.se/about/us#team'
+    }
+  }.freeze
+
   test 'should get resources landing page' do
     get :our_resources
 
@@ -54,28 +82,13 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-further-learning__card', count: 6
     assert_select '.resources-further-learning__card h3', text: 'Train-the-Trainer course'
     assert_select '.resources-further-learning__card h3', text: 'Bicycle Principles for Short-form Training'
-    assert_select '.resources-stage-contributors__item', count: 5
-    assert_select '.resources-stage-contributors__item', text: /Kristen Schroeder/
-    assert_select '.resources-stage-contributors__icon--portrait', count: 5
-    assert_select '.resources-stage-contributors__item', text: /Nina Norgren/
-    assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
-    assert_select '.resources-stage-contributors__item', text: /Jill Jaworski/
-    assert_select '.resources-stage-contributors__item', text: /Jessica Lindvall/
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'kristen-resources-thumbnail',
-                  count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'nina-resources-thumbnail',
-                  count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'ineke-resources-thumbnail',
-                  count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'jill-resources-thumbnail',
-                  count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'jessica-resources-thumbnail',
-                  count: 1
+    assert_contributors(
+      :kristen_schroeder,
+      :nina_norgren,
+      :ineke_luijten,
+      :jill_jaworski,
+      :jessica_lindvall
+    )
   end
 
   test 'should get develop page' do
@@ -148,20 +161,7 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-further-learning__link[href=?]',
                   'https://doi.org/10.17044/scilifelab.28194329.v1',
                   text: /Resource Collection/
-    assert_select '.resources-stage-contributors__item', count: 3
-    assert_select '.resources-stage-contributors__icon--portrait', count: 3
-    assert_select '.resources-stage-contributors__item', text: /Kristen Schroeder/
-    assert_select '.resources-stage-contributors__item', text: /Nina Norgren/
-    assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'kristen-resources-thumbnail',
-                  count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'nina-resources-thumbnail',
-                  count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'ineke-resources-thumbnail',
-                  count: 1
+    assert_contributors :kristen_schroeder, :nina_norgren, :ineke_luijten
   end
 
   test 'should get deliver page' do
@@ -294,37 +294,7 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '_blank',
                   'noopener noreferrer',
                   count: 3
-    assert_select '.resources-stage-contributors__item', count: 4
-    assert_select '.resources-stage-contributors__item', text: /Kristen Schroeder/
-    assert_select '.resources-stage-contributors__item', text: /Nina Norgren/
-    assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
-    assert_select '.resources-stage-contributors__item', text: /Jill Jaworski/
-    assert_select '.resources-stage-contributors__content[href=?]',
-                  'https://training.scilifelab.se/users/kschroeder',
-                  count: 1
-    assert_select '.resources-stage-contributors__content[href=?]',
-                  'https://training.scilifelab.se/users/ninanorgren',
-                  count: 1
-    assert_select '.resources-stage-contributors__content[href=?]',
-                  'https://training.scilifelab.se/users/inekeluijten',
-                  count: 1
-    assert_select '.resources-stage-contributors__content[href=?]',
-                  'https://training.scilifelab.se/users/j-jaworski',
-                  count: 1
-    assert_select '.resources-stage-contributors__content[target]', count: 0
-    assert_select '.resources-stage-contributors__icon--portrait', count: 4
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'kristen-resources-thumbnail',
-                  count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'nina-resources-thumbnail',
-                  count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'ineke-resources-thumbnail',
-                  count: 1
-    assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
-                  'jill-resources-thumbnail',
-                  count: 1
+    assert_contributors :kristen_schroeder, :nina_norgren, :ineke_luijten, :jill_jaworski
   end
 
   test 'should get pedagogic support page with the shared booking calendar' do
@@ -334,5 +304,22 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '[data-cal-embed][data-cal-namespace=?]', 'support-consult', count: 1
     assert_select '[data-cal-calendar][hidden]', count: 1
     assert_select 'script', text: /Cal\("init"/, count: 0
+  end
+
+  private
+
+  def assert_contributors(*keys)
+    assert_select '.resources-stage-contributors__item', count: keys.size
+    assert_select '.resources-stage-contributors__content', count: keys.size
+    assert_select '.resources-stage-contributors__content[target]', count: 0
+    assert_select '.resources-stage-contributors__icon--portrait', count: keys.size
+
+    keys.each do |key|
+      contributor = CONTRIBUTORS.fetch(key)
+
+      assert_select '.resources-stage-contributors__item', text: /#{Regexp.escape(contributor[:name])}/
+      assert_select '.resources-stage-contributors__content[href=?]', contributor[:url], count: 1
+      assert_select '.resources-stage-contributors__icon--portrait[src*=?]', contributor[:image], count: 1
+    end
   end
 end

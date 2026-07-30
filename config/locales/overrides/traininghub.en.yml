@@ -98,6 +98,27 @@ en:
       sections_label: "%{stage} sections"
       resources_heading: Resources
       contributors_heading: Contributors
+      contributor_profiles:
+        kristen_schroeder:
+          name: Kristen Schroeder
+          image: scilifelab/staff/kristen-resources-thumbnail.webp
+          url: https://training.scilifelab.se/users/kschroeder
+        nina_norgren:
+          name: Nina Norgren
+          image: scilifelab/staff/nina-resources-thumbnail.webp
+          url: https://training.scilifelab.se/users/ninanorgren
+        ineke_luijten:
+          name: Ineke Luijten
+          image: scilifelab/staff/ineke-resources-thumbnail.webp
+          url: https://training.scilifelab.se/users/inekeluijten
+        jill_jaworski:
+          name: Jill Jaworski
+          image: scilifelab/staff/jill-resources-thumbnail.webp
+          url: https://training.scilifelab.se/users/j-jaworski
+        jessica_lindvall:
+          name: Jessica Lindvall
+          image: scilifelab/staff/jessica-resources-thumbnail.webp
+          url: https://training.scilifelab.se/about/us#team
       design_develop:
         title: Plan & Design
         summary: >
@@ -236,21 +257,11 @@ en:
               cta: Training Framework
               url: https://www.bikeprinciples.org/
         contributors:
-          kristen_schroeder:
-            name: Kristen Schroeder
-            image: scilifelab/staff/kristen-resources-thumbnail.webp
-          nina_norgren:
-            name: Nina Norgren
-            image: scilifelab/staff/nina-resources-thumbnail.webp
-          ineke_luijten:
-            name: Ineke Luijten
-            image: scilifelab/staff/ineke-resources-thumbnail.webp
-          jill_jaworski:
-            name: Jill Jaworski
-            image: scilifelab/staff/jill-resources-thumbnail.webp
-          jessica_lindvall:
-            name: Jessica Lindvall
-            image: scilifelab/staff/jessica-resources-thumbnail.webp
+          - kristen_schroeder
+          - nina_norgren
+          - ineke_luijten
+          - jill_jaworski
+          - jessica_lindvall
       develop:
         title: Develop
         summary: >
@@ -412,15 +423,9 @@ en:
               cta: Resource Collection
               url: https://doi.org/10.17044/scilifelab.24599835
         contributors:
-          kristen_schroeder:
-            name: Kristen Schroeder
-            image: scilifelab/staff/kristen-resources-thumbnail.webp
-          nina_norgren:
-            name: Nina Norgren
-            image: scilifelab/staff/nina-resources-thumbnail.webp
-          ineke_luijten:
-            name: Ineke Luijten
-            image: scilifelab/staff/ineke-resources-thumbnail.webp
+          - kristen_schroeder
+          - nina_norgren
+          - ineke_luijten
       deliver:
         title: Deliver
         summary: >
@@ -541,22 +546,10 @@ en:
               cta: Resource Collection
               url: https://doi.org/10.17044/scilifelab.28512722.v1
         contributors:
-          kristen_schroeder:
-            name: Kristen Schroeder
-            image: scilifelab/staff/kristen-resources-thumbnail.webp
-            url: https://training.scilifelab.se/users/kschroeder
-          nina_norgren:
-            name: Nina Norgren
-            image: scilifelab/staff/nina-resources-thumbnail.webp
-            url: https://training.scilifelab.se/users/ninanorgren
-          ineke_luijten:
-            name: Ineke Luijten
-            image: scilifelab/staff/ineke-resources-thumbnail.webp
-            url: https://training.scilifelab.se/users/inekeluijten
-          jill_jaworski:
-            name: Jill Jaworski
-            image: scilifelab/staff/jill-resources-thumbnail.webp
-            url: https://training.scilifelab.se/users/j-jaworski
+          - kristen_schroeder
+          - nina_norgren
+          - ineke_luijten
+          - jill_jaworski
   activerecord:
     models:
       event: "Training"
