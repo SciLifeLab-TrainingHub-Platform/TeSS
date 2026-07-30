@@ -434,13 +434,33 @@ en:
           facilitation:
             anchor: facilitation-collaborative-learning
             title: Facilitation and collaborative learning
-            body: >
-              A successful facilitator takes responsibility for the environment a course exercise,
-              discussion, or workshop is held in, which involves working to build a culture of respect,
-              sharing, and inclusivity. These techniques can assist in achieving that goal, but it's
-              important to remember facilitation is a learned and practiced skill. Asking for feedback
-              from participants, colleagues, or the Training Hub is invaluable in developing as a
-              facilitator.
+            introduction: >
+              Training at SciLifeLab often involves facilitating discussions and collaborative activities.
+              A successful facilitator takes responsibility for the environment of a course exercise,
+              discussion, or workshop, which involves working to build a culture of respect, sharing, and
+              inclusivity, and fostering an environment conducive to learning. Implementing facilitation
+              techniques and collaborative practices can assist in achieving that goal. Asking for feedback
+              from participants, colleagues, or requesting a teaching audit from the Training Hub can be
+              valuable in developing as a facilitator and instructor.
+            recommendations_intro: "Our basic recommendations for facilitation include:"
+            recommendations:
+              code_of_conduct:
+                before_link: Be familiar with the
+                link_label: SciLifeLab Code of Conduct
+                url: https://www.scilifelab.se/code-of-conduct/
+                after_link: ", which governs all affiliated learning activities."
+              collaborative_flow:
+                text: >
+                  Plan activities where the flow of information travels between participants as well as
+                  between instructor and participants.
+              facilitation_guide:
+                before_link: Read the
+                link_label: Training Hub’s facilitation guide
+                url: https://figshare.scilifelab.se/ndownloader/files/52693250
+                after_link: " for examples of how to create fruitful group discussion."
+            illustration:
+              image: scilifelab/resources/participants_image.png
+              alt: Diagram showing information flowing between a presenter and participants
           tools:
             anchor: tools-for-training-delivery
             title: Tools for training delivery

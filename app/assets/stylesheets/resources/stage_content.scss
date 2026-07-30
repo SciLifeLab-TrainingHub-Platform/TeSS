@@ -117,6 +117,37 @@ $resources-contributor-pill-background: mix(
   p:last-child {
     margin-bottom: 0;
   }
+
+  > ul {
+    color: $scilifelab-color-dark-gray;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+    margin: 0;
+    padding-left: 24px;
+  }
+
+  > p + ul {
+    margin-top: -24px;
+  }
+
+  li {
+    margin: 0;
+  }
+}
+
+.resources-stage-illustration {
+  aspect-ratio: 340 / 219;
+  margin: 20px auto 0;
+  max-width: 340px;
+  width: 100%;
+}
+
+.resources-stage-illustration__image {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
 }
 
 .resources-stage-actions {

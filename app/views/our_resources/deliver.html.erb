@@ -15,7 +15,31 @@
   <section class="resources-stage-section" id="<%= facilitation[:anchor] %>">
     <h2><%= facilitation[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
-      <p><%= facilitation[:body] %></p>
+      <p><%= facilitation[:introduction] %></p>
+      <p><%= facilitation[:recommendations_intro] %></p>
+      <ul>
+        <% facilitation[:recommendations].each_value do |recommendation| %>
+          <li>
+            <% if recommendation[:url].present? %>
+              <%= recommendation[:before_link] %>
+              <%= link_to recommendation[:link_label],
+                          recommendation[:url],
+                          target: '_blank',
+                          rel: 'noopener noreferrer' %><%= recommendation[:after_link] %>
+            <% else %>
+              <%= recommendation[:text] %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+
+      <figure class="resources-stage-illustration">
+        <%= image_tag asset_path(facilitation.dig(:illustration, :image)),
+                      alt: facilitation.dig(:illustration, :alt),
+                      class: 'resources-stage-illustration__image',
+                      width: 340,
+                      height: 219 %>
+      </figure>
     </div>
   </section>
 

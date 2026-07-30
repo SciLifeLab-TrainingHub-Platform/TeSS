@@ -202,7 +202,32 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-deliver__tool[href=?]', 'https://www.menti.com/', text: /Menti/
     assert_select '.resources-stage-deliver__tool-description', text: 'Use SSO via your university login.'
     assert_select '.resources-stage-deliver__tool[href=?]', 'https://miro.com/', count: 0
-    assert_select '#facilitation-collaborative-learning p', text: /A successful facilitator/
+    assert_select '#facilitation-collaborative-learning p',
+                  text: /Training at SciLifeLab often involves facilitating discussions/
+    assert_select '#facilitation-collaborative-learning p',
+                  text: 'Our basic recommendations for facilitation include:'
+    assert_select '#facilitation-collaborative-learning ul li', count: 3
+    assert_select '#facilitation-collaborative-learning ul li',
+                  text: /between instructor and participants\./
+    assert_select '#facilitation-collaborative-learning ul li',
+                  text: /fruitful group discussion\./
+    assert_select '#facilitation-collaborative-learning a[href=?]',
+                  'https://www.scilifelab.se/code-of-conduct/',
+                  text: 'SciLifeLab Code of Conduct'
+    assert_select '#facilitation-collaborative-learning a[href=?]',
+                  'https://figshare.scilifelab.se/ndownloader/files/52693250',
+                  text: 'Training Hub’s facilitation guide'
+    assert_select '#facilitation-collaborative-learning a[target=?][rel=?]',
+                  '_blank',
+                  'noopener noreferrer',
+                  count: 2
+    assert_select '#facilitation-collaborative-learning .resources-stage-illustration__image' \
+                  '[src*=?][width=?][height=?][alt=?]',
+                  'participants_image',
+                  '340',
+                  '219',
+                  'Diagram showing information flowing between a presenter and participants',
+                  count: 1
     assert_select '.resources-stage-resources h2', text: 'Related Resources:'
     assert_select '.resources-stage-resource[href=?]',
                   'https://doi.org/10.17044/scilifelab.24599829.v1',
