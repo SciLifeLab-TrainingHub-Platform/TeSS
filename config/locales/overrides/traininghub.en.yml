@@ -522,16 +522,24 @@ en:
                 image_width: 70
                 image_height: 70
                 url: https://drive.google.com/file/d/12zJK7VTe-3ISi5NrxZBrJIu2_3pmvgLL/view?usp=share_link
-        resources_heading: "Related Resources:"
-        resources:
-          delivering_learning:
-            title: Resources for Delivering Learning Experiences
-            image: scilifelab/guides/TH-EngagementGuide-image.png
-            url: https://doi.org/10.17044/scilifelab.24599829.v1
-          course_delivery:
-            title: Course Delivery & Teaching Practice
-            image: scilifelab/guides/TH-ttt-image.png
-            url: https://scilifelab-training.github.io/train-the-trainer/2403/module1.html
+        further_learning:
+          title: Further Learning
+          items:
+            delivering_learning:
+              title: Resources for Delivering Learning Experiences
+              description: Collaborative learning and facilitation guides from the Training Hub.
+              cta: Resource Collection
+              url: https://doi.org/10.17044/scilifelab.24599829.v1
+            course_planning:
+              title: Training Hub Resources for Course Planning
+              description: Timelines, checklists and templates for structuring courses.
+              cta: Resource
+              url: https://doi.org/10.17044/scilifelab.28194329.v1
+            evaluating_learning:
+              title: Resources for Evaluating Learning
+              description: SciLifeLab Training Hub feedback form templates and instructor reflection guides.
+              cta: Resource Collection
+              url: https://doi.org/10.17044/scilifelab.28512722.v1
         contributors:
           oliver_onions:
             name: Oliver Onions

@@ -135,63 +135,6 @@
   }
 }
 
-.resources-stage-resources {
-  margin: 38px 0 66px;
-
-  h2 {
-    color: $dark-color;
-    font-size: 34px;
-    font-weight: 900;
-    letter-spacing: 0;
-    line-height: 1.15;
-    margin: 0 0 30px;
-  }
-}
-
-.resources-stage-resources__grid {
-  display: grid;
-  gap: 36px 54px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 0 auto;
-  max-width: 960px;
-}
-
-.resources-stage-resource {
-  color: $dark-color;
-  display: block;
-  text-align: center;
-  text-decoration: none;
-
-  &:hover,
-  &:focus {
-    color: $scilifelab-color-teal;
-    text-decoration: none;
-  }
-
-  &:focus {
-    outline: 3px solid $scilifelab-color-lime;
-    outline-offset: 8px;
-  }
-}
-
-.resources-stage-resource__image {
-  display: block;
-  height: 132px;
-  margin: 0 auto 18px;
-  object-fit: contain;
-  width: 132px;
-}
-
-.resources-stage-resource__title {
-  display: block;
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 0;
-  line-height: 1.2;
-  margin: 0 auto;
-  max-width: 230px;
-}
-
 .resources-stage-page__content {
   display: grid;
   gap: 46px;
@@ -215,14 +158,6 @@
     line-height: 1.35;
     margin: 0;
     max-width: 1120px;
-  }
-}
-
-.resources-stage-page--deliver {
-  .resources-stage-resources__grid {
-    grid-template-columns: repeat(2, minmax(0, 220px));
-    margin-left: 0;
-    max-width: 520px;
   }
 }
 
@@ -341,14 +276,6 @@
     width: 100%;
   }
 
-  .resources-stage-resources {
-    margin-top: 56px;
-  }
-
-  .resources-stage-resources__grid {
-    gap: 36px 34px;
-  }
-
   .resources-stage-page__section {
     h2 {
       font-size: 32px;
@@ -412,30 +339,6 @@
     color: $body-bg;
   }
 
-  .resources-stage-resources {
-    margin: 38px 0 56px;
-
-    h2 {
-      font-size: 32px;
-      margin-bottom: 28px;
-    }
-  }
-
-  .resources-stage-resources__grid {
-    gap: 30px 20px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .resources-stage-resource__image {
-    height: 112px;
-    margin-bottom: 14px;
-    width: 112px;
-  }
-
-  .resources-stage-resource__title {
-    font-size: 15px;
-  }
-
   .resources-stage-page__content {
     gap: 40px;
     margin-bottom: 54px;
@@ -450,13 +353,6 @@
     p {
       font-size: 17px;
       line-height: 1.45;
-    }
-  }
-
-  .resources-stage-page--deliver {
-    .resources-stage-resources__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      max-width: none;
     }
   }
 

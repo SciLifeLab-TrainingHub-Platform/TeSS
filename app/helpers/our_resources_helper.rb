@@ -55,8 +55,8 @@ module OurResourcesHelper
     stage_page_contributors(:develop)
   end
 
-  def deliver_resources
-    stage_page_resources(:deliver)
+  def deliver_further_learning
+    stage_page_further_learning(:deliver)
   end
 
   def deliver_contributors
@@ -84,16 +84,6 @@ module OurResourcesHelper
     t("our_resources.stage_pages.#{stage_key}.further_learning.items", default: {})
       .with_indifferent_access
       .values
-  end
-
-  def stage_page_resources(stage_key)
-    t("our_resources.stage_pages.#{stage_key}.resources", default: {}).with_indifferent_access.values.map do |resource|
-      {
-        title: resource[:title],
-        image: resource[:image],
-        url: resource[:url]
-      }
-    end
   end
 
   def guide_resources_for(category_key)

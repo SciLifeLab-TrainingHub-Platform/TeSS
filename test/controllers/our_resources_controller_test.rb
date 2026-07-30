@@ -273,13 +273,27 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '219',
                   'Diagram showing information flowing between a presenter and participants',
                   count: 1
-    assert_select '.resources-stage-resources h2', text: 'Related Resources:'
-    assert_select '.resources-stage-resource[href=?]',
+    assert_select '.resources-further-learning h2', text: 'Further Learning'
+    assert_select '.resources-further-learning__card', count: 3
+    assert_select '.resources-further-learning__card h3',
+                  text: 'Resources for Delivering Learning Experiences'
+    assert_select '.resources-further-learning__link[href=?]',
                   'https://doi.org/10.17044/scilifelab.24599829.v1',
-                  text: /Resources for Delivering Learning Experiences/
-    assert_select '.resources-stage-resource[href=?]',
-                  'https://scilifelab-training.github.io/train-the-trainer/2403/module1.html',
-                  text: /Course Delivery & Teaching Practice/
+                  text: 'Resource Collection'
+    assert_select '.resources-further-learning__card h3',
+                  text: 'Training Hub Resources for Course Planning'
+    assert_select '.resources-further-learning__link[href=?]',
+                  'https://doi.org/10.17044/scilifelab.28194329.v1',
+                  text: 'Resource'
+    assert_select '.resources-further-learning__card h3',
+                  text: 'Resources for Evaluating Learning'
+    assert_select '.resources-further-learning__link[href=?]',
+                  'https://doi.org/10.17044/scilifelab.28512722.v1',
+                  text: 'Resource Collection'
+    assert_select '.resources-further-learning__link[target=?][rel=?]',
+                  '_blank',
+                  'noopener noreferrer',
+                  count: 3
     assert_select '.resources-stage-contributors__item', text: /Oliver Onions/
     assert_select '.resources-stage-contributors__item', text: /Ineke Luijten/
     assert_select '.resources-stage-contributors__icon--portrait[src*=?]',
