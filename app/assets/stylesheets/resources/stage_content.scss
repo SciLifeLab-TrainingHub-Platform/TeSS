@@ -111,6 +111,11 @@ $resources-contributor-pill-background: mix(
   max-width: 785px;
 }
 
+.resources-stage-section__visual {
+  max-width: 785px;
+  width: 100%;
+}
+
 .resources-stage-prose {
   max-width: 739px;
 
@@ -157,6 +162,55 @@ $resources-contributor-pill-background: mix(
   height: 100%;
   object-fit: contain;
   width: 100%;
+}
+
+.resources-stage-visual-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 36px auto 0;
+  max-width: 382px;
+  padding: 0;
+  width: 100%;
+}
+
+a.resources-stage-visual-link {
+  align-items: center;
+  color: $gray-base;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: normal;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: $scilifelab-color-teal;
+    text-decoration: none;
+  }
+}
+
+.resources-stage-visual-link__visual {
+  align-items: center;
+  display: flex;
+  height: 72px;
+  justify-content: center;
+  width: 100%;
+}
+
+.resources-stage-visual-link__image {
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.resources-stage-visual-link__label {
+  display: block;
+  margin-top: 7px;
+  width: 208px;
 }
 
 .resources-stage-link-list {
@@ -551,6 +605,15 @@ a.resources-stage-action--teal {
 
   .resources-stage-link-list a {
     font-size: 17px;
+  }
+
+  a.resources-stage-visual-link {
+    font-size: 17px;
+  }
+
+  .resources-stage-visual-link__label {
+    max-width: 208px;
+    width: 100%;
   }
 
   .resources-stage-actions {

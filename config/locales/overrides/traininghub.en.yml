@@ -494,6 +494,34 @@ en:
             anchor: feedback-forms-certificates
             nav_title: Feedback forms and certificates
             title: Feedback surveys and certificates
+            certificate_text: >
+              At the end of your training delivery, those who have fulfilled your requirements for completion
+              should receive a course certificate. The SciLifeLab Training Hub provides a Course Certificate App
+              with SciLifeLab branding to easily create certificates for participants.
+            survey_text:
+              before_link: >
+                Participants should also receive a survey to provide insight into their experience of the course
+                that can help to guide training development. Depending on your training format, this can range
+                from asking for a self-reported learning outcome (ie: What did you learn in this session?) or a
+                more thorough survey about prior learning and application of the material. The SciLifeLab Training
+                Hub provides short term and long term feedback survey templates through the Google forms that you
+                can use or adapt for your training. For more information, see the
+              link_label: Training Hub’s Resources for Evaluating Learning
+              url: https://doi.org/10.17044/scilifelab.28512722
+              after_link: "."
+            visual_links:
+              certificate_app:
+                label: SciLifeLab Course Certificate App
+                image: scilifelab/fairicon-black.png
+                image_width: 60
+                image_height: 72
+                url: https://training-certificate.serve.scilifelab.se/app/training-certificate
+              feedback_templates:
+                label: How to use Training Hub Feedback Survey Templates
+                image: scilifelab/resources/feedback-survey-template.png
+                image_width: 70
+                image_height: 70
+                url: https://drive.google.com/file/d/12zJK7VTe-3ISi5NrxZBrJIu2_3pmvgLL/view?usp=share_link
         resources_heading: "Related Resources:"
         resources:
           delivering_learning:

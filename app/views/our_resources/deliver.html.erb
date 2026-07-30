@@ -32,7 +32,9 @@
           </li>
         <% end %>
       </ul>
+    </div>
 
+    <div class="resources-stage-section__visual">
       <figure class="resources-stage-illustration">
         <%= image_tag asset_path(facilitation.dig(:illustration, :image)),
                       alt: facilitation.dig(:illustration, :alt),
@@ -46,18 +48,18 @@
   <% tools = t('our_resources.stage_pages.deliver.sections.tools').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= tools[:anchor] %>">
     <h2><%= tools[:title] %></h2>
-    <div class="resources-stage-section__body">
-      <div class="resources-stage-prose">
-        <p>
-          <%= tools.dig(:introduction, :before_link) %>
-          <%= link_to tools.dig(:introduction, :link_label),
-                      tools.dig(:introduction, :url),
-                      target: '_blank',
-                      rel: 'noopener noreferrer' %>
-          <%= tools.dig(:introduction, :after_link) %>
-        </p>
-      </div>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p>
+        <%= tools.dig(:introduction, :before_link) %>
+        <%= link_to tools.dig(:introduction, :link_label),
+                    tools.dig(:introduction, :url),
+                    target: '_blank',
+                    rel: 'noopener noreferrer' %>
+        <%= tools.dig(:introduction, :after_link) %>
+      </p>
+    </div>
 
+    <div class="resources-stage-section__visual">
       <div class="resources-stage-actions resources-deliver__mentimeter-action-row">
         <%= render 'our_resources/stage_pages/action_link',
                    label: tools.dig(:action, :label),
@@ -66,7 +68,9 @@
                    icon: 'star-o',
                    class_name: 'resources-deliver__mentimeter-action' %>
       </div>
+    </div>
 
+    <div class="resources-stage-section__body">
       <div class="resources-stage-prose">
         <p><%= tools[:follow_up] %></p>
       </div>
@@ -80,6 +84,21 @@
   <% feedback = t('our_resources.stage_pages.deliver.sections.feedback').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= feedback[:anchor] %>">
     <h2><%= feedback[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p><%= feedback[:certificate_text] %></p>
+      <p>
+        <%= feedback.dig(:survey_text, :before_link) %>
+        <%= link_to feedback.dig(:survey_text, :link_label),
+                    feedback.dig(:survey_text, :url),
+                    target: '_blank',
+                    rel: 'noopener noreferrer' %><%= feedback.dig(:survey_text, :after_link) %>
+      </p>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <%= render 'our_resources/stage_pages/visual_links',
+                 links: feedback[:visual_links].values %>
+    </div>
   </section>
 
   <%= render 'our_resources/stage_pages/resources',

@@ -1,7 +1,7 @@
 .resources-deliver__mentimeter-action-row {
   align-items: center;
   justify-content: center;
-  margin: 12px 0 14px;
+  margin: 16px 0 14px;
 }
 
 a.resources-deliver__mentimeter-action {
@@ -37,8 +37,12 @@ a.resources-deliver__mentimeter-action {
   margin-top: 20px;
 }
 
-@media screen and (max-width: 767px) {
-  a.resources-deliver__mentimeter-action {
-    width: 260px;
+@media screen and (min-width: 1200px) {
+  .resources-deliver__mentimeter-action-row {
+    margin-top: -9px;
+  }
+
+  .resources-deliver__tool-links {
+    margin-top: 26px;
   }
 }

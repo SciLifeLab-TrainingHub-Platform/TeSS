@@ -1,0 +1,23 @@
+<% list_classes = ['resources-stage-visual-links'] %>
+<% list_classes << local_assigns[:class_name] if local_assigns[:class_name].present? %>
+
+<ul class="<%= list_classes.join(' ') %>">
+  <% links.each do |link| %>
+    <% external = link[:url].to_s.start_with?('http://', 'https://') %>
+    <li>
+      <%= link_to link[:url],
+                  class: 'resources-stage-visual-link',
+                  target: (external ? '_blank' : nil),
+                  rel: (external ? 'noopener noreferrer' : nil) do %>
+        <span class="resources-stage-visual-link__visual">
+          <%= image_tag asset_path(link[:image]),
+                        alt: '',
+                        class: 'resources-stage-visual-link__image',
+                        width: link[:image_width],
+                        height: link[:image_height] %>
+        </span>
+        <span class="resources-stage-visual-link__label"><%= link[:label] %></span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

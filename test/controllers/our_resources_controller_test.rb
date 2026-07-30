@@ -191,6 +191,35 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: 'Tools for training delivery'
     assert_select '#feedback-forms-certificates.resources-stage-section h2',
                   text: 'Feedback surveys and certificates'
+    assert_select '.resources-stage-section > .resources-stage-section__visual', count: 3
+    assert_select '#feedback-forms-certificates .resources-stage-prose p',
+                  text: /those who have fulfilled your requirements for completion/
+    assert_select '#feedback-forms-certificates .resources-stage-prose a[href=?]',
+                  'https://doi.org/10.17044/scilifelab.28512722',
+                  text: 'Training Hub’s Resources for Evaluating Learning'
+    assert_select '#feedback-forms-certificates .resources-stage-visual-link', count: 2
+    assert_select '#feedback-forms-certificates .resources-stage-visual-link[href=?]',
+                  'https://training-certificate.serve.scilifelab.se/app/training-certificate',
+                  text: /SciLifeLab Course Certificate App/
+    assert_select '#feedback-forms-certificates .resources-stage-visual-link[href=?]',
+                  'https://drive.google.com/file/d/12zJK7VTe-3ISi5NrxZBrJIu2_3pmvgLL/view?usp=share_link',
+                  text: /How to use Training Hub Feedback Survey Templates/
+    assert_select '#feedback-forms-certificates .resources-stage-visual-link[target=?][rel=?]',
+                  '_blank',
+                  'noopener noreferrer',
+                  count: 2
+    assert_select '#feedback-forms-certificates .resources-stage-visual-link__image' \
+                  '[src*=?][width=?][height=?]',
+                  'fairicon-black',
+                  '60',
+                  '72',
+                  count: 1
+    assert_select '#feedback-forms-certificates .resources-stage-visual-link__image' \
+                  '[src*=?][width=?][height=?]',
+                  'feedback-survey-template',
+                  '70',
+                  '70',
+                  count: 1
     assert_select '#tools-for-training-delivery .resources-stage-prose p',
                   text: /tools are available to assist in actively engaging your participants/
     assert_select '#tools-for-training-delivery a[href=?]',
