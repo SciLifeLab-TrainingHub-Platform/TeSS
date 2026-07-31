@@ -550,6 +550,28 @@ en:
           - nina_norgren
           - ineke_luijten
           - jill_jaworski
+      evaluate_archive:
+        title: Evaluate & Archive
+        summary: >
+          Integrate feedback from participants to improve future iterations, and archive your materials so
+          that they are Open and FAIR.
+        introduction: >
+          Our team provides assistance with recommending and moderating archives, monitors SciLifeLab training
+          reporting and compliance with research requirements, and connects training developed at SciLifeLab
+          with other training communities.
+        sections:
+          prepare_materials:
+            anchor: prepare-materials
+            title: Prepare your materials
+          archive:
+            anchor: upload-archive
+            title: Upload to an archive
+          oer_communities:
+            anchor: oer-communities
+            title: Link your materials with OER communities
+          reflections:
+            anchor: instructor-reflections-reporting
+            title: Instructor reflections & reporting
   activerecord:
     models:
       event: "Training"

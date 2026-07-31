@@ -39,6 +39,13 @@ module OurResourcesHelper
     )
   end
 
+  def evaluate_archive_section_links
+    stage_page_section_links(
+      :evaluate_archive,
+      section_keys: %i[prepare_materials archive oer_communities reflections]
+    )
+  end
+
   def plan_design_further_learning
     stage_page_further_learning(:design_develop)
   end

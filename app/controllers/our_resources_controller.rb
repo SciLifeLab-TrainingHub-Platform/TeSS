@@ -27,8 +27,7 @@ class OurResourcesController < ApplicationController
     end
 
     def evaluate_archive
-      @breadcrumbs += [{ name: 'Evaluate & Archive', url: evaluate_archive_stage_path }]
-      render :fair_training
+      @breadcrumbs = nil
     end
 
     def guides

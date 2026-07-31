@@ -1,0 +1,33 @@
+<% content_for :title, raw(t('our_resources.stage_pages.evaluate_archive.title')) %>
+
+<%= render layout: 'our_resources/stage_pages/shell',
+           locals: {
+             modifier: 'evaluate-archive',
+             active_key: :evaluate_archive,
+             title: t('our_resources.stage_pages.evaluate_archive.title'),
+             intro_paragraphs: [
+               t('our_resources.stage_pages.evaluate_archive.summary'),
+               t('our_resources.stage_pages.evaluate_archive.introduction')
+             ],
+             section_links: evaluate_archive_section_links
+           } do %>
+  <% prepare_materials = t('our_resources.stage_pages.evaluate_archive.sections.prepare_materials').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= prepare_materials[:anchor] %>">
+    <h2><%= prepare_materials[:title] %></h2>
+  </section>
+
+  <% archive = t('our_resources.stage_pages.evaluate_archive.sections.archive').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= archive[:anchor] %>">
+    <h2><%= archive[:title] %></h2>
+  </section>
+
+  <% oer_communities = t('our_resources.stage_pages.evaluate_archive.sections.oer_communities').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= oer_communities[:anchor] %>">
+    <h2><%= oer_communities[:title] %></h2>
+  </section>
+
+  <% reflections = t('our_resources.stage_pages.evaluate_archive.sections.reflections').with_indifferent_access %>
+  <section class="resources-stage-section" id="<%= reflections[:anchor] %>">
+    <h2><%= reflections[:title] %></h2>
+  </section>
+<% end %>

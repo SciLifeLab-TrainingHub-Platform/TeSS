@@ -297,6 +297,47 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_contributors :kristen_schroeder, :nina_norgren, :ineke_luijten, :jill_jaworski
   end
 
+  test 'should get evaluate archive page' do
+    get :evaluate_archive
+
+    assert_response :success
+    assert_select '.breadcrumbs', count: 0
+    assert_select 'title', "Evaluate & Archive - #{TeSS::Config.site['title']}"
+    assert_select 'h1', 'Evaluate & Archive'
+    assert_select '.resources-stage-page--shell.resources-stage-page--evaluate-archive', count: 1
+    assert_select '.resources-stage-nav__item--active .resources-stage-nav__label',
+                  text: 'Evaluate & Archive'
+    assert_select '.resources-stage-nav__sections[aria-label=?]',
+                  'Evaluate & Archive sections',
+                  count: 1
+    assert_select '.resources-stage-nav__sections a', count: 4
+    assert_select '.resources-stage-nav__sections a[href=?]', '#prepare-materials', count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]', '#upload-archive', count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]', '#oer-communities', count: 1
+    assert_select '.resources-stage-nav__sections a[href=?]',
+                  '#instructor-reflections-reporting',
+                  count: 1
+    assert_select '.resources-stage-section', count: 4
+    assert_select '#prepare-materials.resources-stage-section h2', text: 'Prepare your materials'
+    assert_select '#upload-archive.resources-stage-section h2', text: 'Upload to an archive'
+    assert_select '#oer-communities.resources-stage-section h2',
+                  text: 'Link your materials with OER communities'
+    assert_select '#instructor-reflections-reporting.resources-stage-section h2',
+                  text: 'Instructor reflections & reporting'
+    assert_select 'h3', text: 'FAIR Training', count: 0
+    assert_select '.community-box', count: 0
+  end
+
+  test 'should keep fair training page separate from evaluate archive' do
+    get :fair_training
+
+    assert_response :success
+    assert_select '.breadcrumbs', count: 1
+    assert_select 'h3', text: 'FAIR Training'
+    assert_select '.community-box', minimum: 1
+    assert_select '.resources-stage-page--evaluate-archive', count: 0
+  end
+
   test 'should get pedagogic support page with the shared booking calendar' do
     get :pedagogic_support
 
