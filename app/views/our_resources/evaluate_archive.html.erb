@@ -111,5 +111,10 @@
   <% reflections = t('our_resources.stage_pages.evaluate_archive.sections.reflections').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= reflections[:anchor] %>">
     <h2><%= reflections[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <% reflections[:paragraphs].each_value do |paragraph| %>
+        <p><%= paragraph %></p>
+      <% end %>
+    </div>
   </section>
 <% end %>

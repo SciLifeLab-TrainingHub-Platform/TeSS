@@ -455,6 +455,15 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '223',
                   '50',
                   count: 1
+    assert_select '#instructor-reflections-reporting .resources-stage-section__body.resources-stage-prose',
+                  count: 1
+    assert_select '#instructor-reflections-reporting .resources-stage-prose p', count: 2
+    assert_select '#instructor-reflections-reporting .resources-stage-prose p',
+                  text: /During the archiving process we recommend to have a final meeting with all instructors/
+    assert_select '#instructor-reflections-reporting .resources-stage-prose p',
+                  text: /For SciLifeLab reporting purposes, ensure you collect the number of participants/
+    assert_select '#instructor-reflections-reporting a', count: 0
+    assert_select '#instructor-reflections-reporting .resources-stage-section__visual', count: 0
     assert_select 'h3', text: 'FAIR Training', count: 0
     assert_select '.community-box', count: 0
   end
