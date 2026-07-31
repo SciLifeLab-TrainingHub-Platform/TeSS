@@ -719,6 +719,10 @@ en:
               description: SciLifeLab Training Hub feedback form templates and instructor reflection guides
               cta: Resource Collection
               url: https://doi.org/10.17044/scilifelab.28512722.v1
+        contributors:
+          - kristen_schroeder
+          - nina_norgren
+          - ineke_luijten
   activerecord:
     models:
       event: "Training"

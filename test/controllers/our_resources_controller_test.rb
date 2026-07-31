@@ -484,6 +484,7 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '_blank',
                   'noopener noreferrer',
                   count: 2
+    assert_contributors :kristen_schroeder, :nina_norgren, :ineke_luijten
     assert_select 'h3', text: 'FAIR Training', count: 0
     assert_select '.community-box', count: 0
   end

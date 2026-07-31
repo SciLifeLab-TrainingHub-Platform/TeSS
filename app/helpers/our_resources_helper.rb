@@ -74,6 +74,10 @@ module OurResourcesHelper
     stage_page_contributors(:deliver)
   end
 
+  def evaluate_archive_contributors
+    stage_page_contributors(:evaluate_archive)
+  end
+
   private
 
   def stage_page_section_links(stage_key, section_keys:)
