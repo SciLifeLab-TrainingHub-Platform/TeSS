@@ -563,6 +563,33 @@ en:
           prepare_materials:
             anchor: prepare-materials
             title: Prepare your materials
+            metadata:
+              before_link: >
+                Archiving should be done for all SciLifeLab training, in order to create a record of the materials
+                and people involved. As a first step, ensure all metadata about your training instance has been
+                recorded using the
+              link_label: Metadata Checklist.
+              url: https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing
+              after_link: >
+                If you haven’t already, upload slides, exercises, and other materials to the training website or
+                page you have created as part of the training development process.
+            recordings: >
+              If you have recorded aspects of your training, you can upload these to the SciLifeLab Talks & Training
+              YouTube Channel. You can also provide a transcript or summary of a lecture or instruction using the
+              SciLifeLab Training Hub WhisperAI app. Contact the SciLifeLab Training Hub for assistance with this.
+            visual_links:
+              youtube:
+                label: SciLifeLab Talks & Training YouTube
+                image: scilifelab/resources/youtube-training.png
+                image_width: 100
+                image_height: 86
+                url: https://www.youtube.com/@SciLifeLabTalksTraining
+              whisper:
+                label: WhisperAI Transcription App
+                image: scilifelab/resources/feedback-survey-template.png
+                image_width: 70
+                image_height: 70
+                url: https://whisper-ai.serve.scilifelab.se/
           archive:
             anchor: upload-archive
             title: Upload to an archive

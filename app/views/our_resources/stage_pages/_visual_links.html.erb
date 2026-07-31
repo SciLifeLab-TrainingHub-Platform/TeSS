@@ -1,7 +1,13 @@
 <% list_classes = ['resources-stage-visual-links'] %>
 <% list_classes << local_assigns[:class_name] if local_assigns[:class_name].present? %>
+<% visual_height = local_assigns.fetch(:visual_height, 72).to_i %>
+<% max_width = local_assigns.fetch(:max_width, 382).to_i %>
+<% label_width = local_assigns.fetch(:label_width, 208).to_i %>
 
-<ul class="<%= list_classes.join(' ') %>">
+<ul class="<%= list_classes.join(' ') %>"
+    style="--resources-stage-visual-height: <%= visual_height %>px;
+           --resources-stage-visual-max-width: <%= max_width %>px;
+           --resources-stage-visual-label-width: <%= label_width %>px;">
   <% links.each do |link| %>
     <% external = link[:url].to_s.start_with?('http://', 'https://') %>
     <li>

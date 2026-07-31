@@ -324,6 +324,48 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: 'Link your materials with OER communities'
     assert_select '#instructor-reflections-reporting.resources-stage-section h2',
                   text: 'Instructor reflections & reporting'
+    assert_select '#prepare-materials .resources-stage-prose p', count: 2
+    assert_select '#prepare-materials .resources-stage-prose p',
+                  text: /Archiving should be done for all SciLifeLab training/
+    assert_select '#prepare-materials .resources-stage-prose a[href=?][target=?][rel=?]',
+                  'https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing',
+                  '_blank',
+                  'noopener noreferrer',
+                  text: 'Metadata Checklist.'
+    assert_select '#prepare-materials .resources-stage-prose p',
+                  text: /SciLifeLab Training Hub WhisperAI app/
+    assert_select '#prepare-materials .resources-stage-visual-links' \
+                  '[style*=?]',
+                  '--resources-stage-visual-height: 86px',
+                  count: 1
+    assert_select '#prepare-materials .resources-stage-visual-links' \
+                  '[style*=?][style*=?]',
+                  '--resources-stage-visual-max-width: 408px',
+                  '--resources-stage-visual-label-width: 173px',
+                  count: 1
+    assert_select '#prepare-materials .resources-stage-visual-link', count: 2
+    assert_select '#prepare-materials .resources-stage-visual-link[href=?]',
+                  'https://www.youtube.com/@SciLifeLabTalksTraining',
+                  text: /SciLifeLab Talks & Training YouTube/
+    assert_select '#prepare-materials .resources-stage-visual-link[href=?]',
+                  'https://whisper-ai.serve.scilifelab.se/',
+                  text: /WhisperAI Transcription App/
+    assert_select '#prepare-materials .resources-stage-visual-link[target=?][rel=?]',
+                  '_blank',
+                  'noopener noreferrer',
+                  count: 2
+    assert_select '#prepare-materials .resources-stage-visual-link__image' \
+                  '[src*=?][width=?][height=?]',
+                  'youtube-training',
+                  '100',
+                  '86',
+                  count: 1
+    assert_select '#prepare-materials .resources-stage-visual-link__image' \
+                  '[src*=?][width=?][height=?]',
+                  'feedback-survey-template',
+                  '70',
+                  '70',
+                  count: 1
     assert_select 'h3', text: 'FAIR Training', count: 0
     assert_select '.community-box', count: 0
   end

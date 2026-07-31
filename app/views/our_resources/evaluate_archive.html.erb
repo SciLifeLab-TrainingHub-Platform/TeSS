@@ -14,6 +14,24 @@
   <% prepare_materials = t('our_resources.stage_pages.evaluate_archive.sections.prepare_materials').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= prepare_materials[:anchor] %>">
     <h2><%= prepare_materials[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p>
+        <%= prepare_materials.dig(:metadata, :before_link) %>
+        <%= link_to prepare_materials.dig(:metadata, :link_label),
+                    prepare_materials.dig(:metadata, :url),
+                    target: '_blank',
+                    rel: 'noopener noreferrer' %> <%= prepare_materials.dig(:metadata, :after_link) %>
+      </p>
+      <p><%= prepare_materials[:recordings] %></p>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <%= render 'our_resources/stage_pages/visual_links',
+                 links: prepare_materials[:visual_links].values,
+                 visual_height: 86,
+                 max_width: 408,
+                 label_width: 173 %>
+    </div>
   </section>
 
   <% archive = t('our_resources.stage_pages.evaluate_archive.sections.archive').with_indifferent_access %>

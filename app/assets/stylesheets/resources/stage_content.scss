@@ -169,7 +169,7 @@ $resources-contributor-pill-background: mix(
   grid-template-columns: repeat(2, minmax(0, 1fr));
   list-style: none;
   margin: 36px auto 0;
-  max-width: 382px;
+  max-width: var(--resources-stage-visual-max-width, 382px);
   padding: 0;
   width: 100%;
 }
@@ -196,7 +196,7 @@ a.resources-stage-visual-link {
 .resources-stage-visual-link__visual {
   align-items: center;
   display: flex;
-  height: 72px;
+  height: var(--resources-stage-visual-height, 72px);
   justify-content: center;
   width: 100%;
 }
@@ -210,7 +210,7 @@ a.resources-stage-visual-link {
 .resources-stage-visual-link__label {
   display: block;
   margin-top: 7px;
-  width: 208px;
+  width: var(--resources-stage-visual-label-width, 208px);
 }
 
 .resources-stage-link-list {
