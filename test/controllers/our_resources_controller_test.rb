@@ -366,6 +366,42 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '70',
                   '70',
                   count: 1
+    assert_select '#upload-archive .resources-stage-prose p', count: 1
+    assert_select '#upload-archive .resources-stage-prose a[href=?][target=?][rel=?]',
+                  'https://figshare.scilifelab.se/',
+                  '_blank',
+                  'noopener noreferrer',
+                  text: 'SciLifeLab Data Repository'
+    assert_select '#upload-archive .resources-stage-prose a[href=?][target=?][rel=?]',
+                  'https://zenodo.org/communities/scilifelab/',
+                  '_blank',
+                  'noopener noreferrer',
+                  text: 'SciLifeLab Zenodo Community'
+    assert_select '#upload-archive .resources-evaluate__archive-panel', count: 1
+    assert_select '#upload-archive .resources-evaluate__archive-column', count: 2
+    assert_select '#upload-archive .resources-evaluate__archive-column h3', text: 'Figshare'
+    assert_select '#upload-archive .resources-evaluate__archive-column h3', text: 'Zenodo'
+    assert_select '#upload-archive .resources-evaluate__archive-panel .resources-stage-action', count: 6
+    assert_select '#upload-archive .resources-stage-action--lime', count: 2
+    assert_select '#upload-archive .resources-stage-action--lime .fa-star-o', count: 2
+    assert_select '#upload-archive .resources-stage-action--teal', count: 4
+    assert_select '#upload-archive .resources-stage-action--teal .resources-stage-action__icon', count: 0
+    assert_select '#upload-archive .resources-stage-action[href=?]',
+                  'https://doi.org/10.17044/scilifelab.32466978',
+                  text: /Example: Interdisciplinary Workshop/
+    assert_select '#upload-archive .resources-stage-action[href=?]',
+                  'https://doi.org/10.17044/scilifelab.29348669',
+                  text: /Example: Open Science Course/
+    assert_select '#upload-archive .resources-stage-action[href=?]',
+                  'https://doi.org/10.5281/zenodo.20430337',
+                  text: /Example: Open Science Course/
+    assert_select '#upload-archive .resources-stage-action[href=?]',
+                  'https://doi.org/10.5281/zenodo.16811296',
+                  text: /Example: BGE Hi-C Online Course/
+    assert_select '#upload-archive .resources-stage-action[target=?][rel=?]',
+                  '_blank',
+                  'noopener noreferrer',
+                  count: 6
     assert_select 'h3', text: 'FAIR Training', count: 0
     assert_select '.community-box', count: 0
   end

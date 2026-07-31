@@ -593,6 +593,59 @@ en:
           archive:
             anchor: upload-archive
             title: Upload to an archive
+            introduction:
+              before_repository: >
+                To facilitate sustainable access to your materials, comply with Swedish requirements for Open
+                Educational Resources, and give proper credit for the training you have developed, materials should
+                be archived in a repository. The
+              repository_label: SciLifeLab Data Repository
+              repository_url: https://figshare.scilifelab.se/
+              between_repositories: >
+                is maintained by the SciLifeLab Data Centre and is a good option for training that has been developed
+                by and for our community. The
+              zenodo_label: SciLifeLab Zenodo Community
+              zenodo_url: https://zenodo.org/communities/scilifelab/
+              after_zenodo: >
+                is another option that allows training to be associated with other EU project communities. Training
+                materials submitted to the Zenodo community are moderated by the Training Hub.
+            panel:
+              columns:
+                figshare:
+                  title: Figshare
+                  actions:
+                    repository:
+                      label: SciLifeLab Data Repository
+                      url: https://figshare.scilifelab.se/
+                      variant: lime
+                      icon: star-o
+                    interdisciplinary:
+                      label: "Example: Interdisciplinary Workshop"
+                      url: https://doi.org/10.17044/scilifelab.32466978
+                      variant: teal
+                      icon: false
+                    open_science:
+                      label: "Example: Open Science Course"
+                      url: https://doi.org/10.17044/scilifelab.29348669
+                      variant: teal
+                      icon: false
+                zenodo:
+                  title: Zenodo
+                  actions:
+                    community:
+                      label: SciLifeLab Zenodo Community
+                      url: https://zenodo.org/communities/scilifelab/
+                      variant: lime
+                      icon: star-o
+                    open_science:
+                      label: "Example: Open Science Course"
+                      url: https://doi.org/10.5281/zenodo.20430337
+                      variant: teal
+                      icon: false
+                    bge_hic:
+                      label: "Example: BGE Hi-C Online Course"
+                      url: https://doi.org/10.5281/zenodo.16811296
+                      variant: teal
+                      icon: false
           oer_communities:
             anchor: oer-communities
             title: Link your materials with OER communities

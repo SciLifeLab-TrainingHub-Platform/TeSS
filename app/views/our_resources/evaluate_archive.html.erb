@@ -37,6 +37,38 @@
   <% archive = t('our_resources.stage_pages.evaluate_archive.sections.archive').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= archive[:anchor] %>">
     <h2><%= archive[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p>
+        <%= archive.dig(:introduction, :before_repository) %>
+        <%= link_to archive.dig(:introduction, :repository_label),
+                    archive.dig(:introduction, :repository_url),
+                    target: '_blank',
+                    rel: 'noopener noreferrer' %>
+        <%= archive.dig(:introduction, :between_repositories) %>
+        <%= link_to archive.dig(:introduction, :zenodo_label),
+                    archive.dig(:introduction, :zenodo_url),
+                    target: '_blank',
+                    rel: 'noopener noreferrer' %>
+        <%= archive.dig(:introduction, :after_zenodo) %>
+      </p>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <div class="resources-evaluate__archive-panel">
+        <% archive.dig(:panel, :columns).each_value do |column| %>
+          <section class="resources-evaluate__archive-column">
+            <h3><%= column[:title] %></h3>
+            <% column[:actions].each_value do |action| %>
+              <%= render 'our_resources/stage_pages/action_link',
+                         label: action[:label],
+                         url: action[:url],
+                         variant: action[:variant],
+                         icon: action[:icon] %>
+            <% end %>
+          </section>
+        <% end %>
+      </div>
+    </div>
   </section>
 
   <% oer_communities = t('our_resources.stage_pages.evaluate_archive.sections.oer_communities').with_indifferent_access %>

@@ -1,0 +1,87 @@
+.resources-evaluate__archive-panel {
+  background-color: $scilifelab-color-aqua;
+  background-image:
+    linear-gradient(
+      rgba($scilifelab-color-aqua, 0.8),
+      rgba($scilifelab-color-aqua, 0.8)
+    ),
+    image-url("scilifelab/resources/evaluate-archive-panel.webp");
+  background-position: center;
+  background-size: cover;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: grid;
+  gap: 38px;
+  grid-template-columns: repeat(2, 260px);
+  height: 254px;
+  justify-content: center;
+  margin: 24px auto 0;
+  max-width: 607px;
+  overflow: hidden;
+  padding: 18px 24px 27px;
+  width: 100%;
+}
+
+.resources-evaluate__archive-column {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0;
+
+  h3 {
+    color: $body-bg;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0 0 21px;
+    text-align: center;
+  }
+
+  .resources-stage-action {
+    flex: 0 0 auto;
+    font-size: 14px;
+    font-weight: 400;
+    height: 50px;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-bottom: 9px;
+    max-width: 100%;
+    padding: 12px;
+    width: 100%;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .resources-stage-action__icon {
+    font-size: 16px;
+    height: 16px;
+    line-height: 16px;
+    width: 16px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .resources-evaluate__archive-panel {
+    gap: 26px;
+    grid-template-columns: minmax(0, 260px);
+    height: auto;
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .resources-evaluate__archive-panel {
+    gap: 26px;
+    grid-template-columns: minmax(0, 260px);
+    height: auto;
+    padding: 20px;
+  }
+
+  .resources-evaluate__archive-column h3 {
+    font-size: 19px;
+  }
+}
