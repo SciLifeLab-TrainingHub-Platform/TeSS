@@ -74,6 +74,38 @@
   <% oer_communities = t('our_resources.stage_pages.evaluate_archive.sections.oer_communities').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= oer_communities[:anchor] %>">
     <h2><%= oer_communities[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p>
+        <%= oer_communities.dig(:introduction, :before_grena) %>
+        <%= link_to oer_communities.dig(:introduction, :grena_label),
+                    oer_communities.dig(:introduction, :grena_url),
+                    target: '_blank',
+                    rel: 'noopener noreferrer' %>
+        <%= oer_communities.dig(:introduction, :between_grena_and_suhf) %>
+        <%= link_to oer_communities.dig(:introduction, :suhf_label),
+                    oer_communities.dig(:introduction, :suhf_url),
+                    target: '_blank',
+                    rel: 'noopener noreferrer' %><%= oer_communities.dig(:introduction, :after_suhf) %>
+      </p>
+      <p>
+        <%= oer_communities.dig(:introduction, :before_tess) %>
+        <%= link_to oer_communities.dig(:introduction, :tess_label),
+                    oer_communities.dig(:introduction, :tess_url),
+                    target: '_blank',
+                    rel: 'noopener noreferrer' %> <%= oer_communities.dig(:introduction, :after_tess) %>
+      </p>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <%= render 'our_resources/stage_pages/visual_links',
+                 links: oer_communities[:visual_links].values,
+                 visual_height: 80,
+                 max_width: 469,
+                 label_width: 173,
+                 label_gap: 20,
+                 margin_top: 52,
+                 class_name: 'resources-stage-visual-links--stack-mobile' %>
+    </div>
   </section>
 
   <% reflections = t('our_resources.stage_pages.evaluate_archive.sections.reflections').with_indifferent_access %>

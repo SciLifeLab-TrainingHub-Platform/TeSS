@@ -649,6 +649,39 @@ en:
           oer_communities:
             anchor: oer-communities
             title: Link your materials with OER communities
+            introduction:
+              before_grena: >
+                To enable reuse and findability of your training materials, you may wish to link your materials to
+                Life Science communities in Sweden or the EU. Within Sweden, the platform
+              grena_label: Grena.nu
+              grena_url: https://www.grena.nu
+              between_grena_and_suhf: >
+                collects open educational resources through a collaborative initiative headed by
+              suhf_label: SUHF’s Working Group for Open Educational Resources
+              suhf_url: https://suhf.se/arbetsgrupper/arbetsgrupp-for-oppna-larresurser/
+              after_suhf: " (Arbetsgruppen för öppna lärresurser)."
+              before_tess: "At the EU level, "
+              tess_label: ELIXIR’s TeSS
+              tess_url: https://tess.elixir-europe.org/
+              after_tess: >
+                (Training e-support system) collects training instances and materials to support leveraging
+                computational resources in the life sciences. Over 100 providers, including EMBL, the Swiss Institute
+                for Bioinformatics, and SciLifeLab’s NBIS platform have contributed to this library of training
+                resources. The SciLifeLab Training Hub works in close collaboration with the ELIXIR TeSS community to
+                bring the life science community in Sweden the centralized Training Portal.
+            visual_links:
+              tess:
+                label: SciLifeLab Materials library in ELIXIR TeSS
+                image: elixir/elixir-tess.svg
+                image_width: 106
+                image_height: 80
+                url: https://tess.elixir-europe.org/content_providers/scilifelab
+              grena:
+                label: Open Educational Resources at Grena.nu
+                image: scilifelab/resources/grena-logo.png
+                image_width: 223
+                image_height: 50
+                url: https://grena.nu/
           reflections:
             anchor: instructor-reflections-reporting
             title: Instructor reflections & reporting

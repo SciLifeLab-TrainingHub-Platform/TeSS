@@ -402,6 +402,59 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '_blank',
                   'noopener noreferrer',
                   count: 6
+    assert_select '#oer-communities .resources-stage-prose p', count: 2
+    assert_select '#oer-communities .resources-stage-prose a[href=?][target=?][rel=?]',
+                  'https://www.grena.nu',
+                  '_blank',
+                  'noopener noreferrer',
+                  text: 'Grena.nu'
+    assert_select '#oer-communities .resources-stage-prose a[href=?][target=?][rel=?]',
+                  'https://suhf.se/arbetsgrupper/arbetsgrupp-for-oppna-larresurser/',
+                  '_blank',
+                  'noopener noreferrer',
+                  text: 'SUHF’s Working Group for Open Educational Resources'
+    assert_select '#oer-communities .resources-stage-prose a[href=?][target=?][rel=?]',
+                  'https://tess.elixir-europe.org/',
+                  '_blank',
+                  'noopener noreferrer',
+                  text: 'ELIXIR’s TeSS'
+    assert_select '#oer-communities .resources-stage-prose p',
+                  text: /ELIXIR’s TeSS\s+\(Training e-support system\)/
+    assert_select '#oer-communities .resources-stage-visual-links' \
+                  '[style*=?][style*=?][style*=?]',
+                  '--resources-stage-visual-height: 80px',
+                  '--resources-stage-visual-label-gap: 20px',
+                  '--resources-stage-visual-margin-top: 52px',
+                  count: 1
+    assert_select '#oer-communities .resources-stage-visual-links' \
+                  '[style*=?][style*=?]',
+                  '--resources-stage-visual-max-width: 469px',
+                  '--resources-stage-visual-label-width: 173px',
+                  count: 1
+    assert_select '#oer-communities .resources-stage-visual-links--stack-mobile', count: 1
+    assert_select '#oer-communities .resources-stage-visual-link', count: 2
+    assert_select '#oer-communities .resources-stage-visual-link[href=?]',
+                  'https://tess.elixir-europe.org/content_providers/scilifelab',
+                  text: /SciLifeLab Materials library in ELIXIR TeSS/
+    assert_select '#oer-communities .resources-stage-visual-link[href=?]',
+                  'https://grena.nu/',
+                  text: /Open Educational Resources at Grena.nu/
+    assert_select '#oer-communities .resources-stage-visual-link[target=?][rel=?]',
+                  '_blank',
+                  'noopener noreferrer',
+                  count: 2
+    assert_select '#oer-communities .resources-stage-visual-link__image' \
+                  '[src*=?][width=?][height=?]',
+                  'elixir-tess',
+                  '106',
+                  '80',
+                  count: 1
+    assert_select '#oer-communities .resources-stage-visual-link__image' \
+                  '[src*=?][width=?][height=?]',
+                  'grena-logo',
+                  '223',
+                  '50',
+                  count: 1
     assert_select 'h3', text: 'FAIR Training', count: 0
     assert_select '.community-box', count: 0
   end
