@@ -464,6 +464,26 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: /For SciLifeLab reporting purposes, ensure you collect the number of participants/
     assert_select '#instructor-reflections-reporting a', count: 0
     assert_select '#instructor-reflections-reporting .resources-stage-section__visual', count: 0
+    assert_select '.resources-further-learning h2', text: 'Further Learning'
+    assert_select '.resources-further-learning__card', count: 4
+    assert_select '.resources-further-learning__card h3', text: 'Training Hub FAIR Decision Tree'
+    assert_select '.resources-further-learning__link[href=?]',
+                  '/our_resources/guides',
+                  text: 'FAIR Decision Tree'
+    assert_select '.resources-further-learning__card h3', text: 'Checklist for FAIR metadata'
+    assert_select '.resources-further-learning__link[href=?]',
+                  'https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing',
+                  text: 'Checklist'
+    assert_select '.resources-further-learning__card h3', text: 'FAIR by design course'
+    assert_select '.resources-further-learning__link[href=?]', '/events', text: 'Training Catalogue'
+    assert_select '.resources-further-learning__card h3', text: 'Resources for Evaluating Learning'
+    assert_select '.resources-further-learning__link[href=?]',
+                  'https://doi.org/10.17044/scilifelab.28512722.v1',
+                  text: 'Resource Collection'
+    assert_select '.resources-further-learning__link[target=?][rel=?]',
+                  '_blank',
+                  'noopener noreferrer',
+                  count: 2
     assert_select 'h3', text: 'FAIR Training', count: 0
     assert_select '.community-box', count: 0
   end

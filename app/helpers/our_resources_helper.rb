@@ -66,6 +66,10 @@ module OurResourcesHelper
     stage_page_further_learning(:deliver)
   end
 
+  def evaluate_archive_further_learning
+    stage_page_further_learning(:evaluate_archive)
+  end
+
   def deliver_contributors
     stage_page_contributors(:deliver)
   end
