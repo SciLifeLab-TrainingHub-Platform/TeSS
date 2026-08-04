@@ -1,0 +1,170 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# CodeRabbit AI code-review configuration for the SciLifeLab Training Hub Portal
+# (a fork of ElixirTeSS/TeSS). This repository is public and open source, so the
+# review profile is deliberately welcoming to external contributors while still
+# guarding public-repo hygiene (no secrets/hostnames) and the project's Rails
+# conventions. See https://docs.coderabbit.ai/reference/configuration
+language: en-US
+early_access: false
+tone_instructions: >-
+  Be constructive, concise, and welcoming to first-time and external
+  contributors. Explain the "why" behind suggestions and link to project
+  conventions where helpful. Prefer teaching over gatekeeping.
+
+reviews:
+  # "chill" reduces noise so contributors are not overwhelmed; it still flags
+  # correctness, security, and convention issues.
+  profile: chill
+  # Do not hard-block merges via the review workflow; maintainers make the call.
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+  collapse_walkthrough: true
+  changed_files_summary: true
+  sequence_diagrams: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+  suggested_labels: true
+  auto_apply_labels: false
+  suggested_reviewers: true
+  poem: false
+  abort_on_close: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+    auto_incremental_review: true
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+      - "[skip ci]"
+    base_branches:
+      - "rc-.*"
+    # Bots open mechanical PRs that do not benefit from AI review.
+    ignore_usernames:
+      - "dependabot"
+      - "dependabot[bot]"
+      - "github-actions[bot]"
+
+  # Keep review focused on source; skip generated, vendored, and recorded files.
+  path_filters:
+    - "!node_modules/**"
+    - "!vendor/**"
+    - "!coverage/**"
+    - "!log/**"
+    - "!tmp/**"
+    - "!public/assets/**"
+    - "!public/packs/**"
+    - "!db/schema.rb"
+    - "!package-lock.json"
+    - "!yarn.lock"
+    - "!Gemfile.lock"
+    - "!**/*.min.js"
+    - "!**/*.min.css"
+    - "!test/vcr_cassettes/**"
+    - "!solr/**/data/**"
+
+  path_instructions:
+    - path: "**/*.rb"
+      instructions: >-
+        Ruby on Rails app; treat .ruby-version and the Gemfile as the source of
+        truth for language/framework versions rather than assuming a fixed one.
+        Enforce the project Ruby Style Guide via Rubocop using the limits
+        defined in .rubocop.yml, and do not introduce new Rubocop violations.
+        Prefer surgical
+        edits and reuse existing services (TeSS::Config, ApprovalLifecycle,
+        Notifications::*, Ingestor, Scraper) over new abstractions. Flag any
+        hardcoded hostnames, tokens, production URLs, or secrets — this is a
+        public repo; configuration belongs in env vars, config/tess.yml, or
+        config/secrets.yml.
+    - path: "app/controllers/**/*.rb"
+      instructions: >-
+        Verify Pundit authorization (authorize @record) is present for
+        state-changing actions and that changes stay consistent with
+        config/routes.rb and the matching policy in app/policies/. For JSON API
+        actions, remember CSRF is skipped and token auth uses X-User-Token /
+        X-User-Email headers.
+    - path: "app/models/**/*.rb"
+      instructions: >-
+        When models change, check related concerns in app/models/concerns/,
+        `searchable do` Solr index blocks (only active when
+        TeSS::Config.solr_enabled), serializers, and fixtures. Watch for
+        migrations that need a matching schema/index update.
+    - path: "app/jobs/**/*.rb"
+      instructions: >-
+        URL helpers in jobs/services/mailers must rely on
+        Rails.application.default_url_options (from TeSS::Config.base_url);
+        *_url raises "Missing host to link to!" without a host. Note
+        SlackNotificationJob#perform is a no-op outside Rails.env.production?.
+    - path: "app/services/**/*.rb"
+      instructions: >-
+        Same URL-helper caveat as jobs. Keep the ApprovalLifecycle / notifier
+        injection pattern intact and avoid coupling notifiers to a single
+        delivery channel.
+    - path: "lib/ingestors/**/*.rb"
+      instructions: >-
+        Ingestors hit external APIs. Ensure new external calls are covered by
+        VCR cassettes and registered in the WebMock allowlist in
+        test/test_helper.rb; do not perform live network calls in tests.
+    - path: "test/**/*.rb"
+      instructions: >-
+        Minitest is the framework. New external HTTP must be stubbed via
+        VCR/WebMock. Prefer maintaining or improving SimpleCov coverage and
+        reuse existing fixtures under test/fixtures/.
+    - path: "config/**/*.{yml,rb}"
+      instructions: >-
+        Never commit real secrets, tokens, internal hostnames, or production
+        URLs. Prefer extending TeSS::Config (config/tess.yml +
+        config/tess.example.yml defaults) over scattering ENV reads. Keep
+        example files (*.example.yml) in sync with new keys.
+    - path: ".github/workflows/**"
+      instructions: >-
+        build.yaml is the source of truth for the branch/env mapping
+        (rc-* -> dev, tag rc-v* -> preprod, release -> prod). Verify changes do
+        not leak secrets and keep the trigger map consistent.
+    - path: "**/*.{md,mdx}"
+      instructions: >-
+        Documentation: check for broken links and that no internal hostnames or
+        secrets are exposed. Style/prose nits are low priority.
+
+  tools:
+    # Ruby lint aligned with the repo's .rubocop.yml.
+    rubocop:
+      enabled: true
+    # Public-repo hygiene: catch leaked secrets/credentials.
+    gitleaks:
+      enabled: true
+    # Docker entrypoint / shell scripts under docker/.
+    shellcheck:
+      enabled: true
+    # Static security analysis and dependency/IaC scanning.
+    semgrep:
+      enabled: true
+    # Markdown/prose linting for the large docs/ tree.
+    markdownlint:
+      enabled: true
+    yamllint:
+      enabled: true
+
+chat:
+  auto_reply: true
+  # Allow external/open-source contributors to interact with the bot.
+  allow_non_org_members: true
+
+knowledge_base:
+  # Let CodeRabbit learn the project's conventions from the committed contributing
+  # guide and GitHub templates so reviews match house style.
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - "CONTRIBUTING.md"
+      - "CODE_OF_CONDUCT.md"
+      - ".github/**/*.md"
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  pull_requests:
+    scope: auto
