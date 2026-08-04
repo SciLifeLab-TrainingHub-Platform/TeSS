@@ -1,29 +1,28 @@
 .resources-landing {
   color: $dark-color;
-  margin: 43px auto 78px;
+  margin: 3px auto 78px;
   max-width: 1320px;
-  padding: 0 15px;
-}
-
-.resources-landing__intro,
-.resources-consultation__copy {
-  max-width: 844px;
+  padding: 0;
 }
 
 .resources-landing__intro {
-  margin-bottom: 26px;
+  max-width: 802px;
+}
+
+.resources-landing__intro {
+  margin-bottom: 33px;
 
   h1 {
-    color: $dark-color;
+    color: black;
     font-size: 36px;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
-    margin: 0 0 12px;
+    margin: 0 0 11px;
   }
 
   p {
-    color: rgba($dark-color, 0.82);
+    color: $scilifelab-color-dark-gray;
     font-size: 18px;
     line-height: 1.5;
     margin: 0;
@@ -40,7 +39,7 @@
 
   &::before {
     background: $scilifelab-color-teal;
-    bottom: -18px;
+    bottom: -30px;
     content: "";
     left: var(--lifecycle-axis);
     position: absolute;
@@ -63,7 +62,7 @@
 }
 
 .resources-lifecycle__timeframe {
-  color: $dark-color;
+  color: black;
   font-size: 20px;
   font-weight: 900;
   grid-column: 1;
@@ -72,6 +71,7 @@
   margin: 0;
   text-align: right;
   text-transform: uppercase;
+  transform: translateY(16px);
 }
 
 .resources-lifecycle__marker {
@@ -81,7 +81,7 @@
   height: 40px;
   left: calc(var(--lifecycle-axis) - 20px);
   position: absolute;
-  top: 50%;
+  top: calc(50% + 16px);
   transform: translateY(-50%);
   width: 40px;
   z-index: 1;
@@ -104,7 +104,7 @@
   border: 3px solid $scilifelab-color-grape;
   border-radius: 10px;
   box-shadow: 0 4px 4px rgba($dark-color, 0.25);
-  color: $dark-color;
+  color: black;
   display: flex;
   flex-direction: column;
   grid-column: 3;
@@ -124,8 +124,9 @@
   }
 
   p {
-    color: $dark-color;
+    color: black;
     font-size: 16px;
+    letter-spacing: -0.02em;
     line-height: 1.25;
     margin: 0;
   }
@@ -145,29 +146,33 @@
 }
 
 .resources-consultation {
-  margin-top: 70px;
+  margin-top: 78px;
 }
 
 .resources-consultation__copy {
+  margin-left: 13px;
+  max-width: 844px;
+
   h2 {
-    color: $dark-color;
+    color: black;
     font-size: 36px;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
-    margin: 0 0 13px;
+    margin: 0 0 11px;
   }
 
   p {
-    color: rgba($dark-color, 0.82);
+    color: $scilifelab-color-dark-gray;
     font-size: 18px;
     line-height: 1.5;
-    margin: 0 0 23px;
+    margin: 0 0 27px;
+    max-width: 802px;
   }
 }
 
 .resources-booking {
-  margin: 38px auto 0;
+  margin: 23px auto 0;
   max-width: 935px;
   width: 100%;
 
@@ -271,7 +276,8 @@
     --lifecycle-axis: 20px;
 
     &::before {
-      bottom: 16px;
+      bottom: auto;
+      height: 10px;
       top: 10px;
       width: 4px;
     }
@@ -283,6 +289,20 @@
     grid-template-rows: auto auto;
     margin-bottom: 24px;
     min-height: 0;
+
+    &::before {
+      background: $scilifelab-color-teal;
+      content: "";
+      height: calc(100% + 24px);
+      left: var(--lifecycle-axis);
+      position: absolute;
+      top: 20px;
+      width: 4px;
+    }
+
+    &:last-child::before {
+      height: 10px;
+    }
   }
 
   .resources-lifecycle__timeframe {
@@ -291,6 +311,7 @@
     grid-row: 1;
     margin: 0 0 8px;
     text-align: left;
+    transform: none;
   }
 
   .resources-lifecycle__marker {
@@ -329,6 +350,8 @@
   }
 
   .resources-consultation__copy {
+    margin-left: 0;
+
     h2 {
       font-size: 30px;
     }
