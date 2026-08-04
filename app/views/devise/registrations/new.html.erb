@@ -38,7 +38,7 @@
 
         <% unless Rails.application.secrets.recaptcha[:sitekey].blank? -%>
           <div class="form-group">
-            <%= recaptcha_tags ajax: true %>
+            <%= recaptcha_v3(action: 'signup', ajax: true) %>
           </div>
         <% end -%>
 
