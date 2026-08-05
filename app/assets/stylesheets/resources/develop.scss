@@ -45,71 +45,18 @@ a.resources-develop__announcement-cta {
 }
 
 .resources-develop__hosting-panel {
-  background-color: $scilifelab-color-aqua;
+  --resources-stage-action-panel-action-gap: 13px;
+  --resources-stage-action-panel-gap: 43px;
+  --resources-stage-action-panel-heading-gap: 19px;
+  --resources-stage-action-panel-height: 315px;
+  --resources-stage-action-panel-padding: 18px 22px 19px;
+
   background-image:
     linear-gradient(
       rgba($scilifelab-color-aqua, 0.85),
       rgba($scilifelab-color-aqua, 0.85)
     ),
     image-url("scilifelab/resources/develop-course-pages-panel.webp");
-  background-position: center;
-  background-size: cover;
-  border-radius: 10px;
-  box-sizing: border-box;
-  display: grid;
-  gap: 43px;
-  grid-template-columns: repeat(2, 260px);
-  height: 315px;
-  margin: 24px auto 0;
-  max-width: 607px;
-  padding: 18px 22px 19px;
-  width: 100%;
-}
-
-.resources-develop__hosting-column {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 0;
-
-  h3 {
-    color: $body-bg;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    margin: 0 0 19px;
-    text-align: center;
-  }
-
-  .resources-stage-action {
-    flex: 0 0 auto;
-    font-size: 14px;
-    font-weight: 400;
-    height: 50px;
-    letter-spacing: 0;
-    line-height: 1;
-    margin-bottom: 13px;
-    max-width: 100%;
-    padding: 12px;
-    width: 100%;
-
-    .resources-stage-action__icon {
-      font-size: 16px;
-      height: 16px;
-      line-height: 16px;
-      width: 16px;
-    }
-
-    .resources-stage-action__icon--github-template-star {
-      display: block;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
 }
 
 .resources-develop__serve-actions {
@@ -183,13 +130,9 @@ a.resources-develop__checklist-action {
   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1023px) {
+@media screen and (max-width: 1023px) {
   .resources-develop__hosting-panel {
-    gap: 26px;
     grid-template-columns: 1fr;
-    height: auto;
-    min-height: 0;
-    padding: 20px;
   }
 }
 
@@ -210,18 +153,6 @@ a.resources-develop__checklist-action {
     min-height: 56px;
     padding: 12px 18px;
     width: 100%;
-  }
-
-  .resources-develop__hosting-panel {
-    gap: 26px;
-    grid-template-columns: 1fr;
-    height: auto;
-    min-height: 0;
-    padding: 20px;
-  }
-
-  .resources-develop__hosting-column h3 {
-    font-size: 19px;
   }
 
   .resources-develop__serve-actions {

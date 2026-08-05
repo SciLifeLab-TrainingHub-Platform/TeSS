@@ -47,20 +47,9 @@
       </div>
 
       <div class="resources-develop__section-visual resources-develop__section-visual--hosting">
-        <div class="resources-develop__hosting-panel">
-          <% training_page[:hosting].each_value do |hosting_column| %>
-            <section class="resources-develop__hosting-column">
-              <h3><%= hosting_column[:title] %></h3>
-              <% hosting_column[:actions].each_value do |action| %>
-                <%= render 'our_resources/stage_pages/action_link',
-                           label: action[:label],
-                           url: action[:url],
-                           variant: action[:variant],
-                           icon: action[:icon] %>
-              <% end %>
-            </section>
-          <% end %>
-        </div>
+        <%= render 'our_resources/stage_pages/action_panel',
+                   columns: training_page[:hosting],
+                   class_name: 'resources-develop__hosting-panel' %>
       </div>
     </div>
   </section>

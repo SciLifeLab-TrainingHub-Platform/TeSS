@@ -617,7 +617,7 @@ en:
                       label: SciLifeLab Data Repository
                       url: https://figshare.scilifelab.se/
                       variant: lime
-                      icon: star-o
+                      icon: github-template-star
                     interdisciplinary:
                       label: "Example: Interdisciplinary Workshop"
                       url: https://doi.org/10.17044/scilifelab.32466978
@@ -635,7 +635,7 @@ en:
                       label: SciLifeLab Zenodo Community
                       url: https://zenodo.org/communities/scilifelab/
                       variant: lime
-                      icon: star-o
+                      icon: github-template-star
                     open_science:
                       label: "Example: Open Science Course"
                       url: https://doi.org/10.5281/zenodo.20430337

@@ -294,6 +294,10 @@ a.resources-stage-action--lime {
   background: $scilifelab-color-lime;
   color: $dark-color;
 
+  .resources-stage-action__icon--github-template-star {
+    filter: brightness(0);
+  }
+
   &:hover,
   &:focus {
     background: $scilifelab-color-lime-75;
@@ -328,6 +332,68 @@ a.resources-stage-action--teal {
 .resources-stage-action__icon {
   flex: 0 0 auto;
   font-size: 13px;
+}
+
+.resources-stage-action-panel {
+  background-color: $scilifelab-color-aqua;
+  background-position: center;
+  background-size: cover;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--resources-stage-action-panel-gap, 0);
+  grid-template-columns: repeat(2, 260px);
+  height: var(--resources-stage-action-panel-height, auto);
+  margin: 24px auto 0;
+  max-width: 607px;
+  padding: var(--resources-stage-action-panel-padding, 0);
+  width: 100%;
+}
+
+.resources-stage-action-panel__column {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0;
+
+  h3 {
+    color: $body-bg;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0 0 var(--resources-stage-action-panel-heading-gap, 0);
+    text-align: center;
+  }
+
+  .resources-stage-action {
+    flex: 0 0 auto;
+    font-size: 14px;
+    font-weight: 400;
+    height: 50px;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-bottom: var(--resources-stage-action-panel-action-gap, 0);
+    max-width: 100%;
+    padding: 12px;
+    width: 100%;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .resources-stage-action__icon {
+    font-size: 16px;
+    height: 16px;
+    line-height: 16px;
+    width: 16px;
+  }
+
+  .resources-stage-action__icon--github-template-star {
+    display: block;
+  }
 }
 
 .resources-stage-video-frame {
@@ -592,6 +658,16 @@ a.resources-stage-action--teal {
   }
 }
 
+@media screen and (max-width: 1023px) {
+  .resources-stage-page--shell .resources-stage-action-panel {
+    --resources-stage-action-panel-gap: 26px;
+    --resources-stage-action-panel-height: auto;
+    --resources-stage-action-panel-padding: 20px;
+
+    min-height: 0;
+  }
+}
+
 @media screen and (max-width: 767px) {
   .resources-stage-page--shell {
     margin: 28px auto 58px;
@@ -675,6 +751,10 @@ a.resources-stage-action--teal {
 
   .resources-stage-action {
     width: 100%;
+  }
+
+  .resources-stage-action-panel__column h3 {
+    font-size: 19px;
   }
 
   .resources-further-learning {

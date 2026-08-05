@@ -120,10 +120,12 @@ class OurResourcesControllerTest < ActionController::TestCase
                   'https://www.youtube.com/embed/_AQN4pqvZ3o',
                   count: 1
     assert_select '.resources-stage-video-frame--develop', count: 1
-    assert_select '.resources-develop__hosting-panel', count: 1
-    assert_select '.resources-develop__hosting-column', count: 2
-    assert_select '.resources-develop__hosting-column h3', text: 'SciLifeLab Canvas'
-    assert_select '.resources-develop__hosting-column h3', text: 'SciLifeLab Training GitHub'
+    assert_select '.resources-stage-action-panel.resources-develop__hosting-panel', count: 1
+    assert_select '.resources-develop__hosting-panel .resources-stage-action-panel__column', count: 2
+    assert_select '.resources-develop__hosting-panel .resources-stage-action-panel__column h3',
+                  text: 'SciLifeLab Canvas'
+    assert_select '.resources-develop__hosting-panel .resources-stage-action-panel__column h3',
+                  text: 'SciLifeLab Training GitHub'
     assert_select '.resources-develop__hosting-panel .resources-stage-action', count: 6
     assert_select '.resources-develop__hosting-panel .resources-stage-action[href=?]',
                   'https://github.com/SciLifeLab-Training/scilifelab-training-template/',
@@ -377,13 +379,19 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '_blank',
                   'noopener noreferrer',
                   text: 'SciLifeLab Zenodo Community'
-    assert_select '#upload-archive .resources-evaluate__archive-panel', count: 1
-    assert_select '#upload-archive .resources-evaluate__archive-column', count: 2
-    assert_select '#upload-archive .resources-evaluate__archive-column h3', text: 'Figshare'
-    assert_select '#upload-archive .resources-evaluate__archive-column h3', text: 'Zenodo'
+    assert_select '#upload-archive .resources-stage-action-panel.resources-evaluate__archive-panel', count: 1
+    assert_select '#upload-archive .resources-evaluate__archive-panel .resources-stage-action-panel__column', count: 2
+    assert_select '#upload-archive .resources-evaluate__archive-panel .resources-stage-action-panel__column h3',
+                  text: 'Figshare'
+    assert_select '#upload-archive .resources-evaluate__archive-panel .resources-stage-action-panel__column h3',
+                  text: 'Zenodo'
     assert_select '#upload-archive .resources-evaluate__archive-panel .resources-stage-action', count: 6
     assert_select '#upload-archive .resources-stage-action--lime', count: 2
-    assert_select '#upload-archive .resources-stage-action--lime .fa-star-o', count: 2
+    assert_select '#upload-archive .resources-stage-action--lime .fa-star-o', count: 0
+    assert_select '#upload-archive .resources-stage-action--lime ' \
+                  'img.resources-stage-action__icon--github-template-star[src*=?]',
+                  'github-template-star',
+                  count: 2
     assert_select '#upload-archive .resources-stage-action--teal', count: 4
     assert_select '#upload-archive .resources-stage-action--teal .resources-stage-action__icon', count: 0
     assert_select '#upload-archive .resources-stage-action[href=?]',

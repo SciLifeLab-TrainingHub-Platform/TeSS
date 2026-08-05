@@ -54,20 +54,9 @@
     </div>
 
     <div class="resources-stage-section__visual">
-      <div class="resources-evaluate__archive-panel">
-        <% archive.dig(:panel, :columns).each_value do |column| %>
-          <section class="resources-evaluate__archive-column">
-            <h3><%= column[:title] %></h3>
-            <% column[:actions].each_value do |action| %>
-              <%= render 'our_resources/stage_pages/action_link',
-                         label: action[:label],
-                         url: action[:url],
-                         variant: action[:variant],
-                         icon: action[:icon] %>
-            <% end %>
-          </section>
-        <% end %>
-      </div>
+      <%= render 'our_resources/stage_pages/action_panel',
+                 columns: archive.dig(:panel, :columns),
+                 class_name: 'resources-evaluate__archive-panel' %>
     </div>
   </section>
 
