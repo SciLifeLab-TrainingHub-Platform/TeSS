@@ -7,10 +7,14 @@
     top: 24px;
     transform: translateX(clamp(-106px, calc(614px - 50vw), 24px));
     width: 100%;
+    z-index: 2;
   }
 
   .resources-stage-nav__list {
     display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
     position: relative;
 
     &::before {
@@ -31,6 +35,7 @@
 
   .resources-stage-nav__item {
     min-height: 82px;
+    position: relative;
 
     &::before {
       display: none;
@@ -39,6 +44,7 @@
 
   .resources-stage-nav__link {
     align-items: flex-start;
+    color: $dark-color;
     display: flex;
     font-size: 18px;
     font-weight: 600;
@@ -46,7 +52,20 @@
     line-height: 1.25;
     min-height: 82px;
     padding: 7px 6px 15px 60px;
+    position: relative;
     text-align: left;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-teal;
+      text-decoration: none;
+    }
+
+    &:focus {
+      outline: 3px solid $scilifelab-color-lime;
+      outline-offset: 5px;
+    }
   }
 
   .resources-stage-nav__label {
@@ -57,11 +76,14 @@
   .resources-stage-nav__marker {
     background: $body-bg;
     border: 6px solid $scilifelab-color-teal;
+    border-radius: 50%;
     height: 40px;
     left: 2px;
+    position: absolute;
     top: 0;
     transform: none;
     width: 40px;
+    z-index: 1;
   }
 
   .resources-stage-nav__item--active {

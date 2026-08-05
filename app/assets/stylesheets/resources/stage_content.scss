@@ -6,8 +6,10 @@ $resources-contributor-pill-background: mix(
 
 // Shared content layout for lifecycle pages that use the redesigned stage shell.
 .resources-stage-page--shell {
+  color: $dark-color;
   margin: 42px auto 80px;
   max-width: 1180px;
+  padding: 0 15px;
 }
 
 .resources-stage-shell {
@@ -437,7 +439,7 @@ a.resources-stage-action--teal {
 
 .resources-stage-page--shell {
   .resources-stage-contributors {
-    margin-bottom: 36px;
+    margin: 0 0 36px;
     padding: 0;
 
     h2 {
@@ -451,8 +453,10 @@ a.resources-stage-action--teal {
   }
 
   .resources-stage-contributors__panel {
+    align-items: start;
     background: $scilifelab-color-grape-50;
     box-sizing: border-box;
+    display: flex;
     margin-left: 0;
     max-width: 766px;
     min-height: 151px;
@@ -461,18 +465,27 @@ a.resources-stage-action--teal {
   }
 
   .resources-stage-contributors__list {
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px 20px;
     justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
     width: 100%;
   }
 
   .resources-stage-contributors__item {
+    align-items: center;
     background: $resources-contributor-pill-background;
     border-radius: 999px;
     box-sizing: border-box;
+    color: $dark-color;
+    display: flex;
     flex: 0 0 231px;
     font-size: 20px;
     font-weight: 400;
+    gap: 10px;
     letter-spacing: -0.02em;
     line-height: 1.2;
     min-height: 51px;
