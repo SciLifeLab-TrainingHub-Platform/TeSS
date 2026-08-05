@@ -1,101 +1,85 @@
-<div class="account-form">
-  <div class="page-header">
-    <%= page_title 'Registration' %>
+<%= form_with url: request_email_action_course_subscription_path(course),
+              method: :post,
+              local: true,
+              id: "subscription-form" do |f| %>
+
+  <!-- Email + button -->
+  <div class="input-group">
+    <%= f.email_field :email,
+                      class: "form-control",
+                      placeholder: "Email address",
+                      required: true %>
+
+    <%= check_box_tag :action_type,
+                      CourseInterest::ACTION_REQUEST_SUBSCRIBE,
+                      true,
+                      id: "course-interest-action-type",
+                      hidden: true %>
+
+
+    <span class="input-group-btn">
+      <button type="submit"
+              class="btn btn-primary"
+              id="course-interest-submit-button">
+        Subscribe
+      </button>
+    </span>
   </div>
-  <% if !TeSS::Config.feature['registration'] %>
-    <div class="panel panel-danger">
-      <div class="panel-heading">
-        <h3 class="panel-title">Registration is currently disabled</h3>
-      </div>
-      <div class="panel-body">
-        <p>Please email <%= mail_to(TeSS::Config.contact_email, TeSS::Config.contact_email) %> to request an
-          account.</p>
-        <p>In your email please include the following information:</p>
-        <ul>
-          <li>Full name</li>
-          <li>Email address</li>
-          <li>Institution/Organisation</li>
-          <li>Brief description of why you would like an account and/or the type of materials/events you would like to
-            add
-          </li>
-        </ul>
-        <p>Sorry for any inconvenience caused,</p>
-        <p>The <%= TeSS::Config.site['title_short'] %> Team</p>
-      </div>
-    </div>
-  <% else %>
-    <div class="form-middle">
-      <%# Added the HTML id: 'registration-form' to target it with JavaScript %>
-      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { id: 'registration-form' }) do |f| %>
-        <%= account_error_messages! %>
 
-        <%= f.input :username, autofocus: true %>
+  <%= hidden_field_tag "g-recaptcha-response", nil, id: "course-interest-recaptcha-token" %>
 
-        <%= f.input :email, required: true %>
+  <!-- Checkbox underneath -->
+  <div class="course-interest-toggle">
+    <label for="course-interest-toggle" class="checkbox-label">
+      <input type="checkbox"
+             id="course-interest-toggle"
+             checked>
+      Email me when new training events for this course are published
+    </label>
+  </div>
 
-        <%= f.input :publicize_email, as: :boolean, label: 'Make my email publicly visible' %>
+<% end %>
 
-        <%= f.input :password, required: true, input_html: { autocomplete: 'off' },
-                    hint: "(#{@minimum_password_length} characters minimum)" if @minimum_password_length %>
+<script src="https://www.google.com/recaptcha/api.js?render=<%= Recaptcha.configuration.site_key %>"></script>
 
-        <%= f.input :password_confirmation, required: true, input_html: { autocomplete: 'off' } %>
+<script>
+    document.addEventListener("turbolinks:load", function () {
+        const toggle = document.getElementById("course-interest-toggle");
+        const actionType = document.getElementById("course-interest-action-type");
+        const button = document.getElementById("course-interest-submit-button");
+        const form = document.getElementById("subscription-form");
+        const tokenField = document.getElementById("course-interest-recaptcha-token");
+        if (!toggle || !actionType || !button || !form || !tokenField) return;
 
-        <% unless Rails.application.secrets.recaptcha[:sitekey].blank? -%>
-          <div class="form-group">
-            <%# Replaced standard helper with a custom hidden field for the token %>
-            <%= hidden_field_tag :recaptcha_token, '', id: 'registration-recaptcha-token' %>
-          </div>
-        <% end -%>
+        function updateUI() {
+            actionType.checked = true;
+            actionType.value = toggle.checked
+                ? "<%= CourseInterest::ACTION_REQUEST_SUBSCRIBE %>"
+                : "<%= CourseInterest::ACTION_REQUEST_UNSUBSCRIBE %>";
+            button.textContent = toggle.checked ? "Subscribe" : "Unsubscribe";
+        }
 
-        <%= f.input :processing_consent, as: :boolean, input_html: { autocomplete: 'off' },
-                    label: "I have read and understood the&nbsp;#{link_to('privacy policy', privacy_path, target: '_blank')} and consent to #{TeSS::Config.site['title_short']} processing my data.".html_safe %>
-        <div class="actions">
-          <%# Added HTML id: 'registration-submit-button' to handle disabling on click %>
-          <%= f.submit "Register", :class => 'btn btn-primary', id: 'registration-submit-button' %>
-        </div>
-      <% end %>
+        updateUI();
+        toggle.addEventListener("change", updateUI);
 
-      <div class="separator"><span>or</span></div>
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            button.disabled = true;
+            toggle.disabled = true;
 
-      <div class="actions">
-        <% if resource_class.omniauth_providers.any? && devise_mapping.omniauthable? %>
-          <%= render partial: 'devise/sessions/omniauth_options' %>
-        <% end %>
-      </div>
-
-      <%= render "devise/shared/links" %>
-    </div>
-  <% end %>
-</div>
-
-<% unless Rails.application.secrets.recaptcha[:sitekey].blank? -%>
-  <script src="https://www.google.com/recaptcha/api.js?render=<%= Recaptcha.configuration.site_key %>"></script>
-
-  <script>
-      document.addEventListener("turbolinks:load", function () {
-          const form = document.getElementById("registration-form");
-          const button = document.getElementById("registration-submit-button");
-          const tokenField = document.getElementById("registration-recaptcha-token");
-
-          if (!form || !button || !tokenField) return;
-
-          form.addEventListener("submit", function (event) {
-              event.preventDefault();
-              button.disabled = true;
-
-              grecaptcha.ready(function () {
-                  grecaptcha.execute("<%= Recaptcha.configuration.site_key %>", {action: "signup"})
-                      .then(function (token) {
-                          tokenField.value = token;
-                          form.submit();
-                      })
-                      .catch(function () {
-                          alert("Could not verify the form. Please try again.")
-                      }).finally(function () {
-                      button.disabled = false;
-                  });
-              });
-          });
-      });
-  </script>
-<% end -%>
+            grecaptcha.ready(function () {
+                grecaptcha.execute("<%= Recaptcha.configuration.site_key %>", {action: "course_interest"})
+                    .then(function (token) {
+                        tokenField.value = token;
+                        form.submit();
+                    })
+                    .catch(function () {
+                        alert("Could not verify the form. Please try again.")
+                    }).finally(function () {
+                    button.disabled = false;
+                    toggle.disabled = false;
+                });
+            });
+        });
+    });
+</script>
