@@ -77,18 +77,27 @@
               event.preventDefault();
               button.disabled = true;
 
-              grecaptcha.ready(function () {
-                  grecaptcha.execute("<%= Recaptcha.configuration.site_key %>", {action: "signup"})
-                      .then(function (token) {
-                          tokenField.value = token;
-                          form.submit();
-                      })
-                      .catch(function () {
-                          alert("Could not verify the form. Please try again.")
-                      }).finally(function () {
-                      button.disabled = false;
-                  });
-              });
+              try {
+                  if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
+                      grecaptcha.ready(function () {
+                          grecaptcha.execute("<%= Recaptcha.configuration.site_key %>", {action: "signup"})
+                              .then(function (token) {
+                                  tokenField.value = token;
+                                  form.submit();
+                              })
+                              .catch(function (error) {
+                                  alert("Could not verify the form. Please check your connection and try again.");
+                              }).finally(function () {
+                              button.disabled = false;
+                          });
+                      });
+                  } else {
+                      throw new Error("grecaptcha API not loaded.");
+                  }
+              } catch (e) {
+                  alert("Verification service unavailable. Please try submitting without captcha.");
+                  button.disabled = false;
+              }
           });
       });
   </script>
