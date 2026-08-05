@@ -49,9 +49,6 @@ $resources-contributor-pill-background: mix(
     }
   }
 
-  .resources-stage-shell__lead {
-    color: $scilifelab-color-dark-gray;
-  }
 }
 
 .resources-stage-section {
@@ -323,10 +320,6 @@ a.resources-stage-action--teal {
   &:focus {
     background: $scilifelab-color-aqua;
   }
-}
-
-.resources-stage-action--pill {
-  border-radius: 999px;
 }
 
 .resources-stage-action__icon {

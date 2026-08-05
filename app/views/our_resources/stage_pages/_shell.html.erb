@@ -7,8 +7,8 @@
     <div class="resources-stage-shell__main">
       <header class="resources-stage-shell__hero">
         <h1><%= title %></h1>
-        <% intro_paragraphs.each_with_index do |paragraph, index| %>
-          <p class="<%= 'resources-stage-shell__lead' if index.zero? %>"><%= paragraph %></p>
+        <% intro_paragraphs.each do |paragraph| %>
+          <p><%= paragraph %></p>
         <% end %>
       </header>
 

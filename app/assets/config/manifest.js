@@ -1,5 +1,4 @@
 //= link_tree ../images
-//= link scilifelab/resources/deliver_tool.png
 //= link scilifelab/resources/github-template-star.png
 //= link scilifelab/resources/grena-logo.png
 //= link application.css

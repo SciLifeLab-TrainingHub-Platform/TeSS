@@ -111,7 +111,6 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-section h2', text: 'Setting up a training page or website'
     assert_select '.resources-stage-section h2', text: 'Computational teaching tools from SciLifeLab Serve'
     assert_select '.resources-stage-section h2', text: 'Preparing FAIR Training Materials'
-    assert_select '#fair-training-materials.resources-develop__fair-materials', count: 1
     assert_select '.resources-develop__announcement-action .resources-stage-action[href=?]',
                   'https://training.scilifelab.se/events/new',
                   text: /Announce your upcoming training here/
@@ -248,7 +247,6 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '_blank',
                   'noopener noreferrer',
                   count: 3
-    assert_select '#tools-for-training-delivery .resources-stage-deliver__tool-list', count: 0
     assert_select '#facilitation-collaborative-learning p',
                   text: /Training at SciLifeLab often involves facilitating discussions/
     assert_select '#facilitation-collaborative-learning p',

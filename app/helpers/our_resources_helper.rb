@@ -110,18 +110,6 @@ module OurResourcesHelper
       .values
   end
 
-  def guide_resources_for(category_key)
-    category = t("guides.#{category_key}", default: {}).with_indifferent_access
-
-    category.fetch(:elements, {}).map do |_key, resource|
-      {
-        title: resource[:name],
-        image: resource[:image],
-        url: resource[:url]
-      }
-    end
-  end
-
   def youtube_embed_url(url)
     return if url.blank?
 
