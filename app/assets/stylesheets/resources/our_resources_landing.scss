@@ -1,7 +1,7 @@
 .resources-landing {
   --resources-copy-width: 802px;
   color: $dark-color;
-  margin: 3px auto 78px;
+  margin: 35px auto 78px;
   max-width: 1320px;
   padding: 0;
 }
@@ -219,10 +219,6 @@
 }
 
 @media screen and (max-width: 991px) {
-  .resources-landing {
-    margin-top: 36px;
-  }
-
   .resources-lifecycle {
     --lifecycle-axis-x: 150px;
     max-width: 860px;
