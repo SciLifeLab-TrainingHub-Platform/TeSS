@@ -15,6 +15,10 @@ class CourseSubscriptionsController < ApplicationController
       return redirect_to course_path(course)
     end
 
+    pp("in request_email_action")
+    pp("params[:action_type]")
+    pp(params[:action_type])
+
     result =
       case params[:action_type]
       when CourseInterest::ACTION_REQUEST_SUBSCRIBE
@@ -24,6 +28,9 @@ class CourseSubscriptionsController < ApplicationController
       else
         return redirect_to course_path(course), alert: "Invalid action"
       end
+
+    pp('result this this as a')
+    pp(result)
 
     if result[:status] == :error
       redirect_to course_path(course), alert: result[:message]
