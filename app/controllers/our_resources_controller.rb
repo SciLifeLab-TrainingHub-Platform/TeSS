@@ -1,52 +1,39 @@
 # The controller for actions related to the resources pages
 class OurResourcesController < ApplicationController
+  skip_before_action :authenticate_user!, :authenticate_user_from_token!
+  before_action :set_breadcrumbs, only: %i[guides pedagogic_support trainer_community fair_training]
 
-    skip_before_action :authenticate_user!, :authenticate_user_from_token!
-    before_action :set_breadcrumbs
-    before_action :disable_pagination, only: :index
+  def our_resources; end
 
-    def set_breadcrumbs
-      @breadcrumbs = []
-      add_base_breadcrumbs('our_resources')
-    end
-    
-    def our_resources
-      @breadcrumbs = nil
-    end
+  def design_develop; end
 
-    def design_develop
-      @breadcrumbs = nil
-    end
+  def develop; end
 
-    def develop
-      @breadcrumbs = nil
-    end
+  def deliver; end
 
-    def deliver
-      @breadcrumbs = nil
-    end
+  def evaluate_archive; end
 
-    def evaluate_archive
-      @breadcrumbs = nil
-    end
-
-    def guides
-      set_breadcrumbs
-      @breadcrumbs += [{ name: 'Training Assets', url: guides_path }]
-    end
-
-    def pedagogic_support
-      set_breadcrumbs
-      @breadcrumbs += [{ name: 'Support', url: pedagogic_path }]
-    end
-    
-    def trainer_community
-      set_breadcrumbs
-      @breadcrumbs += [{ name: 'Community', url: community_path }]
-    end
-
-    def fair_training
-      set_breadcrumbs
-      @breadcrumbs += [{ name: 'FAIR', url: fair_path }]
-    end
+  def guides
+    @breadcrumbs += [{ name: 'Training Assets', url: guides_path }]
   end
+
+  def pedagogic_support
+    @breadcrumbs += [{ name: 'Support', url: pedagogic_path }]
+  end
+
+  def trainer_community
+    @breadcrumbs += [{ name: 'Community', url: community_path }]
+  end
+
+  def fair_training
+    @breadcrumbs += [{ name: 'FAIR', url: fair_path }]
+  end
+
+  private
+
+  def set_breadcrumbs
+    @breadcrumbs = []
+    add_breadcrumb 'Home', root_path
+    add_breadcrumb 'Our resources', our_resources_path
+  end
+end

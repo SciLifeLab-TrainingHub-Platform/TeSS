@@ -152,7 +152,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :our_resources, only: [:index]
   # upstream repo change for learning path routes
   resources :learning_paths, concerns: %i[collaboratable activities]
   resources :learning_path_topics, concerns: %i[collaboratable activities]
