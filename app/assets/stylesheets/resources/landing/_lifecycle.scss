@@ -1,0 +1,115 @@
+.resources-lifecycle {
+  --lifecycle-axis-width: 5px;
+  --lifecycle-axis-x: 206px;
+  --lifecycle-marker-shift-y: 16px;
+  --lifecycle-row-gap: 14px;
+  display: grid;
+  list-style: none;
+  margin: 0 auto;
+  max-width: 895px;
+  padding: 0;
+  position: relative;
+  row-gap: var(--lifecycle-row-gap);
+
+  &::before {
+    background: $scilifelab-color-teal;
+    bottom: -30px;
+    content: "";
+    left: var(--lifecycle-axis-x);
+    position: absolute;
+    top: 0;
+    width: var(--lifecycle-axis-width);
+  }
+}
+
+.resources-lifecycle__item {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 156px 127px minmax(0, 558px);
+  min-height: 104px;
+  position: relative;
+}
+
+.resources-lifecycle__timeframe {
+  color: black;
+  font-size: 20px;
+  font-weight: 900;
+  grid-column: 1;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0;
+  text-align: right;
+  text-transform: uppercase;
+  transform: translateY(var(--lifecycle-marker-shift-y));
+}
+
+.resources-lifecycle__marker {
+  background: $body-bg;
+  border: 4px solid $scilifelab-color-teal;
+  border-radius: 50%;
+  height: 40px;
+  left: calc(var(--lifecycle-axis-x) - 20px);
+  position: absolute;
+  top: calc(50% + var(--lifecycle-marker-shift-y));
+  transform: translateY(-50%);
+  width: 40px;
+  z-index: 1;
+
+  &::after {
+    background: $scilifelab-color-grape;
+    content: "";
+    height: 3px;
+    left: 36px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 57px;
+  }
+}
+
+.resources-lifecycle__card {
+  align-self: stretch;
+  background: $body-bg;
+  border: 3px solid $scilifelab-color-grape;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgba($dark-color, 0.25);
+  color: black;
+  display: flex;
+  flex-direction: column;
+  grid-column: 3;
+  justify-content: center;
+  min-height: 104px;
+  padding: 9px 16px 11px;
+  text-decoration: none;
+  transition: box-shadow 150ms ease, transform 150ms ease;
+
+  h2 {
+    color: $scilifelab-color-aqua;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 3px;
+  }
+
+  p {
+    color: black;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 7px 10px rgba($dark-color, 0.22);
+    color: $dark-color;
+    text-decoration: none;
+    transform: translateY(-2px);
+  }
+
+  &:focus {
+    outline: 3px solid $scilifelab-color-lime;
+    outline-offset: 4px;
+  }
+}

@@ -1,0 +1,28 @@
+.resources-landing {
+  --resources-copy-width: 802px;
+  color: $dark-color;
+  margin: 35px auto 78px;
+  max-width: 1320px;
+  padding: 0;
+}
+
+.resources-landing__intro {
+  margin-bottom: 33px;
+  max-width: var(--resources-copy-width);
+
+  h1 {
+    color: black;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 11px;
+  }
+
+  p {
+    color: $scilifelab-color-dark-gray;
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0;
+  }
+}
