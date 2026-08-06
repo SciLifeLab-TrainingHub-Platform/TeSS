@@ -1,13 +1,17 @@
+<% stage = t("our_resources.stage_pages.#{stage_key}").with_indifferent_access %>
+<% modifier = stage_key.to_s.tr('_', '-') %>
+<% content_for :title, raw(stage[:title]) %>
+
 <section class="resources-stage-page resources-stage-page--shell resources-stage-page--<%= modifier %>">
   <div class="resources-stage-shell">
     <%= render 'our_resources/stage_pages/stage_nav',
-               active_key: active_key,
-               section_links: section_links %>
+               active_key: stage_key,
+               section_links: stage_page_section_links(stage_key) %>
 
     <div class="resources-stage-shell__main">
       <header class="resources-stage-shell__hero">
-        <h1><%= title %></h1>
-        <% intro_paragraphs.each do |paragraph| %>
+        <h1><%= stage[:title] %></h1>
+        <% [stage[:summary], stage[:introduction]].compact.each do |paragraph| %>
           <p><%= paragraph %></p>
         <% end %>
       </header>

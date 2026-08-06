@@ -1,16 +1,5 @@
-<% content_for :title, raw(t('our_resources.stage_pages.develop.title')) %>
-
 <%= render layout: 'our_resources/stage_pages/shell',
-           locals: {
-             modifier: 'develop',
-             active_key: :develop,
-             title: t('our_resources.stage_pages.develop.title'),
-             intro_paragraphs: [
-               t('our_resources.stage_pages.develop.summary'),
-               t('our_resources.stage_pages.develop.introduction')
-             ],
-             section_links: develop_section_links
-           } do %>
+           locals: { stage_key: :develop } do %>
   <% announcement = t('our_resources.stage_pages.develop.sections.announcement').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= announcement[:anchor] %>">
     <h2><%= announcement[:title] %></h2>
@@ -123,11 +112,5 @@
     </div>
   </section>
 
-  <%= render 'our_resources/stage_pages/learning_cards',
-             title: t('our_resources.stage_pages.develop.further_learning.title'),
-             resources: develop_further_learning %>
-
-  <%= render 'our_resources/stage_pages/contributors',
-             title: t('our_resources.stage_pages.contributors_heading'),
-             contributors: develop_contributors %>
+  <%= render 'our_resources/stage_pages/stage_footer', stage_key: :develop %>
 <% end %>

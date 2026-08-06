@@ -1,16 +1,5 @@
-<% content_for :title, raw(t('our_resources.stage_pages.deliver.title')) %>
-
 <%= render layout: 'our_resources/stage_pages/shell',
-           locals: {
-             modifier: 'deliver',
-             active_key: :deliver,
-             title: t('our_resources.stage_pages.deliver.title'),
-             intro_paragraphs: [
-               t('our_resources.stage_pages.deliver.summary'),
-               t('our_resources.stage_pages.deliver.introduction')
-             ],
-             section_links: deliver_section_links
-           } do %>
+           locals: { stage_key: :deliver } do %>
   <% facilitation = t('our_resources.stage_pages.deliver.sections.facilitation').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= facilitation[:anchor] %>">
     <h2><%= facilitation[:title] %></h2>
@@ -101,11 +90,5 @@
     </div>
   </section>
 
-  <%= render 'our_resources/stage_pages/learning_cards',
-             title: t('our_resources.stage_pages.deliver.further_learning.title'),
-             resources: deliver_further_learning %>
-
-  <%= render 'our_resources/stage_pages/contributors',
-             title: t('our_resources.stage_pages.contributors_heading'),
-             contributors: deliver_contributors %>
+  <%= render 'our_resources/stage_pages/stage_footer', stage_key: :deliver %>
 <% end %>

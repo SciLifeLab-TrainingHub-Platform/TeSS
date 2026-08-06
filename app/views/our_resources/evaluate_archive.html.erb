@@ -1,16 +1,5 @@
-<% content_for :title, raw(t('our_resources.stage_pages.evaluate_archive.title')) %>
-
 <%= render layout: 'our_resources/stage_pages/shell',
-           locals: {
-             modifier: 'evaluate-archive',
-             active_key: :evaluate_archive,
-             title: t('our_resources.stage_pages.evaluate_archive.title'),
-             intro_paragraphs: [
-               t('our_resources.stage_pages.evaluate_archive.summary'),
-               t('our_resources.stage_pages.evaluate_archive.introduction')
-             ],
-             section_links: evaluate_archive_section_links
-           } do %>
+           locals: { stage_key: :evaluate_archive } do %>
   <% prepare_materials = t('our_resources.stage_pages.evaluate_archive.sections.prepare_materials').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= prepare_materials[:anchor] %>">
     <h2><%= prepare_materials[:title] %></h2>
@@ -107,11 +96,5 @@
     </div>
   </section>
 
-  <%= render 'our_resources/stage_pages/learning_cards',
-             title: t('our_resources.stage_pages.evaluate_archive.further_learning.title'),
-             resources: evaluate_archive_further_learning %>
-
-  <%= render 'our_resources/stage_pages/contributors',
-             title: t('our_resources.stage_pages.contributors_heading'),
-             contributors: evaluate_archive_contributors %>
+  <%= render 'our_resources/stage_pages/stage_footer', stage_key: :evaluate_archive %>
 <% end %>

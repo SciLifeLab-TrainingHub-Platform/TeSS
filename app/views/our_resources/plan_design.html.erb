@@ -1,16 +1,5 @@
-<% content_for :title, raw(t('our_resources.stage_pages.plan_design.title')) %>
-
 <%= render layout: 'our_resources/stage_pages/shell',
-           locals: {
-             modifier: 'plan-design',
-             active_key: :plan_design,
-             title: t('our_resources.stage_pages.plan_design.title'),
-             intro_paragraphs: [
-               t('our_resources.stage_pages.plan_design.summary'),
-               t('our_resources.stage_pages.plan_design.introduction')
-             ],
-             section_links: plan_design_section_links
-           } do %>
+           locals: { stage_key: :plan_design } do %>
   <% target_audience = t('our_resources.stage_pages.plan_design.sections.target_audience').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= target_audience[:anchor] %>">
     <h2><%= target_audience[:title] %></h2>
@@ -78,11 +67,5 @@
     </div>
   </section>
 
-  <%= render 'our_resources/stage_pages/learning_cards',
-             title: t('our_resources.stage_pages.plan_design.further_learning.title'),
-             resources: plan_design_further_learning %>
-
-  <%= render 'our_resources/stage_pages/contributors',
-             title: t('our_resources.stage_pages.contributors_heading'),
-             contributors: plan_design_contributors %>
+  <%= render 'our_resources/stage_pages/stage_footer', stage_key: :plan_design %>
 <% end %>

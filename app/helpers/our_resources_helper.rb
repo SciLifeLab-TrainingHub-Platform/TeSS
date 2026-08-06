@@ -19,72 +19,13 @@ module OurResourcesHelper
     end
   end
 
-  def plan_design_section_links
-    stage_page_section_links(
-      :plan_design,
-      section_keys: %i[target_audience learning_outcomes engagement]
-    )
-  end
+  def stage_page_section_links(stage_key)
+    sections = t(
+      "our_resources.stage_pages.#{stage_key}.sections",
+      default: {}
+    ).with_indifferent_access
 
-  def develop_section_links
-    stage_page_section_links(
-      :develop,
-      section_keys: %i[announcement training_page computational_tools fair_materials]
-    )
-  end
-
-  def deliver_section_links
-    stage_page_section_links(
-      :deliver,
-      section_keys: %i[facilitation tools feedback]
-    )
-  end
-
-  def evaluate_archive_section_links
-    stage_page_section_links(
-      :evaluate_archive,
-      section_keys: %i[prepare_materials archive oer_communities reflections]
-    )
-  end
-
-  def plan_design_further_learning
-    stage_page_further_learning(:plan_design)
-  end
-
-  def plan_design_contributors
-    stage_page_contributors(:plan_design)
-  end
-
-  def develop_further_learning
-    stage_page_further_learning(:develop)
-  end
-
-  def develop_contributors
-    stage_page_contributors(:develop)
-  end
-
-  def deliver_further_learning
-    stage_page_further_learning(:deliver)
-  end
-
-  def evaluate_archive_further_learning
-    stage_page_further_learning(:evaluate_archive)
-  end
-
-  def deliver_contributors
-    stage_page_contributors(:deliver)
-  end
-
-  def evaluate_archive_contributors
-    stage_page_contributors(:evaluate_archive)
-  end
-
-  private
-
-  def stage_page_section_links(stage_key, section_keys:)
-    section_keys.map do |section_key|
-      section = t("our_resources.stage_pages.#{stage_key}.sections.#{section_key}").with_indifferent_access
-
+    sections.values.map do |section|
       {
         anchor: section[:anchor],
         title: section[:nav_title] || section[:title]
@@ -123,6 +64,8 @@ module OurResourcesHelper
       resource_profiles.fetch(key).merge(resource_overrides[key] || {})
     end
   end
+
+  private
 
   def youtube_embed_url(url)
     return if url.blank?
