@@ -20,13 +20,11 @@ Rails.application.routes.draw do
   get 'about/us' => 'about#us', as: 'us'
 
   # Add resource page
-  get 'our_resources' => 'our_resources#our_resources', as: 'our_resources'
-  get 'our_resources/plan-design' => 'our_resources#design_develop', as: 'plan_design_stage'
+  get 'our_resources' => 'our_resources#index', as: 'our_resources'
+  get 'our_resources/plan-design' => 'our_resources#plan_design', as: 'plan_design_stage'
   get 'our_resources/develop' => 'our_resources#develop', as: 'develop_stage'
   get 'our_resources/deliver' => 'our_resources#deliver', as: 'deliver_stage'
   get 'our_resources/evaluate-archive' => 'our_resources#evaluate_archive', as: 'evaluate_archive_stage'
-  get 'our_resources/design_develop' => redirect('/our_resources/plan-design'), as: 'design_develop'
-  get 'our_resources/plan' => redirect('/our_resources/develop'), as: 'plan_stage'
   get 'our_resources/guides' => 'our_resources#guides', as: 'guides'
   get 'our_resources/pedagogic_support' => 'our_resources#pedagogic_support', as: 'pedagogic'
   get 'our_resources/trainer_community' => 'our_resources#trainer_community', as: 'community'

@@ -119,7 +119,7 @@ en:
           name: Jessica Lindvall
           image: scilifelab/staff/jessica-resources-thumbnail.webp
           url: https://training.scilifelab.se/about/us#team
-      design_develop:
+      plan_design:
         title: Plan & Design
         summary: >
           Define learning outcomes, structure learning experiences, and get input from teaching frameworks

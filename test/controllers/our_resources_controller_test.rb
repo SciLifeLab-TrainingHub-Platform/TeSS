@@ -32,7 +32,7 @@ class OurResourcesControllerTest < ActionController::TestCase
   }.freeze
 
   test 'should get resources landing page' do
-    get :our_resources
+    get :index
 
     assert_response :success
     assert_select 'h1', 'What stage are you at?'
@@ -55,8 +55,8 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: 'Open booking page on Cal.com'
   end
 
-  test 'should get design develop page' do
-    get :design_develop
+  test 'should get plan design page' do
+    get :plan_design
 
     assert_response :success
     assert_select '.breadcrumbs', count: 0

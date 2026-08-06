@@ -3,9 +3,9 @@ class OurResourcesController < ApplicationController
   skip_before_action :authenticate_user!, :authenticate_user_from_token!
   before_action :set_breadcrumbs, only: %i[guides pedagogic_support trainer_community fair_training]
 
-  def our_resources; end
+  def index; end
 
-  def design_develop; end
+  def plan_design; end
 
   def develop; end
 
@@ -33,7 +33,6 @@ class OurResourcesController < ApplicationController
 
   def set_breadcrumbs
     @breadcrumbs = []
-    add_breadcrumb 'Home', root_path
-    add_breadcrumb 'Our resources', our_resources_path
+    add_base_breadcrumbs('our_resources')
   end
 end

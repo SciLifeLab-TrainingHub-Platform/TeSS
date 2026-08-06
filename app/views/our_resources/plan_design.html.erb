@@ -1,17 +1,17 @@
-<% content_for :title, raw(t('our_resources.stage_pages.design_develop.title')) %>
+<% content_for :title, raw(t('our_resources.stage_pages.plan_design.title')) %>
 
 <%= render layout: 'our_resources/stage_pages/shell',
            locals: {
              modifier: 'plan-design',
              active_key: :plan_design,
-             title: t('our_resources.stage_pages.design_develop.title'),
+             title: t('our_resources.stage_pages.plan_design.title'),
              intro_paragraphs: [
-               t('our_resources.stage_pages.design_develop.summary'),
-               t('our_resources.stage_pages.design_develop.introduction')
+               t('our_resources.stage_pages.plan_design.summary'),
+               t('our_resources.stage_pages.plan_design.introduction')
              ],
              section_links: plan_design_section_links
            } do %>
-  <% target_audience = t('our_resources.stage_pages.design_develop.sections.target_audience').with_indifferent_access %>
+  <% target_audience = t('our_resources.stage_pages.plan_design.sections.target_audience').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= target_audience[:anchor] %>">
     <h2><%= target_audience[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
@@ -21,7 +21,7 @@
     </div>
   </section>
 
-  <% learning_outcomes = t('our_resources.stage_pages.design_develop.sections.learning_outcomes').with_indifferent_access %>
+  <% learning_outcomes = t('our_resources.stage_pages.plan_design.sections.learning_outcomes').with_indifferent_access %>
   <section class="resources-stage-section resources-plan-design__section--learning-outcomes"
            id="<%= learning_outcomes[:anchor] %>">
     <h2><%= learning_outcomes[:title] %></h2>
@@ -65,7 +65,7 @@
     </div>
   </section>
 
-  <% engagement = t('our_resources.stage_pages.design_develop.sections.engagement').with_indifferent_access %>
+  <% engagement = t('our_resources.stage_pages.plan_design.sections.engagement').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= engagement[:anchor] %>">
     <h2><%= engagement[:title] %></h2>
     <div class="resources-stage-section__body">
@@ -79,10 +79,10 @@
   </section>
 
   <%= render 'our_resources/stage_pages/learning_cards',
-             title: t('our_resources.stage_pages.design_develop.further_learning.title'),
+             title: t('our_resources.stage_pages.plan_design.further_learning.title'),
              resources: plan_design_further_learning %>
 
   <%= render 'our_resources/stage_pages/contributors',
              title: t('our_resources.stage_pages.contributors_heading'),
-             contributors: design_develop_contributors %>
+             contributors: plan_design_contributors %>
 <% end %>

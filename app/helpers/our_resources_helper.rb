@@ -20,7 +20,7 @@ module OurResourcesHelper
 
   def plan_design_section_links
     stage_page_section_links(
-      :design_develop,
+      :plan_design,
       section_keys: %i[target_audience learning_outcomes engagement]
     )
   end
@@ -47,11 +47,11 @@ module OurResourcesHelper
   end
 
   def plan_design_further_learning
-    stage_page_further_learning(:design_develop)
+    stage_page_further_learning(:plan_design)
   end
 
-  def design_develop_contributors
-    stage_page_contributors(:design_develop)
+  def plan_design_contributors
+    stage_page_contributors(:plan_design)
   end
 
   def develop_further_learning
