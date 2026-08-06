@@ -14,7 +14,8 @@ class RendererTest < ActiveSupport::TestCase
     https://www.youtube.com/v/abcd1234_-z
     https://m.youtube.com/watch?v=abcd1234_-z
     https://www.youtube.com/watch?app=desktop&v=abcd1234_-z
-    https://m.youtube.com/watch?app=desktop&v=abcd1234_-z).freeze
+    https://m.youtube.com/watch?app=desktop&v=abcd1234_-z
+    HTTPS://WWW.YOUTUBE.COM/watch?v=abcd1234_-z).freeze
 
   INVALID_YOUTUBE_URLS = %w(https://youtu.fi/abcd1234_-z?list=ABC123XYZQQQ
     http://www.boutube.com/watch?v=abcd1234_-z&feature=youtu.be
@@ -32,11 +33,31 @@ class RendererTest < ActiveSupport::TestCase
 
   test 'extract video code' do
     VALID_YOUTUBE_URLS.each do |url|
-      assert_equal 'abcd1234_-z', @renderer.extract_video_code(url), "Failed to extract code from: #{url}"
+      assert_equal 'abcd1234_-z', Renderers::Youtube.extract_video_code(url), "Failed to extract code from: #{url}"
     end
 
     INVALID_YOUTUBE_URLS.each do |url|
-      assert_nil @renderer.extract_video_code(url), "Wrongly extracted code from invalid URL: #{url}"
+      assert_nil Renderers::Youtube.extract_video_code(url), "Wrongly extracted code from invalid URL: #{url}"
+    end
+  end
+
+  test 'instance parser delegates to the canonical parser' do
+    assert_equal 'abcd1234_-z', @renderer.extract_video_code(VALID_YOUTUBE_URLS.first)
+  end
+
+  test 'build embed URL' do
+    assert_equal 'https://www.youtube.com/embed/abcd1234_-z',
+                 Renderers::Youtube.embed_url(VALID_YOUTUBE_URLS.first)
+
+    INVALID_YOUTUBE_URLS.each do |url|
+      assert_nil Renderers::Youtube.embed_url(url), "Built embed URL from invalid URL: #{url}"
+    end
+  end
+
+  test 'reject malformed URLs' do
+    [nil, '', 'not a URL', 'https://youtube.com/%'].each do |url|
+      assert_nil Renderers::Youtube.extract_video_code(url), "Extracted code from malformed URL: #{url.inspect}"
+      assert_nil Renderers::Youtube.embed_url(url), "Built embed URL from malformed URL: #{url.inspect}"
     end
   end
 

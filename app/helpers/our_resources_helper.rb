@@ -68,24 +68,6 @@ module OurResourcesHelper
   private
 
   def youtube_embed_url(url)
-    return if url.blank?
-
-    parsed_url = URI.parse(url)
-    host = parsed_url.host.to_s.downcase
-
-    return unless %w[http https].include?(parsed_url.scheme)
-    return unless %w[youtube.com youtu.be m.youtube.com www.youtube.com].include?(host)
-
-    video_id = if host == 'youtu.be'
-                 parsed_url.path.delete_prefix('/').split('/').first
-               else
-                 url.match(/[\?&]v[i]?=([-_a-zA-Z0-9]+)/)&.captures&.first ||
-                   url.match(%r{/v/([-_a-zA-Z0-9]+)})&.captures&.first ||
-                   url.match(%r{/embed/([-_a-zA-Z0-9]+)})&.captures&.first
-               end
-
-    "https://www.youtube.com/embed/#{video_id}" if video_id.present?
-  rescue URI::InvalidURIError
-    nil
+    Renderers::Youtube.embed_url(url)
   end
 end
