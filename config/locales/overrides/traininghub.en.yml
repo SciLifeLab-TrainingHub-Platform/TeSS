@@ -71,25 +71,21 @@ en:
         stages:
           plan_design:
             timeframe: 6-12 MONTHS PRIOR
-            title: Plan & Design
             description: >
               Define learning outcomes, structure learning experiences, and get input from teaching &
               learning frameworks to create effective training.
           develop:
             timeframe: 1-4 MONTHS PRIOR
-            title: Develop
             description: >
               Set up a course or workshop website, announce your training, and set up your material so that
               it is ready for delivery.
           deliver:
             timeframe: THE TRAINING!
-            title: Deliver
             description: >
               Generate participant certificates and see if your training is effective by getting feedback from
               your participants.
           evaluate_archive:
             timeframe: 1-6 MONTHS AFTER
-            title: Evaluate & Archive
             description: >
               Integrate feedback from participants to improve future iterations, and archive your materials so
               that they are Open and FAIR.
@@ -119,6 +115,76 @@ en:
           name: Jessica Lindvall
           image: scilifelab/staff/jessica-resources-thumbnail.webp
           url: https://training.scilifelab.se/about/us#team
+      learning_resource_profiles:
+        train_the_trainer:
+          title: Train-the-Trainer course
+          description: A course from the SciLifeLab Training Hub on teaching for lifelong learning.
+          cta: Training Catalogue
+          url: /events
+        organizational_learning:
+          title: Organizational Learning course
+          description: A course from the SciLifeLab Training Hub on how learning in groups and teams occurs.
+          cta: Training Catalogue
+          url: /events
+        learning_outcomes:
+          title: Training Hub Resources for Learning Outcomes
+          description: Templates and information on writing learning outcomes.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.28473218.v1
+        goblet_course_design:
+          title: GOBLET Course Design Guide
+          description: A guide for designing courses targeted at advanced life science training.
+          cta: Creation Guide
+          url: https://f1000research.com/documents/9-1377
+        course_planning:
+          title: Training Hub Resources for Course Planning
+          description: Timelines, checklists and templates for structuring courses.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.28194329.v1
+        bicycle_principles:
+          title: Bicycle Principles for Short-form Training
+          description: Principles for designing effective short-format training for researchers and career scientists.
+          cta: Training Framework
+          url: https://www.bikeprinciples.org/
+        fair_by_design:
+          title: FAIR by design course
+          description: >
+            A two-day course from VIB, NBIS, and the SciLifeLab Training Hub on developing materials
+            that are release-ready.
+          cta: Training Catalogue
+          url: /events
+        recording_webinars:
+          title: Training Hub Resources for Recording Webinars
+          description: Basic guidelines for delivering and capturing training with Zoom.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.24512674
+        video_training:
+          title: Video Training Production Guide
+          description: >
+            Basic guidelines from the SciLifeLab Training Hub on preparing, capturing, and editing
+            training video.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.24599835
+        delivering_learning:
+          title: Resources for Delivering Learning Experiences
+          description: Collaborative learning and facilitation guides from the Training Hub.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.24599829.v1
+        evaluating_learning:
+          title: Resources for Evaluating Learning
+          description: SciLifeLab Training Hub feedback form templates and instructor reflection guides.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.28512722.v1
+        fair_decision_tree:
+          title: Training Hub FAIR Decision Tree
+          description: An interactive guide to help you meet FAIR standards for training materials
+          cta: FAIR Decision Tree
+          url: /our_resources/guides
+        metadata_checklist:
+          title: Checklist for FAIR metadata
+          description: Checklist of metadata fields required for training materials at SciLifeLab
+          cta: Checklist
+          url: https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing
       plan_design:
         title: Plan & Design
         summary: >
@@ -226,36 +292,12 @@ en:
         further_learning:
           title: Further Learning
           items:
-            train_the_trainer:
-              title: Train-the-Trainer course
-              description: A course from the SciLifeLab Training Hub on teaching for lifelong learning.
-              cta: Training Catalogue
-              url: /events
-            organizational_learning:
-              title: Organizational Learning course
-              description: A course from the SciLifeLab Training Hub on how learning in groups and teams occurs.
-              cta: Training Catalogue
-              url: /events
-            learning_outcomes:
-              title: Training Hub Resources for Learning Outcomes
-              description: Templates and information on writing learning outcomes.
-              cta: Resource Collection
-              url: https://doi.org/10.17044/scilifelab.28473218.v1
-            goblet_course_design:
-              title: GOBLET Course Design Guide
-              description: A guide for designing courses targeted at advanced life science training.
-              cta: Creation Guide
-              url: https://f1000research.com/documents/9-1377
-            course_planning:
-              title: Training Hub Resources for Course Planning
-              description: Timelines, checklists and templates for structuring courses.
-              cta: Resource Collection
-              url: https://doi.org/10.17044/scilifelab.28194329.v1
-            bicycle_principles:
-              title: Bicycle Principles for Short-form Training
-              description: Principles for designing effective short-format training for researchers and career scientists.
-              cta: Training Framework
-              url: https://www.bikeprinciples.org/
+            - train_the_trainer
+            - organizational_learning
+            - learning_outcomes
+            - goblet_course_design
+            - course_planning
+            - bicycle_principles
         contributors:
           - kristen_schroeder
           - nina_norgren
@@ -398,30 +440,10 @@ en:
         further_learning:
           title: Further Learning
           items:
-            fair_by_design:
-              title: FAIR by design course
-              description: >
-                A two-day course from VIB, NBIS, and the SciLifeLab Training Hub on developing materials
-                that are release-ready.
-              cta: Training Catalogue
-              url: /events
-            course_planning:
-              title: Training Hub Resources for Course Planning
-              description: Timelines, checklists and templates for structuring courses.
-              cta: Resource Collection
-              url: https://doi.org/10.17044/scilifelab.28194329.v1
-            recording_webinars:
-              title: Training Hub Resources for Recording Webinars
-              description: Basic guidelines for delivering and capturing training with Zoom.
-              cta: Resource Collection
-              url: https://doi.org/10.17044/scilifelab.24512674
-            video_training:
-              title: Video Training Production Guide
-              description: >
-                Basic guidelines from the SciLifeLab Training Hub on preparing, capturing, and editing
-                training video.
-              cta: Resource Collection
-              url: https://doi.org/10.17044/scilifelab.24599835
+            - fair_by_design
+            - course_planning
+            - recording_webinars
+            - video_training
         contributors:
           - kristen_schroeder
           - nina_norgren
@@ -530,21 +552,12 @@ en:
         further_learning:
           title: Further Learning
           items:
-            delivering_learning:
-              title: Resources for Delivering Learning Experiences
-              description: Collaborative learning and facilitation guides from the Training Hub.
-              cta: Resource Collection
-              url: https://doi.org/10.17044/scilifelab.24599829.v1
+            - delivering_learning
+            - course_planning
+            - evaluating_learning
+          overrides:
             course_planning:
-              title: Training Hub Resources for Course Planning
-              description: Timelines, checklists and templates for structuring courses.
               cta: Resource
-              url: https://doi.org/10.17044/scilifelab.28194329.v1
-            evaluating_learning:
-              title: Resources for Evaluating Learning
-              description: SciLifeLab Training Hub feedback form templates and instructor reflection guides.
-              cta: Resource Collection
-              url: https://doi.org/10.17044/scilifelab.28512722.v1
         contributors:
           - kristen_schroeder
           - nina_norgren
@@ -697,28 +710,13 @@ en:
         further_learning:
           title: Further Learning
           items:
-            fair_decision_tree:
-              title: Training Hub FAIR Decision Tree
-              description: An interactive guide to help you meet FAIR standards for training materials
-              cta: FAIR Decision Tree
-              url: /our_resources/guides
-            metadata_checklist:
-              title: Checklist for FAIR metadata
-              description: Checklist of metadata fields required for training materials at SciLifeLab
-              cta: Checklist
-              url: https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing
-            fair_by_design:
-              title: FAIR by design course
-              description: >
-                A two-day course from VIB, NBIS, and the SciLifeLab Training Hub on developing materials
-                that are release-ready.
-              cta: Training Catalogue
-              url: /events
+            - fair_decision_tree
+            - metadata_checklist
+            - fair_by_design
+            - evaluating_learning
+          overrides:
             evaluating_learning:
-              title: Resources for Evaluating Learning
               description: SciLifeLab Training Hub feedback form templates and instructor reflection guides
-              cta: Resource Collection
-              url: https://doi.org/10.17044/scilifelab.28512722.v1
         contributors:
           - kristen_schroeder
           - nina_norgren
