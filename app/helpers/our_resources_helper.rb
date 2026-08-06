@@ -65,6 +65,12 @@ module OurResourcesHelper
     end
   end
 
+  def resources_link_options(url)
+    return {} unless url.to_s.start_with?('http://', 'https://')
+
+    { target: '_blank', rel: 'noopener noreferrer' }
+  end
+
   private
 
   def youtube_embed_url(url)

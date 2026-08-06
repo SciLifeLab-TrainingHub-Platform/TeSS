@@ -5,13 +5,11 @@
       <article class="resources-further-learning__card">
         <h3><%= resource[:title] %></h3>
         <p><%= resource[:description] %></p>
-        <% external = resource[:url].to_s.start_with?('http://', 'https://') %>
         <%= link_to resource[:cta],
                     resource[:url],
                     class: 'resources-further-learning__link',
                     aria: { label: "#{resource[:cta]}: #{resource[:title]}" },
-                    target: (external ? '_blank' : nil),
-                    rel: (external ? 'noopener noreferrer' : nil) %>
+                    **resources_link_options(resource[:url]) %>
       </article>
     <% end %>
   </div>

@@ -1,12 +1,10 @@
-<% external = url.to_s.start_with?('http://', 'https://') %>
 <% action_classes = ['resources-stage-action', "resources-stage-action--#{variant}"] %>
 <% action_classes << local_assigns[:class_name] if local_assigns[:class_name].present? %>
 <% icon = local_assigns.fetch(:icon, 'link') %>
 
 <%= link_to url,
             class: action_classes,
-            target: (external ? '_blank' : nil),
-            rel: (external ? 'noopener noreferrer' : nil) do %>
+            **resources_link_options(url) do %>
   <% if icon == 'github-template-star' %>
     <%= image_tag 'scilifelab/resources/github-template-star.png',
                   class: 'resources-stage-action__icon resources-stage-action__icon--github-template-star',
