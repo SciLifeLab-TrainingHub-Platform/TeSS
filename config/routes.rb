@@ -25,10 +25,6 @@ Rails.application.routes.draw do
   get 'our_resources/develop' => 'our_resources#develop', as: 'develop_stage'
   get 'our_resources/deliver' => 'our_resources#deliver', as: 'deliver_stage'
   get 'our_resources/evaluate-archive' => 'our_resources#evaluate_archive', as: 'evaluate_archive_stage'
-  get 'our_resources/guides' => 'our_resources#guides', as: 'guides'
-  get 'our_resources/pedagogic_support' => 'our_resources#pedagogic_support', as: 'pedagogic'
-  get 'our_resources/trainer_community' => 'our_resources#trainer_community', as: 'community'
-  get 'our_resources/fair_training' => 'our_resources#fair_training', as: 'fair'
 
   get 'privacy' => 'static#privacy', as: 'privacy'
 

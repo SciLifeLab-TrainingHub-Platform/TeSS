@@ -471,27 +471,6 @@ class OurResourcesControllerTest < ActionController::TestCase
                   'noopener noreferrer',
                   count: 2
     assert_contributors :kristen_schroeder, :nina_norgren, :ineke_luijten
-    assert_select 'h3', text: 'FAIR Training', count: 0
-    assert_select '.community-box', count: 0
-  end
-
-  test 'should keep fair training page separate from evaluate archive' do
-    get :fair_training
-
-    assert_response :success
-    assert_select '.breadcrumbs', count: 1
-    assert_select 'h3', text: 'FAIR Training'
-    assert_select '.community-box', minimum: 1
-    assert_select '.resources-stage-page--evaluate-archive', count: 0
-  end
-
-  test 'should get pedagogic support page with the shared booking calendar' do
-    get :pedagogic_support
-
-    assert_response :success
-    assert_select '[data-cal-embed][data-cal-namespace=?]', 'support-consult', count: 1
-    assert_select '[data-cal-calendar][hidden]', count: 1
-    assert_select 'script', text: /Cal\("init"/, count: 0
   end
 
   private
