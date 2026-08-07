@@ -118,7 +118,7 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '.resources-stage-video iframe[src=?]',
                   'https://www.youtube.com/embed/_AQN4pqvZ3o',
                   count: 1
-    assert_select '.resources-stage-video-frame--develop', count: 1
+    assert_select '.resources-stage-video-frame.resources-develop__video-frame', count: 1
     assert_select '.resources-stage-action-panel.resources-develop__hosting-panel', count: 1
     assert_select '.resources-develop__hosting-panel .resources-stage-action-panel__column', count: 2
     assert_select '.resources-develop__hosting-panel .resources-stage-action-panel__column h3',
@@ -131,7 +131,7 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: /GitHub Template Repository/
     assert_select '.resources-develop__hosting-panel .resources-stage-action--grape .fa-star-o',
                   count: 1
-    assert_select '.resources-develop__hosting-panel .resources-stage-action--grape img.resources-stage-action__icon--github-template-star[src*=?]',
+    assert_select '.resources-develop__hosting-panel .resources-stage-action--grape img.resources-stage-action__icon--featured-star[src*=?]',
                   'github-template-star',
                   count: 1
     assert_select '.resources-develop__hosting-panel .resources-stage-action--teal .resources-stage-action__icon',
@@ -209,6 +209,7 @@ class OurResourcesControllerTest < ActionController::TestCase
                   '_blank',
                   'noopener noreferrer',
                   count: 2
+    assert_select '#feedback-forms-certificates .resources-stage-visual-links[style]', count: 0
     assert_select '#feedback-forms-certificates .resources-stage-visual-link__image' \
                   '[src*=?][width=?][height=?]',
                   'fairicon-black',
@@ -334,15 +335,8 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: 'Metadata Checklist.'
     assert_select '#prepare-materials .resources-stage-prose p',
                   text: /SciLifeLab Training Hub WhisperAI app/
-    assert_select '#prepare-materials .resources-stage-visual-links' \
-                  '[style*=?]',
-                  '--resources-stage-visual-height: 86px',
-                  count: 1
-    assert_select '#prepare-materials .resources-stage-visual-links' \
-                  '[style*=?][style*=?]',
-                  '--resources-stage-visual-max-width: 408px',
-                  '--resources-stage-visual-label-width: 173px',
-                  count: 1
+    assert_select '#prepare-materials .resources-stage-visual-links--recordings', count: 1
+    assert_select '#prepare-materials .resources-stage-visual-links[style]', count: 0
     assert_select '#prepare-materials .resources-stage-visual-link', count: 2
     assert_select '#prepare-materials .resources-stage-visual-link[href=?]',
                   'https://www.youtube.com/@SciLifeLabTalksTraining',
@@ -387,7 +381,7 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '#upload-archive .resources-stage-action--lime', count: 2
     assert_select '#upload-archive .resources-stage-action--lime .fa-star-o', count: 0
     assert_select '#upload-archive .resources-stage-action--lime ' \
-                  'img.resources-stage-action__icon--github-template-star[src*=?]',
+                  'img.resources-stage-action__icon--featured-star[src*=?]',
                   'github-template-star',
                   count: 2
     assert_select '#upload-archive .resources-stage-action--teal', count: 4
@@ -426,18 +420,8 @@ class OurResourcesControllerTest < ActionController::TestCase
                   text: 'ELIXIR’s TeSS'
     assert_select '#oer-communities .resources-stage-prose p',
                   text: /ELIXIR’s TeSS\s+\(Training e-support system\)/
-    assert_select '#oer-communities .resources-stage-visual-links' \
-                  '[style*=?][style*=?][style*=?]',
-                  '--resources-stage-visual-height: 80px',
-                  '--resources-stage-visual-label-gap: 20px',
-                  '--resources-stage-visual-margin-top: 52px',
-                  count: 1
-    assert_select '#oer-communities .resources-stage-visual-links' \
-                  '[style*=?][style*=?]',
-                  '--resources-stage-visual-max-width: 469px',
-                  '--resources-stage-visual-label-width: 173px',
-                  count: 1
-    assert_select '#oer-communities .resources-stage-visual-links--stack-mobile', count: 1
+    assert_select '#oer-communities .resources-stage-visual-links--communities', count: 1
+    assert_select '#oer-communities .resources-stage-visual-links[style]', count: 0
     assert_select '#oer-communities .resources-stage-visual-link', count: 2
     assert_select '#oer-communities .resources-stage-visual-link[href=?]',
                   'https://tess.elixir-europe.org/content_providers/scilifelab',

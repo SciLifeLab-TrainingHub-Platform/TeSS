@@ -87,21 +87,12 @@
     margin-bottom: 42px;
 
     > h2 {
-      align-items: flex-start;
-      display: block;
       font-size: 25px;
       margin-bottom: 24px;
 
       &::after {
-        display: block;
         margin-top: 9px;
-        width: 100%;
       }
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 1.5;
     }
   }
 
@@ -112,7 +103,6 @@
 
   .resources-stage-video-frame {
     margin-left: 0;
-    transform: none;
   }
 
   .resources-stage-video {
@@ -129,10 +119,9 @@
 
   .resources-stage-visual-link__label {
     max-width: 100%;
-    width: var(--resources-stage-visual-label-width, 208px);
   }
 
-  .resources-stage-visual-links--stack-mobile {
+  .resources-stage-visual-links--communities {
     gap: 32px;
     grid-template-columns: minmax(0, 1fr);
     max-width: 223px;
@@ -156,7 +145,6 @@
 
     > h2 {
       font-size: 25px;
-      margin-bottom: 24px;
     }
   }
 

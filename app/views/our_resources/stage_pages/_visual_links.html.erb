@@ -1,17 +1,12 @@
-<% list_classes = ['resources-stage-visual-links'] %>
-<% list_classes << local_assigns[:class_name] if local_assigns[:class_name].present? %>
-<% visual_height = local_assigns.fetch(:visual_height, 72).to_i %>
-<% max_width = local_assigns.fetch(:max_width, 382).to_i %>
-<% label_width = local_assigns.fetch(:label_width, 208).to_i %>
-<% label_gap = local_assigns.fetch(:label_gap, 7).to_i %>
-<% margin_top = local_assigns.fetch(:margin_top, 36).to_i %>
+<% variants = {
+     default: nil,
+     recordings: 'resources-stage-visual-links--recordings',
+     communities: 'resources-stage-visual-links--communities'
+   } %>
+<% variant = local_assigns.fetch(:variant, :default).to_sym %>
+<% list_classes = ['resources-stage-visual-links', variants.fetch(variant)].compact %>
 
-<ul class="<%= list_classes.join(' ') %>"
-    style="--resources-stage-visual-height: <%= visual_height %>px;
-           --resources-stage-visual-max-width: <%= max_width %>px;
-           --resources-stage-visual-label-width: <%= label_width %>px;
-           --resources-stage-visual-label-gap: <%= label_gap %>px;
-           --resources-stage-visual-margin-top: <%= margin_top %>px;">
+<ul class="<%= list_classes.join(' ') %>">
   <% links.each do |link| %>
     <li>
       <%= link_to link[:url],

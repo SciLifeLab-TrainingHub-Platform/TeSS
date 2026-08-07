@@ -1,3 +1,7 @@
+.resources-develop__video-frame {
+  transform: translateX(-7px);
+}
+
 .resources-develop__section-visual {
   margin-left: -34px;
   transform: translateX(-8px);
@@ -142,8 +146,8 @@ a.resources-develop__checklist-action {
     transform: none;
   }
 
-  .resources-develop__announcement-action {
-    margin-bottom: 24px;
+  .resources-develop__video-frame {
+    transform: none;
   }
 
   a.resources-develop__announcement-cta {
@@ -162,7 +166,6 @@ a.resources-develop__checklist-action {
 
   a.resources-develop__serve-action {
     font-size: 13px;
-    justify-content: flex-start;
     line-height: 18px;
     max-width: 100%;
     padding: 10px 12px;
@@ -173,7 +176,6 @@ a.resources-develop__checklist-action {
     height: auto;
     line-height: 20px;
     max-width: 100%;
-    min-height: 50px;
     padding: 12px;
     white-space: normal;
     width: 100%;

@@ -5,9 +5,9 @@
 <%= link_to url,
             class: action_classes,
             **resources_link_options(url) do %>
-  <% if icon == 'github-template-star' %>
+  <% if icon == 'featured-star' %>
     <%= image_tag 'scilifelab/resources/github-template-star.png',
-                  class: 'resources-stage-action__icon resources-stage-action__icon--github-template-star',
+                  class: 'resources-stage-action__icon resources-stage-action__icon--featured-star',
                   alt: '' %>
   <% elsif icon %>
     <i class="fa fa-<%= icon %> resources-stage-action__icon" aria-hidden="true"></i>

@@ -39,7 +39,7 @@ a.resources-stage-action--lime {
   background: $scilifelab-color-lime;
   color: $dark-color;
 
-  .resources-stage-action__icon--github-template-star {
+  .resources-stage-action__icon--featured-star {
     filter: brightness(0);
   }
 
@@ -132,7 +132,7 @@ a.resources-stage-action--teal {
     width: 16px;
   }
 
-  .resources-stage-action__icon--github-template-star {
+  .resources-stage-action__icon--featured-star {
     display: block;
   }
 }

@@ -17,9 +17,7 @@
     <div class="resources-stage-section__visual">
       <%= render 'our_resources/stage_pages/visual_links',
                  links: prepare_materials[:visual_links].values,
-                 visual_height: 86,
-                 max_width: 408,
-                 label_width: 173 %>
+                 variant: :recordings %>
     </div>
   </section>
 
@@ -77,12 +75,7 @@
     <div class="resources-stage-section__visual">
       <%= render 'our_resources/stage_pages/visual_links',
                  links: oer_communities[:visual_links].values,
-                 visual_height: 80,
-                 max_width: 469,
-                 label_width: 173,
-                 label_gap: 20,
-                 margin_top: 52,
-                 class_name: 'resources-stage-visual-links--stack-mobile' %>
+                 variant: :communities %>
     </div>
   </section>
 
