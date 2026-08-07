@@ -175,11 +175,6 @@ en:
           description: SciLifeLab Training Hub feedback form templates and instructor reflection guides.
           cta: Resource Collection
           url: https://doi.org/10.17044/scilifelab.28512722.v1
-        fair_decision_tree:
-          title: Training Hub FAIR Decision Tree
-          description: An interactive guide to help you meet FAIR standards for training materials
-          cta: FAIR Decision Tree
-          url: /our_resources/guides
         metadata_checklist:
           title: Checklist for FAIR metadata
           description: Checklist of metadata fields required for training materials at SciLifeLab
@@ -710,7 +705,6 @@ en:
         further_learning:
           title: Further Learning
           items:
-            - fair_decision_tree
             - metadata_checklist
             - fair_by_design
             - evaluating_learning

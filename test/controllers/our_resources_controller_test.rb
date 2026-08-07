@@ -455,11 +455,7 @@ class OurResourcesControllerTest < ActionController::TestCase
     assert_select '#instructor-reflections-reporting a', count: 0
     assert_select '#instructor-reflections-reporting .resources-stage-section__visual', count: 0
     assert_select '.resources-further-learning h2', text: 'Further Learning'
-    assert_select '.resources-further-learning__card', count: 4
-    assert_select '.resources-further-learning__card h3', text: 'Training Hub FAIR Decision Tree'
-    assert_select '.resources-further-learning__link[href=?]',
-                  '/our_resources/guides',
-                  text: 'FAIR Decision Tree'
+    assert_select '.resources-further-learning__card', count: 3
     assert_select '.resources-further-learning__card h3', text: 'Checklist for FAIR metadata'
     assert_select '.resources-further-learning__link[href=?]',
                   'https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing',
