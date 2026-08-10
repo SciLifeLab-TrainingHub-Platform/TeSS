@@ -1,5 +1,6 @@
 <% stage = t("resources.stage_pages.#{stage_key}").with_indifferent_access %>
 <% modifier = stage_key.to_s.tr('_', '-') %>
+<%# site_title interpolates this value into a new string, so preserve translated ampersands from double escaping. %>
 <% content_for :title, raw(stage[:title]) %>
 
 <section class="resources-stage-page resources-stage-page--shell resources-stage-page--<%= modifier %>">

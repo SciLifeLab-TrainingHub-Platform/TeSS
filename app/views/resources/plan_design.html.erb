@@ -1,6 +1,7 @@
 <%= render layout: 'resources/stage/foundation/shell',
            locals: { stage_key: :plan_design } do %>
-  <% target_audience = t('resources.stage_pages.plan_design.sections.target_audience').with_indifferent_access %>
+  <% sections = stage_page_sections(:plan_design) %>
+  <% target_audience = sections[:target_audience] %>
   <section class="resources-stage-section" id="<%= target_audience[:anchor] %>">
     <h2><%= target_audience[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
@@ -10,7 +11,11 @@
     </div>
   </section>
 
-  <% learning_outcomes = t('resources.stage_pages.plan_design.sections.learning_outcomes').with_indifferent_access %>
+  <% learning_outcomes = sections[:learning_outcomes] %>
+  <% formula = learning_outcomes[:formula] %>
+  <% example = learning_outcomes[:example] %>
+  <% guide_url = learning_outcomes[:guide_url] %>
+  <% module_url = learning_outcomes[:module_url] %>
   <section class="resources-stage-section resources-plan-design__section--learning-outcomes"
            id="<%= learning_outcomes[:anchor] %>">
     <h2><%= learning_outcomes[:title] %></h2>
@@ -20,32 +25,32 @@
         <div class="resources-stage-prose">
           <p class="resources-plan-design__outcomes-structure"><%= learning_outcomes[:structure_intro] %></p>
           <p class="resources-plan-design__formula">
-            <span><%= learning_outcomes.dig(:formula, :before_timeframe) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--aqua"><%= learning_outcomes.dig(:formula, :timeframe) %></span><span><%= learning_outcomes.dig(:formula, :after_timeframe) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= learning_outcomes.dig(:formula, :verb) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:formula, :subject) %></span>
-            <span><%= learning_outcomes.dig(:formula, :before_level) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= learning_outcomes.dig(:formula, :level) %></span>
-            <span><%= learning_outcomes.dig(:formula, :after_level) %></span>
+            <span><%= formula[:before_timeframe] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--aqua"><%= formula[:timeframe] %></span><span><%= formula[:after_timeframe] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= formula[:verb] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= formula[:subject] %></span>
+            <span><%= formula[:before_level] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= formula[:level] %></span>
+            <span><%= formula[:after_level] %></span>
           </p>
           <p class="resources-plan-design__example">
-            <span class="resources-plan-design__example-label"><%= learning_outcomes.dig(:example, :label) %></span>
-            <span><%= learning_outcomes.dig(:example, :before_workshop) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--aqua"><%= learning_outcomes.dig(:example, :workshop) %></span><span><%= learning_outcomes.dig(:example, :after_workshop) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= learning_outcomes.dig(:example, :verb) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= learning_outcomes.dig(:example, :subject) %></span>
-            <span><%= learning_outcomes.dig(:example, :after_subject) %></span>
-            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= learning_outcomes.dig(:example, :level) %></span><span><%= learning_outcomes.dig(:example, :after_level) %></span>
+            <span class="resources-plan-design__example-label"><%= example[:label] %></span>
+            <span><%= example[:before_workshop] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--aqua"><%= example[:workshop] %></span><span><%= example[:after_workshop] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= example[:verb] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= example[:subject] %></span>
+            <span><%= example[:after_subject] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= example[:level] %></span><span><%= example[:after_level] %></span>
           </p>
           <p class="resources-plan-design__guidance">
             <%= learning_outcomes[:guidance_before_link] %>
             <%= link_to learning_outcomes[:guide_label],
-                        learning_outcomes[:guide_url],
-                        **resources_link_options(learning_outcomes[:guide_url]) %>,
+                        guide_url,
+                        **resources_link_options(guide_url) %>,
             <%= learning_outcomes[:guidance_between_links] %>
             <%= link_to learning_outcomes[:module_label],
-                        learning_outcomes[:module_url],
-                        **resources_link_options(learning_outcomes[:module_url]) %>.
+                        module_url,
+                        **resources_link_options(module_url) %>.
           </p>
         </div>
 
@@ -58,7 +63,7 @@
     </div>
   </section>
 
-  <% engagement = t('resources.stage_pages.plan_design.sections.engagement').with_indifferent_access %>
+  <% engagement = sections[:engagement] %>
   <section class="resources-stage-section" id="<%= engagement[:anchor] %>">
     <h2><%= engagement[:title] %></h2>
     <div class="resources-stage-section__body">

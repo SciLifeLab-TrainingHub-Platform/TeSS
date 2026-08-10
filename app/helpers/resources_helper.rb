@@ -20,17 +20,19 @@ module ResourcesHelper
   end
 
   def stage_page_section_links(stage_key)
-    sections = t(
-      "resources.stage_pages.#{stage_key}.sections",
-      default: {}
-    ).with_indifferent_access
-
-    sections.values.map do |section|
+    stage_page_sections(stage_key).values.map do |section|
       {
         anchor: section[:anchor],
         title: section[:nav_title] || section[:title]
       }
     end
+  end
+
+  def stage_page_sections(stage_key)
+    t(
+      "resources.stage_pages.#{stage_key}.sections",
+      default: {}
+    ).with_indifferent_access
   end
 
   def stage_page_contributors(stage_key)

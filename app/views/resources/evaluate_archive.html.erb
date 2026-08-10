@@ -1,14 +1,17 @@
 <%= render layout: 'resources/stage/foundation/shell',
            locals: { stage_key: :evaluate_archive } do %>
-  <% prepare_materials = t('resources.stage_pages.evaluate_archive.sections.prepare_materials').with_indifferent_access %>
+  <% sections = stage_page_sections(:evaluate_archive) %>
+  <% prepare_materials = sections[:prepare_materials] %>
+  <% metadata = prepare_materials[:metadata] %>
+  <% metadata_url = metadata[:url] %>
   <section class="resources-stage-section" id="<%= prepare_materials[:anchor] %>">
     <h2><%= prepare_materials[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
       <p>
-        <%= prepare_materials.dig(:metadata, :before_link) %>
-        <%= link_to prepare_materials.dig(:metadata, :link_label),
-                    prepare_materials.dig(:metadata, :url),
-                    **resources_link_options(prepare_materials.dig(:metadata, :url)) %> <%= prepare_materials.dig(:metadata, :after_link) %>
+        <%= metadata[:before_link] %>
+        <%= link_to metadata[:link_label],
+                    metadata_url,
+                    **resources_link_options(metadata_url) %> <%= metadata[:after_link] %>
       </p>
       <p><%= prepare_materials[:recordings] %></p>
     </div>
@@ -20,49 +23,57 @@
     </div>
   </section>
 
-  <% archive = t('resources.stage_pages.evaluate_archive.sections.archive').with_indifferent_access %>
+  <% archive = sections[:archive] %>
+  <% archive_introduction = archive[:introduction] %>
+  <% repository_url = archive_introduction[:repository_url] %>
+  <% zenodo_url = archive_introduction[:zenodo_url] %>
+  <% archive_panel = archive[:panel] %>
   <section class="resources-stage-section" id="<%= archive[:anchor] %>">
     <h2><%= archive[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
       <p>
-        <%= archive.dig(:introduction, :before_repository) %>
-        <%= link_to archive.dig(:introduction, :repository_label),
-                    archive.dig(:introduction, :repository_url),
-                    **resources_link_options(archive.dig(:introduction, :repository_url)) %>
-        <%= archive.dig(:introduction, :between_repositories) %>
-        <%= link_to archive.dig(:introduction, :zenodo_label),
-                    archive.dig(:introduction, :zenodo_url),
-                    **resources_link_options(archive.dig(:introduction, :zenodo_url)) %>
-        <%= archive.dig(:introduction, :after_zenodo) %>
+        <%= archive_introduction[:before_repository] %>
+        <%= link_to archive_introduction[:repository_label],
+                    repository_url,
+                    **resources_link_options(repository_url) %>
+        <%= archive_introduction[:between_repositories] %>
+        <%= link_to archive_introduction[:zenodo_label],
+                    zenodo_url,
+                    **resources_link_options(zenodo_url) %>
+        <%= archive_introduction[:after_zenodo] %>
       </p>
     </div>
 
     <div class="resources-stage-section__visual">
       <%= render 'resources/stage/components/action_panel',
-                 columns: archive.dig(:panel, :columns),
+                 columns: archive_panel[:columns],
                  class_name: 'resources-evaluate__archive-panel' %>
     </div>
   </section>
 
-  <% oer_communities = t('resources.stage_pages.evaluate_archive.sections.oer_communities').with_indifferent_access %>
+  <% oer_communities = sections[:oer_communities] %>
+  <% oer_introduction = oer_communities[:introduction] %>
+  <% grena_url = oer_introduction[:grena_url] %>
+  <% suhf_url = oer_introduction[:suhf_url] %>
+  <% tess_url = oer_introduction[:tess_url] %>
   <section class="resources-stage-section" id="<%= oer_communities[:anchor] %>">
     <h2><%= oer_communities[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
       <p>
-        <%= oer_communities.dig(:introduction, :before_grena) %>
-        <%= link_to oer_communities.dig(:introduction, :grena_label),
-                    oer_communities.dig(:introduction, :grena_url),
-                    **resources_link_options(oer_communities.dig(:introduction, :grena_url)) %>
-        <%= oer_communities.dig(:introduction, :between_grena_and_suhf) %>
-        <%= link_to oer_communities.dig(:introduction, :suhf_label),
-                    oer_communities.dig(:introduction, :suhf_url),
-                    **resources_link_options(oer_communities.dig(:introduction, :suhf_url)) %><%= oer_communities.dig(:introduction, :after_suhf) %>
+        <%= oer_introduction[:before_grena] %>
+        <%= link_to oer_introduction[:grena_label],
+                    grena_url,
+                    **resources_link_options(grena_url) %>
+        <%= oer_introduction[:between_grena_and_suhf] %>
+        <%= link_to oer_introduction[:suhf_label],
+                    suhf_url,
+                    **resources_link_options(suhf_url) %><%= oer_introduction[:after_suhf] %>
       </p>
       <p>
-        <%= oer_communities.dig(:introduction, :before_tess) %>
-        <%= link_to oer_communities.dig(:introduction, :tess_label),
-                    oer_communities.dig(:introduction, :tess_url),
-                    **resources_link_options(oer_communities.dig(:introduction, :tess_url)) %> <%= oer_communities.dig(:introduction, :after_tess) %>
+        <%= oer_introduction[:before_tess] %>
+        <%= link_to oer_introduction[:tess_label],
+                    tess_url,
+                    **resources_link_options(tess_url) %> <%= oer_introduction[:after_tess] %>
       </p>
     </div>
 
@@ -73,7 +84,7 @@
     </div>
   </section>
 
-  <% reflections = t('resources.stage_pages.evaluate_archive.sections.reflections').with_indifferent_access %>
+  <% reflections = sections[:reflections] %>
   <section class="resources-stage-section" id="<%= reflections[:anchor] %>">
     <h2><%= reflections[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
