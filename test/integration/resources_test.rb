@@ -15,6 +15,21 @@ class ResourcesTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'legacy resources URLs redirect permanently' do
+    {
+      '/our_resources' => resources_path,
+      '/our_resources/guides' => resources_path,
+      '/our_resources/pedagogic_support' => resources_path(anchor: 'resources-consultation-title'),
+      '/our_resources/trainer_community' => resources_path,
+      '/our_resources/fair_training' => develop_stage_path(anchor: 'fair-training-materials')
+    }.each do |legacy_path, destination|
+      get legacy_path
+
+      assert_response :moved_permanently
+      assert_redirected_to destination
+    end
+  end
+
   test 'landing page exposes the booking calendar contract' do
     get resources_path
 

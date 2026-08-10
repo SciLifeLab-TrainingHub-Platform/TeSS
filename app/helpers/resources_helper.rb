@@ -65,8 +65,6 @@ module ResourcesHelper
     { target: '_blank', rel: 'noopener noreferrer' }
   end
 
-  private
-
   def youtube_embed_url(url)
     Renderers::Youtube.embed_url(url)
   end

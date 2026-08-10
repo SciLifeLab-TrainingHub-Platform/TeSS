@@ -646,11 +646,11 @@ en:
             anchor: instructor-reflections-reporting
             title: Instructor reflections & reporting
             paragraphs:
-              archiving: >
+              - >
                 During the archiving process we recommend to have a final meeting with all instructors to collect
                 impressions and reflections while they are still fresh. Making and archiving a list of any recommended
                 changes can assist in developing future iterations of the training.
-              reporting: >
+              - >
                 For SciLifeLab reporting purposes, ensure you collect the number of participants that attended your
                 training. If your training has been announced in the SciLifeLab Training Portal, the Training Hub can
                 also upload this information in the SciLifeLab Annual Reporting period.

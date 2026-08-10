@@ -26,6 +26,15 @@ Rails.application.routes.draw do
   get 'resources/deliver' => 'resources#deliver', as: 'deliver_stage'
   get 'resources/evaluate-archive' => 'resources#evaluate_archive', as: 'evaluate_archive_stage'
 
+  # Preserve links to the retired Resources pages.
+  get 'our_resources', to: redirect('/resources', status: 301)
+  get 'our_resources/guides', to: redirect('/resources', status: 301)
+  get 'our_resources/pedagogic_support',
+      to: redirect('/resources#resources-consultation-title', status: 301)
+  get 'our_resources/trainer_community', to: redirect('/resources', status: 301)
+  get 'our_resources/fair_training',
+      to: redirect('/resources/develop#fair-training-materials', status: 301)
+
   get 'privacy' => 'static#privacy', as: 'privacy'
 
   post 'materials/check_exists' => 'materials#check_exists'
