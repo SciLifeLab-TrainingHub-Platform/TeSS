@@ -92,7 +92,6 @@ en:
     stage_pages:
       nav_label: Training lifecycle stages
       sections_label: "%{stage} sections"
-      resources_heading: Resources
       contributors_heading: Contributors
       contributor_profiles:
         kristen_schroeder:
@@ -249,23 +248,17 @@ en:
               For inspiration on using Bloom’s taxonomy at SciLifeLab, see our resource on using technology to
               enhance learning:
             digital_methods:
-              - key: remember
-                name: Remember
+              - name: Remember
                 description: Bookmark and revisit useful digital resources.
-              - key: understand
-                name: Understand
+              - name: Understand
                 description: Share explanations and examples in more than one format.
-              - key: apply
-                name: Apply
+              - name: Apply
                 description: Let learners practise with interactive tools and guided exercises.
-              - key: analyze
-                name: Analyze
+              - name: Analyze
                 description: Compare approaches, results, and patterns collaboratively.
-              - key: evaluate
-                name: Evaluate
+              - name: Evaluate
                 description: Review evidence, methods, and peer work using clear criteria.
-              - key: create
-                name: Create
+              - name: Create
                 description: Produce and publish original work in reusable formats.
           engagement:
             anchor: engaging-experiences
@@ -540,7 +533,7 @@ en:
                 url: https://training-certificate.serve.scilifelab.se/app/training-certificate
               feedback_templates:
                 label: How to use Training Hub Feedback Survey Templates
-                image: scilifelab/resources/feedback-survey-template.png
+                image: scilifelab/resources/training-tools-thumbnail.png
                 image_width: 70
                 image_height: 70
                 url: https://drive.google.com/file/d/12zJK7VTe-3ISi5NrxZBrJIu2_3pmvgLL/view?usp=share_link
@@ -594,7 +587,7 @@ en:
                 url: https://www.youtube.com/@SciLifeLabTalksTraining
               whisper:
                 label: WhisperAI Transcription App
-                image: scilifelab/resources/feedback-survey-template.png
+                image: scilifelab/resources/training-tools-thumbnail.png
                 image_width: 70
                 image_height: 70
                 url: https://whisper-ai.serve.scilifelab.se/

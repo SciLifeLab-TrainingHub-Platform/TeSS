@@ -13,8 +13,7 @@
               <%= recommendation[:before_link] %>
               <%= link_to recommendation[:link_label],
                           recommendation[:url],
-                          target: '_blank',
-                          rel: 'noopener noreferrer' %><%= recommendation[:after_link] %>
+                          **resources_link_options(recommendation[:url]) %><%= recommendation[:after_link] %>
             <% else %>
               <%= recommendation[:text] %>
             <% end %>
@@ -25,7 +24,7 @@
 
     <div class="resources-stage-section__visual">
       <figure class="resources-stage-illustration">
-        <%= image_tag asset_path(facilitation.dig(:illustration, :image)),
+        <%= image_tag facilitation.dig(:illustration, :image),
                       alt: facilitation.dig(:illustration, :alt),
                       class: 'resources-stage-illustration__image',
                       width: 340,
@@ -42,8 +41,7 @@
         <%= tools.dig(:introduction, :before_link) %>
         <%= link_to tools.dig(:introduction, :link_label),
                     tools.dig(:introduction, :url),
-                    target: '_blank',
-                    rel: 'noopener noreferrer' %>
+                    **resources_link_options(tools.dig(:introduction, :url)) %>
         <%= tools.dig(:introduction, :after_link) %>
       </p>
     </div>
@@ -79,8 +77,7 @@
         <%= feedback.dig(:survey_text, :before_link) %>
         <%= link_to feedback.dig(:survey_text, :link_label),
                     feedback.dig(:survey_text, :url),
-                    target: '_blank',
-                    rel: 'noopener noreferrer' %><%= feedback.dig(:survey_text, :after_link) %>
+                    **resources_link_options(feedback.dig(:survey_text, :url)) %><%= feedback.dig(:survey_text, :after_link) %>
       </p>
     </div>
 

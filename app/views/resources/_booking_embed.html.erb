@@ -18,7 +18,6 @@
   <p class="resources-booking__fallback">
     <%= link_to t('resources.landing.consultation.booking.external'),
                 booking_url,
-                target: '_blank',
-                rel: 'noopener noreferrer' %>
+                **resources_link_options(booking_url) %>
   </p>
 </div>

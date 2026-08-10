@@ -13,7 +13,7 @@
                   class: 'resources-stage-visual-link',
                   **resources_link_options(link[:url]) do %>
         <span class="resources-stage-visual-link__visual">
-          <%= image_tag asset_path(link[:image]),
+          <%= image_tag link[:image],
                         alt: '',
                         class: 'resources-stage-visual-link__image',
                         width: link[:image_width],

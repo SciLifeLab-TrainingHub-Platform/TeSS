@@ -8,8 +8,7 @@
         <%= prepare_materials.dig(:metadata, :before_link) %>
         <%= link_to prepare_materials.dig(:metadata, :link_label),
                     prepare_materials.dig(:metadata, :url),
-                    target: '_blank',
-                    rel: 'noopener noreferrer' %> <%= prepare_materials.dig(:metadata, :after_link) %>
+                    **resources_link_options(prepare_materials.dig(:metadata, :url)) %> <%= prepare_materials.dig(:metadata, :after_link) %>
       </p>
       <p><%= prepare_materials[:recordings] %></p>
     </div>
@@ -29,13 +28,11 @@
         <%= archive.dig(:introduction, :before_repository) %>
         <%= link_to archive.dig(:introduction, :repository_label),
                     archive.dig(:introduction, :repository_url),
-                    target: '_blank',
-                    rel: 'noopener noreferrer' %>
+                    **resources_link_options(archive.dig(:introduction, :repository_url)) %>
         <%= archive.dig(:introduction, :between_repositories) %>
         <%= link_to archive.dig(:introduction, :zenodo_label),
                     archive.dig(:introduction, :zenodo_url),
-                    target: '_blank',
-                    rel: 'noopener noreferrer' %>
+                    **resources_link_options(archive.dig(:introduction, :zenodo_url)) %>
         <%= archive.dig(:introduction, :after_zenodo) %>
       </p>
     </div>
@@ -55,20 +52,17 @@
         <%= oer_communities.dig(:introduction, :before_grena) %>
         <%= link_to oer_communities.dig(:introduction, :grena_label),
                     oer_communities.dig(:introduction, :grena_url),
-                    target: '_blank',
-                    rel: 'noopener noreferrer' %>
+                    **resources_link_options(oer_communities.dig(:introduction, :grena_url)) %>
         <%= oer_communities.dig(:introduction, :between_grena_and_suhf) %>
         <%= link_to oer_communities.dig(:introduction, :suhf_label),
                     oer_communities.dig(:introduction, :suhf_url),
-                    target: '_blank',
-                    rel: 'noopener noreferrer' %><%= oer_communities.dig(:introduction, :after_suhf) %>
+                    **resources_link_options(oer_communities.dig(:introduction, :suhf_url)) %><%= oer_communities.dig(:introduction, :after_suhf) %>
       </p>
       <p>
         <%= oer_communities.dig(:introduction, :before_tess) %>
         <%= link_to oer_communities.dig(:introduction, :tess_label),
                     oer_communities.dig(:introduction, :tess_url),
-                    target: '_blank',
-                    rel: 'noopener noreferrer' %> <%= oer_communities.dig(:introduction, :after_tess) %>
+                    **resources_link_options(oer_communities.dig(:introduction, :tess_url)) %> <%= oer_communities.dig(:introduction, :after_tess) %>
       </p>
     </div>
 

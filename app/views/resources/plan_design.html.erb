@@ -39,9 +39,13 @@
           </p>
           <p class="resources-plan-design__guidance">
             <%= learning_outcomes[:guidance_before_link] %>
-            <%= link_to learning_outcomes[:guide_label], learning_outcomes[:guide_url], target: '_blank', rel: 'noopener noreferrer' %>,
+            <%= link_to learning_outcomes[:guide_label],
+                        learning_outcomes[:guide_url],
+                        **resources_link_options(learning_outcomes[:guide_url]) %>,
             <%= learning_outcomes[:guidance_between_links] %>
-            <%= link_to learning_outcomes[:module_label], learning_outcomes[:module_url], target: '_blank', rel: 'noopener noreferrer' %>.
+            <%= link_to learning_outcomes[:module_label],
+                        learning_outcomes[:module_url],
+                        **resources_link_options(learning_outcomes[:module_url]) %>.
           </p>
         </div>
 

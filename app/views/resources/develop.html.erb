@@ -73,8 +73,7 @@
         <p>
           <%= link_to fair_materials[:oer_link_label],
                       fair_materials[:oer_url],
-                      target: '_blank',
-                      rel: 'noopener noreferrer' %>
+                      **resources_link_options(fair_materials[:oer_url]) %>
           <%= fair_materials[:introduction_after_link] %>
         </p>
       </div>
@@ -101,8 +100,7 @@
           <%= fair_materials[:software_before_link] %>
           <%= link_to fair_materials.dig(:software_community, :label),
                       fair_materials.dig(:software_community, :url),
-                      target: '_blank',
-                      rel: 'noopener noreferrer' %>
+                      **resources_link_options(fair_materials.dig(:software_community, :url)) %>
           <%= fair_materials[:software_after_link] %>
         </p>
       </div>
