@@ -1,0 +1,43 @@
+require 'test_helper'
+
+class ResourcesTest < ActionDispatch::IntegrationTest
+  test 'canonical resources pages render' do
+    [
+      resources_path,
+      plan_design_stage_path,
+      develop_stage_path,
+      deliver_stage_path,
+      evaluate_archive_stage_path
+    ].each do |path|
+      get path
+
+      assert_response :success, "Expected #{path} to render successfully"
+    end
+  end
+
+  test 'landing page exposes the booking calendar contract' do
+    get resources_path
+
+    assert_response :success
+    assert_select '[data-cal-embed]' \
+                  '[data-cal-namespace="support-consult"]' \
+                  '[data-cal-link="scilifelab-traininghub/support-consult"]',
+                  count: 1
+    assert_select '[data-cal-calendar][hidden]', count: 1
+    assert_select '[data-cal-status][role="status"][aria-live="polite"]', count: 1
+    assert_select '.resources-booking__fallback a[href=?][target=?][rel=?]',
+                  'https://cal.com/scilifelab-traininghub/support-consult',
+                  '_blank',
+                  'noopener noreferrer',
+                  count: 1
+  end
+
+  test 'stage page renders a canonical YouTube embed' do
+    get plan_design_stage_path
+
+    assert_response :success
+    assert_select '.resources-stage-video iframe[src=?][loading="lazy"][title]',
+                  'https://www.youtube.com/embed/IWDtFrMD298',
+                  count: 1
+  end
+end

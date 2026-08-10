@@ -25,7 +25,6 @@ Rails.application.routes.draw do
   get 'resources/develop' => 'resources#develop', as: 'develop_stage'
   get 'resources/deliver' => 'resources#deliver', as: 'deliver_stage'
   get 'resources/evaluate-archive' => 'resources#evaluate_archive', as: 'evaluate_archive_stage'
-  get 'our_resources', to: redirect('/resources', status: 301), as: nil
 
   get 'privacy' => 'static#privacy', as: 'privacy'
 
