@@ -1,12 +1,12 @@
-<%= render layout: 'our_resources/stage_pages/shell',
+<%= render layout: 'resources/stage_pages/shell',
            locals: { stage_key: :develop } do %>
-  <% announcement = t('our_resources.stage_pages.develop.sections.announcement').with_indifferent_access %>
+  <% announcement = t('resources.stage_pages.develop.sections.announcement').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= announcement[:anchor] %>">
     <h2><%= announcement[:title] %></h2>
     <div class="resources-stage-section__body">
       <div class="resources-develop__section-visual">
         <div class="resources-stage-actions resources-develop__announcement-action">
-          <%= render 'our_resources/stage_pages/action_link',
+          <%= render 'resources/stage_pages/action_link',
                      label: announcement.dig(:action, :label),
                      url: announcement.dig(:action, :url),
                      variant: 'lime',
@@ -19,13 +19,13 @@
           <p><%= paragraph %></p>
         <% end %>
       </div>
-      <%= render 'our_resources/stage_pages/video',
+      <%= render 'resources/stage_pages/video',
                  video: announcement[:video],
                  frame_class: 'resources-develop__video-frame' %>
     </div>
   </section>
 
-  <% training_page = t('our_resources.stage_pages.develop.sections.training_page').with_indifferent_access %>
+  <% training_page = t('resources.stage_pages.develop.sections.training_page').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= training_page[:anchor] %>">
     <h2><%= training_page[:title] %></h2>
     <div class="resources-stage-section__body">
@@ -36,14 +36,14 @@
       </div>
 
       <div class="resources-develop__section-visual resources-develop__section-visual--hosting">
-        <%= render 'our_resources/stage_pages/action_panel',
+        <%= render 'resources/stage_pages/action_panel',
                    columns: training_page[:hosting],
                    class_name: 'resources-develop__hosting-panel' %>
       </div>
     </div>
   </section>
 
-  <% computational_tools = t('our_resources.stage_pages.develop.sections.computational_tools').with_indifferent_access %>
+  <% computational_tools = t('resources.stage_pages.develop.sections.computational_tools').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= computational_tools[:anchor] %>">
     <h2><%= computational_tools[:title] %></h2>
     <div class="resources-stage-section__body">
@@ -54,7 +54,7 @@
       </div>
       <div class="resources-stage-actions resources-develop__serve-actions">
         <% computational_tools[:actions].each_value do |action| %>
-          <%= render 'our_resources/stage_pages/action_link',
+          <%= render 'resources/stage_pages/action_link',
                      label: action[:label],
                      url: action[:url],
                      variant: 'teal',
@@ -65,7 +65,7 @@
     </div>
   </section>
 
-  <% fair_materials = t('our_resources.stage_pages.develop.sections.fair_materials').with_indifferent_access %>
+  <% fair_materials = t('resources.stage_pages.develop.sections.fair_materials').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= fair_materials[:anchor] %>">
     <h2><%= fair_materials[:title] %></h2>
     <div class="resources-stage-section__body">
@@ -80,7 +80,7 @@
       </div>
 
       <div class="resources-stage-actions">
-        <%= render 'our_resources/stage_pages/action_link',
+        <%= render 'resources/stage_pages/action_link',
                    label: fair_materials.dig(:checklist, :label),
                    url: fair_materials.dig(:checklist, :url),
                    variant: 'grape',
@@ -92,7 +92,7 @@
       <div class="resources-stage-prose">
         <p><%= fair_materials[:royalty_free_text] %></p>
       </div>
-      <%= render 'our_resources/stage_pages/link_list',
+      <%= render 'resources/stage_pages/link_list',
                  links: fair_materials[:royalty_free_sources].values,
                  class_name: 'resources-develop__link-list' %>
 
@@ -106,11 +106,11 @@
           <%= fair_materials[:software_after_link] %>
         </p>
       </div>
-      <%= render 'our_resources/stage_pages/link_list',
+      <%= render 'resources/stage_pages/link_list',
                  links: fair_materials[:software_tools].values,
                  class_name: 'resources-develop__link-list resources-develop__link-list--tools' %>
     </div>
   </section>
 
-  <%= render 'our_resources/stage_pages/stage_footer', stage_key: :develop %>
+  <%= render 'resources/stage_pages/stage_footer', stage_key: :develop %>
 <% end %>

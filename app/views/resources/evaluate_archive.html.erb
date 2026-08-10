@@ -1,6 +1,6 @@
-<%= render layout: 'our_resources/stage_pages/shell',
+<%= render layout: 'resources/stage_pages/shell',
            locals: { stage_key: :evaluate_archive } do %>
-  <% prepare_materials = t('our_resources.stage_pages.evaluate_archive.sections.prepare_materials').with_indifferent_access %>
+  <% prepare_materials = t('resources.stage_pages.evaluate_archive.sections.prepare_materials').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= prepare_materials[:anchor] %>">
     <h2><%= prepare_materials[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
@@ -15,13 +15,13 @@
     </div>
 
     <div class="resources-stage-section__visual">
-      <%= render 'our_resources/stage_pages/visual_links',
+      <%= render 'resources/stage_pages/visual_links',
                  links: prepare_materials[:visual_links].values,
                  variant: :recordings %>
     </div>
   </section>
 
-  <% archive = t('our_resources.stage_pages.evaluate_archive.sections.archive').with_indifferent_access %>
+  <% archive = t('resources.stage_pages.evaluate_archive.sections.archive').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= archive[:anchor] %>">
     <h2><%= archive[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
@@ -41,13 +41,13 @@
     </div>
 
     <div class="resources-stage-section__visual">
-      <%= render 'our_resources/stage_pages/action_panel',
+      <%= render 'resources/stage_pages/action_panel',
                  columns: archive.dig(:panel, :columns),
                  class_name: 'resources-evaluate__archive-panel' %>
     </div>
   </section>
 
-  <% oer_communities = t('our_resources.stage_pages.evaluate_archive.sections.oer_communities').with_indifferent_access %>
+  <% oer_communities = t('resources.stage_pages.evaluate_archive.sections.oer_communities').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= oer_communities[:anchor] %>">
     <h2><%= oer_communities[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
@@ -73,13 +73,13 @@
     </div>
 
     <div class="resources-stage-section__visual">
-      <%= render 'our_resources/stage_pages/visual_links',
+      <%= render 'resources/stage_pages/visual_links',
                  links: oer_communities[:visual_links].values,
                  variant: :communities %>
     </div>
   </section>
 
-  <% reflections = t('our_resources.stage_pages.evaluate_archive.sections.reflections').with_indifferent_access %>
+  <% reflections = t('resources.stage_pages.evaluate_archive.sections.reflections').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= reflections[:anchor] %>">
     <h2><%= reflections[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
@@ -89,5 +89,5 @@
     </div>
   </section>
 
-  <%= render 'our_resources/stage_pages/stage_footer', stage_key: :evaluate_archive %>
+  <%= render 'resources/stage_pages/stage_footer', stage_key: :evaluate_archive %>
 <% end %>

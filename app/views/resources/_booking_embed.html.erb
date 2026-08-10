@@ -5,8 +5,8 @@
      data-cal-link="<%= cal_link %>">
   <p class="resources-booking__status"
      data-cal-status
-     data-loading-message="<%= t('our_resources.landing.consultation.booking.loading') %>"
-     data-failure-message="<%= t('our_resources.landing.consultation.booking.failure') %>"
+     data-loading-message="<%= t('resources.landing.consultation.booking.loading') %>"
+     data-failure-message="<%= t('resources.landing.consultation.booking.failure') %>"
      role="status"
      aria-live="polite"></p>
 
@@ -16,7 +16,7 @@
        hidden></div>
 
   <p class="resources-booking__fallback">
-    <%= link_to t('our_resources.landing.consultation.booking.external'),
+    <%= link_to t('resources.landing.consultation.booking.external'),
                 booking_url,
                 target: '_blank',
                 rel: 'noopener noreferrer' %>

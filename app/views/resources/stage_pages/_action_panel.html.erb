@@ -5,7 +5,7 @@
     <section class="resources-stage-action-panel__column">
       <h3><%= column[:title] %></h3>
       <% column[:actions].each_value do |action| %>
-        <%= render 'our_resources/stage_pages/action_link',
+        <%= render 'resources/stage_pages/action_link',
                    label: action[:label],
                    url: action[:url],
                    variant: action[:variant],

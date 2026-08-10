@@ -1,0 +1,7 @@
+<%= render 'resources/stage_pages/learning_cards',
+           title: t("resources.stage_pages.#{stage_key}.further_learning.title"),
+           resources: stage_page_further_learning(stage_key) %>
+
+<%= render 'resources/stage_pages/contributors',
+           title: t('resources.stage_pages.contributors_heading'),
+           contributors: stage_page_contributors(stage_key) %>

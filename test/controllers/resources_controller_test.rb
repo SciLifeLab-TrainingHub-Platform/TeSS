@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class OurResourcesControllerTest < ActionController::TestCase
+class ResourcesControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
   CONTRIBUTORS = {

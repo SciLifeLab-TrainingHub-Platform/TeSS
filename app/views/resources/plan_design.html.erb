@@ -1,6 +1,6 @@
-<%= render layout: 'our_resources/stage_pages/shell',
+<%= render layout: 'resources/stage_pages/shell',
            locals: { stage_key: :plan_design } do %>
-  <% target_audience = t('our_resources.stage_pages.plan_design.sections.target_audience').with_indifferent_access %>
+  <% target_audience = t('resources.stage_pages.plan_design.sections.target_audience').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= target_audience[:anchor] %>">
     <h2><%= target_audience[:title] %></h2>
     <div class="resources-stage-section__body resources-stage-prose">
@@ -10,7 +10,7 @@
     </div>
   </section>
 
-  <% learning_outcomes = t('our_resources.stage_pages.plan_design.sections.learning_outcomes').with_indifferent_access %>
+  <% learning_outcomes = t('resources.stage_pages.plan_design.sections.learning_outcomes').with_indifferent_access %>
   <section class="resources-stage-section resources-plan-design__section--learning-outcomes"
            id="<%= learning_outcomes[:anchor] %>">
     <h2><%= learning_outcomes[:title] %></h2>
@@ -45,16 +45,16 @@
           </p>
         </div>
 
-        <%= render 'our_resources/stage_pages/taxonomy_pyramid' %>
+        <%= render 'resources/stage_pages/taxonomy_pyramid' %>
       </div>
 
       <p class="resources-plan-design__visual-intro"><%= learning_outcomes[:visual_intro] %></p>
-      <%= render 'our_resources/stage_pages/digital_learning_map',
+      <%= render 'resources/stage_pages/digital_learning_map',
                  levels: learning_outcomes[:digital_methods] %>
     </div>
   </section>
 
-  <% engagement = t('our_resources.stage_pages.plan_design.sections.engagement').with_indifferent_access %>
+  <% engagement = t('resources.stage_pages.plan_design.sections.engagement').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= engagement[:anchor] %>">
     <h2><%= engagement[:title] %></h2>
     <div class="resources-stage-section__body">
@@ -63,9 +63,9 @@
           <p><%= paragraph %></p>
         <% end %>
       </div>
-      <%= render 'our_resources/stage_pages/video', video: engagement[:video] %>
+      <%= render 'resources/stage_pages/video', video: engagement[:video] %>
     </div>
   </section>
 
-  <%= render 'our_resources/stage_pages/stage_footer', stage_key: :plan_design %>
+  <%= render 'resources/stage_pages/stage_footer', stage_key: :plan_design %>
 <% end %>

@@ -19,12 +19,13 @@ Rails.application.routes.draw do
   get 'about/portal' => 'about#portal', as: 'portal'
   get 'about/us' => 'about#us', as: 'us'
 
-  # Add resource page
-  get 'our_resources' => 'our_resources#index', as: 'our_resources'
-  get 'our_resources/plan-design' => 'our_resources#plan_design', as: 'plan_design_stage'
-  get 'our_resources/develop' => 'our_resources#develop', as: 'develop_stage'
-  get 'our_resources/deliver' => 'our_resources#deliver', as: 'deliver_stage'
-  get 'our_resources/evaluate-archive' => 'our_resources#evaluate_archive', as: 'evaluate_archive_stage'
+  # Training resources pages
+  get 'resources' => 'resources#index', as: 'resources'
+  get 'resources/plan-design' => 'resources#plan_design', as: 'plan_design_stage'
+  get 'resources/develop' => 'resources#develop', as: 'develop_stage'
+  get 'resources/deliver' => 'resources#deliver', as: 'deliver_stage'
+  get 'resources/evaluate-archive' => 'resources#evaluate_archive', as: 'evaluate_archive_stage'
+  get 'our_resources', to: redirect('/resources', status: 301), as: nil
 
   get 'privacy' => 'static#privacy', as: 'privacy'
 

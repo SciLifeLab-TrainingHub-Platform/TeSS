@@ -30,7 +30,7 @@ en:
     nodes:
       short: Nodes
       long: Nodes
-    our_resources:
+    resources:
       short: Resources
       long: Resources
     users:
@@ -44,7 +44,7 @@ en:
   attributes:
     url: 'URL'
     doi: 'DOI'
-  our_resources:
+  resources:
     landing:
       title: What stage are you at?
       intro: >
@@ -950,7 +950,7 @@ en:
       workflows: "Create training workflows to visualise learning steps and link to resources specific to your training needs."
       providers: "Browse training providers to discover training resources they offer and follow links to their materials and courses."
       trainers: "Browse a directory of trainers based on their skills and expertise."
-      our_resources: "Access resources for instructors and training providers"
+      resources: "Access resources for instructors and training providers"
     providers:
       title: Providers
       content: |

@@ -1,5 +1,5 @@
 # The controller for actions related to the resources pages
-class OurResourcesController < ApplicationController
+class ResourcesController < ApplicationController
   skip_before_action :authenticate_user!, :authenticate_user_from_token!
 
   def index; end
