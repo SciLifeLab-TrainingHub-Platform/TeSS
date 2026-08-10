@@ -17,10 +17,12 @@
             <div class="col-sm-9">
               <%= hidden_field_tag :prefill, '1' %>
               <%= select_tag :course_id,
-                             options_for_select([['Select a catalogue entry (optional)', '']], selected_course&.to_param) +
-                               options_from_collection_for_select(@courses, 'to_param', 'title', selected_course&.to_param),
+                             options_for_select([['Select a catalogue entry (optional)', '']] +
+                                                  @courses.map { |c| [c.title, c.to_param, { data: { course_id: c.id } }] },
+                                                selected_course&.to_param),
                              class: 'form-control js-select2',
-                             id: 'prefill_course_select' %>
+                             id: 'prefill_course_select',
+                             onchange: 'updateCourseId(this)' %>
               <% prefill_errors.each do |error| %>
                 <p class="help-block"><%= error %></p>
               <% end %>
@@ -38,3 +40,11 @@
     <%= render :partial => 'form' %>
   </div>
 </div>
+
+<script>
+    function updateCourseId(selectEl) {
+        const selectedOption = selectEl.options[selectEl.selectedIndex];
+        const courseId = selectedOption.dataset.courseId;
+        document.getElementById('event_course_id').value = courseId || '';
+    }
+</script>
