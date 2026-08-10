@@ -5,6 +5,7 @@
     padding: 8px 0 0;
     position: sticky;
     top: 24px;
+    // Keep the lifecycle rail aligned as the centered shell shifts across desktop widths.
     transform: translateX(clamp(-106px, calc(614px - 50vw), 24px));
     width: 100%;
     z-index: 2;

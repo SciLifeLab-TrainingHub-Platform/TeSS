@@ -24,7 +24,12 @@ class ResourcesTest < ActionDispatch::IntegrationTest
                   '[data-cal-link="scilifelab-traininghub/support-consult"]',
                   count: 1
     assert_select '[data-cal-calendar][hidden]', count: 1
-    assert_select '[data-cal-status][role="status"][aria-live="polite"]', count: 1
+    assert_select '[data-cal-status][role="status"][aria-live="polite"]', count: 1 do |statuses|
+      status = statuses.first
+
+      assert status['data-loading-message'].present?
+      assert status['data-failure-message'].present?
+    end
     assert_select '.resources-booking__fallback a[href=?][target=?][rel=?]',
                   'https://cal.com/scilifelab-traininghub/support-consult',
                   '_blank',

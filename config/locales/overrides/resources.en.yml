@@ -429,7 +429,7 @@ en:
                 url: https://figshare.scilifelab.se/ndownloader/files/52693250
                 after_link: " for examples of how to create fruitful group discussion."
             illustration:
-              image: scilifelab/resources/participants_image.png
+              image: scilifelab/resources/facilitation-participants-diagram.png
               alt: Diagram showing information flowing between a presenter and participants
           tools:
             anchor: tools-for-training-delivery

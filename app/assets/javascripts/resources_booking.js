@@ -4,6 +4,8 @@
     var CAL_SCRIPT_URL = "https://app.cal.com/embed/embed.js";
     var CAL_ORIGIN = "https://app.cal.com";
 
+    // Adapted from Cal.com's embed loader. Preserve its queued calls and
+    // namespace initialization when updating this integration.
     function ensureCalLoader() {
         (function (C, A, L) {
             var push = function (api, args) { api.q.push(args); };

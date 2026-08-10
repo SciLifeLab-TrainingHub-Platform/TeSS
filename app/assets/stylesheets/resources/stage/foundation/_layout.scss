@@ -14,6 +14,7 @@
 }
 
 .resources-stage-shell__main {
+  // Gradually pull the content column left on desktop while the centered shell changes width.
   margin-left: clamp(-89px, calc((992px - 100vw) * 0.2), 0px);
   min-width: 0;
 }

@@ -39,7 +39,10 @@ module ResourcesHelper
       default: []
     )
 
-    contributor_keys.map { |key| contributor_profiles.fetch(key.to_sym) }
+    # I18n symbolizes YAML mapping keys, while identifiers in YAML lists remain strings.
+    contributor_keys.map do |contributor_key|
+      contributor_profiles.fetch(contributor_key.to_sym)
+    end
   end
 
   def stage_page_further_learning(stage_key)
@@ -50,8 +53,8 @@ module ResourcesHelper
     )
     resource_overrides = t("resources.stage_pages.#{stage_key}.further_learning.overrides", default: {})
 
-    resource_keys.map do |key|
-      resource_key = key.to_sym
+    resource_keys.map do |resource_identifier|
+      resource_key = resource_identifier.to_sym
       resource_profiles.fetch(resource_key).merge(resource_overrides[resource_key] || {})
     end
   end
