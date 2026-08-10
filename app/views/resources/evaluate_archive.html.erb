@@ -1,4 +1,4 @@
-<%= render layout: 'resources/stage_pages/shell',
+<%= render layout: 'resources/stage/foundation/shell',
            locals: { stage_key: :evaluate_archive } do %>
   <% prepare_materials = t('resources.stage_pages.evaluate_archive.sections.prepare_materials').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= prepare_materials[:anchor] %>">
@@ -15,7 +15,7 @@
     </div>
 
     <div class="resources-stage-section__visual">
-      <%= render 'resources/stage_pages/visual_links',
+      <%= render 'resources/stage/components/visual_links',
                  links: prepare_materials[:visual_links].values,
                  variant: :recordings %>
     </div>
@@ -41,7 +41,7 @@
     </div>
 
     <div class="resources-stage-section__visual">
-      <%= render 'resources/stage_pages/action_panel',
+      <%= render 'resources/stage/components/action_panel',
                  columns: archive.dig(:panel, :columns),
                  class_name: 'resources-evaluate__archive-panel' %>
     </div>
@@ -73,7 +73,7 @@
     </div>
 
     <div class="resources-stage-section__visual">
-      <%= render 'resources/stage_pages/visual_links',
+      <%= render 'resources/stage/components/visual_links',
                  links: oer_communities[:visual_links].values,
                  variant: :communities %>
     </div>
@@ -89,5 +89,5 @@
     </div>
   </section>
 
-  <%= render 'resources/stage_pages/stage_footer', stage_key: :evaluate_archive %>
+  <%= render 'resources/stage/foundation/footer', stage_key: :evaluate_archive %>
 <% end %>

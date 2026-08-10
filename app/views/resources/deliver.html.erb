@@ -1,4 +1,4 @@
-<%= render layout: 'resources/stage_pages/shell',
+<%= render layout: 'resources/stage/foundation/shell',
            locals: { stage_key: :deliver } do %>
   <% facilitation = t('resources.stage_pages.deliver.sections.facilitation').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= facilitation[:anchor] %>">
@@ -50,7 +50,7 @@
 
     <div class="resources-stage-section__visual">
       <div class="resources-stage-actions resources-deliver__mentimeter-action-row">
-        <%= render 'resources/stage_pages/action_link',
+        <%= render 'resources/stage/components/action_link',
                    label: tools.dig(:action, :label),
                    url: tools.dig(:action, :url),
                    variant: 'lime',
@@ -64,7 +64,7 @@
         <p><%= tools[:follow_up] %></p>
       </div>
 
-      <%= render 'resources/stage_pages/link_list',
+      <%= render 'resources/stage/components/link_list',
                  links: tools[:links].values,
                  class_name: 'resources-deliver__tool-links' %>
     </div>
@@ -85,10 +85,10 @@
     </div>
 
     <div class="resources-stage-section__visual">
-      <%= render 'resources/stage_pages/visual_links',
+      <%= render 'resources/stage/components/visual_links',
                  links: feedback[:visual_links].values %>
     </div>
   </section>
 
-  <%= render 'resources/stage_pages/stage_footer', stage_key: :deliver %>
+  <%= render 'resources/stage/foundation/footer', stage_key: :deliver %>
 <% end %>

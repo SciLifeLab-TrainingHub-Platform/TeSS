@@ -1,4 +1,4 @@
-<%= render layout: 'resources/stage_pages/shell',
+<%= render layout: 'resources/stage/foundation/shell',
            locals: { stage_key: :plan_design } do %>
   <% target_audience = t('resources.stage_pages.plan_design.sections.target_audience').with_indifferent_access %>
   <section class="resources-stage-section" id="<%= target_audience[:anchor] %>">
@@ -45,11 +45,11 @@
           </p>
         </div>
 
-        <%= render 'resources/stage_pages/taxonomy_pyramid' %>
+        <%= render 'resources/stage/figures/taxonomy_pyramid' %>
       </div>
 
       <p class="resources-plan-design__visual-intro"><%= learning_outcomes[:visual_intro] %></p>
-      <%= render 'resources/stage_pages/digital_learning_map',
+      <%= render 'resources/stage/figures/digital_learning_map',
                  levels: learning_outcomes[:digital_methods] %>
     </div>
   </section>
@@ -63,9 +63,9 @@
           <p><%= paragraph %></p>
         <% end %>
       </div>
-      <%= render 'resources/stage_pages/video', video: engagement[:video] %>
+      <%= render 'resources/stage/components/video', video: engagement[:video] %>
     </div>
   </section>
 
-  <%= render 'resources/stage_pages/stage_footer', stage_key: :plan_design %>
+  <%= render 'resources/stage/foundation/footer', stage_key: :plan_design %>
 <% end %>
