@@ -29,41 +29,30 @@ module ResourcesHelper
   end
 
   def stage_page_sections(stage_key)
-    t(
-      "resources.stage_pages.#{stage_key}.sections",
-      default: {}
-    ).with_indifferent_access
+    t("resources.stage_pages.#{stage_key}.sections", default: {})
   end
 
   def stage_page_contributors(stage_key)
-    contributor_profiles = t(
-      'resources.stage_pages.contributor_profiles',
-      default: {}
-    ).with_indifferent_access
+    contributor_profiles = t('resources.stage_pages.contributor_profiles', default: {})
     contributor_keys = t(
       "resources.stage_pages.#{stage_key}.contributors",
       default: []
     )
 
-    contributor_keys.map { |key| contributor_profiles.fetch(key) }
+    contributor_keys.map { |key| contributor_profiles.fetch(key.to_sym) }
   end
 
   def stage_page_further_learning(stage_key)
-    resource_profiles = t(
-      'resources.stage_pages.learning_resource_profiles',
-      default: {}
-    ).with_indifferent_access
+    resource_profiles = t('resources.stage_pages.learning_resource_profiles', default: {})
     resource_keys = t(
       "resources.stage_pages.#{stage_key}.further_learning.items",
       default: []
     )
-    resource_overrides = t(
-      "resources.stage_pages.#{stage_key}.further_learning.overrides",
-      default: {}
-    ).with_indifferent_access
+    resource_overrides = t("resources.stage_pages.#{stage_key}.further_learning.overrides", default: {})
 
     resource_keys.map do |key|
-      resource_profiles.fetch(key).merge(resource_overrides[key] || {})
+      resource_key = key.to_sym
+      resource_profiles.fetch(resource_key).merge(resource_overrides[resource_key] || {})
     end
   end
 

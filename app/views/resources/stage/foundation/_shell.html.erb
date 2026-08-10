@@ -1,4 +1,4 @@
-<% stage = t("resources.stage_pages.#{stage_key}").with_indifferent_access %>
+<% stage = t("resources.stage_pages.#{stage_key}") %>
 <% modifier = stage_key.to_s.tr('_', '-') %>
 <%# site_title interpolates this value into a new string, so preserve translated ampersands from double escaping. %>
 <% content_for :title, raw(stage[:title]) %>
