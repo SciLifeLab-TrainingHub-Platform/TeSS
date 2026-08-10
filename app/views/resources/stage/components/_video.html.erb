@@ -4,7 +4,7 @@
     <figure class="resources-stage-video">
       <div class="resources-stage-video__embed">
         <iframe src="<%= embed_url %>"
-                title="<%= video[:iframe_title] || video[:caption] %>"
+                title="<%= video[:iframe_title].presence || video[:caption] %>"
                 loading="lazy"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

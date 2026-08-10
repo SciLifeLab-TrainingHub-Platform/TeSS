@@ -16,6 +16,8 @@
   <% example = learning_outcomes[:example] %>
   <% guide_url = learning_outcomes[:guide_url] %>
   <% module_url = learning_outcomes[:module_url] %>
+  <% taxonomy_figure = learning_outcomes[:taxonomy_figure] %>
+  <% digital_methods_figure = learning_outcomes[:digital_methods_figure] %>
   <section class="resources-stage-section resources-plan-design__section--learning-outcomes"
            id="<%= learning_outcomes[:anchor] %>">
     <h2><%= learning_outcomes[:title] %></h2>
@@ -54,12 +56,15 @@
           </p>
         </div>
 
-        <%= render 'resources/stage/figures/taxonomy_pyramid' %>
+        <%= render 'resources/stage/figures/taxonomy_pyramid',
+                   alt_text: taxonomy_figure[:alt] %>
       </div>
 
       <p class="resources-plan-design__visual-intro"><%= learning_outcomes[:visual_intro] %></p>
       <%= render 'resources/stage/figures/digital_learning_map',
-                 levels: learning_outcomes[:digital_methods] %>
+                 levels: learning_outcomes[:digital_methods],
+                 alt_text: digital_methods_figure[:alt],
+                 description: digital_methods_figure[:description] %>
     </div>
   </section>
 

@@ -199,9 +199,14 @@ en:
             guidance_between_links: or the
             module_label: SciLifeLab Train-the-Trainer module on Learning Outcomes
             module_url: https://scilifelab-training.github.io/train-the-trainer/2403/module2.html
+            taxonomy_figure:
+              alt: Bloom's taxonomy pyramid, from remember through understand, apply, analyze, evaluate, and create
             visual_intro: >
               For inspiration on using Bloom’s taxonomy at SciLifeLab, see our resource on using technology to
               enhance learning:
+            digital_methods_figure:
+              alt: Infographic mapping digital learning activities to the six levels of Bloom's taxonomy
+              description: "Training Hub: Using digital technology to enhance learning."
             digital_methods:
               - name: Remember
                 description: Bookmark and revisit useful digital resources.
@@ -261,7 +266,6 @@ en:
             title: Announcing your training on the Training Portal
             action:
               label: Announce your upcoming training here
-              url: https://training.scilifelab.se/events/new
             paragraphs:
               - >
                 As soon as your training has been planned, we recommend announcing it on the SciLifeLab
