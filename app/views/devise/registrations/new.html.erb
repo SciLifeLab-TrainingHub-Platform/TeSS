@@ -22,7 +22,7 @@
     </div>
   <% else %>
     <div class="form-middle">
-      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { id: 'registration-form' }) do |f| %>
         <%= account_error_messages! %>
 
         <%= f.input :username, autofocus: true %>
@@ -38,14 +38,14 @@
 
         <% unless Rails.application.secrets.recaptcha[:sitekey].blank? -%>
           <div class="form-group">
-            <%= recaptcha_tags ajax: true %>
+            <%= hidden_field_tag :recaptcha_token, '', id: 'registration-recaptcha-token' %>
           </div>
         <% end -%>
 
         <%= f.input :processing_consent, as: :boolean, input_html: { autocomplete: 'off' },
                     label: "I have read and understood the&nbsp;#{link_to('privacy policy', privacy_path, target: '_blank')} and consent to #{TeSS::Config.site['title_short']} processing my data.".html_safe %>
         <div class="actions">
-          <%= f.submit "Register", :class => 'btn btn-primary' %>
+          <%= f.submit "Register", :class => 'btn btn-primary', id: 'registration-submit-button' %>
         </div>
       <% end %>
 
@@ -61,3 +61,44 @@
     </div>
   <% end %>
 </div>
+
+<% unless Rails.application.secrets.recaptcha[:sitekey].blank? -%>
+  <script src="https://www.google.com/recaptcha/api.js?render=<%= Recaptcha.configuration.site_key %>"></script>
+
+  <script>
+      document.addEventListener("turbolinks:load", function () {
+          const form = document.getElementById("registration-form");
+          const button = document.getElementById("registration-submit-button");
+          const tokenField = document.getElementById("registration-recaptcha-token");
+
+          if (!form || !button || !tokenField) return;
+
+          form.addEventListener("submit", function (event) {
+              event.preventDefault();
+              button.disabled = true;
+
+              try {
+                  if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
+                      grecaptcha.ready(function () {
+                          grecaptcha.execute("<%= Recaptcha.configuration.site_key %>", {action: "signup"})
+                              .then(function (token) {
+                                  tokenField.value = token;
+                                  form.submit();
+                              })
+                              .catch(function (error) {
+                                  alert("Could not verify the form. Please check your connection and try again.");
+                              }).finally(function () {
+                              button.disabled = false;
+                          });
+                      });
+                  } else {
+                      throw new Error("grecaptcha API not loaded.");
+                  }
+              } catch (e) {
+                  alert("Verification service unavailable. Please try submitting without captcha.");
+                  button.disabled = false;
+              }
+          });
+      });
+  </script>
+<% end -%>

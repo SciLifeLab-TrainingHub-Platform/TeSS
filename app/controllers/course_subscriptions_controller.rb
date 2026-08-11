@@ -10,20 +10,17 @@ class CourseSubscriptionsController < ApplicationController
                          alert: "Logged-in users should manage subscriptions through their account."
     end
 
+    recaptcha_valid = verify_recaptcha(action: "course_interest", minimum_score: 0.5)
+    unless recaptcha_valid
+      return redirect_to course_path(course)
+    end
+
     result =
       case params[:action_type]
       when CourseInterest::ACTION_REQUEST_SUBSCRIBE
-        CourseInterestService.request_subscription!(
-          course: course,
-          email: params[:email]
-        )
-
+        CourseInterestService.request_subscription!(course: course, email: params[:email])
       when CourseInterest::ACTION_REQUEST_UNSUBSCRIBE
-        CourseInterestService.request_unsubscription!(
-          course: course,
-          email: params[:email]
-        )
-
+        CourseInterestService.request_unsubscription!(course: course, email: params[:email])
       else
         return redirect_to course_path(course), alert: "Invalid action"
       end
