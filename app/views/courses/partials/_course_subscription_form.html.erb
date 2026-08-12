@@ -16,6 +16,7 @@
                       id: "course-interest-action-type",
                       hidden: true %>
 
+
     <span class="input-group-btn">
       <button type="submit"
               class="btn btn-primary"
@@ -24,6 +25,8 @@
       </button>
     </span>
   </div>
+
+  <%= hidden_field_tag "g-recaptcha-response", nil, id: "course-interest-recaptcha-token" %>
 
   <!-- Checkbox underneath -->
   <div class="course-interest-toggle">
@@ -37,12 +40,16 @@
 
 <% end %>
 
+<script src="https://www.google.com/recaptcha/api.js?render=<%= Recaptcha.configuration.site_key %>"></script>
+
 <script>
     document.addEventListener("turbolinks:load", function () {
         const toggle = document.getElementById("course-interest-toggle");
         const actionType = document.getElementById("course-interest-action-type");
         const button = document.getElementById("course-interest-submit-button");
-        if (!toggle || !actionType || !button) return;
+        const form = document.getElementById("subscription-form");
+        const tokenField = document.getElementById("course-interest-recaptcha-token");
+        if (!toggle || !actionType || !button || !form || !tokenField) return;
 
         function updateUI() {
             actionType.checked = true;
@@ -54,5 +61,25 @@
 
         updateUI();
         toggle.addEventListener("change", updateUI);
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            button.disabled = true;
+            toggle.disabled = true;
+
+            grecaptcha.ready(function () {
+                grecaptcha.execute("<%= Recaptcha.configuration.site_key %>", {action: "course_interest"})
+                    .then(function (token) {
+                        tokenField.value = token;
+                        form.submit();
+                    })
+                    .catch(function () {
+                        alert("Could not verify the form. Please try again.")
+                    }).finally(function () {
+                    button.disabled = false;
+                    toggle.disabled = false;
+                });
+            });
+        });
     });
 </script>
