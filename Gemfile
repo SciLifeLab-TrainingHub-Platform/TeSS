@@ -84,6 +84,7 @@ source 'https://rails-assets.org' do
 end
 
 group :development, :test do
+  gem 'bundle-audit', require: false # CLI-only; scans Gemfile.lock for gems with known CVEs (run in CI + weekly)
   gem 'byebug'
   gem 'pry-byebug'
   gem 'rubocop'
