@@ -1,0 +1,112 @@
+.resources-stage-visual-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 36px auto 0;
+  max-width: 382px;
+  padding: 0;
+  width: 100%;
+}
+
+.resources-stage-visual-links--recordings {
+  max-width: 408px;
+
+  .resources-stage-visual-link__visual {
+    height: 86px;
+  }
+
+  .resources-stage-visual-link__label {
+    width: 173px;
+  }
+}
+
+.resources-stage-visual-links--communities {
+  margin-top: 52px;
+  max-width: 469px;
+
+  .resources-stage-visual-link__visual {
+    height: 80px;
+  }
+
+  .resources-stage-visual-link__label {
+    margin-top: 20px;
+    width: 173px;
+  }
+}
+
+a.resources-stage-visual-link {
+  align-items: center;
+  color: $gray-base;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: normal;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: $scilifelab-color-teal;
+    text-decoration: none;
+  }
+}
+
+.resources-stage-visual-link__visual {
+  align-items: center;
+  display: flex;
+  height: 72px;
+  justify-content: center;
+  width: 100%;
+}
+
+.resources-stage-visual-link__image {
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.resources-stage-visual-link__label {
+  display: block;
+  margin-top: 7px;
+  width: 208px;
+}
+
+.resources-stage-link-list {
+  display: grid;
+  gap: 11px;
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+
+  a {
+    align-items: center;
+    color: $gray-base;
+    display: inline-flex;
+    font-size: 18px;
+    font-weight: 600;
+    gap: 12px;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    min-height: 31px;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-teal;
+      text-decoration: underline;
+    }
+  }
+
+  .fa {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 25px;
+    font-size: 21px;
+    height: 25px;
+    justify-content: center;
+    line-height: 25px;
+    width: 25px;
+  }
+}

@@ -1,0 +1,120 @@
+<%= render layout: 'resources/stage/foundation/shell',
+           locals: { stage_key: :develop } do %>
+  <% sections = stage_page_sections(:develop) %>
+  <% announcement = sections[:announcement] %>
+  <% announcement_action = announcement[:action] %>
+  <section class="resources-stage-section" id="<%= announcement[:anchor] %>">
+    <h2><%= announcement[:title] %></h2>
+    <div class="resources-stage-section__body">
+      <div class="resources-develop__section-visual">
+        <div class="resources-stage-actions resources-develop__announcement-action">
+          <%= render 'resources/stage/components/action_link',
+                     label: announcement_action[:label],
+                     url: new_event_path,
+                     variant: 'lime',
+                     icon: 'star-o',
+                     class_name: 'resources-develop__announcement-cta' %>
+        </div>
+      </div>
+      <div class="resources-stage-prose">
+        <% announcement[:paragraphs].each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      </div>
+      <%= render 'resources/stage/components/video',
+                 video: announcement[:video],
+                 frame_class: 'resources-develop__video-frame' %>
+    </div>
+  </section>
+
+  <% training_page = sections[:training_page] %>
+  <section class="resources-stage-section" id="<%= training_page[:anchor] %>">
+    <h2><%= training_page[:title] %></h2>
+    <div class="resources-stage-section__body">
+      <div class="resources-stage-prose">
+        <% training_page[:paragraphs].each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      </div>
+
+      <div class="resources-develop__section-visual resources-develop__section-visual--hosting">
+        <%= render 'resources/stage/components/action_panel',
+                   columns: training_page[:hosting],
+                   class_name: 'resources-develop__hosting-panel' %>
+      </div>
+    </div>
+  </section>
+
+  <% computational_tools = sections[:computational_tools] %>
+  <section class="resources-stage-section" id="<%= computational_tools[:anchor] %>">
+    <h2><%= computational_tools[:title] %></h2>
+    <div class="resources-stage-section__body">
+      <div class="resources-stage-prose">
+        <% computational_tools[:paragraphs].each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      </div>
+      <div class="resources-stage-actions resources-develop__serve-actions">
+        <% computational_tools[:actions].each_value do |action| %>
+          <%= render 'resources/stage/components/action_link',
+                     label: action[:label],
+                     url: action[:url],
+                     variant: 'teal',
+                     icon: 'star-o',
+                     class_name: 'resources-develop__serve-action' %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <% fair_materials = sections[:fair_materials] %>
+  <% oer_url = fair_materials[:oer_url] %>
+  <% checklist = fair_materials[:checklist] %>
+  <% software_community = fair_materials[:software_community] %>
+  <% software_community_url = software_community[:url] %>
+  <section class="resources-stage-section" id="<%= fair_materials[:anchor] %>">
+    <h2><%= fair_materials[:title] %></h2>
+    <div class="resources-stage-section__body">
+      <div class="resources-stage-prose">
+        <p>
+          <%= link_to fair_materials[:oer_link_label],
+                      oer_url,
+                      **resources_link_options(oer_url) %>
+          <%= fair_materials[:introduction_after_link] %>
+        </p>
+      </div>
+
+      <div class="resources-stage-actions">
+        <%= render 'resources/stage/components/action_link',
+                   label: checklist[:label],
+                   url: checklist[:url],
+                   variant: 'grape',
+                   icon: false,
+                   class_name: 'resources-develop__checklist-action' %>
+      </div>
+
+      <h3 class="resources-develop__fair-heading"><%= fair_materials[:help_title] %></h3>
+      <div class="resources-stage-prose">
+        <p><%= fair_materials[:royalty_free_text] %></p>
+      </div>
+      <%= render 'resources/stage/components/link_list',
+                 links: fair_materials[:royalty_free_sources].values,
+                 class_name: 'resources-develop__link-list' %>
+
+      <div class="resources-stage-prose">
+        <p>
+          <%= fair_materials[:software_before_link] %>
+          <%= link_to software_community[:label],
+                      software_community_url,
+                      **resources_link_options(software_community_url) %>
+          <%= fair_materials[:software_after_link] %>
+        </p>
+      </div>
+      <%= render 'resources/stage/components/link_list',
+                 links: fair_materials[:software_tools].values,
+                 class_name: 'resources-develop__link-list resources-develop__link-list--tools' %>
+    </div>
+  </section>
+
+  <%= render 'resources/stage/foundation/footer', stage_key: :develop %>
+<% end %>

@@ -1,0 +1,16 @@
+<% action_classes = ['resources-stage-action', "resources-stage-action--#{variant}"] %>
+<% action_classes << local_assigns[:class_name] if local_assigns[:class_name].present? %>
+<% icon = local_assigns.fetch(:icon, 'link') %>
+
+<%= link_to url,
+            class: action_classes,
+            **resources_link_options(url) do %>
+  <% if icon == 'featured-star' %>
+    <%= image_tag 'scilifelab/resources/featured-resource-star.png',
+                  class: 'resources-stage-action__icon resources-stage-action__icon--featured-star',
+                  alt: '' %>
+  <% elsif icon %>
+    <i class="fa fa-<%= icon %> resources-stage-action__icon" aria-hidden="true"></i>
+  <% end %>
+  <span><%= label %></span>
+<% end %>

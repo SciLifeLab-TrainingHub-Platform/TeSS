@@ -1,0 +1,154 @@
+.resources-plan-design__outcomes-layout {
+  align-items: center;
+  display: grid;
+  gap: 54px;
+  grid-template-columns: minmax(0, 490px) 241px;
+  max-width: 785px;
+  margin-top: 30px;
+
+  .resources-stage-prose {
+    max-width: 490px;
+  }
+}
+
+p.resources-plan-design__formula,
+p.resources-plan-design__example {
+  span {
+    display: inline;
+  }
+}
+
+p.resources-plan-design__outcomes-structure {
+  margin-bottom: 24px;
+}
+
+.resources-plan-design__section--learning-outcomes {
+  .resources-stage-section__body > p {
+    max-width: 739px;
+  }
+}
+
+p.resources-plan-design__formula {
+  font-family: "Lato Resources Bold", $font-family-base;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 24px;
+}
+
+p.resources-plan-design__example {
+  line-height: 1.45;
+  margin-bottom: 26px;
+
+  .resources-plan-design__example-label {
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .resources-plan-design__formula-term {
+    font-family: "Lato Resources Bold", $font-family-base;
+    font-weight: 700;
+  }
+}
+
+.resources-plan-design__formula-term {
+  font-weight: inherit;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+.resources-plan-design__formula-term--aqua {
+  color: $scilifelab-color-aqua;
+}
+
+.resources-plan-design__formula-term--lime {
+  color: $scilifelab-color-lime;
+}
+
+.resources-plan-design__formula-term--teal {
+  color: $scilifelab-color-teal;
+}
+
+.resources-plan-design__formula-term--grape {
+  color: $scilifelab-color-grape;
+}
+
+p.resources-plan-design__guidance {
+  line-height: 1.55;
+
+  a {
+    color: rgba($dark-color, 0.82);
+    text-decoration-thickness: 1px;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-teal;
+    }
+  }
+}
+
+p.resources-plan-design__visual-intro {
+  margin-top: 20px;
+  max-width: 739px;
+}
+
+.resources-taxonomy {
+  margin: 0;
+}
+
+.resources-taxonomy__image {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 241px;
+}
+
+.resources-digital-learning {
+  margin: 22px 0 0;
+  max-width: 785px;
+}
+
+.resources-digital-learning__image {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+@media screen and (max-width: 991px) {
+  .resources-plan-design__outcomes-layout {
+    display: block;
+
+    .resources-stage-prose {
+      max-width: 739px;
+    }
+  }
+
+  .resources-taxonomy {
+    margin: 30px 0 0;
+  }
+
+  .resources-taxonomy__image {
+    width: 240px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .resources-plan-design__outcomes-layout {
+    display: block;
+  }
+
+  .resources-taxonomy {
+    margin: 28px 0 0;
+  }
+
+  .resources-taxonomy__image {
+    width: 220px;
+  }
+
+  .resources-digital-learning {
+    margin-top: 18px;
+  }
+}

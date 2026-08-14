@@ -1,0 +1,147 @@
+@media screen and (max-width: 991px) {
+  .resources-lifecycle {
+    --lifecycle-axis-x: 150px;
+    max-width: 860px;
+  }
+
+  .resources-lifecycle__item {
+    grid-template-columns: 104px 92px minmax(0, 1fr);
+  }
+
+  .resources-lifecycle__timeframe {
+    font-size: 17px;
+  }
+
+  .resources-lifecycle__marker::after {
+    width: 42px;
+  }
+
+  .resources-lifecycle__card {
+    h2 {
+      font-size: 26px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .resources-landing {
+    margin: 28px auto 58px;
+  }
+
+  .resources-landing__intro {
+    margin-bottom: 30px;
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 13px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .resources-lifecycle {
+    --lifecycle-axis-tail: 10px;
+    --lifecycle-axis-width: 4px;
+    --lifecycle-axis-x: 20px;
+    --lifecycle-marker-center-y: 20px;
+    --lifecycle-marker-shift-y: 0px;
+    --lifecycle-row-gap: 24px;
+
+    &::before {
+      bottom: auto;
+      height: var(--lifecycle-axis-tail);
+      top: calc(var(--lifecycle-marker-center-y) - var(--lifecycle-axis-tail));
+    }
+  }
+
+  .resources-lifecycle__item {
+    align-items: start;
+    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    min-height: 0;
+
+    // Each mobile item draws the rail from its marker to the next marker.
+    &::before {
+      background: $scilifelab-color-teal;
+      content: "";
+      height: calc(100% + var(--lifecycle-row-gap));
+      left: var(--lifecycle-axis-x);
+      position: absolute;
+      top: var(--lifecycle-marker-center-y);
+      width: var(--lifecycle-axis-width);
+    }
+
+    &:last-child::before {
+      height: var(--lifecycle-axis-tail);
+    }
+  }
+
+  .resources-lifecycle__timeframe {
+    font-size: 14px;
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0 0 8px;
+    text-align: left;
+  }
+
+  .resources-lifecycle__marker {
+    height: 32px;
+    left: 4px;
+    top: 4px;
+    transform: none;
+    width: 32px;
+
+    &::after {
+      left: 28px;
+      width: 16px;
+    }
+  }
+
+  .resources-lifecycle__card {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 0;
+    padding: 15px 18px 17px;
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 7px;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.4;
+    }
+  }
+
+  .resources-consultation {
+    margin-top: 56px;
+  }
+
+  .resources-consultation__copy {
+    margin-left: 0;
+
+    h2 {
+      font-size: 30px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .resources-booking {
+    margin-top: 30px;
+  }
+
+  .resources-booking__calendar {
+    min-height: 650px;
+  }
+}

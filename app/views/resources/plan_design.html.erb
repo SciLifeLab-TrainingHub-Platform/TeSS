@@ -1,0 +1,85 @@
+<%= render layout: 'resources/stage/foundation/shell',
+           locals: { stage_key: :plan_design } do %>
+  <% sections = stage_page_sections(:plan_design) %>
+  <% target_audience = sections[:target_audience] %>
+  <section class="resources-stage-section" id="<%= target_audience[:anchor] %>">
+    <h2><%= target_audience[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <% target_audience[:paragraphs].each do |paragraph| %>
+        <p><%= paragraph %></p>
+      <% end %>
+    </div>
+  </section>
+
+  <% learning_outcomes = sections[:learning_outcomes] %>
+  <% formula = learning_outcomes[:formula] %>
+  <% example = learning_outcomes[:example] %>
+  <% guide_url = learning_outcomes[:guide_url] %>
+  <% module_url = learning_outcomes[:module_url] %>
+  <% taxonomy_figure = learning_outcomes[:taxonomy_figure] %>
+  <% digital_methods_figure = learning_outcomes[:digital_methods_figure] %>
+  <section class="resources-stage-section resources-plan-design__section--learning-outcomes"
+           id="<%= learning_outcomes[:anchor] %>">
+    <h2><%= learning_outcomes[:title] %></h2>
+    <div class="resources-stage-section__body">
+      <p><%= learning_outcomes[:introduction] %></p>
+      <div class="resources-plan-design__outcomes-layout">
+        <div class="resources-stage-prose">
+          <p class="resources-plan-design__outcomes-structure"><%= learning_outcomes[:structure_intro] %></p>
+          <p class="resources-plan-design__formula">
+            <span><%= formula[:before_timeframe] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--aqua"><%= formula[:timeframe] %></span><span><%= formula[:after_timeframe] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= formula[:verb] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= formula[:subject] %></span>
+            <span><%= formula[:before_level] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= formula[:level] %></span>
+            <span><%= formula[:after_level] %></span>
+          </p>
+          <p class="resources-plan-design__example">
+            <span class="resources-plan-design__example-label"><%= example[:label] %></span>
+            <span><%= example[:before_workshop] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--aqua"><%= example[:workshop] %></span><span><%= example[:after_workshop] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--lime"><%= example[:verb] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--teal"><%= example[:subject] %></span>
+            <span><%= example[:after_subject] %></span>
+            <span class="resources-plan-design__formula-term resources-plan-design__formula-term--grape"><%= example[:level] %></span><span><%= example[:after_level] %></span>
+          </p>
+          <p class="resources-plan-design__guidance">
+            <%= learning_outcomes[:guidance_before_link] %>
+            <%= link_to learning_outcomes[:guide_label],
+                        guide_url,
+                        **resources_link_options(guide_url) %>,
+            <%= learning_outcomes[:guidance_between_links] %>
+            <%= link_to learning_outcomes[:module_label],
+                        module_url,
+                        **resources_link_options(module_url) %>.
+          </p>
+        </div>
+
+        <%= render 'resources/stage/figures/taxonomy_pyramid',
+                   alt_text: taxonomy_figure[:alt] %>
+      </div>
+
+      <p class="resources-plan-design__visual-intro"><%= learning_outcomes[:visual_intro] %></p>
+      <%= render 'resources/stage/figures/digital_learning_map',
+                 levels: learning_outcomes[:digital_methods],
+                 alt_text: digital_methods_figure[:alt],
+                 description: digital_methods_figure[:description] %>
+    </div>
+  </section>
+
+  <% engagement = sections[:engagement] %>
+  <section class="resources-stage-section" id="<%= engagement[:anchor] %>">
+    <h2><%= engagement[:title] %></h2>
+    <div class="resources-stage-section__body">
+      <div class="resources-stage-prose">
+        <% engagement[:paragraphs].each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      </div>
+      <%= render 'resources/stage/components/video', video: engagement[:video] %>
+    </div>
+  </section>
+
+  <%= render 'resources/stage/foundation/footer', stage_key: :plan_design %>
+<% end %>

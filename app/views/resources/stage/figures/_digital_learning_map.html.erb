@@ -1,0 +1,13 @@
+<figure class="resources-digital-learning" aria-describedby="resources-digital-learning-description">
+  <%= image_tag 'scilifelab/resources/digital-learning-methods-map.png',
+                alt: alt_text,
+                class: 'resources-digital-learning__image' %>
+  <figcaption class="sr-only" id="resources-digital-learning-description">
+    <%= description %>
+    <ol>
+      <% levels.each do |level| %>
+        <li><%= level[:name] %>: <%= level[:description] %></li>
+      <% end %>
+    </ol>
+  </figcaption>
+</figure>

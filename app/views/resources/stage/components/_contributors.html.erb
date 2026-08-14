@@ -1,0 +1,21 @@
+<section class="resources-stage-contributors" aria-labelledby="resources-stage-contributors-title">
+  <h2 id="resources-stage-contributors-title"><%= title %></h2>
+
+  <div class="resources-stage-contributors__panel">
+    <ul class="resources-stage-contributors__list resources-stage-contributors__list--count-<%= contributors.size %>">
+      <% contributors.each do |contributor| %>
+        <li class="resources-stage-contributors__item">
+          <%= link_to contributor[:url], class: 'resources-stage-contributors__content' do %>
+            <%= image_tag contributor[:image].presence || 'scilifelab/SciLifeLab_symbol_green.png',
+                          alt: '',
+                          class: class_names(
+                            'resources-stage-contributors__icon',
+                            'resources-stage-contributors__icon--portrait': contributor[:image].present?
+                          ) %>
+            <span><%= contributor[:name] %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</section>

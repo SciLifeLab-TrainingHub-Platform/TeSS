@@ -1,0 +1,187 @@
+.resources-develop__video-frame {
+  transform: translateX(-7px);
+}
+
+.resources-develop__section-visual {
+  margin-left: -34px;
+  transform: translateX(-8px);
+  width: 100%;
+}
+
+.resources-develop__section-visual--hosting {
+  transform: translateX(-10px);
+}
+
+.resources-develop__announcement-action {
+  justify-content: center;
+  margin: 0 0 24px;
+}
+
+a.resources-develop__announcement-cta {
+  border-radius: 16px;
+  color: $gray-base;
+  font-size: 16px;
+  font-weight: 500;
+  gap: 8px;
+  height: 56px;
+  letter-spacing: 0.15px;
+  line-height: 24px;
+  max-width: 100%;
+  padding: 0 24px;
+  width: 362px;
+
+  &:hover,
+  &:focus {
+    color: $gray-base;
+  }
+
+  .resources-stage-action__icon {
+    font-size: 24px;
+    height: 24px;
+    line-height: 24px;
+    width: 24px;
+  }
+
+  span {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+.resources-develop__hosting-panel {
+  --resources-stage-action-panel-action-gap: 13px;
+  --resources-stage-action-panel-gap: 43px;
+  --resources-stage-action-panel-heading-gap: 19px;
+  --resources-stage-action-panel-height: 315px;
+  --resources-stage-action-panel-padding: 18px 22px 19px;
+
+  background-image:
+    linear-gradient(
+      rgba($scilifelab-color-aqua, 0.85),
+      rgba($scilifelab-color-aqua, 0.85)
+    ),
+    image-url("scilifelab/resources/develop-course-pages-panel.webp");
+}
+
+.resources-develop__serve-actions {
+  align-items: flex-start;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 8px;
+  justify-content: flex-start;
+  margin-bottom: 0;
+  padding-left: 42px;
+}
+
+a.resources-develop__serve-action {
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  gap: 8px;
+  justify-content: flex-start;
+  letter-spacing: 0.1px;
+  line-height: 20px;
+  min-height: 40px;
+  padding: 10px 16px;
+  width: 362px;
+
+  .resources-stage-action__icon {
+    align-items: center;
+    display: inline-flex;
+    font-size: 20px;
+    height: 20px;
+    justify-content: center;
+    line-height: 20px;
+    width: 20px;
+  }
+}
+
+a.resources-develop__checklist-action {
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  height: 50px;
+  letter-spacing: 0;
+  line-height: 16px;
+  min-height: 50px;
+  padding: 12px 20px;
+  white-space: nowrap;
+  width: 324px;
+}
+
+.resources-develop__fair-heading {
+  color: $scilifelab-color-dark-gray;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: normal;
+  margin: 28px 0 12px;
+}
+
+.resources-develop__link-list {
+  margin-bottom: 18px;
+  padding-left: 7px;
+}
+
+.resources-develop__link-list--tools {
+  margin-bottom: 0;
+  margin-top: 16px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .resources-develop__section-visual {
+    margin-left: -24px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .resources-develop__hosting-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .resources-develop__section-visual {
+    margin-left: 0;
+    transform: none;
+  }
+
+  .resources-develop__video-frame {
+    transform: none;
+  }
+
+  a.resources-develop__announcement-cta {
+    font-size: 15px;
+    height: auto;
+    line-height: 20px;
+    min-height: 56px;
+    padding: 12px 18px;
+    width: 100%;
+  }
+
+  .resources-develop__serve-actions {
+    align-items: stretch;
+    padding-left: 0;
+  }
+
+  a.resources-develop__serve-action {
+    font-size: 13px;
+    line-height: 18px;
+    max-width: 100%;
+    padding: 10px 12px;
+    width: 100%;
+  }
+
+  a.resources-develop__checklist-action {
+    height: auto;
+    line-height: 20px;
+    max-width: 100%;
+    padding: 12px;
+    white-space: normal;
+    width: 100%;
+  }
+
+  .resources-develop__fair-heading {
+    font-size: 21px;
+  }
+}

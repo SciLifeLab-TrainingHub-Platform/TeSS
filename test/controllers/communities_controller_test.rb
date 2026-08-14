@@ -4,6 +4,8 @@ class CommunitiesControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
   test 'should get community page' do
+    assert_equal '/communities/uk', community_path('uk')
+
     Event.stub(:search_and_filter, MockSearch.new(Event.all)) do
       Material.stub(:search_and_filter, MockSearch.new(Material.all)) do
         get :show, params: { id: 'uk' }

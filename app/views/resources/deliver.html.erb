@@ -1,0 +1,98 @@
+<%= render layout: 'resources/stage/foundation/shell',
+           locals: { stage_key: :deliver } do %>
+  <% sections = stage_page_sections(:deliver) %>
+  <% facilitation = sections[:facilitation] %>
+  <% facilitation_illustration = facilitation[:illustration] %>
+  <section class="resources-stage-section" id="<%= facilitation[:anchor] %>">
+    <h2><%= facilitation[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p><%= facilitation[:introduction] %></p>
+      <p><%= facilitation[:recommendations_intro] %></p>
+      <ul>
+        <% facilitation[:recommendations].each_value do |recommendation| %>
+          <li>
+            <% if recommendation[:url].present? %>
+              <%= recommendation[:before_link] %>
+              <%= link_to recommendation[:link_label],
+                          recommendation[:url],
+                          **resources_link_options(recommendation[:url]) %><%= recommendation[:after_link] %>
+            <% else %>
+              <%= recommendation[:text] %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <figure class="resources-stage-illustration">
+        <%= image_tag facilitation_illustration[:image],
+                      alt: facilitation_illustration[:alt],
+                      class: 'resources-stage-illustration__image',
+                      width: 340,
+                      height: 219 %>
+      </figure>
+    </div>
+  </section>
+
+  <% tools = sections[:tools] %>
+  <% tools_introduction = tools[:introduction] %>
+  <% tools_introduction_url = tools_introduction[:url] %>
+  <% tools_action = tools[:action] %>
+  <section class="resources-stage-section" id="<%= tools[:anchor] %>">
+    <h2><%= tools[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p>
+        <%= tools_introduction[:before_link] %>
+        <%= link_to tools_introduction[:link_label],
+                    tools_introduction_url,
+                    **resources_link_options(tools_introduction_url) %>
+        <%= tools_introduction[:after_link] %>
+      </p>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <div class="resources-stage-actions resources-deliver__mentimeter-action-row">
+        <%= render 'resources/stage/components/action_link',
+                   label: tools_action[:label],
+                   url: tools_action[:url],
+                   variant: 'lime',
+                   icon: 'star-o',
+                   class_name: 'resources-deliver__mentimeter-action' %>
+      </div>
+    </div>
+
+    <div class="resources-stage-section__body">
+      <div class="resources-stage-prose">
+        <p><%= tools[:follow_up] %></p>
+      </div>
+
+      <%= render 'resources/stage/components/link_list',
+                 links: tools[:links].values,
+                 class_name: 'resources-deliver__tool-links' %>
+    </div>
+  </section>
+
+  <% feedback = sections[:feedback] %>
+  <% survey_text = feedback[:survey_text] %>
+  <% survey_url = survey_text[:url] %>
+  <section class="resources-stage-section" id="<%= feedback[:anchor] %>">
+    <h2><%= feedback[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p><%= feedback[:certificate_text] %></p>
+      <p>
+        <%= survey_text[:before_link] %>
+        <%= link_to survey_text[:link_label],
+                    survey_url,
+                    **resources_link_options(survey_url) %><%= survey_text[:after_link] %>
+      </p>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <%= render 'resources/stage/components/visual_links',
+                 links: feedback[:visual_links].values %>
+    </div>
+  </section>
+
+  <%= render 'resources/stage/foundation/footer', stage_key: :deliver %>
+<% end %>

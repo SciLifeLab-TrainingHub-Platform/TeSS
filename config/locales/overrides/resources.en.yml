@@ -1,0 +1,669 @@
+en:
+  resources:
+    landing:
+      title: What stage are you at?
+      intro: >
+        No matter if you’re designing a new course from scratch, are structuring a research school program,
+        or have finished the 6th iteration of your workshop, we have resources to support effective
+        knowledge transfer at SciLifeLab.
+      consultation:
+        title: Book a consultation or apply for support
+        paragraphs:
+          introduction: >
+            Have specific questions? Want to pick the brain of someone with experience in SciLifeLab Training?
+            Book a consultation with one of our Scientific Training Officers to discuss your project and how we
+            can assist you.
+          support: >
+            The SciLifeLab Training Hub also offers support contracts, where a member of our team can assist you
+            in developing, delivering, and/or evaluating your training. To begin the process of applying for
+            support, please book a support consult where we can discuss our support framework further.
+        booking:
+          loading: Loading available appointments…
+          external: Open booking page on Cal.com
+          failure: The booking calendar could not be loaded. Please use the direct booking link instead.
+      lifecycle:
+        label: Training lifecycle resource stages
+        stages:
+          plan_design:
+            timeframe: 6-12 MONTHS PRIOR
+            description: >
+              Define learning outcomes, structure learning experiences, and get input from teaching &
+              learning frameworks to create effective training.
+          develop:
+            timeframe: 1-4 MONTHS PRIOR
+            description: >
+              Set up a course or workshop website, announce your training, and set up your material so that
+              it is ready for delivery.
+          deliver:
+            timeframe: THE TRAINING!
+            description: >
+              Generate participant certificates and see if your training is effective by getting feedback from
+              your participants.
+          evaluate_archive:
+            timeframe: 1-6 MONTHS AFTER
+            description: >
+              Integrate feedback from participants to improve future iterations, and archive your materials so
+              that they are Open and FAIR.
+    stage_pages:
+      nav_label: Training lifecycle stages
+      sections_label: "%{stage} sections"
+      contributors_heading: Contributors
+      contributor_profiles:
+        kristen_schroeder:
+          name: Kristen Schroeder
+          image: scilifelab/staff/kristen-resources-thumbnail.webp
+          url: https://training.scilifelab.se/users/kschroeder
+        nina_norgren:
+          name: Nina Norgren
+          image: scilifelab/staff/nina-resources-thumbnail.webp
+          url: https://training.scilifelab.se/users/ninanorgren
+        ineke_luijten:
+          name: Ineke Luijten
+          image: scilifelab/staff/ineke-resources-thumbnail.webp
+          url: https://training.scilifelab.se/users/inekeluijten
+        jill_jaworski:
+          name: Jill Jaworski
+          image: scilifelab/staff/jill-resources-thumbnail.webp
+          url: https://training.scilifelab.se/users/j-jaworski
+        jessica_lindvall:
+          name: Jessica Lindvall
+          image: scilifelab/staff/jessica-resources-thumbnail.webp
+          url: https://training.scilifelab.se/about/us#team
+      learning_resource_profiles:
+        train_the_trainer:
+          title: Train-the-Trainer course
+          description: A course from the SciLifeLab Training Hub on teaching for lifelong learning.
+          cta: Training Catalogue
+          url: https://training.scilifelab.se/courses/scilifelab-train-the-trainer-course
+        organizational_learning:
+          title: Organizational Learning course
+          description: A course from the SciLifeLab Training Hub on how learning in groups and teams occurs.
+          cta: Training Catalogue
+          url: https://training.scilifelab.se/courses/organizational-learning
+        learning_outcomes:
+          title: Training Hub Resources for Learning Outcomes
+          description: Templates and information on writing learning outcomes.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.28473218.v1
+        goblet_course_design:
+          title: GOBLET Course Design Guide
+          description: A guide for designing courses targeted at advanced life science training.
+          cta: Creation Guide
+          url: https://f1000research.com/documents/9-1377
+        course_planning:
+          title: Training Hub Resources for Course Planning
+          description: Timelines, checklists and templates for structuring courses.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.28194329.v1
+        bicycle_principles:
+          title: Bicycle Principles for Short-form Training
+          description: Principles for designing effective short-format training for researchers and career scientists.
+          cta: Training Framework
+          url: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0293879
+        fair_by_design:
+          title: FAIR by design course
+          description: >
+            A two-day course from VIB, NBIS, and the SciLifeLab Training Hub on developing materials
+            that are release-ready.
+          cta: Training Catalogue
+          url: https://training.scilifelab.se/courses/training-material-made-fair-by-design
+        recording_webinars:
+          title: Training Hub Resources for Recording Webinars
+          description: Basic guidelines for delivering and capturing training with Zoom.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.24512674
+        video_training:
+          title: Video Training Production Guide
+          description: >
+            Basic guidelines from the SciLifeLab Training Hub on preparing, capturing, and editing
+            training video.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.24599835
+        delivering_learning:
+          title: Resources for Delivering Learning Experiences
+          description: Collaborative learning and facilitation guides from the Training Hub.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.24599829.v1
+        evaluating_learning:
+          title: Resources for Evaluating Learning
+          description: SciLifeLab Training Hub feedback form templates and instructor reflection guides.
+          cta: Resource Collection
+          url: https://doi.org/10.17044/scilifelab.28512722.v1
+        metadata_checklist:
+          title: Checklist for FAIR metadata
+          description: Checklist of metadata fields required for training materials at SciLifeLab
+          cta: Checklist
+          url: https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing
+      plan_design:
+        title: Plan & Design
+        summary: >
+          Define learning outcomes, structure learning experiences, and get input from teaching frameworks
+          to create effective training.
+        introduction: >
+          Our team presents best practices from educational research and practice, holds hands-on training for
+          upskilling our community in teaching and mentoring, and participates in the international community
+          working to develop lifelong learning in life sciences.
+        sections:
+          target_audience:
+            anchor: target-audience
+            title: Identify your target audience
+            paragraphs:
+              - >
+                Training high school internship students in genomics technology will look different to training
+                expert staff scientists, so it’s important to match the level of ideas, technology, or expertise
+                you present with the level of pre-training understanding and background of your participants. The
+                ideal is to design materials where participants can grasp the concepts and be challenged in
+                implementing them.
+              - >
+                Common target audiences at SciLifeLab are PhD students, postdocs, principal investigators, staff
+                scientists, and research engineers. Some training in the SciLifeLab catalogue is designed for a
+                general scientific audience, while other training is specific to PhD research schools or staff
+                scientists in a platform.
+              - >
+                Target audience is a required field when announcing training, and to aid in findability we
+                recommend being clear about who the course is designed for.
+          learning_outcomes:
+            anchor: learning-outcomes
+            title: Develop learning outcomes
+            introduction: >
+              In education, Learning Outcomes are a formalized, learner-centric way of communicating the purpose
+              and expectations of training. Learning outcomes make use of Bloom’s taxonomy, a hierarchical
+              framework of verbs arranged by cognitive complexity, as well as performance level descriptors and
+              the knowledge, skills, or abilities that the participants will be learning.
+            structure_intro: "The form of learning outcomes is structured as follows:"
+            formula:
+              before_timeframe: By the end of the
+              timeframe: time frame
+              after_timeframe: ", participants will be able to"
+              verb: Bloom’s taxonomy verb
+              subject: the knowledge, skill and/or ability
+              before_level: at a
+              level: performance level descriptor
+              after_level: level.
+            example:
+              label: "As an example:"
+              before_workshop: By the end of the
+              workshop: workshop
+              after_workshop: ", participants will be able to"
+              verb: apply
+              subject: metabolomics analysis pipelines
+              after_subject: on their own research
+              level: independently
+              after_level: "."
+            guidance_before_link: >
+              Learning outcomes are a required field when announcing training at SciLifeLab, and we encourage all
+              instructors to follow this structure. For a detailed description of levels and descriptors on each
+              part of the learning outcome structure, consult the
+            guide_label: Training Hub Learning Outcomes Guide
+            guide_url: https://doi.org/10.17044/scilifelab.28473218.v1
+            guidance_between_links: or the
+            module_label: SciLifeLab Train-the-Trainer module on Learning Outcomes
+            module_url: https://scilifelab-training.github.io/train-the-trainer/2403/module2.html
+            taxonomy_figure:
+              alt: Bloom's taxonomy pyramid, from remember through understand, apply, analyze, evaluate, and create
+            visual_intro: >
+              For inspiration on using Bloom’s taxonomy at SciLifeLab, see our resource on using technology to
+              enhance learning:
+            digital_methods_figure:
+              alt: Infographic mapping digital learning activities to the six levels of Bloom's taxonomy
+              description: "Training Hub: Using digital technology to enhance learning."
+            digital_methods:
+              - name: Remember
+                description: Bookmark and revisit useful digital resources.
+              - name: Understand
+                description: Share explanations and examples in more than one format.
+              - name: Apply
+                description: Let learners practise with interactive tools and guided exercises.
+              - name: Analyze
+                description: Compare approaches, results, and patterns collaboratively.
+              - name: Evaluate
+                description: Review evidence, methods, and peer work using clear criteria.
+              - name: Create
+                description: Produce and publish original work in reusable formats.
+          engagement:
+            anchor: engaging-experiences
+            title: Choose engaging learning experiences
+            paragraphs:
+              - >
+                Researchers have limited time and ask for efficient, practical learning experiences that increase
+                their knowledge, skills, and/or abilities. Engagement deepens learning and creates a more positive
+                and enjoyable learning experience. Moving away from the traditional lecture and incorporating
+                collaborative learning and engagement into learning experiences can help participants gain and
+                retain what you are teaching.
+              - >
+                The following video is a short introduction to designing and assessing learning outcomes and
+                experiences using Python programming as an example.
+            video:
+              caption: Introduction to designing and assessing learning outcomes and experiences
+              iframe_title: Introduction to designing and assessing learning outcomes and experiences
+              url: https://youtu.be/IWDtFrMD298?si=nxkTdFB3VMf8FuyJ
+        further_learning:
+          title: Further Learning
+          items:
+            - train_the_trainer
+            - organizational_learning
+            - learning_outcomes
+            - goblet_course_design
+            - course_planning
+            - bicycle_principles
+        contributors:
+          - kristen_schroeder
+          - nina_norgren
+          - ineke_luijten
+          - jill_jaworski
+          - jessica_lindvall
+      develop:
+        title: Develop
+        summary: >
+          Set up a course or workshop website, announce your training, and set up your material so that
+          it’s ready for delivery.
+        introduction: >
+          Our team develops and maintains the SciLifeLab Training Portal, provides assistance with creating
+          training websites, and supports in implementing FAIR practices in training material development.
+        sections:
+          announcement:
+            anchor: announcing-training
+            title: Announcing your training on the Training Portal
+            action:
+              label: Announce your upcoming training here
+            paragraphs:
+              - >
+                As soon as your training has been planned, we recommend announcing it on the SciLifeLab
+                Training Portal. In this short tutorial we go through all the steps of how to do this.
+                Announcing your training via the Training Portal will automatically include it in the
+                SciLifeLab Events & Training Newsletter, the SciLifeLab Slack, and other connected outlets.
+            video:
+              iframe_title: How to announce training on the SciLifeLab Training Portal
+              caption: How to announce training on the SciLifeLab Training Portal
+              url: https://www.youtube.com/watch?v=_AQN4pqvZ3o
+          training_page:
+            anchor: training-page
+            title: Setting up a training page or website
+            paragraphs:
+              - >
+                The SciLifeLab Training Hub offers different ways to host your training material so that
+                participants are able to access it during and after the training occurs. The SciLifeLab Canvas
+                is a learning management system that admits participants regardless of University, and can be
+                used to create lessons and quizzes. SciLifeLab GitHub Templates are also available to be used
+                for simple versioning and more customization of your material, though require some technical
+                skill. Below you can find our organizations and example websites.
+            hosting:
+              canvas:
+                title: SciLifeLab Canvas
+                actions:
+                  login:
+                    label: SciLifeLab Canvas Login
+                    url: https://canvas.scilifelab.se
+                    variant: grape
+                    icon: star-o
+                  example:
+                    label: Sample Canvas Course
+                    url: https://scilifelab.instructure.com/courses/208
+                    variant: teal
+                    icon: false
+              github:
+                title: SciLifeLab Training GitHub
+                actions:
+                  template:
+                    label: GitHub Template Repository
+                    url: https://github.com/SciLifeLab-Training/scilifelab-training-template/
+                    variant: grape
+                    icon: featured-star
+                  open_science:
+                    label: "Example: Open Science Course"
+                    url: https://scilifelab-training.github.io/open-science/2605/
+                    variant: teal
+                    icon: false
+                  bge_hic:
+                    label: "Example: BGE Hi-C Online Course"
+                    url: https://scilifelab-training.github.io/BGE-HiC-course/module1.html
+                    variant: teal
+                    icon: false
+                  pulse:
+                    label: "Example: SciLifeLab PULSE Training"
+                    url: https://scilifelab-training.github.io/PULSE/0001/
+                    variant: teal
+                    icon: false
+          computational_tools:
+            anchor: computational-teaching-tools
+            title: Computational teaching tools from SciLifeLab Serve
+            paragraphs:
+              - >
+                Training at SciLifeLab often involves participants performing computational tasks. To support
+                this, SciLifeLab Serve offers the use of JupyterLab, RStudio, and VSCode notebooks as a service
+                for teaching of workshops, courses, and other training formats. If your teaching could benefit
+                from this service, read more from SciLifeLab Serve and fill in the application form.
+            actions:
+              guide:
+                label: Guide for using SciLifeLab Serve in teaching
+                url: https://serve.scilifelab.se/docs/teaching/
+              application:
+                label: Application form for SciLifeLab Serve notebooks
+                url: https://serve.scilifelab.se/teaching/#application
+          fair_materials:
+            anchor: fair-training-materials
+            nav_title: Preparing FAIR training material
+            title: Preparing FAIR Training Materials
+            oer_link_label: Sweden has committed to the development of Open Educational Resources (OER)
+            oer_url: https://doi.org/10.7557/11.8391
+            introduction_after_link: >
+              in support of the aim of increasing the Open-ness of science. As part of this, materials should
+              be made available with clearly defined metadata. As you develop your training, ensure you include
+              a plan for collecting the required information and prepare for licensing your materials by
+              adhering to rights restrictions on images.
+            checklist:
+              label: Checklist for Training Material Metadata
+              url: https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing
+            help_title: Help for developing FAIR training materials
+            royalty_free_text: >
+              To assist in creating materials you can release under a CC-BY license, Unsplash and Pixabay have
+              images, videos, and music that are royalty-free and can be used with or without attribution
+              according to their license.
+            royalty_free_sources:
+              unsplash:
+                label: Unsplash
+                url: https://unsplash.com/
+              pixabay:
+                label: Pixabay
+                url: https://pixabay.com/
+            software_before_link: >
+              For Free and Open Source Software, Canvas Commons can be used for creating simple animations
+              through code, and OBS Studio can be used for simple recordings. Blender is a powerful tool for
+              more complex operations - check out the
+            software_community:
+              label: NBIS Research Software Engineering Tools group
+              url: https://nbisweden.github.io/Training-Tech-shorts/schedule.html
+            software_after_link: to find experts who are using Blender in research applications.
+            software_tools:
+              canvas_commons:
+                label: Canvas Commons
+                url: https://canvascommons.io/
+              obs:
+                label: OBS Studio
+                url: https://obsproject.com/
+              blender:
+                label: Blender
+                url: https://www.blender.org/
+        further_learning:
+          title: Further Learning
+          items:
+            - fair_by_design
+            - course_planning
+            - recording_webinars
+            - video_training
+        contributors:
+          - kristen_schroeder
+          - nina_norgren
+          - ineke_luijten
+      deliver:
+        title: Deliver
+        summary: >
+          Access tools to make your training more engaging, generate participant certificates, and get
+          short term feedback to find out what your participants learned.
+        introduction: >
+          Our team provides assistance with developing templates and infrastructure to simplify and
+          harmonize training delivery, as well as developmental support and feedback on delivery formats
+          of training at SciLifeLab.
+        sections:
+          facilitation:
+            anchor: facilitation-collaborative-learning
+            title: Facilitation and collaborative learning
+            introduction: >
+              Training at SciLifeLab often involves facilitating discussions and collaborative activities.
+              A successful facilitator takes responsibility for the environment of a course exercise,
+              discussion, or workshop, which involves working to build a culture of respect, sharing, and
+              inclusivity, and fostering an environment conducive to learning. Implementing facilitation
+              techniques and collaborative practices can assist in achieving that goal. Asking for feedback
+              from participants, colleagues, or requesting a teaching audit from the Training Hub can be
+              valuable in developing as a facilitator and instructor.
+            recommendations_intro: "Our basic recommendations for facilitation include:"
+            recommendations:
+              code_of_conduct:
+                before_link: Be familiar with the
+                link_label: SciLifeLab Code of Conduct
+                url: https://www.scilifelab.se/code-of-conduct/
+                after_link: ", which governs all affiliated learning activities."
+              collaborative_flow:
+                text: >
+                  Plan activities where the flow of information travels between participants as well as
+                  between instructor and participants.
+              facilitation_guide:
+                before_link: Read the
+                link_label: Training Hub’s facilitation guide
+                url: https://figshare.scilifelab.se/ndownloader/files/52693250
+                after_link: " for examples of how to create fruitful group discussion."
+            illustration:
+              image: scilifelab/resources/facilitation-participants-diagram.png
+              alt: Diagram showing information flowing between a presenter and participants
+          tools:
+            anchor: tools-for-training-delivery
+            title: Tools for training delivery
+            introduction:
+              before_link: >
+                In addition to planning for engaging learning experiences, tools are available to assist
+                in actively engaging your participants to help foster their learning. Tools such as
+              link_label: Mentimeter
+              url: https://www.mentimeter.com
+              after_link: >
+                or the Google suite can be used to get instant feedback on the learning process of your
+                participants as they follow your training. Most Universities in Sweden have an institutional
+                Mentimeter license. Follow the link below to sign in using your institutional credentials.
+            action:
+              label: Log in to Mentimeter using SSO
+              url: https://www.mentimeter.com/auth/saml
+            follow_up: >
+              There are a wide range of tools that can be used during training delivery to facilitate the
+              learning experience. A few that are used regularly in SciLifeLab training are linked below:
+            links:
+              miro:
+                label: Miro - collaborative canvases
+                url: https://miro.com/
+              kahoot:
+                label: Kahoot! - quizzes
+                url: https://create.kahoot.it/page/en/make
+              slido:
+                label: Slido - surveys, quizzes, etc.
+                url: https://www.slido.com/
+          feedback:
+            anchor: feedback-forms-certificates
+            nav_title: Feedback forms and certificates
+            title: Feedback surveys and certificates
+            certificate_text: >
+              At the end of your training delivery, those who have fulfilled your requirements for completion
+              should receive a course certificate. The SciLifeLab Training Hub provides a Course Certificate App
+              with SciLifeLab branding to easily create certificates for participants.
+            survey_text:
+              before_link: >
+                Participants should also receive a survey to provide insight into their experience of the course
+                that can help to guide training development. Depending on your training format, this can range
+                from asking for a self-reported learning outcome (ie: What did you learn in this session?) or a
+                more thorough survey about prior learning and application of the material. The SciLifeLab Training
+                Hub provides short term and long term feedback survey templates through the Google forms that you
+                can use or adapt for your training. For more information, see the
+              link_label: Training Hub’s Resources for Evaluating Learning
+              url: https://doi.org/10.17044/scilifelab.28512722
+              after_link: "."
+            visual_links:
+              certificate_app:
+                label: SciLifeLab Course Certificate App
+                image: scilifelab/fairicon-black.png
+                image_width: 60
+                image_height: 72
+                url: https://training-certificate.serve.scilifelab.se/app/training-certificate
+              feedback_templates:
+                label: How to use Training Hub Feedback Survey Templates
+                image: scilifelab/resources/training-tools-thumbnail.png
+                image_width: 70
+                image_height: 70
+                url: https://drive.google.com/file/d/12zJK7VTe-3ISi5NrxZBrJIu2_3pmvgLL/view?usp=share_link
+        further_learning:
+          title: Further Learning
+          items:
+            - delivering_learning
+            - course_planning
+            - evaluating_learning
+          overrides:
+            course_planning:
+              cta: Resource
+        contributors:
+          - kristen_schroeder
+          - nina_norgren
+          - ineke_luijten
+          - jill_jaworski
+      evaluate_archive:
+        title: Evaluate & Archive
+        summary: >
+          Integrate feedback from participants to improve future iterations, and archive your materials so
+          that they are Open and FAIR.
+        introduction: >
+          Our team provides assistance with recommending and moderating archives, monitors SciLifeLab training
+          reporting and compliance with research requirements, and connects training developed at SciLifeLab
+          with other training communities.
+        sections:
+          prepare_materials:
+            anchor: prepare-materials
+            title: Prepare your materials
+            metadata:
+              before_link: >
+                Archiving should be done for all SciLifeLab training, in order to create a record of the materials
+                and people involved. As a first step, ensure all metadata about your training instance has been
+                recorded using the
+              link_label: Metadata Checklist.
+              url: https://docs.google.com/document/d/1QsAmQfY2pYUcQqzLh5SEOleMXfcjH8jcDjrO50jyHXM/edit?usp=sharing
+              after_link: >
+                If you haven’t already, upload slides, exercises, and other materials to the training website or
+                page you have created as part of the training development process.
+            recordings: >
+              If you have recorded aspects of your training, you can upload these to the SciLifeLab Talks & Training
+              YouTube Channel. You can also provide a transcript or summary of a lecture or instruction using the
+              SciLifeLab Training Hub WhisperAI app. Contact the SciLifeLab Training Hub for assistance with this.
+            visual_links:
+              youtube:
+                label: SciLifeLab Talks & Training YouTube
+                image: scilifelab/resources/youtube-training.png
+                image_width: 100
+                image_height: 86
+                url: https://www.youtube.com/@SciLifeLabTalksTraining
+              whisper:
+                label: WhisperAI Transcription App
+                image: scilifelab/resources/training-tools-thumbnail.png
+                image_width: 70
+                image_height: 70
+                url: https://whisper-ai.serve.scilifelab.se/
+          archive:
+            anchor: upload-archive
+            title: Upload to an archive
+            introduction:
+              before_repository: >
+                To facilitate sustainable access to your materials, comply with Swedish requirements for Open
+                Educational Resources, and give proper credit for the training you have developed, materials should
+                be archived in a repository. The
+              repository_label: SciLifeLab Data Repository
+              repository_url: https://figshare.scilifelab.se/
+              between_repositories: >
+                is maintained by the SciLifeLab Data Centre and is a good option for training that has been developed
+                by and for our community. The
+              zenodo_label: SciLifeLab Zenodo Community
+              zenodo_url: https://zenodo.org/communities/scilifelab/
+              after_zenodo: >
+                is another option that allows training to be associated with other EU project communities. Training
+                materials submitted to the Zenodo community are moderated by the Training Hub.
+            panel:
+              columns:
+                figshare:
+                  title: Figshare
+                  actions:
+                    repository:
+                      label: SciLifeLab Data Repository
+                      url: https://figshare.scilifelab.se/
+                      variant: lime
+                      icon: featured-star
+                    interdisciplinary:
+                      label: "Example: Interdisciplinary Workshop"
+                      url: https://doi.org/10.17044/scilifelab.32466978
+                      variant: teal
+                      icon: false
+                    open_science:
+                      label: "Example: Open Science Course"
+                      url: https://doi.org/10.17044/scilifelab.29348669
+                      variant: teal
+                      icon: false
+                zenodo:
+                  title: Zenodo
+                  actions:
+                    community:
+                      label: SciLifeLab Zenodo Community
+                      url: https://zenodo.org/communities/scilifelab/
+                      variant: lime
+                      icon: featured-star
+                    open_science:
+                      label: "Example: Open Science Course"
+                      url: https://doi.org/10.5281/zenodo.20430337
+                      variant: teal
+                      icon: false
+                    bge_hic:
+                      label: "Example: BGE Hi-C Online Course"
+                      url: https://doi.org/10.5281/zenodo.16811296
+                      variant: teal
+                      icon: false
+          oer_communities:
+            anchor: oer-communities
+            title: Link your materials with OER communities
+            introduction:
+              before_grena: >
+                To enable reuse and findability of your training materials, you may wish to link your materials to
+                Life Science communities in Sweden or the EU. Within Sweden, the platform
+              grena_label: Grena.nu
+              grena_url: https://www.grena.nu
+              between_grena_and_suhf: >
+                collects open educational resources through a collaborative initiative headed by
+              suhf_label: SUHF’s Working Group for Open Educational Resources
+              suhf_url: https://suhf.se/arbetsgrupper/arbetsgrupp-for-oppna-larresurser/
+              after_suhf: " (Arbetsgruppen för öppna lärresurser)."
+              before_tess: "At the EU level, "
+              tess_label: ELIXIR’s TeSS
+              tess_url: https://tess.elixir-europe.org/
+              after_tess: >
+                (Training e-support system) collects training instances and materials to support leveraging
+                computational resources in the life sciences. Over 100 providers, including EMBL, the Swiss Institute
+                for Bioinformatics, and SciLifeLab’s NBIS platform have contributed to this library of training
+                resources. The SciLifeLab Training Hub works in close collaboration with the ELIXIR TeSS community to
+                bring the life science community in Sweden the centralized Training Portal.
+            visual_links:
+              tess:
+                label: SciLifeLab Materials library in ELIXIR TeSS
+                image: elixir/elixir-tess.svg
+                image_width: 106
+                image_height: 80
+                url: https://tess.elixir-europe.org/content_providers/scilifelab
+              grena:
+                label: Open Educational Resources at Grena.nu
+                image: scilifelab/resources/grena-logo.png
+                image_width: 223
+                image_height: 50
+                url: https://grena.nu/
+          reflections:
+            anchor: instructor-reflections-reporting
+            title: Instructor reflections & reporting
+            paragraphs:
+              - >
+                During the archiving process we recommend to have a final meeting with all instructors to collect
+                impressions and reflections while they are still fresh. Making and archiving a list of any recommended
+                changes can assist in developing future iterations of the training.
+              - >
+                For SciLifeLab reporting purposes, ensure you collect the number of participants that attended your
+                training. If your training has been announced in the SciLifeLab Training Portal, the Training Hub can
+                also upload this information in the SciLifeLab Annual Reporting period.
+        further_learning:
+          title: Further Learning
+          items:
+            - metadata_checklist
+            - fair_by_design
+            - evaluating_learning
+          overrides:
+            evaluating_learning:
+              description: SciLifeLab Training Hub feedback form templates and instructor reflection guides
+        contributors:
+          - kristen_schroeder
+          - nina_norgren
+          - ineke_luijten

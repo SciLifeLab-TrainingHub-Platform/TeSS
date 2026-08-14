@@ -1,0 +1,16 @@
+<section class="resources-further-learning" aria-labelledby="resources-further-learning-title">
+  <h2 id="resources-further-learning-title"><%= title %></h2>
+  <div class="resources-further-learning__grid">
+    <% resources.each do |resource| %>
+      <article class="resources-further-learning__card">
+        <h3><%= resource[:title] %></h3>
+        <p><%= resource[:description] %></p>
+        <%= link_to resource[:cta],
+                    resource[:url],
+                    class: 'resources-further-learning__link',
+                    aria: { label: "#{resource[:cta]}: #{resource[:title]}" },
+                    **resources_link_options(resource[:url]) %>
+      </article>
+    <% end %>
+  </div>
+</section>

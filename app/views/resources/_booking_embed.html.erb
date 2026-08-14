@@ -1,0 +1,22 @@
+<% booking_url = "https://cal.com/#{cal_link}" %>
+<div class="resources-booking"
+     data-cal-embed
+     data-cal-namespace="<%= namespace %>"
+     data-cal-link="<%= cal_link %>">
+  <p class="resources-booking__status"
+     data-cal-status
+     data-loading-message="<%= booking_content[:loading] %>"
+     data-failure-message="<%= booking_content[:failure] %>"
+     role="status"
+     aria-live="polite"></p>
+
+  <div class="resources-booking__calendar"
+       data-cal-calendar
+       hidden></div>
+
+  <p class="resources-booking__fallback" data-cal-fallback>
+    <%= link_to booking_content[:external],
+                booking_url,
+                **resources_link_options(booking_url) %>
+  </p>
+</div>

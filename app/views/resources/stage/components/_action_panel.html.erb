@@ -1,0 +1,16 @@
+<% panel_classes = ['resources-stage-action-panel', local_assigns[:class_name]].compact %>
+
+<div class="<%= panel_classes.join(' ') %>">
+  <% columns.each_value do |column| %>
+    <section class="resources-stage-action-panel__column">
+      <h3><%= column[:title] %></h3>
+      <% column[:actions].each_value do |action| %>
+        <%= render 'resources/stage/components/action_link',
+                   label: action[:label],
+                   url: action[:url],
+                   variant: action[:variant],
+                   icon: action[:icon] %>
+      <% end %>
+    </section>
+  <% end %>
+</div>

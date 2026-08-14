@@ -37,7 +37,7 @@ default: &default
       faq: # [who, how, why, embed, subscribe] # Questions/answers in config/en.yml: home > faq. Use empty array to hide section
       promo_blocks: false
     # The order in which the tabs appear (if feature enabled)
-    tab_order: ['home', 'about', 'events', 'material', 'our_resources']
+    tab_order: ['home', 'about', 'events', 'material', 'resources']
     # The tabs that should be collapsed under the "Directory" tab. Can be left blank to hide it.
     directory_tabs: [] # ['trainers', 'content_providers', 'nodes']
     n_provider_ids: 5
@@ -71,7 +71,7 @@ default: &default
     user_source_creation: false
     edit_suggestions: false
     geocoding: false
-    our_resources: true
+    resources: true
     # Possible features to disable:
     #  biotools, topics, operations, sponsors, fairshare, county, ardc_fields_of_research,
     #  other_types, subsets, syllabus, approved_editors address_finder

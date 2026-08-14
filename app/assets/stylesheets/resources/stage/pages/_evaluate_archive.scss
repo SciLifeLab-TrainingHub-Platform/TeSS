@@ -1,0 +1,22 @@
+.resources-evaluate__archive-panel {
+  --resources-stage-action-panel-action-gap: 9px;
+  --resources-stage-action-panel-gap: 38px;
+  --resources-stage-action-panel-heading-gap: 21px;
+  --resources-stage-action-panel-height: 254px;
+  --resources-stage-action-panel-padding: 18px 24px 27px;
+
+  background-image:
+    linear-gradient(
+      rgba($scilifelab-color-aqua, 0.8),
+      rgba($scilifelab-color-aqua, 0.8)
+    ),
+    image-url("scilifelab/resources/evaluate-archive-panel.webp");
+  justify-content: center;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 1023px) {
+  .resources-evaluate__archive-panel {
+    grid-template-columns: minmax(0, 260px);
+  }
+}

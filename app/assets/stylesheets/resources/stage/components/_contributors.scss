@@ -1,0 +1,106 @@
+$resources-contributor-pill-background: mix(
+  $scilifelab-color-light-gray,
+  $scilifelab-color-medium-gray,
+  81%
+);
+
+.resources-stage-page--shell {
+  .resources-stage-contributors {
+    margin: 0 0 36px;
+    padding: 0;
+
+    h2 {
+      color: $dark-color;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: normal;
+      margin: 0 0 24px;
+    }
+  }
+
+  .resources-stage-contributors__panel {
+    align-items: start;
+    background: $scilifelab-color-grape-50;
+    box-sizing: border-box;
+    display: flex;
+    margin-left: 0;
+    max-width: 766px;
+    min-height: 151px;
+    padding: 24px 16px 15px;
+    width: 100%;
+  }
+
+  .resources-stage-contributors__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .resources-stage-contributors__item {
+    align-items: center;
+    background: $resources-contributor-pill-background;
+    border-radius: 999px;
+    box-sizing: border-box;
+    color: $dark-color;
+    display: flex;
+    flex: 0 0 231px;
+    font-size: 20px;
+    font-weight: 400;
+    gap: 10px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    min-height: 51px;
+    padding: 0;
+    width: 231px;
+  }
+
+  .resources-stage-contributors__content {
+    align-items: center;
+    box-sizing: border-box;
+    color: $dark-color;
+    display: flex;
+    gap: 8px;
+    min-height: 51px;
+    padding: 5px 12px 5px 6px;
+    text-decoration: none;
+    width: 100%;
+  }
+
+  a.resources-stage-contributors__content {
+    border-radius: 999px;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-teal;
+      text-decoration: none;
+    }
+
+    &:focus {
+      outline: 3px solid $scilifelab-color-lime;
+      outline-offset: 3px;
+    }
+  }
+
+  .resources-stage-contributors__icon {
+    background: $body-bg;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: block;
+    flex: 0 0 auto;
+    height: 40px;
+    object-fit: contain;
+    padding: 4px;
+    width: 40px;
+  }
+
+  .resources-stage-contributors__icon--portrait {
+    object-fit: cover;
+    padding: 0;
+  }
+}

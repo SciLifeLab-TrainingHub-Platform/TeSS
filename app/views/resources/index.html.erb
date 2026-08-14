@@ -1,0 +1,39 @@
+<% landing = t('resources.landing') %>
+<% lifecycle = landing[:lifecycle] %>
+<% consultation = landing[:consultation] %>
+<% consultation_paragraphs = consultation[:paragraphs] %>
+
+<section class="resources-landing" aria-labelledby="resources-landing-title">
+  <header class="resources-landing__intro">
+    <h1 id="resources-landing-title"><%= landing[:title] %></h1>
+    <p><%= landing[:intro] %></p>
+  </header>
+
+  <ol class="resources-lifecycle" aria-label="<%= lifecycle[:label] %>">
+    <% resource_lifecycle_stages.each do |stage| %>
+      <li class="resources-lifecycle__item">
+        <p class="resources-lifecycle__timeframe"><%= stage[:timeframe] %></p>
+
+        <span class="resources-lifecycle__marker" aria-hidden="true"></span>
+
+        <%= link_to stage[:path], class: 'resources-lifecycle__card' do %>
+          <h2><%= stage[:title] %></h2>
+          <p><%= stage[:description] %></p>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+
+  <section class="resources-consultation" aria-labelledby="resources-consultation-title">
+    <div class="resources-consultation__copy">
+      <h2 id="resources-consultation-title"><%= consultation[:title] %></h2>
+      <p><%= consultation_paragraphs[:introduction] %></p>
+      <p><%= consultation_paragraphs[:support] %></p>
+    </div>
+
+    <%= render 'resources/booking_embed',
+               namespace: 'support-consult',
+               cal_link: 'scilifelab-traininghub/support-consult',
+               booking_content: consultation[:booking] %>
+  </section>
+</section>

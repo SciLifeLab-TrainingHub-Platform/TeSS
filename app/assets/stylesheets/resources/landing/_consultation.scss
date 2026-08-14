@@ -1,0 +1,74 @@
+.resources-consultation {
+  margin-top: 78px;
+}
+
+.resources-consultation__copy {
+  margin: 0 auto;
+  max-width: var(--resources-content-width);
+
+  h2 {
+    color: black;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 11px;
+  }
+
+  p {
+    color: $scilifelab-color-dark-gray;
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0 0 27px;
+    max-width: var(--resources-copy-width);
+  }
+}
+
+.resources-booking {
+  margin: 23px auto 0;
+  max-width: var(--resources-content-width);
+  width: 100%;
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+.resources-booking__calendar {
+  min-height: 507px;
+  width: 100%;
+}
+
+.resources-booking__status {
+  color: $dark-color;
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0 0 16px;
+  text-align: center;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.resources-booking__fallback {
+  font-size: 15px;
+  line-height: 1.4;
+  margin: 10px 0 0;
+  text-align: center;
+
+  a {
+    color: $scilifelab-color-teal;
+    text-decoration: underline;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-grape;
+    }
+
+    &:focus {
+      outline: 3px solid $scilifelab-color-lime;
+      outline-offset: 3px;
+    }
+  }
+}

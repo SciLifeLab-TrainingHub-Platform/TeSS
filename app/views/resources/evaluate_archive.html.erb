@@ -1,0 +1,98 @@
+<%= render layout: 'resources/stage/foundation/shell',
+           locals: { stage_key: :evaluate_archive } do %>
+  <% sections = stage_page_sections(:evaluate_archive) %>
+  <% prepare_materials = sections[:prepare_materials] %>
+  <% metadata = prepare_materials[:metadata] %>
+  <% metadata_url = metadata[:url] %>
+  <section class="resources-stage-section" id="<%= prepare_materials[:anchor] %>">
+    <h2><%= prepare_materials[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p>
+        <%= metadata[:before_link] %>
+        <%= link_to metadata[:link_label],
+                    metadata_url,
+                    **resources_link_options(metadata_url) %> <%= metadata[:after_link] %>
+      </p>
+      <p><%= prepare_materials[:recordings] %></p>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <%= render 'resources/stage/components/visual_links',
+                 links: prepare_materials[:visual_links].values,
+                 variant: :recordings %>
+    </div>
+  </section>
+
+  <% archive = sections[:archive] %>
+  <% archive_introduction = archive[:introduction] %>
+  <% repository_url = archive_introduction[:repository_url] %>
+  <% zenodo_url = archive_introduction[:zenodo_url] %>
+  <% archive_panel = archive[:panel] %>
+  <section class="resources-stage-section" id="<%= archive[:anchor] %>">
+    <h2><%= archive[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p>
+        <%= archive_introduction[:before_repository] %>
+        <%= link_to archive_introduction[:repository_label],
+                    repository_url,
+                    **resources_link_options(repository_url) %>
+        <%= archive_introduction[:between_repositories] %>
+        <%= link_to archive_introduction[:zenodo_label],
+                    zenodo_url,
+                    **resources_link_options(zenodo_url) %>
+        <%= archive_introduction[:after_zenodo] %>
+      </p>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <%= render 'resources/stage/components/action_panel',
+                 columns: archive_panel[:columns],
+                 class_name: 'resources-evaluate__archive-panel' %>
+    </div>
+  </section>
+
+  <% oer_communities = sections[:oer_communities] %>
+  <% oer_introduction = oer_communities[:introduction] %>
+  <% grena_url = oer_introduction[:grena_url] %>
+  <% suhf_url = oer_introduction[:suhf_url] %>
+  <% tess_url = oer_introduction[:tess_url] %>
+  <section class="resources-stage-section" id="<%= oer_communities[:anchor] %>">
+    <h2><%= oer_communities[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <p>
+        <%= oer_introduction[:before_grena] %>
+        <%= link_to oer_introduction[:grena_label],
+                    grena_url,
+                    **resources_link_options(grena_url) %>
+        <%= oer_introduction[:between_grena_and_suhf] %>
+        <%= link_to oer_introduction[:suhf_label],
+                    suhf_url,
+                    **resources_link_options(suhf_url) %><%= oer_introduction[:after_suhf] %>
+      </p>
+      <p>
+        <%= oer_introduction[:before_tess] %>
+        <%= link_to oer_introduction[:tess_label],
+                    tess_url,
+                    **resources_link_options(tess_url) %> <%= oer_introduction[:after_tess] %>
+      </p>
+    </div>
+
+    <div class="resources-stage-section__visual">
+      <%= render 'resources/stage/components/visual_links',
+                 links: oer_communities[:visual_links].values,
+                 variant: :communities %>
+    </div>
+  </section>
+
+  <% reflections = sections[:reflections] %>
+  <section class="resources-stage-section" id="<%= reflections[:anchor] %>">
+    <h2><%= reflections[:title] %></h2>
+    <div class="resources-stage-section__body resources-stage-prose">
+      <% reflections[:paragraphs].each do |paragraph| %>
+        <p><%= paragraph %></p>
+      <% end %>
+    </div>
+  </section>
+
+  <%= render 'resources/stage/foundation/footer', stage_key: :evaluate_archive %>
+<% end %>

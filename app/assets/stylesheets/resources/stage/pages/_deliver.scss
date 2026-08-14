@@ -1,0 +1,48 @@
+.resources-deliver__mentimeter-action-row {
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0 14px;
+}
+
+a.resources-deliver__mentimeter-action {
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  gap: 8px;
+  height: 48px;
+  justify-content: flex-start;
+  letter-spacing: 0.1px;
+  line-height: 20px;
+  max-width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  width: 260px;
+
+  .resources-stage-action__icon {
+    flex: 0 0 20px;
+    font-size: 20px;
+    height: 20px;
+    line-height: 20px;
+    width: 20px;
+  }
+
+  span {
+    flex: 1 1 200px;
+    min-width: 0;
+    white-space: nowrap;
+  }
+}
+
+.resources-deliver__tool-links {
+  margin-top: 20px;
+}
+
+@media screen and (min-width: 1200px) {
+  .resources-deliver__mentimeter-action-row {
+    margin-top: -9px;
+  }
+
+  .resources-deliver__tool-links {
+    margin-top: 26px;
+  }
+}

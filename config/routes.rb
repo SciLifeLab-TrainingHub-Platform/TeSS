@@ -19,12 +19,21 @@ Rails.application.routes.draw do
   get 'about/portal' => 'about#portal', as: 'portal'
   get 'about/us' => 'about#us', as: 'us'
 
-  # Add resource page
-  get 'our_resources' => 'our_resources#our_resources', as: 'our_resources'
-  get 'our_resources/guides' => 'our_resources#guides', as: 'guides'
-  get 'our_resources/pedagogic_support' => 'our_resources#pedagogic_support', as: 'pedagogic'
-  get 'our_resources/trainer_community' => 'our_resources#trainer_community', as: 'community'
-  get 'our_resources/fair_training' => 'our_resources#fair_training', as: 'fair'
+  # Training resources pages
+  get 'resources' => 'resources#index', as: 'resources'
+  get 'resources/plan-design' => 'resources#plan_design', as: 'plan_design_stage'
+  get 'resources/develop' => 'resources#develop', as: 'develop_stage'
+  get 'resources/deliver' => 'resources#deliver', as: 'deliver_stage'
+  get 'resources/evaluate-archive' => 'resources#evaluate_archive', as: 'evaluate_archive_stage'
+
+  # Preserve links to the retired Resources pages.
+  get 'our_resources', to: redirect('/resources', status: 301)
+  get 'our_resources/guides', to: redirect('/resources', status: 301)
+  get 'our_resources/pedagogic_support',
+      to: redirect('/resources#resources-consultation-title', status: 301)
+  get 'our_resources/trainer_community', to: redirect('/resources', status: 301)
+  get 'our_resources/fair_training',
+      to: redirect('/resources/develop#fair-training-materials', status: 301)
 
   get 'privacy' => 'static#privacy', as: 'privacy'
 
@@ -146,7 +155,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :our_resources, only: [:index]
   # upstream repo change for learning path routes
   resources :learning_paths, concerns: %i[collaboratable activities]
   resources :learning_path_topics, concerns: %i[collaboratable activities]

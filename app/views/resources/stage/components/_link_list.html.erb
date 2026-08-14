@@ -1,0 +1,14 @@
+<% list_classes = ['resources-stage-link-list'] %>
+<% list_classes << local_assigns[:class_name] if local_assigns[:class_name].present? %>
+
+<ul class="<%= list_classes.join(' ') %>">
+  <% links.each do |link| %>
+    <li>
+      <%= link_to link[:url],
+                  **resources_link_options(link[:url]) do %>
+        <i class="fa fa-link" aria-hidden="true"></i>
+        <span><%= link[:label] %></span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

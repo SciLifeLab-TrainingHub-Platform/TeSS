@@ -1,0 +1,26 @@
+<% variants = {
+     default: nil,
+     recordings: 'resources-stage-visual-links--recordings',
+     communities: 'resources-stage-visual-links--communities'
+   } %>
+<% variant = local_assigns.fetch(:variant, :default).to_sym %>
+<% list_classes = ['resources-stage-visual-links', variants.fetch(variant)].compact %>
+
+<ul class="<%= list_classes.join(' ') %>">
+  <% links.each do |link| %>
+    <li>
+      <%= link_to link[:url],
+                  class: 'resources-stage-visual-link',
+                  **resources_link_options(link[:url]) do %>
+        <span class="resources-stage-visual-link__visual">
+          <%= image_tag link[:image],
+                        alt: '',
+                        class: 'resources-stage-visual-link__image',
+                        width: link[:image_width],
+                        height: link[:image_height] %>
+        </span>
+        <span class="resources-stage-visual-link__label"><%= link[:label] %></span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

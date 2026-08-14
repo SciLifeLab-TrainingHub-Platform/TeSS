@@ -1,0 +1,23 @@
+<% stage = t("resources.stage_pages.#{stage_key}") %>
+<% modifier = stage_key.to_s.tr('_', '-') %>
+<%# site_title interpolates this value into a new string, so preserve translated ampersands from double escaping. %>
+<% content_for :title, raw(stage[:title]) %>
+
+<section class="resources-stage-page resources-stage-page--shell resources-stage-page--<%= modifier %>">
+  <div class="resources-stage-shell">
+    <%= render 'resources/stage/foundation/navigation',
+               active_key: stage_key,
+               section_links: stage_page_section_links(stage_key) %>
+
+    <div class="resources-stage-shell__main">
+      <header class="resources-stage-shell__hero">
+        <h1><%= stage[:title] %></h1>
+        <% [stage[:summary], stage[:introduction]].compact.each do |paragraph| %>
+          <p><%= paragraph %></p>
+        <% end %>
+      </header>
+
+      <%= yield %>
+    </div>
+  </div>
+</section>

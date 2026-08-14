@@ -1,0 +1,215 @@
+// Shared lifecycle navigation for stage pages using the redesigned stage shell.
+.resources-stage-shell {
+  .resources-stage-nav {
+    align-self: start;
+    padding: 8px 0 0;
+    position: sticky;
+    top: 24px;
+    // Keep the lifecycle rail aligned as the centered shell shifts across desktop widths.
+    transform: translateX(clamp(-106px, calc(614px - 50vw), 24px));
+    width: 100%;
+    z-index: 2;
+  }
+
+  .resources-stage-nav__list {
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    &::before {
+      background: linear-gradient(
+        to bottom,
+        $scilifelab-color-lime 0%,
+        $scilifelab-color-aqua 54.8077%,
+        $scilifelab-color-teal 100%
+      );
+      bottom: 26px;
+      content: "";
+      left: 19.5px;
+      position: absolute;
+      top: -65px;
+      width: 5px;
+    }
+  }
+
+  .resources-stage-nav__item {
+    min-height: 82px;
+    position: relative;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .resources-stage-nav__link {
+    align-items: flex-start;
+    color: $dark-color;
+    display: flex;
+    font-size: 18px;
+    font-weight: 600;
+    justify-content: flex-start;
+    line-height: 1.25;
+    min-height: 82px;
+    padding: 7px 6px 15px 60px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-teal;
+      text-decoration: none;
+    }
+
+    &:focus {
+      outline: 3px solid $scilifelab-color-lime;
+      outline-offset: 5px;
+    }
+  }
+
+  .resources-stage-nav__label {
+    display: block;
+    min-height: 0;
+  }
+
+  .resources-stage-nav__marker {
+    background: $body-bg;
+    border: 6px solid $scilifelab-color-teal;
+    border-radius: 50%;
+    height: 40px;
+    left: 2px;
+    position: absolute;
+    top: 0;
+    transform: none;
+    width: 40px;
+    z-index: 1;
+  }
+
+  .resources-stage-nav__item--active {
+    > .resources-stage-nav__link {
+      color: $scilifelab-color-aqua;
+      font-family: "Lato Resources ExtraBold", $font-family-base;
+      font-weight: 800;
+    }
+
+    .resources-stage-nav__marker {
+      background: $scilifelab-color-aqua;
+    }
+  }
+
+  .resources-stage-nav__sections {
+    list-style: none;
+    margin: -33px 0 9px;
+    padding: 0;
+  }
+
+  .resources-stage-nav__section {
+    min-height: 30px;
+    position: relative;
+
+    &::before {
+      background: $dark-color;
+      border-radius: 50%;
+      content: "";
+      height: 8px;
+      left: 18px;
+      position: absolute;
+      top: 9px;
+      width: 8px;
+      z-index: 2;
+    }
+
+    a {
+      color: $dark-color;
+      display: block;
+      font-size: 15px;
+      line-height: 1.1;
+      padding: 4px 4px 6px 60px;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        color: $scilifelab-color-teal;
+        text-decoration: underline;
+      }
+
+      &:focus {
+        outline: 3px solid $scilifelab-color-lime;
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .resources-stage-shell {
+    .resources-stage-nav {
+      margin-bottom: 36px;
+      padding: 0;
+      position: static;
+      transform: none;
+    }
+
+    .resources-stage-nav__list {
+      display: block;
+
+      &::before {
+        bottom: 22px;
+        left: 17.5px;
+        top: -50px;
+      }
+    }
+
+    .resources-stage-nav__item {
+      min-height: 76px;
+    }
+
+    .resources-stage-nav__link {
+      align-items: flex-start;
+      border: 0;
+      border-radius: 0;
+      display: flex;
+      font-size: 16px;
+      min-height: 76px;
+      padding: 6px 6px 13px 56px;
+    }
+
+    .resources-stage-nav__marker {
+      border-width: 5px;
+      display: block;
+      height: 38px;
+      left: 1px;
+      width: 38px;
+    }
+
+    .resources-stage-nav__item--active > .resources-stage-nav__link {
+      background: transparent;
+      color: $scilifelab-color-aqua;
+    }
+
+    .resources-stage-nav__sections {
+      background: transparent;
+      border-radius: 0;
+      margin: -33px 0 15px;
+      padding: 0;
+    }
+
+    .resources-stage-nav__section {
+      min-height: 34px;
+
+      &::before {
+        height: 8px;
+        left: 16px;
+        top: 8px;
+        width: 8px;
+      }
+
+      a {
+        font-size: 14px;
+        padding: 3px 4px 10px 56px;
+      }
+    }
+  }
+}
