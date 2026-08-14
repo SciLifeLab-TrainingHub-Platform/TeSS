@@ -74,12 +74,12 @@ en:
           title: Train-the-Trainer course
           description: A course from the SciLifeLab Training Hub on teaching for lifelong learning.
           cta: Training Catalogue
-          url: /events
+          url: https://training.scilifelab.se/courses/scilifelab-train-the-trainer-course
         organizational_learning:
           title: Organizational Learning course
           description: A course from the SciLifeLab Training Hub on how learning in groups and teams occurs.
           cta: Training Catalogue
-          url: /events
+          url: https://training.scilifelab.se/courses/organizational-learning
         learning_outcomes:
           title: Training Hub Resources for Learning Outcomes
           description: Templates and information on writing learning outcomes.
@@ -99,14 +99,14 @@ en:
           title: Bicycle Principles for Short-form Training
           description: Principles for designing effective short-format training for researchers and career scientists.
           cta: Training Framework
-          url: https://www.bikeprinciples.org/
+          url: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0293879
         fair_by_design:
           title: FAIR by design course
           description: >
             A two-day course from VIB, NBIS, and the SciLifeLab Training Hub on developing materials
             that are release-ready.
           cta: Training Catalogue
-          url: /events
+          url: https://training.scilifelab.se/courses/training-material-made-fair-by-design
         recording_webinars:
           title: Training Hub Resources for Recording Webinars
           description: Basic guidelines for delivering and capturing training with Zoom.
@@ -293,7 +293,7 @@ en:
                 actions:
                   login:
                     label: SciLifeLab Canvas Login
-                    url: https://scilifelab.instructure.com/login/canvas
+                    url: https://canvas.scilifelab.se
                     variant: grape
                     icon: star-o
                   example:
