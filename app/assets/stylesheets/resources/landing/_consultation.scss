@@ -3,8 +3,8 @@
 }
 
 .resources-consultation__copy {
-  margin-left: 13px;
-  max-width: 844px;
+  margin: 0 auto;
+  max-width: var(--resources-content-width);
 
   h2 {
     color: black;
@@ -26,7 +26,7 @@
 
 .resources-booking {
   margin: 23px auto 0;
-  max-width: 935px;
+  max-width: var(--resources-content-width);
   width: 100%;
 
   [hidden] {

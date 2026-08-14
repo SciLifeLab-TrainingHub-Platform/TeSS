@@ -1,4 +1,5 @@
 .resources-landing {
+  --resources-content-width: 935px;
   --resources-copy-width: 802px;
   color: $dark-color;
   margin: 35px auto 78px;
@@ -7,8 +8,8 @@
 }
 
 .resources-landing__intro {
-  margin-bottom: 33px;
-  max-width: var(--resources-copy-width);
+  margin: 0 auto 33px;
+  max-width: var(--resources-content-width);
 
   h1 {
     color: black;
@@ -24,5 +25,6 @@
     font-size: 18px;
     line-height: 1.5;
     margin: 0;
+    max-width: var(--resources-copy-width);
   }
 }
