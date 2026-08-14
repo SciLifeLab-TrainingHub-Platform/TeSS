@@ -46,10 +46,12 @@
 
     function setFailureState(root) {
         var calendar = root.querySelector("[data-cal-calendar]");
+        var fallback = root.querySelector("[data-cal-fallback]");
         var status = root.querySelector("[data-cal-status]");
 
         calendar.hidden = true;
         calendar.removeAttribute("aria-busy");
+        fallback.hidden = false;
         status.textContent = status.getAttribute("data-failure-message");
     }
 
@@ -58,6 +60,7 @@
             if (root.getAttribute("data-cal-namespace") !== namespace) return;
 
             root.querySelector("[data-cal-calendar]").removeAttribute("aria-busy");
+            root.querySelector("[data-cal-fallback]").hidden = true;
             root.querySelector("[data-cal-status]").textContent = "";
         });
     }
@@ -142,11 +145,13 @@
     function resetBookingEmbedsBeforeCache() {
         document.querySelectorAll("[data-cal-embed]").forEach(function (root) {
             var calendar = root.querySelector("[data-cal-calendar]");
+            var fallback = root.querySelector("[data-cal-fallback]");
             var status = root.querySelector("[data-cal-status]");
 
             calendar.innerHTML = "";
             calendar.hidden = true;
             calendar.removeAttribute("aria-busy");
+            fallback.hidden = false;
             status.textContent = "";
             root.removeAttribute("data-cal-initialized");
         });

@@ -45,11 +45,14 @@ class ResourcesTest < ActionDispatch::IntegrationTest
       assert status['data-loading-message'].present?
       assert status['data-failure-message'].present?
     end
-    assert_select '.resources-booking__fallback a[href=?][target=?][rel=?]',
-                  'https://cal.com/scilifelab-traininghub/support-consult',
-                  '_blank',
-                  'noopener noreferrer',
-                  count: 1
+    assert_select '[data-cal-fallback]', count: 1 do |fallbacks|
+      assert_nil fallbacks.first['hidden']
+      assert_select 'a[href=?][target=?][rel=?]',
+                    'https://cal.com/scilifelab-traininghub/support-consult',
+                    '_blank',
+                    'noopener noreferrer',
+                    count: 1
+    end
   end
 
   test 'stage page renders a canonical YouTube embed' do
