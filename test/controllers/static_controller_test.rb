@@ -8,6 +8,81 @@ class StaticControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'selects the newest upcoming event as featured and excludes it from the next four events' do
+    selected_events = Event.order(:id).first(6)
+    base_time = 2.weeks.from_now
+
+    selected_events.each_with_index do |event, index|
+      event.update_columns(
+        start: base_time + index.days,
+        end: base_time + index.days + 2.hours,
+        created_at: base_time - (5 - index).hours
+      )
+    end
+
+    @controller.stub(:homepage_event_scope, Event.where(id: selected_events.map(&:id))) do
+      get :home
+    end
+
+    homepage = @controller.view_assigns
+
+    assert_equal selected_events.last, homepage['featured_event']
+    assert_equal selected_events.first(4), homepage['upcoming_training_events'].to_a
+    refute_includes homepage['upcoming_training_events'], homepage['featured_event']
+  end
+
+  test 'uses only publicly available current and upcoming events on the homepage' do
+    eligible, hidden, unapproved, expired, failing = Event.order(:id).first(5)
+    candidates = [eligible, hidden, unapproved, expired, failing]
+    starts_at = 2.weeks.from_now
+
+    candidates.each do |event|
+      event.update_columns(
+        start: starts_at,
+        end: starts_at + 2.hours,
+        event_status: Event.event_statuses[:approved],
+        visible: true
+      )
+    end
+
+    hidden.update_columns(visible: false)
+    unapproved.update_columns(event_status: Event.event_statuses[:awaiting_review])
+    expired.update_columns(start: 2.days.ago, end: 1.day.ago)
+    failing.create_link_monitor!(url: failing.url, fail_count: LinkMonitor::FAILURE_THRESHOLD)
+
+    homepage_events = @controller
+                      .send(:homepage_event_scope)
+                      .where(id: candidates.map(&:id))
+                      .to_a
+
+    assert_equal [eligible], homepage_events
+  end
+
+  test 'handles a homepage without upcoming events' do
+    @controller.stub(:homepage_event_scope, Event.none) do
+      get :home
+    end
+
+    homepage = @controller.view_assigns
+
+    assert_nil homepage['featured_event']
+    assert_empty homepage['upcoming_training_events']
+  end
+
+  test 'counts only providers belonging to public users' do
+    public_providers = ContentProvider.from_verified_users
+    public_count = public_providers.count
+    provider_to_hide = content_providers(:goblet)
+
+    assert_includes public_providers, provider_to_hide
+
+    provider_to_hide.update_columns(user_id: users(:unverified_user).id)
+
+    get :home
+
+    assert_equal public_count - 1, @controller.view_assigns['provider_count']
+  end
+
   test 'should show tabs for enabled features' do
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 

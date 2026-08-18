@@ -1,0 +1,44 @@
+en:
+  homepage:
+    hero:
+      headline_html: "Develop the <strong>knowledge, skills, &amp; abilities</strong> that move life science forward."
+      introduction: Discover training workshops, courses, and online modules for the life sciences research community in Sweden.
+      search_label: Search the Training Portal
+      search_placeholder: Search training, topics, providers...
+      popular_label: "Popular:"
+      popular_searches:
+        - label: Bioinformatics
+          query: Bioinformatics
+        - label: Data Analysis
+          query: Data Analysis
+        - label: Open Science
+          query: Open Science
+        - label: Machine Learning
+          query: Machine Learning
+      featured_label: What's new?
+      statistics:
+        providers:
+          description: Training content providers from Sweden and the EU.
+        participants:
+          value: ">2,500"
+          description: Annual participants in SciLifeLab training activities.
+    upcoming_training:
+      title: Upcoming training
+      view_all: See all training
+      empty: There is no upcoming training currently listed.
+      application_deadline: "Application deadline: %{date}"
+      registration_closed: Registration closed
+      delivery:
+        onsite: In person
+        online: Online
+        hybrid: Hybrid
+    portal_actions:
+      become_provider:
+        title: Want to list your training?
+        link_label: Become a provider
+      catalogue:
+        title: Browse our training catalogue
+        link_label: Browse the catalogue
+      portal_guidance:
+        title: What goes on the Training Portal?
+        link_label: Learn more
