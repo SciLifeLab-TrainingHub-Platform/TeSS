@@ -1,0 +1,22 @@
+<section class="homepage-training" aria-labelledby="homepage-training-title">
+  <div class="homepage-training__inner">
+    <h2 id="homepage-training-title" class="homepage-training__title">
+      <%= t('homepage.upcoming_training.title') %>
+    </h2>
+
+    <% if @upcoming_training_events.present? %>
+      <div class="homepage-training__grid">
+        <%= render partial: 'static/home/training_card',
+                   collection: @upcoming_training_events,
+                   as: :event %>
+      </div>
+    <% else %>
+      <p class="homepage-training__empty"><%= t('homepage.upcoming_training.empty') %></p>
+    <% end %>
+
+    <%= link_to events_path, class: 'homepage-training__view-all' do %>
+      <span class="homepage-training__view-all-icon" aria-hidden="true"></span>
+      <span><%= t('homepage.upcoming_training.view_all') %></span>
+    <% end %>
+  </div>
+</section>

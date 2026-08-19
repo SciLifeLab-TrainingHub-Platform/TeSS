@@ -1,0 +1,46 @@
+<% delivery_label = homepage_training_delivery_label(event) %>
+<% locations = homepage_training_locations(event) %>
+<% registration_label = homepage_training_registration_label(event) %>
+
+<%= link_to event_path(event), class: 'homepage-training-card' do %>
+  <div class="homepage-training-card__provider">
+    <% if show_scilifelab_badge?(event) %>
+      <%= image_tag 'scilifelab/SciLifeLab_Logotype_Green_POS.png',
+                    alt: 'SciLifeLab',
+                    width: 124,
+                    height: 27,
+                    class: 'homepage-training-card__provider-logo' %>
+    <% end %>
+  </div>
+
+  <div class="homepage-training-card__content">
+    <h3 class="homepage-training-card__title"><%= event.title %></h3>
+    <span class="homepage-training-card__date">
+      <%= homepage_event_date_range(event, range_separator: ' - ') %>
+    </span>
+  </div>
+
+  <div class="homepage-training-card__bottom">
+    <div class="homepage-training-card__tags">
+      <% if delivery_label.present? %>
+        <span class="homepage-training-card__tag homepage-training-card__tag--delivery">
+          <%= delivery_label %>
+        </span>
+      <% end %>
+
+      <% locations.each do |location| %>
+        <span class="homepage-training-card__tag homepage-training-card__tag--location"><%= location %></span>
+      <% end %>
+    </div>
+
+    <div class="homepage-training-card__footer">
+      <% if registration_label.present? %>
+        <span class="homepage-training-card__registration"><%= registration_label %></span>
+      <% end %>
+
+      <span class="homepage-training-card__arrow" aria-hidden="true">
+        <i class="fa fa-arrow-right"></i>
+      </span>
+    </div>
+  </div>
+<% end %>

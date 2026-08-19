@@ -8,6 +8,7 @@ class StaticHelperTest < ActionView::TestCase
     )
 
     assert_equal 'August 17-28, 2026', homepage_event_date_range(event)
+    assert_equal 'August 17 - 28, 2026', homepage_event_date_range(event, range_separator: ' - ')
   end
 
   test 'formats a homepage event date range across months' do
@@ -23,5 +24,35 @@ class StaticHelperTest < ActionView::TestCase
     event = Event.new(start: Time.zone.local(2026, 8, 17))
 
     assert_equal 'August 17, 2026', homepage_event_date_range(event)
+  end
+
+  test 'formats an open homepage training application deadline' do
+    event = Event.new(application_deadline: 1.week.from_now)
+
+    assert_match(/\AApply by: [A-Z][a-z]{2} \d{1,2}, \d{4}\z/, homepage_training_registration_label(event))
+  end
+
+  test 'marks a passed homepage training application deadline as closed' do
+    event = Event.new(application_deadline: 1.minute.ago)
+
+    assert_equal 'Registration closed', homepage_training_registration_label(event)
+  end
+
+  test 'omits a homepage training registration label without a deadline' do
+    assert_nil homepage_training_registration_label(Event.new)
+  end
+
+  test 'uses delivery and location data for homepage training tags' do
+    event = Event.new(presence: :onsite, country: 'Sweden')
+
+    assert_equal 'In person', homepage_training_delivery_label(event)
+    assert_equal ['Sweden'], homepage_training_locations(event)
+  end
+
+  test 'omits locations for online homepage training' do
+    event = Event.new(presence: :online, country: 'Sweden')
+
+    assert_equal 'Online', homepage_training_delivery_label(event)
+    assert_empty homepage_training_locations(event)
   end
 end

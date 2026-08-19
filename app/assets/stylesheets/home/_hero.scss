@@ -166,15 +166,15 @@
 
     &:hover,
     &:focus {
-      color: $scilifelab-color-dark-gray;
-      background: $scilifelab-color-lime-50;
-      box-shadow: inset 0 0 0 1px $scilifelab-color-lime-50;
+      color: #fff;
+      background: rgba($scilifelab-color-aqua-50, 0.56);
+      box-shadow: inset 0 0 0 1px $scilifelab-color-aqua;
       outline: 0;
       text-decoration: none;
     }
 
     &:focus-visible {
-      box-shadow: inset 0 0 0 1px $scilifelab-color-lime-50, 0 0 0 3px #fff;
+      box-shadow: inset 0 0 0 1px $scilifelab-color-aqua, 0 0 0 3px #fff;
     }
   }
 

@@ -27,7 +27,7 @@ en:
       title: Upcoming training
       view_all: See all training
       empty: There is no upcoming training currently listed.
-      application_deadline: "Application deadline: %{date}"
+      apply_by: "Apply by: %{date}"
       registration_closed: Registration closed
       delivery:
         onsite: In person

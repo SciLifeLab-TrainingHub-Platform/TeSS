@@ -25,7 +25,6 @@ class StaticController < ApplicationController
 
     @content_providers = set_content_providers
     @featured_trainer = set_featured_trainer
-    @events = set_upcoming_events
     @materials = set_latest_materials
     @count_strings = set_count_strings
 
@@ -87,19 +86,6 @@ class StaticController < ApplicationController
       sort_by: 'new',
       per_page: 10 * n_materials
     )&.results&.group_by(&:content_provider_id)&.map { |_p_id, p_materials| p_materials&.first }&.first(n_materials)
-  end
-
-  def set_upcoming_events
-    n_events = TeSS::Config.site.dig('home_page', 'upcoming_events')
-    return [] unless n_events
-
-    Event.search_and_filter(
-      nil,
-      '',
-      { 'start' => "#{Date.tomorrow.beginning_of_day}/" },
-      sort_by: 'early',
-      per_page: 5 * n_events
-    ).results.flat_map(&:content_providers).uniq.map { |provider| provider.events.first }.first(n_events)
   end
 
   def set_count_strings

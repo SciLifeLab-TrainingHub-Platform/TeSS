@@ -5,6 +5,12 @@
       min-width: 0;
     }
   }
+
+  .homepage-training {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 325px));
+    }
+  }
 }
 
 @media (max-width: $screen-md-max) {
@@ -85,6 +91,21 @@
       min-height: 196px;
     }
   }
+
+  .homepage-training {
+    &__inner {
+      padding-right: 24px;
+      padding-left: 24px;
+    }
+
+    &__title {
+      font-size: 32px;
+    }
+
+    &__grid {
+      grid-template-columns: minmax(0, 325px);
+    }
+  }
 }
 
 @media (max-width: 420px) {
@@ -113,6 +134,26 @@
 
     &__statistic {
       min-height: 144px;
+    }
+  }
+
+  .homepage-training {
+    &__inner {
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+  }
+
+  .homepage-training-card {
+    &__title {
+      font-size: 22px;
+    }
+
+    &__registration {
+      width: auto;
+      min-width: 0;
+      max-width: calc(100% - 48px);
+      font-size: 18px;
     }
   }
 }
