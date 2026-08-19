@@ -8,6 +8,7 @@ class StaticController < ApplicationController
 
   def home
     @hide_search_box = true
+    @container_class = 'homepage-container container-fluid'
     @resources = []
     if TeSS::Config.solr_enabled
       enabled = []

@@ -15,7 +15,8 @@ en:
           query: Open Science
         - label: Machine Learning
           query: Machine Learning
-      featured_label: What's new?
+      featured_label: What’s new?
+      featured_empty: No new training is currently listed.
       statistics:
         providers:
           description: Training content providers from Sweden and the EU.

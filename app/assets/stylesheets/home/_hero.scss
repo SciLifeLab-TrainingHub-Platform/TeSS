@@ -1,0 +1,317 @@
+#main-container.homepage-container {
+  max-width: none;
+  // Bootstrap reserves space below the global navbar; the homepage hero meets it directly in the design.
+  margin-top: -$navbar-margin-bottom;
+  padding: 0;
+}
+
+.homepage {
+  color: $scilifelab-color-dark-gray;
+
+  &__legacy-content {
+    max-width: 1400px;
+    padding: 0 15px;
+    margin: 0 auto;
+  }
+}
+
+.homepage-hero {
+  min-height: 618px;
+  padding: 0;
+  color: #fff;
+  background:
+    linear-gradient(rgba($scilifelab-color-grape, 0.75), rgba($scilifelab-color-grape, 0.75)),
+    image-url("scilifelab/homepage/hero-background.webp") center 53% / cover no-repeat;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.03fr) minmax(0, 1fr);
+    gap: clamp(32px, 10.25vw, 148px);
+    min-height: 618px;
+    padding: 83px 6.1% 64px 8%;
+  }
+
+  &__introduction {
+    max-width: 554px;
+  }
+
+  &__title {
+    max-width: 549px;
+    margin: 0;
+    color: #fff;
+    font-family: "Lato", sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+
+    strong {
+      color: $scilifelab-color-lime-50;
+      font-family: "Lato TrainingHub ExtraBold", "Lato", sans-serif;
+      font-weight: 800;
+    }
+  }
+
+  &__summary {
+    max-width: 464px;
+    margin: 23px 0 0;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+
+  &__search {
+    display: flex;
+    width: 100%;
+    height: 56px;
+    margin-top: 37px;
+    overflow: hidden;
+    background: #fff;
+    border: 2px solid transparent;
+    border-radius: 28px;
+
+    &:focus-within {
+      border-color: $scilifelab-color-lime-50;
+      box-shadow: 0 0 0 3px rgba(#fff, 0.9);
+    }
+  }
+
+  &__search-field {
+    flex: 1;
+    min-width: 0;
+    padding: 0 0 0 22px;
+    color: #49454f;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+
+    &::placeholder {
+      color: #49454f;
+      opacity: 1;
+    }
+  }
+
+  &__search-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 56px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover,
+    &:focus {
+      background: $scilifelab-color-lime-25;
+      outline: 0;
+    }
+  }
+
+  &__popular {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 26px;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  &__popular-label {
+    flex: 0 0 auto;
+    padding-top: 5px;
+  }
+
+  &__popular-list {
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  &__popular-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 4px 8px;
+    color: #fff;
+    background: rgba($scilifelab-color-aqua-50, 0.3);
+    border: 0;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 1px $scilifelab-color-aqua;
+    font-family: "Inter TrainingHub", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $scilifelab-color-dark-gray;
+      background: $scilifelab-color-lime-50;
+      box-shadow: inset 0 0 0 1px $scilifelab-color-lime-50;
+      outline: 0;
+      text-decoration: none;
+    }
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 1px $scilifelab-color-lime-50, 0 0 0 3px #fff;
+    }
+  }
+
+  &__highlights {
+    min-width: 0;
+    max-width: 536px;
+    margin-top: 13px;
+  }
+
+  &__featured,
+  &__statistic {
+    position: relative;
+    color: #fff;
+    background: rgba($scilifelab-color-aqua-50, 0.3);
+    border: 1px solid #f5f5f5;
+    border-radius: 15px;
+  }
+
+  &__featured {
+    display: flex;
+    flex-direction: column;
+    min-height: 178px;
+    padding: 10px 15px 16px;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: #fff;
+      background: rgba($scilifelab-color-aqua-50, 0.46);
+      outline: 0;
+      text-decoration: none;
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px $scilifelab-color-lime-50;
+    }
+  }
+
+  &__featured-label {
+    margin-bottom: 10px;
+    font-family: "Lato TrainingHub Bold", "Lato", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  &__featured-title {
+    display: block;
+    max-width: 498px;
+    font-family: "Lato TrainingHub ExtraBold", "Lato", sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  &__featured-meta {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+
+  &__statistics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  &__statistic {
+    display: flex;
+    flex-direction: column;
+    min-height: 156px;
+    padding: 10px 15px 16px;
+
+    &--providers {
+      padding-right: 54px;
+      background: rgba($scilifelab-color-aqua-50, 0.4);
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        color: #fff;
+        background: rgba($scilifelab-color-aqua-50, 0.56);
+        outline: 0;
+        text-decoration: none;
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px $scilifelab-color-lime-50;
+      }
+    }
+  }
+
+  &__statistic-value {
+    display: block;
+    font-family: "Lato TrainingHub ExtraBold", "Lato", sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+
+  &__statistic-description {
+    display: block;
+    margin-top: auto;
+    font-size: 16px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  &__statistic--participants &__statistic-description {
+    max-width: 216px;
+  }
+
+  &__arrow {
+    position: absolute;
+    right: 19px;
+    bottom: 24px;
+    display: block;
+    width: 33.3333px;
+    height: 33.3333px;
+
+    img {
+      position: absolute;
+      top: -1.5px;
+      left: -1.5px;
+      width: 36.3333px;
+      height: 36.3333px;
+    }
+  }
+
+  &__statistic--providers &__arrow {
+    bottom: 18px;
+  }
+}
