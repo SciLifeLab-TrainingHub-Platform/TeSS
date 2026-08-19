@@ -14,9 +14,11 @@
       <p class="homepage-training__empty"><%= t('homepage.upcoming_training.empty') %></p>
     <% end %>
 
-    <%= link_to events_path, class: 'homepage-training__view-all' do %>
-      <span class="homepage-training__view-all-icon" aria-hidden="true"></span>
-      <span><%= t('homepage.upcoming_training.view_all') %></span>
-    <% end %>
+    <%= render 'static/home/action_button',
+               label: t('homepage.upcoming_training.view_all'),
+               url: events_path,
+               variant: 'aqua',
+               icon: 'star-outline',
+               class_name: 'homepage-training__view-all' %>
   </div>
 </section>

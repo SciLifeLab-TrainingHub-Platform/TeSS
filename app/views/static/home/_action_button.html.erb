@@ -1,0 +1,16 @@
+<% variant = local_assigns.fetch(:variant, 'aqua') %>
+<% icon = local_assigns[:icon] %>
+<% button_classes = ['homepage-action-button', "homepage-action-button--#{variant}"] %>
+<% button_classes << local_assigns[:class_name] if local_assigns[:class_name].present? %>
+<% external_options = local_assigns.fetch(:new_tab, false) ?
+                      { target: '_blank', rel: 'noopener noreferrer' } : {} %>
+
+<%= link_to url, class: button_classes.join(' '), **external_options do %>
+  <% if icon == 'star-outline' %>
+    <span class="homepage-action-button__icon homepage-action-button__icon--star-outline" aria-hidden="true"></span>
+  <% elsif icon.present? %>
+    <i class="fa fa-<%= icon %> homepage-action-button__icon" aria-hidden="true"></i>
+  <% end %>
+
+  <span class="homepage-action-button__label"><%= label %></span>
+<% end %>
