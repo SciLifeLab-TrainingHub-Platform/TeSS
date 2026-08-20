@@ -1,3 +1,29 @@
+# Devise 5 declares the password length rule with procs, e.g.
+#   validates_length_of :password, minimum: proc { password_length.min }
+# RailsAdmin writes each field's help text by comparing those options against
+# integers, so every user form under /admin fails to render with
+# "comparison of Integer with Proc failed". Here we run the procs first and hand
+# RailsAdmin the numbers they return.
+# Upstream bug, still present in rails_admin 3.3.0:
+# https://github.com/railsadminteam/rails_admin/issues/3711
+# Remove this patch once a released version carries the upstream fix.
+RailsAdmin::Config::Fields::Base.register_instance_option :valid_length do
+  @valid_length ||= begin
+    model = abstract_model.model
+    validator = model.validators_on(name).detect { |v| v.kind == :length }
+
+    (validator&.options || {}).transform_values do |option|
+      next option unless option.respond_to?(:call)
+
+      begin
+        option.call(model)
+      rescue StandardError
+        nil
+      end
+    end
+  end
+end
+
 RailsAdmin.config do |config|
   config.main_app_name = ['TeSS', 'Administration']
   config.asset_source = :sprockets
