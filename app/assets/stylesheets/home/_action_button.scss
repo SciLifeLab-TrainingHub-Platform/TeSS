@@ -48,14 +48,14 @@
     }
   }
 
-  &--grape {
+  &--grape-75 {
     color: #fff;
-    background: $scilifelab-color-grape;
+    background: $scilifelab-color-grape-75;
 
     &:hover,
     &:focus {
       color: #fff;
-      background: darken($scilifelab-color-grape, 8%);
+      background: $scilifelab-color-grape;
     }
   }
 }
@@ -73,6 +73,18 @@
   background: currentColor;
   -webkit-mask: image-url("scilifelab/homepage/star-outline.svg") center / 20px 19px no-repeat;
   mask: image-url("scilifelab/homepage/star-outline.svg") center / 20px 19px no-repeat;
+}
+
+.homepage-action-button__icon--portal-plus {
+  background: currentColor;
+  -webkit-mask: image-url("scilifelab/homepage/portal-button-plus.svg") center / 14px 14px no-repeat;
+  mask: image-url("scilifelab/homepage/portal-button-plus.svg") center / 14px 14px no-repeat;
+}
+
+.homepage-action-button__icon--portal-walk {
+  background: currentColor;
+  -webkit-mask: image-url("scilifelab/homepage/portal-button-walk.svg") center / 13px 21.5px no-repeat;
+  mask: image-url("scilifelab/homepage/portal-button-walk.svg") center / 13px 21.5px no-repeat;
 }
 
 .homepage-action-button__label {

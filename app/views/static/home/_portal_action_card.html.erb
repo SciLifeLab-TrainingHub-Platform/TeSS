@@ -1,0 +1,18 @@
+<% card_classes = ['homepage-portal-action-card', "homepage-portal-action-card--#{theme}"] %>
+
+<article class="<%= card_classes.join(' ') %>">
+  <span class="homepage-portal-action-card__icon" aria-hidden="true">
+    <span class="homepage-portal-action-card__icon-star"></span>
+  </span>
+
+  <h3 class="homepage-portal-action-card__title"><%= title %></h3>
+  <p class="homepage-portal-action-card__description"><%= description %></p>
+
+  <%= render 'static/home/action_button',
+             label: button_label,
+             url: url,
+             variant: button_variant,
+             icon: button_icon,
+             new_tab: local_assigns.fetch(:new_tab, false),
+             class_name: 'homepage-portal-action-card__action' %>
+</article>

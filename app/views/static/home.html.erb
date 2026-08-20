@@ -25,6 +25,7 @@
 <main class="homepage">
   <%= render 'static/home/hero' %>
   <%= render 'static/home/upcoming_training' %>
+  <%= render 'static/home/portal_actions' %>
 
   <div class="homepage__legacy-content">
     <%= render partial: 'static/home/counters' if TeSS::Config.site.dig('home_page', 'counters') %>

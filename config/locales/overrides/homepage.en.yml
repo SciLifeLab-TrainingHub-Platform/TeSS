@@ -34,12 +34,16 @@ en:
         online: Online
         hybrid: Hybrid
     portal_actions:
+      section_title: Explore the Training Portal
       become_provider:
         title: Want to list your training?
+        description: Our Training Portal is open for anyone to list training that is of interest to the life sciences community in Sweden.
         link_label: Become a provider
       catalogue:
         title: Browse our training catalogue
-        link_label: Browse the catalogue
+        description: View the collection of courses, workshops, and self-paced learning developed by the SciLifeLab community and register your interest for upcoming training.
+        link_label: See our training catalogue
       portal_guidance:
         title: What goes on the Training Portal?
+        description: If your goal is to teach, train, or build capability, your activity belongs on the Training Portal. Events that share research, build community, or spark discussion belong on the Events Calendar.
         link_label: Learn more
