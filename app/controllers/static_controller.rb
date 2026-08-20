@@ -9,25 +9,6 @@ class StaticController < ApplicationController
   def home
     @hide_search_box = true
     @container_class = 'homepage-container container-fluid'
-    @resources = []
-    if TeSS::Config.solr_enabled
-      enabled = []
-      enabled.append(Event) if TeSS::Config.feature['events']
-      enabled.append(Material) if TeSS::Config.feature['materials']
-      enabled.append(Collection) if TeSS::Config.feature['collections']
-      enabled.each do |resource|
-        @resources += resource.search_and_filter(nil, '', { 'max_age' => '1 month' },
-                                                 sort_by: 'new', per_page: 5).results
-      end
-    end
-
-    @resources = @resources.sort_by(&:created_at).reverse
-
-    @content_providers = set_content_providers
-    @featured_trainer = set_featured_trainer
-    @materials = set_latest_materials
-    @count_strings = set_count_strings
-
     load_homepage_content
   end
 
@@ -56,48 +37,5 @@ class StaticController < ApplicationController
       .left_outer_joins(:link_monitor)
       .where('link_monitors.id IS NULL OR link_monitors.fail_count < ?', LinkMonitor::FAILURE_THRESHOLD)
       .includes(:cities, :nodes, content_providers: :node)
-  end
-
-  def set_featured_trainer
-    return nil unless TeSS::Config.site.dig('home_page', 'featured_trainer')
-
-    srand(Date.today.beginning_of_day.to_i)
-    trainers = Trainer.joins(:user).order(:id)
-    f_trainers = trainers.where.not(users: { image_file_size: nil })
-    trainers = f_trainers.exists? ? f_trainers : trainers
-    trainers.sample(1)
-  end
-
-  def set_content_providers
-    ContentProvider
-      .from_verified_users
-      .where.not(image_file_size: nil)
-      .sample(24)
-  end
-
-  def set_latest_materials
-    n_materials = TeSS::Config.site.dig('home_page', 'latest_materials')
-    return [] unless n_materials
-
-    Material.search_and_filter(
-      nil,
-      '',
-      {},
-      sort_by: 'new',
-      per_page: 10 * n_materials
-    )&.results&.group_by(&:content_provider_id)&.map { |_p_id, p_materials| p_materials&.first }&.first(n_materials)
-  end
-
-  def set_count_strings
-    count_strings = {}
-    return count_strings unless TeSS::Config.site.dig('home_page', 'counters')
-
-    count_strings['events'] = Event.where.not(end: nil).where('events.end > ?', Time.zone.now).count
-    count_strings['last_month_events'] = Event.where('events.created_at > ?', 1.month.ago).count
-    count_strings['materials'] = Material.all.count
-    count_strings['workflows'] = Workflow.all.count
-    count_strings['content_providers'] = ContentProvider.all.count
-    count_strings['trainers'] = Trainer.all.count
-    count_strings
   end
 end

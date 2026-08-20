@@ -446,84 +446,9 @@ en:
         <li>Click the title of a topic to view it. 
         From the topic page, you can view all training materials, in order.</li></ol>
   home:
-    welcome: |
-      How can <span class="text-primary">TeSS</span> help you?
     subtitle: |
       Search the portal for courses, events, videos, presentations, learning pathways, handbooks...<br>
       All types of resources at all levels for leveraging <span class="text-primary">computational resources in the life sciences</span>.
-    search_placeholder: >
-      Search %{site_name}...
-    catalogue:
-      title: Browse the catalogue
-      link_text: Start browsing
-      events: "Discover the latest training events and news from ELIXIR nodes and 3<sup>rd</sup>-party providers."
-      materials: "Browse the catalogue of training materials offered by ELIXIR nodes and 3<sup>rd</sup>-party providers."
-      workflows: "Create training workflows to visualise learning steps and link to resources specific to your training needs."
-      providers: "Browse training providers to discover training resources they offer and follow links to their materials and courses."
-      trainers: "Browse a directory of trainers based on their skills and expertise."
-      learning_paths: "Follow organized pathways of training resources leading you towards specific learning objectives."
-      events_count: "%{total_events} upcoming events, %{last_month_events} added last month"
-    providers:
-      title: Providers
-      content: |
-        <p>Want to become one?</p>
-        <p>Add your institution’s training to the portal at no cost</p>
-      button_text: Contribute
-    promo:
-      nonprofit:
-        title: "Non-profit and free to use"
-        description: "No costs associated, and funded through national and EU funds"
-      sustainable:
-        title: "Sustainable"
-        description: "Open-source code that is here to stay"
-      community:
-        title: "By life sciences professionals, for a life sciences workforce"
-        description: "Built by an international community of life sciences professionals"
-      domain:
-        title: "Life sciences focused"
-        description: "For the entire life sciences workforce"
-    faq:
-      title: Frequently asked questions
-      who:
-        q: Who can register content in TeSS?
-        a: >
-          <p>We welcome any training content relevant to people working in the life sciences and adjacent fields.</p>
-      how:
-        q: How do I register content in TeSS?
-        a: >
-          <p>You can register content in TeSS automatically or manually.</p>
-          <p>To add content manually, you will need to log in and fill in the registration form for either materials or events.</p>
-          <p>TeSS can also automatically register content from an external website, or other source on the web.</p>
-          <p><a href='about/registering'>See here for more information.</a></p>
-      why:
-        q: Why register content in TeSS?
-        a: >
-          <p>Registering training events and materials in TeSS makes them more findable in a variety ways to various user bases.</p>
-
-          <p>Training in TeSS can be discovered...</p>
-          <ul>
-            <li><strong>in TeSS</strong>, by visitors browsing TeSS or subscribing to notifications.</li>
-            <li><strong>in search engine results</strong>, owing to our search-engine optimisation.</li>
-            <li><strong>through other websites</strong> that display TeSS content either using our embeddable widgets or our public API.</li>
-          </ul>
-      embed:
-        q: Can I display TeSS content on my organisation's website?
-        a: >
-          <p>Yes, a selection of embeddable widgets are available to display training events and materials from TeSS in a variety of formats.</p>
-          <p><a href='https://elixirtess.github.io/TeSS_widgets/' target='_blank'>Click here to see examples of widgets and how to use them.</a></p>
-      subscribe:
-        q: Can I subscribe to updates?
-        a: >
-          <p>TeSS provides a customizable subscription service, letting you choose exactly what types of training you want to be notified about.</p>
-          <p>Choose how you would like receive updates:</p>
-          <ul>
-            <li><strong>Email</strong> - Daily, weekly or monthly emails containing a digest of new events or materials.</li>
-            <li><strong>Calendar</strong> - See new events directly to your online calendar.</li>
-            <li><strong>RSS feed</strong> - View new events in an RSS reader.</li>
-          </ul>
-    local_content_banner:
-      title: Connecting from %{country_name}?
-      body: Visit the %{community_name} portal to browse local training.
   privacy:
     registration: |
       <p>When you register with TeSS we ask for a username, password and email address.</p>
