@@ -10,16 +10,23 @@
 RailsAdmin::Config::Fields::Base.register_instance_option :valid_length do
   @valid_length ||= begin
     model = abstract_model.model
-    validator = model.validators_on(name).detect { |v| v.kind == :length }
+    field_name = name
+    validator = model.validators_on(field_name).detect { |v| v.kind == :length }
 
-    (validator&.options || {}).transform_values do |option|
-      next option unless option.respond_to?(:call)
+    (validator&.options || {}).to_h do |key, option|
+      next [key, option] unless option.respond_to?(:call)
 
-      begin
+      value = begin
         option.call(model)
-      rescue StandardError
+      rescue StandardError => e
+        # Drop the option rather than break the form, but say so loudly: a
+        # silently missing limit is how this goes unnoticed for months.
+        Rails.logger.error("RailsAdmin could not resolve the :#{key} length option for " \
+                           "#{model}##{field_name}: #{e.class} - #{e.message}")
         nil
       end
+
+      [key, value]
     end
   end
 end
