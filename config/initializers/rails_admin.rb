@@ -13,8 +13,10 @@ RailsAdmin::Config::Fields::Base.register_instance_option :valid_length do
     field_name = name
     validator = model.validators_on(field_name).detect { |v| v.kind == :length }
 
+    limits = %i[minimum maximum is]
+
     (validator&.options || {}).to_h do |key, option|
-      next [key, option] unless option.respond_to?(:call)
+      next [key, option] unless limits.include?(key) && option.respond_to?(:call)
 
       value = begin
         option.call(model)
