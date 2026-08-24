@@ -2,7 +2,6 @@
 <% provider = actions[:become_provider] %>
 <% catalogue = actions[:catalogue] %>
 <% guidance = actions[:portal_guidance] %>
-<% guidance_url = 'https://drive.google.com/file/d/175Sw8TFe73BnOUdwOLCZoklG6f-0iOfR/view?usp=sharing' %>
 
 <section class="homepage-portal-actions" aria-labelledby="homepage-portal-actions-title">
   <h2 id="homepage-portal-actions-title" class="sr-only"><%= actions[:section_title] %></h2>
@@ -29,7 +28,7 @@
     <%= render 'static/home/portal_action_card',
                title: guidance[:title],
                description: guidance[:description],
-               url: guidance_url,
+               url: guidance[:link_url],
                theme: 'grape',
                button_label: guidance[:link_label],
                button_variant: 'lime',

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module StaticHelper
   def homepage_event_date_range(event, range_separator: '-')
     start_date = event.start&.to_date
@@ -28,7 +30,7 @@ module StaticHelper
   def homepage_training_locations(event)
     return [] if event.online?
 
-    cities = event.cities.map(&:name).reject(&:blank?)
+    cities = event.cities.map(&:name).compact_blank
     cities.presence || Array(event.country.presence)
   end
 

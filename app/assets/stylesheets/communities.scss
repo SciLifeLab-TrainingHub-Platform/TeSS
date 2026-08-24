@@ -15,7 +15,6 @@
     font-size: $font-size-large;
     margin: auto;
     max-width: 800px;
-
     border: none;
     border-radius: 50px;
     background-color: #F4F4F4;
@@ -42,7 +41,6 @@
       box-shadow: none;
       padding: 8px 16px 8px 8px;
       flex-shrink: 0;
-
       transition: $transition-time;
 
       &:hover {

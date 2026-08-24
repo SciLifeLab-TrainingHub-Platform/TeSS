@@ -9,7 +9,7 @@
   justify-content: flex-start;
   max-width: 100%;
   padding: 0 24px;
-  font-family: "Lato", sans-serif;
+  font-family: Lato, sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -70,19 +70,19 @@
 }
 
 .homepage-action-button__icon--star-outline {
-  background: currentColor;
+  background: currentcolor;
   -webkit-mask: image-url("scilifelab/homepage/star-outline.svg") center / 20px 19px no-repeat;
   mask: image-url("scilifelab/homepage/star-outline.svg") center / 20px 19px no-repeat;
 }
 
 .homepage-action-button__icon--portal-plus {
-  background: currentColor;
+  background: currentcolor;
   -webkit-mask: image-url("scilifelab/homepage/portal-button-plus.svg") center / 14px 14px no-repeat;
   mask: image-url("scilifelab/homepage/portal-button-plus.svg") center / 14px 14px no-repeat;
 }
 
 .homepage-action-button__icon--portal-walk {
-  background: currentColor;
+  background: currentcolor;
   -webkit-mask: image-url("scilifelab/homepage/portal-button-walk.svg") center / 13px 21.5px no-repeat;
   mask: image-url("scilifelab/homepage/portal-button-walk.svg") center / 13px 21.5px no-repeat;
 }
