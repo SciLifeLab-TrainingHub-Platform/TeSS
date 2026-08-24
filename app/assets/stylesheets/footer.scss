@@ -1,75 +1,152 @@
 .footer {
-  border-top-left-radius: $footer-border-radius;
-  border-top-right-radius: $footer-border-radius;
-  border-top: solid 3px $footer-border;
   margin-top: 30px;
-  background-color: $footer-bg;
-  color: $footer-text;
-  padding: $footer-padding-top 5px 5px 5px;
+  background-color: $scilifelab-color-lime-25;
+  color: #000000;
+  font-family: $font-family-base;
+}
 
-  h5, h6 {
-    font-weight: bold;
-  }
+.footer__inner {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 45.5% 54.5%;
+  width: 100%;
+  max-width: 1442px;
+  min-height: 227px;
+  margin: 0 auto;
+  padding: 25px 23px 18px;
+}
 
-  .footer-item {
-    margin: 6px;
-    a {
-      color: $gray;
-      text-decoration: none;
+.footer__brand {
+  width: 100%;
+  max-width: 306px;
+}
 
-      &:hover {
-        text-decoration: underline;
-      }
+.footer__brand-link {
+  display: inline-flex;
+}
+
+.footer__logo {
+  display: block;
+  width: 207px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.footer__description {
+  max-width: 306px;
+  margin: 15px 0 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.footer__email {
+  display: inline-block;
+  margin-top: 9px;
+  color: #000000;
+  font-family: "Lato TrainingHub ExtraBold", $font-family-base;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.footer__navigation {
+  display: grid;
+  grid-template-columns: 30.4% 38.5% 31.1%;
+  padding-top: 8px;
+}
+
+.footer__group {
+  min-width: 0;
+  padding: 0;
+}
+
+.footer__group-title {
+  margin: 0 0 15px;
+  color: $scilifelab-color-teal;
+  font-family: "Lato TrainingHub ExtraBold", $font-family-base;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.footer__links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin-bottom: 15px;
+    line-height: 1.25;
+
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 
-  .contact-link {
+  a {
+    display: inline-block;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-decoration: none;
+  }
+}
+
+.footer__brand-link,
+.footer__email,
+.footer__links a {
+  &:hover {
+    color: #000000;
     text-decoration: underline;
   }
 
-  .container {
-    padding: 0;
+  &:focus-visible {
+    outline: 2px solid $scilifelab-color-teal;
+    outline-offset: 3px;
+  }
+}
+
+@media (max-width: $screen-md-max) {
+  .footer__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 32px 24px;
   }
 
-  .supporters {
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-    gap: 10px;
+  .footer__navigation {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+  .footer__inner {
+    gap: 36px;
+    padding: 32px 24px 40px;
   }
 
-  .footer-logo {
-    flex-shrink: 1;
-
-    img {
-      height: 50px;
-    }
-
-    &:hover {
-      text-decoration: none;
-    }
+  .footer__navigation {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 
-  .footer-logo-lg {
-    img {
-      height: 100px;
-    }
+  .footer__group-title {
+    margin-bottom: 12px;
   }
 
-  .eu-notice {
-    flex: 1 1 16em;
-    text-align: left;
-    display: flex;
-    img {
-      display: block;
-      height: 3em;
-      flex-grow: 0;
-      margin: 5px 10px 0 5px;
-    }
+  .footer__links li {
+    margin-bottom: 12px;
+  }
+}
 
-    a {
-      text-decoration: underline;
-      color: $gray;
-    }
+@media (max-width: 420px) {
+  .footer__inner {
+    padding-right: 16px;
+    padding-left: 16px;
   }
 }
