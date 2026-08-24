@@ -1,83 +1,8 @@
-<% popular_searches = t('homepage.hero.popular_searches') %>
-
 <section class="homepage-hero" aria-labelledby="homepage-hero-title">
   <div class="homepage-hero__inner">
-    <div class="homepage-hero__introduction">
-      <h1 id="homepage-hero-title" class="homepage-hero__title">
-        <%= t('homepage.hero.headline_html') %>
-      </h1>
-
-      <p class="homepage-hero__summary"><%= t('homepage.hero.introduction') %></p>
-
-      <%= form_tag search_path, method: :get, role: 'search', class: 'homepage-hero__search' do %>
-        <%= label_tag 'homepage-search', t('homepage.hero.search_label'), class: 'sr-only' %>
-        <%= text_field_tag :q,
-                           nil,
-                           id: 'homepage-search',
-                           class: 'homepage-hero__search-field',
-                           placeholder: t('homepage.hero.search_placeholder') %>
-        <%= button_tag type: 'submit',
-                       name: nil,
-                       class: 'homepage-hero__search-button',
-                       aria: { label: t('homepage.hero.search_label') } do %>
-          <%= image_tag 'scilifelab/homepage/search.svg', alt: '', aria: { hidden: true } %>
-        <% end %>
-      <% end %>
-
-      <div class="homepage-hero__popular">
-        <span class="homepage-hero__popular-label"><%= t('homepage.hero.popular_label') %></span>
-        <ul class="homepage-hero__popular-list">
-          <% popular_searches.each do |search| %>
-            <li>
-              <%= link_to search[:label], search_path(q: search[:query]), class: 'homepage-hero__popular-link' %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-
-    <div class="homepage-hero__highlights">
-      <% if @featured_event %>
-        <%= link_to @featured_event, class: 'homepage-hero__featured' do %>
-          <span class="homepage-hero__featured-label"><%= t('homepage.hero.featured_label') %></span>
-          <strong class="homepage-hero__featured-title"><%= @featured_event.title %></strong>
-          <span class="homepage-hero__featured-meta">
-            <span><%= homepage_event_date_range(@featured_event) %></span>
-            <% if (location = homepage_event_location(@featured_event)).present? %>
-              <span><%= location %></span>
-            <% end %>
-          </span>
-          <span class="homepage-hero__arrow" aria-hidden="true">
-            <%= image_tag 'scilifelab/homepage/arrow-right-circle.svg', alt: '' %>
-          </span>
-        <% end %>
-      <% else %>
-        <div class="homepage-hero__featured">
-          <span class="homepage-hero__featured-label"><%= t('homepage.hero.featured_label') %></span>
-          <strong class="homepage-hero__featured-title"><%= t('homepage.hero.featured_empty') %></strong>
-        </div>
-      <% end %>
-
-      <div class="homepage-hero__statistics">
-        <%= link_to content_providers_path, class: 'homepage-hero__statistic homepage-hero__statistic--providers' do %>
-          <strong class="homepage-hero__statistic-value"><%= number_with_delimiter(@provider_count) %></strong>
-          <span class="homepage-hero__statistic-description">
-            <%= t('homepage.hero.statistics.providers.description') %>
-          </span>
-          <span class="homepage-hero__arrow" aria-hidden="true">
-            <%= image_tag 'scilifelab/homepage/arrow-right-circle.svg', alt: '' %>
-          </span>
-        <% end %>
-
-        <div class="homepage-hero__statistic homepage-hero__statistic--participants">
-          <strong class="homepage-hero__statistic-value">
-            <%= t('homepage.hero.statistics.participants.value') %>
-          </strong>
-          <span class="homepage-hero__statistic-description">
-            <%= t('homepage.hero.statistics.participants.description') %>
-          </span>
-        </div>
-      </div>
-    </div>
+    <%= render 'static/home/hero_introduction' %>
+    <%= render 'static/home/hero_highlights',
+               featured_event: @featured_event,
+               provider_count: @provider_count %>
   </div>
 </section>

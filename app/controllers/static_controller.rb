@@ -7,7 +7,6 @@ class StaticController < ApplicationController
   def privacy; end
 
   def home
-    @hide_search_box = true
     @container_class = 'homepage-container container-fluid'
     load_homepage_content
   end
