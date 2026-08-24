@@ -12,6 +12,7 @@ gem 'bootsnap', require: false
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'
 gem 'bootstrap-tab-history-rails'
+gem 'cocoon'
 gem 'country_select'
 gem 'devise'
 gem 'devise_invitable'
@@ -72,7 +73,6 @@ gem 'tzinfo-data'
 gem 'validate_url'
 gem 'whenever', require: false # Work around https://github.com/javan/whenever/issues/831
 gem 'will_paginate'
-gem "cocoon"
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-clipboard', '~> 1.5.12'
@@ -86,7 +86,9 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'pry-byebug'
-  gem 'rubocop'
+  gem 'rubocop', require: false
+  gem 'rubocop-minitest', require: false
+  gem 'rubocop-rails', require: false
   gem 'simplecov'
   gem 'simplecov-lcov', require: false
 end

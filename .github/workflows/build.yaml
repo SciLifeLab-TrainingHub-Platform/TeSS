@@ -42,9 +42,13 @@ jobs:
     name: Run Tests
     uses: ./.github/workflows/test.yml
 
+  lint:
+    name: Lint
+    uses: ./.github/workflows/lint.yml
+
   build:
     name: Build and Deploy
-    needs: test  
+    needs: [test, lint]
     runs-on: ubuntu-latest
 
     steps:

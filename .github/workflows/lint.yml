@@ -1,0 +1,30 @@
+name: Lint
+
+on:
+  # Reusable workflow, invoked by build.yaml on PRs and pushes to rc-* (mirrors test.yml)
+  workflow_call:
+
+  # Manual trigger
+  workflow_dispatch:
+
+jobs:
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Rubocop only reads the code; don't persist the token in git config.
+          persist-credentials: false
+
+      - name: Set up Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version # pin to the repo's exact Ruby (3.2.5) for reproducibility
+          bundler-cache: true # runs 'bundle install' and caches installed gems
+
+      - name: Run Rubocop
+        # Existing offenses are baselined in .rubocop_todo.yml, so this passes
+        # today and only fails on NEW violations introduced by a change.
+        run: bundle exec rubocop --parallel --format progress
