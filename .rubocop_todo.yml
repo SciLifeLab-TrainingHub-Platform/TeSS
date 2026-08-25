@@ -332,6 +332,7 @@ Layout/EmptyLinesAroundClassBody:
     - 'app/models/application_record.rb'
     - 'app/models/collaboration.rb'
     - 'app/models/content_provider.rb'
+    - 'app/models/course.rb'
     - 'app/models/course_interest.rb'
     - 'app/models/elearning_material.rb'
     - 'app/models/event_material.rb'
@@ -4597,3 +4598,16 @@ Style/ZeroLengthPredicate:
     - 'test/unit/image_attachment_test.rb'
     - 'test/unit/ingestors/ical_ingestor_test.rb'
     - 'test/unit/ingestors/scraper_test.rb'
+
+# Cops with no prior baseline entry: these files arrived after the
+# baseline was generated (2026-07-17).
+
+Layout/EmptyLinesAroundExceptionHandlingKeywords:
+  Exclude:
+    - 'app/controllers/course_interests_controller.rb'
+    - 'app/controllers/course_subscriptions_controller.rb'
+    - 'app/services/course_interest_service.rb'
+
+Lint/AmbiguousOperator:
+  Exclude:
+    - 'config/initializers/rails_admin.rb'
