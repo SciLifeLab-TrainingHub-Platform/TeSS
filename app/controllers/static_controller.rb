@@ -7,13 +7,10 @@ class StaticController < ApplicationController
   def privacy; end
 
   def home
-    @container_class = 'homepage-container container-fluid'
     load_homepage_content
   end
 
-  def showcase
-    @container_class = 'showcase-container container-fluid'
-  end
+  def showcase; end
 
   private
 
