@@ -1,5 +1,5 @@
 <% delivery_label = homepage_training_delivery_label(event) %>
-<% locations = homepage_training_locations(event) %>
+<% location_tags = homepage_training_location_tags(event, delivery_present: delivery_label.present?) %>
 <% registration_label = homepage_training_registration_label(event) %>
 
 <%= link_to event_path(event), class: 'homepage-training-card' do %>
@@ -28,8 +28,10 @@
         </span>
       <% end %>
 
-      <% locations.each do |location| %>
-        <span class="homepage-training-card__tag homepage-training-card__tag--location"><%= location %></span>
+      <% location_tags.each do |label| %>
+        <span class="homepage-training-card__tag homepage-training-card__tag--location">
+          <%= label %>
+        </span>
       <% end %>
     </div>
 

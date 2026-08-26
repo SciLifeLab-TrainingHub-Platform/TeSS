@@ -29,6 +29,7 @@ en:
       empty: There is no upcoming training currently listed.
       apply_by: "Apply by: %{date}"
       registration_closed: Registration closed
+      more_locations: "+%{count} more"
       delivery:
         onsite: In person
         online: Online

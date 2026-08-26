@@ -57,4 +57,33 @@ class StaticHelperTest < ActionView::TestCase
     assert_equal 'Online', homepage_training_delivery_label(event)
     assert_empty homepage_training_locations(event)
   end
+
+  test 'shows every homepage training location when the card tag limit is not exceeded' do
+    event = Event.new(presence: :onsite)
+    %w[Gothenburg Linköping Lund].each { |name| event.cities.build(name:) }
+
+    tags = homepage_training_location_tags(event, delivery_present: true)
+
+    assert_equal %w[Gothenburg Linköping Lund], tags
+  end
+
+  test 'reserves the final homepage training tag for an overflow summary' do
+    event = Event.new(presence: :onsite)
+    %w[Gothenburg Linköping Lund Stockholm Kiruna Malmö Umeå Kalmar].each do |name|
+      event.cities.build(name:)
+    end
+
+    tags = homepage_training_location_tags(event, delivery_present: true)
+
+    assert_equal ['Gothenburg', 'Linköping', '+6 more'], tags
+  end
+
+  test 'uses every homepage training tag slot when there is no delivery tag' do
+    event = Event.new
+    %w[Gothenburg Linköping Lund Stockholm].each { |name| event.cities.build(name:) }
+
+    tags = homepage_training_location_tags(event, delivery_present: false)
+
+    assert_equal %w[Gothenburg Linköping Lund Stockholm], tags
+  end
 end

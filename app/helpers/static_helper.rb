@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module StaticHelper
+  HOMEPAGE_TRAINING_CARD_TAG_LIMIT = 4
+
   def homepage_event_date_range(event, range_separator: '-')
     start_date = event.start&.to_date
     end_date = event.end&.to_date
@@ -32,6 +34,18 @@ module StaticHelper
 
     cities = event.cities.map(&:name).compact_blank
     cities.presence || Array(event.country.presence)
+  end
+
+  def homepage_training_location_tags(event, delivery_present:)
+    locations = homepage_training_locations(event)
+    location_tag_limit = HOMEPAGE_TRAINING_CARD_TAG_LIMIT - (delivery_present ? 1 : 0)
+
+    return locations if locations.size <= location_tag_limit
+
+    visible_locations = locations.first(location_tag_limit - 1)
+    remaining_count = locations.size - visible_locations.size
+
+    visible_locations + [t('homepage.upcoming_training.more_locations', count: remaining_count)]
   end
 
   def homepage_training_registration_label(event)
