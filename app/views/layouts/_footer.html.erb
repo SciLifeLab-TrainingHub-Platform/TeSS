@@ -1,42 +1,79 @@
+<% external_link_options = { target: '_blank', rel: 'noopener noreferrer' } %>
+
 <footer class="footer">
-  <div class="container">
-    <div class="row text-center m-0">
-      <div class="col-sm-4">
-        <div class="footer-logo footer-item">
-          <%= image_tag(TeSS::Config.site['favicon'], :alt => TeSS::Config.site['logo_alt']) %>
-        </div>
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <%= link_to 'https://www.scilifelab.se/',
+                  class: 'footer__brand-link',
+                  **external_link_options do %>
+        <%= image_tag 'scilifelab/SciLifeLab_Logotype_Green_POS.png',
+                      class: 'footer__logo',
+                      alt: t('footer.logo_alt'),
+                      width: 207,
+                      height: 45 %>
+      <% end %>
 
-        <div class="footer-item contact-link">
-          <%= mail_to(TeSS::Config.contact_email) %><br/>
-        </div>
+      <p class="footer__description"><%= t('footer.description') %></p>
 
-        <%#= link_to t("home.providers.button_text"), registering_resources_path, class: 'btn btn-primary btn-sm', style: 'margin-top: 1em' %>
-      </div>
-
-      <div class="col-sm-4">
-        <div class="footer-item">
-          <%= link_to "About #{TeSS::Config.site['title_short']}", about_path %>
-        </div>
-        <div class="footer-item">
-          <%= link_to 'Privacy', privacy_path %>
-        </div>
-        <% if cookie_consent.required? %>
-          <div class="footer-item">
-            <%= link_to 'Cookie preferences', cookies_consent_path %>
-          </div>
-        <% end %>
-      </div>
-
-      <div class="col-sm-4">
-        <div class="footer-item">
-          <%= link_to 'Source code', TeSS::Config.site['repository'], target: '_blank', rel: 'noopener' %>
-        </div>
-        <div class="footer-item">
-          <%= link_to "https://www.scilifelab.se/", target: "_blank", rel: "noopener noreferrer" do %>
-            <%= image_tag(asset_path('scilifelab/SciLifeLab_Logotype_POS.png'), :alt => 'logo', width:'170px') %>
-          <% end %>
-        </div>
-      </div>
+      <%= mail_to TeSS::Config.contact_email,
+                  TeSS::Config.contact_email,
+                  class: 'footer__email' %>
     </div>
+
+    <nav class="footer__navigation" aria-label="<%= t('footer.navigation_label') %>">
+      <section class="footer__group" aria-labelledby="footer-discover-title">
+        <h2 id="footer-discover-title" class="footer__group-title">
+          <%= t('footer.discover.title') %>
+        </h2>
+        <ul class="footer__links">
+          <li><%= link_to t('footer.discover.all_training'), events_path %></li>
+          <li><%= link_to t('footer.discover.all_providers'), content_providers_path %></li>
+          <li><%= link_to t('footer.discover.learning_resources'), plan_design_stage_path %></li>
+          <li>
+            <%= link_to t('footer.discover.consultations'),
+                        'https://cal.com/scilifelab-traininghub/support-consult',
+                        **external_link_options %>
+          </li>
+        </ul>
+      </section>
+
+      <section class="footer__group" aria-labelledby="footer-providers-title">
+        <h2 id="footer-providers-title" class="footer__group-title">
+          <%= t('footer.providers.title') %>
+        </h2>
+        <ul class="footer__links">
+          <li><%= link_to t('footer.providers.add_training'), new_event_path %></li>
+          <li>
+            <%= link_to t('footer.providers.conferences'),
+                        'https://www.scilifelab.se/events/',
+                        **external_link_options %>
+          </li>
+          <li>
+            <%= link_to t('footer.providers.guide'),
+                        'https://youtu.be/_AQN4pqvZ3o',
+                        **external_link_options %>
+          </li>
+          <li><%= link_to t('footer.providers.resources'), resources_path %></li>
+        </ul>
+      </section>
+
+      <section class="footer__group" aria-labelledby="footer-about-title">
+        <h2 id="footer-about-title" class="footer__group-title">
+          <%= t('footer.about.title') %>
+        </h2>
+        <ul class="footer__links">
+          <li><%= link_to t('footer.about.portal'), about_path %></li>
+          <li>
+            <%= link_to t('footer.about.source_code'),
+                        TeSS::Config.site['repository'],
+                        **external_link_options %>
+          </li>
+          <li><%= link_to t('footer.about.privacy'), privacy_path %></li>
+          <% if cookie_consent.required? %>
+            <li><%= link_to t('footer.about.cookie_preferences'), cookies_consent_path %></li>
+          <% end %>
+        </ul>
+      </section>
+    </nav>
   </div>
 </footer>

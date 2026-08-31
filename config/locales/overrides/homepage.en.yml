@@ -1,0 +1,51 @@
+en:
+  homepage:
+    hero:
+      headline_html: "Develop the <strong>knowledge, skills, &amp; abilities</strong> that move life science forward."
+      introduction: Discover training workshops, courses, and online modules for the life sciences research community in Sweden.
+      search_label: Search the Training Portal
+      search_placeholder: Search training, topics, providers...
+      popular_label: "Popular:"
+      popular_searches:
+        - label: Bioinformatics
+          query: Bioinformatics
+        - label: Data Analysis
+          query: Data Analysis
+        - label: Open Science
+          query: Open Science
+        - label: Machine Learning
+          query: Machine Learning
+      featured_label: What’s new?
+      featured_empty: No new training is currently listed.
+      statistics:
+        providers:
+          description: Training content providers from Sweden and the EU.
+        participants:
+          value: ">2,500"
+          description: Annual participants in SciLifeLab training activities.
+    upcoming_training:
+      title: Upcoming training
+      view_all: See all training
+      empty: There is no upcoming training currently listed.
+      apply_by: "Apply by: %{date}"
+      registration_closed: Registration closed
+      more_locations: "+%{count} more"
+      delivery:
+        onsite: In person
+        online: Online
+        hybrid: Hybrid
+    portal_actions:
+      section_title: Explore the Training Portal
+      become_provider:
+        title: Want to list your training?
+        description: Our Training Portal is open for anyone to list training that is of interest to the life sciences community in Sweden.
+        link_label: Become a provider
+      catalogue:
+        title: Browse our training catalogue
+        description: View the collection of courses, workshops, and self-paced learning developed by the SciLifeLab community and register your interest for upcoming training.
+        link_label: See our training catalogue
+      portal_guidance:
+        title: What goes on the Training Portal?
+        description: If your goal is to teach, train, or build capability, your activity belongs on the Training Portal. Events that share research, build community, or spark discussion belong on the Events Calendar.
+        link_label: Learn more
+        link_url: https://drive.google.com/file/d/175Sw8TFe73BnOUdwOLCZoklG6f-0iOfR/view?usp=sharing

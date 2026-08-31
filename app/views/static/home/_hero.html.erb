@@ -1,0 +1,8 @@
+<section class="homepage-hero" aria-labelledby="homepage-hero-title">
+  <div class="homepage-hero__inner">
+    <%= render 'static/home/hero_introduction' %>
+    <%= render 'static/home/hero_highlights',
+               featured_event: @featured_event,
+               provider_count: @provider_count %>
+  </div>
+</section>

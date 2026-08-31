@@ -1,0 +1,25 @@
+en:
+  footer:
+    logo_alt: SciLifeLab
+    navigation_label: Footer navigation
+    description: >-
+      The SciLifeLab Training Portal is a central hub to find advanced life science training from the SciLifeLab
+      Research Infrastructure and Universities across Sweden.
+    discover:
+      title: Discover
+      all_training: All training
+      all_providers: All providers
+      learning_resources: Learning resources
+      consultations: Consultations
+    providers:
+      title: For providers
+      add_training: Add training
+      conferences: SciLifeLab Conferences & Seminars
+      guide: Provider guide
+      resources: Training Hub resources
+    about:
+      title: About
+      portal: About the Training Portal
+      source_code: Source code
+      privacy: Privacy
+      cookie_preferences: Cookie preferences

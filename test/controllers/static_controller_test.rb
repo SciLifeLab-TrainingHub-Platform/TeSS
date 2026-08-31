@@ -8,6 +8,81 @@ class StaticControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'selects the newest upcoming event as featured and excludes it from the next four events' do
+    selected_events = Event.order(:id).first(6)
+    base_time = 2.weeks.from_now
+
+    selected_events.each_with_index do |event, index|
+      event.update_columns(
+        start: base_time + index.days,
+        end: base_time + index.days + 2.hours,
+        created_at: base_time - (5 - index).hours
+      )
+    end
+
+    @controller.stub(:homepage_event_scope, Event.where(id: selected_events.map(&:id))) do
+      get :home
+    end
+
+    homepage = @controller.view_assigns
+
+    assert_equal selected_events.last, homepage['featured_event']
+    assert_equal selected_events.first(4), homepage['upcoming_training_events'].to_a
+    refute_includes homepage['upcoming_training_events'], homepage['featured_event']
+  end
+
+  test 'uses only publicly available current and upcoming events on the homepage' do
+    eligible, hidden, unapproved, expired, failing = Event.order(:id).first(5)
+    candidates = [eligible, hidden, unapproved, expired, failing]
+    starts_at = 2.weeks.from_now
+
+    candidates.each do |event|
+      event.update_columns(
+        start: starts_at,
+        end: starts_at + 2.hours,
+        event_status: Event.event_statuses[:approved],
+        visible: true
+      )
+    end
+
+    hidden.update_columns(visible: false)
+    unapproved.update_columns(event_status: Event.event_statuses[:awaiting_review])
+    expired.update_columns(start: 2.days.ago, end: 1.day.ago)
+    failing.create_link_monitor!(url: failing.url, fail_count: LinkMonitor::FAILURE_THRESHOLD)
+
+    homepage_events = @controller
+                      .send(:homepage_event_scope)
+                      .where(id: candidates.map(&:id))
+                      .to_a
+
+    assert_equal [eligible], homepage_events
+  end
+
+  test 'handles a homepage without upcoming events' do
+    @controller.stub(:homepage_event_scope, Event.none) do
+      get :home
+    end
+
+    homepage = @controller.view_assigns
+
+    assert_nil homepage['featured_event']
+    assert_empty homepage['upcoming_training_events']
+  end
+
+  test 'counts only providers belonging to public users' do
+    public_providers = ContentProvider.from_verified_users
+    public_count = public_providers.count
+    provider_to_hide = content_providers(:goblet)
+
+    assert_includes public_providers, provider_to_hide
+
+    provider_to_hide.update_columns(user_id: users(:unverified_user).id)
+
+    get :home
+
+    assert_equal public_count - 1, @controller.view_assigns['provider_count']
+  end
+
   test 'should show tabs for enabled features' do
     skip 'Skipping this test as we are no longer maintaining UI test cases'
 
@@ -67,69 +142,6 @@ class StaticControllerTest < ActionController::TestCase
       assert_select 'li a[href=?]', trainers_path, count: 0
       assert_select 'li a[href=?]', nodes_path, count: 0
       assert_select 'li.dropdown.directory-menu', count: 0
-    end
-  end
-
-  test 'should allow configuration of home page sections' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-
-    site_settings = TeSS::Config.site.dup
-    site_settings['home_page'] = {
-      'catalogue_blocks': false,
-      'provider_carousel': false,
-      'featured_providers': nil,
-      'faq': [],
-      'promo_blocks': false
-    }
-
-    with_settings({ site: site_settings }) do
-      get :home
-      assert_select 'section#catalogue', count: 0
-      assert_select 'section#providers', count: 0
-      assert_select 'section#faq', count: 0
-      assert_select 'ul#promo-blocks', count: 0
-    end
-
-    site_settings['home_page']['catalogue_blocks'] = true
-    with_settings({ site: site_settings }) do
-      get :home
-      assert_select 'section#catalogue', count: 1
-      assert_select 'section#providers', count: 0
-      assert_select 'section#faq', count: 0
-      assert_select 'ul#promo-blocks', count: 0
-    end
-
-    site_settings['home_page']['provider_carousel'] = true
-    provider = content_providers(:goblet)
-    provider2 = content_providers(:iann)
-    site_settings['home_page']['featured_providers'] = [provider, provider2]
-    with_settings({ site: site_settings }) do
-      get :home
-      assert_select 'section#catalogue', count: 1
-      assert_select 'section#providers', count: 1
-      assert_select 'section#providers .item a[href=?]', content_provider_path(provider)
-      assert_select 'section#providers .item a[href=?]', content_provider_path(provider2)
-      assert_select 'section#faq', count: 0
-      assert_select 'ul#promo-blocks', count: 0
-    end
-
-    site_settings['home_page']['faq'] = %w[who why]
-    with_settings({ site: site_settings }) do
-      get :home
-      assert_select 'section#catalogue', count: 1
-      assert_select 'section#providers', count: 1
-      assert_select 'section#faq', count: 1
-      assert_select 'section#faq .question', count: 2
-      assert_select 'ul#promo-blocks', count: 0
-    end
-
-    site_settings['home_page']['promo_blocks'] = true
-    with_settings({ site: site_settings }) do
-      get :home
-      assert_select 'section#catalogue', count: 1
-      assert_select 'section#providers', count: 1
-      assert_select 'section#faq', count: 1
-      assert_select 'ul#promo-blocks', count: 1
     end
   end
 
@@ -195,145 +207,6 @@ class StaticControllerTest < ActionController::TestCase
           assert_select 'li:nth-child(1) a[href=?]', about_path
           assert_select 'li:nth-child(2) a[href=?]', materials_path
         end
-      end
-    end
-  end
-
-  test 'should hide unverified providers from carousel' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-    mock_images
-    ContentProvider.destroy_all
-    regular = users(:regular_user)
-    unverified = users(:unverified_user)
-    regular_provider = regular.content_providers.create!(title: 'Regular Provider',
-                                                         image_url: 'http://example.com/goblet.png',
-                                                         url: 'https://providers.com/p1')
-    unverified_provider = unverified.content_providers.create!(title: 'Unverified Provider',
-                                                               image_url: 'http://example.com/goblet.png',
-                                                               url: 'https://providers.com/p2')
-    another_provider = regular.content_providers.create!(title: 'Another Regular Provider',
-                                                         image_url: 'http://example.com/goblet.png',
-                                                         url: 'https://providers.com/p3')
-    with_settings(site: { home_page: { provider_carousel: true } }) do
-      get :home
-      assert_select 'section#providers .item', count: 2
-      assert_select 'section#providers .item a[href=?]', content_provider_path(regular_provider)
-      assert_select 'section#providers .item a[href=?]', content_provider_path(unverified_provider), count: 0
-      assert_select 'section#providers .item a[href=?]', content_provider_path(another_provider)
-    end
-  end
-
-  test 'should show upcoming events' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-
-    my_events = [events(:one), events(:two)]
-    my_events.each do |e|
-      e.start = Time.zone.tomorrow
-      e.end = Time.zone.tomorrow + 1.day
-      e.save!
-    end
-    Event.stub(:search_and_filter, MockSearch.new(my_events)) do
-      with_settings({ site: { home_page: { upcoming_events: 5 } } }) do
-        get :home
-        assert_select 'section#upcoming_events', count: 1
-        assert_select 'section#upcoming_events h2', count: 1
-        assert_select 'section#upcoming_events .link-overlay', count: 2
-      end
-    end
-  end
-
-  test 'should show latest materials' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-
-    my_materials = [materials(:good_material), materials(:interpro)]
-    Material.stub(:search_and_filter, MockSearch.new(my_materials)) do
-      with_settings({ site: { home_page: { latest_materials: 5 } } }) do
-        get :home
-        assert_select 'section#latest_materials', count: 1
-        assert_select 'section#latest_materials h2', count: 1
-        assert_select 'section#latest_materials .link-overlay', count: 2
-      end
-    end
-  end
-
-  test 'should show featured trainer' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-
-    with_settings({ site: { home_page: { featured_trainer: true } } }) do
-      get :home
-      assert_select 'section#featured_trainer', count: 1
-      assert_select 'section#featured_trainer h2', count: 1
-      assert_select 'section#featured_trainer li', count: 1
-    end
-  end
-
-  test 'should show event counts in counter blocks' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-
-    params = events(:one).attributes.symbolize_keys
-    params.delete(:id)
-    params = params.merge({ start: Time.zone.now + 1.week, end: Time.zone.now + 1.week + 8.hours })
-    111.times do |i|
-      Event.create(params.merge(url: "#{params[:url]}##{i}"))
-    end
-    with_settings({ site: { home_page: { counters: true } } }) do
-      get :home
-      assert_select 'div#resource_count', text: '112', count: 1
-    end
-  end
-
-  test 'should show provider grid' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-
-    mock_images
-    ContentProvider.destroy_all
-    regular = users(:regular_user)
-    unverified = users(:unverified_user)
-    regular_provider = regular.content_providers.create!(title: 'Regular Provider',
-                                                         image_url: 'http://example.com/goblet.png',
-                                                         url: 'https://providers.com/p1')
-    another_provider = regular.content_providers.create!(title: 'Another Regular Provider',
-                                                         image_url: 'http://example.com/goblet.png',
-                                                         url: 'https://providers.com/p3')
-    with_settings({ site: { home_page: { provider_grid: true } } }) do
-      get :home
-      assert_select 'section#content_providers_grid', count: 1
-      assert_select 'section#content_providers_grid li.provider-grid-tile', count: 2
-    end
-  end
-
-  test 'should show community banner if matching community for country' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-
-    Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'GB', 'names' => { 'en' => 'United Kingdom' } } }) do
-      with_settings({ site: { home_page: { communities: true } } }) do
-        get :home
-        assert_response :success
-        assert_select '#community-banner', text: /Visit the UK training portal to browse local training./
-      end
-    end
-  end
-
-  test 'should not show community banner if no matching community for country' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-
-    Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'SE', 'names' => { 'en' => 'Sweden' } } }) do
-      with_settings({ site: { home_page: { communities: true } } }) do
-        get :home
-        assert_response :success
-        assert_select '#community-banner', count: 0
-      end
-    end
-  end
-
-  test 'should not show community banner if feature disabled' do
-    skip 'Skipping this test as we are no longer maintaining UI test cases'
-
-    Locator.instance.stub(:lookup, { 'country' => { 'iso_code' => 'GB', 'names' => { 'en' => 'United Kingdom' } } }) do
-      with_settings({ site: { home_page: { communities: false } } }) do
-        get :home
-        assert_response :success
-        assert_select '#community-banner', count: 0
       end
     end
   end

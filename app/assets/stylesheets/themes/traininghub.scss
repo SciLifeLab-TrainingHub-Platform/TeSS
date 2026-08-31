@@ -6,6 +6,38 @@
   font-family: 'Lato';
   src: font-url('Lato-Regular.ttf') format('truetype');
 }
+
+@font-face {
+  font-display: swap;
+  font-family: "Lato TrainingHub Bold";
+  font-style: normal;
+  font-weight: 700;
+  src: font-url("Lato-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Lato TrainingHub ExtraBold";
+  font-style: normal;
+  font-weight: 800;
+  src: font-url("Lato-Black.ttf") format("truetype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter TrainingHub";
+  font-style: normal;
+  font-weight: 400;
+  src: font-url("Inter-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter TrainingHub";
+  font-style: normal;
+  font-weight: 600;
+  src: font-url("Inter-SemiBold.woff2") format("woff2");
+}
 $primary-color: #045C64;    // SciLifeLab color
 $secondary-color: #491F53;  // SciLifeLab color
 $accent-color: #A7C947;     // SciLifeLab color

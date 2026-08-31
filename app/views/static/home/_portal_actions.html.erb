@@ -1,0 +1,38 @@
+<% actions = t('homepage.portal_actions') %>
+<% provider = actions[:become_provider] %>
+<% catalogue = actions[:catalogue] %>
+<% guidance = actions[:portal_guidance] %>
+
+<section class="homepage-portal-actions" aria-labelledby="homepage-portal-actions-title">
+  <h2 id="homepage-portal-actions-title" class="sr-only"><%= actions[:section_title] %></h2>
+
+  <div class="homepage-portal-actions__grid">
+    <%= render 'static/home/portal_action_card',
+               title: provider[:title],
+               description: provider[:description],
+               url: new_event_path,
+               theme: 'teal',
+               button_label: provider[:link_label],
+               button_variant: 'lime',
+               button_icon: 'portal-plus' %>
+
+    <%= render 'static/home/portal_action_card',
+               title: catalogue[:title],
+               description: catalogue[:description],
+               url: courses_path,
+               theme: 'aqua',
+               button_label: catalogue[:link_label],
+               button_variant: 'grape-75',
+               button_icon: 'portal-walk' %>
+
+    <%= render 'static/home/portal_action_card',
+               title: guidance[:title],
+               description: guidance[:description],
+               url: guidance[:link_url],
+               theme: 'grape',
+               button_label: guidance[:link_label],
+               button_variant: 'lime',
+               button_icon: 'portal-plus',
+               new_tab: true %>
+  </div>
+</section>

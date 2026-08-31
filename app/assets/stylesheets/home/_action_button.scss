@@ -1,0 +1,92 @@
+.homepage-action-button {
+  align-items: center;
+  border: 0;
+  border-radius: 999px;
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 8px;
+  height: 56px;
+  justify-content: flex-start;
+  max-width: 100%;
+  padding: 0 24px;
+  font-family: Lato, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+    outline: 0;
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px $scilifelab-color-grape;
+  }
+
+  &--aqua {
+    color: #fff;
+    background: $scilifelab-color-aqua;
+
+    &:hover,
+    &:focus {
+      color: #fff;
+      background: darken($scilifelab-color-aqua, 8%);
+    }
+  }
+
+  &--lime {
+    color: #000;
+    background: $scilifelab-color-lime;
+
+    &:hover,
+    &:focus {
+      color: #000;
+      background: darken($scilifelab-color-lime, 8%);
+    }
+  }
+
+  &--grape-75 {
+    color: #fff;
+    background: $scilifelab-color-grape-75;
+
+    &:hover,
+    &:focus {
+      color: #fff;
+      background: $scilifelab-color-grape;
+    }
+  }
+}
+
+.homepage-action-button__icon {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 24px;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+
+.homepage-action-button__icon--star-outline {
+  background: currentcolor;
+  -webkit-mask: image-url("scilifelab/homepage/star-outline.svg") center / 20px 19px no-repeat;
+  mask: image-url("scilifelab/homepage/star-outline.svg") center / 20px 19px no-repeat;
+}
+
+.homepage-action-button__icon--portal-plus {
+  background: currentcolor;
+  -webkit-mask: image-url("scilifelab/homepage/portal-button-plus.svg") center / 14px 14px no-repeat;
+  mask: image-url("scilifelab/homepage/portal-button-plus.svg") center / 14px 14px no-repeat;
+}
+
+.homepage-action-button__icon--portal-walk {
+  background: currentcolor;
+  -webkit-mask: image-url("scilifelab/homepage/portal-button-walk.svg") center / 13px 21.5px no-repeat;
+  mask: image-url("scilifelab/homepage/portal-button-walk.svg") center / 13px 21.5px no-repeat;
+}
+
+.homepage-action-button__label {
+  min-width: 0;
+}
