@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class RailsAdminUserFieldsTest < ActiveSupport::TestCase
@@ -7,6 +9,7 @@ class RailsAdminUserFieldsTest < ActiveSupport::TestCase
   # See the patch in config/initializers/rails_admin.rb
   test 'password field help text renders with proc-based length validators' do
     field = RailsAdmin.config(User).edit.fields.detect { |f| f.name == :password }
+
     assert field, 'expected RailsAdmin to expose a password field on User'
 
     help = nil
@@ -20,11 +23,12 @@ class RailsAdminUserFieldsTest < ActiveSupport::TestCase
   # halves of the patch: procs get called, anything else is passed through.
   test 'callable length options are resolved and plain ones are left alone' do
     field = RailsAdmin.config(User).edit.fields.detect { |f| f.name == :password }
+
     assert field, 'expected RailsAdmin to expose a password field on User'
 
     assert_equal User.password_length.min, field.valid_length[:minimum]
     assert_equal User.password_length.max, field.valid_length[:maximum]
-    assert_equal true, field.valid_length[:allow_blank]
+    assert_same true, field.valid_length[:allow_blank]
   end
 
   # The patch has to keep the form alive even when an option cannot be resolved,
@@ -52,9 +56,9 @@ class RailsAdminUserFieldsTest < ActiveSupport::TestCase
 
   # The field caches the options it resolved, so clear that cache around the
   # stub to leave the shared RailsAdmin config untouched for the other tests.
-  def with_stubbed_validators(field, validators, &block)
+  def with_stubbed_validators(field, validators, &)
     field.instance_variable_set(:@valid_length, nil)
-    User.stub(:validators_on, validators, &block)
+    User.stub(:validators_on, validators, &)
   ensure
     field.instance_variable_set(:@valid_length, nil)
     field.instance_variable_set(:@help, nil)

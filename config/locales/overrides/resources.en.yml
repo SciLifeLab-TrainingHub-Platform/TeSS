@@ -68,7 +68,7 @@ en:
         jessica_lindvall:
           name: Jessica Lindvall
           image: scilifelab/staff/jessica-resources-thumbnail.webp
-          url: https://training.scilifelab.se/about/us#team
+          url: https://training.scilifelab.se/users/jessica-lindvall
       learning_resource_profiles:
         train_the_trainer:
           title: Train-the-Trainer course
