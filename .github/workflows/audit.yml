@@ -1,0 +1,44 @@
+name: Gem audit
+
+# Scans Gemfile.lock for gems with known security advisories (CVEs) using
+# bundle-audit. Runs when the Gemfile changes and once a week.
+#
+# NOTE: this is currently NON-BLOCKING (`continue-on-error: true`). The repo has
+# a pre-existing backlog of advisories (some only fixable via the Rails 7 -> 8
+# upgrade), so failing every PR now would block all work. The job reports the
+# findings for visibility; once the backlog is cleared, remove `continue-on-error`
+# to make it a required, blocking gate.
+
+permissions:
+  contents: read
+
+on:
+  push:
+    paths:
+      - 'Gemfile*'
+  pull_request:
+    paths:
+      - 'Gemfile*'
+  schedule:
+    - cron: '0 9 * * 1'   # every Monday 09:00 UTC
+
+jobs:
+  audit:
+    name: Audit gems for known vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true   # runs bundle install and caches gems
+
+      - name: Audit gems
+        continue-on-error: true   # non-blocking for now — see note at top of file
+        run: bundle exec bundle-audit check --update
