@@ -74,7 +74,6 @@ gem 'validate_url'
 gem 'whenever', require: false # Work around https://github.com/javan/whenever/issues/831
 gem 'will_paginate'
 
-
 group :development, :test do
   gem 'bundle-audit', require: false # CLI-only; scans Gemfile.lock for gems with known CVEs (run in CI + weekly)
   gem 'byebug'
