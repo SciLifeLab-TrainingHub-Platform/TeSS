@@ -15,7 +15,7 @@ default: &default
   site:
     title: 'TeSS Test Instance'
     title_short: 'TTI'
-    favicon: ''
+    favicon: 'elixir/favicon.png'
     logo: ''
     logo_alt: ''
     logo_open_graph: ''
