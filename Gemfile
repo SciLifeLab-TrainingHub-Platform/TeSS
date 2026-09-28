@@ -74,14 +74,6 @@ gem 'validate_url'
 gem 'whenever', require: false # Work around https://github.com/javan/whenever/issues/831
 gem 'will_paginate'
 
-source 'https://rails-assets.org' do
-  gem 'rails-assets-clipboard', '~> 1.5.12'
-  gem 'rails-assets-devbridge-autocomplete', '~> 1.4.9'
-  gem 'rails-assets-eonasdan-bootstrap-datetimepicker', '~> 4.17.42'
-  gem 'rails-assets-markdown-it', '~> 7.0.1'
-  gem 'rails-assets-moment', '~> 2.15.0'
-  gem 'rails-assets-select2', '~> 4.0.8'
-end
 
 group :development, :test do
   gem 'bundle-audit', require: false # CLI-only; scans Gemfile.lock for gems with known CVEs (run in CI + weekly)
@@ -103,10 +95,12 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
   gem 'committee'
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'rails-controller-testing'
+  gem 'selenium-webdriver'
   gem 'vcr'
   gem 'webmock'
 end
