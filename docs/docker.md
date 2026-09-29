@@ -44,6 +44,23 @@ Create TeSS configuration files:
     docker-compose run app bundle install
     docker-compose run app bundle exec rake db:setup
 
+### Setup yarn dependencies
+
+    docker-compose run app yarn install
+
+*Note: `node_modules` is mounted as a named docker volume. Docker only populates it from
+the image when the volume is first created, so a volume left over from before the yarn
+migration stays empty and masks the image's dependencies. If JS-driven features (the
+events calendar, date pickers, topic selectors) look broken after pulling, recreate it.
+The volume is named after your compose project, usually `tess_node_modules` — check with
+`docker volume ls`:*
+
+    docker-compose down
+    docker volume rm tess_node_modules
+    docker-compose up -d --build
+
+*Do not use `docker-compose down -v`, which would also delete your database and Solr data.*
+
 ### Insert the cities into database
 
     docker-compose run app rake city:import
