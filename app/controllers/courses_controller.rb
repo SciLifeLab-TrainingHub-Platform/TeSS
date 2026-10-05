@@ -1,8 +1,8 @@
 # Controller for actions related to the Course model
 class CoursesController < ApplicationController
   before_action -> { feature_enabled?('courses') }
-  before_action :set_course, only: %i[show edit update destroy]
-  before_action :set_course_dependencies, only: [:new, :edit, :create, :update]
+  before_action :set_course, only: %i[show edit update destroy clone]
+  before_action :set_course_dependencies, only: [:new, :edit, :create, :update, :clone]
   before_action :set_breadcrumbs
 
   after_action :course_change_status_and_notify_admin, only: [:update]
@@ -39,6 +39,15 @@ class CoursesController < ApplicationController
     @course = Course.new
     @selected_content_providers_id = []
     @selected_events_id = []
+  end
+
+  # GET /courses/1/clone
+  def clone
+    authorize @course
+    @course = @course.duplicate
+    @selected_content_providers_id = @course.content_providers.pluck(:id)
+    @selected_events_id = []
+    render :new
   end
 
   # GET /courses/1/edit

@@ -850,6 +850,78 @@ class CoursesControllerTest < ActionController::TestCase
     assert_equal shadowbanned_course.id, JSON.parse(response.body)['id']
   end
 
+  # CLONE TESTS
+  test 'should not clone course for not logged in user' do
+    course = courses(:one)
+    get :clone, params: { id: course }
+    assert_redirected_to new_user_session_path
+  end
+
+  test 'should get clone for logged in user' do
+    sign_in users(:regular_user)
+    course = courses(:one)
+    get :clone, params: { id: course }
+    assert_response :success
+    assert_template :new
+  end
+
+  test 'should prepare cloned course with duplicated values' do
+    sign_in users(:regular_user)
+    course = courses(:one)
+    get :clone, params: { id: course }
+    cloned_course = assigns(:course)
+
+    assert_response :success
+    assert_template :new
+
+    assert_not_equal course.id, cloned_course.id
+    assert_not cloned_course.persisted?
+
+    assert_equal course.title, cloned_course.title
+    assert_equal course.description, cloned_course.description
+    assert_equal course.language, cloned_course.language
+    assert_equal course.keywords, cloned_course.keywords
+    assert_equal course.authors, cloned_course.authors
+    assert_equal course.contributors, cloned_course.contributors
+
+    assert_nil cloned_course.url
+    assert_equal 'awaiting_review', cloned_course.course_status
+  end
+
+  test 'should copy content providers and leave events unselected when cloning' do
+    sign_in users(:regular_user)
+    course = courses(:one)
+    get :clone, params: { id: course.id }
+    cloned_course = assigns(:course)
+
+    assert_response :success
+
+    # Verify the cloned course keeps the same content providers and the form selects them
+    assert_equal(
+      course.content_provider_ids,
+      cloned_course.content_provider_ids
+    )
+    # Verify content providers are selected in the clone form
+    assert_equal(
+      cloned_course.content_provider_ids,
+      assigns(:selected_content_providers_id)
+    )
+
+    # Verify no events are selected for the cloned course
+    assert_equal [], assigns(:selected_events_id)
+  end
+
+  test 'cloning a course does not create a new course' do
+    sign_in users(:regular_user)
+    course = courses(:one)
+    assert_no_difference('Course.count') do
+      get :clone, params: { id: course}
+    end
+
+    assert_response :success
+    assert_not assigns(:course).persisted?
+  end
+
   # todo: add reporting test cases and feature
 
 end
