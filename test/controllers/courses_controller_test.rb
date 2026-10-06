@@ -908,7 +908,7 @@ class CoursesControllerTest < ActionController::TestCase
     )
 
     # Verify no events are selected for the cloned course
-    assert_equal [], assigns(:selected_events_id)
+    assert_empty assigns(:selected_events_id)
   end
 
   test 'cloning a course does not create a new course' do
