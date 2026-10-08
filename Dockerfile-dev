@@ -32,7 +32,9 @@ WORKDIR /code
 #RUN chmod u+w /code
 COPY . .
 
-
+# Bundler 4 touches Gemfile.lock on install/check unless frozen, and appuser
+# cannot write the root-owned lockfile. Frozen also fails if it is out of date.
+ENV BUNDLE_FROZEN=true
 RUN bundle install
 RUN yarn install --frozen-lockfile --non-interactive
 USER root
