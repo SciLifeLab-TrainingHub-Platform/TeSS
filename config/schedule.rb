@@ -84,3 +84,13 @@ else
     rake 'delete_events:delete_old'
   end
 end
+
+if !schedules['delete_old_courses'].nil?
+  every :"#{schedules['delete_old_courses']['every']}", at: "#{schedules['delete_old_courses']['at']}" do
+    rake 'delete_courses:delete_old'
+  end
+else
+  every :day, at: '4am' do
+    rake 'delete_courses:delete_old'
+  end
+end
