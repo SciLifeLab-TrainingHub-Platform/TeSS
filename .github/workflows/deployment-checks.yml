@@ -10,7 +10,7 @@ jobs:
       DB_NAME: tess
       DB_USER: tess
       DB_PASSWORD: password
-      SECRET_BASE_KEY: test_key
+      SECRET_KEY_BASE: test_key
       RAILS_ENV: production
     services:
       postgres:
