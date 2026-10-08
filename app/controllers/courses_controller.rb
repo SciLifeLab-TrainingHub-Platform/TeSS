@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
   before_action :set_breadcrumbs
 
   after_action :course_change_status_and_notify_admin, only: [:update]
-  before_action only: [:show, :edit, :update] do
+  before_action only: [:show, :edit, :update, :clone] do
     authorize_resource_access(@course)
   end
 

@@ -2,6 +2,6 @@
 
 class CoursePolicy < ScrapedResourcePolicy
   def clone?
-    manage?
+    user.present?
   end
 end

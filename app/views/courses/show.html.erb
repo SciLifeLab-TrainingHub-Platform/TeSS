@@ -36,8 +36,8 @@
         </div>
         <% if @course.persisted? %>
           <div class="content-manager-actions">
+            <%= link_to 'Clone', clone_course_path(@course), class: 'btn btn-default' if user_signed_in? %>
             <% if policy(@course).update? %>
-              <%= link_to 'Clone', clone_course_path(@course), class: 'btn btn-default' %>
               <%= edit_button(@course) %>
             <% end %>
             <%= delete_button(@course) if policy(@course).destroy? %>
