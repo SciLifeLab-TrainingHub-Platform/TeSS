@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :delete_courses do
   # To manually run this command:
   # rake delete_courses:delete_old
