@@ -7,8 +7,6 @@ namespace :delete_courses do
     # Calls destroy on each record, which triggers callbacks like dependent: :destroy
     # ensuring associated records are handled correctly.
     deleted_count = declined_courses.destroy_all.size
-
     Rails.logger.info "Destroyed #{deleted_count} declined courses and their associated records."
-    puts "Destroyed #{deleted_count} declined courses and their associated records."
   end
 end
