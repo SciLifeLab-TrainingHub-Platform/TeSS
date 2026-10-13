@@ -9,7 +9,6 @@ class EventPolicy < ScrapedResourcePolicy
   end
 
   def clone?
-    manage?
+    user.present?
   end
-
 end
