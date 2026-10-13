@@ -1747,12 +1747,17 @@ class EventsControllerTest < ActionController::TestCase
     assert_nil assigns(:event).reload.course_id
   end
 
-  test 'should not clone event if no permission' do
+  test 'should clone event if user is signed in' do
     sign_in users(:another_regular_user)
     get :clone, params: { id: @event }
-    assert_response :forbidden
+    assert_response :success
   end
 
+  test 'should redirect to login if user is not logged in' do
+    get :clone, params: { id: @event }
+    assert_redirected_to new_user_session_path
+  end
+  
   test 'should not show map on event show page (even with location data)' do
     get :show, params: { id: events(:one) }
     assert_response :success

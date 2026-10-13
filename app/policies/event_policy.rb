@@ -11,5 +11,4 @@ class EventPolicy < ScrapedResourcePolicy
   def clone?
     user.present?
   end
-
 end
