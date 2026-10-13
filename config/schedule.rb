@@ -90,7 +90,7 @@ if !schedules['delete_old_courses'].nil?
     rake 'delete_courses:delete_old'
   end
 else
-  every :day, at: '4am' do
+  every :day, at: '4:30am' do
     rake 'delete_courses:delete_old'
   end
 end
