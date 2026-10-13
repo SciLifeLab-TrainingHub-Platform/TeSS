@@ -35,7 +35,7 @@ Rails.application.configure do
   # action mailer smtp settings
   if TeSS::Config.mailer['delivery_method'] == 'smtp'
     config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = Rails.application.secrets[:smtp] if Rails.application.secrets.key?(:smtp)
+    config.action_mailer.smtp_settings = Rails.application.config.secrets[:smtp] if Rails.application.config.secrets.key?(:smtp)
   end
 
   # action mailer sendmail settings

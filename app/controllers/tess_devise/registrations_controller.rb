@@ -25,7 +25,7 @@ class TessDevise::RegistrationsController < Devise::RegistrationsController
 
   # Pinched from https://github.com/plataformatec/devise/wiki/How-To:-Use-Recaptcha-with-Devise
   def check_captcha
-    return if Rails.application.secrets.recaptcha[:sitekey].blank?
+    return if Rails.application.config.secrets.recaptcha[:sitekey].blank?
     recaptcha_valid = verify_recaptcha(response: params[:recaptcha_token], action: 'signup', minimum_score: 0.5)
     unless recaptcha_valid
       self.resource = resource_class.new sign_up_params
