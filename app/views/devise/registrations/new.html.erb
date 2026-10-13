@@ -36,7 +36,7 @@
 
         <%= f.input :password_confirmation, required: true, input_html: { autocomplete: 'off' } %>
 
-        <% unless Rails.application.secrets.recaptcha[:sitekey].blank? -%>
+        <% unless Rails.application.config.secrets.recaptcha[:sitekey].blank? -%>
           <div class="form-group">
             <%= hidden_field_tag :recaptcha_token, '', id: 'registration-recaptcha-token' %>
           </div>
@@ -62,7 +62,7 @@
   <% end %>
 </div>
 
-<% unless Rails.application.secrets.recaptcha[:sitekey].blank? -%>
+<% unless Rails.application.config.secrets.recaptcha[:sitekey].blank? -%>
   <script src="https://www.google.com/recaptcha/api.js?render=<%= Recaptcha.configuration.site_key %>"></script>
 
   <script>

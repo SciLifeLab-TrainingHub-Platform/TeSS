@@ -25,6 +25,11 @@ module TeSS
       end
     end
 
+    config.secrets = config_for('secrets')
+    if Rails.env.test?
+      test_secrets = YAML.safe_load(File.read(Rails.root.join('test', 'config', 'test_secrets.yml'))).deep_symbolize_keys!
+      config.secrets.merge!(test_secrets)
+    end
     config.tess = config_for(Rails.env.test? ? Pathname.new(Rails.root).join('test', 'config', 'test_tess.yml') : 'tess')
     config.tess_defaults = config_for('tess.example')
 
@@ -89,14 +94,14 @@ module TeSS
     def analytics_enabled
       return true if force_analytics_enabled
 
-      matomo_configured = Rails.application.secrets.matomo_url.present? &&
-                          Rails.application.secrets.matomo_site_id.present?
+      matomo_configured = Rails.application.config.secrets.matomo_url.present? &&
+                          Rails.application.config.secrets.matomo_site_id.present?
 
       matomo_configured && Rails.env.production? && ENV['DEPLOYMENT_ENV'] == 'live'
     end
 
     def map_enabled
-      !feature['disabled'].include?('events_map') && Rails.application.secrets.google_maps_api_key.present?
+      !feature['disabled'].include?('events_map') && Rails.application.config.secrets.google_maps_api_key.present?
     end
 
     def _sentry_dsn
