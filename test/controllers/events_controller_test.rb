@@ -26,9 +26,9 @@ class EventsControllerTest < ActionController::TestCase
     @mandatory_fields = { online: true, start: @event.start, end: @event.end,
                           host_institutions: @event.host_institutions, timezone: @event.timezone,
                           contact: @event.contact, eligibility: @event.eligibility,
-                          node_ids: [ @event.nodes[0].id ], language: @event.language,
+                          node_ids: [@event.nodes[0].id], language: @event.language,
                           prerequisites: @event.prerequisites, target_audience: @event.target_audience,
-                          content_provider_ids: [ @event.content_providers[0].id ],
+                          content_provider_ids: [@event.content_providers[0].id],
                           learning_objectives: @event.learning_objectives,
                           event_prices_attributes: [{ cost: 9.99, currency: "SEK", audience_type: "Academic" }]
     }
@@ -827,11 +827,11 @@ class EventsControllerTest < ActionController::TestCase
 
   test 'check_exists should not disclose unapproved events to the public' do
     pending_event = users(:regular_user).events.create!(@mandatory_fields.merge(
-                                                         title: 'Pending event',
-                                                         url: 'http://example.com/pending-event-check-exists',
-                                                         description: 'this is a pending event',
-                                                         event_status: Event.event_statuses[:awaiting_review]
-                                                       ))
+      title: 'Pending event',
+      url: 'http://example.com/pending-event-check-exists',
+      description: 'this is a pending event',
+      event_status: Event.event_statuses[:awaiting_review]
+    ))
 
     post :check_exists, params: { format: :json, event: { url: pending_event.url } }
     assert_response :success
@@ -883,10 +883,10 @@ class EventsControllerTest < ActionController::TestCase
         user_token: 'made up authentication token',
         user_email: scraper_user.email,
         event: @mandatory_fields.merge({
-          title: 'event_title',
-          url: 'http://horse.com',
-          description: 'All about horses'
-        }),
+                                         title: 'event_title',
+                                         url: 'http://horse.com',
+                                         description: 'All about horses'
+                                       }),
         format: 'json'
       }
     end
@@ -903,10 +903,10 @@ class EventsControllerTest < ActionController::TestCase
         user_token: user.authentication_token,
         user_email: user.email,
         event: @mandatory_fields.merge({
-          title: new_title,
-          url: event.url,
-          description: event.description
-        }),
+                                         title: new_title,
+                                         url: event.url,
+                                         description: event.description
+                                       }),
         id: event.id,
         format: 'json'
       }
@@ -925,10 +925,10 @@ class EventsControllerTest < ActionController::TestCase
         user_token: user.authentication_token,
         user_email: user.email,
         event: @mandatory_fields.merge({
-          title: new_title,
-          url: event.url,
-          description: event.description
-        }),
+                                         title: new_title,
+                                         url: event.url,
+                                         description: event.description
+                                       }),
         id: event.id,
         format: 'json'
       }
@@ -1052,11 +1052,11 @@ class EventsControllerTest < ActionController::TestCase
       patch :update, params: {
         id: @event,
         event: @mandatory_fields.merge({
-          title: 'New title',
-          description: 'New description',
-          url: 'http://new.url.com',
-          external_resources_attributes: { '1' => { title: 'Cool link', url: 'https://tess.elixir-uk.org/', _destroy: '0' } }
-        })
+                                         title: 'New title',
+                                         description: 'New description',
+                                         url: 'http://new.url.com',
+                                         external_resources_attributes: { '1' => { title: 'Cool link', url: 'https://tess.elixir-uk.org/', _destroy: '0' } }
+                                       })
       }
     end
 
@@ -1075,11 +1075,11 @@ class EventsControllerTest < ActionController::TestCase
       patch :update, params: {
         id: event,
         event: @mandatory_fields.merge({
-          title: 'New title',
-          description: 'New description',
-          url: 'http://new.url.com',
-          external_resources_attributes: { '0' => { id: resource.id, _destroy: '1' } }
-        })
+                                         title: 'New title',
+                                         description: 'New description',
+                                         url: 'http://new.url.com',
+                                         external_resources_attributes: { '0' => { id: resource.id, _destroy: '1' } }
+                                       })
       }
     end
 
@@ -1117,10 +1117,10 @@ class EventsControllerTest < ActionController::TestCase
     assert_difference('Event.count', 1) do
       post :create, params: {
         event: @mandatory_fields.merge({
-          description: '<b>hi</b><script>alert("hi!");</script>',
-          title: 'Dirty Event',
-          url: 'http://www.example.com/events/dirty'
-        })
+                                         description: '<b>hi</b><script>alert("hi!");</script>',
+                                         title: 'Dirty Event',
+                                         url: 'http://www.example.com/events/dirty'
+                                       })
       }
     end
 
@@ -1134,11 +1134,11 @@ class EventsControllerTest < ActionController::TestCase
     assert_difference('Event.count') do
       post :create, params: {
         event: @mandatory_fields.merge({
-          title: @event.title,
-          url: @event.url,
-          description: @event.description,
-          node_names: [nodes(:westeros).name, nodes(:good).name]
-        })
+                                         title: @event.title,
+                                         url: @event.url,
+                                         description: @event.description,
+                                         node_names: [nodes(:westeros).name, nodes(:good).name]
+                                       })
       }
     end
 
@@ -1757,7 +1757,7 @@ class EventsControllerTest < ActionController::TestCase
     get :clone, params: { id: @event }
     assert_redirected_to new_user_session_path
   end
-  
+
   test 'should not show map on event show page (even with location data)' do
     get :show, params: { id: events(:one) }
     assert_response :success
@@ -1849,8 +1849,8 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should show unverified users event to themselves' do
-    parameters = @mandatory_fields.merge({title: 'Hello', description: 'World',
-                                          url: 'https://example.com/event'})
+    parameters = @mandatory_fields.merge({ title: 'Hello', description: 'World',
+                                           url: 'https://example.com/event' })
     sign_in users(:unverified_user)
     event = users(:unverified_user).events.create!(parameters)
 
@@ -1862,7 +1862,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   test 'should show unverified users event to admin' do
-    parameters = @mandatory_fields.merge({title: 'Hello', description: 'World', url: 'https://eexample.com/event'})
+    parameters = @mandatory_fields.merge({ title: 'Hello', description: 'World', url: 'https://eexample.com/event' })
     event = users(:unverified_user).events.create!(parameters)
     sign_in users(:admin)
 
