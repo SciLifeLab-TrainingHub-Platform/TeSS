@@ -155,9 +155,13 @@ jobs:
         target: ${{ env.DOCKER_TARGET }}
         tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
         labels: ${{ steps.meta.outputs.labels }}
-        # Reuse unchanged layers (gems, JS packages) between runs; mode=max also caches the build stages
-        cache-from: type=gha,scope=${{ env.DOCKER_TARGET }}
-        cache-to: type=gha,scope=${{ env.DOCKER_TARGET }},mode=max
+        # Reuse unchanged layers (gems, JS packages) between runs; mode=max also caches the build stages.
+        # Kept in the registry, not the gha cache, which is scoped per ref so new rc-v* tags/releases could never hit it.
+        # Also read preprod's cache: the base stages match for every env, and a release usually builds the commit its rc-v* tag already built.
+        cache-from: |
+          type=registry,ref=ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:buildcache
+          type=registry,ref=ghcr.io/${{ env.REPO_NAME }}-app-preprod:buildcache
+        cache-to: type=registry,ref=ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:buildcache,mode=max
     
     - name: Post to a Slack channel
       id: slack
