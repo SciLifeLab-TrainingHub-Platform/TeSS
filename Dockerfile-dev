@@ -2,7 +2,7 @@ ARG RUBY_VERSION=3.2.5
 
 FROM ruby:$RUBY_VERSION-slim AS base
 
-# nodejs is needed at runtime: terser/autoprefixer-rails/handlebars_assets load execjs at boot
+# nodejs: execjs is loaded at boot
 RUN apt-get update && apt-get install -y --no-install-recommends \
   curl \
   file \
@@ -63,7 +63,6 @@ ENV BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_WITHOUT="development test"
 
-# ~/.bundle (= /code/.bundle) is bundler's git clone cache
 COPY --chown=appuser:appuser Gemfile Gemfile.lock ./
 RUN bundle install \
  && rm -rf /usr/local/bundle/ruby/*/cache /usr/local/bundle/ruby/*/bundler/gems/*/.git ~/.bundle
@@ -73,7 +72,7 @@ RUN yarn install --frozen-lockfile --non-interactive && yarn cache clean
 
 COPY --chown=appuser:appuser . .
 
-# Rails 7.0 has no SECRET_KEY_BASE_DUMMY, so pass a throwaway key for this step only
+# Throwaway key: Rails 7.0 has no SECRET_KEY_BASE_DUMMY
 RUN RAILS_ENV=production SECRET_KEY_BASE=precompile-only bundle exec rake assets:precompile \
  && rm -rf node_modules tmp/cache \
  && mkdir -p log tmp/pids
@@ -101,5 +100,5 @@ COPY --from=build-prod --chown=appuser:appuser /code /code
 
 USER appuser
 
-# exec so puma replaces sh and receives SIGTERM from k8s
+# exec: puma becomes PID 1 and gets SIGTERM
 CMD ["/bin/sh", "-c", "bundle exec whenever > /code/tess.crontab && (supercronic /code/tess.crontab &) && exec bundle exec rails server -b 0.0.0.0"]
