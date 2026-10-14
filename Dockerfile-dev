@@ -87,7 +87,7 @@ COPY --chown=appuser:appuser . .
 
 USER appuser
 
-CMD bundle exec rails server -b 0.0.0.0
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 
 
 FROM base AS production
@@ -101,6 +101,5 @@ COPY --from=build-prod --chown=appuser:appuser /code /code
 
 USER appuser
 
-CMD bundle exec whenever > /code/tess.crontab \
-    && (supercronic /code/tess.crontab &) \
-    && bundle exec rails server -b 0.0.0.0
+# exec so puma replaces sh and receives SIGTERM from k8s
+CMD ["/bin/sh", "-c", "bundle exec whenever > /code/tess.crontab && (supercronic /code/tess.crontab &) && exec bundle exec rails server -b 0.0.0.0"]
