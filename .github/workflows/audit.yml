@@ -14,6 +14,8 @@ permissions:
 
 on:
   push:
+    # rc-* only: other branches are checked via their PR, and tag pushes (which ignore `paths`) are skipped
+    branches: ['rc-*']
     paths:
       - 'Gemfile*'
   pull_request:

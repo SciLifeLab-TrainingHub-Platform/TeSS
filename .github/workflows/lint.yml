@@ -1,7 +1,7 @@
 name: Lint
 
 on:
-  # Reusable workflow, invoked by build.yaml on PRs and pushes to rc-* (mirrors test.yml)
+  # Reusable workflow, invoked by build.yaml on PRs and pushes (mirrors test.yml)
   workflow_call:
 
   # Manual trigger
