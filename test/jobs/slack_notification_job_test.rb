@@ -32,6 +32,11 @@ class SlackNotificationJobTest < ActiveJob::TestCase
 
 
   test "should log errors for failed notifications" do
+    stub_request(:post, 'https://slack.com/api/chat.postMessage').to_return(
+      status: 200, body: { ok: false, error: 'invalid_auth' }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+
     Rails.stub(:env, ActiveSupport::StringInquirer.new("production")) do
       SlackNotificationJob.perform_now("Test message", ["#channel1"])
       assert_match(/Slack notification failed for '#channel1'/, @log_output.string)
