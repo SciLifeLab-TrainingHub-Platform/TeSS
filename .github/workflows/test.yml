@@ -1,16 +1,11 @@
 name: Tests
 
 on:
-  # Allow this workflow to be called by other workflows
+  # Reusable workflow, invoked by build.yaml on PRs and pushes (mirrors lint.yml)
   workflow_call:
-  
+
   # Manual trigger
   workflow_dispatch:
-  
-  # Also allow running independently
-  push:
-    branches: ['rc-*']
-  pull_request:
 
 jobs:
   test:

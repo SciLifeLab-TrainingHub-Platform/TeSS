@@ -7,6 +7,8 @@ name: Database migration tests
 
 on:
   push:
+    # rc-* only: other branches are checked via their PR, and tag pushes (which ignore `paths`) are skipped
+    branches: ['rc-*']
     paths:
       - 'db/migrate/**'
   pull_request:

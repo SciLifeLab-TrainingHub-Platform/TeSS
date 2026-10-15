@@ -2,16 +2,16 @@ name: Build and Deploy
 
 on:
   pull_request:
-    branches: [ "rc-*" ]
+    # TEMPORARY: epic/* is only for the Rails 8 upgrade (epic/rails-8-upgrade). Remove it once that epic is merged.
+    branches: [ "rc-*", "epic/*" ]
     types: [opened, synchronize, reopened ]
   push:
     branches:
       - rc-*
-  create:
     tags:
       - 'rc-v*'
   release:
-    types: [published,edited]
+    types: [published]
 
   workflow_dispatch:
     inputs:
@@ -31,6 +31,10 @@ on:
 permissions:
   contents: read
   packages: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref_type == 'branch') }}
 
 env:
   REGISTRY: ghcr.io
@@ -53,7 +57,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Setup
       run: | 
@@ -62,9 +66,18 @@ jobs:
 
     - name: Determine the environment
       id: determine-env
+      # Ref names are passed via env, not ${{ }} in the script, so a crafted name can't inject shell code
+      env:
+        REF_NAME: ${{ github.ref_name }}
+        RELEASE_TAG: ${{ github.event.release.tag_name }}
+        INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
       run: |
+        # Docker tags allow only [A-Za-z0-9_.-], up to 128 chars, and can't start with . or -
+        docker_tag() { printf '%s' "$1" | tr -c 'A-Za-z0-9_.-' '-' | sed 's/^[.-]*//' | cut -c1-100; }
         CURRENT_DATE=$(date +%Y-%m-%d-%H-%M-%S)
-        BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/refs\/heads\///' | tr '/' '-')
+        BRANCH_NAME=$(docker_tag "$REF_NAME")
+        # A manual prod run has no release, so tag it with the ref it was run from (e.g. the v1.7.0 tag)
+        RELEASE_TAG=$(docker_tag "${RELEASE_TAG:-$REF_NAME}")
         # Define the environment configuration JSON directly in a variable
         ENV_CONFIG='{
           "dev": {
@@ -86,19 +99,19 @@ jobs:
             "SENDER_EMAIL": "${{ secrets.PROD_SENDER_EMAIL }}",
             "DELIVERY_METHOD": "${{ secrets.PROD_DELIVERY_METHOD }}",
             "DOCKER_TARGET": "production",
-            "IMAGE_TAG": "${{ github.event.release.tag_name }}"
+            "IMAGE_TAG": "'"$RELEASE_TAG"'"
           }
         }'
 
         # Determine the environment based on the event
         ENVIRONMENT="dev"  # Default to dev
-        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-          ENVIRONMENT=${{ github.event.inputs.environment }}
-        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == refs/heads/rc-* ]]; then
+        if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+          ENVIRONMENT="$INPUT_ENVIRONMENT"
+        elif [[ "$GITHUB_EVENT_NAME" == "push" && "$GITHUB_REF" == refs/heads/rc-* ]]; then
           ENVIRONMENT="dev"
-        elif [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "tag" ]]; then
+        elif [[ "$GITHUB_EVENT_NAME" == "push" && "$GITHUB_REF" == refs/tags/rc-v* ]]; then
           ENVIRONMENT="preprod"
-        elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "published" ]]; then
+        elif [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
           ENVIRONMENT="prod"
         fi
 
@@ -146,7 +159,7 @@ jobs:
       uses: docker/setup-buildx-action@v3
 
     - name: Build and push Docker image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         push: true
@@ -162,6 +175,7 @@ jobs:
     
     - name: Post to a Slack channel
       id: slack
+      if: ${{ !cancelled() }}
       uses: slackapi/slack-github-action@v1.26.0
       with:
         channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
