@@ -79,7 +79,7 @@ jobs:
             "SENDER_EMAIL": "${{ secrets.PREPROD_SENDER_EMAIL }}",
             "DELIVERY_METHOD": "${{ secrets.PREPROD_DELIVERY_METHOD }}",
             "DOCKER_TARGET": "production",
-            "IMAGE_TAG": "${{ github.ref_name }}"
+            "IMAGE_TAG": "'"$BRANCH_NAME"'"
           },
           "prod": {
             "VARIABLE_VALUE": "${{ secrets.PROD_BASE_URL }}",
@@ -142,6 +142,9 @@ jobs:
       with:
         images: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
@@ -151,6 +154,11 @@ jobs:
         target: ${{ env.DOCKER_TARGET }}
         tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
         labels: ${{ steps.meta.outputs.labels }}
+        # type=Registry, not gha as the gha cache is per ref, so new rc-v* tags/releases would never hit it
+        cache-from: |
+          type=registry,ref=ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:buildcache
+          type=registry,ref=ghcr.io/${{ env.REPO_NAME }}-app-preprod:buildcache
+        cache-to: type=registry,ref=ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:buildcache,mode=max
     
     - name: Post to a Slack channel
       id: slack

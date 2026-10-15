@@ -40,6 +40,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'pg'
 gem 'private_address_check'
 gem 'public_activity'
+gem 'puma'
 gem 'pundit'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails_admin'
@@ -89,7 +90,6 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'listen'
-  gem 'puma'
   gem 'web-console'
 end
 

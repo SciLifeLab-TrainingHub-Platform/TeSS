@@ -1,47 +1,17 @@
-ARG RUBY_VERSION=3.2.2
+ARG RUBY_VERSION=3.2.5
+
 FROM ruby:$RUBY_VERSION-slim AS base
 
-# Install essential dependencies
-RUN apt-get update && apt-get install -y \
-  build-essential \
+# nodejs: execjs is loaded at boot
+RUN apt-get update && apt-get install -y --no-install-recommends \
   curl \
   file \
-  git \
-  gnupg2 \
   imagemagick \
-  libpq-dev \
-  nodejs npm && apt-get clean && rm -rf /var/lib/apt/lists/*  # Cleanup to avoid permission issues
+  libmagickcore-6.q16-6-extra \
+  libpq5 \
+  nodejs \
+  && rm -rf /var/lib/apt/lists/*
 
-# yarn manages the front-end JS/CSS packages that replaced the rails-assets.org gems
-RUN npm install --global yarn@1.22.22
-
-RUN mkdir -p /code
-# Create a non-root user with a home directory and assign ownership to the user
-RUN useradd -m -u 1001 -U -s /bin/sh -d /code appuser
-
-RUN chown -R appuser:appuser /code
-
-USER appuser
-
-# Set the working directory
-WORKDIR /code
-
-
-# Switch to the non-root user
-#USER appuser
-#RUN chmod u+w /code
-COPY . .
-
-# Bundler 4 touches Gemfile.lock on install/check unless frozen, and appuser
-# cannot write the root-owned lockfile. Frozen also fails if it is out of date.
-ENV BUNDLE_FROZEN=true
-RUN bundle install
-RUN yarn install --frozen-lockfile --non-interactive
-USER root
-RUN if [ -n "$SOURCE_COMMIT" ] ; then echo $SOURCE_COMMIT > config/.git-revision ; fi
-RUN chown -R appuser:appuser solr config docker public /code db/schema.rb
-
-# Install supercronic - a cron alternative
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.12/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \
     SUPERCRONIC_SHA1SUM=048b95b48b708983effb2e5c935a1ef8483d9e3e
@@ -49,46 +19,86 @@ ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.
 RUN curl -fsSLO "$SUPERCRONIC_URL" \
  && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
  && chmod +x "$SUPERCRONIC" \
- #&& mv "$SUPERCRONIC" "/tmp/${SUPERCRONIC}" \
- #&& sudo mv "/tmp/${SUPERCRONIC}" "/usr/local/bin/${SUPERCRONIC}" \
  && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
  && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
 
-# Switch back to the non-root user
-USER appuser
+RUN useradd -m -u 1001 -U -s /bin/sh -d /code appuser
 
+WORKDIR /code
 
-# Set the entry point
+# Bundler 4 rewrites Gemfile.lock unless frozen
+ENV BUNDLE_FROZEN=true
+
 ENTRYPOINT ["docker/entrypoint.sh"]
 
-# Expose port 3000
 EXPOSE 3000
 
-# Development stage
+
+FROM base AS build-tools
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  build-essential \
+  git \
+  libpq-dev \
+  npm \
+  && rm -rf /var/lib/apt/lists/* \
+  && npm install --global yarn@1.22.22
+
+USER appuser
+
+
+FROM build-tools AS build-dev
+
+COPY --chown=appuser:appuser Gemfile Gemfile.lock ./
+RUN bundle install \
+ && rm -rf /usr/local/bundle/cache /usr/local/bundle/bundler/gems/*/.git
+
+COPY --chown=appuser:appuser package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --non-interactive && yarn cache clean
+
+
+FROM build-tools AS build-prod
+
+ENV BUNDLE_DEPLOYMENT=1 \
+    BUNDLE_PATH=/usr/local/bundle \
+    BUNDLE_WITHOUT="development test"
+
+COPY --chown=appuser:appuser Gemfile Gemfile.lock ./
+RUN bundle install \
+ && rm -rf /usr/local/bundle/ruby/*/cache /usr/local/bundle/ruby/*/bundler/gems/*/.git ~/.bundle
+
+COPY --chown=appuser:appuser package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --non-interactive && yarn cache clean
+
+COPY --chown=appuser:appuser . .
+
+# Throwaway key: Rails 7.0 has no SECRET_KEY_BASE_DUMMY
+RUN RAILS_ENV=production SECRET_KEY_BASE=precompile-only bundle exec rake assets:precompile \
+ && rm -rf node_modules tmp/cache \
+ && mkdir -p log tmp/pids
+
+
 FROM base AS development
 
-# Command to start the Rails server in development mode
-CMD bundle exec rails server -b 0.0.0.0
+COPY --from=build-dev /usr/local/bundle /usr/local/bundle
+COPY --from=build-dev --chown=appuser:appuser /code/node_modules ./node_modules
+COPY --chown=appuser:appuser . .
 
-# Production stage
+USER appuser
+
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+
+
 FROM base AS production
+
+ENV BUNDLE_DEPLOYMENT=1 \
+    BUNDLE_PATH=/usr/local/bundle \
+    BUNDLE_WITHOUT="development test"
+
+COPY --from=build-prod /usr/local/bundle /usr/local/bundle
+COPY --from=build-prod --chown=appuser:appuser /code /code
+
 USER appuser
-# Copy Gemfile and Gemfile.lock to the container
-COPY Gemfile Gemfile.lock ./
 
-# Install gems
-RUN bundle check || bundle install
-
-# Copy the application code
-COPY . .
-USER root
-RUN mkdir -p /code/public/assets && chown -R appuser:appuser /code
-RUN touch /code/tess.crontab && chown -R appuser:appuser /code/tess.crontab
-USER appuser
-# Precompile assets
-RUN bundle exec rake assets:precompile 
-
-# Run the Rails server, bind for Docker
-CMD bundle exec whenever > /code/tess.crontab \
-    && (supercronic /code/tess.crontab &) \
-    && bundle exec rails server -b 0.0.0.0
+# exec: puma becomes PID 1 and gets SIGTERM
+CMD ["/bin/sh", "-c", "bundle exec whenever > /code/tess.crontab && (supercronic /code/tess.crontab &) && exec bundle exec rails server -b 0.0.0.0"]
