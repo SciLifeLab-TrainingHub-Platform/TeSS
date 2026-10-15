@@ -154,7 +154,7 @@ jobs:
         target: ${{ env.DOCKER_TARGET }}
         tags: ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
         labels: ${{ steps.meta.outputs.labels }}
-        # Registry, not gha: the gha cache is per ref, so new rc-v* tags/releases would never hit it
+        # type=Registry, not gha as the gha cache is per ref, so new rc-v* tags/releases would never hit it
         cache-from: |
           type=registry,ref=ghcr.io/${{ env.REPO_NAME }}-app-${{ env.ENVIRONMENT }}:buildcache
           type=registry,ref=ghcr.io/${{ env.REPO_NAME }}-app-preprod:buildcache

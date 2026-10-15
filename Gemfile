@@ -40,7 +40,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'pg'
 gem 'private_address_check'
 gem 'public_activity'
-gem 'puma' # Our production server (upstream uses Passenger)
+gem 'puma'
 gem 'pundit'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails_admin'
