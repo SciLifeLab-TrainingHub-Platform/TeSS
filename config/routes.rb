@@ -102,6 +102,9 @@ Rails.application.routes.draw do
       get :count
     end
 
+    member do
+      get :clone
+    end
     # course interest route for add or remove interest for logged in user
     resource :interest, only: [:create, :destroy], controller: "course_interests"
 

@@ -196,4 +196,15 @@ class Course < ApplicationRecord
       .where(course_interests: { user_id: user.id, status: :subscribed })
       .distinct
   end
+
+  def duplicate
+    c = dup
+
+    c.url = nil
+    c.course_status = :awaiting_review
+    [:content_providers].each do |field|
+      c.send("#{field}=", send(field))
+    end
+    c
+  end
 end

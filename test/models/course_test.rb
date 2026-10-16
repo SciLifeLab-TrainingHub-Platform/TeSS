@@ -370,4 +370,44 @@ class CourseTest < ActiveSupport::TestCase
     result = Course.interested_by(other_user)
     assert_equal 0, result.count
   end
+
+  # duplicate method tests
+  test 'duplicate copies attributes and resets clone-specific values' do
+    course = courses(:one)
+
+    duplicated = course.duplicate
+
+    assert_equal course.title, duplicated.title
+    assert_equal course.description, duplicated.description
+    assert_equal course.language, duplicated.language
+    assert_equal course.keywords, duplicated.keywords
+    assert_equal course.authors, duplicated.authors
+    assert_equal course.contributors, duplicated.contributors
+
+    assert_nil duplicated.url
+    assert_equal 'awaiting_review', duplicated.course_status
+  end
+
+  test 'duplicate returns an unsaved course without creating a record' do
+    course = courses(:one)
+
+    assert_no_difference('Course.count') do
+      duplicated = course.duplicate
+      assert_not duplicated.persisted?
+      assert_not_equal course.id, duplicated.id
+    end
+  end
+
+  test 'duplicate copies content providers' do
+    course = courses(:one)
+
+    duplicated = course.duplicate
+    assert_equal course.content_provider_ids, duplicated.content_provider_ids
+  end
+
+  test 'duplicate does not copy events' do
+    course = courses(:one)
+    duplicated = course.duplicate
+    assert_empty duplicated.event_ids
+  end
 end
